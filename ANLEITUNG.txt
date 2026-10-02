@@ -1,0 +1,37 @@
+ZOOLATRO AUF GITHUB PAGES
+=========================
+
+Diese ZIP enthält die komplette App. Alle Dateien gehören direkt in die
+oberste Ebene deines Repositorys (nicht in einen Unterordner).
+
+Neue Version einspielen (Repository gibt es schon)
+   1. ZIP entpacken.
+   2. Auf github.com dein Repository öffnen.
+   3. "Add file" -> "Upload files".
+   4. Alle Dateien aus dem entpackten Ordner hineinziehen
+      (index.html, sw.js, manifest.webmanifest, die vier Bilder, .nojekyll).
+      Gleichnamige Dateien werden dabei ersetzt.
+   5. Unten auf "Commit changes" klicken.
+   6. Nach ein bis zwei Minuten ist die neue Version online.
+
+Zum ersten Mal einrichten
+   1. Auf github.com ein neues, öffentliches Repository anlegen, z.B. "zoolatro".
+   2. Dateien wie oben hochladen.
+   3. Im Repository: Settings -> Pages -> bei "Branch" "main" und "/ (root)"
+      wählen -> Save.
+   4. Die Adresse lautet dann https://DEINNAME.github.io/zoolatro/
+
+Aufs Handy holen
+   iPhone:  Adresse in Safari öffnen -> Teilen-Symbol -> "Zum Home-Bildschirm".
+   Android: Adresse in Chrome öffnen -> Menü (drei Punkte) -> "App installieren".
+
+Wenn das Handy noch die alte Version zeigt
+   Die App holt die neue Version beim nächsten Start im Hintergrund und zeigt
+   sie ab dem übernächsten Start. Also: App ganz schließen, öffnen, wieder
+   schließen, noch einmal öffnen.
+
+Wichtig zum Spielstand
+   - Speicherplätze, Highscores und Verbesserungen liegen auf dem jeweiligen Gerät
+     und bleiben beim Einspielen einer neuen Version erhalten.
+   - iPhone: Die installierte App hat einen eigenen Speicher, getrennt von Safari.
+   - Wenn du die App vom Home-Bildschirm löschst, ist der Spielstand weg.
