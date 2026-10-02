@@ -373,6 +373,82 @@ text.tt-a{fill:#3a1d00} text.tt-s{fill:#00302b} text.tt-tot{fill:var(--gold)} te
 .counters.h3 .cnt::before{height:24px;background-size:19px 100%}
 .counters.h3 .cnt.t span{color:#fff3b0;text-shadow:0 0 12px #ffb02e}
 .blazefx{position:fixed;inset:0;pointer-events:none;z-index:40;animation:blaze .9s ease-out forwards}
+/* 45 kräftigere Stufen */
+@keyframes quake{0%,100%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,-2px)}}
+@keyframes glowpulse{0%,100%{box-shadow:0 0 10px 2px #ff7a1a88}50%{box-shadow:0 0 26px 8px #ffb02ecc}}
+.counters.h1 .cnt span,.counters.h2 .cnt span,.counters.h3 .cnt span,.counters.h4 .cnt span{display:inline-block;transition:transform .2s}
+.counters.h2 .cnt.a span,.counters.h2 .cnt.s span{transform:scale(1.12);text-shadow:0 0 10px #fff3b0}
+.counters.h3 .cnt span,.counters.h4 .cnt span{transform:scale(1.22);text-shadow:0 0 14px #fff3b0,0 0 4px #fff}
+.counters.h2 .cnt.a,.counters.h2 .cnt.s,.counters.h3 .cnt,.counters.h4 .cnt{animation-name:wob2,glowpulse;animation-duration:.26s,.7s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.counters.h3 .cnt{animation-name:wob3,glowpulse;animation-duration:.2s,.5s}
+.counters.h4{animation:quake .16s linear infinite}
+.counters.h4 .cnt{animation-name:wob3,glowpulse;animation-duration:.15s,.35s;animation-iteration-count:infinite}
+.counters.h2 .cnt.a::before,.counters.h2 .cnt.s::before{height:22px}
+.counters.h3 .cnt::before{height:32px;background-size:20px 100%}
+.counters.h4 .cnt::before{content:'';position:absolute;left:0;right:0;bottom:calc(100% - 4px);height:42px;pointer-events:none;transform-origin:50% 100%;
+  background:radial-gradient(ellipse 50% 100% at 50% 100%,#fff 0,#fff3b0 18%,#ffd166 36%,#ff7a1a 60%,transparent 74%) 0 0/22px 100% repeat-x;animation:flame .16s ease-in-out infinite alternate;filter:drop-shadow(0 0 8px #ff7a1a)}
+.counters.h4 .cnt.t{background:linear-gradient(#ffd166,#ff9f1c);border-color:#fff3b0}
+.counters.h4 .cnt.t span,.counters.h4 .cnt.t label{color:#3a2a00;text-shadow:none}
+.csp{position:absolute;left:50%;top:40%;font-size:11px;color:#ffd166;pointer-events:none;z-index:4;animation:cspfly .6s ease-out forwards}
+@keyframes cspfly{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(.4);opacity:0}}
+/* 44 Ergebnis beim Platzieren */
+.resbig{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:1px 0}
+.resbig .a,.resbig .s{font-family:var(--f-display);font-size:24px;line-height:1}
+.resbig .a{color:var(--attr)} .resbig .s{color:var(--schutz)}
+.resbig .z{font-size:12.5px;font-weight:700;background:#ffffff14;border-radius:8px;padding:2px 7px}
+.resbig .z.neg{color:#ffb3b5}
+.resbad{font-family:var(--f-display);font-size:17px;color:#ffb3b5;margin:2px 0}
+.milehint{font-size:12.5px;font-weight:700;color:var(--gold);margin:0}
+/* 42 Meilenstein */
+.mbanner{position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);z-index:9;text-align:center;pointer-events:none;background:linear-gradient(#ffd166,#ffb02e);color:#3a2a00;border-radius:16px;padding:12px 18px;box-shadow:0 0 0 4px #fff3b0,0 10px 40px #000a,0 0 60px #ffd166aa;animation:mban 2.8s ease forwards;width:max-content;max-width:92%}
+.mbanner b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.1}
+.mbanner span{font-size:13px;font-weight:600}
+@keyframes mban{0%{transform:translate(-50%,-50%) scale(.3) rotate(-6deg);opacity:0}12%{transform:translate(-50%,-50%) scale(1.12) rotate(2deg);opacity:1}20%{transform:translate(-50%,-50%) scale(1) rotate(0)}85%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-60%) scale(.95);opacity:0}}
+@keyframes msglow{0%,100%{box-shadow:0 0 0 3px #ffd166,0 0 6px 2px #ffd16688}50%{box-shadow:0 0 0 3px #ffd166,0 0 18px 7px #ffd166cc}}
+.card.ms{animation:msglow 1.4s ease-in-out infinite}
+.card.ms::after{content:'🏅';position:absolute;left:3px;bottom:3px;font-size:13px}
+.milecard{background:var(--paper);color:var(--ink);border-radius:14px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 0 0 4px var(--gold),0 0 40px #ffd16677;text-align:center}
+.milecard .ic{font-size:54px;line-height:1.1}
+.milecard .nm{font-family:var(--f-display);font-size:22px}
+.milecard .vals3{font-family:var(--f-display);font-size:22px;display:flex;gap:12px;align-items:center}
+.milecard .vals3 .a{color:#b86500}.milecard .vals3 .s{color:#00857a}
+.milecard .shape{width:54px;height:34px}
+.milecard ul.fx{text-align:left}
+.milecard ul.fx b.b{color:#b86500}.milecard ul.fx b.n{color:#00857a}.milecard ul.fx b.bn{color:#8a6a00}.milecard ul.fx b.w{color:#5d6b60}
+/* 40 Lauf-Übersicht */
+.runov{background:var(--panel);border-radius:12px;padding:8px 12px;font-size:13px}
+.runov summary{font-family:var(--f-display);font-size:16px;color:var(--gold);cursor:pointer}
+.runov h4{margin:8px 0 3px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.runov .rw{display:flex;flex-wrap:wrap;gap:5px}
+.runov .rw span{background:var(--panel2);border-radius:8px;padding:3px 8px}
+.runov .rw b{color:var(--gold)}
+/* 48 Geld */
+.money{cursor:pointer}
+.bill{display:flex;flex-wrap:wrap;gap:4px 6px;font-size:12.5px;align-items:center}
+.bill span{background:#ffffff12;border-radius:8px;padding:2px 7px;white-space:nowrap}
+.bill span.neg{color:#ffb3b5}
+.bill span.sum{background:var(--gold);color:#3a2a00;font-weight:700}
+.bill span.sum.neg{background:#c0392b;color:#fff}
+.billt{width:100%;border-collapse:collapse;font-size:13px}
+.billt td{padding:2px 0}.billt td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.billt tr.sum td{border-top:1px solid #ffffff33;padding-top:4px;color:var(--gold)}
+.billt td.neg{color:#ffb3b5}
+/* 43 Jahreszeiten kräftiger */
+body.sea0{--sk1:#6fb45a;--sk2:#1c4a2a;--sk3:#f6b7d299}
+body.sea1{--sk1:#c9b23a;--sk2:#1a4424;--sk3:#ffd16666}
+body.sea2{--sk1:#c06a2a;--sk2:#33210f;--sk3:#c8642aaa}
+body.sea3{--sk1:#8fb3cc;--sk2:#1a2a36;--sk3:#ffffffaa}
+.wx i{opacity:.95}
+.wx i:nth-child(2n){transform-origin:center;scale:1.7}
+.wx.sea1 i{width:4px;height:4px;opacity:.75}
+.wxedge{position:absolute;left:0;right:0;pointer-events:none}
+.wxedge.wbt{bottom:0;height:54px}.wxedge.wtp{top:0;height:70px}
+.wxedge svg{width:100%;height:100%;display:block}
+.wx i.g{animation:wxgust 2.4s linear forwards;top:auto}
+@keyframes wxgust{0%{transform:translate(-20cqw,0) rotate(0);opacity:0}15%{opacity:1}100%{transform:translate(125cqw,var(--dy,40px)) rotate(720deg);opacity:0}}
+.sea0 #board .cell{fill:#4a8c40} .sea0 #board .cell.t1{fill:#55994a} .sea0 #board .cell.t2{fill:#417f39}
+.sea2 #board .cell{fill:#6f6a34} .sea2 #board .cell.t1{fill:#7b743b} .sea2 #board .cell.t2{fill:#635f2e}
+.winter #board .cell{fill:#86a79d} .winter #board .cell.t1{fill:#93b3a9} .winter #board .cell.t2{fill:#7a9b92}
 /* 31 Hintergrund je Jahreszeit */
 @property --sk1{syntax:'<color>';inherits:true;initial-value:#1f5a35}
 @property --sk2{syntax:'<color>';inherits:true;initial-value:#12301f}
@@ -598,7 +674,7 @@ body.tutmode .card.tutno{opacity:.45}
 </head>
 <body>
 <div class="app" id="app">
-  <div class="boardarea"><div class="wx" id="wx"></div><div class="coach" id="coach"></div><div class="boardwrap" id="bwrap"><svg id="board" aria-label="Zoogelände"></svg><div class="fxh" id="fxh"></div><div class="skiphint" id="skiphint"></div><button class="zoombtn" id="btnZoom" aria-label="Zoom">🔍</button><svg class="minimap" id="mini" aria-hidden="true"></svg></div></div>
+  <div class="boardarea"><div class="wxedge wtp" id="wxTop"></div><div class="wxedge wbt" id="wxBot"></div><div class="wx" id="wx"></div><div class="coach" id="coach"></div><div class="boardwrap" id="bwrap"><svg id="board" aria-label="Zoogelände"></svg><div class="fxh" id="fxh"></div><div class="skiphint" id="skiphint"></div><button class="zoombtn" id="btnZoom" aria-label="Zoom">🔍</button><svg class="minimap" id="mini" aria-hidden="true"></svg></div></div>
   <div class="side">
     <div class="top">
       <div class="brand">Zoolatro</div>
@@ -814,9 +890,9 @@ Object.assign(CARDS,{
   restaurant:{name:'Zoo-Restaurant',icon:'🍝',cat:'essen',shape:'s2',a:6,s:0,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isCat(n,'essen'))})},
   ausstellung:{name:'Sonderausstellung',icon:'🖼️',cat:'schutz',shape:'s2',a:2,s:6,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({s:2*others(all,b,n=>isCat(n,'schutz'))})},
 });
-const MILE={wasser:{card:'orca',n:5,label:'Wasser-Gehege',icon:'💧',f:c=>c.hab==='wasser'},savanne:{card:'grossesavanne',n:5,label:'Savannen-Gehege',icon:'🌾',f:c=>c.hab==='savanne'},
-  wald:{card:'orangutan',n:5,label:'Wald-Gehege',icon:'🌿',f:c=>c.hab==='wald'},wueste:{card:'greifvogel',n:5,label:'Wüsten-Gehege',icon:'🏜️',f:c=>c.hab==='wueste'},
-  attr:{card:'abenteuer',n:6,label:'Attraktionen',icon:'🎡',f:c=>c.cat==='attr'},essen:{card:'restaurant',n:6,label:'Essensstände',icon:'🍿',f:c=>c.cat==='essen'},schutz:{card:'ausstellung',n:6,label:'Naturschutz-Gebäude',icon:'🌳',f:c=>c.cat==='schutz'}};
+const MILE={wasser:{card:'orca',n:6,label:'Wasser-Gehege',icon:'💧',f:c=>c.hab==='wasser'},savanne:{card:'grossesavanne',n:6,label:'Savannen-Gehege',icon:'🌾',f:c=>c.hab==='savanne'},
+  wald:{card:'orangutan',n:6,label:'Wald-Gehege',icon:'🌿',f:c=>c.hab==='wald'},wueste:{card:'greifvogel',n:6,label:'Wüsten-Gehege',icon:'🏜️',f:c=>c.hab==='wueste'},
+  attr:{card:'abenteuer',n:7,label:'Attraktionen',icon:'🎡',f:c=>c.cat==='attr'},essen:{card:'restaurant',n:7,label:'Essensstände',icon:'🍿',f:c=>c.cat==='essen'},schutz:{card:'ausstellung',n:7,label:'Naturschutz-Gebäude',icon:'🌳',f:c=>c.cat==='schutz'}};
 const mileCount=(bs,t)=>cnt(bs,b=>!CARDS[b.key].ms&&MILE[t].f(CARDS[b.key]));
 for(const k of ['labor','vielfalt','stiftung','nachtfuehrung'])CARDS[k].tags=['einmalig'];
 for(const k in CARDS){const c=CARDS[k];c.tags=c.tags||[];if(c.ms)c.tags.push('einmalig');if(SHAPES[c.shape].cells.length>=3)c.tags.push('gross')}
@@ -1039,7 +1115,7 @@ function makeOffer(n=3,rnd=Math.random,bs=(typeof state!=='undefined'&&state)?st
 function shuffle(a,rnd=Math.random){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function drawHand(st,rnd=Math.random){while(st.hand.length<HAND){if(!st.deck.length){if(!st.discard.length)break;st.deck=shuffle(st.discard,rnd);st.discard=[]}st.hand.push(st.deck.pop())}}
 // money: 1 Taler je 6 Besucher, −1 je 8 Natur; Zinsen je 10 Taler
-function dayIncome(A,S,money){const base=Math.round(A/6-S/8);const interest=money>=0?Math.min(5,Math.floor(money/10)):-Math.floor(-money/10);return{base,interest,total:base+interest}}
+function dayIncome(A,S,money){const base=Math.round(A/6-S/8),entry=Math.round(A/6);const interest=money>=0?Math.min(5,Math.floor(money/10)):-Math.floor(-money/10);return{base,interest,total:base+interest,entry,care:base-entry,A,S}}
 //ENGINE-END
 
 /* ---------- sound (synthesised, no files) ---------- */
@@ -1142,21 +1218,36 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let SCFAST=0;try{SCFAST=+localStorage.getItem('zoodeck-fast')||0}catch(e){}
 let state,fast=false,modal=null,tutIdx=0,mapPrev=null,mapsBack=false; // modal: 'help' | 'deck' | 'maps' | 'tut' | 'restart'
 const newStats=()=>({cards:{},best:null,combo:0,earned:0,spent:0,progs:0,tally:{},lvl:1,days:0});
-const DEFAULTS=()=>({map:'wiese',board:null,undo:[],yday:{A:0,S:0,total:0},builtToday:0,picks:0,pickTotal:0,hover:null,hoverTerr:null,earlyBonus:0,dayPts:[],past:[],money:10,progs:[],ads:[],adsNext:[],bpMax:BP,bpBought:0,bpNext:0,bpSeason:0,shop:null,shopSub:null,infoProg:null,lastIncome:null,msg:null,prevY:null,miles:{},draftRolls:0,moving:null,evRolled:false,mode:'free',zoo:0,tmult:1,events:[],eventsNext:[],boni:{},stats:newStats()});
+const DEFAULTS=()=>({map:'wiese',board:null,undo:[],yday:{A:0,S:0,total:0},builtToday:0,picks:0,pickTotal:0,hover:null,hoverTerr:null,earlyBonus:0,dayPts:[],past:[],money:10,progs:[],ads:[],adsNext:[],bpMax:BP,bpBought:0,bpNext:0,bpSeason:0,shop:null,shopSub:null,infoProg:null,lastIncome:null,msg:null,prevY:null,miles:{},mileNew:[],mileSeen:{},ledger:{entry:0,care:0,interest:0,early:0},draftRolls:0,moving:null,evRolled:false,mode:'free',zoo:0,tmult:1,events:[],eventsNext:[],boni:{},stats:newStats()});
 const seOf=i=>{const x=SEASONS[i];return x?{...x,target:Math.round(x.target*(state.tmult||1)/100)*100}:undefined};
 function syncCtx(){CTX={winter:!!seOf(state.season).winter,season:state.season,progs:state.progs,ads:state.ads,ev:state.events||[],boni:state.boni||{}};document.body.classList.toggle('winter',CTX.winter);setWeather(state.season)}
 let wxSeason=-1;
-function setWeather(i){for(let k=0;k<4;k++)document.body.classList.toggle('sea'+k,k===i);if(i===wxSeason)return;wxSeason=i;const w=$('wx');w.className='wx sea'+i;
-  const n=reduced?0:[9,7,11,14][i];let h='';for(let k=0;k<n;k++){const d=(9+Math.random()*9).toFixed(1);h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;animation-duration:${d}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;--dx:${Math.round(Math.random()*80-40)}px;--rot:${Math.round(Math.random()*540-270)}deg"></i>`}w.innerHTML=h}
+function edgeSvg(i){const R=(a,b)=>a+Math.random()*(b-a);let b='',t='';
+  if(i===0){for(let x=6;x<400;x+=R(14,26)){const hgt=R(10,26),col=['#f9a8c9','#ffd166','#ffffff','#f48fb1'][Math.floor(R(0,4))];b+=`<path d="M${x},54 Q${x+R(-3,3)},${54-hgt/2} ${x},${54-hgt}" stroke="#3f8a3a" stroke-width="1.6" fill="none"/><circle cx="${x}" cy="${54-hgt}" r="${R(2.6,4.2)}" fill="${col}"/><circle cx="${x}" cy="${54-hgt}" r="1.2" fill="#ffe082"/>`}
+    for(let x=0;x<400;x+=7)b+=`<path d="M${x},54 l${R(-2,2)},${-R(5,11)}" stroke="#58a84a" stroke-width="1.4"/>`}
+  if(i===1){let rays='';for(let k=0;k<12;k++){const an=Math.PI*(.5+k/11*.5);rays+=`<line x1="${352+Math.cos(an)*30}" y1="${8-Math.sin(an)*-30}" x2="${352+Math.cos(an)*58}" y2="${8+Math.sin(an)*58}" stroke="#ffe082" stroke-width="3" stroke-linecap="round" opacity=".8"/>`}
+    t=`<circle cx="352" cy="8" r="24" fill="#ffd54f"/><circle cx="352" cy="8" r="34" fill="#ffd54f" opacity=".3"/>${rays}`;
+    for(let x=0;x<400;x+=6)b+=`<path d="M${x},54 l${R(-2,2)},${-R(6,14)}" stroke="#7aa63a" stroke-width="1.5"/>`}
+  if(i===2){for(let x=-10;x<410;x+=R(22,40)){const w=R(26,44),hh=R(8,16);b+=`<ellipse cx="${x}" cy="54" rx="${w/2}" ry="${hh}" fill="${['#b8431c','#d9772b','#e2b13c','#8a4a1c'][Math.floor(R(0,4))]}"/>`}
+    for(let k=0;k<3;k++){const x=R(30,370);b+=`<rect x="${x-1.5}" y="40" width="3" height="9" fill="#f3e6cf"/><path d="M${x-7},41 Q${x},30 ${x+7},41Z" fill="#c0392b"/><circle cx="${x-2}" cy="37.5" r="1" fill="#fff"/><circle cx="${x+2.5}" cy="38.5" r=".9" fill="#fff"/>`}
+    t=`<path d="M0,0 L60,26 M22,10 L30,34 M40,18 L62,12" stroke="#5a3a1c" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M400,0 L346,22 M372,11 L364,36 M356,18 L336,10" stroke="#5a3a1c" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+  if(i===3){let d='M0,54 L0,34';for(let x=0;x<=400;x+=25)d+=` Q${x+12},${R(18,34)} ${x+25},${R(28,38)}`;b=`<path d="${d} L400,54Z" fill="#f4f8fb"/><path d="${d} L400,54Z" fill="#cfe3ee" opacity=".45" transform="translate(0,7)"/>`;
+    for(let x=4;x<400;x+=R(9,20)){const l=R(8,26);t+=`<path d="M${x-2.2},0 L${x},${l} L${x+2.2},0Z" fill="#e3f2fb" opacity=".9"/>`}t+=`<rect width="400" height="3" fill="#f4f8fb"/>`}
+  const wrap=(c)=>c?`<svg viewBox="0 0 400 ${c===t?70:54}" preserveAspectRatio="none" aria-hidden="true">${c}</svg>`:'';return[wrap(t),wrap(b)]}
+function setWeather(i){for(let k=0;k<4;k++)document.body.classList.toggle('sea'+k,k===i);if(i===wxSeason)return;const first=wxSeason<0;wxSeason=i;const w=$('wx');w.className='wx sea'+i;
+  {const[t,b]=edgeSvg(i);$('wxTop').innerHTML=t;$('wxBot').innerHTML=b}
+  if(!first&&!reduced&&i!==1)setTimeout(()=>{for(let k=0;k<16;k++){const g=document.createElement('i');g.className='g';g.style.top=(Math.random()*90)+'%';g.style.left='0';g.style.animationDelay=(Math.random()*.9).toFixed(2)+'s';g.style.setProperty('--dy',Math.round(Math.random()*120-30)+'px');w.appendChild(g);setTimeout(()=>g.remove(),3500)}},50);
+  const n=reduced?0:[18,12,22,30][i];let h='';for(let k=0;k<n;k++){const d=(9+Math.random()*9).toFixed(1);h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;animation-duration:${d}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;--dx:${Math.round(Math.random()*80-40)}px;--rot:${Math.round(Math.random()*540-270)}deg"></i>`}w.innerHTML=h}
 
 function rollSeason(i){const cf=state.mode==='camp'?campCfg(state.zoo):{k:1,n:1,spring:false};return i===0&&!cf.spring?[]:rollEvents(cf)}
 function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;SHIFT=0;screen=null;setBoard(m.cells);TERR=m.terr;computeView();
   state=Object.assign(DEFAULTS(),{map:key,board:m.cells,season:0,day:0,seasonScore:0,totalScore:0,buildings:[],nextId:1,deck:shuffle(opt.deck||START_DECK),discard:[],hand:[],bp:BP,
     selected:null,rot:0,preview:null,phase:'play',offer:[],pendingSeason:false,lastDay:0,info:null,terr:[...TERR]},opt.state||{});
   state.events=opt.events||rollSeason(0);syncCtx();const sl=activeSlot();if(sl&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}startDay()}
-function startDay(){state.moving=null;state.bp=state.bpMax-(state.day===0&&hasEv('baustelle')?1:0);state.builtToday=0;state.undo=[];state.selected=null;state.preview=null;drawHand(state);state.phase='play';
-  state.miles=state.miles||{};for(const t in MILE){const M=MILE[t];if(state.miles[t]||mileCount(state.buildings,t)<M.n)continue;state.miles[t]=1;state.hand.push(M.card);const c=CARDS[M.card];
-    state.msg={title:`🏅 Meilenstein: ${M.n} ${M.label}`,text:`Als Belohnung liegt <b>${c.icon} ${c.name}</b> auf deiner Hand. Die Karte gibt es nur einmal.`};Sfx.win();setTimeout(()=>{if(state&&state.msg){state.msg=null;if(state.phase==='play'&&!screen)render()}},6000)}
+function startDay(){state.moving=null;state.bp=state.bpMax-(state.day===0&&hasEv('baustelle')?1:0);state.builtToday=0;state.undo=[];state.selected=null;state.preview=null;state.phase='play';
+  // Meilenstein-Karten kommen zuerst auf die Hand, dann wird auf fünf aufgefüllt
+  state.miles=state.miles||{};state.mileNew=[];for(const t in MILE){const M=MILE[t];if(state.miles[t]||mileCount(state.buildings,t)<M.n)continue;state.miles[t]=1;state.hand.push(M.card);state.mileNew.push(t)}
+  drawHand(state);if(state.mileNew.length)Sfx.combo();
   Sfx.draw();render()}
 const movingB=()=>state.moving!=null?state.buildings.find(b=>b.id===state.moving):null;
 const selKey=()=>{const m=movingB();return m?m.key:state.selected!=null?state.hand[state.selected]:null};
@@ -1198,7 +1289,7 @@ function render(){
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
   $('btnMute').textContent=Sfx.muted?'🔇':'🔊';
   {const nb=Object.values(state.boni||{}).reduce((t,n)=>t+n,0);
-   $('evs').innerHTML=(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${EVENTS[e.id].name}" aria-label="Ereignis: ${EVENTS[e.id].name}">${EVENTS[e.id].icon}</button>`).join('')+(nb?`<button class="evb rb" data-ev="boni" aria-label="Lauf-Boni">🎖️${nb}</button>`:'')}
+   $('evs').innerHTML=(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${EVENTS[e.id].name}" aria-label="Ereignis: ${EVENTS[e.id].name}">${EVENTS[e.id].icon}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
   placeZoomBtn();
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);
 
@@ -1245,7 +1336,7 @@ function render(){
   svg.innerHTML=`<defs><pattern id="hatch" width="3.2" height="3.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="3.2"/></pattern></defs><g>${base}</g><g>${cellsSvg}</g><g>${blds}</g><g>${marks}</g><g>${ghost}</g><g id="fxl">${links}</g>`;
   $('fxh').innerHTML=badges;
 
-  $('hand').innerHTML=state.hand.map((k,i)=>{const c=CARDS[k],poor=!affordable(k),d=cnt(state.buildings,b=>b.key===k);return`<button class="card ${state.selected===i?'sel':''} ${poor?'poor':''} ${drag&&drag.active&&drag.i===i?'dragging':''}" data-i="${i}" ${state.phase!=='play'?'disabled':''} aria-label="${c.name}, kostet ${costOf(k)} Baupunkte">
+  $('hand').innerHTML=state.hand.map((k,i)=>{const c=CARDS[k],poor=!affordable(k),d=cnt(state.buildings,b=>b.key===k);return`<button class="card ${state.selected===i?'sel':''} ${poor?'poor':''} ${c.ms?'ms':''} ${drag&&drag.active&&drag.i===i?'dragging':''}" data-i="${i}" ${state.phase!=='play'?'disabled':''} aria-label="${c.name}, kostet ${costOf(k)} Baupunkte">
     <span class="band" style="background:${colOf(c)}"></span><span class="cost">${'<i></i>'.repeat(costOf(k))}</span>${c.tags.includes('bedroht')?'<span class="rl" title="Bedrohte Art (Rote Liste)"></span>':''}${d?`<span class="dupc" title="Schon ${d}× gebaut">${d}×</span>`:''}${perkN(k)?`<span class="medal" title="Dauerhaft verbessert">🏅${perkN(k)}</span>`:''}
     <span class="row"><span class="ic">${c.icon}</span>${miniShape(k,state.selected===i?state.rot:0)}</span>
     <span class="body"><span class="nm">${c.name}</span><span class="meta"><span class="hb">${c.hab?habBadge(c.hab)+' '+HAB[c.hab].label:CAT[c.cat].label}${traitOf(c)?' · '+TRAITNAME[traitOf(c)]:''}</span>
@@ -1289,26 +1380,37 @@ function yieldOf(fn){let a=0,s=0,n=0;const idx=mkIndex(state.buildings);for(cons
 const yieldTxt=y=>`<b>${vTxt(y.a,y.s)||'nichts'}</b>${y.n?` · ${y.n} Gebäude`:''}`;
 function yieldHtml(P){if(P.per)return`<p class="hint">Aktuell pro Tag: ${yieldTxt(yieldOf(P.per))} (vor Multiplikatoren)</p>`;
   if(P.mult){const m=P.mult(state.buildings);return`<p class="hint">Aktuell: <b>${m?'aktiv':'noch nicht aktiv'}</b></p>`}return''}
+const billHtml=inc=>inc&&inc.entry!=null?`<div class="bill"><span>🎟️ Eintritt ${sgn(inc.entry)}</span><span class="${inc.care<0?'neg':''}">🌿 Pflege ${sgn(inc.care)}</span><span class="${inc.interest<0?'neg':''}">🏦 Zinsen ${sgn(inc.interest)}</span><span class="sum ${inc.total<0?'neg':''}">Kasse ${sgn(inc.total)} 🪙</span></div>`:`<div class="bill"><span class="sum">Kasse ${sgn((inc||{}).total||0)} 🪙</span></div>`;
+// großes Ergebnis beim Platzieren: eigener Wert, Wirkung auf den ganzen Zoo und auf die Kasse
+function resHtml(h,cur,own){const dA=h.r.A-cur.A,dS=h.r.S-cur.S,dK=dayIncome(h.r.A,h.r.S,state.money).base-dayIncome(cur.A,cur.S,state.money).base,c=CARDS[h.b.key];let mh='';
+  if(!h.up&&!h.move&&!c.ms)for(const t in MILE){const M=MILE[t];if(!M.f(c)||(state.miles||{})[t])continue;const n=mileCount(state.buildings,t)+1;if(n===M.n)mh=`<p class="milehint">🏅 Meilenstein erreicht: morgen gibt es eine besondere Karte!</p>`;else if(n===M.n-1)mh=`<p class="milehint">🏅 Danach fehlt noch 1 ${M.icon} bis zum Meilenstein.</p>`}
+  return`<div class="resbig"><span class="a">${own?sgn(own.a):h.own.a} B</span><span class="s">${own?sgn(own.s):h.own.s} N</span><span class="z ${dA+dS<0?'neg':''}">Zoo ${vTxt(dA,dS)||'±0'}</span>${dK?`<span class="z ${dK<0?'neg':''}">Kasse ${sgn(dK)} 🪙 pro Tag</span>`:''}</div>${mh}`}
+function mileInfoHtml(){return`<h3>🏅 Meilensteine</h3><p class="hint">Ab 6 Gehegen eines Lebensraums oder 7 Gebäuden einer Art gibt es am nächsten Morgen eine besondere Karte.</p><div class="mile">${Object.keys(MILE).map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div>`}
+function moneyInfoHtml(cur){const inc=dayIncome(cur.A,cur.S,state.money),row=(l,v)=>`<tr><td>${l}</td><td class="${v<0?'neg':''}">${sgn(v)}</td></tr>`;
+  return`<h3>🪙 Kasse: ${fmt(state.money)} Taler</h3><p class="hint">Wenn du jetzt den Tag beendest:</p><table class="billt">${row(`🎟️ Eintritt · 1 je 6 Besucher (${fmt(cur.A)} B)`,inc.entry)}${row(`🌿 Pflege · −1 je 8 Natur (${fmt(cur.S)} N)`,inc.care)}${row(`🏦 Zinsen · ${state.money>=0?'+1 je 10 gespart, höchstens 5':'−1 je 10 Schulden'}`,inc.interest)}<tr class="sum"><td>Heute</td><td>${sgn(inc.total)} 🪙</td></tr></table>
+    <p class="hint">Erreichst du das Saisonziel früher, gibt es 5 Taler je übrigem Tag. Geld brauchst du nur für den Shop und fürs Neu-Würfeln der Kartenauswahl.${state.money<0?' <b style="color:#ffb3b5">Mit Schulden kannst du nichts kaufen.</b>':''}</p>`}
 function infoHtml(h,cur){
   if(state.msg)return`<h3>${state.msg.title}</h3><p class="hint">${state.msg.text}</p>`;
   if(state.phase==='review'&&state.info==null){const se=seOf(state.season),prev=state.dayPts[state.day-1],d=prev!=null?state.lastDay-prev:null,inc=state.lastIncome||{total:0},rest=se.target-state.seasonScore;
-    return`<h3>Tag ${state.day+1}: ${fmt(state.lastDay)} Punkte</h3><div class="vals"><span class="chip n">Kasse ${sgn(inc.total)} 🪙</span><span class="chip ${rest<=0?'s':'n'}">${rest<=0?'Saisonziel erreicht!':`noch ${fmt(rest)} bis zum Saisonziel`}</span></div><p class="hint">Tippe auf Gebäude, um ihre Punkte zu sehen. Weiter geht es mit dem Button.</p>`}
+    return`<h3>Tag ${state.day+1}: ${fmt(state.lastDay)} Punkte</h3>${billHtml(inc)}<div class="vals"><span class="chip ${rest<=0?'s':'n'}">${rest<=0?'Saisonziel erreicht!':`noch ${fmt(rest)} bis zum Saisonziel`}</span></div><p class="hint">Tippe auf Gebäude, um ihre Punkte zu sehen. Weiter geht es mit dem Button.</p>`}
   if(state.phase==='scoring')return`<h3>Der Zoo zahlt aus…</h3><p class="hint">Linien zeigen, welche Nachbarn den Bonus liefern. Tippen beschleunigt.</p>`;
   if(state.hoverTerr){const t=state.hoverTerr;return t==='block'?`<h3>🪨 Felsen</h3><p class="hint">Nicht bebaubar. Im Shop kannst du einen Felsen wegbaggern lassen.</p>`
     :`<h3>${HAB[t].icon} ${HAB[t].label}-Naturfläche</h3><p class="hint"> Gehege nur mit Lebensraum ${HAB[t].label}, die bekommen +1 Natur je Feld darauf. Attraktionen, Essen und Naturschutz-Gebäude dürfen hier ohne Bonus stehen.</p>`}
-  {const mb=movingB();if(mb&&state.phase==='play'){const c=CARDS[mb.key];return`<h3>🚚 Umzug: ${c.icon} ${c.name}${(mb.lvl||1)>1?` <span class="tag" style="background:var(--gold)">Stufe ${ROMAN[mb.lvl]}</span>`:''}</h3><p class="hint">Tippe auf den neuen Platz oder ziehe die Vorschau, mit ↻ drehst du. „Setzen“ kostet 1 BP.</p>${h&&h.ok?brkHtml(c,h.brk):h&&h.why?`<p style="color:var(--bad)">${h.why}</p>`:''}<p class="hint">↶ bricht den Umzug ab.</p>`}}
+  {const mb=movingB();if(mb&&state.phase==='play'){const c=CARDS[mb.key];return`<h3>🚚 Umzug: ${c.icon} ${c.name}${(mb.lvl||1)>1?` <span class="tag" style="background:var(--gold)">Stufe ${ROMAN[mb.lvl]}</span>`:''}</h3><p class="hint">Tippe auf den neuen Platz oder ziehe die Vorschau, mit ↻ drehst du. „Setzen“ kostet 1 BP. ↶ bricht ab.</p>${h&&h.ok?resHtml(h,cur)+brkHtml(c,h.brk):h&&h.why?`<p class="resbad">${h.why}</p>`:''}`}}
+  if(state.infoProg==='mile')return mileInfoHtml();
+  if(state.infoProg==='money')return moneyInfoHtml(cur);
   if(state.infoProg==='redraw')return`<h3>🔄 Hand neu ziehen?</h3><p class="hint">Kostet <b>1 Baupunkt</b>. Alle Handkarten gehen auf die Ablage, du ziehst fünf neue. Nicht rückgängig, auch die heutigen Züge davor sind danach fest. <b>Nochmal auf 🔄 tippen</b> zum Bestätigen.</p>`;
-  if(state.infoProg==='boni'){const L=Object.keys(state.boni||{}).filter(id=>RUNB[id]);return`<h3>🎖️ Lauf-Boni</h3><p class="hint">Gelten bis zum Ende dieses Kampagnen-Laufs.</p>${fxHtml({fx:L.map(id=>{const R=RUNB[id],n=state.boni[id],[v,t]=R.fx[0].split('|');const y=yieldOf((b,c)=>{const e=R.per(b,c);return e?{a:(e.a||0)*n,s:(e.s||0)*n}:null});return`${n>1?v.replace('1',n):v}|${t} (${R.icon} ${R.name}${n>1?' ×'+n:''}) · aktuell ${vTxt(y.a,y.s)||'nichts'}`})})}${(()=>{const y=yieldOf((b,c)=>{let a=0,s=0;for(const id of L){const e=RUNB[id].per(b,c);if(e){a+=(e.a||0)*state.boni[id];s+=(e.s||0)*state.boni[id]}}return{a,s}});return`<p class="hint">Zusammen pro Tag: ${yieldTxt(y)} (vor Multiplikatoren)</p>`})()}`}
+  if(state.infoProg==='boni'){const L=Object.keys(state.boni||{}).filter(id=>RUNB[id]),ks=Object.keys(PERKS).filter(k=>CARDS[k]&&perkN(k));return`<h3>🎖️ Dein Lauf</h3><p class="hint">Lauf-Boni gelten bis zum Ende dieses Kampagnen-Laufs.${ks.length?' Verbesserte Karten: '+ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · '):''}</p>${L.length?'':'<p class="hint">Noch keine Lauf-Boni. Den ersten gibt es nach dem ersten geschafften Zoo.</p>'}${fxHtml({fx:L.map(id=>{const R=RUNB[id],n=state.boni[id],[v,t]=R.fx[0].split('|');const y=yieldOf((b,c)=>{const e=R.per(b,c);return e?{a:(e.a||0)*n,s:(e.s||0)*n}:null});return`${n>1?v.replace('1',n):v}|${t} (${R.icon} ${R.name}${n>1?' ×'+n:''}) · aktuell ${vTxt(y.a,y.s)||'nichts'}`})})}${(()=>{const y=yieldOf((b,c)=>{let a=0,s=0;for(const id of L){const e=RUNB[id].per(b,c);if(e){a+=(e.a||0)*state.boni[id];s+=(e.s||0)*state.boni[id]}}return{a,s}});return`<p class="hint">Zusammen pro Tag: ${yieldTxt(y)} (vor Multiplikatoren)</p>`})()}`}
   if(state.infoProg&&state.infoProg.startsWith('ev:')){const e=(state.events||[]).find(x=>'ev:'+x.id===state.infoProg);if(e)return`<h3>${EVENTS[e.id].icon} ${EVENTS[e.id].name}</h3><p class="hint">Ereignis · gilt die ganze Jahreszeit</p>${fxHtml({fx:evFx(e)})}${EVENTS[e.id].per?yieldHtml({per:(b,c)=>EVENTS[e.id].per(b,c,e.k||1)}):''}`}
   if(state.infoProg==='bautrupp')return`<h3>🧱 Saison-Bautrupp</h3><p class="hint">Diese Jahreszeit +1 Baupunkt pro Tag.</p>`;
   if(state.infoProg){const P=PROGS[state.infoProg]||ADS[state.infoProg];if(P)return`<h3>${P.icon} ${P.name}</h3><p class="hint">${ADS[state.infoProg]?'Werbung · nur diese Jahreszeit':'Förderprogramm · dauerhaft, auch für bereits gebaute'}</p>${fxHtml(P)}${yieldHtml(P)}`}
   if(state.selected!=null){const k=state.hand[state.selected],c=CARDS[k];
     let place='<p class="hint">Ziehe die Karte aufs Gelände oder tippe auf ein Feld.</p>';
-    if(h&&!h.ok)place=`<p style="color:var(--bad)">${h.why}</p>`;
+    if(h&&!h.ok)place=`<p class="resbad">${h.why}</p>`;
     if(h&&h.ok)place=brkHtml(c,h.brk);
-    if(h&&h.up)return`<h3>⬆ Ausbau: ${c.icon} ${c.name} → Stufe ${h.ok?ROMAN[h.b.lvl]:'III'}</h3><p>${costOf(k)} BP. Braucht keinen neuen Platz und zählt nicht als Wiederholung. Jede Stufe bringt +${upStep(h.up)} B und +${upStep(h.up)} N.</p>${place}`;
+    if(h&&h.up){const old=cur.steps.find(x=>x.id===h.up.id);return`<h3>⬆ Ausbau: ${c.icon} ${c.name} → Stufe ${h.ok?ROMAN[h.b.lvl]:'III'}</h3>${h.ok?resHtml(h,cur,{a:h.own.a-old.a,s:h.own.s-old.s}):''}${place}<p class="hint">${costOf(k)} BP. Braucht keinen neuen Platz und zählt nicht als Wiederholung.</p>`}
     const twin=c.cat==='gehege'&&state.buildings.find(b=>b.key===k&&(b.lvl||1)<MAXLVL);
-    return`<h3>${c.icon} ${c.name} ${tagHtml(c)}</h3><p class="hint">${c.a} B · ${c.s} N · ${costOf(k)} BP${twin?' · <b>Tipp:</b> Auf dein vorhandenes Gehege ziehen baut es aus.':''}</p>${fxHtml(c,1)}${place}`}
+    return`<h3>${c.icon} ${c.name} ${tagHtml(c)}</h3><p class="hint">${c.a} B · ${c.s} N · ${costOf(k)} BP${twin?' · <b>Tipp:</b> Auf dein vorhandenes Gehege ziehen baut es aus.':''}</p>${h?(h.ok?resHtml(h,cur):'')+place+fxHtml(c,1):fxHtml(c,1)+place}`}
   if(state.hover!=null&&state.hand[state.hover]){const k=state.hand[state.hover],c=CARDS[k],d=cnt(state.buildings,b=>b.key===k);
     return`<h3>${c.icon} ${c.name} ${tagHtml(c)}</h3><p class="hint">${c.a} B · ${c.s} N · ${costOf(k)} BP${d?` · schon ${d}× gebaut: neu gebaut bringt es nur ${DUPF[Math.min(d,3)]*100} %${c.cat==='gehege'?', oder ausbauen':''}`:''}</p>${fxHtml(c,1)}`}
   if(state.info!=null){const b=state.buildings.find(b=>b.id===state.info);if(b){const c=CARDS[b.key],m=cur.mults.find(m=>m.id===b.id),n=1,can=state.phase==='play'&&state.bp>=n;
@@ -1331,7 +1433,8 @@ function renderLog(){const se=seOf(state.season),vals=Array.from({length:DAYS},(
   const inc=state.lastIncome?`<span>Letzte Bilanz: Eintritt ${sgn(state.lastIncome.base)}, Zinsen ${sgn(state.lastIncome.interest)}</span>`:'';
   $('log').innerHTML=`<h4><span>${MAPS[state.map].icon} ${MAPS[state.map].name} · ${se.name}</span><span>noch ${fmt(Math.max(0,se.target-state.seasonScore))} bis zum Ziel</span></h4><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Punkte pro Tag">${g}</svg><div class="past">${inc}${past}</div>`}
 function setCounters(a,s,t){$('vA').textContent=fmt(a);$('vS').textContent=fmt(s);if(t!=null)$('vT').textContent=fmt(t)}
-function bump(id){const e=$(id);e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}
+function bump(id){const e=$(id);e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop');
+  if(Sfx.heat>=2&&!reduced)for(let i=0;i<Sfx.heat+1;i++){const sp=document.createElement('span');sp.className='csp';sp.textContent='✦';const an=Math.random()*Math.PI*2,d=26+Math.random()*26;sp.style.setProperty('--dx',Math.cos(an)*d+'px');sp.style.setProperty('--dy',Math.sin(an)*d-10+'px');e.appendChild(sp);setTimeout(()=>sp.remove(),620)}}
 function sparks(pt,n=8){const[x,y]=pct(pt);for(let i=0;i<n;i++){const a=i/n*Math.PI*2+Math.random()*.4,sp=document.createElement('span');sp.className='spark';sp.textContent='✦';
   sp.style.left=x+'%';sp.style.top=y+'%';const d=28+Math.random()*(n>8?42:14);sp.style.setProperty('--dx',Math.cos(a)*d+'px');sp.style.setProperty('--dy',Math.sin(a)*d+'px');$('fxh').appendChild(sp);setTimeout(()=>sp.remove(),850)}}
 function floatAt(pt,txt,cls){const[x,y]=pct(pt);const f=document.createElement('span');f.className='float '+cls;f.style.left=x+'%';f.style.top=y+'%';f.textContent=txt;$('fxh').appendChild(f);setTimeout(()=>f.remove(),1000)}
@@ -1369,6 +1472,7 @@ function redraw(){if(state.phase!=='play'||state.bp<1){Sfx.deny();return}
   if(state.infoProg!=='redraw'){state.infoProg='redraw';state.moving=null;state.selected=null;state.preview=null;state.info=null;Sfx.select();render();return}
   state.infoProg=null;state.moving=null;if(state.tut)state.tut.redrawn=true;state.discard.push(...state.hand);state.hand=[];state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
 $('btnRedraw').addEventListener('click',redraw);
+$('money').addEventListener('click',()=>{if(!state||state.phase==='scoring')return;state.infoProg=state.infoProg==='money'?null:'money';state.selected=null;state.preview=null;state.info=null;state.moving=null;Sfx.select();render()});
 $('evs').addEventListener('click',e=>{const b=e.target.closest('[data-ev]');if(!b||!state)return;const id=b.dataset.ev;
   state.infoProg=state.infoProg===id?null:id;state.selected=null;state.preview=null;state.info=null;Sfx.select();render()});
 $('progs').addEventListener('click',e=>{const b=e.target.closest('[data-prog],[data-ad]');if(!b)return;const id=b.dataset.prog||b.dataset.ad;
@@ -1472,6 +1576,8 @@ function build(){const h=hypo();if(!h||!h.ok||state.phase!=='play')return;
   if(h.up){h.up.lvl=(h.up.lvl||1)+1;state.undo.push({t:'up',id:h.up.id,key,hi})}
   else{const id=state.nextId++;state.buildings.push({id,key,cells:h.cells,lvl:1});state.undo.push({t:'build',id,key,hi})}
   state.bp-=costOf(key);state.hand.splice(hi,1);state.builtToday++; // gebaute Karten sind verbraucht
+  state.mileSeen=state.mileSeen||{};for(const t in MILE){const M=MILE[t];if((state.miles||{})[t]||state.mileSeen[t]||mileCount(state.buildings,t)<M.n)continue;state.mileSeen[t]=1;
+    const bn=document.createElement('div');bn.className='mbanner';bn.innerHTML=`<b>🏅 Meilenstein!</b><span>${M.n} ${M.label} · morgen früh bekommst du eine besondere Karte</span>`;document.querySelector('.boardarea').appendChild(bn);setTimeout(()=>bn.remove(),2800);Sfx.combo();setTimeout(()=>sparks(boardCenter(),14),60)}
   state.selected=null;state.preview=null;state.info=null;Sfx.build();render()}
 
 /* ---------- scoring ---------- */
@@ -1486,8 +1592,9 @@ async function startScoring(){state.phase='scoring';fast=false;render();
   const maxPos=Math.max(0,...r.steps.map(posOf));let paused=false;
   // Zähler heizen sich auf, je näher das Tagesergebnis ans Saisonziel kommt
   const tgt=seOf(state.season).target,ctr=document.querySelector('.counters');let heat=0;
-  const setHeat=v=>{const hNow=quick()?0:v>=tgt?3:v>=tgt*.5?2:v>=tgt*.25?1:0;if(hNow===heat)return;heat=hNow;Sfx.heat=heat;ctr.classList.remove('h1','h2','h3');if(heat)ctr.classList.add('h'+heat);
-    if(heat===3){const z=document.createElement('div');z.className='blazefx';document.body.appendChild(z);setTimeout(()=>z.remove(),950);Sfx.sparkle()}};
+  const setHeat=v=>{const hNow=quick()?0:v>=tgt?4:v>=tgt*.4?3:v>=tgt*.2?2:v>=tgt*.1?1:0;if(hNow===heat)return;const up=hNow>heat;heat=hNow;Sfx.heat=heat;ctr.classList.remove('h1','h2','h3','h4');if(heat)ctr.classList.add('h'+heat);
+    if(up)Sfx.tone(70+heat*28,.55,'sawtooth',.07,0,2.2);
+    if(heat===4){const z=document.createElement('div');z.className='blazefx';document.body.appendChild(z);setTimeout(()=>z.remove(),950);Sfx.sparkle()}};
   await wait(quick()?0:350);
   for(const st of r.steps){const b=byId[st.id],c=centroid(b.cells),el=$b().querySelector(`[data-bid="${st.id}"]`);
     if(el&&quick()){el.classList.remove('pulse');el.getBoundingClientRect();el.classList.add('pulse')}
@@ -1527,6 +1634,7 @@ async function startScoring(){state.phase='scoring';fast=false;render();
   $('vT').textContent=fmt(r.total);bump('cT');await wait(quick()?0:300);
   // money
   const inc=dayIncome(r.A,r.S,state.money);state.money+=inc.total;state.lastIncome=inc;
+  {const L=state.ledger=state.ledger||{entry:0,care:0,interest:0,early:0};L.entry+=inc.entry;L.care+=inc.care;L.interest+=inc.interest}
   {const t=state.stats;t.days++;if(inc.total>0)t.earned+=inc.total;if(!t.best||r.total>t.best.pts)t.best={pts:r.total,season:state.season,day:state.day,zoo:state.zoo}}
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);mo.classList.remove('pop');void mo.offsetWidth;mo.classList.add('pop');
   floatAt([VB[0]+VB[2]/2,VB[1]+VB[3]*.12],`🪙 ${sgn(inc.total)}`,inc.total>=0?'m':'m neg');if(!quick()&&inc.total)Sfx.till();
@@ -1534,9 +1642,9 @@ async function startScoring(){state.phase='scoring';fast=false;render();
   const se=seOf(state.season);$('sScore').textContent=fmt(state.seasonScore);
   $('bar').firstElementChild.style.width=Math.min(100,state.seasonScore/se.target*100)+'%';renderLog();
   await wait(quick()?0:400);
-  Sfx.heat=0;ctr.classList.remove('h1','h2','h3');state.phase='review';state.info=null;Sfx.select();render()}
+  Sfx.heat=0;ctr.classList.remove('h1','h2','h3','h4');state.phase='review';state.info=null;Sfx.select();render()}
 function endDay(){const se=seOf(state.season);state.picks=state.pickTotal=state.builtToday;state.earlyBonus=0;state.draftRolls=0;
-  if(state.seasonScore>=se.target){const left=DAYS-1-state.day;state.earlyBonus=left*EARLY_BONUS;state.money+=state.earlyBonus;state.stats.earned+=state.earlyBonus;
+  if(state.seasonScore>=se.target){const left=DAYS-1-state.day;state.earlyBonus=left*EARLY_BONUS;state.money+=state.earlyBonus;state.stats.earned+=state.earlyBonus;(state.ledger=state.ledger||{entry:0,care:0,interest:0,early:0}).early+=state.earlyBonus;
     if(state.season<SEASONS.length-1){state.eventsNext=rollSeason(state.season+1);state.evRolled=true}
     state.phase=state.season===SEASONS.length-1?'win':'seasonWon';Sfx.win();render()}
   else if(state.day===DAYS-1){state.phase='lost';Sfx.lose();render()}
@@ -1551,7 +1659,7 @@ function advance(){
   state.day++;startDay()}
 function beginNextSeason(){state.pendingSeason=false;state.shop=null;state.shopSub=null;
   state.past.push({name:seOf(state.season).name,pts:state.seasonScore});state.season++;state.day=0;state.seasonScore=0;state.dayPts=[];
-  state.ads=state.adsNext;state.adsNext=[];state.bpSeason=state.bpNext||0;state.bpNext=0;state.bpMax=BP+state.bpSeason;state.events=state.eventsNext||[];state.eventsNext=[];state.evRolled=false;syncCtx();startDay()}
+  state.ads=state.adsNext;state.adsNext=[];state.bpSeason=state.bpNext||0;state.bpNext=0;state.bpMax=BP+state.bpSeason;state.events=state.eventsNext||[];state.eventsNext=[];state.evRolled=false;state.ledger={entry:0,care:0,interest:0,early:0};syncCtx();startDay()}
 
 /* ---------- shop ---------- */
 function openShop(){state.phase='shop';state.shopSub=null;if(!state.evRolled){state.eventsNext=rollSeason(state.season+1);state.evRolled=true}state.shop={rerolls:0,items:genShopItems()};Sfx.draw();render()}
@@ -1592,9 +1700,10 @@ function shopHtml(){const se=seOf(state.season),nx=seOf(state.season+1);
   if(state.shopSub==='remove'){const piles=['deck','discard','hand'];let list='';
     for(const p of piles)for(const k of [...new Set(state[p])])list+=`<button class="item" data-rm="${p}|${k}"><span class="nm">${CARDS[k].icon} ${CARDS[k].name}${cnt(state[p],x=>x===k)>1?' ×'+cnt(state[p],x=>x===k):''}</span><span class="tx">${CARDS[k].a} B · ${CARDS[k].s} N · ${costOf(k)} BP</span></button>`;
     return`<h2>Welche Karte entfernen?</h2><p>Kostet 🪙 ${priced(10)}. Die Karte verschwindet dauerhaft aus deinem Deck.</p><div class="shopgrid">${list}</div><button class="btn sub" id="mBack">Zurück</button>`}
-  const debt=state.money<0?`<p style="color:#ffb3b5">Du hast Schulden. Mit Schulden kannst du nichts kaufen.</p>`:'';
+  const debt=state.money<0?`<p style="color:#ffb3b5"><b>Du hast ${fmt(-state.money)} Taler Schulden.</b> Erst ab 0 kannst du wieder kaufen. Schulden kosten jeden Tag 1 Taler Zinsen je 10.</p>`:'';
+  const L=state.ledger||{entry:0,care:0,interest:0,early:0},led=`<div class="bill"><span>Im ${se.name}:</span><span>🎟️ Eintritt ${sgn(L.entry)}</span><span class="${L.care<0?'neg':''}">🌿 Pflege ${sgn(L.care)}</span><span class="${L.interest<0?'neg':''}">🏦 Zinsen ${sgn(L.interest)}</span>${L.early?`<span>⏱️ früh fertig ${sgn(L.early)}</span>`:''}</div>`;
   const slots=`<div class="slotrow">${state.progs.map(id=>`<span>${PROGS[id].icon} ${PROGS[id].name}</span>`).join('')||'<span>Noch keine Förderprogramme</span>'}${state.adsNext.map(id=>`<span>${ADS[id].icon} ${ADS[id].name} (${nx.name})</span>`).join('')}${state.bpNext?`<span>🧱 Saison-Bautrupp (${nx.name})</span>`:''}</div>`;
-  return`<h2>Zoo-Shop · 🪙 ${fmt(state.money)}</h2><p class="hint" style="color:var(--muted);font-size:13px">Förderprogramme wirken dauerhaft auf alle passenden Gebäude im Zoo, auch auf bereits gebaute. Werbung und Bautrupp wirken eine Jahreszeit lang.</p>${debt}${state.shop.note?`<p style="color:var(--gold)">${state.shop.note}</p>`:''}
+  return`<h2>Zoo-Shop · 🪙 ${fmt(state.money)}</h2><p class="hint" style="color:var(--muted);font-size:13px">Förderprogramme wirken dauerhaft auf alle passenden Gebäude im Zoo, auch auf bereits gebaute. Werbung und Bautrupp wirken eine Jahreszeit lang.</p>${led}${debt}${state.shop.note?`<p style="color:var(--gold)">${state.shop.note}</p>`:''}
     ${(state.eventsNext||[]).length?`<h3>Ereignis im ${nx.name}</h3><div class="shopgrid">${state.eventsNext.map(e=>`<div class="item ev"><span class="kind">Gilt die ganze Jahreszeit</span><span class="nm">${EVENTS[e.id].icon} ${EVENTS[e.id].name}</span><span class="tx">${fxHtml({fx:evFx(e)})}</span></div>`).join('')}</div>`:''}
     <h3>Angebote</h3><div class="shopgrid">${state.shop.items.map((it,i)=>itemHtml(it,i,false)).join('')}</div>
     <h3>Service</h3><div class="shopgrid">${fixedItems().map((it,i)=>itemHtml(it,i,true)).join('')}</div>
@@ -1694,7 +1803,7 @@ function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose
   <li>Gebaute Karten sind <b>verbraucht</b>. Für jede gebaute Karte wählst du nach dem Tag 1 von 3 neuen Karten.</li>
   <li><b>Wiederholung:</b> Die zweite Anlage derselben Art bringt nur 75 % ihrer Besucher und Natur (samt Boni), die dritte 50 %, jede weitere 25 %. Besucher wollen Abwechslung.</li>
   <li><b>Jahreszeiten-Karten:</b> Manche Karten wirken je nach Jahreszeit stärker oder schwächer, das steht auf der Karte. Blumenschau, Wasserspielplatz, Kürbisfest und die Winter-Karten gibt es nur in ihrer Jahreszeit zur Auswahl.</li>
-  <li><b>Meilensteine:</b> Ab 5 Gehegen eines Lebensraums oder 6 Attraktionen, Essensständen oder Naturschutz-Gebäuden bekommst du am nächsten Morgen eine besondere Karte auf die Hand. Der Fortschritt steht im Deck-Fenster.</li>
+  <li><b>Meilensteine:</b> Ab 6 Gehegen eines Lebensraums oder 7 Attraktionen, Essensständen oder Naturschutz-Gebäuden bekommst du am nächsten Morgen eine besondere Karte. Sie ersetzt eine deiner fünf Handkarten. Den Fortschritt zeigt 🏅 oben neben „Saison“.</li>
   <li><b>Raubtiere und Beute:</b> Beutetiere (Zebras, Giraffen, Warzenschweine, Lamas, Flamingos, Kamele) bekommen −1 B und −1 N je benachbartes Raubtier (Löwen, Tiger, Geparden, Wölfe). Essensstände verlieren 1 N neben <b>scheuen</b> Tieren (Pandas, Faultiere, Schildkröten, Nashörner, Fenneks).</li>
   <li><b>Pause:</b> Nach jeder Auszählung kannst du dir den Zoo in Ruhe anschauen. Weiter geht es mit „Nächsten Tag starten“.</li>
   <li><b>Lebensraum:</b> +1 Besucher je benachbartes Gehege mit gleichem Lebensraum. Auf <b>Naturflächen</b> dürfen nur passende Gehege (mit +1 Natur je Feld), andere Gehege nicht. Alle anderen Gebäude dürfen dort ohne Bonus stehen.</li>
@@ -1727,6 +1836,10 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   else if(modal==='deck')h=`<h2>Dein Deck</h2><h3>Nachziehstapel · ${state.deck.length}</h3><div class="pile">${pileHtml(state.deck)}</div>
     <h3>Ablagestapel · ${state.discard.length}</h3><div class="pile">${pileHtml(state.discard)}</div>
     <h3>Hand · ${state.hand.length}</h3><div class="pile">${pileHtml(state.hand)}</div>${Object.keys(state.boni||{}).length?`<h3>Lauf-Boni</h3><div class="pile">${Object.keys(state.boni).filter(id=>RUNB[id]).map(id=>`<span>${RUNB[id].icon} ${RUNB[id].name}${state.boni[id]>1?' ×'+state.boni[id]:''}: ${RUNB[id].fx[0].replace('|',' ')}</span>`).join('')}</div>`:''}<h3>Meilensteine</h3><div class="mile">${Object.keys(MILE).map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div><button class="btn main" id="mClose">Schließen</button>`;
+  else if(inGame&&state.phase==='play'&&(state.mileNew||[]).length){const t=state.mileNew[0],M=MILE[t],c=CARDS[M.card];
+    h=`<h2>🏅 Meilenstein erreicht!</h2><p style="margin:0">Du hast <b>${M.n} ${M.label}</b> in deinem Zoo. Dafür bekommst du diese besondere Karte. Sie ersetzt heute eine deiner fünf Handkarten und lässt sich nur einmal bauen.</p>
+      <div class="milecard"><span class="ic">${c.icon}</span><span class="nm">${c.name}</span><span style="font-size:12px;font-weight:600;color:#5d6b60">${c.hab?HAB[c.hab].label+'-Gehege':CAT[c.cat].label} · ${costOf(M.card)} BP · Einmalig</span><span class="vals3"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(M.card)}</span>${fxHtml(c)}</div>
+      <button class="btn main big" id="mMileOk">Auf die Hand nehmen</button>`}
   else if(inGame&&state.phase==='draft')h=`<h2>Neue Karte ${state.pickTotal-state.picks+1} von ${state.pickTotal}</h2><p>Du hast ${state.pickTotal} Karte${state.pickTotal>1?'n':''} verbaut und darfst genauso viele neue wählen. Sie kommen auf deine Ablage.</p>${state.pendingSeason&&seOf(state.season+1)?evLine(state.eventsNext,'im '+seOf(state.season+1).name):''}<div class="offer">${state.offer.map(offerCard).join('')}</div><div class="shopbar"><button class="btn sub" id="mDraftRoll" ${canPay(draftPrice())?'':'disabled'}>🎲 Neue Auswahl · 🪙 ${draftPrice()}</button><button class="btn sub" data-skip="1">Diese auslassen</button></div><p style="margin:0;font-size:12.5px;color:var(--muted)">In der Kasse: 🪙 ${fmt(state.money)}. Jeder Wurf heute kostet 2 mehr.</p>`;
   else if(inGame&&state.phase==='shop'){h=shopHtml();wide=true}
   else if(inGame&&state.phase==='seasonWon'){const nx=seOf(state.season+1);
@@ -1739,6 +1852,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   root.querySelectorAll('[data-skip]').forEach(b=>b.onclick=()=>pick(null));
   root.querySelectorAll('[data-item]').forEach(b=>b.onclick=()=>{const v=b.dataset.item,i=+v.slice(1);buy(v[0]==='f'?fixedItems()[i]:state.shop.items[i])});
   root.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{const[p,k]=b.dataset.rm.split('|');removeCard(p,k)});
+  const mo=$('mMileOk');if(mo)mo.onclick=()=>{state.mileNew.shift();Sfx.select();render()};
   const dr=$('mDraftRoll');if(dr)dr.onclick=draftRoll;
   const bk=$('mBack');if(bk)bk.onclick=()=>{state.shopSub=null;render()};
   const rr=$('mReroll');if(rr)rr.onclick=()=>{const p=rerollPrice();if(!canPay(p)){Sfx.deny();return}state.money-=p;state.stats.spent+=p;state.shop.rerolls++;state.shop.items=genShopItems();state.shop.note=null;Sfx.draw();render()};
@@ -1848,7 +1962,7 @@ const TUT={
    {t:'Oben rechts steht deine <b>Kasse</b> 🪙. Jeder Tag bringt 1 Taler je 6 Besucher (Eintritt) und kostet 1 Taler je 8 Natur (Pflege). Erspartes bringt Zinsen. Geld brauchst du nur für den Shop.',btn:'Weiter',setup:tHand('affen','zebras','gruen','turm','eiswagen')},
    {t:'Nach jeder Jahreszeit öffnet der <b>Shop</b>. Oben steht dort das <b>Ereignis</b> der nächsten Jahreszeit. Kaufe ein <b>Förderprogramm</b> (wirkt dauerhaft) und tippe dann auf <b>Weiter zum Sommer</b>.',btn:'Shop öffnen',act:s=>{s.eventsNext=[{id:'hitze',k:1}];s.evRolled=true;s.money=80;openShop()}},
    {t:'Es ist Sommer, und es gilt <b>Extreme Hitze</b>. Tippe oben neben „Saison“ auf das Symbol <b>☀️</b>, um die Wirkung und den aktuellen Ertrag zu sehen.',only:'-',ev:true,done:()=>state.season>=1&&!!state.infoProg&&String(state.infoProg).startsWith('ev:')},
-   {t:'Zum Schluss ein Ausblick: Manche Karten wirken je nach <b>Jahreszeit</b> anders, im <b>Winter</b> frieren Savanne und Wüste. Ab 5 Gehegen eines Lebensraums gibt es eine <b>Meilenstein-Karte</b>. Und in der <b>Kampagne</b> spielst du Zoo um Zoo mit steigender Schwierigkeit. Viel Spaß!',btn:'Tutorial abschließen',fin:true}]}};
+   {t:'Zum Schluss ein Ausblick: Manche Karten wirken je nach <b>Jahreszeit</b> anders, im <b>Winter</b> frieren Savanne und Wüste. Ab 6 Gehegen eines Lebensraums gibt es eine <b>Meilenstein-Karte</b>. Und in der <b>Kampagne</b> spielst du Zoo um Zoo mit steigender Schwierigkeit. Viel Spaß!',btn:'Tutorial abschließen',fin:true}]}};
 const tutStep=()=>state&&state.mode==='tut'&&state.tut?TUT[state.tut.ch].steps[state.tut.i]:null;
 function startTut(ch){const T=TUT[ch],terr=new Map(T.terr);applyPerks({});UNLOCK=new Set();modal=null;
   newGame('wiese',{key:'wiese',cells:hexDisc(3),terr},{deck:['affen','reptilien','gruen','flamingos','turm','kamele','schildkroeten','popcorn'],state:{mode:'tut',tut:{ch,i:0},tmult:1000}});
@@ -1874,6 +1988,12 @@ function tutMenuHtml(){const dn=META.tutDone||{};
   return`<div class="bar2"><h2>📖 Tutorial</h2><button class="btn sub" data-go="title">Zurück</button></div><p style="margin:0;color:var(--muted)">Drei kurze Kapitel auf einem kleinen Übungs-Zoo. Du spielst jeden Schritt selbst. Alles ist freiwillig und ändert nichts an deinen Spielständen.</p>
     ${[1,2,3].map(ch=>{const T=TUT[ch];return`<div class="slot"><h3>${dn[ch]?'✅':'▫️'} Kapitel ${ch}: ${T.name}</h3><p>${T.text} Etwa ${T.min} Minuten.</p><div class="acts"><button class="btn main" data-tutch="${ch}">${dn[ch]?'Noch einmal spielen':'Starten'}</button></div></div>`}).join('')}
     <button class="btn sub" id="sTut">🖼️ Kurzübersicht in Bildern</button>`}
+function runOverviewHtml(run,open){const sl=activeSlot(),cp=sl&&sl.cperks||{},rp=run.perks||{},ks=[...new Set([...Object.keys(cp),...Object.keys(rp)])].filter(k=>CARDS[k]);
+  const bon=Object.keys(run.boni||{}).filter(id=>RUNB[id]&&run.boni[id]),pk=q=>q?[q.a?`+${q.a} B`:'',q.s?`+${q.s} N`:''].filter(Boolean).join(' '):'';
+  return`<details class="runov" ${open?'open':''}><summary>🎖️ Dein Lauf bisher</summary>
+    <h4>Lauf-Boni</h4><div class="rw">${bon.length?bon.map(id=>{const R=RUNB[id],n=run.boni[id],[v,t]=R.fx[0].split('|');return`<span>${R.icon} ${R.name}${n>1?' ×'+n:''}: <b>${v.replace('1',n)}</b> ${t}</span>`}).join(''):'<span>noch keine</span>'}</div>
+    <h4>Verbesserte Karten</h4><div class="rw">${ks.length?ks.map(k=>`<span>${CARDS[k].icon} ${CARDS[k].name} <b>${CARDS[k].a} B · ${CARDS[k].s} N</b>${pk(cp[k])?` · 🏅 ${pk(cp[k])} dauerhaft`:''}${pk(rp[k])?` · ${pk(rp[k])} im Lauf`:''}</span>`).join(''):'<span>noch keine</span>'}</div>
+    ${(run.added||[]).length?`<h4>Neue Karten im Deck</h4><div class="rw">${run.added.map(k=>`<span>${CARDS[k].icon} ${CARDS[k].name}</span>`).join('')}</div>`:''}</details>`}
 /* ---------- Kampagne: Belohnungen zwischen den Zoos ---------- */
 function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,btn)=>{const c=CARDS[k];return`<div class="pcard"><span class="ic">${c.icon}</span><div class="info2"><span class="nm">${c.name}</span>
       <span class="meta3">${c.hab?habBadge(c.hab)+' '+HAB[c.hab].label:CAT[c.cat].label}${traitOf(c)?' · '+TRAITNAME[traitOf(c)]:''} · ${costOf(k)} BP${perkN(k)?` · 🏅 ${perkN(k)}`:''}</span>
@@ -1881,7 +2001,7 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,b
   if(a.step==='won')return`<h2>🏆 Kampagne geschafft!</h2><p style="margin:0">Du hast alle ${CAMP_GOAL} Zoos gemeistert. Bisher ${fmt(run.total)} Punkte. Du kannst den Lauf jetzt in die Bestenliste eintragen oder im Endlos-Modus weiterspielen, solange du durchhältst.</p>
     <button class="btn main big" data-cend="1">Lauf beenden und eintragen</button><button class="btn sub big" data-cendless="1">Endlos weiterspielen</button>`;
   const stp=['perk','card','bonus','next'],si=stp.indexOf(a.step),steps=`<div class="steps">${['3 Verbesserungen','Neue Karte','Lauf-Bonus','Nächster Zoo'].map((l,i)=>`<span class="${i===si?'on':i<si?'ok':''}">${i<si?'✓ ':''}${l}</span>`).join('')}</div>`;
-  const head=`<h2>Zoo ${run.zoo} geschafft!</h2>${steps}`;
+  const head=`<h2>Zoo ${run.zoo} geschafft!</h2>${steps}${runOverviewHtml(run,a.step==='bonus'||a.step==='next')}`;
   if(a.step==='perk'){if(a.pstep==='pick')return`${head}<div class="bar2"><h3 class="sh" style="margin:0">Verbesserung ${4-a.left} von 3</h3><button class="btn sub" data-cpback="1">Andere Kategorie</button></div><p style="margin:0;color:var(--muted)">Erhöhe den Grundwert einer Karte um 1. Gilt nur für diesen Lauf. Zusammen mit den dauerhaften 🏅 höchstens ${RUNPERK} pro Karte.</p>
       <div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>cardRow(k,`<button class="btn pa" data-cperk="${k}|a">Besucher<br><b>${CARDS[k].a} → ${CARDS[k].a+1}</b></button><button class="btn ps" data-cperk="${k}|s">Natur<br><b>${CARDS[k].s} → ${CARDS[k].s+1}</b></button>`)).join('')}</div>`;
     return`${head}${a.last?`<p style="margin:0;color:var(--gold)">${CARDS[a.last].icon} <b>${CARDS[a.last].name}</b> hat jetzt ${CARDS[a.last].a} B · ${CARDS[a.last].s} N.</p>`:''}<h3 class="sh">Verbesserung ${4-a.left} von 3</h3><p style="margin:0">Wähle eine Kategorie, dann zeige ich dir 5 Karten daraus. Die Verbesserung gilt für den Rest dieses Laufs.</p>
@@ -1890,7 +2010,7 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,b
   if(a.step==='card')return`${head}<h3 class="sh">Neue Karte für dein Deck</h3><p style="margin:0">Wähle 1 von 3. Die Karte kommt in dein Deck und bleibt bis zum Ende des Laufs.</p>
     <div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>cardRow(k,`<button class="btn main" data-ccard="${k}">Nehmen</button>`)).join('')}</div><button class="btn sub" data-cskip="card">Keine Karte</button>`;
   if(a.step==='bonus')return`${head}<h3 class="sh">Lauf-Bonus</h3><p style="margin:0">Wähle 1 von 3. Der Bonus gilt in allen weiteren Zoos dieses Laufs und lässt sich mehrfach stapeln.</p>
-    <div style="display:flex;flex-direction:column;gap:8px">${a.opts.map(id=>{const R=RUNB[id],n=run.boni[id]||0;return`<div class="pcard"><span class="ic">${R.icon}</span><div class="info2"><span class="nm">${R.name}</span><span class="meta3">${n?`Du hast ihn schon ${n}×`:'Neu für diesen Lauf'}</span>${fxHtml(R)}</div><div class="pb"><button class="btn main" data-cbonus="${id}">Nehmen</button></div></div>`}).join('')}</div>`;
+    <div style="display:flex;flex-direction:column;gap:8px">${a.opts.map(id=>{const R=RUNB[id],n=run.boni[id]||0;return`<div class="pcard"><span class="ic">${R.icon}</span><div class="info2"><span class="nm">${R.name}</span><span class="meta3">${n?`Du hast ×${n} → danach ${R.fx[0].split('|')[0].replace('1',n+1)} ${R.fx[0].split('|')[1]}`:'Neu für diesen Lauf'}</span>${fxHtml(R)}</div><div class="pb"><button class="btn main" data-cbonus="${id}">Nehmen</button></div></div>`}).join('')}</div>`;
   const cf=campCfg(run.zoo),lv=['','mild','mittel','hart'][cf.k];
   return`${head}<h3 class="sh">Zoo ${run.zoo+1}: ${MAPS[cf.map].icon} ${MAPS[cf.map].name}</h3><p style="margin:0">${MAPS[cf.map].text}</p>
     <div class="sumgrid"><div class="sumbox"><span class="k">Saisonziele</span><span class="v">×${String(cf.mult).replace('.',',')}</span><span class="d">Winter: ${fmt(Math.round(SEASONS[3].target*cf.mult/100)*100)}</span></div>
@@ -2023,7 +2143,7 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
     if(d.cperk){const[k,w]=d.cperk.split('|');if(perkN(k)>=RUNPERK)return;const q=run.perks[k]=run.perks[k]||{};q[w]=(q[w]||0)+1;applyRun(run);Sfx.win();Sfx.sparkle();a.left--;a.last=k;a.pstep='cat';a.cards=null;
       if(a.left>0){saveMeta();renderScreen()}else crewardStep('card');return}
     if(d.cskip==='perk'){crewardStep('card');return}
-    if(d.ccard){run.deck.push(d.ccard);if(CARDS[d.ccard].bonus_&&!run.cards.includes(d.ccard))run.cards.push(d.ccard);applyRun(run);Sfx.win();crewardStep('bonus');return}
+    if(d.ccard){run.deck.push(d.ccard);(run.added=run.added||[]).push(d.ccard);if(CARDS[d.ccard].bonus_&&!run.cards.includes(d.ccard))run.cards.push(d.ccard);applyRun(run);Sfx.win();crewardStep('bonus');return}
     if(d.cskip==='card'){crewardStep('bonus');return}
     if(d.cbonus){run.boni[d.cbonus]=(run.boni[d.cbonus]||0)+1;Sfx.win();Sfx.sparkle();crewardStep('next');return}
     if(d.cstart){Sfx.select();startZoo();return}}
