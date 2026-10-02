@@ -398,6 +398,22 @@ body.sea3{--sk1:#4f6f86;--sk2:#16232c;--sk3:#ffffff55}
 /* 32 Zoom füllt die Fläche */
 .boardwrap.zoomed{width:100%;height:100%;aspect-ratio:auto}
 .actions.mvb #btnRot{display:none}
+/* spielbares Tutorial */
+.coach{position:absolute;left:8px;right:8px;bottom:8px;z-index:8;background:#0c2216f5;border:2px solid var(--gold);border-radius:14px;padding:8px 11px;font-size:13px;line-height:1.34;display:none;flex-direction:column;gap:6px;box-shadow:0 8px 24px #000a}
+body.tutmode .coach{display:flex}
+body.tutmode .boardarea{align-items:flex-start}
+.coach .ch{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);display:flex;justify-content:space-between;gap:8px}
+.coach .ch button{border:0;background:none;color:var(--muted);font:inherit;text-transform:none;letter-spacing:0;text-decoration:underline;padding:0}
+.coach p{margin:0}
+.coach .bad{color:#ffb3b5;font-weight:600}
+.coach.small{padding:6px 10px;border-width:1.5px}
+.coach.small .ch{text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--text)}
+.coach.small .ch b{color:var(--gold)}
+.coach .btn{align-self:flex-start;padding:7px 16px}
+.coach.nudge{animation:pop .3s ease}
+@keyframes tutglow{0%,100%{box-shadow:0 0 0 3px #ffd166,0 0 0 0 #ffd16688}50%{box-shadow:0 0 0 3px #ffd166,0 0 16px 6px #ffd16688}}
+body.tutmode .card.tutgo,body.tutmode .btn.tutgo,body.tutmode .redrawbtn.tutgo,body.tutmode .evb.tutgo{animation:tutglow 1.2s ease-in-out infinite;position:relative;z-index:2}
+body.tutmode .card.tutno{opacity:.45}
 .mile{display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px}
 .mile span{background:var(--panel2);border-radius:8px;padding:3px 8px}
 .mile span.ok{background:var(--gold);color:#3a2a00;font-weight:700}
@@ -582,7 +598,7 @@ body.sea3{--sk1:#4f6f86;--sk2:#16232c;--sk3:#ffffff55}
 </head>
 <body>
 <div class="app" id="app">
-  <div class="boardarea"><div class="wx" id="wx"></div><div class="boardwrap" id="bwrap"><svg id="board" aria-label="Zoogelände"></svg><div class="fxh" id="fxh"></div><div class="skiphint" id="skiphint"></div><button class="zoombtn" id="btnZoom" aria-label="Zoom">🔍</button><svg class="minimap" id="mini" aria-hidden="true"></svg></div></div>
+  <div class="boardarea"><div class="wx" id="wx"></div><div class="coach" id="coach"></div><div class="boardwrap" id="bwrap"><svg id="board" aria-label="Zoogelände"></svg><div class="fxh" id="fxh"></div><div class="skiphint" id="skiphint"></div><button class="zoombtn" id="btnZoom" aria-label="Zoom">🔍</button><svg class="minimap" id="mini" aria-hidden="true"></svg></div></div>
   <div class="side">
     <div class="top">
       <div class="brand">Zoolatro</div>
@@ -1137,7 +1153,7 @@ function rollSeason(i){const cf=state.mode==='camp'?campCfg(state.zoo):{k:1,n:1,
 function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;SHIFT=0;screen=null;setBoard(m.cells);TERR=m.terr;computeView();
   state=Object.assign(DEFAULTS(),{map:key,board:m.cells,season:0,day:0,seasonScore:0,totalScore:0,buildings:[],nextId:1,deck:shuffle(opt.deck||START_DECK),discard:[],hand:[],bp:BP,
     selected:null,rot:0,preview:null,phase:'play',offer:[],pendingSeason:false,lastDay:0,info:null,terr:[...TERR]},opt.state||{});
-  state.events=opt.events||rollSeason(0);syncCtx();const sl=activeSlot();if(sl){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}startDay()}
+  state.events=opt.events||rollSeason(0);syncCtx();const sl=activeSlot();if(sl&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}startDay()}
 function startDay(){state.moving=null;state.bp=state.bpMax-(state.day===0&&hasEv('baustelle')?1:0);state.builtToday=0;state.undo=[];state.selected=null;state.preview=null;drawHand(state);state.phase='play';
   state.miles=state.miles||{};for(const t in MILE){const M=MILE[t];if(state.miles[t]||mileCount(state.buildings,t)<M.n)continue;state.miles[t]=1;state.hand.push(M.card);const c=CARDS[M.card];
     state.msg={title:`🏅 Meilenstein: ${M.n} ${M.label}`,text:`Als Belohnung liegt <b>${c.icon} ${c.name}</b> auf deiner Hand. Die Karte gibt es nur einmal.`};Sfx.win();setTimeout(()=>{if(state&&state.msg){state.msg=null;if(state.phase==='play'&&!screen)render()}},6000)}
@@ -1255,7 +1271,7 @@ function render(){
   $('btnRot').disabled=!(state.phase==='play'&&selKey()&&costOf(selKey())>1&&!upTarget());
   $('btnUndo').disabled=!(state.phase==='play'&&(state.moving!=null||(state.undo&&state.undo.length)));
   $('skiphint').textContent='';
-  renderLog();renderModal();saveSoon();fitUnderInfo();
+  renderLog();renderModal();saveSoon();fitUnderInfo();renderCoach();tutCheck();
 }
 // Aufzählung der Karteneffekte
 function fxLine(l){const i=l.indexOf('|'),v=l.slice(0,i),t=l.slice(i+1),neg=/^[−-]/.test(v),word=/^[A-Za-zÄÖÜäöü]/.test(v);
@@ -1338,7 +1354,7 @@ $('board').addEventListener('click',e=>{if(state.phase==='review'&&!suppressBoar
   if(cell&&state.selected!=null){state.preview=previewAt({q:+cell.dataset.q,r:+cell.dataset.r});Sfx.hover();render();return}
   if(bld){const id=+bld.dataset.bid;state.info=state.info===id?null:id;state.selected=null;state.preview=null;Sfx.select();render()}
   else if(cell){state.info=null;render()}});
-function selectCard(i){state.msg=null;state.moving=null;state.hover=null;state.hoverTerr=null;state.infoProg=null;if(!affordable(state.hand[i])){Sfx.deny();
+function selectCard(i){{const ts=tutStep();if(ts&&ts.only&&state.hand[i]!==ts.only){Sfx.deny();tutNudge();return false}}state.msg=null;state.moving=null;state.hover=null;state.hoverTerr=null;state.infoProg=null;if(!affordable(state.hand[i])){Sfx.deny();
     const k=state.hand[i];state.msg=builtUnique(state.buildings,k)?{title:`${CARDS[k].icon} ${CARDS[k].name}`,text:'Gibt es nur einmal im Zoo und steht schon. Die Karte wandert beim Tagesende auf die Ablage.'}:{title:`${CARDS[k].icon} ${CARDS[k].name}`,text:`Kostet ${costOf(k)} Baupunkte, du hast noch ${state.bp}.`};
     setTimeout(()=>{state.msg=null;if(state.phase==='play')render()},2600);return false}state.selected=i;state.rot=0;state.info=null;return true}
 $('hand').addEventListener('click',e=>{if(suppressClick)return;const c=e.target.closest('.card');if(!c||state.phase!=='play')return;const i=+c.dataset.i;
@@ -1351,7 +1367,7 @@ $('board').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||state.
 $('board').addEventListener('pointerleave',()=>{if(!state.hoverTerr)return;state.hoverTerr=null;if(state.phase==='play')$('info').innerHTML=infoHtml(hypo(),scoreZoo(state.buildings))});
 function redraw(){if(state.phase!=='play'||state.bp<1){Sfx.deny();return}
   if(state.infoProg!=='redraw'){state.infoProg='redraw';state.moving=null;state.selected=null;state.preview=null;state.info=null;Sfx.select();render();return}
-  state.infoProg=null;state.moving=null;state.discard.push(...state.hand);state.hand=[];state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
+  state.infoProg=null;state.moving=null;if(state.tut)state.tut.redrawn=true;state.discard.push(...state.hand);state.hand=[];state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
 $('btnRedraw').addEventListener('click',redraw);
 $('evs').addEventListener('click',e=>{const b=e.target.closest('[data-ev]');if(!b||!state)return;const id=b.dataset.ev;
   state.infoProg=state.infoProg===id?null:id;state.selected=null;state.preview=null;state.info=null;Sfx.select();render()});
@@ -1443,7 +1459,7 @@ $('btnRot').addEventListener('click',rotate);
 $('btnUndo').addEventListener('click',undo);
 document.addEventListener('keydown',e=>{if(!state||screen)return;if(e.key==='r'||e.key==='R')rotate();if((e.key==='z'||e.key==='Z')&&state.phase==='play')undo();if(e.key==='Enter'&&state.phase==='play')build();if(e.key==='Enter'&&state.phase==='review'){state.info=null;endDay()}if(e.key==='Escape'){modal=null;state.moving=null;render()}});
 $('btnBuild').addEventListener('click',()=>{if(state.phase==='play'&&state.moving==null&&state.selected==null&&state.info!=null){const b=state.buildings.find(x=>x.id===state.info);if(b&&state.bp>=1){startMove(b);Sfx.select();render()}else Sfx.deny();return}build()});
-$('btnEnd').addEventListener('click',()=>{if(state.phase==='review'){state.info=null;endDay();return}if(state.phase!=='play')return;ZOOM=null;state.moving=null;
+$('btnEnd').addEventListener('click',()=>{if(state.phase==='review'){state.info=null;endDay();return}if(state.phase!=='play')return;if(tutStep()&&!tutStep().end){Sfx.deny();tutNudge();return}ZOOM=null;state.moving=null;
   state.discard.push(...state.hand);state.hand=[];state.hover=null;state.selected=null;state.preview=null;state.info=null;state.infoProg=null;startScoring()});
 $('btnMute').addEventListener('click',()=>{Sfx.muted=!Sfx.muted;try{localStorage.setItem('zoodeck-muted',Sfx.muted?'1':'0')}catch(e){}if(!Sfx.muted){Sfx.init();Sfx.select()}render()});
 $('btnHelp').addEventListener('click',()=>{helpOpen=false;modal='help';render()});
@@ -1667,7 +1683,7 @@ function pileHtml(keys){if(!keys.length)return'<em>leer</em>';const m={};keys.fo
   return Object.keys(m).sort((a,b)=>CARDS[a].name.localeCompare(CARDS[b].name,'de')).map(k=>`<span style="border-left-color:${colOf(CARDS[k])}">${CARDS[k].icon} ${CARDS[k].name}${m[k]>1?' ×'+m[k]:''}</span>`).join('')}
 let helpOpen=false;
 function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose">▶ Weiterspielen</button>
-  <div class="menubtns"><button class="btn sub" id="mHome">🏠 Hauptmenü</button><button class="btn sub" id="mTut">📖 Tutorial</button><button class="btn sub" id="mRestart">${state&&state.mode==='camp'?'🏳 Lauf beenden':'⟲ Neues Spiel'}</button></div>
+  <div class="menubtns"><button class="btn sub" id="mHome">🏠 Hauptmenü</button><button class="btn sub" id="mTut">📖 Kurzübersicht</button><button class="btn sub" id="mRestart">${state&&state.mode==='tut'?'✕ Tutorial beenden':state&&state.mode==='camp'?'🏳 Lauf beenden':'⟲ Neues Spiel'}</button></div>
   <div class="setrow"><span>Auszähl-Tempo:</span>${[[0,'Normal'],[1,'Schnell']].map(([v,l])=>`<button class="chip2 ${SCFAST===v?'on':''}" data-scf="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>Schiebe-Tempo im Zoom:</span>${[[1.5,'Normal'],[2.25,'Schnell'],[3,'Sehr schnell']].map(([v,l])=>`<button class="chip2 ${PANSPEED===v?'on':''}" data-pan="${v}">${l}</button>`).join('')}</div>
   <button class="btn sub" id="mRules">${helpOpen?'▾ Spielregeln ausblenden':'▸ 📜 Spielregeln anzeigen'}</button>
@@ -1729,7 +1745,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   const lv=$('mLeave');if(lv)lv.onclick=beginNextSeason;
   const mr=$('mRules');if(mr)mr.onclick=()=>{helpOpen=!helpOpen;Sfx.select();renderModal()};
   const cl=$('mClose');if(cl)cl.onclick=()=>{modal=null;renderAll()};
-  const rs=$('mRestart');if(rs)rs.onclick=()=>{modal='restart';render()};
+  const rs=$('mRestart');if(rs)rs.onclick=()=>{if(state&&state.mode==='tut'){exitTut(false);return}modal='restart';render()};
   const ry=$('mRestartYes');if(ry)ry.onclick=()=>{if(state.mode==='camp'){state.phase='lost';finishGame()}else openMaps(false)};
   root.querySelectorAll('[data-scf]').forEach(b=>b.onclick=()=>{SCFAST=+b.dataset.scf;try{localStorage.setItem('zoodeck-fast',SCFAST)}catch(e){}Sfx.select();renderModal()});
   root.querySelectorAll('[data-pan]').forEach(b=>b.onclick=()=>{PANSPEED=+b.dataset.pan;try{localStorage.setItem('zoodeck-pan',PANSPEED)}catch(e){}Sfx.select();renderModal()});
@@ -1740,13 +1756,13 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   const nx=$('mNext');if(nx)nx.onclick=()=>{state.pendingSeason=true;nextDraft()};
   const mb=$('mMapsBack');if(mb)mb.onclick=()=>{modal=null;if(!state){screen='mode';screenArg={slot:META.active}}renderAll()};
   const fi=$('mFinish');if(fi)fi.onclick=finishGame;
-  const ho=$('mHome');if(ho)ho.onclick=()=>{saveMeta();modal=null;screen='title';renderAll()}}
+  const ho=$('mHome');if(ho)ho.onclick=()=>{if(state&&state.mode==='tut'){exitTut(false);screen='title';renderAll();return}saveMeta();modal=null;screen='title';renderAll()}}
 
 /* ---------- Speicher: drei Speicherplätze, Highscores, Verbesserungen ---------- */
 const SAVE_KEY='zoodeck-save-v1';
 let META={slots:[null,null,null],active:null,lastSlot:null,scores:[]},screen=null,screenArg={},saveT=0;
 function loadMeta(){try{const raw=localStorage.getItem(SAVE_KEY);if(raw){const m=JSON.parse(raw);if(m&&Array.isArray(m.slots)&&m.slots.length===3)META=Object.assign({scores:[],cscores:[]},m)}}catch(e){}}
-function saveMeta(){try{const sl=activeSlot();if(sl&&state){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}localStorage.setItem(SAVE_KEY,JSON.stringify(META))}catch(e){}}
+function saveMeta(){try{const sl=activeSlot();if(sl&&state&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}localStorage.setItem(SAVE_KEY,JSON.stringify(META))}catch(e){}}
 function saveSoon(){clearTimeout(saveT);saveT=setTimeout(saveMeta,400)}
 const activeSlot=()=>META.active!=null?META.slots[META.active]:null;
 const cperkCount=sl=>Object.values(sl&&sl.cperks||{}).reduce((t,q)=>t+(q.a||0)+(q.s||0),0);
@@ -1802,6 +1818,62 @@ function summaryHtml(){const m=screenArg.sum,mx=Math.max(1,...Object.values(m.ha
       <div class="slotrow" style="margin-top:4px"><span>🎡 Attraktionen: ${m.cats.attr}</span><span>🍿 Essensstände: ${m.cats.essen}</span><span>🌳 Naturschutz: ${m.cats.schutz}</span></div></div>
     <h3 class="sh">Deine 5 stärksten Karten</h3>${m.top.length?`<div class="toplist">${m.top.map((t,i)=>`<div><span class="rk">${i+1}.</span><span class="nm">${CARDS[t.k].icon} ${CARDS[t.k].name}</span><span class="a">${fmt(t.a)} B</span><span class="s">${fmt(t.s)} N</span></div>`).join('')}</div><p style="margin:0;color:var(--muted);font-size:12.5px">Summe aller Besucher und Natur, die diese Karten über das ganze Spiel eingebracht haben.</p>`:'<p style="margin:0;color:var(--muted)">Für dieses Spiel wurde noch nicht mitgezählt.</p>'}
     <button class="btn main big" data-sumnext="1">Weiter</button>`}
+/* ---------- spielbares Tutorial: drei Kapitel auf einem kleinen Übungs-Zoo ---------- */
+const tB=(k)=>state.buildings.filter(b=>b.key===k);
+const tAdj=(k,f)=>{const idx=mkIndex(state.buildings);return tB(k).some(b=>nbrs(b,idx).some(n=>f(CARDS[n.key],n)))};
+const tHand=(...ks)=>s=>{s.hand=ks.slice();s.bp=s.bpMax;s.selected=null;s.preview=null;s.undo=[]};
+const TUT={
+ 1:{name:'Grundlagen',text:'Karten bauen, Nachbarn, Naturflächen, Tag beenden.',min:3,
+  terr:[['3,-2','wasser'],['3,-1','wasser'],['2,-1','wasser'],['-3,1','wald'],['-3,2','wald'],['0,-3','block']],blds:[],
+  steps:[
+   {t:'Willkommen! Jeden Tag hast du <b>4 Baupunkte</b>, jedes Feld einer Karte kostet 1. Tippe die <b>Giraffenweide</b> an, dann auf ein freies Feld in der Mitte. Mit <b>↻ Drehen</b> richtest du sie aus, mit <b>Bauen</b> bestätigst du.',h:'Giraffen in die Mitte setzen, dann „Bauen“',only:'giraffen',setup:tHand('giraffen','warzenschweine','pinguine','popcorn','gruen'),done:()=>tB('giraffen').length>0},
+   {t:'Gut! Jetzt die <b>Warzenschweine</b> direkt <b>neben die Giraffen</b>. Beide leben in der Savanne: Gleicher Lebensraum nebeneinander bringt +1 Besucher, die goldene Linie zeigt den Bonus.',h:'Direkt neben die Giraffen setzen',only:'warzenschweine',setup:s=>{s.bp=s.bpMax},done:()=>tAdj('warzenschweine',c=>c.hab==='savanne'),wrong:()=>tB('warzenschweine').length?'Die Warzenschweine stehen nicht neben den Giraffen. Nimm den Zug mit ↶ zurück und versuch es noch einmal.':null},
+   {t:'Die blauen Felder sind eine <b>Wasser-Naturfläche</b>. Setze das <b>Pinguinbecken</b> darauf: Passende Gehege bekommen dort +1 Natur je Feld. Andere Gehege dürfen dort nicht hin.',h:'Auf die blaue Wasserfläche setzen',only:'pinguine',setup:s=>{s.bp=s.bpMax},done:()=>tB('pinguine').some(b=>TERR.get(hk(...b.cells[0]))==='wasser'),wrong:()=>tB('pinguine').length?'Das Pinguinbecken steht nicht auf der Wasserfläche. Nimm den Zug mit ↶ zurück.':null},
+   {t:'Jetzt wird abgerechnet. Tippe auf <b>Tag beenden</b>: Jedes Gebäude zählt seine Besucher und seine Natur, am Ende gilt <b>Besucher × Natur</b>.',end:true,done:()=>state.phase==='review'},
+   {t:'Das ist dein Tagesertrag. Er zählt aufs <b>Saisonziel</b> oben. Tippe auf <b>Nächsten Tag starten</b>. Gebaute Karten sind verbraucht, dafür wählst du gleich <b>1 von 3</b> neuen Karten.',end:true,setup:s=>{s.builtToday=1},done:()=>state.phase==='play'&&state.day>=1},
+   {t:'Geschafft! Du kennst jetzt den Kern: bauen, Nachbarn nutzen, Tag beenden, neue Karte wählen. Im nächsten Kapitel geht es um Kombos und Abzüge.',btn:'Kapitel abschließen',fin:true}]},
+ 2:{name:'Geschickt bauen',text:'Kombos, scheue Tiere, Raubtiere, Ausbauen, Umziehen, neu ziehen.',min:3,terr:[],
+  blds:[['delfinshow',[[0,-2],[1,-2]]],['pandas',[[-2,0],[-1,0]]],['tiger',[[1,1],[2,1],[1,2]]],['pinguine',[[-3,1]]]],
+  steps:[
+   {t:'Viele Karten mögen bestimmte Nachbarn. Baue den <b>Popcornstand</b> direkt <b>neben die Delfinshow</b> 🐬: Das bringt +5 Besucher.',h:'Neben die Delfinshow 🐬 setzen',only:'popcorn',setup:tHand('popcorn','crepes','zebras','pinguine','gruen'),done:()=>tAdj('popcorn',(c,n)=>n.key==='delfinshow'),wrong:()=>tB('popcorn').length?'Der Popcornstand steht nicht neben der Delfinshow. Nimm den Zug mit ↶ zurück.':null},
+   {t:'Wähle den <b>Crêpes-Wagen</b>. Der Panda trägt jetzt ein rotes Schildchen <b>scheu</b>: Essensstände daneben verlieren 1 Natur. Baue den Wagen also <b>nicht neben den Panda</b>.',h:'Nicht neben den Panda setzen',only:'crepes',setup:s=>{s.bp=s.bpMax},done:()=>tB('crepes').length>0&&!tAdj('crepes',c=>c.tags.includes('scheu')),wrong:()=>tAdj('crepes',c=>c.tags.includes('scheu'))?'Der Wagen steht neben dem scheuen Panda und verliert Natur. Nimm den Zug mit ↶ zurück.':null},
+   {t:'Die <b>Zebras</b> sind Beute, der Tiger ist ein <b>Raubtier</b>. Neben einem Raubtier verliert Beute 1 Besucher und 1 Natur. Baue die Zebrasteppe mit <b>Abstand zum Tiger</b>.',h:'Abstand zum Tiger halten',only:'zebras',setup:s=>{s.bp=s.bpMax},done:()=>tB('zebras').length>0&&!tAdj('zebras',c=>c.tags.includes('raubtier')),wrong:()=>tAdj('zebras',c=>c.tags.includes('raubtier'))?'Die Zebras stehen neben dem Tiger. Nimm den Zug mit ↶ zurück.':null},
+   {t:'Ein zweites gleiches Gebäude bringt nur noch 75 %. Besser: Ziehe die Karte <b>Pinguinbecken</b> auf dein <b>vorhandenes Pinguinbecken</b> links und tippe <b>Ausbauen</b>. Das Gehege steigt auf Stufe II.',h:'Auf das vorhandene Pinguinbecken ziehen, dann „Ausbauen“',only:'pinguine',setup:s=>{s.bp=s.bpMax},done:()=>tB('pinguine').some(b=>(b.lvl||1)>1),wrong:()=>tB('pinguine').length>1?'Das ist ein zweites Becken statt eines Ausbaus. Nimm den Zug mit ↶ zurück und setze die Karte auf das vorhandene Becken.':null},
+   {t:'Steht etwas falsch? Tippe den <b>Popcornstand</b> im Zoo an. Der mittlere Knopf wird zu <b>🚚 Umziehen</b>. Wähle einen neuen Platz und bestätige mit <b>Setzen</b>. Das kostet 1 Baupunkt.',h:'Neuen Platz wählen, dann „Setzen“',only:'-',setup:s=>{s.bp=s.bpMax;s.undo=[]},done:()=>state.undo.some(u=>u.t==='mv')},
+   {t:'Passt die Hand nicht, tippe zweimal auf <b>🔄 −1</b> über den Karten: Für 1 Baupunkt wirfst du alle Handkarten ab und ziehst neue. Probier es aus.',only:'-',redraw:true,setup:s=>{s.bp=s.bpMax;s.tut.redrawn=false},done:()=>!!state.tut.redrawn},
+   {t:'Sehr gut! Kombos suchen, scheue Tiere und Raubtiere beachten, ausbauen statt doppelt bauen. Im letzten Kapitel geht es um Geld, Shop und Jahreszeiten.',btn:'Kapitel abschließen',fin:true}]},
+ 3:{name:'Das Jahr',text:'Geld, Shop, Ereignisse, Ausblick.',min:2,terr:[['3,-2','wasser'],['3,-1','wasser']],
+  blds:[['delfinshow',[[0,-2],[1,-2]]],['popcorn',[[0,-1]]],['pinguine',[[3,-2]]],['giraffen',[[-1,1],[0,1],[0,2]]],['gruen',[[-2,1]]]],
+  steps:[
+   {t:'Oben rechts steht deine <b>Kasse</b> 🪙. Jeder Tag bringt 1 Taler je 6 Besucher (Eintritt) und kostet 1 Taler je 8 Natur (Pflege). Erspartes bringt Zinsen. Geld brauchst du nur für den Shop.',btn:'Weiter',setup:tHand('affen','zebras','gruen','turm','eiswagen')},
+   {t:'Nach jeder Jahreszeit öffnet der <b>Shop</b>. Oben steht dort das <b>Ereignis</b> der nächsten Jahreszeit. Kaufe ein <b>Förderprogramm</b> (wirkt dauerhaft) und tippe dann auf <b>Weiter zum Sommer</b>.',btn:'Shop öffnen',act:s=>{s.eventsNext=[{id:'hitze',k:1}];s.evRolled=true;s.money=80;openShop()}},
+   {t:'Es ist Sommer, und es gilt <b>Extreme Hitze</b>. Tippe oben neben „Saison“ auf das Symbol <b>☀️</b>, um die Wirkung und den aktuellen Ertrag zu sehen.',only:'-',ev:true,done:()=>state.season>=1&&!!state.infoProg&&String(state.infoProg).startsWith('ev:')},
+   {t:'Zum Schluss ein Ausblick: Manche Karten wirken je nach <b>Jahreszeit</b> anders, im <b>Winter</b> frieren Savanne und Wüste. Ab 5 Gehegen eines Lebensraums gibt es eine <b>Meilenstein-Karte</b>. Und in der <b>Kampagne</b> spielst du Zoo um Zoo mit steigender Schwierigkeit. Viel Spaß!',btn:'Tutorial abschließen',fin:true}]}};
+const tutStep=()=>state&&state.mode==='tut'&&state.tut?TUT[state.tut.ch].steps[state.tut.i]:null;
+function startTut(ch){const T=TUT[ch],terr=new Map(T.terr);applyPerks({});UNLOCK=new Set();modal=null;
+  newGame('wiese',{key:'wiese',cells:hexDisc(3),terr},{deck:['affen','reptilien','gruen','flamingos','turm','kamele','schildkroeten','popcorn'],state:{mode:'tut',tut:{ch,i:0},tmult:1000}});
+  state.buildings=T.blds.map(([key,cells],i)=>({id:i+1,key,cells,lvl:1}));state.nextId=T.blds.length+1;const st=tutStep();if(st.setup)st.setup(state);renderAll()}
+function exitTut(done){if(done&&state&&state.tut){META.tutDone=META.tutDone||{};META.tutDone[state.tut.ch]=1}state=null;modal=null;screen='tut';screenArg={};document.body.classList.remove('tutmode');
+  const sl=META.lastSlot!=null?META.slots[META.lastSlot]:null;if(sl)applySlot(sl);else applyPerks({});saveMeta();renderAll()}
+function tutNext(){const T=TUT[state.tut.ch];state.tut.i++;const st=tutStep();if(!st){exitTut(true);return}if(st.setup)st.setup(state);Sfx.sparkle();render()}
+let tutBusy=false;
+function tutCheck(){const st=tutStep();if(!st||tutBusy||!st.done||!st.done())return;tutBusy=true;try{tutNext()}finally{tutBusy=false}}
+function tutNudge(){const c=$('coach');c.classList.remove('nudge');void c.offsetWidth;c.classList.add('nudge')}
+function renderCoach(){const st=tutStep(),c=$('coach');document.body.classList.toggle('tutmode',!!st);if(!st){c.innerHTML='';return}
+  const T=TUT[state.tut.ch],w=st.wrong&&state.phase==='play'?st.wrong():null;
+  // beim Platzieren klappt der Hinweis auf eine Zeile zusammen, damit das Gelände frei bleibt
+  const small=!st.btn&&!w&&(state.selected!=null||state.moving!=null||state.phase==='scoring');c.classList.toggle('small',small);
+  c.innerHTML=small?`<div class="ch"><span>Schritt ${state.tut.i+1}/${T.steps.length}${st.h?' · <b>'+st.h+'</b>':''}</span></div>`
+    :`<div class="ch"><span>Kapitel ${state.tut.ch} · ${T.name} · Schritt ${state.tut.i+1}/${T.steps.length}</span><button id="tutQuit">Tutorial beenden</button></div><p>${st.t}</p>${w?`<p class="bad">${w}</p>`:''}${st.btn?`<button class="btn main" id="tutBtn">${st.btn}</button>`:''}`;
+  document.querySelectorAll('#hand .card').forEach((el,i)=>{const k=state.hand[i];el.classList.toggle('tutgo',!!st.only&&k===st.only&&state.selected!==i);el.classList.toggle('tutno',!!st.only&&k!==st.only)});
+  $('btnEnd').classList.toggle('tutgo',!!st.end&&(state.phase==='play'||state.phase==='review'));$('btnRedraw').classList.toggle('tutgo',!!st.redraw);
+  document.querySelectorAll('#evs .evb').forEach(e=>e.classList.toggle('tutgo',!!st.ev))}
+$('coach').addEventListener('click',e=>{if(e.target.closest('#tutQuit')){exitTut(false);return}if(!e.target.closest('#tutBtn'))return;const st=tutStep();if(!st)return;
+  if(st.fin){Sfx.win();exitTut(true);return}if(st.act){const a=st.act;state.tut.i++;const n=tutStep();if(n&&n.setup)n.setup(state);a(state);return}tutNext()});
+function tutMenuHtml(){const dn=META.tutDone||{};
+  return`<div class="bar2"><h2>📖 Tutorial</h2><button class="btn sub" data-go="title">Zurück</button></div><p style="margin:0;color:var(--muted)">Drei kurze Kapitel auf einem kleinen Übungs-Zoo. Du spielst jeden Schritt selbst. Alles ist freiwillig und ändert nichts an deinen Spielständen.</p>
+    ${[1,2,3].map(ch=>{const T=TUT[ch];return`<div class="slot"><h3>${dn[ch]?'✅':'▫️'} Kapitel ${ch}: ${T.name}</h3><p>${T.text} Etwa ${T.min} Minuten.</p><div class="acts"><button class="btn main" data-tutch="${ch}">${dn[ch]?'Noch einmal spielen':'Starten'}</button></div></div>`}).join('')}
+    <button class="btn sub" id="sTut">🖼️ Kurzübersicht in Bildern</button>`}
 /* ---------- Kampagne: Belohnungen zwischen den Zoos ---------- */
 function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,btn)=>{const c=CARDS[k];return`<div class="pcard"><span class="ic">${c.icon}</span><div class="info2"><span class="nm">${c.name}</span>
       <span class="meta3">${c.hab?habBadge(c.hab)+' '+HAB[c.hab].label:CAT[c.cat].label}${traitOf(c)?' · '+TRAITNAME[traitOf(c)]:''} · ${costOf(k)} BP${perkN(k)?` · 🏅 ${perkN(k)}`:''}</span>
@@ -1839,7 +1911,7 @@ function modeHtml(){const a=screenArg,i=a.slot,sl=META.slots[i],run=sl.run;
   const camp=a.cfresh?`<div class="slot"><h3>Neuer Lauf?</h3><div class="meta2">Der laufende Lauf (${campStatus(run)}) geht verloren und kommt nicht in die Bestenliste.</div><div class="acts"><button class="btn main" data-cnew="${i}">Ja, neuer Lauf</button><button class="btn sub" data-cancel="1">Abbrechen</button></div></div>`
     :`<div class="slot ${META.lastMode==='camp'?'last':''}"><h3>🗺️ Kampagne</h3><p>Zoo um Zoo wird es schwerer: engeres Gelände, härtere Ereignisse, höhere Ziele. Du startest mit deinem Kampagnen-Deck (🏅 ${cperkCount(sl)}), ohne die Verbesserungen und Bonus-Karten aus dem freien Spiel. Nach jedem Jahr wählst du Belohnungen für den Lauf. Am Ende eines Laufs verbesserst du dein Kampagnen-Deck dauerhaft: 1 Karte plus 1 je geschafftem Zoo. Ziel: ${CAMP_GOAL} Zoos.</p><div class="meta2"><span><b>${campStatus(run)}</b></span><span>${sl.runs||0} Läufe</span></div>
       <div class="acts">${run?`<button class="btn main" data-ccont="${i}">▶ Lauf fortsetzen</button><button class="btn sub" data-cfresh="${i}">Neuer Lauf</button>`:`<button class="btn main" data-cnew="${i}">Lauf starten</button>`}</div></div>`;
-  return`<div class="bar2"><h2>🦁 ${esc(sl.name)}</h2><button class="btn sub" data-go="slots">Zurück</button></div>${free}${camp}`}
+  return`<div class="bar2"><h2>🦁 ${esc(sl.name)}</h2><button class="btn sub" data-go="slots">Zurück</button></div>${free}${camp}<button class="btn sub" data-go="tut" style="align-self:flex-start">📖 Neu hier? Tutorial spielen</button>`}
 function unlockHtml(){const a=screenArg,sl=activeSlot();
   return`<h2>🎁 Neue Karte freischalten</h2><p style="margin:0">Glückwunsch, ganzes Jahr geschafft! Wähle <b>1 von 3</b> Bonus-Karten. Sie kann ab jetzt in allen Spielen von ${esc(sl?sl.name:'')} in der Kartenauswahl und im Shop auftauchen.</p>
     <div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>{const c=CARDS[k];return`<div class="pcard"><span class="ic">${c.icon}</span><div class="info2"><span class="nm">${c.name}</span>
@@ -1920,11 +1992,12 @@ function renderScreen(){const root=$('screenRoot');root.classList.toggle('on',!!
   if(screen==='title')h=`<div class="scr"><div class="titlebg">${titleBg()}</div><div class="titlebox"><h1 class="logo">Zoolatro<span>Baue deinen Zoo, Karte für Karte</span></h1>
     ${last&&META.lastMode==='camp'&&last.run?`<button class="btn main big" data-ccont="${META.lastSlot}">▶ Weiterspielen<small>${esc(last.name)} · Kampagne · ${campStatus(last.run)}</small></button>`:last&&last.game?`<button class="btn main big" data-cont="${META.lastSlot}">▶ Weiterspielen<small>${esc(last.name)} · ${gameStatus(last.game)}</small></button>`:''}
     <button class="btn ${last&&(last.game||last.run)?'sub':'main'} big" data-go="slots">Spielen</button>
-    <div class="trow"><button class="btn sub" data-go="scores">🏆 Highscores</button><button class="btn sub" data-go="gloss">📚 Glossar</button><button class="btn sub" id="sTut">📖 Tutorial</button></div>
+    <div class="trow"><button class="btn sub" data-go="scores">🏆 Highscores</button><button class="btn sub" data-go="gloss">📚 Glossar</button><button class="btn sub" data-go="tut">📖 Tutorial</button></div>
     <button class="btn sub" id="sMute" style="align-self:center;padding:6px 14px">${Sfx.muted?'🔇 Ton aus':'🔊 Ton an'}</button></div></div>`;
   else if(screen==='slots')h=`<div class="scr"><div class="inner"><div class="bar2"><h2>Speicherplätze</h2><button class="btn sub" data-go="title">Zurück</button></div>${[0,1,2].map(slotHtml).join('')}</div></div>`;
   else if(screen==='scores')h=`<div class="scr"><div class="inner">${scoresHtml()}</div></div>`;
   else if(screen==='gloss')h=`<div class="scr"><div class="inner">${glossHtml()}</div></div>`;
+  else if(screen==='tut')h=`<div class="scr"><div class="inner">${tutMenuHtml()}</div></div>`;
   else if(screen==='mode')h=`<div class="scr"><div class="inner">${modeHtml()}</div></div>`;
   else if(screen==='summary')h=`<div class="scr"><div class="inner">${summaryHtml()}</div></div>`;
   else if(screen==='creward')h=`<div class="scr"><div class="inner">${crewardHtml()}</div></div>`;
@@ -1977,6 +2050,7 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.perk){const[k,w]=d.perk.split('|'),sl=activeSlot();if(!sl)return;const camp=screenArg.camp,T=camp?(sl.cperks=sl.cperks||{}):(sl.perks=sl.perks||{});const q=T[k]=T[k]||{};if(perkN(k)>=MAXPERK)return;q[w]=(q[w]||0)+1;applyPerks(T);saveMeta();Sfx.win();Sfx.sparkle();
     if(camp&&--screenArg.left>0){screenArg.step='cat';screenArg.last=k;screenArg.cards=null}else{screenArg.step='done';screenArg.key=k;screenArg.w=w}renderScreen();return}
   if(t.id==='sTut'){tutIdx=0;modal='tut';Sfx.select();renderModal();return}
+  if(d.tutch){Sfx.select();startTut(+d.tutch);return}
   if(t.id==='sMute'){Sfx.muted=!Sfx.muted;try{localStorage.setItem('zoodeck-muted',Sfx.muted?'1':'0')}catch(e){}renderScreen();return}});
 // Übergang in openMaps/chooseMap: Spiel landet im aktiven Speicherplatz
 function start(data){loadMeta();if(data&&data.meta&&Array.isArray(data.meta.slots))META=data.meta;
@@ -1984,7 +2058,7 @@ function start(data){loadMeta();if(data&&data.meta&&Array.isArray(data.meta.slot
   if(data&&data.resume!=null&&META.slots[data.resume]&&data.resumeMode==='camp'&&META.slots[data.resume].run){enterCamp(data.resume);return}
   if(data&&data.resume!=null&&META.slots[data.resume]&&META.slots[data.resume].game){enterSlot(data.resume);return}
   screen='title';renderAll()}
-window.claude?.hot?.snapshot?.(()=>{try{saveMeta()}catch(e){}return{meta:JSON.parse(JSON.stringify(META)),resume:screen?null:META.active,resumeMode:state?state.mode:null}});
+window.claude?.hot?.snapshot?.(()=>{try{saveMeta()}catch(e){}return{meta:JSON.parse(JSON.stringify(META)),resume:screen||(state&&state.mode==='tut')?null:META.active,resumeMode:state?state.mode:null}});
 window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});
 </script>
 
