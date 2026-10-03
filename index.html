@@ -943,9 +943,13 @@ Object.assign(CARDS,{
   restaurant:{name:'Zoo-Restaurant',icon:'🍝',cat:'essen',shape:'s2',a:6,s:0,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isCat(n,'essen'))})},
   ausstellung:{name:'Sonderausstellung',icon:'🖼️',cat:'schutz',shape:'s2',a:2,s:6,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({s:2*others(all,b,n=>isCat(n,'schutz'))})},
 });
+// Größen- und Typ-Anpassungen: weniger Einser, je 13 Arten bei Attraktionen, Essen und Naturschutz
+{const big={cafe:[3,0],souvenir:[4,0],bistro:[3,0],infozentrum:[2,2],tierarzt:[0,3],zucht:[0,3],labor:[0,3],stiftung:[0,2],streichelzoo:[4,2],nachtfuehrung:[3,0],eulen:[3,4],fennek:[4,3],schlangen:[4,3]};
+  for(const k in big){CARDS[k].shape='s2';CARDS[k].a=big[k][0];CARDS[k].s=big[k][1]}
+  CARDS.zebras.shape='s2';CARDS.zebras.text='Mittelgroßes Gehege.';CARDS.tropenhaus.cat='schutz';CARDS.blumenschau.cat='schutz'}
 const MILE={wasser:{card:'orca',n:6,label:'Wasser-Gehege',icon:'💧',f:c=>c.hab==='wasser'},savanne:{card:'grossesavanne',n:6,label:'Savannen-Gehege',icon:'🌾',f:c=>c.hab==='savanne'},
   wald:{card:'orangutan',n:6,label:'Wald-Gehege',icon:'🌿',f:c=>c.hab==='wald'},wueste:{card:'greifvogel',n:6,label:'Wüsten-Gehege',icon:'🏜️',f:c=>c.hab==='wueste'},
-  attr:{card:'abenteuer',n:7,label:'Attraktionen',icon:'🎡',f:c=>c.cat==='attr'},essen:{card:'restaurant',n:7,label:'Essensstände',icon:'🍿',f:c=>c.cat==='essen'},schutz:{card:'ausstellung',n:7,label:'Naturschutz-Gebäude',icon:'🌳',f:c=>c.cat==='schutz'}};
+  attr:{card:'abenteuer',n:9,label:'Attraktionen',icon:'🎡',f:c=>c.cat==='attr'},essen:{card:'restaurant',n:9,label:'Essensstände',icon:'🍿',f:c=>c.cat==='essen'},schutz:{card:'ausstellung',n:9,label:'Naturschutz-Gebäude',icon:'🌳',f:c=>c.cat==='schutz'}};
 const mileCount=(bs,t)=>new Set(bs.filter(b=>!CARDS[b.key].ms&&MILE[t].f(CARDS[b.key])).map(b=>b.key)).size; // nur verschiedene Arten zählen
 for(const k of ['labor','vielfalt','stiftung','nachtfuehrung'])CARDS[k].tags=['einmalig'];
 for(const k in CARDS){const c=CARDS[k];c.tags=c.tags||[];if(c.ms)c.tags.push('einmalig');if(SHAPES[c.shape].cells.length>=3)c.tags.push('gross')}
@@ -1007,7 +1011,7 @@ for(const k in CARDS){const c=CARDS[k];c.fx=(FX[k]||[]).slice();
   if(c.tags.includes('raubtier'))c.fx.push('Raubtier|stresst Beutetiere daneben');
   if(c.tags.includes('scheu'))c.fx.push('Scheu|Essensstände daneben verlieren 1 N');
   c.text=c.fx.map(l=>l.replace('|',' ')).join(' · ')}
-const START_DECK=['pinguine','flamingos','affen','faultiere','erdmaennchen','reptilien','warzenschweine','giraffen','delfinshow','turm','popcorn','eiswagen','gruen','infozentrum','gruen','spielplatz']; // 16 Karten: je Lebensraum zwei Tiere, keine doppelten Tiere
+const START_DECK=['pinguine','flamingos','affen','papageien','erdmaennchen','kamele','zebras','giraffen','delfinshow','turm','streichelzoo','popcorn','cafe','gruen','infozentrum','gruen']; // 16 Karten: je Lebensraum zwei Tiere, gemischte Größen, keine doppelten Tiere
 
 const PROGS={
   pate_savanne:{name:'Savannen-Patenschaft',icon:'🌾',price:50,fx:['+1 B +1 N|für jedes Savannen-Gehege im Zoo'],per:(b,c)=>c.hab==='savanne'?{a:1,s:1}:null},
@@ -1109,13 +1113,13 @@ const bpBase=()=>BP+(hasSpec('polier')?1:0);
 // Starter-Decks der Kampagne: 16 Karten, zwei davon gegen den Schwerpunkt getauscht
 const DECKGOAL=1500;
 const DECKS={grund:{name:'Grunddeck',icon:'🌼',text:'Ausgewogen, von allem etwas.'},
-  kueste:{name:'Küsten-Deck',icon:'💧',type:'wasser',inn:['seeloewen','schwan'],out:['spielplatz','gruen']},
-  steppe:{name:'Steppen-Deck',icon:'🌾',type:'savanne',inn:['zebras','geparden'],out:['spielplatz','gruen']},
-  dschungel:{name:'Dschungel-Deck',icon:'🌿',type:'wald',inn:['papageien','woelfe'],out:['spielplatz','gruen']},
-  oase:{name:'Oasen-Deck',icon:'🏜️',type:'wueste',inn:['fennek','schlangen'],out:['spielplatz','gruen']},
-  freizeit:{name:'Freizeit-Deck',icon:'🎡',type:'attr',inn:['streichelzoo','karussell'],out:['infozentrum','gruen']},
-  geniesser:{name:'Genießer-Deck',icon:'🍿',type:'essen',inn:['bratwurst','souvenir'],out:['spielplatz','gruen']},
-  forscher:{name:'Forscher-Deck',icon:'🌳',type:'schutz',inn:['tierarzt','bienen'],out:['spielplatz','turm']}};
+  kueste:{name:'Küsten-Deck',icon:'💧',type:'wasser',inn:['seeloewen','schwan'],out:['streichelzoo','gruen']},
+  steppe:{name:'Steppen-Deck',icon:'🌾',type:'savanne',inn:['warzenschweine','geparden'],out:['streichelzoo','gruen']},
+  dschungel:{name:'Dschungel-Deck',icon:'🌿',type:'wald',inn:['faultiere','woelfe'],out:['streichelzoo','gruen']},
+  oase:{name:'Oasen-Deck',icon:'🏜️',type:'wueste',inn:['fennek','schlangen'],out:['streichelzoo','gruen']},
+  freizeit:{name:'Freizeit-Deck',icon:'🎡',type:'attr',inn:['spielplatz','karussell'],out:['infozentrum','gruen']},
+  geniesser:{name:'Genießer-Deck',icon:'🍿',type:'essen',inn:['bratwurst','souvenir'],out:['streichelzoo','gruen']},
+  forscher:{name:'Forscher-Deck',icon:'🌳',type:'schutz',inn:['tierarzt','bienen'],out:['streichelzoo','turm']}};
 const deckCards=id=>{const D=DECKS[id]||DECKS.grund,d=START_DECK.slice();for(const k of D.out||[]){const i=d.indexOf(k);if(i>=0)d.splice(i,1)}return d.concat(D.inn||[])};
 const typeOfCard=c=>c.hab||c.cat;
 // Kampagne: jeder Zoo wird schwerer (Gelände, Felsen, Ereignisse, Ziele)
@@ -1524,7 +1528,7 @@ const billHtml=inc=>inc&&inc.entry!=null?`<div class="bill"><span>🎟️ Eintri
 function resHtml(h,cur,own){const dA=h.r.A-cur.A,dS=h.r.S-cur.S,dK=dayIncome(h.r.A,h.r.S,state.money).base-dayIncome(cur.A,cur.S,state.money).base,c=CARDS[h.b.key];let mh='';
   if(!h.up&&!h.move&&!c.ms)for(const t in MILE){const M=MILE[t];if(!M.f(c)||(state.miles||{})[t]||state.buildings.some(x=>x.key===h.b.key))continue;const n=mileCount(state.buildings,t)+1;if(n===M.n)mh=`<p class="milehint">🏅 Meilenstein erreicht: morgen gibt es eine besondere Karte!</p>`;else if(n===M.n-1)mh=`<p class="milehint">🏅 Danach fehlt noch 1 weitere ${M.icon}-Art bis zum Meilenstein.</p>`}
   return`<div class="resbig"><span class="a">${own?sgn(own.a):h.own.a} B</span><span class="s">${own?sgn(own.s):h.own.s} N</span><span class="z ${dA+dS<0?'neg':''}">Zoo ${vTxt(dA,dS)||'±0'}</span>${dK?`<span class="z ${dK<0?'neg':''}">Kasse ${sgn(dK)} 🪙 pro Tag</span>`:''}</div>${mh}`}
-function mileInfoHtml(){return`<h3>🏅 Meilensteine</h3><p class="hint">Ab 6 <b>verschiedenen</b> Gehege-Arten eines Lebensraums oder 7 verschiedenen Attraktionen, Essensständen oder Naturschutz-Gebäuden gibt es am nächsten Morgen eine besondere Karte. Gleiche Gebäude zählen nur einmal.</p><div class="mile">${Object.keys(MILE).map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div>`}
+function mileInfoHtml(){return`<h3>🏅 Meilensteine</h3><p class="hint">Ab 6 <b>verschiedenen</b> Gehege-Arten eines Lebensraums oder 9 verschiedenen Attraktionen, Essensständen oder Naturschutz-Gebäuden gibt es am nächsten Morgen eine besondere Karte. Gleiche Gebäude zählen nur einmal.</p><div class="mile">${Object.keys(MILE).map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div>`}
 function moneyInfoHtml(cur){const inc=dayIncome(cur.A,cur.S,state.money),row=(l,v)=>`<tr><td>${l}</td><td class="${v<0?'neg':''}">${sgn(v)}</td></tr>`;
   return`<h3>🪙 Kasse: ${fmt(state.money)} Taler</h3><p class="hint">Wenn du jetzt den Tag beendest:</p><table class="billt">${row(`🎟️ Eintritt · 1 je 6 Besucher (${fmt(cur.A)} B)`,inc.entry)}${row(`🌿 Pflege · −1 je 8 Natur (${fmt(cur.S)} N)`,inc.care)}${row(`🏦 Zinsen · ${state.money>=0?'+1 je 10 gespart, höchstens 5':'−1 je 10 Schulden'}`,inc.interest)}${inc.spec?row('👥 Spezialisten',inc.spec):''}<tr class="sum"><td>Heute</td><td>${sgn(inc.total)} 🪙</td></tr></table>
     <p class="hint">Erreichst du das Saisonziel früher, gibt es 5 Taler je übrigem Tag. Geld brauchst du nur für den Shop und fürs Neu-Würfeln der Kartenauswahl.${state.money<0?' <b style="color:#ffb3b5">Mit Schulden kannst du nichts kaufen.</b>':''}</p>`}
@@ -1978,7 +1982,7 @@ function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose
   <li>Gebaute Karten sind <b>verbraucht</b>. Für jede gebaute Karte wählst du nach dem Tag 1 von 3 neuen Karten.</li>
   <li><b>Wiederholung:</b> Die zweite Anlage derselben Art bringt nur 75 % ihrer Besucher und Natur (samt Boni), die dritte 50 %, jede weitere 25 %. Besucher wollen Abwechslung.</li>
   <li><b>Jahreszeiten-Karten:</b> Manche Karten wirken je nach Jahreszeit stärker oder schwächer, das steht auf der Karte. Blumenschau, Wasserspielplatz, Kürbisfest und die Winter-Karten gibt es nur in ihrer Jahreszeit zur Auswahl.</li>
-  <li><b>Meilensteine:</b> Ab 6 verschiedenen Gehege-Arten eines Lebensraums oder 7 verschiedenen Attraktionen, Essensständen oder Naturschutz-Gebäuden bekommst du am nächsten Morgen eine besondere Karte. Sie ersetzt eine deiner fünf Handkarten. Den Fortschritt zeigt 🏅 oben neben „Saison“.</li>
+  <li><b>Meilensteine:</b> Ab 6 verschiedenen Gehege-Arten eines Lebensraums oder 9 verschiedenen Attraktionen, Essensständen oder Naturschutz-Gebäuden bekommst du am nächsten Morgen eine besondere Karte. Sie ersetzt eine deiner fünf Handkarten. Den Fortschritt zeigt 🏅 oben neben „Saison“.</li>
   <li><b>Raubtiere und Beute:</b> Beutetiere (Zebras, Giraffen, Warzenschweine, Lamas, Flamingos, Kamele) bekommen −1 B und −1 N je benachbartes Raubtier (Löwen, Tiger, Geparden, Wölfe). Essensstände verlieren 1 N neben <b>scheuen</b> Tieren (Pandas, Faultiere, Schildkröten, Nashörner, Fenneks).</li>
   <li><b>Pause:</b> Nach jeder Auszählung kannst du dir den Zoo in Ruhe anschauen. Weiter geht es mit „Nächsten Tag starten“.</li>
   <li><b>Lebensraum:</b> +1 Besucher je benachbartes Gehege mit gleichem Lebensraum. Auf <b>Naturflächen</b> dürfen nur passende Gehege (mit +1 Natur je Feld), andere Gehege nicht. Alle anderen Gebäude dürfen dort ohne Bonus stehen.</li>
