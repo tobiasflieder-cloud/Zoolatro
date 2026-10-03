@@ -196,7 +196,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .pile{display:flex;flex-wrap:wrap;gap:5px}
 .pile span{background:var(--paper);color:var(--ink);border-radius:7px;padding:2px 7px;font-size:12.5px;font-weight:600;border-left:5px solid}
 .pile em{color:var(--muted);font-style:normal;font-size:13px}
-.offer{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.offer{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .ocard{background:var(--paper);color:var(--ink);border:0;border-radius:12px;padding:0 6px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;overflow:hidden;box-shadow:0 4px 0 #0000004d;min-width:0}
 .ocard:hover{transform:translateY(-3px)}
 .ocard .band{align-self:stretch;margin-inline:-6px;min-height:22px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;padding:2px}
@@ -399,6 +399,14 @@ text.tt-a{fill:#3a1d00} text.tt-s{fill:#00302b} text.tt-tot{fill:var(--gold)} te
 .milecard ul.fx{text-align:left}
 .milecard ul.fx b.b{color:#b86500}.milecard ul.fx b.n{color:#00857a}.milecard ul.fx b.bn{color:#8a6a00}.milecard ul.fx b.w{color:#5d6b60}
 /* Spezialisten, Decks */
+.drows{display:flex;flex-direction:column;gap:6px}
+.drow{display:flex;align-items:center;gap:10px;background:var(--paper);color:var(--ink);border-radius:12px;padding:8px 10px;min-height:52px}
+.drow .ic{font-size:26px;flex:none}
+.drow .inf{flex:1;min-width:0;display:flex;flex-direction:column}
+.drow .inf b{font-family:var(--f-display);font-weight:400;font-size:16px}
+.drow .inf small{font-size:12px;color:#5d6b60}
+.drow .btn{flex:none;min-width:112px;min-height:40px;padding:8px 10px;font-size:13.5px}
+.drow.out{opacity:.8;background:#d9d2c0}
 .deckchips{display:flex;flex-wrap:wrap;gap:5px;font-size:12.5px;background:var(--panel);border-radius:12px;padding:8px 10px}
 .deckchips span{background:var(--panel2);border-radius:8px;padding:3px 8px}
 .deckchips span.hl{background:var(--gold);color:#3a2a00;font-weight:700}
@@ -975,7 +983,7 @@ for(const k in CARDS){const c=CARDS[k];c.fx=(FX[k]||[]).slice();
   if(c.tags.includes('raubtier'))c.fx.push('Raubtier|stresst Beutetiere daneben');
   if(c.tags.includes('scheu'))c.fx.push('Scheu|Essensstände daneben verlieren 1 N');
   c.text=c.fx.map(l=>l.replace('|',' ')).join(' · ')}
-const START_DECK=['pinguine','flamingos','schildkroeten','affen','reptilien','erdmaennchen','giraffen','kamele','delfinshow','popcorn','gruen','turm','pinguine','affen','popcorn','gruen']; // 16 Karten, die vier Zusatzkarten sind Doppelte
+const START_DECK=['pinguine','flamingos','affen','faultiere','erdmaennchen','reptilien','warzenschweine','giraffen','delfinshow','turm','popcorn','eiswagen','gruen','infozentrum','gruen','spielplatz']; // 16 Karten: je Lebensraum zwei Tiere, keine doppelten Tiere
 
 const PROGS={
   pate_savanne:{name:'Savannen-Patenschaft',icon:'🌾',price:50,fx:['+1 B +1 N|für jedes Savannen-Gehege im Zoo'],per:(b,c)=>c.hab==='savanne'?{a:1,s:1}:null},
@@ -1077,13 +1085,13 @@ const bpBase=()=>BP+(hasSpec('polier')?1:0);
 // Starter-Decks der Kampagne: 16 Karten, zwei davon gegen den Schwerpunkt getauscht
 const DECKGOAL=1500;
 const DECKS={grund:{name:'Grunddeck',icon:'🌼',text:'Ausgewogen, von allem etwas.'},
-  kueste:{name:'Küsten-Deck',icon:'💧',type:'wasser',inn:['seeloewen','otter'],out:['reptilien','kamele']},
-  steppe:{name:'Steppen-Deck',icon:'🌾',type:'savanne',inn:['zebras','warzenschweine'],out:['schildkroeten','reptilien']},
-  dschungel:{name:'Dschungel-Deck',icon:'🌿',type:'wald',inn:['faultiere','woelfe'],out:['flamingos','kamele']},
-  oase:{name:'Oasen-Deck',icon:'🏜️',type:'wueste',inn:['fennek','skorpione'],out:['flamingos','schildkroeten']},
-  freizeit:{name:'Freizeit-Deck',icon:'🎡',type:'attr',inn:['streichelzoo','spielplatz'],out:['reptilien','schildkroeten']},
-  geniesser:{name:'Genießer-Deck',icon:'🍿',type:'essen',inn:['eiswagen','souvenir'],out:['reptilien','flamingos']},
-  forscher:{name:'Forscher-Deck',icon:'🌳',type:'schutz',inn:['infozentrum','tierarzt'],out:['kamele','flamingos']}};
+  kueste:{name:'Küsten-Deck',icon:'💧',type:'wasser',inn:['seeloewen','schwan'],out:['spielplatz','gruen']},
+  steppe:{name:'Steppen-Deck',icon:'🌾',type:'savanne',inn:['zebras','geparden'],out:['spielplatz','gruen']},
+  dschungel:{name:'Dschungel-Deck',icon:'🌿',type:'wald',inn:['papageien','woelfe'],out:['spielplatz','gruen']},
+  oase:{name:'Oasen-Deck',icon:'🏜️',type:'wueste',inn:['fennek','schlangen'],out:['spielplatz','gruen']},
+  freizeit:{name:'Freizeit-Deck',icon:'🎡',type:'attr',inn:['streichelzoo','karussell'],out:['infozentrum','gruen']},
+  geniesser:{name:'Genießer-Deck',icon:'🍿',type:'essen',inn:['bratwurst','souvenir'],out:['spielplatz','gruen']},
+  forscher:{name:'Forscher-Deck',icon:'🌳',type:'schutz',inn:['tierarzt','bienen'],out:['spielplatz','turm']}};
 const deckCards=id=>{const D=DECKS[id]||DECKS.grund,d=START_DECK.slice();for(const k of D.out||[]){const i=d.indexOf(k);if(i>=0)d.splice(i,1)}return d.concat(D.inn||[])};
 const typeOfCard=c=>c.hab||c.cat;
 // Kampagne: jeder Zoo wird schwerer (Gelände, Felsen, Ereignisse, Ziele)
@@ -1727,7 +1735,7 @@ function nextDraft(){if(state.picks>0){state.phase='draft';state.offer=makeOffer
 const draftPrice=()=>5+2*(state.draftRolls||0);
 function draftRoll(){const p=draftPrice();if(state.phase!=='draft'||!canPay(p)){Sfx.deny();return}state.money-=p;state.stats.spent+=p;state.draftRolls=(state.draftRolls||0)+1;state.offer=makeOffer(OFFER);Sfx.till();Sfx.draw();render()}
 const deckTotal=()=>state.hand.length+state.deck.length+state.discard.length,skipOk=()=>deckTotal()>MINSKIP;
-function pick(i){if(i==null&&!skipOk()){Sfx.deny();return}if(i!=null)state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.select();
+function pick(i){if(i==null)return;state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.select();
   if(state.picks>0){state.offer=makeOffer(OFFER);Sfx.draw();render()}else advance()}
 function advance(){
   if(state.pendingSeason){openShop();return}
@@ -1781,7 +1789,10 @@ function buy(it){if(it.sold||!canPay(it.price)){Sfx.deny();return}
   else if(it.kind==='bp'){state.bpNext=1;state.shop.note='Saison-Bautrupp gebucht: nächste Jahreszeit +1 Baupunkt pro Tag.'}
   else if(it.kind==='dozer'){const blocks=[...TERR.entries()].filter(([k,v])=>v==='block');const[k]=blocks[Math.floor(Math.random()*blocks.length)];TERR.delete(k);state.terr=[...TERR];state.shop.note='Ein Felsen wurde weggebaggert.'}
   syncCtx();render()}
-function removeCard(pile,key){const price=priced(10);if(!canPay(price)){Sfx.deny();return}const arr=state[pile],i=arr.indexOf(key);if(i<0)return;arr.splice(i,1);state.money-=price;state.stats.spent+=price;Sfx.till();state.shopSub=null;state.shop.note=`${CARDS[key].name} wurde aus dem Deck entfernt.`;render()}
+const TYPEORD=['wasser','wald','wueste','savanne','attr','essen','schutz'];
+function deckRows(keys,btn){const u=[...new Set(keys)].sort((a,b)=>TYPEORD.indexOf(typeOfCard(CARDS[a]))-TYPEORD.indexOf(typeOfCard(CARDS[b]))||CARDS[a].name.localeCompare(CARDS[b].name));
+  return`<div class="drows">${u.map(k=>{const c=CARDS[k],n=cnt(keys,x=>x===k);return`<div class="drow"><span class="ic">${c.icon}</span><span class="inf"><b>${c.name}${n>1?' ×'+n:''}</b><small>${c.hab?HABADJ[c.hab]:CAT[c.cat].label} · ${c.a} B · ${c.s} N · ${costOf(k)} BP</small></span>${btn(k)}</div>`}).join('')}</div>`}
+function removeCard(pile,key){const price=priced(10);if(!canPay(price)){Sfx.deny();return}const arr=state[pile],i=arr.indexOf(key);if(i<0)return;arr.splice(i,1);state.money-=price;state.stats.spent+=price;Sfx.till();state.shopSub=null;state.rmArm=null;state.shop.note=`${CARDS[key].name} wurde aus dem Deck entfernt.`;render()}
 function itemHtml(it,idx,fixed){let kind,name,text,icon;
   if(it.kind==='prog'){const P=PROGS[it.key];kind='Förderprogramm · dauerhaft';name=P.name;text=fxHtml(P)+'<span class="tx2">wirkt auch auf bereits gebaute</span>';icon=P.icon}
   else if(it.kind==='ad'){const P=ADS[it.key];kind='Werbung · nächste Jahreszeit';name=P.name;text=fxHtml(P);icon=P.icon}
@@ -1793,9 +1804,8 @@ function itemHtml(it,idx,fixed){let kind,name,text,icon;
   const dis=it.sold||!canPay(it.price);
   return`<button class="item ${it.sold?'sold':''}" data-item="${fixed?'f':'o'}${idx}" ${dis?'disabled':''}><span class="kind">${kind}</span><span class="nm">${icon} ${name}</span><span class="tx">${text}</span><span class="price">${it.sold?'Gekauft':'🪙 '+it.price}</span></button>`}
 function shopHtml(){const se=seOf(state.season),nx=seOf(state.season+1);
-  if(state.shopSub==='remove'){const piles=['deck','discard','hand'];let list='';
-    for(const p of piles)for(const k of [...new Set(state[p])])list+=`<button class="item" data-rm="${p}|${k}"><span class="nm">${CARDS[k].icon} ${CARDS[k].name}${cnt(state[p],x=>x===k)>1?' ×'+cnt(state[p],x=>x===k):''}</span><span class="tx">${CARDS[k].a} B · ${CARDS[k].s} N · ${costOf(k)} BP</span></button>`;
-    return`<h2>Welche Karte entfernen?</h2><p>Kostet 🪙 ${priced(10)}. Die Karte verschwindet dauerhaft aus deinem Deck.</p><div class="shopgrid">${list}</div><button class="btn sub" id="mBack">Zurück</button>`}
+  if(state.shopSub==='remove'){const all=[...state.deck,...state.discard,...state.hand],pr=priced(10);
+    return`<h2>Welche Karte entfernen?</h2><p>Kostet 🪙 ${pr}. Die Karte verschwindet dauerhaft aus deinem Deck. Dein Deck: <b>${all.length} Karten</b>.</p>${deckRows(all,k=>`<button class="btn ${state.rmArm===k?'main':'sub'}" data-rmk="${k}">${state.rmArm===k?'Wirklich?':'Entfernen'}</button>`)}<button class="btn sub" id="mBack">Zurück</button>`}
   const debt=state.money<0?`<p style="color:#ffb3b5"><b>Du hast ${fmt(-state.money)} Taler Schulden.</b> Erst ab 0 kannst du wieder kaufen. Schulden kosten jeden Tag 1 Taler Zinsen je 10.</p>`:'';
   const L=state.ledger||{entry:0,care:0,interest:0,early:0},led=`<div class="bill"><span>Im ${se.name}:</span><span>🎟️ Eintritt ${sgn(L.entry)}</span><span class="${L.care<0?'neg':''}">🌿 Pflege ${sgn(L.care)}</span><span class="${L.interest<0?'neg':''}">🏦 Zinsen ${sgn(L.interest)}</span>${L.spec?`<span class="${L.spec<0?'neg':''}">👥 Spezialisten ${sgn(L.spec)}</span>`:''}${L.early?`<span>⏱️ früh fertig ${sgn(L.early)}</span>`:''}</div>`;
   const slots=`<div class="slotrow">${state.progs.map(id=>`<span>${PROGS[id].icon} ${PROGS[id].name}</span>`).join('')||'<span>Noch keine Förderprogramme</span>'}${state.adsNext.map(id=>`<span>${ADS[id].icon} ${ADS[id].name} (${nx.name})</span>`).join('')}${state.bpNext?`<span>🧱 Saison-Bautrupp (${nx.name})</span>`:''}</div>`;
@@ -1943,7 +1953,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
     h=`<h2>🏅 Meilenstein erreicht!</h2><p style="margin:0">Du hast <b>${M.n} verschiedene ${M.label}</b> in deinem Zoo. Dafür bekommst du diese besondere Karte. Sie ersetzt heute eine deiner fünf Handkarten und lässt sich nur einmal bauen.</p>
       <div class="milecard"><span class="ic">${c.icon}</span><span class="nm">${c.name}</span><span style="font-size:12px;font-weight:600;color:#5d6b60">${c.hab?HAB[c.hab].label+'-Gehege':CAT[c.cat].label} · ${costOf(M.card)} BP · Einmalig</span><span class="vals3"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(M.card)}</span>${fxHtml(c)}</div>
       <button class="btn main big" id="mMileOk">Auf die Hand nehmen</button>`}
-  else if(inGame&&state.phase==='draft')h=`<h2>Neue Karte ${state.pickTotal-state.picks+1} von ${state.pickTotal}</h2><p>Du hast ${state.pickTotal} Karte${state.pickTotal>1?'n':''} verbaut und darfst genauso viele neue wählen. Sie kommen auf deine Ablage.</p>${state.pendingSeason&&seOf(state.season+1)?evLine(state.eventsNext,'im '+seOf(state.season+1).name):''}<div class="offer">${state.offer.map(offerCard).join('')}</div><div class="shopbar"><button class="btn sub" id="mDraftRoll" ${canPay(draftPrice())?'':'disabled'}>🎲 Neue Auswahl · 🪙 ${draftPrice()}</button><button class="btn sub" data-skip="1" ${skipOk()?'':'disabled'}>Diese auslassen</button></div><p style="margin:0;font-size:12.5px;color:var(--muted)">🃏 Dein Deck: <b>${deckTotal()} Karten</b>${skipOk()?'':' · zu klein zum Auslassen, du musst eine Karte nehmen'}. In der Kasse: 🪙 ${fmt(state.money)}. Jeder Wurf heute kostet 2 mehr.</p>`;
+  else if(inGame&&state.phase==='draft')h=`<h2>Neue Karte ${state.pickTotal-state.picks+1} von ${state.pickTotal}</h2><p>Du hast ${state.pickTotal} Karte${state.pickTotal>1?'n':''} verbaut und darfst genauso viele neue wählen. Sie kommen auf deine Ablage.</p>${state.pendingSeason&&seOf(state.season+1)?evLine(state.eventsNext,'im '+seOf(state.season+1).name):''}<div class="offer">${state.offer.map(offerCard).join('')}</div><div class="shopbar" style="display:grid"><button class="btn sub" id="mDraftRoll" ${canPay(draftPrice())?'':'disabled'}>🎲 Neue Auswahl · 🪙 ${draftPrice()}</button></div><p style="margin:0;font-size:12.5px;color:var(--muted)">Wähle eine der beiden Karten. Dein Deck: <b>${deckTotal()} Karten</b>. In der Kasse: 🪙 ${fmt(state.money)}. Jeder Wurf heute kostet 2 mehr.</p>`;
   else if(inGame&&state.phase==='shop'){h=shopHtml();wide=true}
   else if(inGame&&state.phase==='seasonWon'){const nx=seOf(state.season+1);
     h=`<h2>${se.name} geschafft${state.day<DAYS-1?` an Tag ${state.day+1}`:''}!</h2><div class="bigscore">${fmt(state.seasonScore)}</div><p>Ziel war ${fmt(se.target)}.${state.earlyBonus?` Früh fertig: <b>+🪙 ${state.earlyBonus}</b> für ${state.earlyBonus/EARLY_BONUS} übrige Tag${state.earlyBonus/EARLY_BONUS>1?'e':''}.`:''} In der Kasse: 🪙 ${fmt(state.money)}. Nach deinen neuen Karten geht es in den Shop. Im ${nx.name} brauchst du <b>${fmt(nx.target)}</b> Punkte.</p>${evLine(state.eventsNext,'im '+nx.name)}<button class="btn main" id="mNext">Weiter</button>`}
@@ -1954,14 +1964,14 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   root.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>pick(+b.dataset.pick));
   root.querySelectorAll('[data-skip]').forEach(b=>b.onclick=()=>pick(null));
   root.querySelectorAll('[data-item]').forEach(b=>b.onclick=()=>{const v=b.dataset.item,i=+v.slice(1);buy(v[0]==='f'?fixedItems()[i]:state.shop.items[i])});
-  root.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{const[p,k]=b.dataset.rm.split('|');removeCard(p,k)});
+  root.querySelectorAll('[data-rmk]').forEach(b=>b.onclick=()=>{const k=b.dataset.rmk;if(state.rmArm!==k){state.rmArm=k;Sfx.select();render();return}removeCard(['deck','discard','hand'].find(p=>state[p].includes(k)),k)});
   root.querySelectorAll('[data-mhire]').forEach(b=>b.onclick=()=>{const id=b.dataset.mhire,pr=priced(SPECPRICE[SPEC[id].tier]),m=state.market;if(m.bought||!canPay(pr)||!hireSpec(id)){Sfx.deny();return}state.money-=pr;state.stats.spent+=pr;m.bought=true;m.items=m.items.filter(x=>x!==id);Sfx.till();Sfx.win();render()});
   root.querySelectorAll('[data-mfire]').forEach(b=>b.onclick=()=>{fireSpec(b.dataset.mfire,true);Sfx.till();render()});
   {const mr2=$('mMkRoll');if(mr2)mr2.onclick=()=>{const pr=marketRoll(),m=state.market;if(m.bought||!canPay(pr)){Sfx.deny();return}state.money-=pr;state.stats.spent+=pr;m.rolls++;m.items=rollSpecs(3,m.items);Sfx.till();Sfx.draw();render()}}
   root.querySelectorAll('[data-stab]').forEach(b=>b.onclick=()=>{state.shopTab=b.dataset.stab;if(state.market&&state.shopTab==='market')state.market.seen=true;Sfx.select();render()});
   const mo=$('mMileOk');if(mo)mo.onclick=()=>{state.mileNew.shift();Sfx.select();render()};
   const dr=$('mDraftRoll');if(dr)dr.onclick=draftRoll;
-  const bk=$('mBack');if(bk)bk.onclick=()=>{state.shopSub=null;render()};
+  const bk=$('mBack');if(bk)bk.onclick=()=>{state.shopSub=null;state.rmArm=null;render()};
   const rr=$('mReroll');if(rr)rr.onclick=()=>{const p=rerollPrice();if(!canPay(p)){Sfx.deny();return}state.money-=p;state.stats.spent+=p;state.shop.rerolls++;state.shop.items=genShopItems();state.shop.note=null;Sfx.draw();render()};
   const lv=$('mLeave');if(lv)lv.onclick=beginNextSeason;
   const mr=$('mRules');if(mr)mr.onclick=()=>{helpOpen=!helpOpen;Sfx.select();renderModal()};
@@ -2132,8 +2142,11 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,b
   if(a.step==='card')return`${head}<h3 class="sh">Neue Karte ${a.round||1} von 3</h3><p style="margin:0">Wähle 1 von 3. Die Karte kommt dauerhaft in dein Lauf-Deck. Jeder Zoo beginnt mit diesem Deck.</p>
     <h3 class="sh" style="font-size:15px">Dein Deck</h3>${deckChips(run.deck,a.lastCard)}
     <div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>cardRow(k,`<button class="btn main" data-ccard="${k}">Nehmen</button>`)).join('')}</div><button class="btn sub" data-cskip="card">Keine Karte</button>`;
-  if(a.step==='trim'){const can=run.deck.length>MINDECK&&(a.trim||0)<3;return`${head}<h3 class="sh">Deck aufräumen</h3><p style="margin:0">Wenn du möchtest, sortiere bis zu <b>3 Karten</b> aus. Sie verschwinden für den Rest des Laufs. Tippe eine Karte an, um ein Exemplar zu entfernen. Das Deck behält mindestens ${MINDECK} Karten.</p>
-    <p style="margin:0;color:var(--gold);font-weight:700">Aussortiert: ${a.trim||0} von 3</p>${deckChips(run.deck,null,{ok:can})}<button class="btn main" data-cskip="trim">Fertig</button>`}
+  if(a.step==='trim'){const T=a.trimmed||[],left=Math.max(0,Math.min(3-T.length,run.deck.length-MINDECK)),can=left>0;return`${head}<h3 class="sh">Deck aufräumen</h3><p style="margin:0">Wenn du möchtest, sortiere bis zu <b>3 Karten</b> aus. Sie verschwinden für den Rest des Laufs. Endgültig wird es erst mit „Fertig“.</p>
+    <p style="margin:0;color:var(--gold);font-weight:700">Deck: ${run.deck.length} Karten · mindestens ${MINDECK} · noch ${left} aussortierbar</p>
+    ${deckRows(run.deck,k=>`<button class="btn sub" data-ctrim="${k}" ${can?'':'disabled'}>Aussortieren</button>`)}
+    ${T.length?`<h3 class="sh">Aussortiert (${T.length}/3)</h3><div class="drows">${T.map((t,i)=>`<div class="drow out"><span class="ic">${CARDS[t.k].icon}</span><span class="inf"><b>${CARDS[t.k].name}</b></span><button class="btn sub" data-cuntrim="${i}">Zurückholen</button></div>`).join('')}</div>`:''}
+    <button class="btn main" data-cskip="trim">Fertig</button>`}
   if(a.step==='spec'){const full=(run.spec||[]).length>=MAXSPEC;return`${head}<h3 class="sh">Spezialist einstellen</h3><p style="margin:0">Wähle 1 von 3, kostenlos. Spezialisten haben eine Sonderregel und bleiben für den ganzen Lauf. Du hast ${MAXSPEC} Plätze.</p>${full?'<p style="margin:0;color:#ffb3b5">Alle Plätze sind belegt. Entlasse unten jemanden, um Platz zu schaffen.</p>':''}
     <div style="display:flex;flex-direction:column;gap:8px">${(a.opts||[]).map(id=>specCard(id,`<button class="btn main" data-cspec="${id}" ${full?'disabled':''}>Einstellen</button>`)).join('')}</div>
     ${teamHtml(full?'cfire':null)}<button class="btn sub" data-cskip="spec">Niemanden einstellen</button>`}
@@ -2274,7 +2287,8 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
     if(d.cskip==='perk'){crewardStep('card');return}
     if(d.ccard||d.cskip==='card'){if(d.ccard){run.deck.push(d.ccard);(run.added=run.added||[]).push(d.ccard);if(CARDS[d.ccard].bonus_&&!run.cards.includes(d.ccard))run.cards.push(d.ccard);applyRun(run);a.lastCard=d.ccard;Sfx.win()}else Sfx.select();
       a.round=(a.round||1)+1;crewardStep(a.round>3?'trim':'card');return}
-    if(d.ctrim){if(run.deck.length<=MINDECK||(a.trim||0)>=3)return;const i=run.deck.lastIndexOf(d.ctrim);if(i<0)return;run.deck.splice(i,1);const j=(run.added||[]).lastIndexOf(d.ctrim);if(j>=0)run.added.splice(j,1);else(run.removed=run.removed||[]).push(d.ctrim);a.trim=(a.trim||0)+1;Sfx.rotate();saveMeta();renderScreen();return}
+    if(d.ctrim){const T=a.trimmed=a.trimmed||[];if(run.deck.length<=MINDECK||T.length>=3)return;const i=run.deck.lastIndexOf(d.ctrim);if(i<0)return;run.deck.splice(i,1);const j=(run.added||[]).lastIndexOf(d.ctrim);if(j>=0)run.added.splice(j,1);else(run.removed=run.removed||[]).push(d.ctrim);T.push({k:d.ctrim,ad:j>=0});a.trim=T.length;Sfx.rotate();saveMeta();renderScreen();return}
+    if(d.cuntrim!=null){const T=a.trimmed||[],t=T[+d.cuntrim];if(!t)return;T.splice(+d.cuntrim,1);run.deck.push(t.k);if(t.ad)(run.added=run.added||[]).push(t.k);else{const r=(run.removed||[]).lastIndexOf(t.k);if(r>=0)run.removed.splice(r,1)}a.trim=T.length;Sfx.select();saveMeta();renderScreen();return}
     if(d.cskip==='trim'){Sfx.select();crewardStep('spec');return}
     if(d.cspec){if(!hireSpec(d.cspec)){Sfx.deny();return}Sfx.win();Sfx.sparkle();crewardStep('next');return}
     if(d.cfire){fireSpec(d.cfire,false);Sfx.rotate();saveMeta();renderScreen();return}
