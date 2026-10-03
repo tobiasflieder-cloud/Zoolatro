@@ -408,6 +408,12 @@ text.tt-a{fill:#3a1d00} text.tt-s{fill:#00302b} text.tt-tot{fill:var(--gold)} te
 .tier1{color:#5d6b60}.tier2{color:#1565c0}.tier3{color:#b8431c}
 .pcard .tierl{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
 .evb.mk{outline-color:#ffd166}
+.mkbar{position:absolute;left:56px;right:8px;bottom:8px;z-index:8;border:0;border-radius:12px;padding:9px 12px;background:linear-gradient(#ffd166,#ffb02e);color:#3a2a00;font:inherit;font-weight:700;font-size:14px;box-shadow:0 0 0 3px #fff3b0,0 6px 20px #000a;animation:tutglow 1.2s ease-in-out infinite;display:none}
+.mkbar.on{display:block}
+.modal:has(.mkt){background:#1b2c47;box-shadow:0 0 0 3px #7fb2ff88,0 20px 50px #000a}
+.mkt{display:flex;flex-direction:column;gap:12px}
+.mkt h2{color:#a9ccff}
+.mkt .pcard{border-left:6px solid #7fb2ff}
 .evb.mk.new{animation:tutglow 1.2s ease-in-out infinite}
 .dprog{height:10px;border-radius:5px;background:#ffffff14;overflow:hidden}
 .dprog i{display:block;height:100%;background:var(--gold);border-radius:5px}
@@ -667,11 +673,8 @@ body.tutmode .card.tutno{opacity:.45}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 
-
-</head>
-<body>
 <div class="app" id="app">
-  <div class="boardarea"><div class="wxedge wtp" id="wxTop"></div><div class="wxedge wbt" id="wxBot"></div><div class="wx" id="wx"></div><div class="coach" id="coach"></div><div class="boardwrap" id="bwrap"><svg id="board" aria-label="Zoogelände"></svg><div class="fxh" id="fxh"></div><div class="skiphint" id="skiphint"></div><button class="zoombtn" id="btnZoom" aria-label="Zoom">🔍</button><svg class="minimap" id="mini" aria-hidden="true"></svg></div></div>
+  <div class="boardarea"><div class="wxedge wtp" id="wxTop"></div><div class="wxedge wbt" id="wxBot"></div><div class="wx" id="wx"></div><div class="coach" id="coach"></div><button class="mkbar" id="mkBar">👥 Stellenmarkt: 2 Bewerber warten</button><div class="boardwrap" id="bwrap"><svg id="board" aria-label="Zoogelände"></svg><div class="fxh" id="fxh"></div><div class="skiphint" id="skiphint"></div><button class="zoombtn" id="btnZoom" aria-label="Zoom">🔍</button><svg class="minimap" id="mini" aria-hidden="true"></svg></div></div>
   <div class="side">
     <div class="top">
       <div class="brand">Zoolatro</div>
@@ -870,6 +873,21 @@ Object.assign(CARDS,{
   schmetterling:{name:'Schmetterlingshaus',icon:'🦋',cat:'schutz',shape:'s2',a:2,s:3,rar:'selten',bonus_:1,
     bonus:(nb,all,b)=>{const own=new Set(b.cells.map(c=>hk(...c))),seen=new Set();for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr),t=TERR.get(k);if(t&&t!=='block'&&!own.has(k))seen.add(k)}return{s:seen.size}}},
 });
+// Ergänzungen, damit jeder Lebensraum 7 Grundkarten und 2 Bonus-Karten hat, Attraktionen, Essen und Naturschutz je 9 und 2
+Object.assign(CARDS,{
+  schwan:{name:'Schwanensee',icon:'🦢',cat:'gehege',hab:'wasser',shape:'s2',a:3,s:3,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isCat(n,'schutz'))})},
+  eulen:{name:'Eulenwald',icon:'🦉',cat:'gehege',hab:'wald',shape:'s1',a:2,s:3,rar:'gewöhnlich',bonus:nb=>({a:2*cnt(nb,n=>n.key==='nachtfuehrung')})},
+  papageien:{name:'Papageien-Voliere',icon:'🦜',cat:'gehege',hab:'wald',shape:'s2',a:5,s:2,rar:'gewöhnlich',bonus:nb=>({a:cnt(nb,n=>isCat(n,'attr'))})},
+  schlangen:{name:'Schlangengrube',icon:'🐍',cat:'gehege',hab:'wueste',shape:'s1',a:3,s:2,rar:'gewöhnlich',bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wueste'))})},
+  wuestenigel:{name:'Wüstenigel',icon:'🦔',cat:'gehege',hab:'wueste',shape:'s1',a:2,s:2,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>n.key==='gruen')})},
+  bueffel:{name:'Büffelherde',icon:'🐃',cat:'gehege',hab:'savanne',shape:'d4',a:7,s:4,rar:'selten',bonus_:1,bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'savanne'))})},
+  antilopen:{name:'Antilopen',icon:'🦌',cat:'gehege',hab:'savanne',shape:'t3',a:5,s:4,tags:['bedroht'],rar:'selten',bonus_:1},
+  karussell:{name:'Karussell',icon:'🎠',cat:'attr',shape:'s1',a:3,s:0,rar:'gewöhnlich',bonus:nb=>({a:2*cnt(nb,n=>n.key==='spielplatz'||n.key==='streichelzoo')})},
+  arena:{name:'Tiershow-Arena',icon:'🎪',cat:'attr',shape:'t3',a:6,s:0,rar:'selten',bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')),s:-cnt(nb,n=>has(n,'scheu'))})},
+  bienen:{name:'Bienenhotel',icon:'🐝',cat:'schutz',shape:'s1',a:0,s:2,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>n.key==='gruen'||n.key==='picknick')})},
+  baumschule:{name:'Baumschule',icon:'🌱',cat:'schutz',shape:'s2',a:1,s:4,rar:'selten',bonus_:1,bonus:nb=>({s:cnt(nb,n=>isHab(n,'wald'))})},
+  pizzeria:{name:'Pizzeria',icon:'🍕',cat:'essen',shape:'s2',a:4,s:0,rar:'selten',bonus_:1,bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'attr')),s:essenMalus(nb)})},
+});
 // Saison-Karten: tauchen nur in ihrer Jahreszeit in Auswahl und Shop auf
 Object.assign(CARDS,{
   blumenschau:{name:'Blumenschau',icon:'🌷',cat:'attr',shape:'s2',a:2,s:2,rar:'saison',only:0,bonus:nb=>({a:sea(0)?3:0,s:cnt(nb,n=>n.key==='gruen')})},
@@ -878,7 +896,7 @@ Object.assign(CARDS,{
   eisbahn:{name:'Eisbahn',icon:'⛸️',cat:'attr',shape:'t3',a:4,s:0,rar:'winter',bonus:()=>({a:CTX.winter?5:0})},
 });
 // Meilenstein-Karten: Geschenk ab 5 Gehegen eines Lebensraums bzw. 6 Gebäuden einer Art
-const others=(all,b,f)=>cnt(all,n=>n!==b&&f(n));
+const others=(all,b,f)=>new Set(all.filter(n=>n!==b&&n.key!==b.key&&!K(n).ms&&f(n)).map(n=>n.key)).size; // verschiedene andere Arten
 Object.assign(CARDS,{
   orca:{name:'Orca-Lagune',icon:'🐋',cat:'gehege',hab:'wasser',shape:'d4',a:8,s:4,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'wasser'))})},
   grossesavanne:{name:'Große Savanne',icon:'🦬',cat:'gehege',hab:'savanne',shape:'z4',a:6,s:6,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>{const n=others(all,b,x=>isHab(x,'savanne'));return{a:n,s:n}}},
@@ -891,7 +909,7 @@ Object.assign(CARDS,{
 const MILE={wasser:{card:'orca',n:6,label:'Wasser-Gehege',icon:'💧',f:c=>c.hab==='wasser'},savanne:{card:'grossesavanne',n:6,label:'Savannen-Gehege',icon:'🌾',f:c=>c.hab==='savanne'},
   wald:{card:'orangutan',n:6,label:'Wald-Gehege',icon:'🌿',f:c=>c.hab==='wald'},wueste:{card:'greifvogel',n:6,label:'Wüsten-Gehege',icon:'🏜️',f:c=>c.hab==='wueste'},
   attr:{card:'abenteuer',n:7,label:'Attraktionen',icon:'🎡',f:c=>c.cat==='attr'},essen:{card:'restaurant',n:7,label:'Essensstände',icon:'🍿',f:c=>c.cat==='essen'},schutz:{card:'ausstellung',n:7,label:'Naturschutz-Gebäude',icon:'🌳',f:c=>c.cat==='schutz'}};
-const mileCount=(bs,t)=>cnt(bs,b=>!CARDS[b.key].ms&&MILE[t].f(CARDS[b.key]));
+const mileCount=(bs,t)=>new Set(bs.filter(b=>!CARDS[b.key].ms&&MILE[t].f(CARDS[b.key])).map(b=>b.key)).size; // nur verschiedene Arten zählen
 for(const k of ['labor','vielfalt','stiftung','nachtfuehrung'])CARDS[k].tags=['einmalig'];
 for(const k in CARDS){const c=CARDS[k];c.tags=c.tags||[];if(c.ms)c.tags.push('einmalig');if(SHAPES[c.shape].cells.length>=3)c.tags.push('gross')}
 for(const k in CARDS){CARDS[k].a0=CARDS[k].a;CARDS[k].s0=CARDS[k].s}
@@ -902,7 +920,7 @@ function applySlot(sl){applyPerks(sl&&sl.perks);UNLOCK=new Set(sl&&sl.unlocked||
 function applyPerks(p){PERKS=p||{};for(const k in CARDS){const q=PERKS[k]||{};CARDS[k].a=CARDS[k].a0+(q.a||0);CARDS[k].s=CARDS[k].s0+(q.s||0)}}
 const perkN=k=>{const q=PERKS[k];return q?(q.a||0)+(q.s||0):0};
 // Tier-Eigenschaften
-const TRAITS={raubtier:['loewen','tiger','geparden','woelfe','eisbaeren','krokodile','schneeleoparden'],beute:['zebras','giraffen','warzenschweine','erdmaennchen','flamingos','kamele','kaengurus'],scheu:['pandas','faultiere','schildkroeten','nashoerner','fennek','koalas']};
+const TRAITS={raubtier:['loewen','tiger','geparden','woelfe','eisbaeren','krokodile','schneeleoparden'],beute:['zebras','giraffen','warzenschweine','erdmaennchen','flamingos','kamele','kaengurus','wuestenigel','antilopen'],scheu:['pandas','faultiere','schildkroeten','nashoerner','fennek','koalas','schwan','eulen']};
 const TRAITNAME={raubtier:'Raubtier',beute:'Beute',scheu:'Scheu'};
 for(const t in TRAITS)for(const k of TRAITS[t])CARDS[k].tags.push(t);
 const rarLabel=c=>c.rar==='winter'?'nur im Winter':c.rar==='saison'?'nur im '+SEANAME[c.only]:c.rar==='meilenstein'?'Meilenstein':c.rar;
@@ -932,11 +950,15 @@ const FX={
   gorillas:['+1 N|je benachbartes Wald-Gehege zusätzlich'],koalas:['+2 B|neben einer Grünfläche'],eisbaeren:['+2 B|im Winter'],krokodile:['+2 B|je benachbarte Attraktion'],
   schneeleoparden:['+3 B|im Winter'],kaengurus:['+1 B|je benachbartes Wüsten-Gehege zusätzlich'],
   aquarium:['+2 B|je benachbartes Wasser-Gehege'],seilbahn:['+1 B|je benachbartes Gebäude jeder Art'],biergarten:['+2 B|je benachbarter Essensstand','+3 B|im Sommer',MAL],
+  schwan:['+1 N|je benachbartes Naturschutz-Gebäude'],eulen:['+2 B|neben der Nachtführung'],papageien:['+1 B|je benachbarte Attraktion'],
+  schlangen:['+1 B|je benachbartes Wüsten-Gehege zusätzlich'],wuestenigel:['+1 N|je benachbarte Grünfläche'],bueffel:['+1 B|je benachbartes Savannen-Gehege zusätzlich'],antilopen:[],
+  karussell:['+2 B|je benachbarter Spielplatz oder Streichelzoo'],arena:['+1 B|je benachbartes Gehege','−1 N|je benachbartes scheues Gehege'],
+  bienen:['+1 N|je benachbarte Grünfläche oder Picknickwiese'],baumschule:['+1 N|je benachbartes Wald-Gehege'],pizzeria:['+2 B|je benachbarte Attraktion',MAL],
   blumenschau:['+3 B|im Frühling','+1 N|je benachbarte Grünfläche'],wasserspiel:['+4 B|im Sommer','+1 B|je benachbartes Wasser-Gehege'],
   kuerbisfest:['+5 B|im Herbst','+1 B|je benachbarter Essensstand',MAL],eisbahn:['+5 B|im Winter'],
-  orca:['+2 B|je anderes Wasser-Gehege im ganzen Zoo'],grossesavanne:['+1 B +1 N|je anderes Savannen-Gehege im ganzen Zoo'],orangutan:['+2 N|je anderes Wald-Gehege im ganzen Zoo'],
-  greifvogel:['+2 B|je anderes Wüsten-Gehege im ganzen Zoo'],abenteuer:['+2 B|je andere Attraktion im ganzen Zoo'],restaurant:['+2 B|je anderer Essensstand im ganzen Zoo','kein|Abzug neben scheuen Tieren'],
-  ausstellung:['+2 N|je anderes Naturschutz-Gebäude im ganzen Zoo'],
+  orca:['+2 B|je andere Wasser-Gehege-Art im Zoo'],grossesavanne:['+1 B +1 N|je andere Savannen-Gehege-Art im Zoo'],orangutan:['+2 N|je andere Wald-Gehege-Art im Zoo'],
+  greifvogel:['+2 B|je andere Wüsten-Gehege-Art im Zoo'],abenteuer:['+2 B|je andere Attraktions-Art im Zoo'],restaurant:['+2 B|je andere Essensstand-Art im Zoo','kein|Abzug neben scheuen Tieren'],
+  ausstellung:['+2 N|je andere Naturschutz-Art im Zoo'],
   schmetterling:['+1 N|je angrenzendes Naturflächen-Feld'],
   gruen:['+1 N|je benachbartes Gehege','+1 N|im Frühling'],wasserfall:['+1 B +1 N|je benachbartes Wasser-Gehege','halb|so viel im Winter (zugefroren)'],
   infozentrum:['+2 N|je benachbarte Attraktion'],tierarzt:['+2 N|je benachbartes bedrohtes Gehege'],
@@ -1023,9 +1045,9 @@ const halfHab=(bs,h)=>{const g=bs.filter(n=>isCat(n,'gehege'));return g.length>=
 const SPEC={};
 for(const h in HAB)SPEC['pfleger_'+h]={name:HABADJ[h]+'-Pflegerin',icon:HAB[h].icon,tier:1,fx:[`+1 B +1 N|für jedes ${HABADJ[h]}-Gehege`],per:(b,c)=>c.hab===h?{a:1,s:1}:null};
 Object.assign(SPEC,{
-  gastro:{name:'Gastro-Chef',icon:'🍿',tier:1,fx:['+1 B|für jeden Essensstand je anderem Essensstand im Zoo'],per:(b,c,nb,all)=>c.cat==='essen'?{a:others(all,b,n=>isCat(n,'essen'))}:null},
-  gaertner:{name:'Gärtnerin',icon:'🌳',tier:1,fx:['+1 N|für jedes Naturschutz-Gebäude je anderem Naturschutz-Gebäude im Zoo'],per:(b,c,nb,all)=>c.cat==='schutz'?{s:others(all,b,n=>isCat(n,'schutz'))}:null},
-  animateur:{name:'Animateur',icon:'🎡',tier:1,fx:['+1 B|für jede Attraktion je anderer Attraktion im Zoo'],per:(b,c,nb,all)=>c.cat==='attr'?{a:others(all,b,n=>isCat(n,'attr'))}:null},
+  gastro:{name:'Gastro-Chef',icon:'🍿',tier:1,fx:['+1 B|für jeden Essensstand je anderer Essensstand-Art im Zoo'],per:(b,c,nb,all)=>c.cat==='essen'?{a:others(all,b,n=>isCat(n,'essen'))}:null},
+  gaertner:{name:'Gärtnerin',icon:'🌳',tier:1,fx:['+1 N|für jedes Naturschutz-Gebäude je anderer Naturschutz-Art im Zoo'],per:(b,c,nb,all)=>c.cat==='schutz'?{s:others(all,b,n=>isCat(n,'schutz'))}:null},
+  animateur:{name:'Animateur',icon:'🎡',tier:1,fx:['+1 B|für jede Attraktion je anderer Attraktions-Art im Zoo'],per:(b,c,nb,all)=>c.cat==='attr'?{a:others(all,b,n=>isCat(n,'attr'))}:null},
   kassenwart:{name:'Kassenwart',icon:'💰',tier:1,fx:['+3 Taler|jeden Tag']},
   kleintier:{name:'Kleintier-Expertin',icon:'🐭',tier:1,fx:['+1 B +1 N|für jedes Gehege mit nur 1 Feld'],per:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{a:1,s:1}:null},
   architekt:{name:'Architektin',icon:'📐',tier:1,fx:['+2 B|für jedes große Gehege (ab 3 Feldern)'],per:(b,c)=>c.cat==='gehege'&&c.tags.includes('gross')?{a:2}:null},
@@ -1329,7 +1351,8 @@ function render(){
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
   $('btnMute').textContent=Sfx.muted?'🔇':'🔊';
   {const nb=(state.spec||[]).length,mkOn=state.mode==='camp'&&state.day>=3&&state.phase==='play';if(mkOn)ensureMarket();
-   $('evs').innerHTML=(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${EVENTS[e.id].name}" aria-label="Ereignis: ${EVENTS[e.id].name}">${EVENTS[e.id].icon}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(mkOn?`<button class="evb mk ${state.market.seen?'':'new'}" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
+   $('evs').innerHTML=(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${EVENTS[e.id].name}" aria-label="Ereignis: ${EVENTS[e.id].name}">${EVENTS[e.id].icon}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(mkOn?`<button class="evb mk" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
+  $('mkBar').classList.toggle('on',state.mode==='camp'&&state.day>=3&&state.phase==='play'&&!!state.market&&!state.market.seen&&!state.market.end);
   placeZoomBtn();
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);
 
@@ -1423,9 +1446,9 @@ function yieldHtml(P){if(P.per)return`<p class="hint">Aktuell pro Tag: ${yieldTx
 const billHtml=inc=>inc&&inc.entry!=null?`<div class="bill"><span>🎟️ Eintritt ${sgn(inc.entry)}</span><span class="${inc.care<0?'neg':''}">🌿 Pflege ${sgn(inc.care)}</span><span class="${inc.interest<0?'neg':''}">🏦 Zinsen ${sgn(inc.interest)}</span>${inc.spec?`<span class="${inc.spec<0?'neg':''}">👥 Spezialisten ${sgn(inc.spec)}</span>`:''}<span class="sum ${inc.total<0?'neg':''}">Kasse ${sgn(inc.total)} 🪙</span></div>`:`<div class="bill"><span class="sum">Kasse ${sgn((inc||{}).total||0)} 🪙</span></div>`;
 // großes Ergebnis beim Platzieren: eigener Wert, Wirkung auf den ganzen Zoo und auf die Kasse
 function resHtml(h,cur,own){const dA=h.r.A-cur.A,dS=h.r.S-cur.S,dK=dayIncome(h.r.A,h.r.S,state.money).base-dayIncome(cur.A,cur.S,state.money).base,c=CARDS[h.b.key];let mh='';
-  if(!h.up&&!h.move&&!c.ms)for(const t in MILE){const M=MILE[t];if(!M.f(c)||(state.miles||{})[t])continue;const n=mileCount(state.buildings,t)+1;if(n===M.n)mh=`<p class="milehint">🏅 Meilenstein erreicht: morgen gibt es eine besondere Karte!</p>`;else if(n===M.n-1)mh=`<p class="milehint">🏅 Danach fehlt noch 1 ${M.icon} bis zum Meilenstein.</p>`}
+  if(!h.up&&!h.move&&!c.ms)for(const t in MILE){const M=MILE[t];if(!M.f(c)||(state.miles||{})[t]||state.buildings.some(x=>x.key===h.b.key))continue;const n=mileCount(state.buildings,t)+1;if(n===M.n)mh=`<p class="milehint">🏅 Meilenstein erreicht: morgen gibt es eine besondere Karte!</p>`;else if(n===M.n-1)mh=`<p class="milehint">🏅 Danach fehlt noch 1 weitere ${M.icon}-Art bis zum Meilenstein.</p>`}
   return`<div class="resbig"><span class="a">${own?sgn(own.a):h.own.a} B</span><span class="s">${own?sgn(own.s):h.own.s} N</span><span class="z ${dA+dS<0?'neg':''}">Zoo ${vTxt(dA,dS)||'±0'}</span>${dK?`<span class="z ${dK<0?'neg':''}">Kasse ${sgn(dK)} 🪙 pro Tag</span>`:''}</div>${mh}`}
-function mileInfoHtml(){return`<h3>🏅 Meilensteine</h3><p class="hint">Ab 6 Gehegen eines Lebensraums oder 7 Gebäuden einer Art gibt es am nächsten Morgen eine besondere Karte.</p><div class="mile">${Object.keys(MILE).map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div>`}
+function mileInfoHtml(){return`<h3>🏅 Meilensteine</h3><p class="hint">Ab 6 <b>verschiedenen</b> Gehege-Arten eines Lebensraums oder 7 verschiedenen Attraktionen, Essensständen oder Naturschutz-Gebäuden gibt es am nächsten Morgen eine besondere Karte. Gleiche Gebäude zählen nur einmal.</p><div class="mile">${Object.keys(MILE).map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div>`}
 function moneyInfoHtml(cur){const inc=dayIncome(cur.A,cur.S,state.money),row=(l,v)=>`<tr><td>${l}</td><td class="${v<0?'neg':''}">${sgn(v)}</td></tr>`;
   return`<h3>🪙 Kasse: ${fmt(state.money)} Taler</h3><p class="hint">Wenn du jetzt den Tag beendest:</p><table class="billt">${row(`🎟️ Eintritt · 1 je 6 Besucher (${fmt(cur.A)} B)`,inc.entry)}${row(`🌿 Pflege · −1 je 8 Natur (${fmt(cur.S)} N)`,inc.care)}${row(`🏦 Zinsen · ${state.money>=0?'+1 je 10 gespart, höchstens 5':'−1 je 10 Schulden'}`,inc.interest)}${inc.spec?row('👥 Spezialisten',inc.spec):''}<tr class="sum"><td>Heute</td><td>${sgn(inc.total)} 🪙</td></tr></table>
     <p class="hint">Erreichst du das Saisonziel früher, gibt es 5 Taler je übrigem Tag. Geld brauchst du nur für den Shop und fürs Neu-Würfeln der Kartenauswahl.${state.money<0?' <b style="color:#ffb3b5">Mit Schulden kannst du nichts kaufen.</b>':''}</p>`}
@@ -1442,7 +1465,7 @@ function infoHtml(h,cur){
   if(state.infoProg==='money')return moneyInfoHtml(cur);
   if(state.infoProg==='redraw')return`<h3>🔄 Hand neu ziehen?</h3><p class="hint">Kostet <b>1 Baupunkt</b>. Alle Handkarten gehen auf die Ablage, du ziehst fünf neue. Nicht rückgängig, auch die heutigen Züge davor sind danach fest. <b>Nochmal auf 🔄 tippen</b> zum Bestätigen.</p>`;
   if(state.infoProg==='boni'){const L=(state.spec||[]).filter(id=>SPEC[id]),ks=Object.keys(PERKS).filter(k=>CARDS[k]&&perkN(k));
-    return`<h3>🎖️ Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?L.map(id=>{const S=SPEC[id];return`<p class="hint" style="margin:0"><b style="color:var(--text)">${S.icon} ${S.name}</b></p>${fxHtml(S)}${specYield(id)}`}).join(''):'<p class="hint">Noch niemand eingestellt. Spezialisten gibt es im Stellenmarkt (ab Tag 4 jeder Jahreszeit), im Shop und nach jedem geschafften Zoo.</p>'}${ks.length?`<p class="hint">Verbesserte Karten: ${ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · ')}</p>`:''}`}
+    return`<h3>🎖️ Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?L.map(id=>{const S=SPEC[id];return`<p class="hint" style="margin:0"><b style="color:var(--text)">${S.icon} ${S.name}</b></p>${fxHtml(S)}${specYield(id)}`}).join(''):'<p class="hint">Noch niemand eingestellt. Spezialisten gibt es im Stellenmarkt (ab Tag 4 und am Ende jeder Jahreszeit) und nach jedem geschafften Zoo.</p>'}${ks.length?`<p class="hint">Verbesserte Karten: ${ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · ')}</p>`:''}`}
   if(state.infoProg&&state.infoProg.startsWith('ev:')){const e=(state.events||[]).find(x=>'ev:'+x.id===state.infoProg);if(e)return`<h3>${EVENTS[e.id].icon} ${EVENTS[e.id].name}</h3><p class="hint">Ereignis · gilt die ganze Jahreszeit</p>${fxHtml({fx:evFx(e)})}${EVENTS[e.id].per?yieldHtml({per:(b,c)=>EVENTS[e.id].per(b,c,e.k||1)}):''}`}
   if(state.infoProg==='bautrupp')return`<h3>🧱 Saison-Bautrupp</h3><p class="hint">Diese Jahreszeit +1 Baupunkt pro Tag.</p>`;
   if(state.infoProg){const P=PROGS[state.infoProg]||ADS[state.infoProg];if(P)return`<h3>${P.icon} ${P.name}</h3><p class="hint">${ADS[state.infoProg]?'Werbung · nur diese Jahreszeit':'Förderprogramm · dauerhaft, auch für bereits gebaute'}</p>${fxHtml(P)}${yieldHtml(P)}`}
@@ -1516,6 +1539,7 @@ function redraw(){if(state.phase!=='play'||state.bp<1){Sfx.deny();return}
   state.infoProg=null;state.moving=null;if(state.tut)state.tut.redrawn=true;state.discard.push(...state.hand);state.hand=[];state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
 $('btnRedraw').addEventListener('click',redraw);
 $('money').addEventListener('click',()=>{if(!state||state.phase==='scoring')return;state.infoProg=state.infoProg==='money'?null:'money';state.selected=null;state.preview=null;state.info=null;state.moving=null;Sfx.select();render()});
+$('mkBar').addEventListener('click',()=>{if(!state||state.phase!=='play')return;ensureMarket();state.market.seen=true;modal='market';Sfx.draw();render()});
 $('evs').addEventListener('click',e=>{const b=e.target.closest('[data-ev]');if(!b||!state)return;const id=b.dataset.ev;
   if(id==='market'){if(state.phase!=='play')return;ensureMarket();state.market.seen=true;modal='market';Sfx.draw();render();return}
   state.infoProg=state.infoProg===id?null:id;state.selected=null;state.preview=null;state.info=null;Sfx.select();render()});
@@ -1621,7 +1645,7 @@ function build(){const h=hypo();if(!h||!h.ok||state.phase!=='play')return;
   else{const id=state.nextId++;state.buildings.push({id,key,cells:h.cells,lvl:1});state.undo.push({t:'build',id,key,hi})}
   state.bp-=costOf(key);state.hand.splice(hi,1);state.builtToday++; // gebaute Karten sind verbraucht
   state.mileSeen=state.mileSeen||{};for(const t in MILE){const M=MILE[t];if((state.miles||{})[t]||state.mileSeen[t]||mileCount(state.buildings,t)<M.n)continue;state.mileSeen[t]=1;
-    const bn=document.createElement('div');bn.className='mbanner';bn.innerHTML=`<b>🏅 Meilenstein!</b><span>${M.n} ${M.label} · morgen früh bekommst du eine besondere Karte</span>`;document.querySelector('.boardarea').appendChild(bn);setTimeout(()=>bn.remove(),2800);Sfx.combo();setTimeout(()=>sparks(boardCenter(),14),60)}
+    const bn=document.createElement('div');bn.className='mbanner';bn.innerHTML=`<b>🏅 Meilenstein!</b><span>${M.n} verschiedene ${M.label} · morgen früh bekommst du eine besondere Karte</span>`;document.querySelector('.boardarea').appendChild(bn);setTimeout(()=>bn.remove(),2800);Sfx.combo();setTimeout(()=>sparks(boardCenter(),14),60)}
   state.selected=null;state.preview=null;state.info=null;Sfx.build();render()}
 
 /* ---------- scoring ---------- */
@@ -1698,7 +1722,7 @@ function draftRoll(){const p=draftPrice();if(state.phase!=='draft'||!canPay(p)){
 function pick(i){if(i!=null)state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.select();
   if(state.picks>0){state.offer=makeOffer();Sfx.draw();render()}else advance()}
 function advance(){
-  if(state.pendingSeason){openShop();return}
+  if(state.pendingSeason){if(state.mode==='camp'){state.market={season:state.season,items:rollSpecs(state.day<3?3:2),bought:false,rolls:0,seen:true,end:true};state.phase='market';Sfx.draw();render()}else openShop();return}
   state.day++;startDay()}
 function beginNextSeason(){state.pendingSeason=false;state.shop=null;state.shopSub=null;
   state.past.push({name:seOf(state.season).name,pts:state.seasonScore});state.season++;state.day=0;state.seasonScore=0;state.dayPts=[];
@@ -1713,22 +1737,22 @@ function hireSpec(id){const run=runOf();if(!run||!SPEC[id])return false;run.spec
   if(state&&state.mode==='camp'){state.spec=run.spec.slice();if(id==='polier'){state.bpMax++;state.bp++}syncCtx()}return true}
 function fireSpec(id,refund){const run=runOf();if(!run||!(run.spec||[]).includes(id))return;run.spec=run.spec.filter(x=>x!==id);
   if(state&&state.mode==='camp'){state.spec=run.spec.slice();if(id==='polier'){state.bpMax--;state.bp=Math.max(0,state.bp-1)}if(refund)state.money+=Math.floor(SPECPRICE[SPEC[id].tier]/2);syncCtx()}}
-function ensureMarket(){if(!state.market||state.market.season!==state.season)state.market={season:state.season,items:rollSpecs(2),bought:false,rolls:0,seen:false}}
+function ensureMarket(){if(!state.market||state.market.season!==state.season||state.market.end)state.market={season:state.season,items:rollSpecs(2),bought:false,rolls:0,seen:false}}
 const marketRoll=()=>5+2*(state.market?state.market.rolls:0);
 function specCard(id,btn){const S=SPEC[id];return`<div class="pcard"><span class="ic">${S.icon}</span><div class="info2"><span class="nm">${S.name}</span><span class="tierl tier${S.tier}">${SPECTIER[S.tier]}</span>${fxHtml(S)}</div><div class="pb">${btn}</div></div>`}
 function teamHtml(mode){const run=runOf(),L=(run&&run.spec||[]).filter(id=>SPEC[id]);
   return`<h3>Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?`<div style="display:flex;flex-direction:column;gap:6px">${L.map(id=>specCard(id,mode?`<button class="btn sub" data-${mode}="${id}">Entlassen${mode==='mfire'?`<br><b>+🪙 ${Math.floor(SPECPRICE[SPEC[id].tier]/2)}</b>`:''}</button>`:'')).join('')}</div>`:'<p style="margin:0;color:var(--muted);font-size:13px">Noch niemand eingestellt.</p>'}`}
 function marketHtml(){const m=state.market,full=(state.spec||[]).length>=MAXSPEC;
-  return`<h2>👥 Stellenmarkt · 🪙 ${fmt(state.money)}</h2><p style="margin:0;font-size:13.5px">Ab Tag 4 jeder Jahreszeit bewerben sich zwei Spezialisten. Du kannst <b>höchstens einen</b> einstellen. Spezialisten bleiben für den ganzen Lauf.</p>${m.bought?'<p style="margin:0;color:var(--gold)">Du hast in dieser Jahreszeit schon jemanden eingestellt.</p>':full?'<p style="margin:0;color:#ffb3b5">Alle 5 Plätze sind belegt. Entlasse zuerst jemanden.</p>':''}
+  return`<div class="mkt"><h2>👥 Stellenmarkt · 🪙 ${fmt(state.money)}</h2><p style="margin:0;font-size:13.5px">${m.end?'Zum Saisonende bewerben sich neue Spezialisten.':'Ab Tag 4 jeder Jahreszeit bewerben sich zwei Spezialisten.'} Du kannst <b>höchstens einen</b> einstellen. Spezialisten bleiben für den ganzen Lauf.</p>${m.bought?'<p style="margin:0;color:var(--gold)">Du hast in dieser Jahreszeit schon jemanden eingestellt.</p>':full?'<p style="margin:0;color:#ffb3b5">Alle 5 Plätze sind belegt. Entlasse zuerst jemanden.</p>':''}
     <div style="display:flex;flex-direction:column;gap:8px">${m.items.map(id=>{const pr=priced(SPECPRICE[SPEC[id].tier]);return specCard(id,`<button class="btn main" data-mhire="${id}" ${m.bought||full||!canPay(pr)?'disabled':''}>Einstellen<br><b>🪙 ${pr}</b></button>`)}).join('')||'<p style="margin:0;color:var(--muted)">Keine Bewerber mehr.</p>'}</div>
     ${teamHtml('mfire')}
-    <div class="shopbar"><button class="btn sub" id="mMkRoll" ${m.bought||!canPay(marketRoll())?'disabled':''}>🎲 Andere Bewerber · 🪙 ${marketRoll()}</button><button class="btn main" id="mClose">Schließen</button></div>`}
+    <div class="shopbar"><button class="btn sub" id="mMkRoll" ${m.bought||!canPay(marketRoll())?'disabled':''}>🎲 Andere Bewerber · 🪙 ${marketRoll()}</button>${m.end?'<button class="btn main" id="mToShop">Weiter zum Shop</button>':'<button class="btn main" id="mClose">Schließen</button>'}</div></div>`}
 function genShopItems(){const pick=a=>a.length?a.splice(Math.floor(Math.random()*a.length),1)[0]:null;
   const progs=Object.keys(PROGS).filter(id=>!state.progs.includes(id)),ads=Object.keys(ADS).filter(id=>!state.adsNext.includes(id));
   const nextWinter=!!(seOf(state.season+1)||{}).winter;
   const cards=Object.keys(CARDS).filter(k=>(['selten','sehr selten'].includes(CARDS[k].rar)||(CARDS[k].rar==='winter'&&nextWinter)||(CARDS[k].rar==='saison'&&CARDS[k].only===state.season+1))&&!builtUnique(state.buildings,k)&&!ownsUnique(k)&&!isLocked(k));
   const out=[];for(const[kind,arr]of[['prog',progs],['prog',progs],['ad',ads],['card',cards]]){const k=pick(arr);if(k)out.push(mkItem(kind,k))}
-  if(state.mode==='camp')for(const id of rollSpecs(state.day<3?2:1))out.push({kind:'spec',key:id,price:priced(SPECPRICE[SPEC[id].tier])});return out}
+  return out}
 const inflation=()=>1+.5*state.season; // Preise steigen jede Saison um 50 %
 const priced=p=>Math.round(p*inflation());
 function mkItem(kind,key){if(kind==='prog')return{kind,key,price:priced(PROGS[key].price)};if(kind==='ad')return{kind,key,price:priced(ADS[key].price)};
@@ -1753,7 +1777,7 @@ function removeCard(pile,key){const price=priced(10);if(!canPay(price)){Sfx.deny
 function itemHtml(it,idx,fixed){let kind,name,text,icon;
   if(it.kind==='prog'){const P=PROGS[it.key];kind='Förderprogramm · dauerhaft';name=P.name;text=fxHtml(P)+'<span class="tx2">wirkt auch auf bereits gebaute</span>';icon=P.icon}
   else if(it.kind==='ad'){const P=ADS[it.key];kind='Werbung · nächste Jahreszeit';name=P.name;text=fxHtml(P);icon=P.icon}
-  else if(it.kind==='card'){const c=CARDS[it.key];kind=`Karte · ${rarLabel(c)}`;name=c.name;text=`${c.a} B · ${c.s} N · ${costOf(it.key)} BP`+fxHtml(c);icon=c.icon}
+  else if(it.kind==='card'){const c=CARDS[it.key];kind=`Karte · ${rarLabel(c)}`;name=c.name;text=`${c.a} B · ${c.s} N · ${costOf(it.key)} BP`+fxHtml(c)+`<span class="tx2">${haveTxt(inDeckN(it.key),cnt(state.buildings,b=>b.key===it.key))}</span>`;icon=c.icon}
   else if(it.kind==='spec'){const S=SPEC[it.key];kind=`Spezialist · ${SPECTIER[S.tier]} · ganzer Lauf`;name=S.name;text=fxHtml(S);icon=S.icon}
   else if(it.kind==='remove'){kind='Deck-Pflege';name='Karte entfernen';text='Nimm eine Karte dauerhaft aus deinem Deck.';icon='✂️'}
   else if(it.kind==='bp'){kind='Ausbau · nächste Jahreszeit';name='Saison-Bautrupp';text=fxHtml({fx:[`+1 BP|pro Tag, nur die nächste Jahreszeit (${BP+1} statt ${BP})`]});icon='🧱'}
@@ -1772,7 +1796,6 @@ function shopHtml(){const se=seOf(state.season),nx=seOf(state.season+1);
     <h3>Angebote</h3><div class="shopgrid">${state.shop.items.map((it,i)=>itemHtml(it,i,false)).join('')}</div>
     <h3>Service</h3><div class="shopgrid">${fixedItems().map((it,i)=>itemHtml(it,i,true)).join('')}</div>
     <h3>Förderprogramme ${state.progs.length}/${MAXPROGS}</h3>${slots}
-    ${state.mode==='camp'?teamHtml('mfire'):''}
     <div class="shopbar"><button class="btn sub" id="mReroll" ${canPay(rerollPrice())?'':'disabled'}>🎲 Neu würfeln · 🪙 ${rerollPrice()}</button><button class="btn main" id="mLeave">Weiter zum ${nx.name}</button></div>`}
 
 /* ---------- start screen: choose the park ---------- */
@@ -1849,10 +1872,12 @@ function tutSlides(){return withRot(false,()=>{
   ]})}
 
 /* ---------- modals ---------- */
-function offerCard(k,i){const c=CARDS[k],d=cnt(state.buildings,b=>b.key===k);return`<button class="ocard" data-pick="${i}">
+const haveTxt=(nd,d)=>nd||d?[nd?`im Deck: ${nd}×`:'',d?`gebaut: ${d}×`:''].filter(Boolean).join(' · '):'neu für dich';
+const inDeckN=k=>cnt([...state.hand,...state.deck,...state.discard],x=>x===k);
+function offerCard(k,i){const c=CARDS[k],d=cnt(state.buildings,b=>b.key===k),nd=inDeckN(k);return`<button class="ocard" data-pick="${i}">
   <span class="band" style="background:${colOf(c)}">${c.hab?habBadge(c.hab)+' '+HAB[c.hab].label:CAT[c.cat].label} · ${costOf(k)} BP</span>
   <span class="ic">${c.icon}</span>${miniShape(k)}<span class="nm">${c.name}</span><span class="st"><span class="a">${c.a} B</span><span class="s">${c.s} N</span></span>
-  <span class="tx">${fxHtml(c)}</span>${perkN(k)?`<span class="rar">🏅 ${perkN(k)}× verbessert</span>`:''}${c.tags.includes('einmalig')?'<span class="rar">Einmalig im Zoo</span>':''}${c.tags.includes('bedroht')?'<span class="rar" style="color:#c0392b">● Rote Liste</span>':''}${d?`<span class="rar" style="color:#c0392b">schon ${d}× gebaut</span>`:''}${c.rar!=='gewöhnlich'?`<span class="rar">${rarLabel(c)}</span>`:''}</button>`}
+  <span class="tx">${fxHtml(c)}</span>${perkN(k)?`<span class="rar">🏅 ${perkN(k)}× verbessert</span>`:''}${c.tags.includes('einmalig')?'<span class="rar">Einmalig im Zoo</span>':''}${c.tags.includes('bedroht')?'<span class="rar" style="color:#c0392b">● Rote Liste</span>':''}<span class="rar" style="color:${nd||d?'#c0392b':'#2e7d32'}">${haveTxt(nd,d)}</span>${c.cat==='gehege'&&state.buildings.some(b=>b.key===k&&(b.lvl||1)<MAXLVL)?'<span class="rar">ausbaubar</span>':''}${c.rar!=='gewöhnlich'?`<span class="rar">${rarLabel(c)}</span>`:''}</button>`}
 function pileHtml(keys){if(!keys.length)return'<em>leer</em>';const m={};keys.forEach(k=>m[k]=(m[k]||0)+1);
   return Object.keys(m).sort((a,b)=>CARDS[a].name.localeCompare(CARDS[b].name,'de')).map(k=>`<span style="border-left-color:${colOf(CARDS[k])}">${CARDS[k].icon} ${CARDS[k].name}${m[k]>1?' ×'+m[k]:''}</span>`).join('')}
 let helpOpen=false;
@@ -1868,7 +1893,7 @@ function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose
   <li>Gebaute Karten sind <b>verbraucht</b>. Für jede gebaute Karte wählst du nach dem Tag 1 von 3 neuen Karten.</li>
   <li><b>Wiederholung:</b> Die zweite Anlage derselben Art bringt nur 75 % ihrer Besucher und Natur (samt Boni), die dritte 50 %, jede weitere 25 %. Besucher wollen Abwechslung.</li>
   <li><b>Jahreszeiten-Karten:</b> Manche Karten wirken je nach Jahreszeit stärker oder schwächer, das steht auf der Karte. Blumenschau, Wasserspielplatz, Kürbisfest und die Winter-Karten gibt es nur in ihrer Jahreszeit zur Auswahl.</li>
-  <li><b>Meilensteine:</b> Ab 6 Gehegen eines Lebensraums oder 7 Attraktionen, Essensständen oder Naturschutz-Gebäuden bekommst du am nächsten Morgen eine besondere Karte. Sie ersetzt eine deiner fünf Handkarten. Den Fortschritt zeigt 🏅 oben neben „Saison“.</li>
+  <li><b>Meilensteine:</b> Ab 6 verschiedenen Gehege-Arten eines Lebensraums oder 7 verschiedenen Attraktionen, Essensständen oder Naturschutz-Gebäuden bekommst du am nächsten Morgen eine besondere Karte. Sie ersetzt eine deiner fünf Handkarten. Den Fortschritt zeigt 🏅 oben neben „Saison“.</li>
   <li><b>Raubtiere und Beute:</b> Beutetiere (Zebras, Giraffen, Warzenschweine, Lamas, Flamingos, Kamele) bekommen −1 B und −1 N je benachbartes Raubtier (Löwen, Tiger, Geparden, Wölfe). Essensstände verlieren 1 N neben <b>scheuen</b> Tieren (Pandas, Faultiere, Schildkröten, Nashörner, Fenneks).</li>
   <li><b>Pause:</b> Nach jeder Auszählung kannst du dir den Zoo in Ruhe anschauen. Weiter geht es mit „Nächsten Tag starten“.</li>
   <li><b>Lebensraum:</b> +1 Besucher je benachbartes Gehege mit gleichem Lebensraum. Auf <b>Naturflächen</b> dürfen nur passende Gehege (mit +1 Natur je Feld), andere Gehege nicht. Alle anderen Gebäude dürfen dort ohne Bonus stehen.</li>
@@ -1879,7 +1904,7 @@ function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose
   <li><b>🔍 Zoom</b> sitzt in einer freien Ecke des Geländes oder oben in der Leiste. Auf freier Fläche ziehen verschiebt den Ausschnitt. Beim Tagesende geht der Zoom aus.</li>
   <li><b>Ereignisse:</b> Ab dem Sommer gilt jede Jahreszeit ein zufälliges Ereignis (Symbol oben neben „Saison“, antippen zeigt die Wirkung). Im Shop siehst du schon vorher, was kommt.</li>
   <li><b>Kampagne:</b> Zoo um Zoo wird es schwerer. Du startest mit einem Starter-Deck. Nach jedem geschafften Jahr gibt es 3 Kartenverbesserungen, dreimal 1 aus 3 neuen Karten, bis zu 3 Karten zum Aussortieren und einen Spezialisten. Jeder Zoo beginnt mit deinem Lauf-Deck; Zoo, Taler und Förderprogramme beginnen bei null.</li>
-  <li><b>Spezialisten</b> (nur Kampagne): Mitarbeiter mit Sonderregel, höchstens 5, gelten für den ganzen Lauf. Du bekommst sie im Stellenmarkt 👥 (ab Tag 4 jeder Jahreszeit, höchstens einen), im Shop und nach jedem Zoo. 🎖️ oben zeigt dein Team.</li>
+  <li><b>Spezialisten</b> (nur Kampagne): Mitarbeiter mit Sonderregel, höchstens 5, gelten für den ganzen Lauf. Du bekommst sie im Stellenmarkt 👥 (ab Tag 4 jeder Jahreszeit und noch einmal am Saisonende vor dem Shop, jeweils höchstens einen) und nach jedem Zoo. 🎖️ oben zeigt dein Team.</li>
   <li><b>🔄 Neu ziehen:</b> Für 1 Baupunkt wirfst du die ganze Hand ab und ziehst fünf neue Karten. Zweimal tippen zum Bestätigen. Das lässt sich nicht rückgängig machen, und die Züge davor sind danach fest.</li>
   <li><b>↶ Rückgängig</b> nimmt Bauen, Ausbauen und Umziehen des heutigen Tages Schritt für Schritt zurück.</li>
   <li><b>Einmalig:</b> Gebäude mit Bonus für den ganzen Zoo (Forschungslabor, Artenvielfalt-Institut, Zoo-Stiftung, Nachtführung) gibt es nur einmal im Zoo.</li>
@@ -1893,6 +1918,7 @@ function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose
 function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):null,inGame=!!state&&!screen;let h='',wide=false;
   if(modal==='help')h=helpHtml();
   else if(modal==='market'&&state&&state.market){h=marketHtml();wide=true}
+  else if(inGame&&state.phase==='market'&&state.market){h=marketHtml();wide=true}
   else if(modal==='maps'){h=mapsHtml();wide=true}
   else if(modal==='tut'){const sl=tutSlides(),i=Math.max(0,Math.min(tutIdx,sl.length-1)),S=sl[i];
     h=`<div class="tut"><div class="tuthead"><span>Tutorial · ${i+1} / ${sl.length}</span><button class="icbtn" id="mClose" aria-label="Tutorial schließen">✕</button></div>${S.svg}<h2>${S.title}</h2><p>${S.text}</p>
@@ -1904,7 +1930,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
     <h3>Ablagestapel · ${state.discard.length}</h3><div class="pile">${pileHtml(state.discard)}</div>
     <h3>Hand · ${state.hand.length}</h3><div class="pile">${pileHtml(state.hand)}</div>${(state.spec||[]).length?`<h3>Spezialisten</h3><div class="pile">${state.spec.filter(id=>SPEC[id]).map(id=>`<span>${SPEC[id].icon} ${SPEC[id].name}: ${SPEC[id].fx.map(l=>l.replace('|',' ')).join(', ')}</span>`).join('')}</div>`:''}<h3>Meilensteine</h3><div class="mile">${Object.keys(MILE).map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div><button class="btn main" id="mClose">Schließen</button>`;
   else if(inGame&&state.phase==='play'&&(state.mileNew||[]).length){const t=state.mileNew[0],M=MILE[t],c=CARDS[M.card];
-    h=`<h2>🏅 Meilenstein erreicht!</h2><p style="margin:0">Du hast <b>${M.n} ${M.label}</b> in deinem Zoo. Dafür bekommst du diese besondere Karte. Sie ersetzt heute eine deiner fünf Handkarten und lässt sich nur einmal bauen.</p>
+    h=`<h2>🏅 Meilenstein erreicht!</h2><p style="margin:0">Du hast <b>${M.n} verschiedene ${M.label}</b> in deinem Zoo. Dafür bekommst du diese besondere Karte. Sie ersetzt heute eine deiner fünf Handkarten und lässt sich nur einmal bauen.</p>
       <div class="milecard"><span class="ic">${c.icon}</span><span class="nm">${c.name}</span><span style="font-size:12px;font-weight:600;color:#5d6b60">${c.hab?HAB[c.hab].label+'-Gehege':CAT[c.cat].label} · ${costOf(M.card)} BP · Einmalig</span><span class="vals3"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(M.card)}</span>${fxHtml(c)}</div>
       <button class="btn main big" id="mMileOk">Auf die Hand nehmen</button>`}
   else if(inGame&&state.phase==='draft')h=`<h2>Neue Karte ${state.pickTotal-state.picks+1} von ${state.pickTotal}</h2><p>Du hast ${state.pickTotal} Karte${state.pickTotal>1?'n':''} verbaut und darfst genauso viele neue wählen. Sie kommen auf deine Ablage.</p>${state.pendingSeason&&seOf(state.season+1)?evLine(state.eventsNext,'im '+seOf(state.season+1).name):''}<div class="offer">${state.offer.map(offerCard).join('')}</div><div class="shopbar"><button class="btn sub" id="mDraftRoll" ${canPay(draftPrice())?'':'disabled'}>🎲 Neue Auswahl · 🪙 ${draftPrice()}</button><button class="btn sub" data-skip="1">Diese auslassen</button></div><p style="margin:0;font-size:12.5px;color:var(--muted)">In der Kasse: 🪙 ${fmt(state.money)}. Jeder Wurf heute kostet 2 mehr.</p>`;
@@ -1922,6 +1948,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   root.querySelectorAll('[data-mhire]').forEach(b=>b.onclick=()=>{const id=b.dataset.mhire,pr=priced(SPECPRICE[SPEC[id].tier]),m=state.market;if(m.bought||!canPay(pr)||!hireSpec(id)){Sfx.deny();return}state.money-=pr;state.stats.spent+=pr;m.bought=true;m.items=m.items.filter(x=>x!==id);Sfx.till();Sfx.win();render()});
   root.querySelectorAll('[data-mfire]').forEach(b=>b.onclick=()=>{fireSpec(b.dataset.mfire,true);Sfx.till();render()});
   {const mr2=$('mMkRoll');if(mr2)mr2.onclick=()=>{const pr=marketRoll(),m=state.market;if(m.bought||!canPay(pr)){Sfx.deny();return}state.money-=pr;state.stats.spent+=pr;m.rolls++;m.items=rollSpecs(2,m.items);Sfx.till();Sfx.draw();render()}}
+  {const ts=$('mToShop');if(ts)ts.onclick=()=>{state.market=null;openShop()}}
   const mo=$('mMileOk');if(mo)mo.onclick=()=>{state.mileNew.shift();Sfx.select();render()};
   const dr=$('mDraftRoll');if(dr)dr.onclick=draftRoll;
   const bk=$('mBack');if(bk)bk.onclick=()=>{state.shopSub=null;render()};
@@ -1955,7 +1982,7 @@ function restoreGame(s){const ok=s&&Array.isArray(s.deck)&&Array.isArray(s.terr)
   if(!ok)return false;try{state=Object.assign(DEFAULTS(),s);setBoard(Array.isArray(s.board)&&s.board.length?s.board:hexDisc(5));state.board=BOARD;if(!MAPS[state.map])state.map='wiese';
     if(!Array.isArray(state.undo))state.undo=[];state.msg=null;state.moving=null;state.miles=state.miles||{};TERR=new Map(s.terr);ZOOM=null;computeView();
     state.progs=state.progs.filter(id=>PROGS[id]);state.ads=state.ads.filter(id=>ADS[id]);state.adsNext=state.adsNext.filter(id=>ADS[id]);
-    if(state.phase==='scoring'||(state.phase==='draft'&&!state.picks)||(state.phase==='shop'&&!state.shop))state.phase='play';
+    if(state.phase==='scoring'||(state.phase==='draft'&&!state.picks)||(state.phase==='shop'&&!state.shop)||(state.phase==='market'&&!state.market))state.phase='play';
     syncCtx();return true}catch(e){console.warn('Spielstand verworfen',e);return false}}
 function enterSlot(i,fresh){META.active=i;META.lastSlot=i;META.lastMode='free';const sl=META.slots[i];applySlot(sl);sl.last=Date.now();
   if(!fresh&&sl.game&&restoreGame(sl.game)){sl.game=state;screen=null;modal=null;saveMeta();renderAll();return}
@@ -2044,7 +2071,7 @@ const TUT={
    {t:'Oben rechts steht deine <b>Kasse</b> 🪙. Jeder Tag bringt 1 Taler je 6 Besucher (Eintritt) und kostet 1 Taler je 8 Natur (Pflege). Erspartes bringt Zinsen. Geld brauchst du nur für den Shop.',btn:'Weiter',setup:tHand('affen','zebras','gruen','turm','eiswagen')},
    {t:'Nach jeder Jahreszeit öffnet der <b>Shop</b>. Oben steht dort das <b>Ereignis</b> der nächsten Jahreszeit. Kaufe ein <b>Förderprogramm</b> (wirkt dauerhaft) und tippe dann auf <b>Weiter zum Sommer</b>.',btn:'Shop öffnen',act:s=>{s.eventsNext=[{id:'hitze',k:1}];s.evRolled=true;s.money=80;openShop()}},
    {t:'Es ist Sommer, und es gilt <b>Extreme Hitze</b>. Tippe oben neben „Saison“ auf das Symbol <b>☀️</b>, um die Wirkung und den aktuellen Ertrag zu sehen.',only:'-',ev:true,done:()=>state.season>=1&&!!state.infoProg&&String(state.infoProg).startsWith('ev:')},
-   {t:'Zum Schluss ein Ausblick: Manche Karten wirken je nach <b>Jahreszeit</b> anders, im <b>Winter</b> frieren Savanne und Wüste. Ab 6 Gehegen eines Lebensraums gibt es eine <b>Meilenstein-Karte</b>. Und in der <b>Kampagne</b> spielst du Zoo um Zoo mit steigender Schwierigkeit. Viel Spaß!',btn:'Tutorial abschließen',fin:true}]}};
+   {t:'Zum Schluss ein Ausblick: Manche Karten wirken je nach <b>Jahreszeit</b> anders, im <b>Winter</b> frieren Savanne und Wüste. Ab 6 verschiedenen Gehege-Arten eines Lebensraums gibt es eine <b>Meilenstein-Karte</b>. Und in der <b>Kampagne</b> spielst du Zoo um Zoo mit steigender Schwierigkeit. Viel Spaß!',btn:'Tutorial abschließen',fin:true}]}};
 const tutStep=()=>state&&state.mode==='tut'&&state.tut?TUT[state.tut.ch].steps[state.tut.i]:null;
 function startTut(ch){const T=TUT[ch],terr=new Map(T.terr);applyPerks({});UNLOCK=new Set();modal=null;
   newGame('wiese',{key:'wiese',cells:hexDisc(3),terr},{deck:['affen','reptilien','gruen','flamingos','turm','kamele','schildkroeten','popcorn'],state:{mode:'tut',tut:{ch,i:0},tmult:1000}});
@@ -2081,7 +2108,7 @@ function runOverviewHtml(run,open){const sl=activeSlot(),cp=sl&&sl.cperks||{},rp
     <h4>${DECKS[run.deckId||'grund'].icon} ${DECKS[run.deckId||'grund'].name} · ${run.deck.length} Karten</h4></details>`}
 /* ---------- Kampagne: Belohnungen zwischen den Zoos ---------- */
 function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,btn)=>{const c=CARDS[k];return`<div class="pcard"><span class="ic">${c.icon}</span><div class="info2"><span class="nm">${c.name}</span>
-      <span class="meta3">${c.hab?habBadge(c.hab)+' '+HAB[c.hab].label:CAT[c.cat].label}${traitOf(c)?' · '+TRAITNAME[traitOf(c)]:''} · ${costOf(k)} BP${perkN(k)?` · 🏅 ${perkN(k)}`:''}</span>
+      <span class="meta3">${c.hab?habBadge(c.hab)+' '+HAB[c.hab].label:CAT[c.cat].label}${traitOf(c)?' · '+TRAITNAME[traitOf(c)]:''} · ${costOf(k)} BP${perkN(k)?` · 🏅 ${perkN(k)}`:''} · ${cnt(run.deck,x=>x===k)?'im Deck: '+cnt(run.deck,x=>x===k)+'×':'neu für dich'}</span>
       <span class="bigvals"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(k)}</span>${fxHtml(c)}</div><div class="pb">${btn}</div></div>`};
   if(a.step==='won')return`<h2>🏆 Kampagne geschafft!</h2><p style="margin:0">Du hast alle ${CAMP_GOAL} Zoos gemeistert. Bisher ${fmt(run.total)} Punkte. Du kannst den Lauf jetzt in die Bestenliste eintragen oder im Endlos-Modus weiterspielen, solange du durchhältst.</p>
     <button class="btn main big" data-cend="1">Lauf beenden und eintragen</button><button class="btn sub big" data-cendless="1">Endlos weiterspielen</button>`;
@@ -2277,7 +2304,6 @@ function start(data){loadMeta();if(data&&data.meta&&Array.isArray(data.meta.slot
 window.claude?.hot?.snapshot?.(()=>{try{saveMeta()}catch(e){}return{meta:JSON.parse(JSON.stringify(META)),resume:screen||(state&&state.mode==='tut')?null:META.active,resumeMode:state?state.mode:null}});
 window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});
 </script>
-
 
 <script>
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
