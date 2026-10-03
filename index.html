@@ -412,7 +412,12 @@ text.tt-a{fill:#3a1d00} text.tt-s{fill:#00302b} text.tt-tot{fill:var(--gold)} te
 .mkbar.on{display:block}
 .modal:has(.mkt){background:#1b2c47;box-shadow:0 0 0 3px #7fb2ff88,0 20px 50px #000a}
 .mkt{display:flex;flex-direction:column;gap:12px}
-.mkt h2{color:#a9ccff}
+.modal:has(.mkt) h2{color:#a9ccff}
+.stabs{display:flex;gap:6px}
+.stabs button{flex:1;border:0;border-radius:12px 12px 4px 4px;padding:10px 6px;font:inherit;font-weight:700;font-size:14px;background:#0005;color:var(--muted);cursor:pointer}
+.stabs button.on{background:var(--gold);color:#3a2a00}
+.stabs button.new:not(.on){box-shadow:0 0 0 2px #ffd166;color:#ffd166;animation:tutglow 1.2s ease-in-out infinite}
+.stabs i{font-style:normal;display:inline-block;min-width:18px;padding:0 5px;margin-left:4px;border-radius:9px;background:#0004;font-size:12px}
 .mkt .pcard{border-left:6px solid #7fb2ff}
 .evb.mk.new{animation:tutglow 1.2s ease-in-out infinite}
 .dprog{height:10px;border-radius:5px;background:#ffffff14;overflow:hidden}
@@ -715,7 +720,7 @@ body.tutmode .card.tutno{opacity:.45}
 <script>
 document.documentElement.lang='de';
 //ENGINE-START
-const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3;
+const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:5000},{name:'Sommer',target:35000},{name:'Herbst',target:120000},{name:'Winter',target:260000,winter:true}];
 const EARLY_BONUS=5; // Taler je übrigem Tag, wenn das Saisonziel früh erreicht ist
@@ -970,7 +975,7 @@ for(const k in CARDS){const c=CARDS[k];c.fx=(FX[k]||[]).slice();
   if(c.tags.includes('raubtier'))c.fx.push('Raubtier|stresst Beutetiere daneben');
   if(c.tags.includes('scheu'))c.fx.push('Scheu|Essensstände daneben verlieren 1 N');
   c.text=c.fx.map(l=>l.replace('|',' ')).join(' · ')}
-const START_DECK=['pinguine','flamingos','schildkroeten','affen','reptilien','erdmaennchen','giraffen','kamele','delfinshow','popcorn','gruen','turm'];
+const START_DECK=['pinguine','flamingos','schildkroeten','affen','reptilien','erdmaennchen','giraffen','kamele','delfinshow','popcorn','gruen','turm','pinguine','affen','popcorn','gruen']; // 16 Karten, die vier Zusatzkarten sind Doppelte
 
 const PROGS={
   pate_savanne:{name:'Savannen-Patenschaft',icon:'🌾',price:50,fx:['+1 B +1 N|für jedes Savannen-Gehege im Zoo'],per:(b,c)=>c.hab==='savanne'?{a:1,s:1}:null},
@@ -998,12 +1003,13 @@ const ADS={
 for(const P of[...Object.values(PROGS),...Object.values(ADS)])P.text=P.fx.map(l=>l.replace('|',' ')).join(' · ');
 // Saison-Ereignisse: k = Stärke des Nachteils (1 mild, 2 mittel, 3 hart)
 const EVENTS={
-  hitze:{name:'Extreme Hitze',icon:'☀️',fx:k=>[`−${k} B|für jedes Wasser-Gehege`,'+1 B|für jedes Wüsten-Gehege'],per:(b,c,k)=>c.hab==='wasser'?{a:-k}:c.hab==='wueste'?{a:1}:null},
-  regen:{name:'Dauerregen',icon:'🌧️',fx:k=>[`−${k} B|für jede Attraktion`,'+1 N|für jedes Wald-Gehege'],per:(b,c,k)=>c.cat==='attr'?{a:-k}:c.hab==='wald'?{s:1}:null},
+  hitze:{name:'Extreme Hitze',icon:'☀️',se:[1],fx:k=>[`−${k} B|für jedes Wasser-Gehege`,'+1 B|für jedes Wüsten-Gehege'],per:(b,c,k)=>c.hab==='wasser'?{a:-k}:c.hab==='wueste'?{a:1}:null},
+  regen:{name:'Dauerregen',icon:'🌧️',se:[0,1,2],fx:k=>[`−${k} B|für jede Attraktion`,'+1 N|für jedes Wald-Gehege'],per:(b,c,k)=>c.cat==='attr'?{a:-k}:c.hab==='wald'?{s:1}:null},
   demo:{name:'Tierschutz-Demo',icon:'🪧',fx:k=>[`−${k} B|für jede Attraktion`,'+1 N|für jedes bedrohte Tier'],per:(b,c,k)=>c.cat==='attr'?{a:-k}:c.tags.includes('bedroht')?{s:1}:null},
   kontrolle:{name:'Lebensmittelkontrolle',icon:'🦠',fx:k=>[`−${k} B|für jeden Essensstand`],per:(b,c,k)=>c.cat==='essen'?{a:-k}:null},
-  ferien:{name:'Schulferien',icon:'🎒',fx:k=>['+1 B|für jeden Essensstand und jede Attraktion'],per:(b,c)=>c.cat==='essen'||c.cat==='attr'?{a:1}:null},
-  frost:{name:'Früher Frost',icon:'🥶',fx:k=>[`−${k} N|für jedes Savannen-Gehege`],per:(b,c,k)=>c.hab==='savanne'?{s:-k}:null},
+  ferien:{name:'Schulferien',icon:'🎒',alt:{0:['Osterferien'],1:['Sommerferien'],2:['Herbstferien'],3:['Weihnachtsferien']},fx:k=>['+1 B|für jeden Essensstand und jede Attraktion'],per:(b,c)=>c.cat==='essen'||c.cat==='attr'?{a:1}:null},
+  schnee:{name:'Schneesturm',icon:'🌨️',se:[3],fx:k=>[`−${k} B|für jede Attraktion`,'+1 B|für jedes Wasser-Gehege'],per:(b,c,k)=>c.cat==='attr'?{a:-k}:c.hab==='wasser'?{a:1}:null},
+  frost:{name:'Früher Frost',icon:'🥶',se:[0,2,3],alt:{0:['Später Frost'],3:['Strenger Frost','❄️']},fx:k=>[`−${k} N|für jedes Savannen-Gehege`],per:(b,c,k)=>c.hab==='savanne'?{s:-k}:null},
   foerder:{name:'Fördergelder',icon:'💶',fx:k=>['+1 N|extra je Ausbaustufe eines Geheges'],per:b=>(b.lvl||1)>1?{s:(b.lvl||1)-1}:null},
   baustelle:{name:'Baustelle',icon:'🚧',hard:1,fx:k=>['−1 BP|am ersten Tag der Jahreszeit']},
   ausbruch:{name:'Ausbruch',icon:'🐺',hard:1,fx:k=>['doppelt|stören Raubtiere die Beutetiere daneben']},
@@ -1011,11 +1017,12 @@ const EVENTS={
 const HABADJ={wasser:'Wasser',savanne:'Savannen',wald:'Wald',wueste:'Wüsten'};
 for(const h in HAB)EVENTS['doku_'+h]={name:'Doku im Fernsehen',icon:'📺',doku:1,fx:k=>[`+1 B|für jedes ${HABADJ[h]}-Gehege`],per:(b,c)=>c.hab===h?{a:1}:null};
 const evFx=e=>EVENTS[e.id].fx(e.k||1);
+const evName=e=>e.n||EVENTS[e.id].name,evIcon=e=>e.ic||EVENTS[e.id].icon;
 const evGroup=id=>EVENTS[id].doku?'doku':id;
-function rollEvents(cfg,rnd=Math.random){const out=[];let pool=Object.keys(EVENTS).filter(id=>!EVENTS[id].hard||cfg.hard);
+function rollEvents(cfg,rnd=Math.random){const out=[];let pool=Object.keys(EVENTS).filter(id=>(!EVENTS[id].hard||cfg.hard)&&(cfg.s==null||!EVENTS[id].se||EVENTS[id].se.includes(cfg.s)));
   for(let i=0;i<(cfg.n||1)&&pool.length;i++){const groups=[...new Set(pool.map(evGroup))],g=groups[Math.floor(rnd()*groups.length)],c=pool.filter(id=>evGroup(id)===g);
-    out.push({id:c[Math.floor(rnd()*c.length)],k:cfg.k||1});pool=pool.filter(id=>evGroup(id)!==g)}return out}
-const evLine=(evs,when)=>(evs||[]).filter(e=>EVENTS[e.id]).map(e=>`<p class="evline"><b>Ereignis ${when}: ${EVENTS[e.id].icon} ${EVENTS[e.id].name}</b> · ${evFx(e).map(l=>l.replace('|',' ')).join(' · ')}</p>`).join('');
+    {const id=c[Math.floor(rnd()*c.length)],al=(EVENTS[id].alt||{})[cfg.s],e={id,k:cfg.k||1};if(al){e.n=al[0];if(al[1])e.ic=al[1]}out.push(e)}pool=pool.filter(id=>evGroup(id)!==g)}return out}
+const evLine=(evs,when)=>(evs||[]).filter(e=>EVENTS[e.id]).map(e=>`<p class="evline"><b>Ereignis ${when}: ${evIcon(e)} ${evName(e)}</b> · ${evFx(e).map(l=>l.replace('|',' ')).join(' · ')}</p>`).join('');
 const hasEv=id=>(CTX.ev||[]).some(e=>e.id===id)&&!hasSpec('eventmanager');
 // Lauf-Boni der Kampagne: gelten bis zum Ende des Laufs, mehrfach wählbar
 const RUNB={};
@@ -1067,7 +1074,7 @@ Object.assign(SPEC,{
   direktor:{name:'Zoodirektorin',icon:'👑',tier:3,fx:['×1,25 B|für den ganzen Zoo','×1,25 N|für den ganzen Zoo'],mult:()=>({ma:1.25,ms:1.25})},
 });
 const bpBase=()=>BP+(hasSpec('polier')?1:0);
-// Starter-Decks der Kampagne: zwölf Karten, zwei davon gegen den Schwerpunkt getauscht
+// Starter-Decks der Kampagne: 16 Karten, zwei davon gegen den Schwerpunkt getauscht
 const DECKGOAL=1500;
 const DECKS={grund:{name:'Grunddeck',icon:'🌼',text:'Ausgewogen, von allem etwas.'},
   kueste:{name:'Küsten-Deck',icon:'💧',type:'wasser',inn:['seeloewen','otter'],out:['reptilien','kamele']},
@@ -1148,7 +1155,7 @@ function evalB(b,bs,idx,parts){const c=CARDS[b.key],nb=nbrs(b,idx);let a=c.a,s=c
   if(c.tags.includes('beute')&&!hasSpec('dompteur')){const p=cnt(nb,n=>has(n,'raubtier'))*(hasEv('ausbruch')?2:1);add('Raubtier nebenan',-p,-p)}
   for(const id of CTX.progs){const e=PROGS[id].per&&PROGS[id].per(b,c,nb);if(e)add(PROGS[id].name,e.a,e.s)}
   for(const id of CTX.ads){const e=ADS[id].per&&ADS[id].per(b,c,nb);if(e)add(ADS[id].name,e.a,e.s)}
-  for(const ev of CTX.ev||[]){const E=EVENTS[ev.id],e=E&&E.per&&E.per(b,c,ev.k||1),em=hasSpec('eventmanager');if(e)add(E.name,em?Math.max(0,e.a||0):e.a,em?Math.max(0,e.s||0):e.s)}
+  for(const ev of CTX.ev||[]){const E=EVENTS[ev.id],e=E&&E.per&&E.per(b,c,ev.k||1),em=hasSpec('eventmanager');if(e)add(ev.n||E.name,em?Math.max(0,e.a||0):e.a,em?Math.max(0,e.s||0):e.s)}
   for(const id of CTX.spec||[]){const S=SPEC[id],e=S&&S.per&&S.per(b,c,nb,bs);if(e)add(S.name,e.a,e.s)}
   for(const id in CTX.boni||{}){const R=RUNB[id],n=CTX.boni[id],e=R&&n&&R.per(b,c);if(e)add(R.name+(n>1?' ×'+n:''),(e.a||0)*n,(e.s||0)*n)}
   // Wiederholung: die 2. gleiche Anlage bringt 75 %, die 3. 50 %, ab der 4. 25 % (Besucher und Natur)
@@ -1301,7 +1308,7 @@ function setWeather(i){for(let k=0;k<4;k++)document.body.classList.toggle('sea'+
   if(!first&&!reduced&&i!==1)setTimeout(()=>{for(let k=0;k<16;k++){const g=document.createElement('i');g.className='g';g.style.top=(Math.random()*90)+'%';g.style.left='0';g.style.animationDelay=(Math.random()*.9).toFixed(2)+'s';g.style.setProperty('--dy',Math.round(Math.random()*120-30)+'px');w.appendChild(g);setTimeout(()=>g.remove(),3500)}},50);
   const n=reduced?0:[18,12,22,30][i];let h='';for(let k=0;k<n;k++){const d=(9+Math.random()*9).toFixed(1);h+=`<i style="left:${(Math.random()*100).toFixed(1)}%;animation-duration:${d}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;--dx:${Math.round(Math.random()*80-40)}px;--rot:${Math.round(Math.random()*540-270)}deg"></i>`}w.innerHTML=h}
 
-function rollSeason(i){const cf=state.mode==='camp'?campCfg(state.zoo):{k:1,n:1,spring:false};return i===0&&!cf.spring?[]:rollEvents(cf)}
+function rollSeason(i){const cf=state.mode==='camp'?campCfg(state.zoo):{k:1,n:1,spring:false};return i===0&&!cf.spring?[]:rollEvents({...cf,s:i})}
 function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;SHIFT=0;screen=null;setBoard(m.cells);TERR=m.terr;computeView();
   state=Object.assign(DEFAULTS(),{map:key,board:m.cells,season:0,day:0,seasonScore:0,totalScore:0,buildings:[],nextId:1,deck:shuffle(opt.deck||START_DECK),discard:[],hand:[],bp:BP,
     selected:null,rot:0,preview:null,phase:'play',offer:[],pendingSeason:false,lastDay:0,info:null,terr:[...TERR]},opt.state||{});
@@ -1350,9 +1357,9 @@ function render(){
   $('sScore').textContent=fmt(state.seasonScore);$('sTarget').textContent=fmt(se.target);
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
   $('btnMute').textContent=Sfx.muted?'🔇':'🔊';
-  {const nb=(state.spec||[]).length,mkOn=state.mode==='camp'&&state.day>=3&&state.phase==='play';if(mkOn)ensureMarket();
-   $('evs').innerHTML=(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${EVENTS[e.id].name}" aria-label="Ereignis: ${EVENTS[e.id].name}">${EVENTS[e.id].icon}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(mkOn?`<button class="evb mk" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
-  $('mkBar').classList.toggle('on',state.mode==='camp'&&state.day>=3&&state.phase==='play'&&!!state.market&&!state.market.seen&&!state.market.end);
+  {const nb=(state.spec||[]).length,mkOn=false;
+   $('evs').innerHTML=(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(mkOn?`<button class="evb mk" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
+  $('mkBar').classList.remove('on');
   placeZoomBtn();
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);
 
@@ -1465,8 +1472,8 @@ function infoHtml(h,cur){
   if(state.infoProg==='money')return moneyInfoHtml(cur);
   if(state.infoProg==='redraw')return`<h3>🔄 Hand neu ziehen?</h3><p class="hint">Kostet <b>1 Baupunkt</b>. Alle Handkarten gehen auf die Ablage, du ziehst fünf neue. Nicht rückgängig, auch die heutigen Züge davor sind danach fest. <b>Nochmal auf 🔄 tippen</b> zum Bestätigen.</p>`;
   if(state.infoProg==='boni'){const L=(state.spec||[]).filter(id=>SPEC[id]),ks=Object.keys(PERKS).filter(k=>CARDS[k]&&perkN(k));
-    return`<h3>🎖️ Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?L.map(id=>{const S=SPEC[id];return`<p class="hint" style="margin:0"><b style="color:var(--text)">${S.icon} ${S.name}</b></p>${fxHtml(S)}${specYield(id)}`}).join(''):'<p class="hint">Noch niemand eingestellt. Spezialisten gibt es im Stellenmarkt (ab Tag 4 und am Ende jeder Jahreszeit) und nach jedem geschafften Zoo.</p>'}${ks.length?`<p class="hint">Verbesserte Karten: ${ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · ')}</p>`:''}`}
-  if(state.infoProg&&state.infoProg.startsWith('ev:')){const e=(state.events||[]).find(x=>'ev:'+x.id===state.infoProg);if(e)return`<h3>${EVENTS[e.id].icon} ${EVENTS[e.id].name}</h3><p class="hint">Ereignis · gilt die ganze Jahreszeit</p>${fxHtml({fx:evFx(e)})}${EVENTS[e.id].per?yieldHtml({per:(b,c)=>EVENTS[e.id].per(b,c,e.k||1)}):''}`}
+    return`<h3>🎖️ Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?L.map(id=>{const S=SPEC[id];return`<p class="hint" style="margin:0"><b style="color:var(--text)">${S.icon} ${S.name}</b></p>${fxHtml(S)}${specYield(id)}`}).join(''):'<p class="hint">Noch niemand eingestellt. Spezialisten gibt es im Stellenmarkt (nach jeder Jahreszeit, als Reiter neben dem Shop) und nach jedem geschafften Zoo.</p>'}${ks.length?`<p class="hint">Verbesserte Karten: ${ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · ')}</p>`:''}`}
+  if(state.infoProg&&state.infoProg.startsWith('ev:')){const e=(state.events||[]).find(x=>'ev:'+x.id===state.infoProg);if(e)return`<h3>${evIcon(e)} ${evName(e)}</h3><p class="hint">Ereignis · gilt die ganze Jahreszeit</p>${fxHtml({fx:evFx(e)})}${EVENTS[e.id].per?yieldHtml({per:(b,c)=>EVENTS[e.id].per(b,c,e.k||1)}):''}`}
   if(state.infoProg==='bautrupp')return`<h3>🧱 Saison-Bautrupp</h3><p class="hint">Diese Jahreszeit +1 Baupunkt pro Tag.</p>`;
   if(state.infoProg){const P=PROGS[state.infoProg]||ADS[state.infoProg];if(P)return`<h3>${P.icon} ${P.name}</h3><p class="hint">${ADS[state.infoProg]?'Werbung · nur diese Jahreszeit':'Förderprogramm · dauerhaft, auch für bereits gebaute'}</p>${fxHtml(P)}${yieldHtml(P)}`}
   if(state.selected!=null){const k=state.hand[state.selected],c=CARDS[k];
@@ -1482,7 +1489,7 @@ function infoHtml(h,cur){
     return`<h3>${c.icon} ${c.name}${(b.lvl||1)>1?` <span class="tag" style="background:var(--gold)">Stufe ${ROMAN[b.lvl]}</span>`:''} ${tagHtml(c)}</h3>${(()=>{const bs=state.buildings,bk=breakdown(b,bs),bs2=bs.filter(x=>x!==b),i1=mkIndex(bs),i2=mkIndex(bs2);let ga=0,gs=0;for(const n of bs2){const v1=evalB(n,bs,i1),v2=evalB(n,bs2,i2);ga+=v1.a-v2.a;gs+=v1.s-v2.s}
       return`<div class="resbig"><span class="a">${bk.a} B</span><span class="s">${bk.s} N</span>${ga||gs?`<span class="z ${ga+gs<0?'neg':''}">gibt den Nachbarn ${vTxt(ga,gs)}</span>`:''}${m?`<span class="z">aktiv: ${m.ma?'×'+String(m.ma).replace('.',',')+' B':'×'+String(m.ms).replace('.',',')+' N'} für den Zoo</span>`:''}</div>${brkHtml(c,bk)}`})()}${fxHtml(c,1)}
       ${state.phase==='review'?'':`<p class="hint">${can?'Mit „🚚 Umziehen“ unten versetzt du es für 1 BP.':'Umziehen kostet 1 BP, du hast keinen mehr.'}</p>`}`}}
-  if(state.day===0&&!state.builtToday&&state.phase==='play'&&(state.events||[]).length)return`<h3>Ereignis im ${seOf(state.season).name}: ${state.events.map(e=>EVENTS[e.id].icon+' '+EVENTS[e.id].name).join(' · ')}</h3>${fxHtml({fx:state.events.flatMap(evFx)})}`;
+  if(state.day===0&&!state.builtToday&&state.phase==='play'&&(state.events||[]).length)return`<h3>Ereignis im ${seOf(state.season).name}: ${state.events.map(e=>evIcon(e)+' '+evName(e)).join(' · ')}</h3>${fxHtml({fx:state.events.flatMap(evFx)})}`;
   if(!state.buildings.length&&state.day===0&&state.season===0)return`<h3>Willkommen! Gelände: ${MAPS[state.map].icon} ${MAPS[state.map].name}</h3><p class="hint">4 Baupunkte pro Tag, jedes Feld kostet 1. Naturflächen (💧🌾🌿🏜️) geben passenden Gehegen Bonus. Mehr im Menü ☰.</p>`;
   if(!state.hand.some(affordable))return`<h3>Fertig für heute</h3><p class="hint">Keine Karte passt mehr in deine Baupunkte. Tippe auf „Tag beenden“.</p>`;
   return`<h3>Tag ${state.day+1} · noch ${state.bp} Baupunkte</h3><p class="hint">Baue weiter oder beende den Tag. Übrige Handkarten kommen auf die Ablage.</p>`;
@@ -1716,20 +1723,21 @@ function endDay(){const se=seOf(state.season);state.picks=state.pickTotal=state.
     state.phase=state.season===SEASONS.length-1?'win':'seasonWon';Sfx.win();render()}
   else if(state.day===DAYS-1){state.phase='lost';Sfx.lose();render()}
   else nextDraft()}
-function nextDraft(){if(state.picks>0){state.phase='draft';state.offer=makeOffer();Sfx.draw();render()}else advance()}
+function nextDraft(){if(state.picks>0){state.phase='draft';state.offer=makeOffer(OFFER);Sfx.draw();render()}else advance()}
 const draftPrice=()=>5+2*(state.draftRolls||0);
-function draftRoll(){const p=draftPrice();if(state.phase!=='draft'||!canPay(p)){Sfx.deny();return}state.money-=p;state.stats.spent+=p;state.draftRolls=(state.draftRolls||0)+1;state.offer=makeOffer();Sfx.till();Sfx.draw();render()}
-function pick(i){if(i!=null)state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.select();
-  if(state.picks>0){state.offer=makeOffer();Sfx.draw();render()}else advance()}
+function draftRoll(){const p=draftPrice();if(state.phase!=='draft'||!canPay(p)){Sfx.deny();return}state.money-=p;state.stats.spent+=p;state.draftRolls=(state.draftRolls||0)+1;state.offer=makeOffer(OFFER);Sfx.till();Sfx.draw();render()}
+const deckTotal=()=>state.hand.length+state.deck.length+state.discard.length,skipOk=()=>deckTotal()>MINSKIP;
+function pick(i){if(i==null&&!skipOk()){Sfx.deny();return}if(i!=null)state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.select();
+  if(state.picks>0){state.offer=makeOffer(OFFER);Sfx.draw();render()}else advance()}
 function advance(){
-  if(state.pendingSeason){if(state.mode==='camp'){state.market={season:state.season,items:rollSpecs(state.day<3?3:2),bought:false,rolls:0,seen:true,end:true};state.phase='market';Sfx.draw();render()}else openShop();return}
+  if(state.pendingSeason){openShop();return}
   state.day++;startDay()}
 function beginNextSeason(){state.pendingSeason=false;state.shop=null;state.shopSub=null;
   state.past.push({name:seOf(state.season).name,pts:state.seasonScore});state.season++;state.day=0;state.seasonScore=0;state.dayPts=[];
   state.ads=state.adsNext;state.adsNext=[];state.bpSeason=state.bpNext||0;state.bpNext=0;state.bpMax=bpBase()+state.bpSeason;state.market=null;state.events=state.eventsNext||[];state.eventsNext=[];state.evRolled=false;state.ledger={entry:0,care:0,interest:0,early:0};syncCtx();startDay()}
 
 /* ---------- shop ---------- */
-function openShop(){state.phase='shop';state.shopSub=null;if(!state.evRolled){state.eventsNext=rollSeason(state.season+1);state.evRolled=true}state.shop={rerolls:0,items:genShopItems()};Sfx.draw();render()}
+function openShop(){state.phase='shop';state.shopSub=null;if(!state.evRolled){state.eventsNext=rollSeason(state.season+1);state.evRolled=true}state.shop={rerolls:0,items:genShopItems()};state.shopTab='shop';state.market=state.mode==='camp'?{season:state.season,items:rollSpecs(3),bought:false,rolls:0,seen:false,end:true}:null;Sfx.draw();render()}
 function runOf(){const sl=activeSlot();return sl&&sl.run}
 function rollSpecs(n,excl=[]){const run=runOf(),have=run?run.spec||[]:[],pool=Object.keys(SPEC).filter(id=>!have.includes(id)&&!excl.includes(id)),out=[];
   while(out.length<n&&pool.length){const w=pool.map(id=>[0,6,3,1][SPEC[id].tier]),tot=w.reduce((a,b)=>a+b,0);let r=Math.random()*tot,i=0;for(;i<pool.length-1;i++){r-=w[i];if(r<=0)break}out.push(pool.splice(i,1)[0])}return out}
@@ -1743,10 +1751,10 @@ function specCard(id,btn){const S=SPEC[id];return`<div class="pcard"><span class
 function teamHtml(mode){const run=runOf(),L=(run&&run.spec||[]).filter(id=>SPEC[id]);
   return`<h3>Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?`<div style="display:flex;flex-direction:column;gap:6px">${L.map(id=>specCard(id,mode?`<button class="btn sub" data-${mode}="${id}">Entlassen${mode==='mfire'?`<br><b>+🪙 ${Math.floor(SPECPRICE[SPEC[id].tier]/2)}</b>`:''}</button>`:'')).join('')}</div>`:'<p style="margin:0;color:var(--muted);font-size:13px">Noch niemand eingestellt.</p>'}`}
 function marketHtml(){const m=state.market,full=(state.spec||[]).length>=MAXSPEC;
-  return`<div class="mkt"><h2>👥 Stellenmarkt · 🪙 ${fmt(state.money)}</h2><p style="margin:0;font-size:13.5px">${m.end?'Zum Saisonende bewerben sich neue Spezialisten.':'Ab Tag 4 jeder Jahreszeit bewerben sich zwei Spezialisten.'} Du kannst <b>höchstens einen</b> einstellen. Spezialisten bleiben für den ganzen Lauf.</p>${m.bought?'<p style="margin:0;color:var(--gold)">Du hast in dieser Jahreszeit schon jemanden eingestellt.</p>':full?'<p style="margin:0;color:#ffb3b5">Alle 5 Plätze sind belegt. Entlasse zuerst jemanden.</p>':''}
+  return`<div class="mkt"><p style="margin:0;font-size:13.5px">Nach jeder Jahreszeit bewerben sich drei Spezialisten. Du kannst <b>höchstens einen</b> einstellen. Spezialisten bleiben für den ganzen Lauf.${full?' <b>Dein Team ist voll.</b>':''}</p>
     <div style="display:flex;flex-direction:column;gap:8px">${m.items.map(id=>{const pr=priced(SPECPRICE[SPEC[id].tier]);return specCard(id,`<button class="btn main" data-mhire="${id}" ${m.bought||full||!canPay(pr)?'disabled':''}>Einstellen<br><b>🪙 ${pr}</b></button>`)}).join('')||'<p style="margin:0;color:var(--muted)">Keine Bewerber mehr.</p>'}</div>
-    ${teamHtml('mfire')}
-    <div class="shopbar"><button class="btn sub" id="mMkRoll" ${m.bought||!canPay(marketRoll())?'disabled':''}>🎲 Andere Bewerber · 🪙 ${marketRoll()}</button>${m.end?'<button class="btn main" id="mToShop">Weiter zum Shop</button>':'<button class="btn main" id="mClose">Schließen</button>'}</div></div>`}
+    ${m.bought?'<p style="margin:0;color:var(--gold)">Du hast diesmal schon jemanden eingestellt.</p>':''}
+    ${teamHtml('mfire')}</div>`}
 function genShopItems(){const pick=a=>a.length?a.splice(Math.floor(Math.random()*a.length),1)[0]:null;
   const progs=Object.keys(PROGS).filter(id=>!state.progs.includes(id)),ads=Object.keys(ADS).filter(id=>!state.adsNext.includes(id));
   const nextWinter=!!(seOf(state.season+1)||{}).winter;
@@ -1791,8 +1799,12 @@ function shopHtml(){const se=seOf(state.season),nx=seOf(state.season+1);
   const debt=state.money<0?`<p style="color:#ffb3b5"><b>Du hast ${fmt(-state.money)} Taler Schulden.</b> Erst ab 0 kannst du wieder kaufen. Schulden kosten jeden Tag 1 Taler Zinsen je 10.</p>`:'';
   const L=state.ledger||{entry:0,care:0,interest:0,early:0},led=`<div class="bill"><span>Im ${se.name}:</span><span>🎟️ Eintritt ${sgn(L.entry)}</span><span class="${L.care<0?'neg':''}">🌿 Pflege ${sgn(L.care)}</span><span class="${L.interest<0?'neg':''}">🏦 Zinsen ${sgn(L.interest)}</span>${L.spec?`<span class="${L.spec<0?'neg':''}">👥 Spezialisten ${sgn(L.spec)}</span>`:''}${L.early?`<span>⏱️ früh fertig ${sgn(L.early)}</span>`:''}</div>`;
   const slots=`<div class="slotrow">${state.progs.map(id=>`<span>${PROGS[id].icon} ${PROGS[id].name}</span>`).join('')||'<span>Noch keine Förderprogramme</span>'}${state.adsNext.map(id=>`<span>${ADS[id].icon} ${ADS[id].name} (${nx.name})</span>`).join('')}${state.bpNext?`<span>🧱 Saison-Bautrupp (${nx.name})</span>`:''}</div>`;
-  return`<h2>Zoo-Shop · 🪙 ${fmt(state.money)}</h2><p class="hint" style="color:var(--muted);font-size:13px">Förderprogramme wirken dauerhaft auf alle passenden Gebäude im Zoo, auch auf bereits gebaute. Werbung und Bautrupp wirken eine Jahreszeit lang.</p>${led}${debt}${state.shop.note?`<p style="color:var(--gold)">${state.shop.note}</p>`:''}
-    ${(state.eventsNext||[]).length?`<h3>Ereignis im ${nx.name}</h3><div class="shopgrid">${state.eventsNext.map(e=>`<div class="item ev"><span class="kind">Gilt die ganze Jahreszeit</span><span class="nm">${EVENTS[e.id].icon} ${EVENTS[e.id].name}</span><span class="tx">${fxHtml({fx:evFx(e)})}</span></div>`).join('')}</div>`:''}
+  const mk=state.market,tab=mk&&state.shopTab==='market'?'market':'shop',evs=(state.eventsNext||[]).length?`<h3>Ereignis im ${nx.name}</h3><div class="shopgrid">${state.eventsNext.map(e=>`<div class="item ev"><span class="kind">Gilt die ganze Jahreszeit</span><span class="nm">${evIcon(e)} ${evName(e)}</span><span class="tx">${fxHtml({fx:evFx(e)})}</span></div>`).join('')}</div>`:'';
+  const tabs=mk?`<div class="stabs"><button class="${tab==='shop'?'on':''}" data-stab="shop">🛒 Shop <i>${cnt(state.shop.items,x=>!x.sold)}</i></button><button class="${tab==='market'?'on':''} ${mk.seen?'':'new'}" data-stab="market">👥 Stellenmarkt <i>${mk.bought?0:mk.items.length}</i></button></div>`:'';
+  if(tab==='market')return`<h2>Saisonende · 🪙 ${fmt(state.money)}</h2>${tabs}${debt}${marketHtml()}
+    <div class="shopbar"><button class="btn sub" id="mMkRoll" ${mk.bought||!canPay(marketRoll())?'disabled':''}>🎲 Andere Bewerber · 🪙 ${marketRoll()}</button><button class="btn main" id="mLeave">Weiter zum ${nx.name}</button></div>`;
+  return`<h2>${mk?'Saisonende':'Zoo-Shop'} · 🪙 ${fmt(state.money)}</h2>${tabs}<p class="hint" style="color:var(--muted);font-size:13px">Förderprogramme wirken dauerhaft auf alle passenden Gebäude im Zoo, auch auf bereits gebaute. Werbung und Bautrupp wirken eine Jahreszeit lang.</p>${led}${debt}${state.shop.note?`<p style="color:var(--gold)">${state.shop.note}</p>`:''}
+    ${evs}
     <h3>Angebote</h3><div class="shopgrid">${state.shop.items.map((it,i)=>itemHtml(it,i,false)).join('')}</div>
     <h3>Service</h3><div class="shopgrid">${fixedItems().map((it,i)=>itemHtml(it,i,true)).join('')}</div>
     <h3>Förderprogramme ${state.progs.length}/${MAXPROGS}</h3>${slots}
@@ -1904,7 +1916,7 @@ function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose
   <li><b>🔍 Zoom</b> sitzt in einer freien Ecke des Geländes oder oben in der Leiste. Auf freier Fläche ziehen verschiebt den Ausschnitt. Beim Tagesende geht der Zoom aus.</li>
   <li><b>Ereignisse:</b> Ab dem Sommer gilt jede Jahreszeit ein zufälliges Ereignis (Symbol oben neben „Saison“, antippen zeigt die Wirkung). Im Shop siehst du schon vorher, was kommt.</li>
   <li><b>Kampagne:</b> Zoo um Zoo wird es schwerer. Du startest mit einem Starter-Deck. Nach jedem geschafften Jahr gibt es 3 Kartenverbesserungen, dreimal 1 aus 3 neuen Karten, bis zu 3 Karten zum Aussortieren und einen Spezialisten. Jeder Zoo beginnt mit deinem Lauf-Deck; Zoo, Taler und Förderprogramme beginnen bei null.</li>
-  <li><b>Spezialisten</b> (nur Kampagne): Mitarbeiter mit Sonderregel, höchstens 5, gelten für den ganzen Lauf. Du bekommst sie im Stellenmarkt 👥 (ab Tag 4 jeder Jahreszeit und noch einmal am Saisonende vor dem Shop, jeweils höchstens einen) und nach jedem Zoo. 🎖️ oben zeigt dein Team.</li>
+  <li><b>Spezialisten</b> (nur Kampagne): Mitarbeiter mit Sonderregel, höchstens 5, gelten für den ganzen Lauf. Du bekommst sie im Stellenmarkt 👥 (nach jeder Jahreszeit als Reiter neben dem Shop, jeweils höchstens einen) und nach jedem Zoo. 🎖️ oben zeigt dein Team.</li>
   <li><b>🔄 Neu ziehen:</b> Für 1 Baupunkt wirfst du die ganze Hand ab und ziehst fünf neue Karten. Zweimal tippen zum Bestätigen. Das lässt sich nicht rückgängig machen, und die Züge davor sind danach fest.</li>
   <li><b>↶ Rückgängig</b> nimmt Bauen, Ausbauen und Umziehen des heutigen Tages Schritt für Schritt zurück.</li>
   <li><b>Einmalig:</b> Gebäude mit Bonus für den ganzen Zoo (Forschungslabor, Artenvielfalt-Institut, Zoo-Stiftung, Nachtführung) gibt es nur einmal im Zoo.</li>
@@ -1917,8 +1929,6 @@ function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose
   <div class="habrow">${['attr','essen','schutz'].map(k=>`<span><i style="background:var(--paper);border:3px solid ${CAT[k].col}"></i>${CAT[k].label}</span>`).join('')}</div>`:''}`}
 function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):null,inGame=!!state&&!screen;let h='',wide=false;
   if(modal==='help')h=helpHtml();
-  else if(modal==='market'&&state&&state.market){h=marketHtml();wide=true}
-  else if(inGame&&state.phase==='market'&&state.market){h=marketHtml();wide=true}
   else if(modal==='maps'){h=mapsHtml();wide=true}
   else if(modal==='tut'){const sl=tutSlides(),i=Math.max(0,Math.min(tutIdx,sl.length-1)),S=sl[i];
     h=`<div class="tut"><div class="tuthead"><span>Tutorial · ${i+1} / ${sl.length}</span><button class="icbtn" id="mClose" aria-label="Tutorial schließen">✕</button></div>${S.svg}<h2>${S.title}</h2><p>${S.text}</p>
@@ -1933,7 +1943,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
     h=`<h2>🏅 Meilenstein erreicht!</h2><p style="margin:0">Du hast <b>${M.n} verschiedene ${M.label}</b> in deinem Zoo. Dafür bekommst du diese besondere Karte. Sie ersetzt heute eine deiner fünf Handkarten und lässt sich nur einmal bauen.</p>
       <div class="milecard"><span class="ic">${c.icon}</span><span class="nm">${c.name}</span><span style="font-size:12px;font-weight:600;color:#5d6b60">${c.hab?HAB[c.hab].label+'-Gehege':CAT[c.cat].label} · ${costOf(M.card)} BP · Einmalig</span><span class="vals3"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(M.card)}</span>${fxHtml(c)}</div>
       <button class="btn main big" id="mMileOk">Auf die Hand nehmen</button>`}
-  else if(inGame&&state.phase==='draft')h=`<h2>Neue Karte ${state.pickTotal-state.picks+1} von ${state.pickTotal}</h2><p>Du hast ${state.pickTotal} Karte${state.pickTotal>1?'n':''} verbaut und darfst genauso viele neue wählen. Sie kommen auf deine Ablage.</p>${state.pendingSeason&&seOf(state.season+1)?evLine(state.eventsNext,'im '+seOf(state.season+1).name):''}<div class="offer">${state.offer.map(offerCard).join('')}</div><div class="shopbar"><button class="btn sub" id="mDraftRoll" ${canPay(draftPrice())?'':'disabled'}>🎲 Neue Auswahl · 🪙 ${draftPrice()}</button><button class="btn sub" data-skip="1">Diese auslassen</button></div><p style="margin:0;font-size:12.5px;color:var(--muted)">In der Kasse: 🪙 ${fmt(state.money)}. Jeder Wurf heute kostet 2 mehr.</p>`;
+  else if(inGame&&state.phase==='draft')h=`<h2>Neue Karte ${state.pickTotal-state.picks+1} von ${state.pickTotal}</h2><p>Du hast ${state.pickTotal} Karte${state.pickTotal>1?'n':''} verbaut und darfst genauso viele neue wählen. Sie kommen auf deine Ablage.</p>${state.pendingSeason&&seOf(state.season+1)?evLine(state.eventsNext,'im '+seOf(state.season+1).name):''}<div class="offer">${state.offer.map(offerCard).join('')}</div><div class="shopbar"><button class="btn sub" id="mDraftRoll" ${canPay(draftPrice())?'':'disabled'}>🎲 Neue Auswahl · 🪙 ${draftPrice()}</button><button class="btn sub" data-skip="1" ${skipOk()?'':'disabled'}>Diese auslassen</button></div><p style="margin:0;font-size:12.5px;color:var(--muted)">🃏 Dein Deck: <b>${deckTotal()} Karten</b>${skipOk()?'':' · zu klein zum Auslassen, du musst eine Karte nehmen'}. In der Kasse: 🪙 ${fmt(state.money)}. Jeder Wurf heute kostet 2 mehr.</p>`;
   else if(inGame&&state.phase==='shop'){h=shopHtml();wide=true}
   else if(inGame&&state.phase==='seasonWon'){const nx=seOf(state.season+1);
     h=`<h2>${se.name} geschafft${state.day<DAYS-1?` an Tag ${state.day+1}`:''}!</h2><div class="bigscore">${fmt(state.seasonScore)}</div><p>Ziel war ${fmt(se.target)}.${state.earlyBonus?` Früh fertig: <b>+🪙 ${state.earlyBonus}</b> für ${state.earlyBonus/EARLY_BONUS} übrige Tag${state.earlyBonus/EARLY_BONUS>1?'e':''}.`:''} In der Kasse: 🪙 ${fmt(state.money)}. Nach deinen neuen Karten geht es in den Shop. Im ${nx.name} brauchst du <b>${fmt(nx.target)}</b> Punkte.</p>${evLine(state.eventsNext,'im '+nx.name)}<button class="btn main" id="mNext">Weiter</button>`}
@@ -1947,8 +1957,8 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   root.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{const[p,k]=b.dataset.rm.split('|');removeCard(p,k)});
   root.querySelectorAll('[data-mhire]').forEach(b=>b.onclick=()=>{const id=b.dataset.mhire,pr=priced(SPECPRICE[SPEC[id].tier]),m=state.market;if(m.bought||!canPay(pr)||!hireSpec(id)){Sfx.deny();return}state.money-=pr;state.stats.spent+=pr;m.bought=true;m.items=m.items.filter(x=>x!==id);Sfx.till();Sfx.win();render()});
   root.querySelectorAll('[data-mfire]').forEach(b=>b.onclick=()=>{fireSpec(b.dataset.mfire,true);Sfx.till();render()});
-  {const mr2=$('mMkRoll');if(mr2)mr2.onclick=()=>{const pr=marketRoll(),m=state.market;if(m.bought||!canPay(pr)){Sfx.deny();return}state.money-=pr;state.stats.spent+=pr;m.rolls++;m.items=rollSpecs(2,m.items);Sfx.till();Sfx.draw();render()}}
-  {const ts=$('mToShop');if(ts)ts.onclick=()=>{state.market=null;openShop()}}
+  {const mr2=$('mMkRoll');if(mr2)mr2.onclick=()=>{const pr=marketRoll(),m=state.market;if(m.bought||!canPay(pr)){Sfx.deny();return}state.money-=pr;state.stats.spent+=pr;m.rolls++;m.items=rollSpecs(3,m.items);Sfx.till();Sfx.draw();render()}}
+  root.querySelectorAll('[data-stab]').forEach(b=>b.onclick=()=>{state.shopTab=b.dataset.stab;if(state.market&&state.shopTab==='market')state.market.seen=true;Sfx.select();render()});
   const mo=$('mMileOk');if(mo)mo.onclick=()=>{state.mileNew.shift();Sfx.select();render()};
   const dr=$('mDraftRoll');if(dr)dr.onclick=draftRoll;
   const bk=$('mBack');if(bk)bk.onclick=()=>{state.shopSub=null;render()};
@@ -1982,7 +1992,7 @@ function restoreGame(s){const ok=s&&Array.isArray(s.deck)&&Array.isArray(s.terr)
   if(!ok)return false;try{state=Object.assign(DEFAULTS(),s);setBoard(Array.isArray(s.board)&&s.board.length?s.board:hexDisc(5));state.board=BOARD;if(!MAPS[state.map])state.map='wiese';
     if(!Array.isArray(state.undo))state.undo=[];state.msg=null;state.moving=null;state.miles=state.miles||{};TERR=new Map(s.terr);ZOOM=null;computeView();
     state.progs=state.progs.filter(id=>PROGS[id]);state.ads=state.ads.filter(id=>ADS[id]);state.adsNext=state.adsNext.filter(id=>ADS[id]);
-    if(state.phase==='scoring'||(state.phase==='draft'&&!state.picks)||(state.phase==='shop'&&!state.shop)||(state.phase==='market'&&!state.market))state.phase='play';
+    if(state.phase==='scoring'||(state.phase==='draft'&&!state.picks)||(state.phase==='shop'&&!state.shop)||state.phase==='market')state.phase='play';
     syncCtx();return true}catch(e){console.warn('Spielstand verworfen',e);return false}}
 function enterSlot(i,fresh){META.active=i;META.lastSlot=i;META.lastMode='free';const sl=META.slots[i];applySlot(sl);sl.last=Date.now();
   if(!fresh&&sl.game&&restoreGame(sl.game)){sl.game=state;screen=null;modal=null;saveMeta();renderAll();return}
@@ -2004,7 +2014,7 @@ function startZoo(){const sl=activeSlot(),run=sl.run,cf=campCfg(run.zoo),ev0=run
   newGame(cf.map,genMap(cf.map,Math.random,cf.rocks),{deck:run.deck,events:ev0,state:{mode:'camp',zoo:run.zoo,tmult:cf.mult,spec:(run.spec||[]).slice(),stats:run.stats||newStats()}});saveMeta();renderAll()}
 const deckOpen=(sl,id)=>!DECKS[id].type||((sl.ctype||{})[DECKS[id].type]||0)>=DECKGOAL;
 function deckSelHtml(){const i=screenArg.slot,sl=META.slots[i];
-  return`<div class="bar2"><h2>🎴 Starter-Deck wählen</h2><button class="btn sub" data-mode="${i}">Zurück</button></div><p style="margin:0;color:var(--muted)">Jedes Deck hat zwölf Karten. Themen-Decks tauschen zwei Karten gegen ihren Schwerpunkt. Du schaltest sie frei, indem deine Gebäude dieses Typs über alle Kampagnen-Läufe zusammen ${fmt(DECKGOAL)} Besucher und Natur einbringen.</p>
+  return`<div class="bar2"><h2>🎴 Starter-Deck wählen</h2><button class="btn sub" data-mode="${i}">Zurück</button></div><p style="margin:0;color:var(--muted)">Jedes Deck hat 16 Karten. Themen-Decks tauschen zwei Karten gegen ihren Schwerpunkt. Du schaltest sie frei, indem deine Gebäude dieses Typs über alle Kampagnen-Läufe zusammen ${fmt(DECKGOAL)} Besucher und Natur einbringen.</p>
     ${Object.keys(DECKS).map(id=>{const D=DECKS[id],ok=deckOpen(sl,id),pts=D.type?Math.min(DECKGOAL,Math.round((sl.ctype||{})[D.type]||0)):0,cs=deckCards(id),m={};cs.forEach(k=>m[k]=(m[k]||0)+1);
       return`<div class="slot ${ok?'':'locked'}"><h3>${D.icon} ${D.name}${ok?'':' 🔒'}</h3><p>${D.type?`Schwerpunkt ${MILE[D.type].label}: mit ${D.inn.map(k=>CARDS[k].name).join(' und ')} statt ${D.out.map(k=>CARDS[k].name).join(' und ')}.`:D.text}</p>
         <div class="deckchips" style="background:none;padding:0">${Object.keys(m).map(k=>`<span class="${(D.inn||[]).includes(k)?'hl':''}">${CARDS[k].icon} ${CARDS[k].name}</span>`).join('')}</div>
@@ -2122,7 +2132,7 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,b
   if(a.step==='card')return`${head}<h3 class="sh">Neue Karte ${a.round||1} von 3</h3><p style="margin:0">Wähle 1 von 3. Die Karte kommt dauerhaft in dein Lauf-Deck. Jeder Zoo beginnt mit diesem Deck.</p>
     <h3 class="sh" style="font-size:15px">Dein Deck</h3>${deckChips(run.deck,a.lastCard)}
     <div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>cardRow(k,`<button class="btn main" data-ccard="${k}">Nehmen</button>`)).join('')}</div><button class="btn sub" data-cskip="card">Keine Karte</button>`;
-  if(a.step==='trim'){const can=run.deck.length>10&&(a.trim||0)<3;return`${head}<h3 class="sh">Deck aufräumen</h3><p style="margin:0">Wenn du möchtest, sortiere bis zu <b>3 Karten</b> aus. Sie verschwinden für den Rest des Laufs. Tippe eine Karte an, um ein Exemplar zu entfernen. Das Deck behält mindestens 10 Karten.</p>
+  if(a.step==='trim'){const can=run.deck.length>MINDECK&&(a.trim||0)<3;return`${head}<h3 class="sh">Deck aufräumen</h3><p style="margin:0">Wenn du möchtest, sortiere bis zu <b>3 Karten</b> aus. Sie verschwinden für den Rest des Laufs. Tippe eine Karte an, um ein Exemplar zu entfernen. Das Deck behält mindestens ${MINDECK} Karten.</p>
     <p style="margin:0;color:var(--gold);font-weight:700">Aussortiert: ${a.trim||0} von 3</p>${deckChips(run.deck,null,{ok:can})}<button class="btn main" data-cskip="trim">Fertig</button>`}
   if(a.step==='spec'){const full=(run.spec||[]).length>=MAXSPEC;return`${head}<h3 class="sh">Spezialist einstellen</h3><p style="margin:0">Wähle 1 von 3, kostenlos. Spezialisten haben eine Sonderregel und bleiben für den ganzen Lauf. Du hast ${MAXSPEC} Plätze.</p>${full?'<p style="margin:0;color:#ffb3b5">Alle Plätze sind belegt. Entlasse unten jemanden, um Platz zu schaffen.</p>':''}
     <div style="display:flex;flex-direction:column;gap:8px">${(a.opts||[]).map(id=>specCard(id,`<button class="btn main" data-cspec="${id}" ${full?'disabled':''}>Einstellen</button>`)).join('')}</div>
@@ -2139,7 +2149,7 @@ function crewardStep(step){const run=activeSlot().run,a=run.reward;a.step=step;
   if(step==='card'){a.round=a.round||1;const pool=Object.keys(CARDS).filter(k=>(CARDS[k].bonus_&&!run.cards.includes(k))||(!CARDS[k].bonus_&&['selten','sehr selten'].includes(CARDS[k].rar)&&!(CARDS[k].tags.includes('einmalig')&&run.deck.includes(k))));a.cards=shuffle(pool).slice(0,3)}
   if(step==='trim')a.trim=a.trim||0;
   if(step==='spec')a.opts=rollSpecs(3);
-  if(step==='next'){const cf=campCfg(run.zoo);a.ev=cf.spring?rollEvents(cf):[]}
+  if(step==='next'){const cf=campCfg(run.zoo);a.ev=cf.spring?rollEvents({...cf,s:0}):[]}
   saveMeta();renderScreen()}
 function modeHtml(){const a=screenArg,i=a.slot,sl=META.slots[i],run=sl.run;
   const free=a.fresh?`<div class="slot"><h3>Neues Spiel?</h3><div class="meta2">Das laufende freie Spiel (${gameStatus(sl.game)}) wird beendet und zählt nicht für Highscore und Belohnung.</div><div class="acts"><button class="btn main" data-freshyes="${i}">Ja, neues Spiel</button><button class="btn sub" data-cancel="1">Abbrechen</button></div></div>`
@@ -2264,7 +2274,7 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
     if(d.cskip==='perk'){crewardStep('card');return}
     if(d.ccard||d.cskip==='card'){if(d.ccard){run.deck.push(d.ccard);(run.added=run.added||[]).push(d.ccard);if(CARDS[d.ccard].bonus_&&!run.cards.includes(d.ccard))run.cards.push(d.ccard);applyRun(run);a.lastCard=d.ccard;Sfx.win()}else Sfx.select();
       a.round=(a.round||1)+1;crewardStep(a.round>3?'trim':'card');return}
-    if(d.ctrim){if(run.deck.length<=10||(a.trim||0)>=3)return;const i=run.deck.lastIndexOf(d.ctrim);if(i<0)return;run.deck.splice(i,1);const j=(run.added||[]).lastIndexOf(d.ctrim);if(j>=0)run.added.splice(j,1);else(run.removed=run.removed||[]).push(d.ctrim);a.trim=(a.trim||0)+1;Sfx.rotate();saveMeta();renderScreen();return}
+    if(d.ctrim){if(run.deck.length<=MINDECK||(a.trim||0)>=3)return;const i=run.deck.lastIndexOf(d.ctrim);if(i<0)return;run.deck.splice(i,1);const j=(run.added||[]).lastIndexOf(d.ctrim);if(j>=0)run.added.splice(j,1);else(run.removed=run.removed||[]).push(d.ctrim);a.trim=(a.trim||0)+1;Sfx.rotate();saveMeta();renderScreen();return}
     if(d.cskip==='trim'){Sfx.select();crewardStep('spec');return}
     if(d.cspec){if(!hireSpec(d.cspec)){Sfx.deny();return}Sfx.win();Sfx.sparkle();crewardStep('next');return}
     if(d.cfire){fireSpec(d.cfire,false);Sfx.rotate();saveMeta();renderScreen();return}
