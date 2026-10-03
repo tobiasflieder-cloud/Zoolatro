@@ -399,6 +399,30 @@ text.tt-a{fill:#3a1d00} text.tt-s{fill:#00302b} text.tt-tot{fill:var(--gold)} te
 .milecard ul.fx{text-align:left}
 .milecard ul.fx b.b{color:#b86500}.milecard ul.fx b.n{color:#00857a}.milecard ul.fx b.bn{color:#8a6a00}.milecard ul.fx b.w{color:#5d6b60}
 /* Spezialisten, Decks */
+.rulebox{background:var(--panel);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;font-size:13.5px}
+.rulebox small{color:var(--muted);font-size:12.5px}
+.evb.rl{outline:2px solid #ff7a59}
+#board .rgo{fill:#ffd16644;stroke:#ffd166;stroke-width:.7}
+#board .rno{fill:#ff5a5f55;stroke:#ff5a5f;stroke-width:.7}
+#board .rentry{fill:#ffd166;stroke:#fff3b0;stroke-width:.8}
+#board .tic.rdoor{font-size:8px;opacity:1}
+.won{display:flex;flex-direction:column;gap:12px;align-items:stretch;text-align:center;position:relative}
+.won h2{font-size:30px;color:var(--gold);margin:0}
+.won .wsub{margin:0;font-size:15px}
+.wtrophy{font-size:76px;line-height:1;animation:wtro 1s cubic-bezier(.2,1.6,.4,1) both;filter:drop-shadow(0 0 22px #ffd16699)}
+@keyframes wtro{0%{transform:scale(.2) rotate(-25deg);opacity:0}100%{transform:none;opacity:1}}
+.wrec{align-self:center;background:var(--gold);color:#3a2a00;font-weight:700;border-radius:99px;padding:5px 14px;animation:pop .8s ease 1.2s 2}
+.wzoos{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.wzoos>div{background:var(--panel);border-radius:12px;padding:8px 2px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;animation:wzin .5s ease both}
+.wzoos span{font-size:22px}.wzoos b{font-size:12px}.wzoos small{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.wzoos em{font-style:normal;font-family:var(--f-display);font-size:13px;color:var(--gold);font-variant-numeric:tabular-nums}
+@keyframes wzin{0%{opacity:0;transform:translateY(14px) scale(.9)}100%{opacity:1;transform:none}}
+.wtot small{color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-size:11px;font-weight:600}
+.wtot .bigscore{font-size:48px}.wtot .wpop{animation:pop .5s ease;text-shadow:0 0 24px #ffd166aa}
+.won .sh,.won .slotrow,.won .sumgrid{text-align:left}
+.wconf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
+.wconf i{position:absolute;top:-14px;width:8px;height:13px;border-radius:2px;animation:wfall linear both}
+@keyframes wfall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--dx),105vh) rotate(720deg)}}
 .drows{display:flex;flex-direction:column;gap:6px}
 .drow{display:flex;align-items:center;gap:10px;background:var(--paper);color:var(--ink);border-radius:12px;padding:8px 10px;min-height:52px}
 .drow .ic{font-size:26px;flex:none}
@@ -1320,6 +1344,7 @@ function rollSeason(i){const cf=state.mode==='camp'?campCfg(state.zoo):{k:1,n:1,
 function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;SHIFT=0;screen=null;setBoard(m.cells);TERR=m.terr;computeView();
   state=Object.assign(DEFAULTS(),{map:key,board:m.cells,season:0,day:0,seasonScore:0,totalScore:0,buildings:[],nextId:1,deck:shuffle(opt.deck||START_DECK),discard:[],hand:[],bp:BP,
     selected:null,rot:0,preview:null,phase:'play',offer:[],pendingSeason:false,lastDay:0,info:null,terr:[...TERR]},opt.state||{});
+  if(state.rule)initRule();
   state.events=opt.events||rollSeason(0);syncCtx();state.bpMax=bpBase();const sl=activeSlot();if(sl&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}startDay()}
 function startDay(){state.moving=null;state.bp=state.bpMax-(state.day===0&&hasEv('baustelle')?1:0);state.builtToday=0;state.undo=[];state.selected=null;state.preview=null;state.phase='play';
   // Meilenstein-Karten kommen zuerst auf die Hand, dann wird auf fünf aufgefüllt
@@ -1343,6 +1368,7 @@ function hypo(){const mb=movingB();
   if(mb){if(!state.preview)return null;const cells=ghostCells(),others=state.buildings.filter(b=>b!==mb);
     if(cells.map(c=>hk(...c)).sort().join('|')===mb.cells.map(c=>hk(...c)).sort().join('|'))return{ok:false,move:mb,cells,why:'Hier steht es schon. Wähle einen neuen Platz oder drehe es.'};
     if(!fits(others,cells,mb.key))return{ok:false,move:mb,cells,why:whyNot(cells,mb.key,others)};
+    {const rw=ruleWhy(others,cells,mb.key);if(rw)return{ok:false,move:mb,cells,why:rw}}
     const nb=Object.assign({},mb,{cells}),all=state.buildings.map(b=>b===mb?nb:b),r=scoreZoo(all);
     return{ok:true,move:mb,cells,r,b:nb,own:r.steps.find(x=>x.id===mb.id),src:sourcesOf(nb,all),brk:breakdown(nb,all)}}
   if(state.selected==null||!state.preview)return null;const key=state.hand[state.selected],tb=upTarget();
@@ -1351,8 +1377,42 @@ function hypo(){const mb=movingB();
     return{ok:true,up:tb,cells:tb.cells,r,b:nb,own:r.steps.find(s=>s.id===tb.id),src:sourcesOf(nb,all),brk:breakdown(nb,all)}}
   const cells=ghostCells();if(!cells)return null;
   if(!fits(state.buildings,cells,key))return{ok:false,cells,why:whyNot(cells,key)};
+  {const rw=ruleWhy(state.buildings,cells,key);if(rw)return{ok:false,cells,why:rw}}
   const b={id:-1,key,cells},all=[...state.buildings,b],r=scoreZoo(all);
   return{ok:true,cells,r,b,own:r.steps.find(s=>s.id===-1),src:sourcesOf(b,all),brk:breakdown(b,all)}}
+// Test-Szenarien im freien Spiel: je eine Sonderregel fürs Bauen
+const RULES={eingang:{icon:'🚪',name:'Eingang',text:()=>'Am Rand liegt der Eingang 🚪. Das erste Gebäude muss ihn berühren, jedes weitere ein schon gebautes Gebäude oder den Eingang. Umziehen ist abgeschaltet.'},
+  raub:{icon:'🚫',name:'Raubtier-Abstand',text:()=>'Raubtiere und Beutetiere dürfen nicht nebeneinander gebaut werden.'},
+  rand:{icon:'🧱',name:'Randlage',text:R=>`${HAB[R.hab].icon} ${HAB[R.hab].label}-Gehege dürfen nur gebaut werden, wenn mindestens ein Feld am Rand des Geländes liegt.`},
+  max3:{icon:'✋',name:'Höchstens drei',text:()=>'Es dürfen höchstens 3 Gehege desselben Lebensraums zusammenhängend nebeneinander liegen.'}};
+let pendRule=null;
+const isEdge=(q,r)=>DIRS.some(([dq,dr])=>!ONBOARD.has(hk(q+dq,r+dr)));
+function initRule(){const R=state.rule;if(!R||!RULES[R.id]){state.rule=null;return}
+  if(R.id==='eingang'){const c=BOARD.filter(([q,r])=>isEdge(q,r)&&!TERR.get(hk(q,r)));R.entry=(c.length?c:BOARD)[Math.floor(Math.random()*(c.length||BOARD.length))].slice()}
+  if(R.id==='rand'){const hs=Object.keys(HAB);R.hab=hs[Math.floor(Math.random()*hs.length)]}
+  state.infoProg='rule'}
+function habGroup(b,bs){const h=CARDS[b.key].hab,idx=mkIndex(bs),seen=new Set([b]),st=[b];while(st.length){const x=st.pop();for(const n of nbrs(x,idx))if(!seen.has(n)&&CARDS[n.key].cat==='gehege'&&CARDS[n.key].hab===h){seen.add(n);st.push(n)}}return seen.size}
+function ruleWhy(bs,cells,key){const R=state&&state.rule;if(!R)return null;const c=CARDS[key],T=c.tags||[],fake={key,cells},idx=mkIndex(bs),nb=nbrs(fake,idx);
+  if(R.id==='eingang'){const ek=hk(...R.entry);if(cells.some(([q,r])=>hk(q,r)===ek))return'Hier ist der Eingang 🚪, der bleibt frei.';
+    const te=cells.some(([q,r])=>DIRS.some(([dq,dr])=>hk(q+dq,r+dr)===ek));
+    if(!bs.length&&!te)return'Sonderregel: Das erste Gebäude muss am Eingang 🚪 stehen.';if(!te&&!nb.length)return'Sonderregel: Hier grenzt nichts an. Baue direkt neben ein Gebäude oder den Eingang 🚪.'}
+  if(R.id==='raub'){if(T.includes('raubtier')&&nb.some(n=>has(n,'beute')))return'Sonderregel: Raubtiere dürfen nicht neben Beutetieren stehen.';if(T.includes('beute')&&nb.some(n=>has(n,'raubtier')))return'Sonderregel: Beutetiere dürfen nicht neben Raubtieren stehen.'}
+  if(R.id==='rand'&&c.cat==='gehege'&&c.hab===R.hab&&!cells.some(([q,r])=>isEdge(q,r)))return`Sonderregel: ${HAB[R.hab].label}-Gehege brauchen mindestens ein Feld am Rand.`;
+  if(R.id==='max3'&&c.cat==='gehege'&&habGroup(fake,[...bs,fake])>3)return`Sonderregel: Höchstens 3 ${HAB[c.hab].label}-Gehege dürfen zusammenhängen.`;
+  return null}
+function ruleOverlay(){const R=state.rule;if(!R)return'';let o='';
+  if(R.id==='eingang'){const[x,y]=px(...R.entry);o+=`<polygon class="rentry" points="${hexPts(x,y,SZ*.86)}" pointer-events="none"/><text class="tic rdoor" x="${x}" y="${y}">🚪</text>`}
+  const key=state.moving==null&&state.selected!=null?state.hand[state.selected]:null,c=key&&CARDS[key];if(!c||state.phase!=='play')return o;
+  const idx=mkIndex(state.buildings),T=c.tags||[],ek=R.entry?hk(...R.entry):null;
+  for(const[q,r]of BOARD){const k=hk(q,r);if(idx.has(k)||TERR.get(k)==='block'||k===ek)continue;let cls='';
+    const nb=[...new Set(DIRS.map(([dq,dr])=>idx.get(hk(q+dq,r+dr))).filter(Boolean))];
+    if(R.id==='eingang'){if(nb.length||DIRS.some(([dq,dr])=>hk(q+dq,r+dr)===ek))cls='rgo'}
+    else if(R.id==='raub'){if((T.includes('raubtier')&&nb.some(n=>has(n,'beute')))||(T.includes('beute')&&nb.some(n=>has(n,'raubtier'))))cls='rno'}
+    else if(R.id==='rand'){if(c.cat==='gehege'&&c.hab===R.hab&&isEdge(q,r))cls='rgo'}
+    else if(R.id==='max3'){if(c.cat==='gehege'&&nb.some(n=>CARDS[n.key].cat==='gehege'&&CARDS[n.key].hab===c.hab&&habGroup(n,state.buildings)>=3))cls='rno'}
+    if(cls){const[x,y]=px(q,r);o+=`<polygon class="${cls}" points="${hexPts(x,y,SZ*.86)}" pointer-events="none"/>`}}
+  return o}
+const ruleInfoHtml=()=>{const R=state.rule,D=RULES[R.id];return`<h3>${D.icon} Sonderregel: ${D.name}</h3><p class="hint">${D.text(R)}</p><p class="hint">Test-Szenario im freien Spiel. Der Highscore landet in einer eigenen Liste.</p>`};
 function whyNot(cells,key,bs=state.buildings){const idx=mkIndex(bs),c=CARDS[key];if(builtUnique(bs,key))return`${c.name} gibt es nur einmal im Zoo. Du kannst die Karte abwerfen, indem du den Tag beendest.`;
   for(const[q,r]of cells){const k=hk(q,r);if(!ONBOARD.has(k))return'Ragt über den Rand hinaus.';if(idx.has(k))return'Da steht schon etwas.';
     const t=TERR.get(k);if(t==='block')return'Felsen lassen sich nicht bebauen.';
@@ -1366,7 +1426,7 @@ function render(){
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
   $('btnMute').textContent=Sfx.muted?'🔇':'🔊';
   {const nb=(state.spec||[]).length,mkOn=false;
-   $('evs').innerHTML=(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(mkOn?`<button class="evb mk" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
+   $('evs').innerHTML=(state.rule&&RULES[state.rule.id]?`<button class="evb rl" data-ev="rule" title="Sonderregel" aria-label="Sonderregel: ${RULES[state.rule.id].name}">${RULES[state.rule.id].icon}</button>`:'')+(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(mkOn?`<button class="evb mk" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
   $('mkBar').classList.remove('on');
   placeZoomBtn();
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);
@@ -1400,6 +1460,7 @@ function render(){
     if(t==='block'){const pts=hexPts(x,y,SZ*.8);cellsSvg+=`<polygon class="block" data-terr="block" points="${pts}"/><polygon class="hatch" points="${pts}" pointer-events="none"/><text class="tic blk" x="${x}" y="${y}">🪨</text>`}
     else if(t){const ng=habSel&&habSel!==t,go=habSel&&habSel===t;cellsSvg+=`<polygon class="cell t0" data-q="${q}" data-r="${r}" points="${hexPts(x,y,SZ*.86)}"/><polygon class="terr ${t} ${ng?'nogo':''} ${go?'go':''}" data-terr="${t}" data-q="${q}" data-r="${r}" points="${hexPts(x,y,SZ*.86)}"/><polygon class="tpat ${ng?'nogo':''}" fill="url(#pt-${t})" points="${hexPts(x,y,SZ*.86)}"/>${ng?`<text class="tic nogo" x="${x}" y="${y}">🚫</text>`:''}`}
     else cellsSvg+=`<polygon class="cell t${((q-r)%3+3)%3}" data-q="${q}" data-r="${r}" points="${hexPts(x,y,SZ*.86)}"/>`}
+  cellsSvg+=ruleOverlay();
   const trm={};if(selC){const T=selC.tags,food=c=>c.cat==='essen'&&(c.fx||[]).includes(MAL),lab=c=>selC.cat==='essen'&&food(selC)&&c.tags.includes('scheu')?'scheu':T.includes('beute')&&c.tags.includes('raubtier')?'Raubtier':T.includes('raubtier')&&c.tags.includes('beute')?'Beute':T.includes('scheu')&&food(c)?'−1 N':null;
     for(const b of state.buildings){if(b.id===state.moving)continue;const l=lab(CARDS[b.key]);if(!l)continue;trm[b.id]=1;const[cx,cy]=centroid(b.cells),w=l.length*2.35+3.4,y=cy+(b.cells.length>1?5.6:4.7);
       marks+=`<g class="trl"><rect x="${(cx-w/2).toFixed(2)}" y="${(y-2.9).toFixed(2)}" width="${w.toFixed(2)}" height="5.8" rx="2.9"/><text x="${cx.toFixed(2)}" y="${y.toFixed(2)}">${l}</text></g>`}}
@@ -1429,7 +1490,7 @@ function render(){
 
   $('info').innerHTML=infoHtml(h,cur);
   const canBuildMore=state.hand.some(affordable);
-  {const mvb=state.phase==='play'&&state.moving==null&&state.selected==null&&state.info!=null&&!!byId[state.info],bb=$('btnBuild');
+  {const mvb=state.phase==='play'&&!(state.rule&&state.rule.id==='eingang')&&state.moving==null&&state.selected==null&&state.info!=null&&!!byId[state.info],bb=$('btnBuild');
    bb.disabled=mvb?state.bp<1:!(state.phase==='play'&&h&&h.ok);bb.textContent=mvb?'🚚 Umziehen':state.moving!=null?'Setzen':h&&h.up?'Ausbauen':'Bauen';
    document.querySelector('.actions').classList.toggle('mvb',mvb)}
   const rv=state.phase==='review',seEnd=rv&&(state.seasonScore>=seOf(state.season).target||state.day===DAYS-1);
@@ -1476,6 +1537,7 @@ function infoHtml(h,cur){
   if(state.hoverTerr){const t=state.hoverTerr;return t==='block'?`<h3>🪨 Felsen</h3><p class="hint">Nicht bebaubar. Im Shop kannst du einen Felsen wegbaggern lassen.</p>`
     :`<h3>${HAB[t].icon} ${HAB[t].label}-Naturfläche</h3><p class="hint"> Gehege nur mit Lebensraum ${HAB[t].label}, die bekommen +1 Natur je Feld darauf. Attraktionen, Essen und Naturschutz-Gebäude dürfen hier ohne Bonus stehen.</p>`}
   {const mb=movingB();if(mb&&state.phase==='play'){const c=CARDS[mb.key];return`<h3>🚚 Umzug: ${c.icon} ${c.name}${(mb.lvl||1)>1?` <span class="tag" style="background:var(--gold)">Stufe ${ROMAN[mb.lvl]}</span>`:''}</h3><p class="hint">Tippe auf den neuen Platz oder ziehe die Vorschau, mit ↻ drehst du. „Setzen“ kostet 1 BP. ↶ bricht ab.</p>${h&&h.ok?resHtml(h,cur)+brkHtml(c,h.brk):h&&h.why?`<p class="resbad">${h.why}</p>`:''}`}}
+  if(state.infoProg==='rule'&&state.rule)return ruleInfoHtml();
   if(state.infoProg==='mile')return mileInfoHtml();
   if(state.infoProg==='money')return moneyInfoHtml(cur);
   if(state.infoProg==='redraw')return`<h3>🔄 Hand neu ziehen?</h3><p class="hint">Kostet <b>1 Baupunkt</b>. Alle Handkarten gehen auf die Ablage, du ziehst fünf neue. Nicht rückgängig, auch die heutigen Züge davor sind danach fest. <b>Nochmal auf 🔄 tippen</b> zum Bestätigen.</p>`;
@@ -1826,10 +1888,11 @@ function mapPreviewSvg(m){return withRot(false,()=>{const[x0,y0,x1,y1]=bbox(m.ce
   return`<svg viewBox="${x0-p} ${y0-p} ${x1-x0+2*p} ${y1-y0+2*p}" aria-hidden="true">${g}</svg>`})}
 function openMaps(back){mapsBack=back;mapPrev=Object.fromEntries(Object.keys(MAPS).map(k=>[k,genMap(k)]));modal='maps';renderAll()}
 function mapsHtml(){return`<h2>Wähle dein Gelände</h2><p>Jede Form spielt sich anders. Naturflächen und Felsen werden jedes Mal neu verteilt.</p>
+  <div class="rulebox"><b>🧪 Sonderregel zum Testen</b><div class="chips"><button class="chip2 ${pendRule?'':'on'}" data-rule="">Keine</button>${Object.keys(RULES).map(id=>`<button class="chip2 ${pendRule===id?'on':''}" data-rule="${id}">${RULES[id].icon} ${RULES[id].name}</button>`).join('')}</div>${pendRule?`<small>${pendRule==='rand'?'Ein zufälliger Lebensraum darf nur gebaut werden, wenn mindestens ein Feld am Rand liegt.':RULES[pendRule].text({})}</small>`:'<small>Erst Regel wählen, dann das Gelände antippen.</small>'}</div>
   <div class="mapgrid">${Object.keys(MAPS).map(k=>`<button class="mapbtn" data-map="${k}">${mapPreviewSvg(mapPrev[k])}<span class="nm">${MAPS[k].icon} ${MAPS[k].name}</span><span class="tx">${MAPS[k].text}</span></button>`).join('')}
   <button class="mapbtn rnd" data-map="rnd"><span class="dice">🎲</span><span class="nm">Zufällig</span><span class="tx">Lass dich überraschen.</span></button></div>
   ${mapsBack?`<button class="btn sub" id="mMapsBack">Zurück</button>`:''}`}
-function chooseMap(k){if(k==='rnd'){const ks=Object.keys(MAPS);k=ks[Math.floor(Math.random()*ks.length)];modal=null;newGame(k)}else{modal=null;newGame(k,mapPrev[k])}saveMeta();renderScreen()}
+function chooseMap(k){const o=pendRule?{state:{rule:{id:pendRule}}}:{};pendRule=null;if(k==='rnd'){const ks=Object.keys(MAPS);k=ks[Math.floor(Math.random()*ks.length)];modal=null;newGame(k,undefined,o)}else{modal=null;newGame(k,mapPrev[k],o)}saveMeta();renderScreen()}
 
 /* ---------- tutorial slideshow ---------- */
 function tutSlides(){return withRot(false,()=>{
@@ -1981,6 +2044,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   root.querySelectorAll('[data-scf]').forEach(b=>b.onclick=()=>{SCFAST=+b.dataset.scf;try{localStorage.setItem('zoodeck-fast',SCFAST)}catch(e){}Sfx.select();renderModal()});
   root.querySelectorAll('[data-pan]').forEach(b=>b.onclick=()=>{PANSPEED=+b.dataset.pan;try{localStorage.setItem('zoodeck-pan',PANSPEED)}catch(e){}Sfx.select();renderModal()});
   root.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>chooseMap(b.dataset.map));
+  root.querySelectorAll('[data-rule]').forEach(b=>b.onclick=()=>{pendRule=b.dataset.rule||null;Sfx.select();renderAll()});
   const mt=$('mTut');if(mt)mt.onclick=()=>{tutIdx=0;modal='tut';render()};
   const tp=$('tPrev');if(tp)tp.onclick=()=>{tutIdx--;renderAll()};
   const tn=$('tNext');if(tn)tn.onclick=()=>{if(tutIdx>=tutSlides().length-1){modal=null;tutIdx=0}else tutIdx++;renderAll()};
@@ -2022,30 +2086,46 @@ function enterCamp(i,fresh,deckId){META.active=i;META.lastSlot=i;META.lastMode='
   startZoo()}
 function startZoo(){const sl=activeSlot(),run=sl.run,cf=campCfg(run.zoo),ev0=run.reward&&run.reward.ev;run.reward=null;applyRun(run);modal=null;
   newGame(cf.map,genMap(cf.map,Math.random,cf.rocks),{deck:run.deck,events:ev0,state:{mode:'camp',zoo:run.zoo,tmult:cf.mult,spec:(run.spec||[]).slice(),stats:run.stats||newStats()}});saveMeta();renderAll()}
-const deckOpen=(sl,id)=>!DECKS[id].type||((sl.ctype||{})[DECKS[id].type]||0)>=DECKGOAL;
+const UNLOCK_DECK={kueste:{goal:100,k:'wB',txt:'Wasser-Gehege gebaut (über alle Läufe)'},geniesser:{goal:150,k:'eB',txt:'Essensstände gebaut (über alle Läufe)'},
+  freizeit:{goal:4000,k:'aB',txt:'Besucher mit Attraktionen (über alle Läufe)'},forscher:{goal:5000,k:'sN',txt:'Natur mit Naturschutz-Gebäuden (über alle Läufe)'},
+  dschungel:{goal:7,k:'wald',txt:'verschiedene Wald-Gehege in einem Zoo (dein Bestwert)'},oase:{goal:70000,k:'day',txt:'Punkte an einem Tag (dein Bestwert)'},
+  steppe:{goal:20,k:'sav',txt:'Savannen-Gehege in einem Lauf gebaut (dein Bestwert)'}};
+function cuOf(sl){if(!sl.cu){const c=sl.ctype||{};sl.cu={wB:0,eB:0,aB:Math.round(c.attr||0),sN:Math.round(c.schutz||0),wald:0,day:0,sav:0,open:Object.keys(DECKS).filter(id=>DECKS[id].type&&(c[DECKS[id].type]||0)>=DECKGOAL)}}return sl.cu}
+const deckOpen=(sl,id)=>{if(!DECKS[id].type)return true;const cu=cuOf(sl),U=UNLOCK_DECK[id];return cu.open.includes(id)||(cu[U.k]||0)>=U.goal};
+// am Ende jedes Kampagnen-Zoos: Fortschritt der Freischalt-Aufgaben und Lauf-Statistik fortschreiben (nur neu gesetzte Gebäude, Ausbau zählt nicht)
+function tallyUnlock(sl,run){const cu=cuOf(sl),before=Object.keys(DECKS).filter(id=>deckOpen(sl,id)),bs=state.buildings,n=f=>cnt(bs,b=>f(CARDS[b.key]));
+  cu.wB+=n(c=>c.cat==='gehege'&&c.hab==='wasser');cu.eB+=n(c=>c.cat==='essen');
+  const cs=state.stats.cards||{},sum=(cat,f)=>Object.keys(cs).reduce((t,k)=>t+(CARDS[k]&&CARDS[k].cat===cat?Math.max(0,cs[k][f]||0):0),0),A=sum('attr','a'),S=sum('schutz','s');
+  cu.aB+=Math.max(0,Math.round(A-(run.snapA||0)));cu.sN+=Math.max(0,Math.round(S-(run.snapS||0)));run.snapA=A;run.snapS=S;
+  cu.wald=Math.max(cu.wald,new Set(bs.filter(b=>{const c=CARDS[b.key];return c.cat==='gehege'&&c.hab==='wald'&&!c.ms}).map(b=>b.key)).size);
+  if(state.stats.best)cu.day=Math.max(cu.day,state.stats.best.pts);
+  run.sav=(run.sav||0)+n(c=>c.cat==='gehege'&&c.hab==='savanne');cu.sav=Math.max(cu.sav,run.sav);
+  run.newNow=Object.keys(DECKS).filter(id=>deckOpen(sl,id)&&!before.includes(id));run.newDecks=(run.newDecks||[]).concat(run.newNow);
+  run.zooPts=(run.zooPts||[]).concat([state.totalScore]);run.miles=(run.miles||0)+Object.keys(state.miles||{}).length}
 function deckSelHtml(){const i=screenArg.slot,sl=META.slots[i];
-  return`<div class="bar2"><h2>🎴 Starter-Deck wählen</h2><button class="btn sub" data-mode="${i}">Zurück</button></div><p style="margin:0;color:var(--muted)">Jedes Deck hat 16 Karten. Themen-Decks tauschen zwei Karten gegen ihren Schwerpunkt. Du schaltest sie frei, indem deine Gebäude dieses Typs über alle Kampagnen-Läufe zusammen ${fmt(DECKGOAL)} Besucher und Natur einbringen.</p>
-    ${Object.keys(DECKS).map(id=>{const D=DECKS[id],ok=deckOpen(sl,id),pts=D.type?Math.min(DECKGOAL,Math.round((sl.ctype||{})[D.type]||0)):0,cs=deckCards(id),m={};cs.forEach(k=>m[k]=(m[k]||0)+1);
-      return`<div class="slot ${ok?'':'locked'}"><h3>${D.icon} ${D.name}${ok?'':' 🔒'}</h3><p>${D.type?`Schwerpunkt ${MILE[D.type].label}: mit ${D.inn.map(k=>CARDS[k].name).join(' und ')} statt ${D.out.map(k=>CARDS[k].name).join(' und ')}.`:D.text}</p>
+  return`<div class="bar2"><h2>🎴 Starter-Deck wählen</h2><button class="btn sub" data-mode="${i}">Zurück</button></div><p style="margin:0;color:var(--muted)">Jedes Deck hat 16 Karten. Themen-Decks tauschen zwei Karten gegen ihren Schwerpunkt. Jedes Themen-Deck hat eine eigene Aufgabe zum Freischalten. Gezählt wird am Ende jedes Kampagnen-Zoos. Ein 🏆 zeigt, mit welchem Deck du die Kampagne schon geschafft hast.</p>
+    ${Object.keys(DECKS).map(id=>{const D=DECKS[id],ok=deckOpen(sl,id),U=UNLOCK_DECK[id],pts=U?Math.min(U.goal,Math.round(cuOf(sl)[U.k]||0)):0,cs=deckCards(id),m={};cs.forEach(k=>m[k]=(m[k]||0)+1);
+      return`<div class="slot ${ok?'':'locked'}"><h3>${D.icon} ${D.name}${ok?'':' 🔒'}${(sl.trophy||{})[id]?' 🏆':''}</h3><p>${D.type?`Schwerpunkt ${MILE[D.type].label}: mit ${D.inn.map(k=>CARDS[k].name).join(' und ')} statt ${D.out.map(k=>CARDS[k].name).join(' und ')}.`:D.text}</p>
         <div class="deckchips" style="background:none;padding:0">${Object.keys(m).map(k=>`<span class="${(D.inn||[]).includes(k)?'hl':''}">${CARDS[k].icon} ${CARDS[k].name}</span>`).join('')}</div>
-        ${ok?`<div class="acts"><button class="btn main" data-cdeck="${id}">Mit diesem Deck starten</button></div>`:`<div class="dprog"><i style="width:${pts/DECKGOAL*100}%"></i></div><div class="meta2"><span>${MILE[D.type].icon} ${fmt(pts)} von ${fmt(DECKGOAL)}</span></div>`}</div>`}).join('')}`}
+        ${ok?`<div class="acts"><button class="btn main" data-cdeck="${id}">Mit diesem Deck starten</button></div>`:`<div class="dprog"><i style="width:${pts/U.goal*100}%"></i></div><div class="meta2"><span>${MILE[D.type].icon} <b>${fmt(pts)} von ${fmt(U.goal)}</b> ${U.txt}</span></div>`}</div>`}).join('')}`}
 function tallyZoo(){const t=state.stats;for(const b of state.buildings){t.tally[b.key]=(t.tally[b.key]||0)+1;t.lvl=Math.max(t.lvl||1,b.lvl||1)}}
 function summaryOf(st,info){const habs={},cats={attr:0,essen:0,schutz:0};for(const h in HAB)habs[h]=0;
   for(const k in st.tally){const c=CARDS[k];if(!c)continue;if(c.hab)habs[c.hab]+=st.tally[k];else cats[c.cat]+=st.tally[k]}
   const top=Object.entries(st.cards).filter(([k])=>CARDS[k]).map(([k,v])=>({k,a:v.a,s:v.s})).sort((x,y)=>(y.a+y.s)-(x.a+x.s)).slice(0,5);
   return Object.assign({habs,cats,top,best:st.best,combo:st.combo||0,lvl:st.lvl||1,earned:st.earned||0,spent:st.spent||0,progs:st.progs||0,days:st.days||0},info)}
+function wonAnim(){const e=$('wonTot');if(!e||reduced)return;const v=+e.dataset.v,t0=performance.now()+1700,dur=1500;e.textContent='0';
+  const step=t=>{if(!e.isConnected)return;const p=Math.min(1,Math.max(0,(t-t0)/dur));e.textContent=fmt(Math.round(v*(1-Math.pow(1-p,3))));if(p<1)requestAnimationFrame(step);else{e.textContent=fmt(v);e.classList.add('wpop')}};requestAnimationFrame(step)}
 function endRun(won){const sl=activeSlot(),run=sl.run,date=Date.now();META.cscores=META.cscores||[];
   META.cscores.push({name:sl.name,slot:META.active,zoos:run.zoo,pts:run.total||0,won:run.zoo>=CAMP_GOAL,date});META.cscores.sort((a,b)=>b.zoos-a.zoos||b.pts-a.pts);META.cscores=META.cscores.slice(0,100);
-  const before=Object.keys(DECKS).filter(id=>deckOpen(sl,id));sl.ctype=sl.ctype||{};{const cs=(run.stats||{}).cards||{};for(const k in cs){if(!CARDS[k])continue;const t=typeOfCard(CARDS[k]);sl.ctype[t]=(sl.ctype[t]||0)+Math.max(0,cs[k].a)+Math.max(0,cs[k].s)}}
-  const newDecks=Object.keys(DECKS).filter(id=>deckOpen(sl,id)&&!before.includes(id));
+  const newDecks=run.newDecks||[];
   const sum=summaryOf(run.stats||newStats(),{total:run.total||0,camp:true,zoos:run.zoo,won:run.zoo>=CAMP_GOAL,newDecks});const n=1+run.zoo;sl.run=null;sl.runs=(sl.runs||0)+1;sl.cperks=sl.cperks||{};applyPerks(sl.cperks);UNLOCK=new Set();state=null;modal=null;
   screen='summary';screenArg={sum,next:{screen:'perk',arg:{step:'cat',hl:date,camp:true,left:n,total:n}}};saveMeta();if(sum.won)Sfx.win();else Sfx.lose();renderAll()}
 function finishGame(){const sl=activeSlot(),won=state.phase==='win',date=Date.now();tallyZoo();
-  if(state.mode==='camp'&&sl&&sl.run){const run=sl.run;run.total=(run.total||0)+state.totalScore;run.stats=state.stats;run.game=null;
+  if(state.mode==='camp'&&sl&&sl.run){const run=sl.run;run.total=(run.total||0)+state.totalScore;run.stats=state.stats;run.game=null;tallyUnlock(sl,run);
     if(!won){endRun(false);return}
-    run.zoo++;state=null;modal=null;run.reward=run.zoo===CAMP_GOAL?{step:'won'}:{step:'perk',left:3,pstep:'cat'};screen='creward';screenArg=run.reward;saveMeta();Sfx.win();renderAll();return}
+    run.zoo++;state=null;modal=null;if(run.zoo===CAMP_GOAL){sl.trophy=sl.trophy||{};sl.trophy[run.deckId||'grund']=1}run.reward=run.zoo===CAMP_GOAL?{step:'won'}:{step:'perk',left:3,pstep:'cat'};screen='creward';screenArg=run.reward;saveMeta();Sfx.win();renderAll();return}
   const sum=summaryOf(state.stats,{total:state.totalScore,won,map:state.map,season:state.season});
-  META.scores.push({name:sl?sl.name:'Gast',slot:META.active,pts:state.totalScore,map:state.map,season:state.season,won,date});
+  META.scores.push({name:sl?sl.name:'Gast',slot:META.active,pts:state.totalScore,map:state.map,season:state.season,won,date,rule:state.rule?state.rule.id:undefined});
   META.scores.sort((a,b)=>b.pts-a.pts);META.scores=META.scores.slice(0,100);
   if(sl){sl.game=null;sl.games=(sl.games||0)+1}state=null;modal=null;const locked=Object.keys(CARDS).filter(isLocked);
   const next=won&&sl&&locked.length?{screen:'unlock',arg:{cards:shuffle(locked).slice(0,3),hl:date}}:{screen:'perk',arg:{step:'cat',hl:date}};
@@ -2130,10 +2210,21 @@ function runOverviewHtml(run,open){const sl=activeSlot(),cp=sl&&sl.cperks||{},rp
 function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run,cardRow=(k,btn)=>{const c=CARDS[k];return`<div class="pcard"><span class="ic">${c.icon}</span><div class="info2"><span class="nm">${c.name}</span>
       <span class="meta3">${c.hab?habBadge(c.hab)+' '+HAB[c.hab].label:CAT[c.cat].label}${traitOf(c)?' · '+TRAITNAME[traitOf(c)]:''} · ${costOf(k)} BP${perkN(k)?` · 🏅 ${perkN(k)}`:''} · ${cnt(run.deck,x=>x===k)?'im Deck: '+cnt(run.deck,x=>x===k)+'×':'neu für dich'}</span>
       <span class="bigvals"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(k)}</span>${fxHtml(c)}</div><div class="pb">${btn}</div></div>`};
-  if(a.step==='won')return`<h2>🏆 Kampagne geschafft!</h2><p style="margin:0">Du hast alle ${CAMP_GOAL} Zoos gemeistert. Bisher ${fmt(run.total)} Punkte. Du kannst den Lauf jetzt in die Bestenliste eintragen oder im Endlos-Modus weiterspielen, solange du durchhältst.</p>
-    <button class="btn main big" data-cend="1">Lauf beenden und eintragen</button><button class="btn sub big" data-cendless="1">Endlos weiterspielen</button>`;
+  if(a.step==='won'){const st=run.stats||newStats(),prev=Math.max(0,...(META.cscores||[]).map(x=>x.pts||0)),rec=(run.total||0)>prev,zp=run.zooPts||[],off=CAMP_GOAL-zp.length,
+      top=Object.entries(st.cards||{}).filter(([k])=>CARDS[k]).sort((x,y)=>(y[1].a+y[1].s)-(x[1].a+x[1].s))[0],built=Object.values(st.tally||{}).reduce((x,y)=>x+y,0),D=DECKS[run.deckId]||DECKS.grund,
+      box=(k,v,d='')=>`<div class="sumbox"><span class="k">${k}</span><span class="v">${v}</span>${d?`<span class="d">${d}</span>`:''}</div>`,cols=['#ffd166','#ff7a59','#35c9b5','#7fb2ff','#f78fb3','#b8e986'];
+    let conf='';if(!reduced)for(let i=0;i<46;i++){const d=(2.6+Math.random()*2.6).toFixed(2);conf+=`<i style="left:${(Math.random()*100).toFixed(1)}%;background:${cols[i%cols.length]};animation-duration:${d}s;animation-delay:${(Math.random()*3).toFixed(2)}s;--dx:${Math.round(Math.random()*120-60)}px"></i>`}
+    if(!a.shown){a.shown=1;setTimeout(wonAnim,40)}
+    return`<div class="won"><div class="wconf" aria-hidden="true">${conf}</div><div class="wtrophy">🏆</div><h2>Kampagne geschafft!</h2><p class="wsub">Alle ${CAMP_GOAL} Zoos gemeistert. Super, du hast es geschafft!</p>
+      ${rec?'<span class="wrec">⭐ Neuer Rekord</span>':''}
+      <div class="wzoos">${CAMP.slice(0,CAMP_GOAL).map((c,i)=>`<div style="animation-delay:${(.3+i*.25).toFixed(2)}s"><span>${MAPS[c.map].icon}</span><b>Zoo ${i+1}</b><small>${MAPS[c.map].name}</small><em>${zp[i-off]!=null?fmt(zp[i-off]):'–'}</em></div>`).join('')}</div>
+      <div class="wtot"><small>Gesamtpunkte</small><div class="bigscore" id="wonTot" data-v="${run.total||0}">${fmt(run.total||0)}</div></div>
+      ${(run.newDecks||[]).map(id=>`<p style="margin:0;color:var(--gold);font-weight:700">🎴 Neues Starter-Deck freigeschaltet: ${DECKS[id].icon} ${DECKS[id].name}</p>`).join('')}
+      <h3 class="sh">Dein Team</h3><div class="slotrow"><span>${D.icon} ${D.name} 🏆</span>${(run.spec||[]).filter(id=>SPEC[id]).map(id=>`<span>${SPEC[id].icon} ${SPEC[id].name}</span>`).join('')}</div>
+      <h3 class="sh">Bestwerte des Laufs</h3><div class="sumgrid">${box('Bester Tag',st.best?fmt(st.best.pts):'–',st.best?`Zoo ${(st.best.zoo||0)+1} · ${SEASONS[st.best.season].name}, Tag ${st.best.day+1}`:'')}${box('Wertvollste Karte',top?CARDS[top[0]].icon+' '+CARDS[top[0]].name:'–',top?`${fmt(top[1].a)} B · ${fmt(top[1].s)} N`:'')}${box('Meilensteine',run.miles||0,'erreicht')}${box('Gebäude gebaut',built)}</div>
+      <button class="btn main big" data-cend="1">Lauf abschließen und eintragen</button><button class="btn sub big" data-cendless="1">Endlos weiterspielen</button></div>`}
   const stp=['perk','card','trim','spec','next'],si=stp.indexOf(a.step),steps=`<div class="steps">${['3 Verbesserungen','3 Karten','Aufräumen','Spezialist','Nächster Zoo'].map((l,i)=>`<span class="${i===si?'on':i<si?'ok':''}">${i<si?'✓ ':''}${l}</span>`).join('')}</div>`;
-  const head=`<h2>Zoo ${run.zoo} geschafft!</h2>${steps}${runOverviewHtml(run,a.step==='next')}`;
+  const head=`<h2>Zoo ${run.zoo} geschafft!</h2>${(run.newNow||[]).map(id=>`<p style="margin:0;color:var(--gold);font-weight:700">🎴 Neues Starter-Deck freigeschaltet: ${DECKS[id].icon} ${DECKS[id].name}</p>`).join('')}${steps}${runOverviewHtml(run,a.step==='next')}`;
   if(a.step==='perk'){if(a.pstep==='pick')return`${head}<div class="bar2"><h3 class="sh" style="margin:0">Verbesserung ${4-a.left} von 3</h3><button class="btn sub" data-cpback="1">Andere Kategorie</button></div><p style="margin:0;color:var(--muted)">Erhöhe den Grundwert einer Karte um 1. Gilt nur für diesen Lauf. Zusammen mit den dauerhaften 🏅 höchstens ${RUNPERK} pro Karte.</p>
       <div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>cardRow(k,`<button class="btn pa" data-cperk="${k}|a">Besucher<br><b>${CARDS[k].a} → ${CARDS[k].a+1}</b></button><button class="btn ps" data-cperk="${k}|s">Natur<br><b>${CARDS[k].s} → ${CARDS[k].s+1}</b></button>`)).join('')}</div>`;
     return`${head}${a.last?`<p style="margin:0;color:var(--gold)">${CARDS[a.last].icon} <b>${CARDS[a.last].name}</b> hat jetzt ${CARDS[a.last].a} B · ${CARDS[a.last].s} N.</p>`:''}<h3 class="sh">Verbesserung ${4-a.left} von 3</h3><p style="margin:0">Wähle eine Kategorie, dann zeige ich dir 5 Karten daraus. Die Verbesserung gilt für den Rest dieses Laufs.</p>
@@ -2200,9 +2291,9 @@ function slotHtml(i){const sl=META.slots[i],a=screenArg;
     <div class="meta2"><span>🌼 <b>${gameStatus(sl.game)}</b></span><span>🗺️ <b>${campStatus(sl.run)}</b></span><span>Zuletzt: ${fago(sl.last)}</span><span>🏅 ${perkCount(sl)} Verbesserungen</span></div>
     <div class="acts"><button class="btn main" data-mode="${i}">▶ Spielen</button>
     <button class="btn sub" data-ren="${i}" aria-label="Umbenennen">✎</button><button class="btn sub" data-del="${i}" aria-label="Löschen">🗑</button></div></div>`}
-function scoresHtml(){const f=screenArg.f||'all',list=f==='camp'?(META.cscores||[]).slice(0,10):META.scores.filter(x=>f==='all'||x.map===f).slice(0,10);
-  const chips=`<div class="chips">${[['all','Alle']].concat(Object.keys(MAPS).map(k=>[k,MAPS[k].icon+' '+MAPS[k].name])).concat([['camp','🗺️ Kampagne']]).map(([k,l])=>`<button class="chip2 ${f===k?'on':''}" data-f="${k}">${l}</button>`).join('')}</div>`;
-  const rows=f==='camp'?'':list.map((x,i)=>`<tr class="${x.date===screenArg.hl?'hl':''}"><td class="rk">${i+1}.</td><td><b>${esc(x.name)}</b><span class="sub2">${fdate(x.date)}</span></td><td>${MAPS[x.map]?MAPS[x.map].icon+' '+MAPS[x.map].name:''}<span class="sub2">${x.won?'🏆 ganzes Jahr geschafft':SEAS_ICON[x.season]+' im '+SEASONS[x.season].name+' gescheitert'}</span></td><td class="pts">${fmt(x.pts)}</td></tr>`).join('');
+function scoresHtml(){const hlE=META.scores.find(x=>x.date===screenArg.hl),f=screenArg.f||(hlE&&hlE.rule?'rule':'all'),list=f==='camp'?(META.cscores||[]).slice(0,10):META.scores.filter(x=>f==='rule'?x.rule:!x.rule&&(f==='all'||x.map===f)).slice(0,10);
+  const chips=`<div class="chips">${[['all','Alle']].concat(Object.keys(MAPS).map(k=>[k,MAPS[k].icon+' '+MAPS[k].name])).concat([['camp','🗺️ Kampagne'],['rule','🧪 Szenarien']]).map(([k,l])=>`<button class="chip2 ${f===k?'on':''}" data-f="${k}">${l}</button>`).join('')}</div>`;
+  const rows=f==='camp'?'':list.map((x,i)=>`<tr class="${x.date===screenArg.hl?'hl':''}"><td class="rk">${i+1}.</td><td><b>${esc(x.name)}</b><span class="sub2">${fdate(x.date)}</span></td><td>${MAPS[x.map]?MAPS[x.map].icon+' '+MAPS[x.map].name:''}${x.rule&&RULES[x.rule]?' · '+RULES[x.rule].icon+' '+RULES[x.rule].name:''}<span class="sub2">${x.won?'🏆 ganzes Jahr geschafft':SEAS_ICON[x.season]+' im '+SEASONS[x.season].name+' gescheitert'}</span></td><td class="pts">${fmt(x.pts)}</td></tr>`).join('');
   if(f==='camp')return`<div class="bar2"><h2>🏆 Highscores</h2><button class="btn sub" data-go="title">Zurück</button></div>${chips}
     <div class="tablewrap">${list.length?`<table class="hs"><thead><tr><th></th><th>Zoo</th><th>Geschafft</th><th class="pts">Punkte</th></tr></thead><tbody>${list.map((x,i)=>`<tr class="${x.date===screenArg.hl?'hl':''}"><td class="rk">${i+1}.</td><td><b>${esc(x.name)}</b><span class="sub2">${fdate(x.date)}</span></td><td>${x.zoos} Zoo${x.zoos===1?'':'s'}<span class="sub2">${x.won?'🏆 Kampagne geschafft':'in Zoo '+(x.zoos+1)+' gescheitert'}</span></td><td class="pts">${fmt(x.pts)}</td></tr>`).join('')}</tbody></table>`:`<div class="empty-note">Noch keine Kampagnen-Läufe. Starte einen Lauf über „Spielen“.</div>`}</div>`;
   return`<div class="bar2"><h2>🏆 Highscores</h2><button class="btn sub" data-go="${screenArg.back||'title'}">Zurück</button></div>${chips}
