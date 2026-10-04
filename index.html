@@ -423,6 +423,8 @@ text.tt-a{fill:#3a1d00} text.tt-s{fill:#00302b} text.tt-tot{fill:var(--gold)} te
 .wconf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}
 .wconf i{position:absolute;top:-14px;width:8px;height:13px;border-radius:2px;animation:wfall linear both}
 @keyframes wfall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--dx),105vh) rotate(720deg)}}
+.logo .ver{display:block;font-family:var(--f-body);font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--muted);margin-top:6px;opacity:.9}
+.evb.strike{outline-color:#ff5a5f;background:#5a1f22;animation:tutglow 1.4s ease-in-out infinite}
 .drows{display:flex;flex-direction:column;gap:6px}
 .drow{display:flex;align-items:center;gap:10px;background:var(--paper);color:var(--ink);border-radius:12px;padding:8px 10px;min-height:52px}
 .drow .ic{font-size:26px;flex:none}
@@ -752,6 +754,7 @@ body.tutmode .card.tutno{opacity:.45}
 <script>
 document.documentElement.lang='de';
 //ENGINE-START
+const VERSION='0.29';
 const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:5000},{name:'Sommer',target:35000},{name:'Herbst',target:120000},{name:'Winter',target:260000,winter:true}];
@@ -774,7 +777,7 @@ const SHAPES={
 };
 function rotCells(cells,rot){let c=cells.map(x=>x.slice());for(let i=0;i<((rot%6)+6)%6;i++)c=c.map(([q,r])=>[-r,q+r]);return c}
 function placeCells(key,rot,q,r){return rotCells(SHAPES[CARDS[key].shape].cells,rot).map(([a,b])=>[a+q,b+r])}
-const costOf=key=>{const n=SHAPES[CARDS[key].shape].cells.length;return n===1&&hasSpec('polier')?2:n};
+const costOf=key=>{const n=SHAPES[CARDS[key].shape].cells.length;return n===1&&hasSpec('polier')&&typeof state!=='undefined'&&state&&state.day===0?2:n};
 
 const CAT={gehege:{label:'Gehege',col:'var(--c-gehege)'},attr:{label:'Attraktion',col:'var(--c-attr)'},
   essen:{label:'Essen',col:'var(--c-essen)'},schutz:{label:'Naturschutz',col:'var(--c-schutz)'}};
@@ -783,7 +786,9 @@ const HAB={wasser:{label:'Wasser',icon:'💧',col:'var(--h-wasser)',terr:'Wasser
 const RARW={gewöhnlich:10,selten:5,'sehr selten':2,winter:0,saison:0,meilenstein:0};
 const SEANAME=['Frühling','Sommer','Herbst','Winter'];
 let CTX={winter:false,season:0,progs:[],ads:[],ev:[],boni:{},spec:[]};
-const hasSpec=id=>(CTX.spec||[]).includes(id);
+// Streik: ist die Kasse im Minus, arbeiten die Spezialisten nicht (der Spekulant kostet trotzdem)
+const strike=()=>!!(CTX.strike&&CTX.strike());
+const hasSpec=id=>(CTX.spec||[]).includes(id)&&!strike();
 const sea=i=>CTX.season===i;
 const K=n=>CARDS[n.key];
 const has=(n,t)=>(K(n).tags||[]).includes(t);
@@ -1102,12 +1107,12 @@ Object.assign(SPEC,{
   artenschuetzer:{name:'Artenschützerin',icon:'🐼',tier:2,fx:['+2 N|für jedes bedrohte Tier'],per:(b,c)=>c.tags.includes('bedroht')?{s:2}:null},
   tierpfleger:{name:'Tierpfleger',icon:'🤝',tier:2,fx:['+2 N|für jedes Naturschutz-Gebäude je benachbartem scheuen Tier'],per:(b,c,nb)=>c.cat==='schutz'?{s:2*cnt(nb,n=>has(n,'scheu'))}:null},
   bauleiterin:{name:'Bauleiterin',icon:'📈',tier:2,fx:['+2 B +2 N|extra je Ausbaustufe eines Geheges'],per:b=>(b.lvl||1)>1?{a:2*((b.lvl||1)-1),s:2*((b.lvl||1)-1)}:null},
-  sammler:{name:'Sammlerin',icon:'🧬',tier:2,fx:['+1 N|für jedes Gehege je verschiedenem Lebensraum im Zoo (bis 4)'],per:(b,c,nb,all)=>c.cat==='gehege'?{s:new Set(all.filter(n=>isCat(n,'gehege')).map(n=>K(n).hab)).size}:null},
+  sammler:{name:'Sammlerin',icon:'🧬',tier:2,fx:['+1 N|für jedes Gehege, wenn dein Zoo 3 verschiedene Lebensräume hat','+2 N|stattdessen bei allen 4 Lebensräumen'],per:(b,c,nb,all)=>{if(c.cat!=='gehege')return null;const h=new Set(all.filter(n=>isCat(n,'gehege')).map(n=>K(n).hab)).size;return h>=3?{s:h>=4?2:1}:null}},
   eventmanager:{name:'Eventmanagerin',icon:'🎪',tier:2,fx:['keine|Nachteile durch Saison-Ereignisse, die Vorteile bleiben']},
   zwilling:{name:'Zwillingsforscher',icon:'🔁',tier:3,fx:['100 %|statt 75 % für die zweite gleiche Anlage']},
-  polier:{name:'Polier',icon:'🧱',tier:3,fx:['+1 BP|jeden Tag','2 BP|kosten dafür Karten mit nur 1 Feld']},
-  spekulant:{name:'Spekulant',icon:'🎲',tier:3,fx:['×1,5 B|für den ganzen Zoo','−5 Taler|jeden Tag'],mult:()=>({ma:1.5})},
-  direktor:{name:'Zoodirektorin',icon:'👑',tier:3,fx:['×1,25 B|für den ganzen Zoo','×1,25 N|für den ganzen Zoo'],mult:()=>({ma:1.25,ms:1.25})},
+  polier:{name:'Polier',icon:'🧱',tier:3,fx:['+1 BP|jeden Tag','2 BP|kosten Karten mit nur 1 Feld am ersten Tag jeder Jahreszeit']},
+  spekulant:{name:'Spekulant',icon:'🎲',tier:3,fx:['×1,3 B|für den ganzen Zoo','−5 Taler|jeden Tag, auch im Streik'],mult:()=>({ma:1.3})},
+  direktor:{name:'Zoodirektorin',icon:'👑',tier:3,fx:['×1,15 B|für den ganzen Zoo','×1,15 N|für den ganzen Zoo'],mult:()=>({ma:1.15,ms:1.15})},
 });
 const bpBase=()=>BP+(hasSpec('polier')?1:0);
 // Starter-Decks der Kampagne: 16 Karten, zwei davon gegen den Schwerpunkt getauscht
@@ -1192,7 +1197,7 @@ function evalB(b,bs,idx,parts){const c=CARDS[b.key],nb=nbrs(b,idx);let a=c.a,s=c
   for(const id of CTX.progs){const e=PROGS[id].per&&PROGS[id].per(b,c,nb);if(e)add(PROGS[id].name,e.a,e.s)}
   for(const id of CTX.ads){const e=ADS[id].per&&ADS[id].per(b,c,nb);if(e)add(ADS[id].name,e.a,e.s)}
   for(const ev of CTX.ev||[]){const E=EVENTS[ev.id],e=E&&E.per&&E.per(b,c,ev.k||1),em=hasSpec('eventmanager');if(e)add(ev.n||E.name,em?Math.max(0,e.a||0):e.a,em?Math.max(0,e.s||0):e.s)}
-  for(const id of CTX.spec||[]){const S=SPEC[id],e=S&&S.per&&S.per(b,c,nb,bs);if(e)add(S.name,e.a,e.s)}
+  if(!strike())for(const id of CTX.spec||[]){const S=SPEC[id],e=S&&S.per&&S.per(b,c,nb,bs);if(e)add(S.name,e.a,e.s)}
   for(const id in CTX.boni||{}){const R=RUNB[id],n=CTX.boni[id],e=R&&n&&R.per(b,c);if(e)add(R.name+(n>1?' ×'+n:''),(e.a||0)*n,(e.s||0)*n)}
   // Wiederholung: die 2. gleiche Anlage bringt 75 %, die 3. 50 %, ab der 4. 25 % (Besucher und Natur)
   const d=dupOf(b,bs);if(d&&!(d===1&&hasSpec('zwilling'))){const f=DUPF[Math.min(d,3)];add(`${d+1}. ${c.name}: nur ${f*100} %`,a>0?Math.round(a*f)-a:0,s>0?Math.round(s*f)-s:0)}
@@ -1202,7 +1207,7 @@ function scoreZoo(bs){const idx=mkIndex(bs);let A=0,S=0;const steps=[],mults=[];
     if(c.mult){const m=c.mult(v.nb,bs);if(m)mults.push({id:b.id,label:c.name,...m})}}
   for(const id of CTX.progs){const m=PROGS[id].mult&&PROGS[id].mult(bs);if(m)mults.push({id:null,label:PROGS[id].name,icon:PROGS[id].icon,...m})}
   for(const id of CTX.ads){const m=ADS[id].mult&&ADS[id].mult(bs);if(m)mults.push({id:null,label:ADS[id].name,icon:ADS[id].icon,...m})}
-  for(const id of CTX.spec||[]){const S=SPEC[id],m=S&&S.mult&&S.mult(bs);if(m)mults.push({id:null,label:S.name,icon:S.icon,...m})}
+  if(!strike())for(const id of CTX.spec||[]){const S=SPEC[id],m=S&&S.mult&&S.mult(bs);if(m)mults.push({id:null,label:S.name,icon:S.icon,...m})}
   let A2=A,S2=S;for(const m of mults){if(m.ma)A2*=m.ma;if(m.ms)S2*=m.ms}
   A2=Math.max(0,Math.round(A2));S2=Math.max(0,Math.round(S2));return{steps,mults,A:A2,S:S2,total:A2*S2}}
 function breakdown(b,bs){const parts=[];const v=evalB(b,bs,mkIndex(bs),parts);return{a:v.a,s:v.s,parts}}
@@ -1220,7 +1225,7 @@ function makeOffer(n=3,rnd=Math.random,bs=(typeof state!=='undefined'&&state)?st
 function shuffle(a,rnd=Math.random){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function drawHand(st,rnd=Math.random){while(st.hand.length<HAND){if(!st.deck.length){if(!st.discard.length)break;st.deck=shuffle(st.discard,rnd);st.discard=[]}st.hand.push(st.deck.pop())}}
 // money: 1 Taler je 6 Besucher, −1 je 8 Natur; Zinsen je 10 Taler
-function dayIncome(A,S,money){const base=Math.round(A/6-S/8),entry=Math.round(A/6);const interest=money>=0?Math.min(5,Math.floor(money/10)):-Math.floor(-money/10);const spec=(hasSpec('kassenwart')?3:0)-(hasSpec('spekulant')?5:0);return{base,interest,spec,total:base+interest+spec,entry,care:base-entry,A,S}}
+function dayIncome(A,S,money){const base=Math.round(A/6-S/8),entry=Math.round(A/6);const interest=money>=0?Math.min(5,Math.floor(money/10)):-Math.floor(-money/10);const spec=(hasSpec('kassenwart')?3:0)-((CTX.spec||[]).includes('spekulant')?5:0);return{base,interest,spec,total:base+interest+spec,entry,care:base-entry,A,S}}
 //ENGINE-END
 
 /* ---------- sound (synthesised, no files) ---------- */
@@ -1325,7 +1330,7 @@ let state,fast=false,modal=null,tutIdx=0,mapPrev=null,mapsBack=false; // modal: 
 const newStats=()=>({cards:{},best:null,combo:0,earned:0,spent:0,progs:0,tally:{},lvl:1,days:0});
 const DEFAULTS=()=>({map:'wiese',board:null,undo:[],yday:{A:0,S:0,total:0},builtToday:0,picks:0,pickTotal:0,hover:null,hoverTerr:null,earlyBonus:0,dayPts:[],past:[],money:10,progs:[],ads:[],adsNext:[],bpMax:BP,bpBought:0,bpNext:0,bpSeason:0,shop:null,shopSub:null,infoProg:null,lastIncome:null,msg:null,prevY:null,miles:{},mileNew:[],spec:[],market:null,mileSeen:{},ledger:{entry:0,care:0,interest:0,early:0},draftRolls:0,moving:null,evRolled:false,mode:'free',zoo:0,tmult:1,events:[],eventsNext:[],boni:{},stats:newStats()});
 const seOf=i=>{const x=SEASONS[i];return x?{...x,target:Math.round(x.target*(state.tmult||1)/100)*100}:undefined};
-function syncCtx(){CTX={winter:!!seOf(state.season).winter,season:state.season,progs:state.progs,ads:state.ads,ev:state.events||[],boni:{},spec:state.spec||[]};document.body.classList.toggle('winter',CTX.winter);setWeather(state.season)}
+function syncCtx(){CTX={winter:!!seOf(state.season).winter,season:state.season,progs:state.progs,ads:state.ads,ev:state.events||[],boni:{},spec:state.spec||[],strike:()=>!!state&&state.money<0&&(state.spec||[]).length>0};document.body.classList.toggle('winter',CTX.winter);setWeather(state.season)}
 let wxSeason=-1;
 function edgeSvg(i){const R=(a,b)=>a+Math.random()*(b-a);let b='',t='';
   if(i===0){for(let x=6;x<400;x+=R(14,26)){const hgt=R(10,26),col=['#f9a8c9','#ffd166','#ffffff','#f48fb1'][Math.floor(R(0,4))];b+=`<path d="M${x},54 Q${x+R(-3,3)},${54-hgt/2} ${x},${54-hgt}" stroke="#3f8a3a" stroke-width="1.6" fill="none"/><circle cx="${x}" cy="${54-hgt}" r="${R(2.6,4.2)}" fill="${col}"/><circle cx="${x}" cy="${54-hgt}" r="1.2" fill="#ffe082"/>`}
@@ -1430,7 +1435,7 @@ function render(){
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
   $('btnMute').textContent=Sfx.muted?'🔇':'🔊';
   {const nb=(state.spec||[]).length,mkOn=false;
-   $('evs').innerHTML=(state.rule&&RULES[state.rule.id]?`<button class="evb rl" data-ev="rule" title="Sonderregel" aria-label="Sonderregel: ${RULES[state.rule.id].name}">${RULES[state.rule.id].icon}</button>`:'')+(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb" data-ev="boni" aria-label="Dein Lauf">🎖️${nb}</button>`:'')+(mkOn?`<button class="evb mk" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
+   $('evs').innerHTML=(state.rule&&RULES[state.rule.id]?`<button class="evb rl" data-ev="rule" title="Sonderregel" aria-label="Sonderregel: ${RULES[state.rule.id].name}">${RULES[state.rule.id].icon}</button>`:'')+(state.mode==='camp'?`<span class="zchip">Zoo ${state.zoo+1}</span>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join('')+(nb||state.mode==='camp'?`<button class="evb rb ${strike()?'strike':''}" data-ev="boni" aria-label="Dein Lauf${strike()?', das Team streikt':''}">${strike()?'🪧':'🎖️'}${nb}</button>`:'')+(mkOn?`<button class="evb mk" data-ev="market" aria-label="Stellenmarkt">👥</button>`:'')+(state.mode!=='tut'?`<button class="evb" data-ev="mile" aria-label="Meilensteine">🏅${Object.keys(state.miles||{}).length}</button>`:'')}
   $('mkBar').classList.remove('on');
   placeZoomBtn();
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);
@@ -1546,7 +1551,7 @@ function infoHtml(h,cur){
   if(state.infoProg==='money')return moneyInfoHtml(cur);
   if(state.infoProg==='redraw')return`<h3>🔄 Hand neu ziehen?</h3><p class="hint">Kostet <b>1 Baupunkt</b>. Alle Handkarten gehen auf die Ablage, du ziehst fünf neue. Nicht rückgängig, auch die heutigen Züge davor sind danach fest. <b>Nochmal auf 🔄 tippen</b> zum Bestätigen.</p>`;
   if(state.infoProg==='boni'){const L=(state.spec||[]).filter(id=>SPEC[id]),ks=Object.keys(PERKS).filter(k=>CARDS[k]&&perkN(k));
-    return`<h3>🎖️ Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?L.map(id=>{const S=SPEC[id];return`<p class="hint" style="margin:0"><b style="color:var(--text)">${S.icon} ${S.name}</b></p>${fxHtml(S)}${specYield(id)}`}).join(''):'<p class="hint">Noch niemand eingestellt. Spezialisten gibt es im Stellenmarkt (nach jeder Jahreszeit, als Reiter neben dem Shop) und nach jedem geschafften Zoo.</p>'}${ks.length?`<p class="hint">Verbesserte Karten: ${ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · ')}</p>`:''}`}
+    return`<h3>🎖️ Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${strike()?'<p class="hint" style="color:#ffb3b5"><b>🪧 Dein Team streikt.</b> Die Kasse ist im Minus, deshalb wirkt kein Spezialist, bis du wieder bei 0 Talern oder darüber bist.</p>':''}${L.length?L.map(id=>{const S=SPEC[id];return`<p class="hint" style="margin:0"><b style="color:var(--text)">${S.icon} ${S.name}</b></p>${fxHtml(S)}${specYield(id)}`}).join(''):'<p class="hint">Noch niemand eingestellt. Spezialisten gibt es im Stellenmarkt (nach jeder Jahreszeit, als Reiter neben dem Shop) und nach jedem geschafften Zoo.</p>'}${ks.length?`<p class="hint">Verbesserte Karten: ${ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · ')}</p>`:''}`}
   if(state.infoProg&&state.infoProg.startsWith('ev:')){const e=(state.events||[]).find(x=>'ev:'+x.id===state.infoProg);if(e)return`<h3>${evIcon(e)} ${evName(e)}</h3><p class="hint">Ereignis · gilt die ganze Jahreszeit</p>${fxHtml({fx:evFx(e)})}${EVENTS[e.id].per?yieldHtml({per:(b,c)=>EVENTS[e.id].per(b,c,e.k||1)}):''}`}
   if(state.infoProg==='bautrupp')return`<h3>🧱 Saison-Bautrupp</h3><p class="hint">Diese Jahreszeit +1 Baupunkt pro Tag.</p>`;
   if(state.infoProg){const P=PROGS[state.infoProg]||ADS[state.infoProg];if(P)return`<h3>${P.icon} ${P.name}</h3><p class="hint">${ADS[state.infoProg]?'Werbung · nur diese Jahreszeit':'Förderprogramm · dauerhaft, auch für bereits gebaute'}</p>${fxHtml(P)}${yieldHtml(P)}`}
@@ -1825,7 +1830,7 @@ function specCard(id,btn){const S=SPEC[id];return`<div class="pcard"><span class
 function teamHtml(mode){const run=runOf(),L=(run&&run.spec||[]).filter(id=>SPEC[id]);
   return`<h3>Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${L.length?`<div style="display:flex;flex-direction:column;gap:6px">${L.map(id=>specCard(id,mode?`<button class="btn sub" data-${mode}="${id}">Entlassen${mode==='mfire'?`<br><b>+🪙 ${Math.floor(SPECPRICE[SPEC[id].tier]/2)}</b>`:''}</button>`:'')).join('')}</div>`:'<p style="margin:0;color:var(--muted);font-size:13px">Noch niemand eingestellt.</p>'}`}
 function marketHtml(){const m=state.market,full=(state.spec||[]).length>=MAXSPEC;
-  return`<div class="mkt"><p style="margin:0;font-size:13.5px">Nach jeder Jahreszeit bewerben sich drei Spezialisten. Du kannst <b>höchstens einen</b> einstellen. Spezialisten bleiben für den ganzen Lauf.${full?' <b>Dein Team ist voll.</b>':''}</p>
+  return`<div class="mkt"><p style="margin:0;font-size:13.5px">Nach jeder Jahreszeit bewerben sich drei Spezialisten. Du kannst <b>höchstens einen</b> einstellen. Spezialisten bleiben für den ganzen Lauf. Ist die Kasse im Minus, streiken sie.${full?' <b>Dein Team ist voll.</b>':''}</p>
     <div style="display:flex;flex-direction:column;gap:8px">${m.items.map(id=>{const pr=priced(SPECPRICE[SPEC[id].tier]);return specCard(id,`<button class="btn main" data-mhire="${id}" ${m.bought||full||!canPay(pr)?'disabled':''}>Einstellen<br><b>🪙 ${pr}</b></button>`)}).join('')||'<p style="margin:0;color:var(--muted)">Keine Bewerber mehr.</p>'}</div>
     ${m.bought?'<p style="margin:0;color:var(--gold)">Du hast diesmal schon jemanden eingestellt.</p>':''}
     ${teamHtml('mfire')}</div>`}
@@ -1872,7 +1877,7 @@ function itemHtml(it,idx,fixed){let kind,name,text,icon;
 function shopHtml(){const se=seOf(state.season),nx=seOf(state.season+1);
   if(state.shopSub==='remove'){const all=[...state.deck,...state.discard,...state.hand],pr=priced(10);
     return`<h2>Welche Karte entfernen?</h2><p>Kostet 🪙 ${pr}. Die Karte verschwindet dauerhaft aus deinem Deck. Dein Deck: <b>${all.length} Karten</b>.</p>${deckRows(all,k=>`<button class="btn ${state.rmArm===k?'main':'sub'}" data-rmk="${k}">${state.rmArm===k?'Wirklich?':'Entfernen'}</button>`)}<button class="btn sub" id="mBack">Zurück</button>`}
-  const debt=state.money<0?`<p style="color:#ffb3b5"><b>Du hast ${fmt(-state.money)} Taler Schulden.</b> Erst ab 0 kannst du wieder kaufen. Schulden kosten jeden Tag 1 Taler Zinsen je 10.</p>`:'';
+  const debt=state.money<0?`<p style="color:#ffb3b5"><b>Du hast ${fmt(-state.money)} Taler Schulden.</b> Erst ab 0 kannst du wieder kaufen. <b>Solange du im Minus bist, streiken deine Spezialisten und wirken nicht.</b> Schulden kosten jeden Tag 1 Taler Zinsen je 10.</p>`:'';
   const L=state.ledger||{entry:0,care:0,interest:0,early:0},led=`<div class="bill"><span>Im ${se.name}:</span><span>🎟️ Eintritt ${sgn(L.entry)}</span><span class="${L.care<0?'neg':''}">🌿 Pflege ${sgn(L.care)}</span><span class="${L.interest<0?'neg':''}">🏦 Zinsen ${sgn(L.interest)}</span>${L.spec?`<span class="${L.spec<0?'neg':''}">👥 Spezialisten ${sgn(L.spec)}</span>`:''}${L.early?`<span>⏱️ früh fertig ${sgn(L.early)}</span>`:''}</div>`;
   const slots=`<div class="slotrow">${state.progs.map(id=>`<span>${PROGS[id].icon} ${PROGS[id].name}</span>`).join('')||'<span>Noch keine Förderprogramme</span>'}${state.adsNext.map(id=>`<span>${ADS[id].icon} ${ADS[id].name} (${nx.name})</span>`).join('')}${state.bpNext?`<span>🧱 Saison-Bautrupp (${nx.name})</span>`:''}</div>`;
   const mk=state.market,tab=mk&&state.shopTab==='market'?'market':'shop',evs=(state.eventsNext||[]).length?`<h3>Ereignis im ${nx.name}</h3><div class="shopgrid">${state.eventsNext.map(e=>`<div class="item ev"><span class="kind">Gilt die ganze Jahreszeit</span><span class="nm">${evIcon(e)} ${evName(e)}</span><span class="tx">${fxHtml({fx:evFx(e)})}</span></div>`).join('')}</div>`:'';
@@ -2344,7 +2349,7 @@ function perkHtml(){const a=screenArg,sl=activeSlot(),zoo=esc(sl?sl.name:'diesen
     <button class="btn sub" data-skipperk="1">Überspringen</button>`}
 function renderScreen(){const root=$('screenRoot');root.classList.toggle('on',!!screen);if(!screen){root.innerHTML='';return}
   let h='';const last=META.lastSlot!=null?META.slots[META.lastSlot]:null;
-  if(screen==='title')h=`<div class="scr"><div class="titlebg">${titleBg()}</div><div class="titlebox"><h1 class="logo">Zoolatro<span>Baue deinen Zoo, Karte für Karte</span></h1>
+  if(screen==='title')h=`<div class="scr"><div class="titlebg">${titleBg()}</div><div class="titlebox"><h1 class="logo">Zoolatro<span>Baue deinen Zoo, Karte für Karte</span><small class="ver">Version ${VERSION}</small></h1>
     ${last&&META.lastMode==='camp'&&last.run?`<button class="btn main big" data-ccont="${META.lastSlot}">▶ Weiterspielen<small>${esc(last.name)} · Kampagne · ${campStatus(last.run)}</small></button>`:last&&last.game?`<button class="btn main big" data-cont="${META.lastSlot}">▶ Weiterspielen<small>${esc(last.name)} · ${gameStatus(last.game)}</small></button>`:''}
     <button class="btn ${last&&(last.game||last.run)?'sub':'main'} big" data-go="slots">Spielen</button>
     <div class="trow"><button class="btn sub" data-go="scores">🏆 Highscores</button><button class="btn sub" data-go="gloss">📚 Glossar</button><button class="btn sub" data-go="tut">📖 Tutorial</button></div>
