@@ -828,7 +828,7 @@ body.tutmode .card.tutno{opacity:.45}
 document.documentElement.lang='de';
 //@@ modul: 01-regeln-karten
 //ENGINE-START
-const VERSION='0.40';
+const VERSION='0.41';
 const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:5000},{name:'Sommer',target:35000},{name:'Herbst',target:120000},{name:'Winter',target:260000,winter:true}];
@@ -1357,11 +1357,11 @@ const Sfx={ctx:null,master:null,muted:false,
   build(){this.tone(150,.16,'sine',.3,0,.45);this.noise(.08,.12,700)},
   rotate(){this.tone(520,.04,'square',.04);this.tone(780,.05,'triangle',.05,.03)},
   select(){this.tone(880,.05,'triangle',.07)},
-  cardpick(){const f=1100+Math.random()*700;this.noise(.07,.06,f,0,.7);this.noise(.04,.03,f*.6,.03,.7)},
-  drawSoft(){this.noise(.07,.03,1500+Math.random()*500,0,.6)},
+  cardpick(){this.tone(340+Math.random()*30,.1,'sine',.09,0,.6)},
+  drawSoft(){},
   hover(){this.tone(1200,.025,'sine',.025)},
-  draw(){this.noise(.09,.045,1400+Math.random()*600,0,.6)},
-  deal(n=4){for(let i=0;i<Math.min(6,Math.max(1,n));i++)this.noise(.03,.04,1700+Math.random()*500,i*.055,.8)},
+  draw(){this.tone(430,.07,'sine',.05,0,.7);this.tone(540,.06,'sine',.035,.05,.7)},
+  deal(n=4){for(let i=0;i<Math.min(5,Math.max(1,n));i++)this.tone(520+i*45,.035,'sine',.025,i*.06,.8)},
   shop(){this.tone(170,.14,'sine',.07);this.noise(.05,.03,600,0,.6)},
   combo(){[523,659,784,1047,1319,1568].forEach((f,i)=>{this.tone(f,.16,'square',.05,i*.055);this.tone(f*2,.2,'triangle',.06,i*.055)});this.tone(2093,.6,'sine',.07,.36);this.noise(.3,.06,6000,.3,.8)},
   sparkle(){[1568,2093,2637,3136].forEach((f,i)=>this.tone(f,.12,'sine',.05,.04+i*.05))},
@@ -1399,7 +1399,7 @@ const boardCenter=()=>[VB[0]+VB[2]/2,VB[1]+VB[3]/2];
 // Zoom: eine Stufe, zeigt einen Ausschnitt des Geländes
 const ZF=1.5;let ZOOM=null;
 let OVPX=0,BHPX=1,SHIFT=0,COV=0,coachMin=false,coachKey=''; // OVPX: so viele Pixel des Geländes verdeckt die Info-Leiste oben
-function viewNow(){if(!ZOOM){SHIFT=Math.max(-COV*VB[3]/BHPX,Math.min(OVPX*VB[3]/BHPX,SHIFT));return[VB[0],VB[1]-SHIFT,VB[2],VB[3]]}
+function viewNow(){if(!ZOOM){const my=Math.max(OVPX*VB[3]/BHPX,VB[3]*.3),ny=Math.max(COV*VB[3]/BHPX,VB[3]*.3),mx=VB[2]*.3;SHIFT=Math.max(-ny,Math.min(my,SHIFT));SHX=Math.max(-mx,Math.min(mx,SHX));return[VB[0]-SHX,VB[1]-SHIFT,VB[2],VB[3]]}
   // im Zoom füllt das Gelände die ganze Fläche: gleicher Maßstab, aber breiterer bzw. höherer Ausschnitt
   const ar=document.querySelector('.boardarea'),AW=ar?ar.clientWidth:0,AH=ar?ar.clientHeight:0;let w=VB[2]/ZF,h=VB[3]/ZF;
   if(AW>0&&AH>0){const s0=Math.min(AW/VB[2],AH/VB[3])*ZF;w=AW/s0;h=AH/s0}
@@ -1407,13 +1407,16 @@ function viewNow(){if(!ZOOM){SHIFT=Math.max(-COV*VB[3]/BHPX,Math.min(OVPX*VB[3]/
   ZOOM.cx=w>=VB[2]?mx:Math.max(VB[0]+w/2,Math.min(VB[0]+VB[2]-w/2,ZOOM.cx));ZOOM.cy=h>=VB[3]+ext?my-ext/2:Math.max(VB[1]+h/2-ext,Math.min(VB[1]+VB[3]-h/2,ZOOM.cy));
   return[ZOOM.cx-w/2,ZOOM.cy-h/2,w,h]}
 // misst die Überdeckung und rückt das Gelände nach, wenn die Vorschau unter dem Text liegt
-let fitting=false;
+let fitting=false,tutFit=false,SHX=0;
 function fitUnderInfo(){const info=$('info'),br=$('bwrap').getBoundingClientRect();BHPX=br.height||1;{const co=$('coach');COV=state&&typeof gRun==='function'&&gRun()&&co&&co.offsetHeight?Math.min(br.height*.6,co.offsetHeight+12):0}
   const abs=getComputedStyle(info).position==='absolute';OVPX=abs?Math.max(0,Math.min(br.height*.7,info.getBoundingClientRect().bottom-br.top+6)):0;
+  if(tutFit&&!fitting&&state&&COV>0){tutFit=false;const st=tutStep();let ks=[];try{ks=st&&st.mark?st.mark():[]}catch(e){}
+    if(ks.length){const v=viewNow(),ys=ks.map(k=>px(...k.split(',').map(Number))[1]),lo=Math.max(...ys)+SZ*1.3,bot=v[1]+v[3]-COV*v[3]/BHPX,need=lo-bot;
+      if(need>.5){if(ZOOM)ZOOM.cy+=need;else SHIFT-=need;fitting=true;render();fitting=false}}}
   if(fitting||!state||state.phase!=='play')return;const cells=selKey()&&state.preview?ghostCells():null;const v=viewNow();
   if(cells&&cells.length&&OVPX>0){const top=Math.min(...cells.map(([q,r])=>px(q,r)[1]))-SZ*1.6,need=v[1]+OVPX*v[3]/BHPX-top;
     if(need>.5){if(ZOOM)ZOOM.cy-=need;else SHIFT+=need;fitting=true;render();fitting=false}}
-  else if(!ZOOM&&SHIFT>OVPX*VB[3]/BHPX+.5){fitting=true;render();fitting=false}}
+}
 const pct=([x,y])=>{const v=viewNow();return[(x-v[0])/v[2]*100,(y-v[1])/v[3]*100]};
 function habBadge(h){return withRot(false,()=>{const p=hexPts(0,0,10);return`<svg class="hbx" viewBox="-11 -11 22 22" aria-hidden="true"><polygon class="hbf ${h}" points="${p}"/><polygon fill="url(#pt-${h})" points="${p}"/></svg>`})}
 const clsOf=c=>c.cat==='gehege'?'hab-'+c.hab:'cat-'+c.cat;
@@ -1461,7 +1464,7 @@ function setWeather(i){for(let k=0;k<4;k++)document.body.classList.toggle('sea'+
 
 function rollSeason(i){const cf=state.mode==='camp'?campCfg(state.zoo):{k:1,n:1,spring:false};return i===0&&!cf.spring?[]:rollEvents({...cf,s:i})}
 //@@ modul: 06-spiel
-function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;SHIFT=0;screen=null;setBoard(m.cells);TERR=m.terr;computeView();
+function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;SHIFT=0;SHX=0;screen=null;setBoard(m.cells);TERR=m.terr;computeView();
   state=Object.assign(DEFAULTS(),{map:key,board:m.cells,season:0,day:0,seasonScore:0,totalScore:0,buildings:[],nextId:1,deck:shuffle(opt.deck||START_DECK),discard:[],hand:[],bp:BP,
     selected:null,rot:0,preview:null,phase:'play',offer:[],pendingSeason:false,lastDay:0,info:null,terr:[...TERR]},opt.state||{});
   if(state.rule&&!opt.plan)initRule();
@@ -1909,18 +1912,19 @@ let PANSPEED=1.5,glide=0,gliding=false;try{PANSPEED=+localStorage.getItem('zoode
 // beim Schieben wird nur der Ausschnitt versetzt, das Gelände wird erst am Ende neu gezeichnet
 function panView(){$b().setAttribute('viewBox',viewNow().join(' '));renderMini();$('fxh').style.visibility='hidden'}
 function panDone(){gliding=false;$('fxh').style.visibility='';render()}
-$('board').addEventListener('pointerdown',e=>{if((!ZOOM&&OVPX<=0&&COV<=0)||state.phase==='scoring'||e.target.closest('[data-ghost]'))return;if(gliding){cancelAnimationFrame(glide);panDone()}
-  pan={x0:e.clientX,y0:e.clientY,cx:ZOOM?ZOOM.cx:0,cy:ZOOM?ZOOM.cy:0,s0:SHIFT,moved:false,lx:e.clientX,ly:e.clientY,lt:performance.now(),vx:0,vy:0}});
+$('board').addEventListener('pointerdown',e=>{if(state.phase==='scoring'||e.target.closest('[data-ghost]'))return;if(gliding){cancelAnimationFrame(glide);panDone()}
+  pan={x0:e.clientX,y0:e.clientY,cx:ZOOM?ZOOM.cx:0,cy:ZOOM?ZOOM.cy:0,s0:SHIFT,sx0:SHX,moved:false,lx:e.clientX,ly:e.clientY,lt:performance.now(),vx:0,vy:0}});
 document.addEventListener('pointermove',e=>{if(!pan)return;const dx=e.clientX-pan.x0,dy=e.clientY-pan.y0;
   if(!pan.moved&&Math.hypot(dx,dy)<7)return;pan.moved=true;e.preventDefault();const sc=viewNow()[2]/($b().getBoundingClientRect().width||1)*PANSPEED;
   const now=performance.now(),dtm=Math.max(1,now-pan.lt);pan.vx=(e.clientX-pan.lx)/dtm;pan.vy=(e.clientY-pan.ly)/dtm;pan.lx=e.clientX;pan.ly=e.clientY;pan.lt=now;
-  if(ZOOM){ZOOM.cx=pan.cx-dx*sc;ZOOM.cy=pan.cy-dy*sc}else SHIFT=pan.s0+dy*sc;
+  if(ZOOM){ZOOM.cx=pan.cx-dx*sc;ZOOM.cy=pan.cy-dy*sc}else{SHIFT=pan.s0+dy*sc;SHX=pan.sx0+dx*sc}
   if(!panRaf)panRaf=requestAnimationFrame(()=>{panRaf=0;if(pan)panView()})},{passive:false});
 function endPan(){if(!pan)return;const p=pan;pan=null;if(!p.moved)return;suppressBoard=true;setTimeout(()=>suppressBoard=false,0);
   // Schwung: gleitet nach dem Loslassen kurz weiter
   if(!ZOOM||reduced||performance.now()-p.lt>80){panDone();return}let vx=p.vx,vy=p.vy,last=performance.now();gliding=true;
   const step=now=>{if(!ZOOM||pan){panDone();return}const dtm=now-last;last=now;const sc=viewNow()[2]/($b().getBoundingClientRect().width||1)*PANSPEED;
     ZOOM.cx-=vx*dtm*sc;ZOOM.cy-=vy*dtm*sc;vx*=.92;vy*=.92;panView();if(Math.hypot(vx,vy)>.03)glide=requestAnimationFrame(step);else panDone()};glide=requestAnimationFrame(step)}
+$('board').addEventListener('dblclick',e=>{if(ZOOM||!state||state.selected!=null||state.moving!=null||(!SHIFT&&!SHX))return;SHIFT=0;SHX=0;Sfx.select();render()});
 document.addEventListener('pointerup',endPan);document.addEventListener('pointercancel',endPan);
 // beim Ziehen einer Karte oder der Vorschau an den Rand scrollt der Ausschnitt mit
 function edgeScroll(x,y){if(!ZOOM)return false;const r=$b().getBoundingClientRect(),m=38,step=viewNow()[2]*.11;let dx=0,dy=0;
@@ -2048,13 +2052,13 @@ function endDay(){const se=seOf(state.season);state.picks=state.pickTotal=state.
     if(state.season<SEASONS.length-1){state.eventsNext=rollSeason(state.season+1);state.evRolled=true}
     state.phase=state.season===SEASONS.length-1?'win':'seasonWon';Sfx.win();render()}
   else if(state.day===DAYS-1){state.phase='lost';Sfx.lose();render()}
-  else nextDraft()}
-function nextDraft(){if(state.picks>0){state.phase='draft';newOffer();if(state.picks<state.pickTotal)Sfx.drawSoft();else Sfx.draw();render()}else advance()}
+  else{const g=scr&&state.seasonScore>=se.target?gRun():null;nextDraft();if(g&&!(g.guide=g.guide||{seen:{}}).early){g.guide.early=1;modal='tutgoal';render()}}}
+function nextDraft(){if(state.picks>0){state.phase='draft';newOffer();render()}else advance()}
 const draftPrice=()=>5+2*(state.draftRolls||0);
 function draftRoll(){const p=draftPrice();if(state.phase!=='draft'||!canPay(p)){Sfx.deny();return}state.money-=p;state.stats.spent+=p;state.draftRolls=(state.draftRolls||0)+1;newOffer();Sfx.till();Sfx.draw();render()}
 const deckTotal=()=>state.hand.length+state.deck.length+state.discard.length,skipOk=()=>deckTotal()>MINSKIP;
 function pick(i){if(i==null)return;state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.cardpick();
-  if(state.picks>0){newOffer();Sfx.draw();render()}else advance()}
+  if(state.picks>0){newOffer();render()}else advance()}
 function advance(){
   if(state.pendingSeason){openShop();return}
   state.day++;startDay()}
@@ -2246,7 +2250,7 @@ function pileHtml(keys){if(!keys.length)return'<em>leer</em>';const m={};keys.fo
   return Object.keys(m).sort((a,b)=>CARDS[a].name.localeCompare(CARDS[b].name,'de')).map(k=>`<span style="border-left-color:${colOf(CARDS[k])}">${CARDS[k].icon} ${CARDS[k].name}${m[k]>1?' ×'+m[k]:''}</span>`).join('')}
 let helpOpen=false;
 function helpHtml(){return`<h2>Menü</h2><button class="btn main big" id="mClose">▶ Weiterspielen</button>
-  <div class="menubtns"><button class="btn sub" id="mHome">🏠 Hauptmenü</button><button class="btn sub" id="mTut">📖 Kurzübersicht</button><button class="btn sub" id="mRestart">${state&&state.mode==='tut'?'✕ Tutorial beenden':state&&state.mode==='camp'?'🏳 Lauf beenden':'⟲ Neues Spiel'}</button></div>
+  <div class="menubtns"><button class="btn sub" id="mHome">🏠 Hauptmenü</button><button class="btn sub" id="mTut">📖 Kurzübersicht</button><button class="btn sub" id="mRestart">${state&&(state.mode==='tut'||gRun())?'✕ Tutorial beenden':state&&state.mode==='camp'?'🏳 Lauf beenden':'⟲ Neues Spiel'}</button></div>
   <div class="setrow"><span>Ton:</span>${[[0,'🔊 An'],[1,'🔇 Aus']].map(([v,l])=>`<button class="chip2 ${(Sfx.muted?1:0)===v?'on':''}" data-mute="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>Auszähl-Tempo:</span>${[[0,'Normal'],[1,'Schnell']].map(([v,l])=>`<button class="chip2 ${SCFAST===v?'on':''}" data-scf="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>Schiebe-Tempo im Zoom:</span>${[[1.5,'Normal'],[2.25,'Schnell'],[3,'Sehr schnell']].map(([v,l])=>`<button class="chip2 ${PANSPEED===v?'on':''}" data-pan="${v}">${l}</button>`).join('')}</div>
@@ -2290,6 +2294,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
     h=`<div class="tut"><div class="tuthead"><span>Tutorial · ${i+1} / ${sl.length}</span><button class="icbtn" id="mClose" aria-label="Tutorial schließen">✕</button></div>${S.svg}<h2>${S.title}</h2><p>${S.text}</p>
       <div class="dotsnav">${sl.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join('')}</div>
       <div class="shopbar"><button class="btn sub" id="tPrev" ${i?'':'disabled'}>‹ Zurück</button><button class="btn main" id="tNext">${i<sl.length-1?'Weiter ›':'Los geht’s'}</button></div></div>`}
+  else if(modal==='tutgoal')h=`<h2>🎯 Saisonziel erreicht!</h2><p>Im echten Spiel wäre die Saison jetzt vorbei, und jeder übrige Tag brächte einen Bonus.</p><p>Im Tutorial spielen wir trotzdem weiter bis Tag ${DAYS}, damit du alles in Ruhe ausprobieren kannst.</p><div class="shopbar"><button class="btn main" id="mClose">Weiter</button></div>`
   else if(modal==='restart')h=state.mode==='camp'?`<h2>Lauf beenden?</h2><p>Der Kampagnen-Lauf endet hier und kommt mit ${state.zoo} geschafften Zoo${state.zoo===1?'':'s'} in die Bestenliste.</p><div class="shopbar"><button class="btn sub" id="mClose">Abbrechen</button><button class="btn main" id="mRestartYes">Ja, Lauf beenden</button></div>`
     :`<h2>Neues Spiel starten?</h2><p>Dein aktueller Zoo, dein Deck und deine Kasse gehen verloren.</p><div class="shopbar"><button class="btn sub" id="mClose">Abbrechen</button><button class="btn main" id="mRestartYes">Ja, neu starten</button></div>`;
   else if(modal==='deck')h=`<h2>Dein Deck</h2><h3 class="stk">📥 Nachziehstapel <i>${state.deck.length}</i></h3>${state.deck.length?deckRows(state.deck,()=>''):'<div class="pile"><em>leer</em></div>'}
@@ -2307,7 +2312,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   else if(inGame&&state.phase==='win'&&!state.fliv)h=flivHtml();
   else if(inGame&&state.phase==='win')h=state.mode==='camp'?`<h2>Zoo ${state.zoo+1} geschafft!</h2><div class="bigscore">${fmt(state.totalScore)}</div><p>Alle vier Jahreszeiten geschafft. Jetzt wählst du deine Belohnungen für den Lauf: 3 Kartenverbesserungen, 1 neue Karte und 1 Lauf-Bonus.</p><button class="btn main" id="mFinish">Weiter zur Belohnung</button>`
     :`<h2>Dein Zoo hat das Jahr geschafft!</h2><div class="bigscore">${fmt(state.totalScore)}</div><p>Alle vier Jahreszeiten geschafft. Dein Ergebnis kommt in die Highscore-Liste, und du darfst eine Karte dauerhaft verbessern.</p><button class="btn main" id="mFinish">Weiter zur Zusammenfassung</button>`;
-  root.innerHTML=h?`<div class="overlay"><div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true">${guideHtml()}${h}</div></div>`:'';
+  root.innerHTML=h?`<div class="overlay"><div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true">${modal==='tutgoal'?'':guideHtml()}${h}</div></div>`:'';
   root.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>pick(+b.dataset.pick));
   root.querySelectorAll('[data-skip]').forEach(b=>b.onclick=()=>pick(null));
   root.querySelectorAll('[data-item]').forEach(b=>b.onclick=()=>{const v=b.dataset.item,i=+v.slice(1);buy(v[0]==='f'?fixedItems()[i]:state.shop.items[i])});
@@ -2323,7 +2328,7 @@ function renderModal(){const root=$('modalRoot'),se=state?seOf(state.season):nul
   const lv=$('mLeave');if(lv)lv.onclick=beginNextSeason;
   const mr=$('mRules');if(mr)mr.onclick=()=>{helpOpen=!helpOpen;Sfx.select();renderModal()};
   const cl=$('mClose');if(cl)cl.onclick=()=>{modal=null;renderAll()};
-  const rs=$('mRestart');if(rs)rs.onclick=()=>{if(state&&state.mode==='tut'){exitTut(false);return}modal='restart';render()};
+  const rs=$('mRestart');if(rs)rs.onclick=()=>{if(state&&gRun()){modal=null;guideEnd(false);return}if(state&&state.mode==='tut'){exitTut(false);return}modal='restart';render()};
   const ry=$('mRestartYes');if(ry)ry.onclick=()=>{if(state.mode==='camp'){state.phase='lost';finishGame()}else openMaps(false)};
   root.querySelectorAll('[data-mute]').forEach(b=>b.onclick=()=>{Sfx.muted=b.dataset.mute==='1';try{localStorage.setItem('zoodeck-muted',Sfx.muted?'1':'0')}catch(e){}if(!Sfx.muted){Sfx.init();Sfx.select()}render()});
   root.querySelectorAll('[data-scf]').forEach(b=>b.onclick=()=>{SCFAST=+b.dataset.scf;try{localStorage.setItem('zoodeck-fast',SCFAST)}catch(e){}Sfx.select();renderModal()});
@@ -2519,10 +2524,10 @@ function renderCoach(){const gr0=state&&gRun();if(gr0&&!state.tut&&state.season=
   const st=tutStep(),c=$('coach');if(state&&gRun()&&!st){const cx=guideCtx(),gh=cx==='play'||cx==='review'?guideHint():null;document.body.classList.remove('tutmode');c.classList.remove('small');c.classList.toggle('gshow',!!gh);c.innerHTML=gh?`<div class="ch"><span>📖 Tutorial</span><button id="tutQuit">Tutorial beenden</button></div><p>${gh.t}</p><button class="btn main" data-gok="${gh.id}">Verstanden</button>`:'';return}c.classList.remove('gshow');document.body.classList.toggle('tutmode',!!st);if(!st){c.innerHTML='';return}
   const T=TUT[state.tut.ch],w=st.wrong&&state.phase==='play'?st.wrong():null;
   // beim Platzieren klappt der Hinweis auf eine Zeile zusammen, damit das Gelände frei bleibt
-  {const key=state.tut.ch+':'+state.tut.i;if(key!==coachKey){coachKey=key;coachMin=!!st.tap}}
+  {const key=state.tut.ch+':'+state.tut.i;if(key!==coachKey){coachKey=key;coachMin=false;tutFit=!!(st.tap&&st.mark)}}
   const small=!w&&((!st.btn&&(state.selected!=null||state.moving!=null||state.phase==='scoring'))||(coachMin&&!st.btn));c.classList.toggle('small',small);
   c.innerHTML=small?`<div class="ch" data-cmin="1"><span>Schritt ${state.tut.i+1}/${T.steps.length}${st.h?' · <b>'+st.h+'</b>':''}</span><span class="cmx">▴ aufklappen</span></div>`
-    :`<div class="ch"><span>${gRun()?'📖 '+T.name:'Kapitel '+state.tut.ch+' · '+T.name} · Schritt ${state.tut.i+1}/${T.steps.length}</span><span><button data-cmin="1" class="cmb">▾ einklappen</button> · ${gRun()&&state.tut.ch==='zl'?'<button id="tutSkip">Grundlagen überspringen</button> · ':''}<button id="tutQuit">Tutorial beenden</button></span></div><p>${st.t}</p>${w?`<p class="bad">${w}</p>`:''}${st.btn?`<button class="btn main" id="tutBtn">${st.btn}</button>`:''}`;
+    :`<div class="ch"><span>${gRun()?'📖 '+T.name:'Kapitel '+state.tut.ch+' · '+T.name} · Schritt ${state.tut.i+1}/${T.steps.length}</span><span><button data-cmin="1" class="cmb">▾ einklappen</button></span></div><p>${st.t}</p>${w?`<p class="bad">${w}</p>`:''}${st.btn?`<button class="btn main" id="tutBtn">${st.btn}</button>`:''}`;
   document.querySelectorAll('#hand .card').forEach((el,i)=>{const k=state.hand[i];el.classList.toggle('tutgo',!!st.only&&k===st.only&&state.selected!==i);el.classList.toggle('tutno',!!st.only&&k!==st.only)});
   $('btnEnd').classList.toggle('tutgo',!!st.end&&(state.phase==='play'||state.phase==='review'));$('btnRedraw').classList.toggle('tutgo',!!st.redraw);
   document.querySelectorAll('#evs .evb').forEach(e=>e.classList.toggle('tutgo',!!st.ev))}
