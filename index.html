@@ -635,6 +635,7 @@ body.tutmode .card.tutno{opacity:.45}body.tutmode .tutglow{animation:tutglow 1.2
 #board .trl text{fill:#fff;font:700 3.8px var(--f-body);text-anchor:middle;dominant-baseline:central}
 #board .trl{pointer-events:none}
 .redrawbtn{border:0;background:var(--panel2);color:var(--text);border-radius:8px;padding:4px 7px;font-size:12px;font-weight:700;flex:none;white-space:nowrap}
+.redrawbtn.free{background:#24563d;color:#c9ffd9;box-shadow:0 0 0 1.5px #7be3a0}
 .redrawbtn.arm{background:var(--gold);color:#3a2a00}
 .redrawbtn:disabled{opacity:.4}
 .deckbtn{flex:none;white-space:nowrap}
@@ -823,7 +824,7 @@ body.tutmode .card.tutno{opacity:.45}body.tutmode .tutglow{animation:tutglow 1.2
     </div>
     <div class="log" id="log"></div>
   </div>
-  <div class="handbar"><span class="bp" id="bp"></span><span class="progs" id="progs"></span><button class="redrawbtn" id="btnRedraw" aria-label="Hand neu ziehen für 1 Baupunkt">🔄 −1</button><button class="deckbtn" id="btnDeck"></button></div>
+  <div class="handbar"><span class="bp" id="bp"></span><span class="progs" id="progs"></span><button class="redrawbtn" id="btnRedraw" aria-label="Hand neu ziehen">🔄 −1</button><button class="deckbtn" id="btnDeck"></button></div>
   <div class="hand" id="hand"></div>
 </div>
 <div id="screenRoot"></div>
@@ -839,7 +840,7 @@ body.tutmode .card.tutno{opacity:.45}body.tutmode .tutglow{animation:tutglow 1.2
 document.documentElement.lang='de';
 //@@ modul: 01-regeln-karten
 //ENGINE-START
-const VERSION='0.50';
+const VERSION='0.51';
 const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:4500},{name:'Sommer',target:32000},{name:'Herbst',target:90000},{name:'Winter',target:210000,winter:true}];
@@ -1609,7 +1610,7 @@ Object.assign(RULES,{
   baum:{icon:'🌳',name:'Baumschutz',text:()=>'Auf Naturflächen dürfen nur passende Gehege stehen. Attraktionen, Essensstände und Naturschutz-Gebäude sind dort verboten.'},
   wege:{icon:'🚶',name:'Besucherwege',text:()=>'Jede Attraktion und jeder Essensstand braucht mindestens ein freies Nachbarfeld. Du darfst sie auch später nicht ganz zubauen.'},
   halb:{icon:'🚧',name:'Bauabschnitte',text:R=>`Im Frühling ist nur die ${halfDir(R)} Hälfte des Geländes bebaubar (auf dem Gelände markiert). Ab dem Sommer ist alles frei.`},
-  achse:{icon:'👁️',name:'Sichtachse',text:()=>'Eine Reihe quer durchs Gelände muss frei bleiben. Sie ist auf dem Gelände markiert.'},
+  achse:{icon:'👁️',name:'Sichtachse',text:()=>'Ein gerades Stück von 4 Feldern muss frei bleiben, damit die Besucher durchschauen können. Es ist auf dem Gelände markiert.'},
   gross2:{icon:'🏗️',name:'Großbaustelle',text:()=>'Pro Tag darfst du höchstens 2 Karten bauen oder ausbauen, egal wie viele Baupunkte übrig sind. Umziehen zählt nicht mit.'},
   insel:{icon:'🏝️',name:'Inselzoo',text:()=>'Gehege verschiedener Lebensräume dürfen sich nicht berühren. Gebäude dazwischen sind erlaubt.'}});
 // auf dem Handy ist das Gelände gedreht: aus links/rechts wird oben/unten
@@ -1621,7 +1622,13 @@ function initRule(){const R=state.rule;if(!R||!RULES[R.id]){state.rule=null;retu
   if(R.id==='eingang'){const c=BOARD.filter(([q,r])=>isEdge(q,r)&&!TERR.get(hk(q,r)));R.entry=(c.length?c:BOARD)[Math.floor(Math.random()*(c.length||BOARD.length))].slice()}
   if(R.id==='rand'){const hs=Object.keys(HAB);R.hab=hs[Math.floor(Math.random()*hs.length)]}
   if(R.id==='halb')R.side=Math.random()<.5?-1:1;
-  if(R.id==='achse'){const rs=[...new Set(BOARD.map(c=>c[1]))].sort((a,b)=>a-b),m=Math.floor(rs.length/2);R.row=rs[Math.max(0,Math.min(rs.length-1,m+Math.floor(Math.random()*3)-1))]}
+  if(R.id==='achse'){const rs=[...new Set(BOARD.map(c=>c[1]))].sort((a,b)=>a-b),m=Math.floor(rs.length/2);R.row=rs[Math.max(0,Math.min(rs.length-1,m+Math.floor(Math.random()*3)-1))];
+    // Sichtachse: ein gerades Stück von 4 freien Feldern, möglichst mittig; Reihe mit Felsen-Lücke -> andere Reihe
+    const cand=[R.row,...rs.slice().sort((a,b)=>Math.abs(a-rs[m])-Math.abs(b-rs[m]))];let best=null;
+    for(const row of cand){const qs=BOARD.filter(c=>c[1]===row).map(c=>c[0]).sort((a,b)=>a-b),mid=(qs[0]+qs[qs.length-1])/2;
+      for(const q0 of qs){const seg=[0,1,2,3].map(i=>[q0+i,row]);if(!seg.every(([q,r])=>BOARD.some(c=>c[0]===q&&c[1]===r)&&TERR.get(hk(q,r))!=='block'))continue;const d=Math.abs(q0+1.5-mid)+Math.random()*.9;if(!best||d<best.d)best={d,seg}}
+      if(best)break}
+    if(best){R.ax=best.seg.map(([q,r])=>hk(q,r));R.row=best.seg[0][1]}}
   state.infoProg='rule'}
 function habGroup(b,bs){const h=CARDS[b.key].hab,idx=mkIndex(bs),seen=new Set([b]),st=[b];while(st.length){const x=st.pop();for(const n of nbrs(x,idx))if(!seen.has(n)&&CARDS[n.key].cat==='gehege'&&CARDS[n.key].hab===h){seen.add(n);st.push(n)}}return seen.size}
 function entryCut(bs,ids){const R=state.rule,ek=hk(...R.entry),idx=mkIndex(bs),seen=new Set(),st=[];for(const b of bs)if(b.cells.some(([q,r])=>DIRS.some(([dq,dr])=>hk(q+dq,r+dr)===ek))){seen.add(b);st.push(b)}while(st.length){const x=st.pop();for(const n of nbrs(x,idx))if(!seen.has(n)){seen.add(n);st.push(n)}}if(ids)for(const b of bs)if(!seen.has(b))ids.push(b.id);return bs.length-seen.size}
@@ -1635,7 +1642,7 @@ function ruleWhy(bs,cells,key,isMove){const R=state&&state.rule;if(!R)return nul
   if(R.id==='wege'){const all=mkIndex([...bs,fake]),free=b=>b.cells.some(([q,r])=>DIRS.some(([dq,dr])=>ruleFree(hk(q+dq,r+dr),all))),walk=x=>x==='attr'||x==='essen';
     if(walk(c.cat)&&!free(fake))return'Auflage Besucherwege: Hier bliebe kein freies Nachbarfeld.';const shut=nb.find(n=>walk(CARDS[n.key].cat)&&!free(n));if(shut)return`Auflage Besucherwege: ${CARDS[shut.key].name} hätte dann kein freies Nachbarfeld mehr.`}
   if(R.id==='halb'&&state.season===0&&!cells.every(([q,r])=>halfOk(R,q,r)))return`Auflage Bauabschnitte: Im Frühling ist nur die ${halfDir(R)} Hälfte bebaubar.`;
-  if(R.id==='achse'&&cells.some(([q,r])=>r===R.row))return'Auflage Sichtachse: Diese Reihe muss frei bleiben.';
+  if(R.id==='achse'&&cells.some(([q,r])=>R.ax?R.ax.includes(hk(q,r)):r===R.row))return'Auflage Sichtachse: Diese Felder müssen frei bleiben.';
   if(R.id==='gross2'&&!isMove&&state.builtToday>=2)return'Auflage Großbaustelle: Heute hast du schon 2 Karten gebaut.';
   if(R.id==='insel'&&c.cat==='gehege'&&nb.some(n=>CARDS[n.key].cat==='gehege'&&CARDS[n.key].hab!==c.hab))return'Auflage Inselzoo: Gehege verschiedener Lebensräume dürfen sich nicht berühren.';
   if(R.id==='max3'&&c.cat==='gehege'&&habGroup(fake,[...bs,fake])>3)return`Sonderregel: Höchstens 3 ${HAB[c.hab].label}-Gehege dürfen zusammenhängen.`;
@@ -1643,7 +1650,7 @@ function ruleWhy(bs,cells,key,isMove){const R=state&&state.rule;if(!R)return nul
 function ruleOverlay(){const R=state.rule;if(!R)return'';let o='';
   if(R.id==='eingang'){const[x,y]=px(...R.entry);o+=`<polygon class="rentry" points="${hexPts(x,y,SZ*.92)}" pointer-events="none"/><text class="tic rdoor" x="${x}" y="${y}">🚪</text>`}
   const key=state.moving==null&&state.selected!=null?state.hand[state.selected]:null,c=key&&CARDS[key],act=!!c&&state.phase==='play';
-  if(R.id==='achse')for(const[q,r]of BOARD)if(r===R.row&&TERR.get(hk(q,r))!=='block'){const[x,y]=px(q,r);o+=`<polygon class="raxis" points="${hexPts(x,y,SZ*.86)}" pointer-events="none"/>`}
+  if(R.id==='achse')for(const[q,r]of BOARD)if((R.ax?R.ax.includes(hk(q,r)):r===R.row)&&TERR.get(hk(q,r))!=='block'){const[x,y]=px(q,r);o+=`<polygon class="raxis" points="${hexPts(x,y,SZ*.86)}" pointer-events="none"/>`}
   if(R.id==='halb'&&state.season===0)for(const[q,r]of BOARD)if(!halfOk(R,q,r)&&TERR.get(hk(q,r))!=='block'){const[x,y]=px(q,r);o+=`<polygon class="rdim" points="${hexPts(x,y,SZ*.92)}" pointer-events="none"/>`}
   if(!act&&R.id!=='eingang')return o;
   const idx=mkIndex(state.buildings),T=c?c.tags||[]:[],ek=R.entry?hk(...R.entry):null,gh=c&&c.cat==='gehege';
@@ -1683,7 +1690,7 @@ function profHints(id,Z=state.zl,R=state.rule||{},terr=TERR){const I=Z.insp,o=[]
   if(id==='freizeit'){if(I==='essen')w('Im Winter zählen Essensstände nicht.');if(I==='attr'||I==='markt')w('Im Winter zählen Attraktionen nicht.');if(I==='laerm')w('Winter: Attraktionen neben scheuen Tieren zählen nicht.');if(R.id==='wege')w('Auflage: Attraktionen und Essensstände brauchen ein freies Nachbarfeld.');if(R.id==='baum')w('Auflage: Attraktionen und Essensstände dürfen nicht auf Naturflächen.')}
   if(id==='raub'){if(R.id==='raub')g('Auflage: Raubtiere dürfen ohnehin nicht neben Beute, das passt zum Nachteil.');if(I==='zucht')w('Winter: Nur bedrohte Tiere zählen doppelt, andere Gehege verlieren 1 Besucher.')}
   if(id==='aqua'){const n=tc('wasser');if(n>=4)g(`Viel Wasser im Gelände (${n} Felder).`);else if(!n)w('Keine Wasserflächen im Gelände.');if(I==='hab')w('Winter: Der Lebensraum mit den meisten Gehegen zählt halb, das trifft fast sicher Wasser.');if(R.id==='max3')w('Auflage: höchstens 3 Gehege eines Lebensraums nebeneinander.');if(R.id==='rand'&&R.hab==='wasser')w('Auflage: Wasser-Gehege nur am Rand.');if(tc('wueste')+tc('savanne')>=4)w('Viel Wüste und Savanne im Gelände.')}
-  if(id==='gross'){if(rocks>=6)w(`Viele Felsen (${rocks}): wenig Platz für große Gehege.`);if(R.id==='halb')w('Auflage: Im Frühling ist nur die halbe Fläche frei.');if(R.id==='achse')w('Auflage: Eine Reihe quer durchs Gelände bleibt frei.')}
+  if(id==='gross'){if(rocks>=6)w(`Viele Felsen (${rocks}): wenig Platz für große Gehege.`);if(R.id==='halb')w('Auflage: Im Frühling ist nur die halbe Fläche frei.');if(R.id==='achse')w('Auflage: Ein Stück von 4 Feldern bleibt frei.')}
   if(id==='klein'){if(I==='gross')w('Im Winter zählen kleine Gehege nur zur Hälfte (außer Stufe II).');if(I==='klein')w('Im Winter zählen Gehege mit 1 Feld nur zur Hälfte.');if(R.id==='gross2')w('Auflage: höchstens 2 Karten pro Tag, kleine Karten bringen dann weniger.')}
   return o}
 // Gelände mit Felsen, Naturflächen und Sonderfeldern
@@ -1795,7 +1802,7 @@ function render(){
     ||`<span style="color:var(--muted);font-size:13px;padding:10px">Keine Karten mehr auf der Hand.</span>`;}
   $('bp').innerHTML=`<span>BP</span> ${Array.from({length:state.bpMax},(_,i)=>`<i class="${i<state.bp?'on':''}"></i>`).join('')}`;
   $('btnDeck').innerHTML=`🂠 ${state.deck.length} · <span class="wd">Ablage</span><span class="nw">Abl.</span> ${state.discard.length}`;
-  {const rb=$('btnRedraw');rb.disabled=!(state.phase==='play'&&state.bp>=1&&state.hand.length+state.deck.length+state.discard.length>0);rb.classList.toggle('arm',state.infoProg==='redraw')}
+  {const rb=$('btnRedraw'),fr=rdFree();rb.textContent=fr?'🔄 gratis':'🔄 −1';rb.classList.toggle('free',fr);rb.disabled=!(state.phase==='play'&&(state.bp>=1||fr)&&state.hand.length+state.deck.length+state.discard.length>0);rb.classList.toggle('arm',state.infoProg==='redraw')}
   $('progs').innerHTML=Array.from({length:MAXPROGS},(_,i)=>{const id=state.progs[i];return id?`<button class="prog" data-prog="${id}" title="${PROGS[id].name}: ${PROGS[id].text}">${PROGS[id].icon}</button>`:'<span class="prog empty" title="Freier Platz für ein Förderprogramm"></span>'}).join('')
     +state.ads.map(id=>`<button class="prog ad" data-ad="${id}" title="${ADS[id].name}: ${ADS[id].text} (diese Jahreszeit)">${ADS[id].icon}</button>`).join('')
     +(state.bpSeason?`<button class="prog ad" data-ad="bautrupp" title="Saison-Bautrupp: +1 Baupunkt pro Tag (diese Jahreszeit)">🧱</button>`:'');
@@ -1871,7 +1878,7 @@ function infoHtml(h,cur){
   if(state.infoProg==='rule'&&state.rule)return ruleInfoHtml();
   if(state.infoProg==='mile'){const m=mileInfoHtml();if(!((state.spec||[]).length||state.mode==='camp'))return m;state.infoProg='boni';const b=infoHtml(h,cur);state.infoProg='mile';return m+'<hr class="infhr">'+b}
   if(state.infoProg==='money')return moneyInfoHtml(cur);
-  if(state.infoProg==='redraw')return`<h3>🔄 Hand neu ziehen?</h3><p class="hint">Kostet <b>1 Baupunkt</b>. Alle Handkarten gehen auf die Ablage, du ziehst fünf neue. Nicht rückgängig, auch die heutigen Züge davor sind danach fest. <b>Nochmal auf 🔄 tippen</b> zum Bestätigen.</p>`;
+  if(state.infoProg==='redraw')return`<h3>🔄 Hand neu ziehen?</h3><p class="hint">${rdFree()?'<b>Gratis</b> (einmal pro Jahreszeit). Danach kostet es 1 Baupunkt.':'Kostet <b>1 Baupunkt</b>. Der Gratis-Neuzug dieser Jahreszeit ist schon verbraucht.'} Alle Handkarten gehen auf die Ablage, du ziehst fünf neue. Nicht rückgängig, auch die heutigen Züge davor sind danach fest. <b>Nochmal auf 🔄 tippen</b> zum Bestätigen.</p>`;
   if(state.infoProg==='boni'){const L=(state.spec||[]).filter(id=>SPEC[id]),ks=Object.keys(PERKS).filter(k=>CARDS[k]&&perkN(k));
     return`<h3>🎖️ Deine Spezialisten ${L.length}/${MAXSPEC}</h3>${strike()?'<p class="hint" style="color:#ffb3b5"><b>🪧 Dein Team streikt.</b> Die Kasse ist im Minus, deshalb wirkt kein Spezialist, bis du wieder bei 0 Talern oder darüber bist.</p>':''}${L.length?L.map(id=>{const S=SPEC[id],st=strike();return`<div class="${st?'specoff':''}"><p class="hint" style="margin:0"><b style="color:var(--text)">${st?'🪧 ':''}${S.icon} ${S.name}</b>${st?' <i>streikt</i>':''}</p>${fxHtml(S)}${specYield(id)}</div>`}).join(''):'<p class="hint">Noch niemand eingestellt. Spezialisten gibt es im Stellenmarkt (nach jeder Jahreszeit, als Reiter neben dem Shop) und nach jedem geschafften Zoo.</p>'}${ks.length?`<p class="hint">Verbesserte Karten: ${ks.map(k=>CARDS[k].icon+' +'+perkN(k)).join(' · ')}</p>`:''}`}
   if(state.infoProg&&state.infoProg.startsWith('ev:')){const e=(state.events||[]).find(x=>'ev:'+x.id===state.infoProg);if(e)return`<h3>${evIcon(e)} ${evName(e)}</h3><p class="hint">Ereignis · gilt die ganze Jahreszeit, auch für bereits Gebautes</p>${fxHtml({fx:evFx(e)})}${EVENTS[e.id].per?yieldHtml({per:(b,c)=>EVENTS[e.id].per(b,c,e.k||1)}):''}`}
@@ -1944,9 +1951,10 @@ $('hand').addEventListener('pointerleave',()=>{if(state.hover==null)return;state
 $('board').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||state.phase!=='play'||state.selected!=null)return;const t=e.target.closest('[data-terr]');const v=t?t.dataset.terr:null;
   if(v===state.hoverTerr)return;state.hoverTerr=v;$('info').innerHTML=infoHtml(null,scoreZoo(state.buildings))});
 $('board').addEventListener('pointerleave',()=>{if(!state.hoverTerr)return;state.hoverTerr=null;if(state.phase==='play')$('info').innerHTML=infoHtml(hypo(),scoreZoo(state.buildings))});
-function redraw(){if(state.phase!=='play'||state.bp<1){Sfx.deny();return}{const ts=tutStep();if(ts&&!ts.redraw){Sfx.deny();tutNudge();return}}
+const rdFree=()=>!!state&&state.rdFree!==state.season+'/'+(state.zoo||0);
+function redraw(){if(state.phase!=='play'||(state.bp<1&&!rdFree())){Sfx.deny();return}{const ts=tutStep();if(ts&&!ts.redraw){Sfx.deny();tutNudge();return}}
   if(state.infoProg!=='redraw'){state.infoProg='redraw';state.moving=null;state.selected=null;state.preview=null;state.info=null;Sfx.select();render();return}
-  state.infoProg=null;state.moving=null;if(state.tut)state.tut.redrawn=true;state.discard.push(...state.hand);state.hand=[];state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
+  state.infoProg=null;state.moving=null;if(state.tut)state.tut.redrawn=true;state.discard.push(...state.hand);state.hand=[];if(rdFree())state.rdFree=state.season+'/'+(state.zoo||0);else state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
 $('btnRedraw').addEventListener('click',redraw);
 $('money').addEventListener('click',()=>{if(!state||state.phase==='scoring')return;state.infoProg=state.infoProg==='money'?null:'money';state.selected=null;state.preview=null;state.info=null;state.moving=null;Sfx.select();render()});
 $('mkBar').addEventListener('click',()=>{if(!state||state.phase!=='play')return;ensureMarket();state.market.seen=true;modal='market';Sfx.shop();render()});
@@ -2416,7 +2424,7 @@ function renderModal(){zlPick0=false;const root=$('modalRoot'),se=state?seOf(sta
   const rr=$('mReroll');if(rr)rr.onclick=()=>{const p=rerollPrice();if(!canPay(p)){Sfx.deny();return}state.money-=p;state.stats.spent+=p;state.shop.rerolls++;state.shop.items=genShopItems();state.shop.note=null;Sfx.draw();render()};
   const lv=$('mLeave');if(lv)lv.onclick=beginNextSeason;
   const mr=$('mRules');if(mr)mr.onclick=()=>{helpOpen=!helpOpen;Sfx.select();renderModal()};
-  const cl=$('mClose');if(cl)cl.onclick=()=>{modal=null;renderAll()};
+  const cl=$('mClose');if(cl)cl.onclick=()=>{const gh=state&&gRun()?guideHint():null;if(gh&&gh.go)gRun().guide.seen[gh.id]=1;modal=null;renderAll()};
   const rs=$('mRestart');if(rs)rs.onclick=()=>{if(state&&gRun()){modal=null;guideEnd(false);return}if(state&&state.mode==='tut'){exitTut(false);return}modal='restart';render()};
   const ry=$('mRestartYes');if(ry)ry.onclick=()=>{if(state.mode==='camp'){state.phase='lost';finishGame()}else openMaps(false)};
   root.querySelectorAll('[data-mute]').forEach(b=>b.onclick=()=>{Sfx.muted=b.dataset.mute==='1';try{localStorage.setItem('zoodeck-muted',Sfx.muted?'1':'0')}catch(e){}if(!Sfx.muted){Sfx.init();Sfx.select()}render()});
@@ -2545,7 +2553,7 @@ const gRun=()=>{const sl=activeSlot();return sl&&sl.run&&sl.run.tut?sl.run:null}
 const gB=f=>state.buildings.some(b=>f(CARDS[b.key],b)),gH=f=>state.hand.some(k=>f(CARDS[k],k));
 const GUIDE=[
  {id:'zoo1',ctx:'zoo',if:()=>state.day===0&&!state.buildings.length,t:'Willkommen im Tutorial! Das ist dein Zoo auf einen Blick. Jede Kachel ist eine Regel dieses Zoos, <b>tippe sie an</b> für den vollen Text. Du findest alles jederzeit oben links hinter <b>„Zoo 1 ▾“</b>.'},
- {id:'zoo2',ctx:'zoo',if:()=>state.day===0&&!state.buildings.length,t:'Jeder Zoo hat ein <b>Profil</b> mit einem Vorteil und einem Nachteil. Hier ist es der <b>Streichelzoo</b>: Gehege mit 1 oder 2 Feldern bringen +40 %, große Gehege kosten 1 Baupunkt mehr. Im echten Lauf wählst du aus drei Profilen. Tippe jetzt auf „Los geht\'s“.'},
+ {id:'zoo2',ctx:'zoo',go:1,if:()=>state.day===0&&!state.buildings.length,t:'Jeder Zoo hat ein <b>Profil</b> mit einem Vorteil und einem Nachteil. Hier ist es der <b>Streichelzoo</b>: Gehege mit 1 oder 2 Feldern bringen +40 %, große Gehege kosten 1 Baupunkt mehr. Im echten Lauf wählst du aus drei Profilen. Tippe jetzt auf „Los geht\'s“.'},
  {id:'event',ctx:'play',if:()=>!state.tut&&state.season>=1&&state.selected==null&&(state.events||[]).length>0,t:'Diese Jahreszeit hat ein <b>Ereignis</b>. Tippe oben neben „Zoo 1 ▾“ auf sein Symbol, um Wirkung und Ertrag zu sehen.'},
  {id:'prewinter',ctx:'play',if:()=>!state.tut&&state.season===2&&state.selected==null,t:'Der Winter kommt näher. Dann gilt die <b>Lebensmittelaufsicht</b>: Essensstände zählen selbst nicht. Plane jetzt schon dafür, zum Beispiel mit Gehegen statt weiteren Ständen.'},
  {id:'insp',ctx:'insp',t:'Ab jetzt gilt die Winter-Bedingung. Die betroffenen Gehege/Gebäude erkennst du am ❄️.'},
@@ -2566,7 +2574,8 @@ TUT.zl={name:'Frühling',steps:[
  {t:'Am Abend zählt <b>Besucher × Natur</b> des ganzen Zoos. Viele Karten mögen Nachbarn: Setze die <b>Grünfläche</b> direkt <b>neben die Pinguine</b>. Sie bekommt +1 Natur je Gehege daneben. Achte in der Vorschau auf <b>Zoo +…</b>: Das ist die Änderung für den ganzen Zoo.',h:'Grünfläche auf das leuchtende Feld',only:'gruen',at:['2,0'],setup:tBp,done:()=>tAt('gruen','2,0')},
  {t:'Das Feld mit <b>×2</b> ist ein <b>goldenes Feld</b>: Was darauf steht, zählt doppelt, Besucher und Natur. Setze die <b>Affeninsel</b> darauf.',h:'Affen auf das ×2-Feld',only:'affen',at:['0,0'],setup:tBp,done:()=>tAt('affen','0,0')},
  {t:'Drei Baupunkte sind verbraucht. Tippe auf <b>Tag beenden</b>: Jedes Gehege/Gebäude zählt aus, am Ende gilt Besucher × Natur.',only:'-',end:true,done:()=>state.phase==='review'},
- {t:'Oben leuchtet jetzt die <b>Abrechnung des Tages</b>: <b>Besucher × Natur = Tagesertrag</b>. Der Tagesertrag wandert in den <b>Balken darüber</b>, das ist dein <b>Saisonziel</b>. Jede Jahreszeit hat 6 Tage. Tippe auf <b>Nächsten Tag starten</b>. Danach bekommst du für jede gebaute Karte eine neue ins Deck, im Tutorial ist sie vorgegeben und leuchtet.',only:'-',end:true,glow:['cA','cS','cT','bar'],done:()=>state.phase==='play'&&state.day>=1},
+ {t:'Oben leuchtet jetzt die <b>Abrechnung des Tages</b>: <b>Besucher × Natur = Tagesertrag</b>. Der Tagesertrag wandert in den <b>Balken darüber</b>, das ist dein <b>Saisonziel</b>. Jede Jahreszeit hat 6 Tage. Tippe auf <b>Nächsten Tag starten</b>.',only:'-',end:true,glow:['cA','cS','cT','bar'],done:()=>state.phase==='draft'||(state.phase==='play'&&state.day>=1)},
+ {t:'🃏 <b>Neue Karten aussuchen!</b> Für jede Karte, die du heute gebaut hast, darfst du jetzt eine neue für dein Deck wählen. Sie kommt auf deine Ablage und taucht in den nächsten Tagen auf der Hand auf. Im Tutorial ist die Wahl vorgegeben: Tippe die leuchtende Karte an.',ph:'draft',only:'-',done:()=>state.phase==='play'&&state.day>=1},
  {t:'<b>Tag 2.</b> Die blauen Felder sind eine <b>Wasser-Naturfläche</b>: Nur Wasser-Gehege dürfen dort stehen und bekommen +1 Natur je Feld. Wähle den <b>Flamingoteich</b>. Er passt so noch nicht: Tippe auf <b>↻ Drehen</b> (leuchtet), bis er genau auf den zwei leuchtenden Feldern liegt.',h:'Flamingos wählen, ↻ Drehen, auf die leuchtenden Felder',only:'flamingos',rot:true,at:['2,-1','3,-2'],setup:tDay('flamingos','pinguine','seeloewen~g','popcorn','turm'),done:()=>tB('flamingos').length>0},
  {t:'Du hast noch ein <b>Pinguinbecken</b> auf der Hand. Ein zweites Becken brächte 75 % seiner Gesamtwirkung, bräuchte aber einen guten Platz. Hier besser: Ziehe die Karte <b>auf das vorhandene Becken</b> und tippe <b>Ausbauen</b>. Das bringt +60 % der Gesamtwirkung des Beckens, mit allen Nachbarboni, Stufe III nochmal +40 %.',h:'Auf das vorhandene Becken ziehen, dann „Ausbauen“',only:'pinguine',up:true,mark:()=>['1,0'],setup:tBp,done:()=>tB('pinguine').some(b=>(b.lvl||1)>1)},
  {t:'Tippe oben links auf <b>„Zoo 1 ▾“</b>. Dort stehen alle Regeln dieses Zoos: Profil, Winter-Bedingung, Reinheit und Gelände.',only:'-',ev:true,done:()=>modal==='zoo'},
@@ -2579,7 +2588,7 @@ TUT.zl={name:'Frühling',steps:[
  {t:'Gut gebaut! Tippe auf <b>Tag beenden</b> und dann auf <b>Nächsten Tag starten</b>.',only:'-',end:true,done:()=>state.phase==='play'&&state.day>=3},
  {t:'<b>Tag 4.</b> Gebautes lässt sich versetzen. Tippe den <b>Popcornstand</b> im Zoo an, dann <b>🚚 Umziehen</b>, und setze ihn auf das leuchtende Feld. Das kostet 1 Baupunkt.',h:'Popcorn antippen, „🚚 Umziehen“, leuchtendes Feld',tap:true,only:'-',mv:'popcorn',at:['0,-2'],mark:()=>state.moving!=null?[]:tB('popcorn').flatMap(b=>b.cells.map(c=>hk(...c))),setup:s=>{tDay('nilpferde','zebras','woelfe','cafe','turm')(s);s.undo=[]},done:()=>state.undo.some(u=>u.t==='mv')},
  {t:'Das Feld mit 👑 ist das <b>Kronenfeld</b>: Steht dort ein Gehege mit <b>4 Feldern</b>, gibt es ×1,5 Besucher für den ganzen Zoo. Setze den <b>Nilpferdsee</b> über das Kronenfeld. Im Streichelzoo kosten große Gehege 1 Baupunkt mehr, hier also 5. Den fünften schenkt dir das Tutorial.',h:'Nilpferde auf die leuchtenden Felder',only:'nilpferde',rot:true,at:['-2,1','-2,2','-3,2','-3,3'],setup:s=>{s.bp=Math.max(s.bp,5)},done:()=>tAt('nilpferde','-2,1')},
- {t:'Passt die Hand einmal nicht, tippe zweimal auf <b>🔄 −1</b> über den Karten: Für 1 Baupunkt wirfst du alle Handkarten ab und ziehst neue. Probier es aus.',only:'-',redraw:true,setup:s=>{s.bp=s.bpMax;s.tut.redrawn=false},done:()=>!!state.tut.redrawn},
+ {t:'Passt die Hand einmal nicht, tippe zweimal auf <b>🔄</b> über den Karten: Du wirfst alle Handkarten ab und ziehst neue. <b>Einmal pro Jahreszeit ist das gratis</b>, danach kostet es 1 Baupunkt. Probier es aus.',only:'-',redraw:true,setup:s=>{s.bp=s.bpMax;s.tut.redrawn=false},done:()=>!!state.tut.redrawn},
  {t:'Tippe auf <b>Tag beenden</b> und dann auf <b>Nächsten Tag starten</b>.',only:'-',end:true,done:()=>state.phase==='play'&&state.day>=4},
  {t:'<b>Tag 5.</b> Die <b>Zebras</b> sind <b>Beute</b>. Setze sie auf die leuchtende Savanne. Dreh sie mit <b>↻ Drehen</b>, bis sie passen.',h:'Zebras: ↻ Drehen, dann auf die leuchtenden Felder',only:'zebras',rot:true,at:['-4,1','-4,2'],setup:tDay('zebras','woelfe','gruen','turm','cafe'),done:()=>tB('zebras').length>0},
  {t:'Die <b>Wölfe</b> sind <b>Raubtiere</b>: Beute direkt daneben verliert 30 % Besucher und Natur. Darum kommen sie weit weg von den Zebras.',h:'Wölfe auf die leuchtenden Felder',only:'woelfe',rot:true,at:['1,-2','1,-3','2,-4'],setup:tBp,done:()=>tB('woelfe').length>0},
@@ -2601,7 +2610,11 @@ TUT.zlw={name:'Winter',steps:[
 function guideCtx(){if(screen==='creward'){const a=screenArg||{};return'r:'+(a.peek?'prev':a.step==='next'?'spec':a.step)}if(!state||screen)return null;if(modal==='zoo')return'zoo';if(modal==='insp')return'insp';if(modal)return null;
   if(state.phase==='draft')return'draft';if(state.phase==='shop')return state.shopTab==='market'?'market':'shop';if(state.phase==='win')return'win';if(state.phase==='review')return'review';if(state.phase==='play')return'play';return null}
 function guideHint(){const run=gRun();if(!run)return null;const ctx=guideCtx();if(!ctx)return null;const seen=(run.guide=run.guide||{seen:{}}).seen;for(const h of GUIDE){if(h.ctx!==ctx||seen[h.id])continue;try{if(!h.if||h.if())return h}catch(e){}}return null}
-const guideHtml=()=>{const h=guideHint(),st=!h&&gRun()&&state&&!screen?tutStep():null;if(st)return`<div class="ghint"><div class="gh1">📖 Tutorial</div><p>${st.t}</p>${st.btn?`<button class="btn main" data-gstep="1">${st.btn}</button>`:''}</div>`;return h?`<div class="ghint"><div class="gh1">📖 Tutorial</div><p>${h.t}</p><button class="btn main" data-gok="${h.id}">Verstanden</button></div>`:''};
+// Tutorial: Schritt-Wechsel merken; passt die Spielphase nicht zum Schritt, gibt es einen neutralen Text (gilt für den Kasten unten und für die Kästen in Fenstern)
+function tutKey(st){const key=state.tut.ch+':'+state.tut.i;if(key!==coachKey){coachKey=key;coachPh=st.ph||state.phase;coachMin=false;tutFit=!!(st.tap&&st.mark)}}
+const TUTGEN={draft:'<b>Kartenwahl:</b> Wähle eine Karte für dein Deck. Im Tutorial leuchtet die richtige.',review:'<b>Tagesbilanz:</b> Hier siehst du, was der Tag gebracht hat. Danach geht es weiter.',seasonWon:'<b>Saisonziel geschafft!</b> Gleich geht es weiter.',shop:'<b>Shop:</b> Schau dich um, dann geht es weiter.',lost:'Das Saisonziel wurde nicht erreicht.'};
+function tutGen(st){tutKey(st);const phG=p=>['play','scoring','review'].includes(p)?'play':p;if(phG(state.phase)===phG(coachPh)||(st.ph&&st.ph===state.phase))return null;return TUTGEN[state.phase]||''}
+const guideHtml=()=>{const h=guideHint(),st=!h&&gRun()&&state&&!screen&&state.tut?tutStep():null;if(st){const g=tutGen(st);if(g!==null)return g?`<div class="ghint"><div class="gh1">📖 Tutorial</div><p>${g}</p></div>`:''}if(st)return`<div class="ghint"><div class="gh1">📖 Tutorial</div><p>${st.t}</p>${st.btn?`<button class="btn main" data-gstep="1">${st.btn}</button>`:''}</div>`;return h?`<div class="ghint"><div class="gh1">📖 Tutorial</div><p>${h.t}</p>${h.go?'':`<button class="btn main" data-gok="${h.id}">Verstanden</button>`}</div>`:''};
 document.addEventListener('click',e=>{const t=e.target&&e.target.closest?e.target:null;if(!t)return;const b=t.closest('[data-gok]'),q=t.closest('[data-gend]'),g=t.closest('[data-gstep]');if(!b&&!q&&!g)return;const run=gRun();if(!run)return;e.stopPropagation();e.preventDefault();if(g){tutNext();return}
   if(q){Sfx.win();guideEnd(true);return}(run.guide=run.guide||{seen:{}}).seen[b.dataset.gok]=1;Sfx.select();saveMeta();renderAll()},true);
 function startGuide(){const lm=META.lastMode,ls=META.lastSlot;META.tutPrev=META.active==='tut'?null:META.active;META.slots.tut={name:'Tutorial',created:1,last:1,game:null,perks:{},games:0,ctype:{}};enterCamp('tut',true,'grund',true);META.lastMode=lm;META.lastSlot=ls;saveMeta()}
@@ -2623,9 +2636,9 @@ function renderCoach(){const gr0=state&&gRun();if(gr0&&!state.tut&&state.season=
   const st=tutStep(),c=$('coach');if(state&&gRun()&&!st){const cx=guideCtx(),gh=cx==='play'||cx==='review'?guideHint():null;document.body.classList.remove('tutmode');c.classList.remove('small');c.classList.toggle('gshow',!!gh);c.innerHTML=gh?`<div class="ch"><span>📖 Tutorial</span><button id="tutQuit">Tutorial beenden</button></div><p>${gh.t}</p><button class="btn main" data-gok="${gh.id}">Verstanden</button>`:'';return}c.classList.remove('gshow');document.body.classList.toggle('tutmode',!!st);if(!st){c.innerHTML='';document.querySelectorAll('.tutglow').forEach(e=>e.classList.remove('tutglow'));$('btnRot').classList.remove('tutgo');$('btnUndo').classList.remove('tutgo');return}
   const T=TUT[state.tut.ch],w=st.wrong&&state.phase==='play'?st.wrong():null;
   // beim Platzieren klappt der Hinweis auf eine Zeile zusammen, damit das Gelände frei bleibt
-  {const key=state.tut.ch+':'+state.tut.i;if(key!==coachKey){coachKey=key;coachPh=st.ph||state.phase;coachMin=false;tutFit=!!(st.tap&&st.mark)}}
+  tutKey(st);
   // Phase gewechselt, der Schritt gehört aber zu einer anderen: neutraler Text statt des alten
-  const phG=p=>['play','scoring','review'].includes(p)?'play':p,gen=phG(state.phase)!==phG(coachPh)&&!(st.ph&&st.ph===state.phase);if(gen){const gt={draft:'<b>Kartenwahl:</b> Wähle eine Karte für dein Deck. Im Tutorial leuchtet die richtige.',review:'<b>Tagesbilanz:</b> Hier siehst du, was der Tag gebracht hat. Danach geht es weiter.',seasonWon:'<b>Saisonziel geschafft!</b> Gleich geht es weiter.',shop:'<b>Shop:</b> Schau dich um, dann geht es weiter.',lost:'Das Saisonziel wurde nicht erreicht.'}[state.phase];
+  const gen=tutGen(st)!==null;if(gen){const gt=tutGen(st);
     c.classList.toggle('small',!gt);c.innerHTML=gt?`<div class="ch"><span>${gRun()?'📖 '+T.name:T.name}</span></div><p>${gt}</p>`:`<div class="ch"><span>Einen Moment…</span></div>`}
   else{const small=!w&&((!st.btn&&(state.selected!=null||state.moving!=null||state.phase==='scoring'))||(coachMin&&!st.btn));c.classList.toggle('small',small);
   c.innerHTML=small?`<div class="ch" data-cmin="1"><span>Schritt ${state.tut.i+1}/${T.steps.length}${st.h?' · <b>'+st.h+'</b>':''}</span><span class="cmx">▴ aufklappen</span></div>`
