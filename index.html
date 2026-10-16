@@ -760,6 +760,7 @@ body.tutmode .card.tutno{opacity:.45}body.tutmode .tutglow{animation:tutglow 1.2
 .hs .rk{color:var(--muted);width:2em}
 .hs .sub2{display:block;font-size:11.5px;color:var(--muted)}
 .tablewrap{overflow-x:auto;background:var(--panel);border-radius:14px;padding:6px}
+.pslots{margin:2px 0 4px}.ptest{border:2px dashed var(--gold)}.ptest small{color:var(--muted)}
 .empty-note{color:var(--muted);text-align:center;padding:24px 10px}
 .glist{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
 .gcard{background:var(--paper);color:var(--ink);border-radius:12px;padding:10px 12px 10px 16px;display:flex;flex-direction:column;gap:4px;position:relative;overflow:hidden;min-width:0}
@@ -848,7 +849,7 @@ body.tutmode .card.tutno{opacity:.45}body.tutmode .tutglow{animation:tutglow 1.2
 document.documentElement.lang='de';
 //@@ modul: 01-regeln-karten
 //ENGINE-START
-const VERSION='0.60';
+const VERSION='0.61';
 const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:4500},{name:'Sommer',target:32000},{name:'Herbst',target:90000},{name:'Winter',target:210000,winter:true}];
@@ -2635,7 +2636,10 @@ function deckStatHtml(cs){const g=cs.filter(k=>CARDS[k]&&CARDS[k].cat==='gehege'
   return`<p class="dstat"><span>Lebensräume: ${Object.keys(HAB).filter(h=>hb[h]).map(h=>HAB[h].icon+' '+hb[h]).join(' · ')}</span><span>Eigenschaften: ${trLine(o)}</span><span>Spielt sich: ${tips.slice(0,2).join(', ')||'unkompliziert'}</span></p>`}
 const deckFit=(prof,D)=>{const t=D.type;if(!t||!prof)return'';const good={aqua:['wasser'],safari:['savanne'],dschungel:['wald'],wuestenzoo:['wueste'],polar:['arktis'],alpen:['gebirge'],natur:['schutz'],freizeit:['attr','essen'],erlebnis:['attr','essen'],artenschutz:['schutz'],raub:[],gross:[],klein:[]},bad={aqua:[],natur:['attr'],freizeit:[],artenschutz:['attr']};return(good[prof]||[]).includes(t)?'<span class="tx ph g">✓ passt zu deinem Profil</span>':(bad[prof]||[]).includes(t)?'<span class="tx ph w">⚠️ beißt sich mit deinem Profil</span>':''};
 // Fortschritt: alles Freischaltbare des Spielstands an einem Ort
-function progHtml(){const id=META.lastSlot,sl=id!=null&&id!=='tut'?META.slots[id]:null,back='<div class="bar2"><h2>🔓 Fortschritt</h2><button class="btn sub" data-go="title">Zurück</button></div>';
+function progHtml(){const ids=META.slots.map((x,i)=>x?i:null).filter(i=>i!=null),pick=screenArg.ps!=null&&META.slots[screenArg.ps]?screenArg.ps:META.lastSlot,id=pick!=null&&pick!=='tut'&&META.slots[pick]?pick:ids.length?ids[0]:null,sl=id!=null?META.slots[id]:null;
+  const tst=META.testVerst?`<div class="rulebox ptest"><b>🧪 Test-Modus ist an</b><small>Alle Verstärker sind im Spiel verfügbar, auch wenn sie hier noch 🔒 sind. Läufe im Test-Modus zählen nicht für die Bestwerte.</small><button class="chip2" data-vtest="1" style="align-self:flex-start">Test-Modus ausschalten</button></div>`:'';
+  const sel=ids.length>1?`<div class="chips pslots">${ids.map(i=>`<button class="chip2 ${i===id?'on':''}" data-pslot="${i}">${esc(META.slots[i].name)}</button>`).join('')}</div>`:'';
+  const back='<div class="bar2"><h2>🔓 Fortschritt</h2><button class="btn sub" data-go="title">Zurück</button></div>'+sel+tst;
   if(!sl)return back+'<p class="empty-note">Lege zuerst einen Spielstand an und spiele einen Lauf, dann siehst du hier deinen Fortschritt.</p>';
   const cu=cuOf(sl),bar=(v,g)=>`<div class="dprog"><i style="width:${Math.min(100,v/g*100)}%"></i></div>`,mine=(META.cscores||[]).filter(x=>x.slot===id&&!x.test),bestZ=Math.max(0,...mine.map(x=>x.zoos||0),sl.run&&!sl.run.tut?sl.run.zoo||0:0),bestP=Math.max(0,...mine.map(x=>x.pts||0));
   const row=(ok,ic,nm,txt,extra='')=>`<div class="prow ${ok?'ok':'lk'}"><span class="pic">${ok?ic:'🔒'}</span><div class="pin"><b>${nm}</b><small>${txt}</small>${extra}</div><span class="pst">${ok?'✅':''}</span></div>`;
@@ -3059,6 +3063,7 @@ function renderScreen(){const root=$('screenRoot');root.classList.toggle('on',!!
 $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;Sfx.init();
   const sc=(n,arg={})=>{screen=n;screenArg=arg;Sfx.select();renderAll()};
   if(d.vtest){META.testVerst=!META.testVerst;Sfx.select();saveMeta();renderAll();return}
+  if(d.pslot!=null){screenArg.ps=+d.pslot;Sfx.select();renderScreen();return}
   if(d.vack){screenArg.vAck=1;Sfx.select();saveMeta();renderScreen();return}
   if(d.go){if(d.go==='gloss'&&META.lastSlot!=null&&META.slots[META.lastSlot])applySlot(META.slots[META.lastSlot]);sc(d.go,{back:d.go==='scores'&&screen==='perk'?'title':'title',hl:screenArg.hl});return}
   if(d.cont!=null){Sfx.select();enterSlot(+d.cont);return}
