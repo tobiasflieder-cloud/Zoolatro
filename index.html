@@ -741,7 +741,6 @@ body.tutmode .card.tutno{opacity:.45}body.tutmode .tutglow{animation:tutglow 1.2
 .shockw{position:fixed;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:3px solid #ffd166;pointer-events:none;z-index:255;animation:shockw .6s ease-out forwards}@keyframes shockw{to{transform:scale(9);opacity:0;border-width:1px}}
 .slam{animation:slam .45s cubic-bezier(.2,1.6,.4,1)}@keyframes slam{0%{transform:scale(1.45);filter:brightness(1.8)}100%{transform:scale(1);filter:none}}
 .fxflash{position:fixed;inset:0;background:#fff6d8;pointer-events:none;z-index:258;animation:fxflash .4s ease-out forwards}@keyframes fxflash{from{opacity:.28}to{opacity:0}}
-body.slowmo .boardarea{filter:saturate(1.4) contrast(1.08);transition:filter .2s}
 .boardarea.shk1,.boardarea.shk2,.boardarea.shk3{will-change:transform}body.fxp #board{will-change:transform}
 .boardarea.pow.shk2{--sk:7px}.boardarea.pow.shk3{--sk:11px;animation-duration:.7s}
 .bld.drop{animation:bdrop .6s cubic-bezier(.3,1.5,.5,1)}@keyframes bdrop{0%{transform:translateY(-9px) scale(1.35);opacity:.35}55%{transform:translateY(0) scale(.92);opacity:1}100%{transform:scale(1)}}
@@ -885,7 +884,7 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
 document.documentElement.lang='de';
 //@@ modul: 01-regeln-karten
 //ENGINE-START
-const VERSION='0.71';
+const VERSION='0.72';
 const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:4500},{name:'Sommer',target:32000},{name:'Herbst',target:90000},{name:'Winter',target:210000,winter:true}];
@@ -2322,7 +2321,7 @@ async function startScoring(){state.phase='scoring';fast=false;render();
         if(tier===4){let rays='';for(let i=0;i<12;i++){const an=i/12*Math.PI*2;rays+=`<line x1="${(rx+Math.cos(an)*SZ*.9).toFixed(1)}" y1="${(ry+Math.sin(an)*SZ*.9).toFixed(1)}" x2="${(rx+Math.cos(an)*SZ*3.4).toFixed(1)}" y2="${(ry+Math.sin(an)*SZ*3.4).toFixed(1)}"/>`}
           $('fxl').insertAdjacentHTML('beforeend',`<g class="rays">${rays}</g>`+ring(.36));fxShake(2);sparks(c,14);setTimeout(()=>sparks(c,10),260);Sfx.combo()}
         if(tier>=2){const[lx,ly]=pct(c),lab=document.createElement('span');lab.className='combo '+(tier===4?'max':'');lab.style.left=lx+'%';lab.style.top=ly+'%';lab.textContent=tier===4?`KOMBO ×${pos}!`:`×${pos}`;$('fxh').appendChild(lab);fxClamp(lab,lx,ly);setTimeout(()=>lab.remove(),tier===4?1500:900)}
-        if(tier===4&&pos===maxPos&&!paused){paused=true;if(fxStrong()){document.body.classList.add('slowmo');fxFlash()}await wait(SCFAST?300:fxStrong()?820:520);document.body.classList.remove('slowmo')}}}
+        }}
     a+=st.a;s+=st.s;{const e=state.stats.cards[b.key]=state.stats.cards[b.key]||{a:0,s:0};e.a+=st.a;e.s+=st.s}
     if(!quick()){{const mx=N>24?1:N>14?2:4;if(st.a>0)fxFly(c,'cA','a',Math.min(mx,1+Math.floor(Math.log10(st.a+1))));if(st.s>0)fxFly(c,'cS','s',Math.min(mx,1+Math.floor(Math.log10(st.s+1))))}}
     {const bg=fxStrong()&&!quick()&&posOf(st)>=2?' big':'';if(st.a)floatAt(c,(st.a>0?'+':'−')+Math.abs(st.a)+' B',(st.a>0?'a':'a neg')+bg);
