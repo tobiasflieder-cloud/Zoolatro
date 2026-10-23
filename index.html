@@ -908,6 +908,39 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
   .hand .card .mk-v{order:5}.hand .card .tx{flex:1}
 }
 .info:has(.rule1){min-height:0}
+.top .evs{flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
+.top .evs::-webkit-scrollbar{display:none}
+.goal .season{flex:none;justify-content:flex-start;gap:7px}
+.goal .gbar{flex:1;min-width:0;position:relative;height:22px;display:flex;align-items:center}
+.goal .gbar .bar{position:absolute;inset:0;height:auto;border-radius:99px;background:#ffffff14;overflow:hidden;display:block;width:auto;margin:0}
+.goal .gbar .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#e0a400,#ffd166)}
+.goal .gbar .gnum{position:relative;width:100%;text-align:center;font-size:12px;color:var(--text);font-weight:600;text-shadow:0 1px 2px #0009}
+.goal .gbar .gnum b{color:#fff}
+.goal .season-name{color:var(--text)}
+@media (min-width:860px) and (min-aspect-ratio:1/1){.goal .season{flex-direction:row;align-items:center;gap:8px}}
+.top .evs .evb{font-size:14px}
+.handbar .money{background:#fff3cf;color:#7a5200;box-shadow:inset 0 0 0 1.5px #e0a400;padding:4px 10px;font-size:14px;font-weight:800}
+.handbar .money.neg{background:#ffd9d6;color:#a3201b;box-shadow:inset 0 0 0 1.5px #d9534f}
+.handbar{gap:6px}.handbar .bp{flex:1}
+.info.paper .pc-strip small{color:#6b6250}
+.info.paper .pc-strip b{color:var(--ink)}
+.info.paper .pc-sm{box-shadow:0 0 0 2px #e0a400}
+.info.paper .resbig .a{color:#c46a00}.info.paper .resbig .s{color:#00857a}
+.info.paper .resbig .zz{background:#f1e9d4;color:var(--ink)}.info.paper .resbig .zz i{color:#6b6250}.info.paper .resbig .zz b.a{color:#c46a00}.info.paper .resbig .zz b.s{color:#00857a}
+.info.paper .resbig .z{background:#f1e9d4;color:var(--ink)}
+.info.paper .kasse{color:#7a5200;border-top-color:#0000001a}.info.paper .kasse.neg{color:#b3261e}
+.info.paper .detin{border-top-color:#00000026}
+.info.paper .brk{color:#6b6250}.info.paper .brk b{color:var(--ink)}.info.paper .brk .p{color:#9a6b00}.info.paper .brk .m{color:#b3261e}
+.info.paper .calc td{border-top-color:#0000001a}.info.paper .calc small{color:#6b6250}
+.info.paper .milehint{color:#7a5200}
+.info.paper .resgood{color:#1e7a45}
+.info.paper .calc td{color:var(--ink)}.info.paper .calc tr.sub td{color:#6b6250}.info.paper .calc tr.sum td{color:#9a6b00;border-top-color:#e0a400}
+.info.paper .calc td *{color:inherit}
+.pc-sm{position:relative;border:0;padding:0;cursor:pointer;box-shadow:0 0 0 2px #ffffff55}
+.pc-sm i{position:absolute;right:-6px;bottom:-5px;font-style:normal;font-size:10px;line-height:1;background:var(--gold);color:#3a2a00;border-radius:99px;padding:2px 3px;font-weight:800}
+.info .kasse{order:9;font-size:12.5px;font-weight:700;color:var(--gold);border-top:1px solid #ffffff1a;padding-top:5px;margin-top:2px}
+.info .kasse.neg{color:#ffb3b5}
+.detin{display:flex;flex-direction:column;gap:3px;border-top:1px dashed #ffffff26;padding-top:5px}
 @media (max-height:780px) and (max-width:859px){.pc-big{width:42px;height:42px;font-size:25px}.info.paper h3{font-size:17px}.pc-tiles b{font-size:20px}.pc-tiles span{font-size:9.5px;padding:3px 3px 2px}.info.paper ul.fx{font-size:12.5px;padding:5px 8px}.info.paper{gap:6px;padding:8px 10px 9px}.hand .card{min-height:100px}.mk-ic{margin-top:24px;margin-bottom:6px;width:40px;height:40px;font-size:23px}}
 </style>
 
@@ -916,12 +949,11 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
   <div class="side">
     <div class="top">
       <div class="brand">Zoolatro</div>
-      <div class="season"><span class="season-name" id="seasonName"></span><span class="dots" id="dots"></span></div>
-      <span class="money" id="money" title="Kasse">🪙 0</span>
+      <span class="evs" id="evs"></span>
       <button class="icbtn" id="btnMute" aria-label="Ton an oder aus">🔊</button>
       <button class="icbtn" id="btnHelp" aria-label="Menü und Spielregeln">☰</button>
     </div>
-    <div class="goal"><span class="evs" id="evs"></span><span>Saison <b id="sScore">0</b></span><div class="bar" id="bar"><i></i></div><span>Ziel <b id="sTarget">0</b></span></div>
+    <div class="goal"><div class="season"><span class="season-name" id="seasonName"></span><span class="dots" id="dots"></span></div><div class="gbar"><div class="bar" id="bar"><i></i></div><span class="gnum"><b id="sScore">0</b> / <span id="sTarget">0</span></span></div></div>
     <div class="counters">
       <div class="cnt a" id="cA"><label>Besucher</label><span id="vA">0</span><small id="dA"></small></div>
       <div class="op">×</div>
@@ -939,7 +971,7 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
     </div>
     <div class="log" id="log"></div>
   </div>
-  <div class="handbar"><span class="bp" id="bp"></span><button class="redrawbtn" id="btnRedraw" aria-label="Hand neu ziehen">🔄 −1</button><button class="deckbtn" id="btnDeck"></button></div>
+  <div class="handbar"><span class="bp" id="bp"></span><span class="money" id="money" title="Kasse">🪙 0</span><button class="redrawbtn" id="btnRedraw" aria-label="Hand neu ziehen">🔄 −1</button><button class="deckbtn" id="btnDeck"></button></div>
   <div class="hand" id="hand"></div>
 </div>
 <div id="screenRoot"></div>
@@ -958,7 +990,7 @@ document.documentElement.lang='de';
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.86';
+const VERSION='0.87';
 const DAYS=6,HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:4500},{name:'Sommer',target:32000},{name:'Herbst',target:90000},{name:'Winter',target:210000,winter:true}];
@@ -2211,6 +2243,8 @@ const TAGL=()=>new Set(Object.values((TXT.de||{}).tagfx||{})),fxOwn=c=>{const T=
 const detX=inner=>innerWidth>=900?inner:detH(inner);
 function setInfo(x){const el=$('info');el.innerHTML=x;const p=x.startsWith('<!--paper-->');el.classList.toggle('paper',p);if(p&&state.selected!=null&&state.hand[state.selected]){const c=CARDS[state.hand[state.selected]];el.style.setProperty('--mkc',`color-mix(in srgb,${colOf(c)} 55%,#fff)`)}}
 const detH=inner=>`<button class="detb" data-det="1">Details ${DET?'▴':'▾'}</button>${DET?inner:''}`;
+// 0.87: in der kompakten Vorschau-Leiste klappt das Tiersymbol die Rechnung auf (kein Knopf)
+const detP=inner=>DET?`<div class="detin">${inner}</div>`:'';
 // vollständige Rechnung der Bauvorschau: Karte, Nachbarn, Multiplikatoren, Zoo
 // Multiplikatoren vorher/nachher vergleichen (Schlüssel: Quelle + Symbol + Name ohne Zähler)
 function multDiff(r0,r1){const k=m=>(m.id!=null?m.id:'')+'|'+(m.icon||'')+'|'+String(m.label).split(':')[0],x=v=>'×'+mxs(v),fv=m=>`${m.ma?x(m.ma)+' B':''}${m.ma&&m.ms?' ':''}${m.ms?x(m.ms)+' N':''}`,M0=new Map(r0.mults.map(m=>[k(m),m])),M1=new Map(r1.mults.map(m=>[k(m),m])),L=[],lost=[],added=[];
@@ -2247,7 +2281,7 @@ const billHtml=inc=>inc&&inc.entry!=null?`<div class="bill"><span>🎟️ Eintri
 // großes Ergebnis beim Platzieren: eigener Wert, Wirkung auf den ganzen Zoo und auf die Kasse
 function resHtml(h,cur,own){const dA=h.r.A-cur.A,dS=h.r.S-cur.S,dK=dayIncome(h.r.A,h.r.S,state.money).base-dayIncome(cur.A,cur.S,state.money).base,c=CARDS[h.b.key];let mh='';
   if(!h.up&&!h.move&&!c.ms)for(const t in MILE){const M=MILE[t];if(!M.f(c)||(state.miles||{})[t]||state.buildings.some(x=>x.key===h.b.key))continue;const n=mileCount(state.buildings,t)+1;if(n===M.n)mh=`<p class="milehint">🏅 Meilenstein erreicht: morgen gibt es eine besondere Karte!</p>`;else if(n===M.n-1)mh=`<p class="milehint">🏅 Danach fehlt noch 1 weitere ${M.icon}-Art bis zum Meilenstein.</p>`}
-  return`<div class="resbig"><span class="a">${own?sgn(own.a):h.own.a} B</span><span class="s">${own?sgn(own.s):h.own.s} N</span><span class="zz ${dA+dS<0?'neg':''}"><i>Zoo</i> ${dA||!dS?`<b class="a">${sgn(dA)} B</b>`:''}${dS?` <b class="s">${sgn(dS)} N</b>`:''}</span>${dK?`<span class="z ${dK<0?'neg':''}">Kasse ${sgn(dK)} 🪙 pro Tag</span>`:''}</div>${mh}`}
+  return`<div class="resbig"><span class="a">${own?sgn(own.a):h.own.a} B</span><span class="s">${own?sgn(own.s):h.own.s} N</span><span class="zz ${dA+dS<0?'neg':''}"><i>Zoo</i> ${dA||!dS?`<b class="a">${sgn(dA)} B</b>`:''}${dS?` <b class="s">${sgn(dS)} N</b>`:''}</span></div>${mh}${dK?`<div class="kasse ${dK<0?'neg':''}">🪙 Kasse ${sgn(dK)} pro Tag</div>`:''}`}
 function mileInfoHtml(){const v=state.zl?vielfalt(state.buildings):null;return`<h3>🏅 Meilensteine</h3><p class="hint">Ab 7 <b>verschiedenen</b> Gehege-Arten eines Lebensraums oder 7 verschiedenen Attraktionen, 7 Gastro-Gebäuden, 8 Naturschutz-Gebäuden oder je 4 verschiedenen aus allen vier Kategorien (🎨) gibt es am nächsten Morgen eine besondere Karte. Gleiche Gehege/Gebäude zählen nur einmal.</p><div class="mile">${mileKeys().map(t=>{const M=MILE[t],n=Math.min(M.n,mileCount(state.buildings,t)),ok=(state.miles||{})[t];return`<span class="${ok?'ok':''}">${M.icon} ${ok?'✓ '+CARDS[M.card].name:n+'/'+M.n}</span>`}).join('')}</div>${v?`<p class="hint" style="margin-top:6px">🎨 <b>Vielfalt</b> (Arten je Lebensraum): ${vfTxt(v)}${v.f>1?` · ×${String(+v.f.toFixed(2)).replace('.',',')} Natur`:' · ab je 2 Arten in allen 4 Lebensräumen ×1,1 Natur'}</p>`:''}`}
 function moneyInfoHtml(cur){const inc=dayIncome(cur.A,cur.S,state.money),row=(l,v)=>`<tr><td>${l}</td><td class="${v<0?'neg':''}">${sgn(v)}</td></tr>`;
   return`<h3>🪙 Kasse: ${fmt(state.money)} Taler</h3><p class="hint">Wenn du jetzt den Tag beendest:</p><table class="billt">${row(`🎟️ Eintritt · 1 je ${ENTRY} Besucher (${fmt(cur.A)} B)${state.zl?'<br><small style="color:var(--muted)">Zoolatro: die ersten 30 Taler voll, die nächsten 60 halb, darüber ein Viertel</small>':''}`,inc.entry)}${row(`🌿 Pflege · −1 je 8 Natur (${fmt(cur.S)} N)`,inc.care)}${inc.interest?row('🏦 Kredit · −1 je 10 Taler Schulden',inc.interest):''}${inc.don?row('💰 Spendenbox',inc.don):''}${inc.spec?row('👥 Spezialisten',inc.spec):''}<tr class="sum"><td>Heute</td><td>${sgn(inc.total)} 🪙</td></tr></table>
@@ -2277,11 +2311,11 @@ function infoHtml(h,cur){
     const placeH='<p class="hint">Ziehe die Karte aufs Gelände oder tippe auf ein Feld.</p>';let place='';
     const tg=fxTags(c),tgH=tg.fx.length?fxHtml(tg):'',ow=fxOwn(c),ownH=ow.fx.length?fxHtml(ow):'',habH=c.hab?fxHtml({fx:[],hab:c.hab},1):'';
     const twin=!c.ms&&state.buildings.find(b=>b.key===baseK(k)&&(b.lvl||1)<MAXLVL),dn=cnt(state.buildings,b=>b.key===baseK(k)),dupL=dn?`<p class="hint" style="color:#7fd8ff">🔁 Steht schon ${dn}× im Zoo (leuchtet blau). Neu gebaut bringt es ${Math.round(dupW(dn)*100)} % seiner Gesamtwirkung.${twin?' Auf ein vorhandenes gezogen wird es stattdessen <b>ausgebaut</b>.':''}</p>`:'';
-    if(h&&h.ok)place=zlNote(h,c)+(h.up?'':ownH)+detH(brkHtml(c,h.brk)+calcHtml(h,cur)+(h.up?'':habH+tgH+dupL));
+    if(h&&h.ok)place=zlNote(h,c)+(h.up?'':ownH)+(h.up?detH:detP)(brkHtml(c,h.brk)+calcHtml(h,cur)+(h.up?'':habH+tgH+dupL));
     if(h&&h.up){const old=cur.steps.find(x=>x.id===h.up.id);return`<h3>⬆ Ausbau: ${ic(c)} ${c.name} → Stufe ${h.ok?ROMAN[h.b.lvl]:'III'}</h3>${h.ok?resHtml(h,cur,{a:h.own.a-old.a,s:h.own.s-old.s}):''}${h.ok&&state.zl&&state.zl.insp==='koenig'&&!inspHid()?(()=>{const bs1=state.buildings.map(x=>x.id===h.up.id?h.b:x),k0=kingCmp(h.up,state.buildings),k1=kingCmp(h.b,bs1);if(!k1)return'';return`<p class="${k1.king?'resgood':'hint'}">⛄ Schneekönig: ${k1.king?(k0&&k0.king?'bleibt König':'wird damit König')+' der Sorte '+k1.label:'bleibt hinter ⛄ '+CARDS[k1.best.key].name+', es fehlen noch '+fmt(k1.gap)}.</p>`})():''}${place}<p class="hint">${costOf(k)} BP. Braucht keinen neuen Platz und zählt nicht als Wiederholung.</p>`}
     const dupC=dn?`<span class="dupchip">🔁 schon ${dn}× im Zoo · bringt ${Math.round(dupW(dn)*100)} %</span>`:'',trH=traitsOf(c).map(t=>`<span class="tag tr">${TRAITIC[t]} ${TRAITNAME[t]}</span>`).join('');
     if(!h)return`<!--paper--><div class="pc-head"><span class="pc-big">${ic(c)}</span><div class="pc-nm"><h3>${c.name}</h3><div class="pc-tags">${tagHtml(c)}${trH}${scopeOf(c)}</div></div></div><div class="pc-tiles"><span class="a"><b>${c.a}</b>Besucher</span><span class="s"><b>${c.s}</b>Natur</span><span class="c"><b>${costOf(k)}</b>Baupunkte</span></div>${dupC?`<div>${dupC}</div>`:''}${lockTxt(k)}${ownH}${habH}${tgH}${twin?`<p class="hint">Auf ein vorhandenes ${c.name} gezogen wird es ausgebaut.</p>`:''}<p class="hint">Ziehe die Karte aufs Gelände oder tippe auf ein Feld.</p>`;
-    return`<div class="pc-strip" style="--mkc:color-mix(in srgb,${colOf(c)} 55%,#fff)"><span class="pc-sm">${ic(c)}</span><b>${c.name}</b><small>${c.a} B · ${c.s} N · ${costTxt(k)}</small>${dupC}</div>${lockTxt(k)}${h?(h.ok?resHtml(h,cur)+multWarn(h,cur)+place:`<p class="resbad">${h.why}</p>`+ownH+((habH+tgH+dupL)?detX(habH+tgH+dupL):'')):ownH+detX(habH+tgH+dupL+placeH)}`}
+    return`<!--paper--><div class="pc-strip" style="--mkc:color-mix(in srgb,${colOf(c)} 55%,#fff)"><button class="pc-sm" data-det="1" title="Details ein/aus">${ic(c)}<i>${DET?'▴':'▾'}</i></button><b>${c.name}</b><small>${c.a} B · ${c.s} N · ${costTxt(k)}</small>${dupC}</div>${lockTxt(k)}${h?(h.ok?resHtml(h,cur)+multWarn(h,cur)+place:`<p class="resbad">${h.why}</p>`+ownH+((habH+tgH+dupL)?detX(habH+tgH+dupL):'')):ownH+detX(habH+tgH+dupL+placeH)}`}
   if(state.hover!=null&&state.hand[state.hover]){const k=state.hand[state.hover],c=CARDS[k],d=cnt(state.buildings,b=>b.key===baseK(k));
     return`<h3>${ic(c)} ${c.name} ${tagHtml(c)} ${scopeOf(c)}</h3>${lockTxt(k)}<p class="hint">${c.a} B · ${c.s} N · ${costTxt(k)}${d?` · schon ${d}× gebaut: neu gebaut bringt es nur ${Math.round(dupW(d)*100)} % seiner Gesamtwirkung${c.ms?'':', oder ausbauen'}`:''}</p>${fxHtml(c,1)}`}
   if(state.info!=null){const b=state.buildings.find(b=>b.id===state.info);if(b){const c=edCard(b),m=cur.mults.find(m=>m.id===b.id),n=1,can=state.phase==='play'&&state.bp>=n;
