@@ -1097,7 +1097,7 @@ document.documentElement.lang='de';
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.95';
+const VERSION='0.96';
 let DAYS=5,TUTNOW=false;const HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:9500},{name:'Sommer',target:51000},{name:'Herbst',target:118000},{name:'Winter',target:267000,winter:true}]; // 0.91: per Bot neu gemessen (5 Tage, kleineres Gelände, ohne Profile/Förderprogramme)
@@ -1779,10 +1779,16 @@ const KERN=['popcorn','cafe','gruen','gruen','infozentrum','turm'],G8=['korallen
 const deckCards0=id=>{const D=DECKS[id]||DECKS.grund;if(!D.type)return START_DECK.slice();if(HAB[D.type])return KERN.concat(['_o2','_o1','_o2','_o1'],D.inn);return G8.concat(D.core||[],D.inn)};
 // Starter-Deck an die gewählten Lebensräume anpassen: Gehege aus abgewählten Lebensräumen werden gegen gleich große aus den neuen getauscht; Platzhalter _o1/_o2 = Gehege (1/2 Felder) aus den anderen gewählten Lebensräumen
 const HABSUB={wasser:{1:['korallenriff','schildkroeten'],2:['flamingos','seeloewen'],3:['otter']},savanne:{1:['warzenschweine'],2:['zebras'],3:['giraffen']},wald:{1:['affen','faultiere'],2:['papageien','eulen'],3:['woelfe']},wueste:{1:['reptilien','skorpione'],2:['schlangen','fennek'],3:['kaengurus','addax']},arktis:{1:['polarfuchs','schneehasen','lemminge'],2:['schneegaense'],3:['moschusochsen','rentiere']},gebirge:{1:['murmeltiere','pfeifhasen'],2:['steinboecke','mufflons'],3:['yaks']}};
-const deckCards=(id,habs)=>{const D=DECKS[id]||DECKS.grund,d=deckCards0(id),H=habs||DEFHABS,used=new Set(d.filter(k=>k[0]!=='_'));
-  if(D.type&&HAB[D.type]){const oth=H.filter(h=>h!==D.type);let oi=0;return d.map(k=>{if(k[0]!=='_')return k;const n=+k.slice(2),h=oth[oi++%Math.max(1,oth.length)]||H[0],L=[...(HABSUB[h][n]||[]),...(HABSUB[h][1]||[]),...(HABSUB[h][2]||[])],pick=L.find(x=>!used.has(x))||L[0];used.add(pick);return pick})}
+// 0.96: Grunddeck = je gewähltem Lebensraum 3 Gehege (1 / 2 / 3–4 Felder) + 7 Gebäude; Ersatz-Gehege nie gesperrt
+const GRBLD=['delfinshow','turm','streichelzoo','popcorn','cafe','gruen','infozentrum'],GRPREF=['korallenriff','flamingos','otter','schildkroeten','seeloewen','affen','papageien','woelfe','faultiere','eulen','reptilien','schlangen','kamele','skorpione','fennek','warzenschweine','zebras','giraffen','polarfuchs','schneegaense','moschusochsen','schneehasen','murmeltiere','steinboecke','yaks','pfeifhasen','mufflons'];
+const okK=k=>{try{return!isLocked(k)}catch(e){return true}},gSz=k=>SHAPES[CARDS[k].shape].cells.length;
+function grundDeck(H){const out=[],used=new Set();for(const h of H){const all=[...GRPREF,...Object.keys(CARDS)].filter((k,i,a)=>a.indexOf(k)===i&&CARDS[k]&&CARDS[k].cat==='gehege'&&CARDS[k].hab===h&&!CARDS[k].sig&&!CARDS[k].gone&&!String(k).includes('~'));
+  for(const sz of[[1],[2],[3,4]]){const pick=all.find(k=>!used.has(k)&&sz.includes(gSz(k))&&okK(k))||all.find(k=>!used.has(k)&&okK(k))||all.find(k=>!used.has(k));if(pick){used.add(pick);out.push(pick)}}}
+  const RQS0={delfinshow:'lehrpfad'};return out.concat(GRBLD.map(k=>CARDS[k].rq&&!H.includes(CARDS[k].rq)?(RQS0[k]||'gruen'):k))}
+const deckCards=(id,habs)=>{const D=DECKS[id]||DECKS.grund;if(!D.type&&habs)return grundDeck(habs);const d=deckCards0(id),H=habs||DEFHABS,used=new Set(d.filter(k=>k[0]!=='_'));
+  if(D.type&&HAB[D.type]){const oth=H.filter(h=>h!==D.type);let oi=0;return d.map(k=>{if(k[0]!=='_')return k;const n=+k.slice(2),h=oth[oi++%Math.max(1,oth.length)]||H[0],L=[...(HABSUB[h][n]||[]),...(HABSUB[h][1]||[]),...(HABSUB[h][2]||[])],pick=L.find(x=>!used.has(x)&&okK(x))||L.find(okK)||L[0];used.add(pick);return pick})}
   if(!habs)return d;const U=DEFHABS.filter(h=>!habs.includes(h)),N=NEWHABS.filter(h=>habs.includes(h)),RQS={delfinshow:'lehrpfad',baumschule:'gruen',wasserfall:'gruen',wasserloch:'gruen',oase:'gruen',beduinen:'popcorn',teestube:'popcorn',berghuette:'popcorn',glashaus:'turm',polarstation:'gruen',bergwacht:'gruen',seilbahn:'turm'};
-  return d.map(k=>{const rq=CARDS[k].rq;if(rq&&!habs.includes(rq))return RQS[k]||'gruen';const h=CARDS[k].hab;if(!h||habs.includes(h))return k;const to=N[U.indexOf(h)]||habs[Math.max(0,U.indexOf(h))%habs.length],n=Math.min(3,SHAPES[CARDS[k].shape].cells.length),L=[...(HABSUB[to][n]||[]),...(HABSUB[to][2]||[]),...(HABSUB[to][1]||[])],pick=L.find(x=>!used.has(x))||L[0];used.add(pick);return pick})};
+  return d.map(k=>{const rq=CARDS[k].rq;if(rq&&!habs.includes(rq))return RQS[k]||'gruen';const h=CARDS[k].hab;if(!h||habs.includes(h))return k;const to=N[U.indexOf(h)]||habs[Math.max(0,U.indexOf(h))%habs.length],n=Math.min(3,SHAPES[CARDS[k].shape].cells.length),L=[...(HABSUB[to][n]||[]),...(HABSUB[to][2]||[]),...(HABSUB[to][1]||[])],pick=L.find(x=>!used.has(x)&&okK(x))||L.find(okK)||L[0];used.add(pick);return pick})};
 const typeOfCard=c=>c.hab||c.cat;
 // Kampagne: jeder Zoo wird schwerer (Gelände, Felsen, Ereignisse, Ziele)
 const CAMP=[{map:'wiese',rocks:0,k:1,n:1,spring:false,mult:1},{map:'bucht',rocks:4,k:1,n:1,spring:true,mult:1.25},{map:'flusstal',rocks:5,k:2,n:1,spring:true,mult:1.5},
@@ -2278,7 +2284,7 @@ Object.assign(RULES,{
 // auf dem Handy ist das Gelände gedreht: aus links/rechts wird oben/unten
 const halfDir=R=>ROT?(R.side<0?'obere':'untere'):(R.side<0?'linke':'rechte');
 const halfMid=cells=>{const v=cells.map(([q,r])=>q+r/2).sort((a,b)=>a-b);return v.length?(v[(v.length-1)>>1]+v[v.length>>1])/2:0};
-const halfOk=(R,q,r)=>{if(R.mid==null)R.mid=halfMid(BOARD);return R.side*(q+r/2-R.mid)<=0},ruleFree=(k,idx)=>ONBOARD.has(k)&&TERR.get(k)!=='block'&&!idx.has(k);
+const halfOk=(R,q,r)=>{if(R.mid==null)R.mid=halfMid(BOARD);return R.side*(q+r/2-R.mid)>=0},ruleFree=(k,idx)=>ONBOARD.has(k)&&TERR.get(k)!=='block'&&!idx.has(k);
 let pendRule=null;
 const isEdge=(q,r)=>DIRS.some(([dq,dr])=>!ONBOARD.has(hk(q+dq,r+dr)));
 function initRule(){const R=state.rule;if(!R||!RULES[R.id]){state.rule=null;return}
@@ -2358,7 +2364,7 @@ function zlNote(h,c){const Z=state.zl;if(!Z)return'';let o='';
     if(c.cat==='gehege'&&!(state.rule&&state.rule.id==='max3')){const p0=zlPurity(state.buildings,mkIndex(state.buildings)),p1=zlPurity(all,mkIndex(all)),x=n=>'×'+String(+purF(n).toFixed(2)).replace('.',',');if(p1.n>(p0.n||0)&&p1.n>=PURN-2)o+=p1.n<PURN?`<p class="resgood">🧬 Reinheit: ${p1.n} von ${PURN} verschiedenen ${HAB[p1.hab].label}-Arten zusammen. Ab ${PURN} gibt es ×1,1 Natur für den Zoo.</p>`:`<p class="resgood">🧬 Reinheit: ${p1.n} verschiedene ${HAB[p1.hab].label}-Arten zusammen · ${p0.n>=PURN?x(p0.n)+' → ':''}${x(p1.n)} Natur für den Zoo.</p>`}}
   if(h.b&&c.cat==='gehege'){const all=[...state.buildings,h.b],v0=vielfalt(state.buildings),v1=vielfalt(all),fx=f=>'×'+String(+f.toFixed(2)).replace('.',','),nx=Math.max(2,v0.lvl+1);
     if(v1.f>v0.f)o+=`<p class="resgood">🎨 Vielfalt: ${v0.f>1?fx(v0.f)+' → ':''}${fx(v1.f)} Natur für den Zoo (alle Lebensräume, je ${v1.lvl}+ Arten)</p>`;
-    else if(v0.lvl<5){const a=v0.per.filter(x=>x>=nx).length,b=v1.per.filter(x=>x>=nx).length;if(b>a)o+=`<p class="hint" style="color:#ffd88a">🎨 Vielfalt: ${b} von ${habsNow().length} Lebensräumen haben ${nx}+ Arten · bei allen ${fx(1+.05*nx)} Natur</p>`}}
+    else if(v0.lvl<5){const a=v0.per.filter(x=>x>=nx).length,b=v1.per.filter(x=>x>=nx).length;if(b>a){const miss=v1.habs.map((h,i)=>v1.per[i]<nx?`${HAB[h].icon} ${HAB[h].label} ${v1.per[i]}/${nx}`:null).filter(Boolean).join(', ');o+=`<p class="hint" style="color:#ffd88a">🎨 Vielfalt ${v0.f>1?'('+fx(v0.f)+') steigt noch nicht':'noch nicht aktiv'} · fehlt: ${miss} Arten · dann ${fx(1+.05*nx)} Natur</p>`}}}
   if(h.b){const all=[...state.buildings,h.b],s0=zooStress(state.buildings),s1=zooStress(all);if(s1!==s0)o+=`<p class="${s1>s0?'resbad':'resgood'}">😣 Stress: ${s1>s0?'+':'−'}${Math.abs(s1-s0)} gestresste${Math.abs(s1-s0)===1?'s':''} Tier${Math.abs(s1-s0)===1?'':'e'} → ${s1} im Zoo (Zoo −${Math.round(Math.min(STRMAX,s1*STRZ)*100)} % Natur)</p>`}
   if(h.b&&c.cat==='gehege'&&(CTX.spec||[]).includes('sammler')){const hs=bs=>new Set(bs.filter(n=>isCat(n,'gehege')).map(n=>K(n).hab)).size;if(hs(state.buildings)<4&&hs([...state.buildings,h.b])>=4)o+='<p class="resgood">🧬 Sammlerin aktiv: Jetzt hat dein Zoo alle Lebensräume, jedes Gehege bekommt +1 N.</p>'}
   return o}
@@ -2845,7 +2851,7 @@ function build(){const h=hypo();if(!h||!h.ok||state.phase!=='play')return;const 
   state.mileSeen=state.mileSeen||{};for(const t in MILE){const M=MILE[t];if((state.miles||{})[t]||state.mileSeen[t]||mileCount(state.buildings,t)<M.n)continue;state.mileSeen[t]=1;
     const bn=document.createElement('div');bn.className='mbanner';bn.innerHTML=`<b>🏅 Meilenstein!</b><span>${M.n} verschiedene ${M.label} · morgen früh bekommst du eine besondere Karte</span>`;document.querySelector('.boardarea').appendChild(bn);setTimeout(()=>bn.remove(),2800);Sfx.combo();setTimeout(()=>sparks(boardCenter(),14),60)}
   if(bon0)try{const v=vielfalt(state.buildings),pu=zlPurity(state.buildings,mkIndex(state.buildings)),fx=f=>'×'+String(+f.toFixed(2)).replace('.',',');let t=null;
-    if(v.f>bon0.v)t=`<b>🎨 Vielfalt${bon0.v>1?' steigt':''}!</b><span>Alle 4 Lebensräume, je ${v.lvl}+ Arten · ${fx(v.f)} Natur für den Zoo${pu.n>=PURN&&purF(pu.n)>=v.f?' (deine Reinheit ist gerade stärker)':''}</span>`;
+    if(v.f>bon0.v)t=`<b>🎨 Vielfalt${bon0.v>1?' steigt':''}!</b><span>Alle Lebensräume, je ${v.lvl}+ Arten · ${fx(v.f)} Natur für den Zoo${pu.n>=PURN&&purF(pu.n)>=v.f?' (deine Reinheit ist gerade stärker)':''}</span>`;
     else if(pu.n>bon0.p&&pu.n>=PURN)t=`<b>🧬 Reinheit${bon0.p>=PURN?' steigt':''}!</b><span>${pu.n} verschiedene ${HAB[pu.hab].label}-Arten zusammen · ${fx(purF(pu.n))} Natur für den Zoo${v.f>purF(pu.n)?' (deine Vielfalt ist gerade stärker)':''}</span>`;
     if(t){const bn=document.createElement('div');bn.className='mbanner';bn.innerHTML=t;const ba=document.querySelector('.boardarea');if(ba){ba.appendChild(bn);setTimeout(()=>bn.remove(),2800)}Sfx.combo();setTimeout(()=>{try{sparks(boardCenter(),14)}catch(e){}},60)}}catch(e){}
   state.selected=null;state.preview=null;state.info=null;Sfx.build();render();fxDrop(fxId);flushBanners()}
@@ -3836,11 +3842,11 @@ function jaegerDay(){if(!hasSpec('jaeger')||!state.zl)return;const idx=mkIndex(s
   state.buildings=state.buildings.filter(x=>x!==p);b.ea=(b.ea||0)+2*c.a;b.es=(b.es||0)+2*c.s;state.bannerQ=(state.bannerQ||[]).concat([['🏹 Der Jäger hat zugeschlagen',`${CARDS[b.key].icon} ${CARDS[b.key].name} hat ${c.icon} ${c.name} gefressen: dauerhaft +${2*c.a} B und +${2*c.s} N.`,'jaeger','Spezialist Jäger: Jeden Tag frisst ein Raubtier mit 25 % Chance ein benachbartes Beutetier. Das Beutetier ist weg, das Raubtier bekommt dauerhaft dessen doppelte Grundpunkte.']]);break}}
 const HABRULE={wasser:'💧 <b>Fluss:</b> Wasser-Gehege in einer Kette (höchstens 3 Seiten an anderen Wasser-Gehegen) ×1,5, je 3 Glieder Kettenlänge +0,25 (höchstens ×2). Mehr als 3 Seiten an Wasser („Klumpen“) nur ×0,5.',
   savanne:'🌾 <b>Herde:</b> Zusammenhängende Savannen-Gehege ×(1 + 0,25 je weiteres Gehege der Gruppe), höchstens ×2. Allein stehend nur ×0,5.',
-  wald:'🌿 <b>Dickicht:</b> Dschungel-Gehege ohne Gebäude daneben ×2. Neben Attraktion oder Gastro (außer ruhigen) nur ×0,5.',
+  wald:'🌿 <b>Schutzgebiet:</b> Dschungel-Gehege mit einem Naturschutz-Gebäude daneben ×2, ohne nur ×0,5 (ein Naturschutz-Gebäude versorgt alle Dschungel-Gehege rundherum). Grenzt ein Gehege der Gruppe an Attraktion oder Gastro (außer ruhigen), zählt die ganze Gruppe nur ×0,5.',
   wueste:'🏜️ <b>Einzelgänger:</b> Wüsten-Gehege ohne anderes Wüsten-Gehege daneben ×2, mit Wüsten-Nachbar nur ×0,5.',
   arktis:'🧊 <b>Nordlage:</b> Arktis-Gehege in der markierten Nordhälfte des Geländes ×2, sonst nur ×0,5.',
   gebirge:'⛰️ <b>Rand und Felsen:</b> Gebirgs-Gehege mit einem Feld am Geländerand oder neben einem Felsen ×1,5, je weiteres +0,25 (höchstens ×2). Ganz innen nur ×0,5.'};
-const HABRN={wasser:'Fluss',savanne:'Herde',wald:'Dickicht',wueste:'Einzelgänger',arktis:'Nordlage',gebirge:'Rand und Felsen'};
+const HABRN={wasser:'Fluss',savanne:'Herde',wald:'Schutzgebiet',wueste:'Einzelgänger',arktis:'Nordlage',gebirge:'Rand und Felsen'};
 const QUIET=k=>k==='lehrpfad'||k==='picknick'||k==='restaurant';
 let NMID=null;const northMid=()=>{if(!NMID||NMID.b!==BOARD){const v=BOARD.map(([q,r])=>r).sort((a,b)=>a-b);NMID={b:BOARD,m:v.length?(v[(v.length-1)>>1]+v[v.length>>1])/2:0}}return NMID.m};
 const isNorth=cells=>{const r=cells.reduce((t,c)=>t+c[1],0)/cells.length;return r<northMid()};
@@ -3853,11 +3859,11 @@ const gebN=b=>{const ks=new Set();let e=0;for(const[q,r]of b.cells){if(isEdge(q,
 function habViol(b,idx){const c=K(b);if(!c||c.cat!=='gehege')return false;const h=c.hab;
   if(h==='wald')return nbrs(b,idx).some(n=>(isCat(n,'attr')||isCat(n,'essen'))&&!QUIET(n.key));
   if(h==='wasser')return wSides(b,idx)>3;if(h==='gebirge')return gebN(b)===0;if(h==='arktis')return!isNorth(b.cells);return false}
-const HABBRK={wald:'Dickicht gebrochen',wasser:'Fluss verklumpt',gebirge:'Gebirge: eins ganz innen',arktis:'Nordlage gebrochen'};
+const HABBRK={wald:'Schutzgebiet gestört',wasser:'Fluss verklumpt',gebirge:'Gebirge: eins ganz innen',arktis:'Nordlage gebrochen'};
 function habRule(b,c,nb,idx){if(c.cat!=='gehege'||!c.hab)return null;const h=c.hab,f2=x=>+Math.min(2,x).toFixed(2),fx=x=>String(x).replace('.',',');
   if(HABBRK[h]){const G=grpList(b,idx,h);if(G.some(x=>habViol(x,idx)))return[`${HABBRK[h]}: ${G.length>1?'ganze Gruppe ('+G.length+') ':''}×0,5`,.5,.5];
     if(h==='wasser'){if(!wSides(b,idx))return null;const f=f2(1.5+.25*Math.floor(G.length/3));return[`💧 Fluss: Kette aus ${G.length} ×${fx(f)}`,f,f]}
-    if(h==='wald')return nb.some(n=>!isCat(n,'gehege'))?null:['🌿 Dickicht: kein Gebäude daneben ×2',2,2];
+    if(h==='wald')return nb.some(n=>isCat(n,'schutz'))?['🌿 Schutzgebiet: Naturschutz daneben ×2',2,2]:['🌿 Schutzgebiet: kein Naturschutz daneben ×0,5',.5,.5];
     if(h==='arktis')return['🧊 Nordlage ×2',2,2];
     if(h==='gebirge'){const n=gebN(b),f=f2(1.5+.25*(n-1));return[`⛰️ Rand/Felsen (${n}) ×${fx(f)}`,f,f]}}
   if(h==='savanne'){const g=grpN(b,idx,'savanne');if(g<2)return['🌾 Herde: allein ×0,5',.5,.5];const f=f2(1+.25*(g-1));return[`🌾 Herde aus ${g} ×${fx(f)}`,f,f]}
