@@ -5,6 +5,13 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.69a · 04.11.2026 · Tutorial aufgeräumt
+- Im Tutorial keine roten Stress-Felder mehr um Raubtiere und Beutetiere und kein roter Punkt bei bedrohten Arten.
+- Im Frühlings-Shop bleiben Umbau und Extras die ganze Zeit gesperrt.
+- Wenn Kostenpunkte oder Symbole auf einer Karte leuchten, bleiben sie an ihrem Platz.
+- Im Tutorial bekommen Zuchtpaare keinen Nachwuchs mehr.
+- Jaspers Text zur Delfinshow ist einfacher.
+
 ## 0.68a · 04.11.2026 · Tutorial nachgebessert
 - Das Tutorial-Gelände ist jetzt so ausgerichtet wie geplant und wird am Handy nicht mehr gedreht.
 - Die Felsen leuchten, wenn Jasper sie erwähnt.
