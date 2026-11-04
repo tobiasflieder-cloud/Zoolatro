@@ -5,6 +5,16 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.68a · 04.11.2026 · Tutorial nachgebessert
+- Das Tutorial-Gelände ist jetzt so ausgerichtet wie geplant und wird am Handy nicht mehr gedreht.
+- Die Felsen leuchten, wenn Jasper sie erwähnt.
+- Freie Plätze auf der Hand zeigen leere Platzhalter, damit die Karten nicht in der Mitte stehen.
+- Jasper sagt „Sehen Sie“ bzw. „Schauen Sie mal“ erst, wenn Zebras, Bratwurstbude und Giraffenweide gebaut sind.
+- Im Frühlings-Shop lassen sich nur die Spezialisten anklicken.
+- Nach dem Sommer kaufen Sie einen Futtersack und nehmen Steppenheu für alle Savannen-Gehege.
+- Im Tutorial: keine Merkmal-Texte auf den Karten, keine Fluss-Warnung, Kartenwahl nur aus Wasser, Savanne und Wüste, ohne Prägungen, und kein Früh-geschafft-Bonus.
+- Wasserfall und Bienenhotel an neuen Plätzen, ein Satz von Jasper gestrichen.
+
 ## 0.67a · 04.11.2026 · Neues Tutorial mit Jasper
 - 🧑‍💼 **Neues Tutorial „Dein erster Zoo“:** Ihr Berater Jasper führt Sie Tag für Tag durch Frühling und Sommer und durch die ersten Herbsttage. Was zu tun ist, leuchtet. Danach bauen Sie bis zum Jahresende selbst.
 - 📱 **Texte in Häppchen:** Am Handy kommt jeder Gedanke einzeln mit „Weiter ▸“, im Querformat steht alles zusammen in einer größeren Box.
