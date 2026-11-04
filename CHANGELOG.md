@@ -5,6 +5,13 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.67a · 04.11.2026 · Neues Tutorial mit Jasper
+- 🧑‍💼 **Neues Tutorial „Dein erster Zoo“:** Ihr Berater Jasper führt Sie Tag für Tag durch Frühling und Sommer und durch die ersten Herbsttage. Was zu tun ist, leuchtet. Danach bauen Sie bis zum Jahresende selbst.
+- 📱 **Texte in Häppchen:** Am Handy kommt jeder Gedanke einzeln mit „Weiter ▸“, im Querformat steht alles zusammen in einer größeren Box.
+- Im Tutorial gibt es noch keine Merkmale und keine Winter-Bedingung. Von den Lebensraum-Regeln gilt nur die Savannen-Herde. Futter gibt es ab dem Sommer.
+- Neue Jahresziele im Tutorial: 5.000 / 50.000 / 80.000 / 150.000.
+- Der zweite Tutorial-Zoo (mit Merkmalen und Regeln) folgt später.
+
 ## 0.66a · 02.11.2026 · Früh geschafft lohnt sich
 - ⚡ Wer eine Jahreszeit früher schafft, bekommt je übrigem Tag **+1 Baupunkt in der nächsten Jahreszeit**, je Tag einer. Im Winter gehen sie in den Frühling des nächsten Zoos.
 - 🎁 **Geschenk im nächsten Shop:**
