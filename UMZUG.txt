@@ -1,0 +1,18 @@
+UMZUG NACH CLAUDE CODE (einmalig)
+=================================
+
+1. ZIP entpacken. Auf github.com dein Zoolatro-Repository öffnen.
+2. "Add file" -> "Upload files" und ALLES aus dem entpackten Ordner hineinziehen,
+   auch die Ordner (docs, tests, quelltext) und die versteckte Datei .gitignore
+   (Windows/Mac zeigen Dateien mit Punkt am Anfang evtl. nicht an - dann einfach weglassen,
+   Claude Code legt sie neu an). Gleichnamige Dateien werden ersetzt. "Commit changes".
+3. In claude.ai: Einstellungen -> Connectors -> GitHub verbinden und das Repository freigeben.
+4. Claude Code öffnen (claude.ai/code oder Desktop-App), das Repository auswählen und als
+   erste Nachricht schreiben:
+     "Lies CLAUDE.md. Lösche quelltext/split.py und quelltext/build.py (ersetzt durch mache.py),
+      richte die Tests ein (tests/README.md) und lass einmal bash tests/pruefen.sh laufen.
+      Noch nichts am Spiel ändern."
+5. Danach wie gewohnt: Liste besprechen (hier oder im Chat), dann in Claude Code "bauen".
+   Claude Code macht den Commit, GitHub Pages ist 1-2 Minuten später aktuell.
+
+Diese Datei kann danach gelöscht werden.
