@@ -1,0 +1,7 @@
+{
+  "name": "zoolatro-tests",
+  "private": true,
+  "description": "Automatische Tests für Zoolatro (jsdom)",
+  "scripts": { "test": "bash pruefen.sh" },
+  "devDependencies": { "jsdom": "^24.0.0" }
+}

@@ -1,0 +1,25 @@
+// 0.65a: Profi-Mappe/Futtersack in jedem Shop, Shop-Reiter Team · Umbau & Futter · Extras, Einmal-Karten ohne Tierarzt/Bauplan, Bauplan als Umbau, kein „Größerer Shop“
+const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync(process.env.ZF||require('path').join(__dirname,'..','build','zoodeck.html'),'utf8');
+const dom=new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message))}});
+const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=>{try{const ev=x=>w.eval(x),T=(c,m)=>L(c?'ok':'FAIL',m);
+ ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;syncCtx();render()`);
+ T(ev('VERSION')==='0.65a','Version '+ev('VERSION'));
+ ev(`state.season=0;state.spec=[];syncCtx();state.phase='review';state.money=500;openShop();modal='shop';render()`);
+ T(ev(`fixedItems().some(i=>i.kind==='profi')&&fixedItems().some(i=>i.kind==='sack')`),'Profi-Mappe und Futtersack schon im Shop nach dem Frühling');
+ const tabs=ev(`[...document.querySelectorAll('[data-shtab]')].map(b=>b.textContent).join('|')`);
+ T(tabs==='👥 Team|🧰 Umbau & Futter|🎟️ Extras','Reiter: '+tabs);
+ const tab=t=>ev(`(()=>{META.shopT='${t}';render();return document.getElementById('modalRoot').innerHTML})()`);
+ const hR=tab('run'),hU=tab('umb'),hM=tab('more');
+ T(/Bewerbermappe/.test(hR)&&/Profi-Mappe/.test(hR)&&!/Futtersack/.test(hR)&&!/Zoo-Ausbau/.test(hR),'Team: Bewerbermappe, Profi-Mappe, kein Futter, kein Zoo-Ausbau');
+ T(/Umbau-Kiste/.test(hU)&&/Futtersack/.test(hU)&&hU.indexOf('Umbau-Kiste')<hU.indexOf('Futtersack'),'Umbau & Futter: erst Umbau-Kiste, dann Futtersack');
+ T(/Einmal-Karten/.test(hM)&&/Karte entfernen/.test(hM)&&(!ev(`!!ausbauItem()`)||/Zoo-Ausbau/.test(hM)),'Extras: Einmal-Karten, Zoo-Ausbau, Karte entfernen');
+ T(ev(`!EINMAL.tierarzt&&!EINMAL.bauplan&&!!EINMAL.zeitung&&!!EINMAL.glueckslos`),'Einmal-Karten ohne Tierarzt-Besuch und Bauplan');
+ T(ev(`(()=>{for(let i=0;i<40;i++)if(genEinmal().some(x=>x.key==='futter'))return false;return true})()`),'Futterlieferung nicht bei Futter an');
+ T(ev(`!AUSBAU.shop`),'Zoo-Ausbau „Größerer Shop“ gestrichen');
+ T(ev(`(()=>{state.ausbauKey='shop';state.ausbauDone=0;const a=ausbauItem();return !a||a.key!=='shop'})()`),'Alter Spielstand mit „Größerer Shop“ stürzt nicht ab');
+ T(ev(`(()=>{state.shop.items.push({kind:'einmal',key:'tierarzt',price:6});META.shopT='more';render();return !/Tierarzt-Besuch/.test(document.getElementById('modalRoot').innerHTML)})()`),'Alte Einmal-Karte Tierarzt wird nicht angezeigt');
+ T(ev(`!!UMB.bauplan&&UMB.bauplan.t===null`),'Bauplan ist ein Umbau');
+ T(ev(`(()=>{state.phase='play';const b=state.bp;umbNow('bauplan');const ok=state.bp===b+1;state.phase='shop';const w0=state.bpWish||0;umbNow('bauplan');return ok&&state.bpWish===w0+1})()`),'Bauplan: +1 BP sofort, im Shop am nächsten Spieltag');
+ T(ev(`(()=>{const r=runOf();r.tut=1;const a=!fixedItems().some(i=>i.kind==='profi'||i.kind==='sack');r.tut=undefined;return a})()`),'Im Tutorial keine Profi-Mappe und kein Futtersack');
+ T(ev(`(()=>{runOf().foodOff=1;state.phase='shop';META.shopT='umb';render();const t=[...document.querySelectorAll('[data-shtab]')].map(b=>b.textContent).join('|');runOf().foodOff=undefined;return /Umbau/.test(t)})()`),'Futter aus: Umbau-Reiter bleibt');
+ L('fertig')}catch(e){L('ERR',e.stack)}process.exit(0)},300);

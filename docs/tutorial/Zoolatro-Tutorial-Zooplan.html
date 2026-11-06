@@ -1,0 +1,211 @@
+<title>Tutorial-Zooplan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* Layout: Arbeitstisch – links das Hex-Gelände wie im Spiel, rechts Werkzeugleiste (Zeitpunkt, Karten, Liste). Am Handy untereinander. */
+:root{
+  --bg:#eef4ea; --panel:#ffffff; --panel2:#e3ecdf; --fg:#1f3326; --muted:#5d7464; --line:#c9d8c6;
+  --tile:#b7d3ad; --tileline:#9fbf95; --accent:#d99a0b; --accentfg:#3a2a00; --danger:#b4412f; --sel:#2f7cf6;
+  --h-wasser:#5cbfe3; --h-savanne:#e2c46e; --h-wald:#7cc860; --h-wueste:#e8a070; --h-arktis:#cfeaf5; --h-gebirge:#a9a39b; --rock:#7d7a74;
+  --c-gehege:#86c96f; --c-attr:#ff7a98; --c-essen:#ffcf4a; --c-schutz:#b49af0;
+  --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif; --f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12291b; --panel:#1b3a27; --panel2:#224d33; --fg:#eaf2e3; --muted:#9db8a4; --line:#2f5b3f;
+  --tile:#2f6b41; --tileline:#3d7d50; --accent:#f2b632; --accentfg:#2a1d00; --danger:#ff8a75; --sel:#7fb0ff; --rock:#8d8a83; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12291b; --panel:#1b3a27; --panel2:#224d33; --fg:#eaf2e3; --muted:#9db8a4; --line:#2f5b3f;
+  --tile:#2f6b41; --tileline:#3d7d50; --accent:#f2b632; --accentfg:#2a1d00; --danger:#ff8a75; --sel:#7fb0ff; --rock:#8d8a83; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.4;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 40px}
+h1{font-family:var(--f-display);font-weight:400;font-size:28px;margin:0;letter-spacing:.3px;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:400;font-size:18px;margin:0 0 8px}
+.wrap{max-width:1260px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.intro{color:var(--muted);max-width:70ch;margin:4px 0 0}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}
+.boardbox{position:relative}
+svg#board{width:100%;height:auto;display:block;touch-action:manipulation}
+.hx{stroke:var(--bg);stroke-width:1.6;cursor:pointer;transition:filter .1s}
+.hx:hover{filter:brightness(1.12)}
+.hx.pend{stroke:var(--sel);stroke-width:3.2}
+.bld{pointer-events:none}
+.lbl{font-family:var(--f-display);font-size:9px;fill:#1d2a20;pointer-events:none;text-anchor:middle;dominant-baseline:central}
+.ico{font-size:17px;pointer-events:none;text-anchor:middle;dominant-baseline:central}
+.tag{font-family:var(--f-body);font-weight:600;font-size:7.5px;pointer-events:none;text-anchor:middle;dominant-baseline:central;fill:#1d2a20}
+.later{opacity:.22}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.lab{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.chip{font:inherit;font-size:14px;border:1.5px solid var(--line);background:var(--panel2);color:var(--fg);border-radius:999px;padding:5px 11px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accentfg);font-weight:600}
+.chip:focus-visible,.btn:focus-visible,.ci:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--sel);outline-offset:2px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:8px 13px;cursor:pointer;background:var(--panel2);color:var(--fg)}
+.btn.main{background:var(--accent);color:var(--accentfg)}
+.btn.warn{color:var(--danger)}
+.stack{display:flex;flex-direction:column;gap:12px}
+input[type=search],textarea,input[type=text]{width:100%;font:inherit;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);border-radius:10px;padding:8px 10px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;max-height:300px;overflow:auto;padding:2px}
+.ci{display:flex;gap:8px;align-items:center;text-align:left;font:inherit;font-size:13.5px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);border-radius:10px;padding:6px 8px;cursor:pointer;min-width:0}
+.ci .e{font-size:20px;flex:none}.ci .t{min-width:0;display:flex;flex-direction:column}.ci .t b{font-weight:600;overflow-wrap:anywhere}.ci .t small{color:var(--muted);font-size:11.5px}
+.ci.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.status{background:var(--panel2);border-radius:12px;padding:10px 12px;font-size:14px}
+.status b{font-weight:600}
+.plist{display:flex;flex-direction:column;gap:10px}
+.pgrp h3{margin:0 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.pi{display:flex;gap:8px;align-items:center;padding:5px 6px;border-radius:8px;cursor:pointer}
+.pi:hover,.pi.on{background:var(--panel2)}
+.pi .e{font-size:18px}.pi .n{flex:1;min-width:0}.pi .n small{display:block;color:var(--muted);font-size:12px}
+.x{font:inherit;border:0;background:none;color:var(--danger);cursor:pointer;font-size:16px;padding:2px 6px;border-radius:6px}
+.note{font-size:12.5px;color:var(--muted)}
+.ok{color:var(--muted);font-size:13px;min-height:1.2em}
+details summary{cursor:pointer;font-weight:600}
+.seasonbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.seasonbar .chip{text-align:center;padding:6px 4px}
+.daybar{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.daybar .chip{text-align:center;padding:6px 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.hx{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>🗺️ Tutorial-Zooplan</h1>
+    <p class="intro">Die Karte ist das Gelände des Tutorials aus dem Spiel. Wähle oben den Zeitpunkt (Jahreszeit und Tag) und eine Karte, dann tippe die Felder an, auf die sie kommen soll. Mit „Plan kopieren“ schickst du mir alles.</p>
+  </header>
+  <div class="grid">
+    <section class="card boardbox" aria-label="Gelände">
+      <svg id="board" role="img" aria-label="Tutorial-Gelände mit geplanten Gebäuden"></svg>
+      <div class="legend" id="legend"></div>
+    </section>
+    <aside class="stack">
+      <section class="card stack">
+        <div class="stack" style="gap:6px"><span class="lab">Bauzeitpunkt</span>
+          <div class="seasonbar" id="seasons"></div>
+          <div class="daybar" id="days"></div>
+          <label class="row note"><input type="checkbox" id="onlyUntil"> Nur zeigen, was bis zu diesem Tag gebaut ist</label>
+        </div>
+        <div class="status" id="status" aria-live="polite"></div>
+      </section>
+      <section class="card stack">
+        <h2>Karte wählen</h2>
+        <input type="search" id="q" placeholder="Suchen, z. B. Otter oder Café" aria-label="Karte suchen">
+        <div class="tabs" id="cats"></div>
+        <div class="cards" id="cards"></div>
+      </section>
+      <section class="card stack">
+        <div class="row" style="justify-content:space-between"><h2 style="margin:0">Dein Plan</h2><span class="note" id="count"></span></div>
+        <div class="plist" id="plist"></div>
+        <div class="row">
+          <button class="btn main" id="copy">📋 Plan kopieren</button>
+          <button class="btn" id="example">Beispiel laden</button>
+          <button class="btn warn" id="clear">Alles leeren</button>
+        </div>
+        <div class="ok" id="msg"></div>
+        <textarea id="out" rows="5" hidden aria-label="Plan als Text"></textarea>
+        <details><summary>Plan einfügen</summary>
+          <div class="stack" style="margin-top:8px"><textarea id="imp" rows="4" placeholder="Hier einen kopierten Plan einfügen (die Zeile mit PLAN: reicht)" aria-label="Plan einfügen"></textarea><button class="btn" id="doimp">Plan übernehmen</button></div>
+        </details>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+const CARDS=[["belugas","Belugabecken","🐳","gehege","arktis",4,1],["eisbaeren","Eisbärenküste","🐻‍❄️","gehege","arktis",3,1],["lemminge","Lemminge","🐹","gehege","arktis",1,0],["moschusochsen","Moschusochsen","🦣","gehege","arktis",3,0],["pinguine","Pinguinbecken","🐧","gehege","arktis",1,0],["polarfuchs","Polarfüchse","🐾","gehege","arktis",1,0],["rentiere","Rentierherde","🫎","gehege","arktis",3,1],["schneegaense","Schneegänse","🪿","gehege","arktis",2,0],["schneehasen","Schneehasen","🐇","gehege","arktis",1,0],["braunbaeren","Braunbären","🐻","gehege","gebirge",3,1],["luchse","Luchsrevier","🐈","gehege","gebirge",1,0],["mufflons","Mufflons","🐏","gehege","gebirge",2,0],["murmeltiere","Murmeltiere","🦫","gehege","gebirge",1,0],["pfeifhasen","Pfeifhasen","🐁","gehege","gebirge",1,0],["rotepandas","Rote Pandas","🦝","gehege","gebirge",2,1],["schneeleoparden","Schneeleoparden","🐆❄️","gehege","gebirge",2,1],["steinboecke","Steinböcke","🐐","gehege","gebirge",2,0],["yaks","Yakweide","🐄","gehege","gebirge",4,0],["antilopen","Antilopen","🦌","gehege","savanne",3,1],["bueffel","Büffelherde","🐃","gehege","savanne",3,1],["elefanten","Elefantenpark","🐘","gehege","savanne",4,0],["geparden","Gepardenlauf","🐆","gehege","savanne",2,0],["giraffen","Giraffenweide","🦒","gehege","savanne",3,0],["loewen","Löwensavanne","🦁","gehege","savanne",3,0],["nashoerner","Nashornsteppe","🦏","gehege","savanne",3,1],["warzenschweine","Warzenschweine","🐗","gehege","savanne",1,0],["zebras","Zebrasteppe","🦓","gehege","savanne",2,0],["affen","Affeninsel","🐒","gehege","wald",1,0],["eulen","Eulenwald","🦉","gehege","wald",2,0],["faultiere","Faultierhaus","🦥","gehege","wald",1,0],["gorillas","Gorillawald","🦍","gehege","wald",4,1],["pandas","Große Pandas","🐼","gehege","wald",2,0],["koalas","Koala-Hain","🐨","gehege","wald",1,1],["papageien","Papageien-Voliere","🦜","gehege","wald",2,0],["tiger","Tigerwald","🐯","gehege","wald",3,1],["woelfe","Wolfsrevier","🐺","gehege","wald",3,0],["flamingos","Flamingoteich","🦩","gehege","wasser",2,0],["korallenriff","Korallenriff","🪸","gehege","wasser",1,0],["kraken","Krakengrotte","🐙","gehege","wasser",2,1],["krokodile","Krokodilsumpf","🐊","gehege","wasser",2,1],["nilpferde","Nilpferdsee","🦛","gehege","wasser",4,1],["otter","Otterbach","🦦","gehege","wasser",3,0],["schildkroeten","Schildkröten","🐢","gehege","wasser",1,0],["schwan","Schwanensee","🦢","gehege","wasser",2,0],["seeloewen","Seelöwenbucht","🦭","gehege","wasser",2,0],["dingos","Dingo-Revier","🐕","gehege","wueste",2,1],["fennek","Fennek-Bau","🦊","gehege","wueste",2,0],["kamele","Kamelpfad","🐫","gehege","wueste",4,0],["kaengurus","Känguru-Outback","🦘","gehege","wueste",3,1],["addax","Mendesantilopen","🦌🏜️","gehege","wueste",3,1],["reptilien","Reptilienhaus","🦎","gehege","wueste",1,0],["schlangen","Schlangengrube","🐍","gehege","wueste",2,0],["skorpione","Skorpionhaus","🦂","gehege","wueste",1,0],["wuestenigel","Wüstenigel","🦔","gehege","wueste",1,0],["beduinen","Beduinenzelt","⛺","essen","",1,0],["berghuette","Berghütte","🛖","essen","",1,0],["biergarten","Biergarten","🍺","essen","",2,1],["bratwurst","Bratwurstbude","🌭","essen","",1,0],["eiswagen","Eiswagen","🍦","essen","",1,0],["kuerbisfest","Kürbisfest","🎃","essen","",2,1],["lotterie","Lotterie-Bude","🎫","essen","",1,0],["picknick","Picknickwiese","🧺","essen","",2,0],["pizzeria","Pizzeria","🍕","essen","",2,1],["popcorn","Popcornstand","🍿","essen","",1,0],["bistro","Safari-Bistro","🍽️","essen","",2,1],["teestube","Teestube","🫖","essen","",1,0],["weihnachtsmarkt","Weihnachtsmarkt","🎄","essen","",2,1],["cafe","Zoo-Café","☕","essen","",2,0],["aquarium","Aquarium","🐠","attr","",3,1],["turm","Aussichtsturm","🗼","attr","",1,0],["glashaus","Beheiztes Glashaus","🪴","attr","",2,0],["besucherzentrum","Besucherzentrum","🗺️","attr","",1,0],["delfinshow","Delfinshow","🐬","attr","",2,0],["nachtfuehrung","Nachtführung","🌙","attr","",2,1],["lehrpfad","Naturlehrpfad","🥾","attr","",2,0],["seilbahn","Seilbahn","🚡","attr","",3,1],["streichelzoo","Streichelzoo","🐑","attr","",2,0],["arena","Tiershow-Arena","🤹","attr","",3,0],["tribuene","Tribüne","🏟️","attr","",1,0],["wasserspiel","Wasserspielplatz","💦","attr","",2,0],["zirkus","Zirkus-Zelt","🎪","attr","",3,0],["vielfalt","Artenvielfalt-Institut","🧬","schutz","",1,1],["baumschule","Baumschule","🌱","schutz","",1,0],["bergwacht","Bergwacht","⛑️","schutz","",1,1],["bienen","Bienenhotel","🐝","schutz","",1,0],["gruen","Grünfläche","🌳","schutz","",1,0],["infozentrum","Infozentrum","📚","schutz","",2,0],["oase","Oase","🏝️","schutz","",1,0],["polarstation","Polarstation","📡","schutz","",1,1],["schmetterling","Schmetterlingshaus","🦋","schutz","",2,1],["tierarzt","Tierarztpraxis","🩺","schutz","",2,0],["tropenhaus","Tropenhaus","🌴","schutz","",3,1],["wasserfall","Wasserfall","🏞️","schutz","",1,0],["wasserloch","Wasserloch","🫗","schutz","",1,0],["stiftung","Zoo-Stiftung","🏛️","schutz","",2,1],["zucht","Zuchtstation","🥚","schutz","",2,1]];
+const MAP={terr:[['2,-1','wasser'],['3,-1','wasser'],['3,-2','wasser'],['4,-1','wasser'],['-4,1','savanne'],['-4,2','savanne'],['-3,-2','wald'],['-2,-3','wald'],['1,3','wueste'],['2,3','wueste'],['-1,-3','block'],['4,1','block'],['-1,4','block']],gold:['0,0','0,3','2,-4'],crown:'2,1'};
+const HAB={wasser:['Wasser','var(--h-wasser)'],savanne:['Savanne','var(--h-savanne)'],wald:['Dschungel','var(--h-wald)'],wueste:['Wüste','var(--h-wueste)'],arktis:['Arktis','var(--h-arktis)'],gebirge:['Gebirge','var(--h-gebirge)']};
+const CAT={gehege:['Gehege','var(--c-gehege)'],essen:['Gastro','var(--c-essen)'],attr:['Attraktion','var(--c-attr)'],schutz:['Naturschutz','var(--c-schutz)']};
+const SEA=['Frühling','Sommer','Herbst','Winter'],SE1=['F','S','H','W'];
+const CK=Object.fromEntries(CARDS.map(c=>[c[0],{k:c[0],n:c[1],i:c[2],c:c[3],h:c[4],s:c[5],lk:c[6]}]));
+const TERR=new Map(MAP.terr),R3=Math.sqrt(3),SZ=10;
+const cells=[];for(let q=-5;q<=5;q++)for(let r=-5;r<=5;r++)if(Math.abs(q+r)<=5)cells.push([q,r]);
+const xy=(q,r)=>[SZ*R3*(q+r/2),SZ*1.5*r];
+const pts=(x,y,s)=>[...Array(6)].map((_,i)=>{const a=Math.PI/180*(60*i-30);return(x+s*Math.cos(a)).toFixed(2)+','+(y+s*Math.sin(a)).toFixed(2)}).join(' ');
+let S={se:0,d:1,pick:null,pend:[],sel:null,cat:'alle',q:'',until:false};
+let P=[]; // {id,k,cells:[...],se,d,up:[[se,d],...],note}
+const tkey=(se,d)=>se*10+d, ttxt=(se,d)=>SEA[se]+' Tag '+d;
+const save=()=>{try{localStorage.setItem('zooplan1',JSON.stringify(P))}catch(e){}};
+const load=()=>{try{const v=JSON.parse(localStorage.getItem('zooplan1')||'null');if(Array.isArray(v))return v}catch(e){}return null};
+const EXAMPLE=[
+ {k:'reptilien',cells:['1,0'],se:0,d:1,up:[[0,2]],note:''},{k:'gruen',cells:['2,0'],se:0,d:1,up:[],note:''},{k:'kraken',cells:['0,0','0,1'],se:0,d:1,up:[],note:'ein Feld auf ×2'},
+ {k:'otter',cells:['2,-1','3,-1','4,-1'],se:0,d:2,up:[],note:'auf die Wasserfläche'},{k:'nilpferde',cells:['-2,1','-2,2','-3,2','-3,3'],se:0,d:3,up:[],note:'Drehen erklären'},
+ {k:'bueffel',cells:['-4,1','-4,2','-3,1'],se:0,d:4,up:[],note:''},{k:'bratwurst',cells:['-3,0'],se:0,d:4,up:[],note:'🎉 Trubel, Taler'},{k:'streichelzoo',cells:['-2,0','-1,0'],se:0,d:4,up:[],note:''},
+ {k:'wasserfall',cells:['1,-1'],se:0,d:5,up:[],note:''},{k:'gorillas',cells:['0,-1','0,-2','1,-2','-1,-1'],se:0,d:5,up:[],note:'neben Naturschutz, bedroht'}];
+const withIds=L=>L.map((p,i)=>Object.assign({id:i+1,up:[],note:''},p));
+P=load()||withIds(EXAMPLE);
+let nextId=P.reduce((m,p)=>Math.max(m,p.id),0)+1;
+const occ=()=>{const m=new Map();for(const p of P)for(const c of p.cells)m.set(c,p);return m};
+const colorOf=c=>c.c==='gehege'?(HAB[c.h]||['', 'var(--c-gehege)'])[1]:CAT[c.c][1];
+const $=id=>document.getElementById(id);
+function visible(p){return !S.until||tkey(p.se,p.d)<=tkey(S.se,S.d)}
+function drawBoard(){const om=occ();let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;for(const[q,r]of cells){const[x,y]=xy(q,r);mnx=Math.min(mnx,x);mny=Math.min(mny,y);mxx=Math.max(mxx,x);mxy=Math.max(mxy,y)}
+  const pad=SZ+2,svg=$('board');svg.setAttribute('viewBox',`${mnx-pad} ${mny-pad} ${mxx-mnx+2*pad} ${mxy-mny+2*pad}`);let h='';
+  for(const[q,r]of cells){const k=q+','+r,[x,y]=xy(q,r),t=TERR.get(k),p=om.get(k);let fill=t==='block'?'var(--rock)':t?HAB[t][1]:'var(--tile)';
+    if(p){fill=colorOf(CK[p.k])}const pend=S.pend.includes(k);const lat=p&&!visible(p);
+    h+=`<polygon class="hx${pend?' pend':''}${lat?' later':''}" data-k="${k}" points="${pts(x,y,SZ-.4)}" fill="${fill}"><title>${k}${t?' · '+(t==='block'?'Felsen':HAB[t][0]+'-Naturfläche'):''}${p?' · '+CK[p.k].n:''}</title></polygon>`;
+    if(!p&&MAP.gold.includes(k))h+=`<polygon class="bld" points="${pts(x,y,SZ-2.6)}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2 1.4"/><text class="tag" x="${x}" y="${y}">×2</text>`;
+    if(!p&&MAP.crown===k)h+=`<text class="ico" x="${x}" y="${y}" style="font-size:12px">👑</text>`;
+    if(!p&&t==='block')h+=`<text class="ico" x="${x}" y="${y}" style="font-size:11px">🪨</text>`;
+    if(p&&MAP.gold.includes(k))h+=`<polygon class="bld" points="${pts(x,y,SZ-2.2)}" fill="none" stroke="var(--accent)" stroke-width="1.3"/>`;
+    if(p&&MAP.crown===k)h+=`<text class="tag" x="${x+5.5}" y="${y-5}" style="font-size:7px">👑</text>`;
+    if(pend)h+=`<text class="ico" x="${x}" y="${y}" style="font-size:12px">${S.pick?CK[S.pick].i:''}</text>`}
+  for(const p of P){const c=CK[p.k];if(!c)continue;let cx=0,cy=0;for(const k of p.cells){const[q,r]=k.split(',').map(Number),[x,y]=xy(q,r);cx+=x;cy+=y}cx/=p.cells.length;cy/=p.cells.length;const lat=!visible(p),sel=S.sel===p.id;
+    if(p.cells.length>1)for(const k of p.cells){const[q,r]=k.split(',').map(Number),[x,y]=xy(q,r);if(Math.hypot(x-cx,y-cy)>1)h+=`<line class="bld${lat?' later':''}" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#1d2a2044" stroke-width="2.2" stroke-linecap="round"/>`}
+    h+=`<g class="bld${lat?' later':''}"><text class="ico" x="${cx}" y="${cy-1.5}">${c.i}</text><text class="tag" x="${cx}" y="${cy+7.2}">${SE1[p.se]}${p.d}${p.up.length?' ⬆'+p.up.length:''}</text>${sel?`<circle cx="${cx}" cy="${cy}" r="${SZ*.95}" fill="none" stroke="var(--sel)" stroke-width="2"/>`:''}</g>`}
+  svg.innerHTML=h;
+  svg.querySelectorAll('.hx').forEach(e=>e.onclick=()=>tapCell(e.dataset.k))}
+function tapCell(k){const om=occ(),p=om.get(k),t=TERR.get(k);
+  if(S.pick){const c=CK[S.pick];
+    if(p&&p.k===S.pick&&!S.pend.length){p.up.push([S.se,S.d]);flash(`⬆ Ausbau: ${c.n} wird ${ttxt(S.se,S.d)} ausgebaut (Stufe ${p.up.length+1}).`);save();render();return}
+    if(p||t==='block'){flash(p?'Da steht schon '+CK[p.k].n+'. Zum Ausbauen dieselbe Karte wählen und das Gebäude antippen.':'Auf einem Felsen kann nichts stehen.');return}
+    const i=S.pend.indexOf(k);if(i>=0)S.pend.splice(i,1);else{if(S.pend.length&&!S.pend.some(o=>adj(o,k))){flash('Die Felder einer Karte müssen zusammenhängen.');return}S.pend.push(k)}
+    if(S.pend.length>=c.s){P.push({id:nextId++,k:S.pick,cells:S.pend.slice(),se:S.se,d:S.d,up:[],note:''});flash(`✅ ${c.n} kommt ${ttxt(S.se,S.d)} auf ${S.pend.join(' · ')}.`);S.pend=[];save()}
+    render();return}
+  S.sel=p?p.id:null;render()}
+const adj=(a,b)=>{const[q,r]=a.split(',').map(Number),[q2,r2]=b.split(',').map(Number);const dq=q2-q,dr=r2-r;return[[1,0],[-1,0],[0,1],[0,-1],[1,-1],[-1,1]].some(([x,y])=>x===dq&&y===dr)};
+function flash(t){$('msg').textContent=t}
+function drawTime(){ $('seasons').innerHTML=SEA.map((n,i)=>`<button class="chip${S.se===i?' on':''}" data-se="${i}">${n}</button>`).join('');
+  $('days').innerHTML=[1,2,3,4,5,6].map(d=>`<button class="chip${S.d===d?' on':''}" data-d="${d}" title="${d===6?'Tag 6 (optional, falls das Tutorial langsamer wird)':'Tag '+d}">${d===6?'6*':d}</button>`).join('');
+  document.querySelectorAll('[data-se]').forEach(b=>b.onclick=()=>{S.se=+b.dataset.se;render()});
+  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{S.d=+b.dataset.d;render()})}
+function drawStatus(){let h;const sp=P.find(p=>p.id===S.sel);
+  if(S.pick){const c=CK[S.pick];h=`<b>${c.i} ${c.n}</b> · ${c.s} Feld${c.s>1?'er':''} · ${ttxt(S.se,S.d)}<br>${S.pend.length?`Noch ${c.s-S.pend.length} Feld${c.s-S.pend.length>1?'er':''} antippen.`:`Tippe ${c.s>1?c.s+' zusammenhängende Felder':'ein Feld'} an. Tippe ein vorhandenes ${c.n} an, um es auszubauen.`} <button class="btn" id="cancel" style="margin-left:6px;padding:4px 10px">Fertig</button>`}
+  else if(sp){const c=CK[sp.k];h=`<b>${c.i} ${c.n}</b> · ${ttxt(sp.se,sp.d)} · Felder ${sp.cells.join(' · ')}${sp.up.length?'<br>Ausbau: '+sp.up.map(([a,b])=>ttxt(a,b)).join(', '):''}
+    <div class="stack" style="gap:6px;margin-top:8px"><input type="text" id="noteIn" placeholder="Notiz, z. B. „hier wird Drehen erklärt“" value="${(sp.note||'').replace(/"/g,'&quot;')}" aria-label="Notiz">
+    <div class="row"><button class="btn" id="moveT">Auf ${ttxt(S.se,S.d)} verschieben</button>${sp.up.length?'<button class="btn" id="unup">Letzten Ausbau entfernen</button>':''}<button class="btn warn" id="del">Löschen</button></div></div>`}
+  else h='Wähle unten eine Karte, oder tippe ein Gebäude auf dem Gelände an, um es zu bearbeiten.';
+  $('status').innerHTML=h;
+  const cc=$('cancel');if(cc)cc.onclick=()=>{S.pick=null;S.pend=[];render()};
+  if(sp){$('noteIn').oninput=e=>{sp.note=e.target.value;save()};$('noteIn').onchange=()=>drawList();$('del').onclick=()=>{P=P.filter(p=>p!==sp);S.sel=null;save();render()};$('moveT').onclick=()=>{sp.se=S.se;sp.d=S.d;save();render()};const u=$('unup');if(u)u.onclick=()=>{sp.up.pop();save();render()}}}
+function drawCards(){const cats=[['alle','Alle'],['gehege','Gehege'],['essen','Gastro'],['attr','Attraktion'],['schutz','Naturschutz']];
+  $('cats').innerHTML=cats.map(([k,t])=>`<button class="chip${S.cat===k?' on':''}" data-cat="${k}">${t}</button>`).join('');
+  document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{S.cat=b.dataset.cat;drawCards()});
+  const q=S.q.trim().toLowerCase();const L=Object.values(CK).filter(c=>(S.cat==='alle'||c.c===S.cat)&&(!q||c.n.toLowerCase().includes(q)));
+  $('cards').innerHTML=L.map(c=>`<button class="ci${S.pick===c.k?' on':''}" data-pick="${c.k}"><span class="e">${c.i}</span><span class="t"><b>${c.n}</b><small>${c.c==='gehege'?HAB[c.h][0]:CAT[c.c][0]} · ${c.s} Feld${c.s>1?'er':''}${c.lk?' · 🔒 freischaltbar':''}</small></span></button>`).join('')||'<p class="note">Keine Karte gefunden.</p>';
+  document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{S.pick=S.pick===b.dataset.pick?null:b.dataset.pick;S.pend=[];S.sel=null;render()})}
+function drawList(){const G=new Map();for(const p of [...P].sort((a,b)=>tkey(a.se,a.d)-tkey(b.se,b.d)||a.id-b.id)){const k=tkey(p.se,p.d);if(!G.has(k))G.set(k,[]);G.get(k).push(p)}
+  const ups=[];for(const p of P)for(const[a,b]of p.up)ups.push({p,se:a,d:b});
+  for(const u of ups){const k=tkey(u.se,u.d);if(!G.has(k))G.set(k,[])}
+  const keys=[...G.keys()].sort((a,b)=>a-b);
+  $('plist').innerHTML=keys.length?keys.map(k=>{const se=Math.floor(k/10),d=k%10;const U=ups.filter(u=>tkey(u.se,u.d)===k);
+    return`<div class="pgrp"><h3>${ttxt(se,d)}</h3>${G.get(k).map(p=>`<div class="pi${S.sel===p.id?' on':''}" data-sel="${p.id}"><span class="e">${CK[p.k].i}</span><span class="n">${CK[p.k].n}<small>${p.cells.join(' · ')}${p.note?' · '+p.note.replace(/</g,'&lt;'):''}</small></span><button class="x" data-del="${p.id}" aria-label="${CK[p.k].n} löschen">✕</button></div>`).join('')}${U.map(u=>`<div class="pi" data-sel="${u.p.id}"><span class="e">⬆</span><span class="n">${CK[u.p.k].n} ausbauen<small>${u.p.cells.join(' · ')}</small></span></div>`).join('')}</div>`}).join(''):'<p class="note">Noch nichts geplant. Wähle eine Karte und tippe Felder an.</p>';
+  $('count').textContent=P.length+' Karten · '+ups.length+' Ausbauten';
+  document.querySelectorAll('[data-sel]').forEach(e=>e.onclick=ev=>{if(ev.target.closest('[data-del]'))return;S.sel=+e.dataset.sel;S.pick=null;S.pend=[];const p=P.find(x=>x.id===S.sel);if(p){S.se=p.se;S.d=p.d}render()});
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{P=P.filter(p=>p.id!==+b.dataset.del);if(S.sel===+b.dataset.del)S.sel=null;save();render()})}
+function drawLegend(){$('legend').innerHTML=Object.keys(HAB).filter(h=>MAP.terr.some(t=>t[1]===h)).map(h=>`<span><i style="background:${HAB[h][1]}"></i>${HAB[h][0]}-Naturfläche</span>`).join('')+`<span><i style="background:var(--rock)"></i>Felsen</span><span><i style="border:1.5px dashed var(--accent)"></i>×2-Feld</span><span>👑 Kronenfeld</span><span>F1 = Frühling Tag 1 · ⬆ = Ausbau</span>`}
+function planText(){const L=['Zoolatro · Tutorial-Zooplan'];const all=[];for(const p of P){all.push([tkey(p.se,p.d),`${ttxt(p.se,p.d)}: ${CK[p.k].n} (${p.k}) auf ${p.cells.join(' · ')}${p.note?' – '+p.note:''}`]);for(const[a,b]of p.up)all.push([tkey(a,b),`${ttxt(a,b)}: ${CK[p.k].n} ausbauen (${p.cells[0]})`])}
+  all.sort((a,b)=>a[0]-b[0]);for(const[,t]of all)L.push(t);L.push('');L.push('PLAN:'+JSON.stringify(P.map(({k,cells,se,d,up,note})=>({k,cells,se,d,up,note}))));return L.join('\n')}
+$('copy').onclick=()=>{const t=planText(),o=$('out');o.value=t;const done=()=>flash('📋 Kopiert. Füge den Plan einfach in den Chat ein.');
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{o.hidden=false;o.select();flash('Bitte den markierten Text kopieren.')});else{o.hidden=false;o.select();flash('Bitte den markierten Text kopieren.')}};
+let clearArm=0;$('clear').onclick=()=>{if(!clearArm){clearArm=1;$('clear').textContent='Wirklich alles leeren?';setTimeout(()=>{clearArm=0;$('clear').textContent='Alles leeren'},3000);return}P=[];S.sel=null;clearArm=0;$('clear').textContent='Alles leeren';save();render();flash('Plan geleert.')};
+$('example').onclick=()=>{P=withIds(EXAMPLE);nextId=P.length+1;S.sel=null;save();render();flash('Beispiel geladen: so ähnlich läuft der Frühling im Tutorial heute.')};
+$('doimp').onclick=()=>{const t=$('imp').value,m=t.match(/PLAN:(\[.*\])/s);try{const v=JSON.parse(m?m[1]:t);if(!Array.isArray(v))throw 0;P=withIds(v.filter(p=>CK[p.k]));nextId=P.length+1;save();render();flash('Plan übernommen: '+P.length+' Karten.')}catch(e){flash('Das sieht nicht wie ein kopierter Plan aus. Es braucht die Zeile mit PLAN:.')}};
+$('q').oninput=e=>{S.q=e.target.value;drawCards()};
+$('onlyUntil').onchange=e=>{S.until=e.target.checked;drawBoard()};
+function render(){drawTime();drawStatus();drawBoard();drawList();drawCards()}
+drawLegend();drawCards();render();
+</script>
