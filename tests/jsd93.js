@@ -46,7 +46,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev(`state.zl.insp='team';state.zl.hard=true;state.spec=['gaertner','tierarzt','gastro'];syncCtx()`);T(ev(`teamAct().length`)===2,'Teamsitzung verschärft: nur 2 Spezialisten');
  try{ev(`state.spec=[];state.zl.insp='futter';state.zl.hard=false;syncCtx()`)}catch(e){L('ERRF',e.stack.split('\n').slice(0,4).join(' | '))}T(ev(`(()=>{const F=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));const bs=F.slice(0,14).map((c,i)=>({id:700+i,key:'flamingos',cells:[c],lvl:1}));return topSet(bs,'top10').size})()`)===10,'Futterknappheit: nur 10 zählen');
  ev(`state.zl.insp='chaos';state.season=3;syncCtx();dayRoll()`);T(ev(`state.chaosB!=null`),'Schneechaos: ein Gebäude eingeschneit');
- T(ev(`seTarget(3,true,4)`)>ev(`seTarget(3,true,4)/1.1-1`)&&Math.abs(ev(`seTarget(3,true,4)/(SEASONS[3].target*Math.pow(ZLSEAS[3],4)*deckTF()*deckSF(3)*stTF())`)-1.1)<.02,'Zoo 5: Winterziel +10 %');
+ T(ev(`seTarget(3,true,4)`)>ev(`seTarget(3,true,4)/1.1-1`)&&Math.abs(ev(`seTarget(3,true,4)/(SEASONS[3].target*Math.pow(ZLSEAS[3],4)*deckTF()*deckSF(3)*stTF()*ZLUP[3])`)-1.1)<.02,'Zoo 5: Winterziel +10 %');
  // Tauschen
  ev(`state.season=2;state.zl.insp='essen';state.zl.swapped=0;state.money=50;syncCtx()`);const i0=ev('state.zl.insp');ev(`wSwap()`);
  T(ev('state.zl.insp')!==i0&&ev('state.money')===20&&!ev('canWSwap()'),'Winter-Bedingung einmal für 30 Taler tauschen');

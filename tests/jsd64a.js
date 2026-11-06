@@ -35,7 +35,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  // 6 Futter
  T(ev(`fixedItems().find(i=>i.kind==='sack').price`)===20,'Futtersack 20 Taler');
  T(ev(`(()=>{buy(fixedItems().find(i=>i.kind==='sack'));const ok=state.shopSub==='sack'&&state.sack.opts.length===2;state.sack=null;state.shopSub=null;return ok&&fixedItems().find(i=>i.kind==='sack').price===30})()`),'Futtersack: 2 Futter, nächster Sack 30');
- T(ev(`(()=>{let n=0,N=3000;for(let i=0;i<N;i++)if(rollFood(2).includes('h:wasser'))n++;const p=n/N;return p>.16&&p<.27})()`),'Eigenes Lebensraum-Futter etwa 20 % je Sack');
+ {const p=ev(`(()=>{let n=0,N=3000;for(let i=0;i<N;i++)if(rollFood(2).includes('h:wasser'))n++;return n/N})()`);T(p>.07&&p<.14,'Eigenes Lebensraum-Futter etwa 10 % je Sack (0.70a), gemessen '+p.toFixed(3))}
  T(ev(`(()=>{for(let i=0;i<500;i++){const o=rollFood(2);if(o.includes('h:arktis')||o.includes('h:gebirge')||o.includes('h:wald'))return false}return true})()`),'Nur Lebensräume des Laufs');
  T(ev(`(()=>{for(let i=0;i<500;i++){const o=rollFood(2);if(o.includes('mi'))return false}return true})()`),'Nur verwendbare Einzelfutter (keine Aufzuchtmilch ohne Jungtier)');
  T(ev(`(()=>{state.sack={opts:['kf']};state.shopSub='sack';modal='shop';render();document.querySelector('[data-fdpick]').click();const b=document.querySelector('[data-feedk]'),k=b.dataset.feedk;b.click();return state.deck.concat(state.discard,state.hand).includes(k+'#kf')})()`),'Einzelfutter auf eine Karte geben');
