@@ -94,10 +94,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Im Shop bekommt der Reiter ein 🎁-Abzeichen, das Geschenk leuchtet, bis man es nimmt. (Heute nur ein Satz über `earlyInfo`.)
 5. **Ziele im Zoolatro-Lauf +20 % in Sommer, Herbst, Winter** (Frühling bleibt). In `seTarget` (Modul 05) für `zl` einen Faktor
    `[1,1.2,1.2,1.2][i]` dazunehmen. Gilt für alle Zoos des Laufs (wirkt also mit `ZLSEAS` hoch). Tutorial bleibt unberührt (eigene Ziele `TUTT` über `state.tT`).
-6. **Futtersack ganz zufällig:** In `rollFood` (Modul 04) alle Angebote mit gleichem Gewicht statt Seltenheit (`FOODR`) bzw. `HFOODW=11`.
-   Weiterhin nur Futter, das passt (Einzelfutter: es gibt eine Karte im Stapel/Hand/Ablage, auf die es darf – ist heute schon so).
-   Vorschlag: Lebensraum-Futter nur anbieten, wenn es mindestens ein Gehege dieses Lebensraums im Stapel oder gebaut gibt (heute: jeder aktive Lebensraum).
-   Offen: Seltenheits-Anzeige (gewöhnlich/selten …) auf den Futterkarten weglassen oder lassen?
+6. **Futtersack ganz zufällig:** In `rollFood` (Modul 04) alle Angebote mit gleichem Gewicht statt Seltenheit (`FOODR=[6,3,1]`)
+   bzw. Lebensraum-Gewicht `HFOODW=11`. Weiterhin nur Futter, das passt: Einzelfutter nur, wenn eine Karte in Stapel/Hand/Ablage es nehmen kann;
+   Lebensraum-Futter für jeden Lebensraum des Laufs, auch ohne gebautes Gehege (beides ist heute schon so).
+   Offen: Lebensraum-Futter-Bevorzugung behalten? Seltenheits-Anzeige auf den Futterkarten weglassen?
 7. **Testskript `tests/tutcal5.js`:** meldet nach „Tutorial abschließen“ `EXC … reading 'tut'`. Ursache nur im Test: nach `guideEnd` ist `state=null`,
    `step()` (Zeile 13) liest trotzdem `state.tut`. Fix: `state&&state.tut?…`. Spiel ist nicht betroffen (Endtext und Abschluss klappen).
 
