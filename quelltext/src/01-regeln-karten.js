@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.69a';
+const VERSION='0.70a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.70a',d:'06.11.2026',t:'Pause in der Vorschau, Früh-Kasten',i:['🧑‍💼 Jasper erklärt Zebras, Bratwurstbude und Giraffenweide jetzt schon, wenn die Karte richtig liegt – gebaut wird mit 🔨 nach seinem letzten Satz.','◂ Zurück: In Jaspers Texten können Sie einen Satz zurückblättern.','Im Tutorial verdeckt kein Willkommen-Feld mehr das Gelände.','⚡ Früh geschafft: eigener Kasten im Sieg-Fenster mit Talern, Baupunkten und Geschenk. Im Shop zeigt der Reiter 🎁, das Geschenk leuchtet, bis Sie es nehmen.','🎯 Zoolatro-Lauf: Die Ziele in Sommer, Herbst und Winter sind 20 % höher.','🧺 Im Futtersack kommt Lebensraum-Futter seltener (etwa halb so oft).']},
  {v:'0.69a',d:'04.11.2026',t:'Tutorial aufgeräumt',i:['Im Tutorial keine Stress-Felder um Raubtiere und Beutetiere mehr und kein roter Punkt für bedrohte Arten.','Im Frühlings-Shop bleiben Umbau und Extras die ganze Zeit gesperrt.','Leuchtende Kostenpunkte und Symbole auf den Karten bleiben an ihrem Platz.','Im Tutorial kein Nachwuchs (Zucht), Jaspers Text zur Delfinshow etwas einfacher.']},
- {v:'0.68a',d:'04.11.2026',t:'Tutorial nachgebessert',i:['🧑‍💼 Jasper spricht jetzt erst über ein Gebäude, wenn es steht, und die Felsen leuchten, wenn er sie erwähnt.','🧺 Im Shop nach dem Sommer probieren Sie einen Futtersack aus, mit Futter für die Savanne.','Im Tutorial: Gelände wie geplant ausgerichtet, leere Plätze auf der Hand, nur Karten aus Wasser, Savanne und Wüste, keine Merkmal-Texte, kein Früh-geschafft-Bonus.']},
- {v:'0.67a',d:'04.11.2026',t:'Neues Tutorial mit Jasper',i:['🧑‍💼 Neues Tutorial: Ihr Berater Jasper führt Sie durch den ersten Zoo – Frühling, Sommer und die ersten Herbsttage, danach bauen Sie bis zum Winter selbst.','📱 Texte in kleinen Häppchen: am Handy einzeln mit „Weiter ▸“, im Querformat zusammen in einer größeren Box.','Im Tutorial gibt es noch keine Merkmale, keine Winter-Bedingung und nur die Savannen-Regel – das kommt später.']},];
+ {v:'0.68a',d:'04.11.2026',t:'Tutorial nachgebessert',i:['🧑‍💼 Jasper spricht jetzt erst über ein Gebäude, wenn es steht, und die Felsen leuchten, wenn er sie erwähnt.','🧺 Im Shop nach dem Sommer probieren Sie einen Futtersack aus, mit Futter für die Savanne.','Im Tutorial: Gelände wie geplant ausgerichtet, leere Plätze auf der Hand, nur Karten aus Wasser, Savanne und Wüste, keine Merkmal-Texte, kein Früh-geschafft-Bonus.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -16,8 +16,8 @@ const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:9500},{name:'Sommer',target:51000},{name:'Herbst',target:118000},{name:'Winter',target:267000,winter:true}]; // 0.91: per Bot neu gemessen (5 Tage, kleineres Gelände, ohne Profile/Förderprogramme)
 const EARLY_BONUS=5,EARLYG={gsack:['🧺','Futtersack'],gumb:['🧰','Umbau-Kiste'],gprofi:['💼','Profi-Mappe']};
 // 0.66a Früh geschafft: je übrigem Tag +1 Baupunkt in der nächsten Jahreszeit (run.bpCarry, je Tag 1) + Geschenk ab 2/3/4 Tagen (run.gifts, im nächsten Shop gratis)
-function earlyReward(left){const r=runOf();if(!r||left<=0)return'';r.bpCarry=(r.bpCarry||0)+left;let g=r.tut?null:left>=4?'gprofi':left>=3?'gumb':left>=2?'gsack':null,t=` · ⚡ <b>+${left} Baupunkt${left>1?'e':''}</b> in der nächsten Jahreszeit (je Tag 1)`;
-  if(g==='gsack'&&!foodOnRun(r)){state.money+=20;state.stats.earned+=20;t+=' · 🎁 <b>+🪙 20</b>'}else if(g){r.gifts=(r.gifts||[]).concat(g);t+=` · 🎁 <b>Gratis ${EARLYG[g][0]} ${EARLYG[g][1]}</b> im nächsten Shop`}return t}
+function earlyReward(left){const r=runOf();if(!r||left<=0)return'';r.bpCarry=(r.bpCarry||0)+left;const ER=state.earlyR={left,bp:left,gift:null,gtal:0};let g=r.tut?null:left>=4?'gprofi':left>=3?'gumb':left>=2?'gsack':null,t=` · ⚡ <b>+${left} Baupunkt${left>1?'e':''}</b> in der nächsten Jahreszeit (je Tag 1)`;
+  if(g==='gsack'&&!foodOnRun(r)){state.money+=20;state.stats.earned+=20;ER.gtal=20;t+=' · 🎁 <b>+🪙 20</b>'}else if(g){ER.gift=g;r.gifts=(r.gifts||[]).concat(g);t+=` · 🎁 <b>Gratis ${EARLYG[g][0]} ${EARLYG[g][1]}</b> im nächsten Shop`}return t}
  // Taler je übrigem Tag, wenn das Saisonziel früh erreicht ist
 const DIRS=[[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]];
 const hk=(q,r)=>q+','+r;

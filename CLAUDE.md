@@ -65,9 +65,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   `TUTGUIDED=['zl','zs','zh']`, Start über `TUTCH`. Herbst ab Tag 2 und Winter spielt man frei; Ende = Jasper-Endtext, Knopf `data-gend`.
   Alte Kapitel `zls/zlh/zlw` sind ungenutzt (können weg).
 - Schritt-Felder: `t` (Text oder Häppchen-Liste, Häppchen auch `{t,glow,mark}`), `h`, `only` (Karte), `at` (Zielfelder), `rot`, `setup`, `done`,
-  `btn`, `end`, `glow`, `mark`, `undo`, `redraw`, `mv`, `up`, `lock` (Shop-Sperre `{tab,kind}`), `spec` (erzwungener Bewerber), `food` (erzwungenes Futter), `leave`, `arot`.
+  `btn`, `end`, `glow`, `mark`, `undo`, `redraw`, `mv`, `up`, `lock` (Shop-Sperre `{tab,kind}`), `spec` (erzwungener Bewerber), `food` (erzwungenes Futter), `leave`, `arot`,
+  `pv` (Häppchen, solange die Karte genau auf `at` liegt; 🔨 gesperrt bis zum letzten, Zähler `state.tut.pk`; `tutPvOn`/`tutPvLock`).
   Helfer `tPut(key,at,t,o)`, `tDay`, `tNat`, `tRock`, `tEndS`, `tSetHand`.
-- Häppchen: am Handy einzeln (`tutStep()` liefert ein Lese-Objekt `_read` mit „Weiter ▸“), im Querformat (`body.land`) alles in einer Box.
+- Häppchen: am Handy einzeln (`tutStep()` liefert ein Lese-Objekt `_read` mit „Weiter ▸“ und ab dem 2. „◂ Zurück“), im Querformat (`body.land`) alles in einer Box.
   Markierungen über `tutMarkAll`, Leuchten über `tutGlowAll`.
 - Im Tutorial aus: Merkmale (`TUTTR=false`), Stress-Felder, Rote Liste, Zucht, Winter-Bedingung (`INSP.frei`), Lebensraum-Regeln außer Savanne,
   Früh-geschafft-Bonus, Prägungen/Veredelungen/fremde Lebensräume in der Kartenwahl. Gelände wird nie gedreht.
@@ -80,25 +81,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.70a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.71a) – erst bauen, wenn Tobi „bauen“ sagt
 
-1. **Tutorial-Pause in der Vorschau:** Liegt die Karte genau auf den Zielfeldern (gleiche Felder wie `at`, also auch richtig gedreht),
-   aber ist noch nicht gebaut → Hammer gesperrt, Jasper-Text (Häppchen), Hervorheben möglich (Vorschau-Werte B/N/Tagesertrag,
-   Schildchen an Nachbarn, einzelne Felder); nach dem letzten Häppchen leuchtet 🔨. Dreht man die Karte weg, wartet der Text.
-   Vorerst nur an den drei „Sehen Sie“/„Schauen Sie mal“-Stellen (Zebras, Bratwurstbude, Giraffenweide) – ersetzt dort den Weiter-Schritt
-   nach dem Bauen aus 0.68a. Bei der Giraffe ausdrücklich erst, wenn sie wirklich richtig liegt. Tobi prüft, ob weitere Stellen dazukommen.
-2. **Zurück-Knopf** „◂ Zurück“ in Textboxen mit mehreren Häppchen (Jasper-Kasten und Fenster).
-3. **Info-Feld „Willkommen! Gelände: Wiese“** im Tutorial weglassen (verdeckt das obere Drittel des Geländes).
-4. **Früh-geschafft-Meldung deutlicher:** eigener hervorgehobener Kasten im Sieg-Fenster „⚡ Früh geschafft: noch N Tage übrig“ mit Zeilen
-   🪙 Taler · ⚡ Baupunkte (1 je Tag in der nächsten Jahreszeit) · 🎁 Geschenk als kleine Karte mit „liegt im Shop bereit, Reiter …“.
-   Im Shop bekommt der Reiter ein 🎁-Abzeichen, das Geschenk leuchtet, bis man es nimmt. (Heute nur ein Satz über `earlyInfo`.)
-5. **Ziele im Zoolatro-Lauf +20 % in Sommer, Herbst, Winter** (Frühling bleibt). In `seTarget` (Modul 05) für `zl` einen Faktor
-   `[1,1.2,1.2,1.2][i]` dazunehmen. Gilt für alle Zoos des Laufs (wirkt also mit `ZLSEAS` hoch). Tutorial bleibt unberührt (eigene Ziele `TUTT` über `state.tT`).
-6. **Futtersack: Lebensraum-Futter seltener** – eigenes Lebensraum-Futter in ca. **10 %** statt ca. 20 % der Säcke.
-   In `rollFood` (Modul 04) `HFOODW` von 11 auf ca. 5 senken; genauen Wert beim Bauen kurz nachrechnen.
-   Rest bleibt: Einzelfutter-Seltenheit `FOODR=[6,3,1]` mit Anzeige, nur passendes Futter, Lebensraum-Futter für jeden Lebensraum des Laufs.
-7. **Testskript `tests/tutcal5.js`:** meldet nach „Tutorial abschließen“ `EXC … reading 'tut'`. Ursache nur im Test: nach `guideEnd` ist `state=null`,
-   `step()` (Zeile 13) liest trotzdem `state.tut`. Fix: `state&&state.tut?…`. Spiel ist nicht betroffen (Endtext und Abschluss klappen).
+(leer)
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -112,6 +97,10 @@ leere `GUIDE`, abgeschaltete Sommer-Tutorial-Abfrage, Code alter Modi) · Grafik
 
 ## 7. Erledigt (zuletzt)
 
+- **0.70a:** Tutorial-Pause in der Vorschau (Schritt-Feld `pv` an Zebras/Bratwurst/Giraffe, Hammer gesperrt bis zum letzten Häppchen,
+  alte Weiter-Schritte danach entfernt); ◂ Zurück in Häppchen; kein Willkommen-Feld im Tutorial; Früh-geschafft-Kasten (`earlyBoxHtml`,
+  `state.earlyR`) mit 🎁-Abzeichen am Shop-Reiter und leuchtendem Geschenk; Zoolatro-Ziele Sommer/Herbst/Winter +20 % (`ZLUP`);
+  `HFOODW` 11 → 4 (Lebensraum-Futter etwa halb so oft); `tutcal5.js` Fehler am Ende behoben; neuer Test `jsd70a.js`.
 - **0.69a:** Frühlings-Shop-Reiter ganz gesperrt; im Tutorial keine Stress-Felder, keine Rote Liste, keine Zucht;
   Leuchten verschiebt Kostenpunkte/Symbole nicht mehr; Delfinshow-Text.
 - **0.68a:** Tutorial-Gelände nicht gedreht, Felsen-Markierung, Platzhalter auf der Hand, „Sehen Sie“ nach dem Bauen, Merkmal-Texte aus,

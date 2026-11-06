@@ -44,7 +44,7 @@ const FOOD={
   sn:{icon:'🥜',name:'Besuchersnack',r:0,for:'Gehege',text:'+1 🪙 pro Tag, solange gebaut'},
   gh:{icon:'✨',name:'Goldhafer',r:2,for:'Gehege',text:'Zählt ×1,5'},
   ue:{icon:'🎁',name:'Überraschungsfutter',r:2,for:'zufälliges Gehege',text:'Ein zufälliges Gehege deines Decks bekommt eine zufällige Prägung (wie früher die Futterlieferung)'}};
-const FOODR=[6,3,1],FOODRN=['gewöhnlich','selten','sehr selten'],HFOODW=11;
+const FOODR=[6,3,1],FOODRN=['gewöhnlich','selten','sehr selten'],HFOODW=4;
 const HFOOD={wasser:{icon:'🐟',name:'Fischmix'},savanne:{icon:'🌾',name:'Steppenheu'},wald:{icon:'🍌',name:'Tropenfrüchte'},wueste:{icon:'🌵',name:'Kaktusfeigen'},arktis:{icon:'🦐',name:'Krill'},gebirge:{icon:'🌼',name:'Bergkräuter'}};
 const fdOf=k=>{const m=/#([^~^]*)/.exec(String(k));return m&&m[1]?m[1].split('.').filter(f=>FOOD[f]):[]};
 const fdHas=(b,f)=>!!b&&fdOf(b.key).includes(f);

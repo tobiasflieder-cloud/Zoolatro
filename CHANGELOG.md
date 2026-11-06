@@ -5,6 +5,14 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.70a · 06.11.2026 · Pause in der Vorschau, Früh-Kasten
+- 🧑‍💼 Jasper erklärt Zebras, Bratwurstbude und Giraffenweide jetzt schon, wenn die Karte richtig liegt – gebaut wird mit 🔨 nach seinem letzten Satz.
+- ◂ Zurück: In Jaspers Texten können Sie einen Satz zurückblättern.
+- Im Tutorial verdeckt kein Willkommen-Feld mehr das Gelände.
+- ⚡ Früh geschafft: eigener Kasten im Sieg-Fenster mit Talern, Baupunkten und Geschenk. Im Shop zeigt der Reiter 🎁, das Geschenk leuchtet, bis Sie es nehmen.
+- 🎯 Zoolatro-Lauf: Die Ziele in Sommer, Herbst und Winter sind 20 % höher.
+- 🧺 Im Futtersack kommt Lebensraum-Futter seltener (etwa halb so oft).
+
 ## 0.69a · 04.11.2026 · Tutorial aufgeräumt
 - Im Tutorial keine roten Stress-Felder mehr um Raubtiere und Beutetiere und kein roter Punkt bei bedrohten Arten.
 - Im Frühlings-Shop bleiben Umbau und Extras die ganze Zeit gesperrt.

@@ -1029,6 +1029,8 @@ small.fsbn{font-size:11.5px;color:var(--muted)}
 .cnt small{display:none!important}
 .infowrap{height:32px}
 .info{min-height:30px}
+.info:empty{display:none}
+.tnav{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}.tnav .btn{flex:0 1 auto}
 .info .tday{font-size:15px}
 .boardarea{position:relative}
 .actions.ov{position:absolute;left:8px;right:8px;bottom:8px;z-index:8;display:flex;justify-content:center;gap:8px;pointer-events:none}
@@ -1043,7 +1045,14 @@ small.fsbn{font-size:11.5px;color:var(--muted)}
 .actions.ov #btnZoom.zoomab.on{background:#ffd166;color:#3a2a00}
 .fsrun{display:flex;flex-direction:column;gap:7px;margin:8px 0}.fsr{background:#ffffff10;border-radius:12px;padding:8px 10px;box-shadow:inset 0 0 0 1.5px #ffffff22;text-align:left}.fsr.ok{box-shadow:inset 0 0 0 2px #35c9b5;background:#35c9b522}.fsr .fsu{font-size:14px}.fsr .fsu small{color:var(--muted);font-weight:600}.fsr .fsh{font-size:13px;margin:3px 0}
 .umbbtn{border:0;border-radius:99px;padding:4px 10px;font-weight:800;font-size:13px;background:#1f6b4f;color:#eaffef;box-shadow:inset 0 0 0 1.5px #5be0a8;position:relative;white-space:nowrap}.umbbtn b{margin-left:4px;background:#ff3b6b;color:#fff;border-radius:99px;font-size:11px;padding:0 6px}
-.item.tutgo{animation:tutglow 1.2s ease-in-out infinite}.item.tutno{opacity:.45}.umbbtn.ugl{animation:tutglow 1.2s ease-in-out infinite}.umbbtn.on{background:#5be0a8;color:#08321f}
+.item.tutgo{animation:tutglow 1.2s ease-in-out infinite}
+.item.giftgo{animation:tutglow 1.2s ease-in-out infinite}
+.earlybox{border:2px solid var(--gold);border-radius:14px;padding:8px 10px;background:color-mix(in srgb,var(--gold) 14%,transparent);display:flex;flex-direction:column;gap:4px;text-align:left}
+.earlybox .eb1{font-family:var(--f-display);font-size:17px;color:var(--gold)}
+.earlybox .ebr{font-size:13.5px}
+.earlybox .ebgift{display:flex;gap:8px;align-items:center;background:var(--panel);border-radius:10px;padding:6px 8px;margin-top:2px;animation:tutglow 1.2s ease-in-out infinite}
+.earlybox .ebgift .ebi{font-size:26px}.earlybox .ebgift div{display:flex;flex-direction:column;font-size:12.5px}.earlybox .ebgift small{color:var(--muted)}
+.gbadge{font-size:.9em;margin-left:2px}.item.tutno{opacity:.45}.umbbtn.ugl{animation:tutglow 1.2s ease-in-out infinite}.umbbtn.on{background:#5be0a8;color:#08321f}
 .handbar{position:relative}.umbwrap{display:none;position:absolute;left:8px;right:8px;bottom:calc(100% + 8px);z-index:30;background:#173b2d;border-radius:14px;padding:10px;box-shadow:0 6px 20px #000a}
 .umbtray{display:flex;gap:8px}.umbtray .ub{flex:1;min-width:0;border:0;border-radius:11px;background:linear-gradient(180deg,#1f6b4f,#134a36);box-shadow:inset 0 0 0 2px #5be0a8;color:#fff;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;min-height:70px;font-family:inherit}
 .umbtray .ub .ti{font-size:22px;line-height:1}.umbtray .ub .nm{font-size:11.5px;font-weight:800;text-align:center;line-height:1.15}.umbtray .ub .tv{font-size:10px;font-weight:700;background:#0006;border-radius:6px;padding:1px 5px;color:#b9ffdf}
