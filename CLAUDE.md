@@ -92,6 +92,14 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 4. **Früh-geschafft-Meldung deutlicher:** eigener hervorgehobener Kasten im Sieg-Fenster „⚡ Früh geschafft: noch N Tage übrig“ mit Zeilen
    🪙 Taler · ⚡ Baupunkte (1 je Tag in der nächsten Jahreszeit) · 🎁 Geschenk als kleine Karte mit „liegt im Shop bereit, Reiter …“.
    Im Shop bekommt der Reiter ein 🎁-Abzeichen, das Geschenk leuchtet, bis man es nimmt. (Heute nur ein Satz über `earlyInfo`.)
+5. **Ziele im Zoolatro-Lauf +20 % in Sommer, Herbst, Winter** (Frühling bleibt). In `seTarget` (Modul 05) für `zl` einen Faktor
+   `[1,1.2,1.2,1.2][i]` dazunehmen. Gilt für alle Zoos des Laufs (wirkt also mit `ZLSEAS` hoch). Tutorial bleibt unberührt (eigene Ziele `TUTT` über `state.tT`).
+6. **Futtersack ganz zufällig:** In `rollFood` (Modul 04) alle Angebote mit gleichem Gewicht statt Seltenheit (`FOODR`) bzw. `HFOODW=11`.
+   Weiterhin nur Futter, das passt (Einzelfutter: es gibt eine Karte im Stapel/Hand/Ablage, auf die es darf – ist heute schon so).
+   Vorschlag: Lebensraum-Futter nur anbieten, wenn es mindestens ein Gehege dieses Lebensraums im Stapel oder gebaut gibt (heute: jeder aktive Lebensraum).
+   Offen: Seltenheits-Anzeige (gewöhnlich/selten …) auf den Futterkarten weglassen oder lassen?
+7. **Testskript `tests/tutcal5.js`:** meldet nach „Tutorial abschließen“ `EXC … reading 'tut'`. Ursache nur im Test: nach `guideEnd` ist `state=null`,
+   `step()` (Zeile 13) liest trotzdem `state.tut`. Fix: `state&&state.tut?…`. Spiel ist nicht betroffen (Endtext und Abschluss klappen).
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
