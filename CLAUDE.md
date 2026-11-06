@@ -83,7 +83,13 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.71a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **„Weiter ▸“ immer rechts:** Heute steht der Knopf nur in einer rechtsbündigen Zeile (`.tnav`), wenn es auch „◂ Zurück“ gibt;
+   sonst steht er links. Fix: `tutNav` (Modul 10) packt die Knöpfe immer in `.tnav` (gilt auch für Schritt-Knöpfe wie „Weiter“ aus `btn`).
+2. **Tag 2 im Tutorial: falsche Handkarten, kurzes Stocken.** Ursache: Am Tagesbeginn wird erst eine zufällige Hand gezogen; zwei Schritte
+   (Abrechnung, Kartenwahl) sind dann gleichzeitig erledigt, `tutCheck` schaltet aber je Zeichnen nur einen Schritt weiter (das Zeichnen in
+   `tutNext` läuft mit `tutBusy` ohne Prüfung). Erst beim nächsten Zeichnen kommt der Bratwurst-Schritt mit der richtigen Hand (Bratwurst, Giraffe).
+   Fix: `tutCheck` schaltet in einer Schleife weiter, solange der neue Schritt schon erledigt ist (mit Obergrenze), danach einmal zeichnen.
+   Gilt damit für alle Stellen, an denen mehrere Schritte zugleich fertig sind.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
