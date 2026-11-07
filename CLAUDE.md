@@ -90,6 +90,14 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    `tutNext` läuft mit `tutBusy` ohne Prüfung). Erst beim nächsten Zeichnen kommt der Bratwurst-Schritt mit der richtigen Hand (Bratwurst, Giraffe).
    Fix: `tutCheck` schaltet in einer Schleife weiter, solange der neue Schritt schon erledigt ist (mit Obergrenze), danach einmal zeichnen.
    Gilt damit für alle Stellen, an denen mehrere Schritte zugleich fertig sind.
+3. **Profilwahl (Zoolatro 2.0): immer 8 Stufen-Knöpfe.** Heute zeigt jedes freigeschaltete Profil nur Knöpfe bis zur höchsten freien Stufe
+   (`deckSelHtml`, Modul 09, `stMax(sl,id)`). Neu: Stufe 1–8 immer da; freie wählbar (höchste freie hervorgehoben),
+   gesperrte grau mit 🔒 und nicht tippbar (Tipp → kurzer Hinweis „Zoo 3 mit Stufe N-1 schaffen“), damit man den Fortschritt sieht.
+   Darstellung platzsparend (z. B. 2 Reihen à 4 kleine Knöpfe), am Handy prüfen.
+4. **Zurück nach der Stufenwahl:** Nach dem Tippen auf eine Stufe startet der Lauf sofort (`enterCamp`) und es kommt das Fenster
+   „Zoo 1: Wähle dein Profil“ (Zoo-Profil, `modal='zoo'`) – dort gibt es nur „Wählen“. Neu: Knopf „◂ Zurück“ in diesem Fenster (nur in Zoo 1,
+   solange noch kein Zoo-Profil gewählt ist): verwirft den eben gestarteten Lauf und führt zurück zur Profil-/Stufenwahl mit denselben
+   Einstellungen (Lebensräume, Startwert). Beim Bauen prüfen, dass ein alter Lauf im Speicherplatz dabei nicht verloren geht.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
