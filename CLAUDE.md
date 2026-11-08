@@ -105,8 +105,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Zerklüftet Wüste 8 (Rest je 5). Ist ein Schwerpunkt-Lebensraum nicht gewählt, wird sein Anteil gleichmäßig auf die gewählten verteilt
    (bei ungeraden Resten reihum). Messwerte heute (Mittel, 4 Lebensräume): Wiese ~15 Felder, Flusstal ~22 (davon Wasser ~15 als Fluss),
    Bucht ~10 (Wüste <1), Hügel ~18, Zerklüftet ~10.
-   Offen, vor dem Bauen klären: (a) Flusstal – bleibt der Fluss als zusammenhängender Strang (dann > 4 Felder) oder auch Flecken?
-   (b) Felsen und Geländeform bleiben wie bisher? (c) Abstand der Flecken zueinander / zum Rand egal?
+   Geklärt: Flusstal – das Wasser bleibt ein zusammenhängender Fluss (8 Felder als Strang), nur die übrigen Lebensräume als Flecken.
+   Felsen und Geländeform bleiben wie bisher. Abstand der Flecken zueinander/zum Rand ist egal.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
