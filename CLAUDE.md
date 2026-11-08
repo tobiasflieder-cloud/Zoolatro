@@ -86,7 +86,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 1. **Schimmernd und Goldfeld multiplizieren statt addieren** (`evalB`, Zoolatro-Teil): heute `a0` einmal genommen, Schimmernd `+a0·n`,
    je Goldfeld `+a0`, je ×4-Feld `+3·a0` → Schimmernd + 1 Goldfeld = ×3. Neu: Faktoren nacheinander, Schimmernd ×(n+1), je Goldfeld ×2,
-   je ×4-Feld ×4 → Schimmernd + Goldfeld = ×4. Offen: Gilt das auch für 2 Goldfelder unter einem Gehege (heute ×3, neu ×4)?
+   je ×4-Feld ×4 → Schimmernd + Goldfeld = ×4, 2 Goldfelder unter einem Gehege = ×4 (heute ×3) – entschieden.
+   Anzeige-Texte („zählt doppelt“, „zählt n-fach“) bei mehreren Faktoren prüfen.
    Danach Referenzfälle neu erzeugen (`node tests/referenz/referenz.js erzeuge`) und Unterschiede prüfen.
 2. **Hilfetext Lebensraum-Regeln** (`HABRULE`, Modul 09) an den Code anpassen: Bei Wasser, Gebirge, Arktis zählt bei einem Verstoß
    die **ganze Gruppe** ×0,5 (Text sagt heute nur „nur ×0,5“ bzw. „Ganz innen nur ×0,5“).
