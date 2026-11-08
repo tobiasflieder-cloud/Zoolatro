@@ -11,9 +11,6 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev('state.tut.i=1;state.tut.k=0;render()');const nat=d.querySelectorAll('#board .tgo').length;ev('state.tut.k=2;render()');const rk=d.querySelectorAll('#board .tgo').length;
  T(nat>0&&rk===ev('tRock().length'),'Felsen leuchten im letzten Häppchen ('+rk+')');
  ev('document.body.classList.add("land")');T(ev('tutMarkAll(tutStep()).length')>=nat+rk,'Querformat: alle Markierungen');ev('document.body.classList.remove("land")');
- const zi=ev(`TUT.zl.steps.findIndex(s=>s.only==='zebras')`);T(ev(`!JSON.stringify(TUT.zl.steps[${zi}].t).includes('Sehen Sie')&&JSON.stringify(TUT.zl.steps[${zi+1}].t).includes('Sehen Sie')`),'Zebras: „Sehen Sie“ erst nach dem Bauen');
- const bi=ev(`TUT.zl.steps.findIndex(s=>s.only==='bratwurst')`);T(ev(`!JSON.stringify(TUT.zl.steps[${bi}].t).includes('Sehen Sie')&&JSON.stringify(TUT.zl.steps[${bi+1}].t).includes('Sehen Sie')`),'Bratwurst: „Sehen Sie“ erst danach');
- const gi=ev(`TUT.zl.steps.findIndex(s=>s.only==='giraffen')`);T(ev(`!JSON.stringify(TUT.zl.steps[${gi}].t).includes('Schauen Sie')&&JSON.stringify(TUT.zl.steps[${gi+1}].t).includes('Schauen Sie')`),'Giraffe: „Schauen Sie“ erst danach');
  T(!/zweiten Jahreshälfte/.test(ev('JSON.stringify(TUT.zs.steps.map(s=>s.t))')),'Satz Jahreshälfte gestrichen');
  T(ev(`!/Raubtier|Beute/.test(fxHtml(CARDS.dingos)+fxHtml(CARDS.fennek)+fxHtml(CARDS.zebras))`),'Keine Merkmal-Texte (Dingo, Fennek, Zebra)');
  T(ev(`(()=>{for(let i=0;i<40;i++){const o=makeOffer(2);if(o.some(k=>/[~^#]/.test(k)||(CARDS[k].hab&&!['wasser','savanne','wueste'].includes(CARDS[k].hab))))return false}return true})()`),'Kartenwahl: nur Wasser/Savanne/Wüste, ohne Prägung');

@@ -8,26 +8,6 @@ const icSvg=(c,x,y,big)=>{const u=ART.card[c.key],r=big?7:5;return u?`<image cla
 const mxs=v=>{const t=String(+(+v).toFixed(2));return(t.includes('.')?t:t+'.0').replace('.',',')};
 const cSize=c=>SHAPES[c.shape].cells.length;
 const NOPROF='keins'; // 0.91: Profile gestrichen
-const ZPROF={
-  natur:{icon:'🌳',noban:['schutz','attr'],focus:c=>c.cat==='schutz',g:(b,c)=>c.cat==='schutz'?{f:2}:null,m:(b,c)=>c.cat==='attr'?{fa:.5}:null},
-  ruhe:{icon:'🍃',noban:[],focus:c=>c.tags.includes('scheu'),g:(b,c)=>c.tags.includes('scheu')?{f:1.5}:null,m:()=>null},
-  manege:{icon:'🎪',noban:['attr','essen'],focus:c=>c.tags.includes('show'),g:()=>null,m:()=>null},
-  stadt:{icon:'🏙️',noban:[],focus:c=>c.cat==='gehege',g:()=>null,m:()=>null},
-  freizeit:{icon:'🎡',noban:['attr','essen'],focus:c=>c.cat==='attr'||c.cat==='essen',g:(b,c)=>c.cat==='attr'||c.cat==='essen'?{fa:1.4}:null,m:(b,c)=>c.tags.includes('scheu')?{fa:0}:null},
-  raub:{icon:'🦁',gone:1,noban:[],focus:c=>c.tags.includes('raubtier'),g:(b,c)=>c.tags.includes('raubtier')?{f:2}:null,m:(b,c)=>c.tags.includes('beute')?{f:.75}:null},
-  aqua:{icon:'🐠',noban:['wasser'],focus:c=>c.hab==='wasser',g:(b,c)=>c.cat==='gehege'&&c.hab==='wasser'?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&c.hab!=='wasser'?{f:.8}:null},
-  safari:{icon:'🦒',noban:['savanne'],focus:c=>c.hab==='savanne',g:(b,c)=>c.cat==='gehege'&&c.hab==='savanne'?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&c.hab!=='savanne'?{f:.8}:null},
-  dschungel:{icon:'🌴',noban:['wald'],focus:c=>c.hab==='wald',g:(b,c)=>c.cat==='gehege'&&c.hab==='wald'?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&c.hab!=='wald'?{f:.8}:null},
-  wuestenzoo:{icon:'🐪',noban:['wueste'],focus:c=>c.hab==='wueste',g:(b,c)=>c.cat==='gehege'&&c.hab==='wueste'?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&c.hab!=='wueste'?{f:.8}:null},
-  polar:{icon:'🧊',noban:['arktis'],focus:c=>c.hab==='arktis',g:(b,c)=>c.cat==='gehege'&&c.hab==='arktis'?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&c.hab!=='arktis'?{f:.8}:null},
-  alpen:{icon:'⛰️',noban:['gebirge'],focus:c=>c.hab==='gebirge',g:(b,c)=>c.cat==='gehege'&&c.hab==='gebirge'?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&c.hab!=='gebirge'?{f:.8}:null},
-  show:{icon:'🎭',gone:1,noban:[],focus:c=>c.tags.includes('show'),g:(b,c)=>c.tags.includes('show')?{f:1.5}:null,m:(b,c)=>c.tags.includes('scheu')?{f:.5}:null},
-  nacht:{icon:'🌙',gone:1,noban:[],focus:c=>c.tags.includes('scheu'),g:(b,c)=>c.tags.includes('scheu')?{f:1.5}:null,m:()=>null},
-  artenschutz:{icon:'🩺',noban:['schutz'],focus:c=>c.tags.includes('bedroht'),g:(b,c)=>c.tags.includes('bedroht')?{f:1.5}:null,m:(b,c)=>c.cat==='attr'?{fa:.5}:null},
-  erlebnis:{icon:'💰',noban:[],focus:c=>c.cat==='attr'||c.cat==='essen',g:()=>null,m:()=>null},
-  bau:{icon:'🏗️',noban:[],focus:c=>c.cat==='gehege'&&cSize(c)>=3,g:()=>null,m:()=>null},
-  gross:{icon:'🐘',noban:[],focus:c=>c.cat==='gehege'&&cSize(c)>=3,g:(b,c)=>c.cat==='gehege'&&b.cells.length>=3?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{f:.5}:null},
-  klein:{icon:'🐭',noban:[],focus:c=>c.cat==='gehege'&&cSize(c)<=2,g:(b,c)=>c.cat==='gehege'&&b.cells.length<=2?{f:1.5}:null,m:(b,c)=>c.cat==='gehege'&&b.cells.length>=3?{f:.5}:null}};
 // 0.93: eine Bedingung je Zoo; ab Zoo 3 verschärft (ht = Text der verschärften Fassung), ab Zoo 5 zusätzlich Winterziel +10 %
 const INSP={frei:{name:'Keine Winter-Bedingung',icon:'☀️',text:'Im ersten Tutorial-Zoo gibt es noch keine Winter-Bedingung.',ht:'Im ersten Tutorial-Zoo gibt es noch keine Winter-Bedingung.',fx:()=>null},essen:{text:'Im Winter zählen Gastro-Gebäude selbst nicht. Ihre Boni für Nachbarn bleiben.',ht:'Im Winter zählen Gastro-Gebäude selbst nicht, ihre Boni für Nachbarn nur zur Hälfte.',fx:(b,c)=>c.cat==='essen'?{f:0}:null},
   attr:{text:'Im Winter zählen Attraktionen selbst nicht. Ihre Boni für Nachbarn zählen nur zur Hälfte.',ht:'Im Winter zählen Attraktionen selbst nicht, ihre Boni nur zur Hälfte. Gehege neben einer Attraktion verlieren 10 %.',fx:(b,c,nb,bs,Z)=>c.cat==='attr'?{f:0}:HARD(Z)&&c.cat==='gehege'&&nb.some(n=>isCat(n,'attr'))?{f:.9,l:'Attraktion daneben'}:null},

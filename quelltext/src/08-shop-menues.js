@@ -143,13 +143,6 @@ function mapPreviewSvg(m,mk){return withRot(false,()=>{const[x0,y0,x1,y1]=bbox(m
     if(hs&&!halfOk({side:hs,mid:halfMid(m.cells)},q,r))g+=`<polygon points="${hexPts(x,y,SZ*.93)}" fill="#0009" pointer-events="none"/>`;
     if(ek===k)g+=`<polygon points="${hexPts(x,y,SZ*.8)}" fill="#ffffff44" stroke="#fff" stroke-width="1.4"/><text x="${x}" y="${y}" font-size="7" text-anchor="middle" dominant-baseline="central">🚪</text>`}
   return`<svg viewBox="${x0-p} ${y0-p} ${x1-x0+2*p} ${y1-y0+2*p}" aria-hidden="true">${g}</svg>`})}
-function openMaps(back){mapsBack=back;mapPrev=Object.fromEntries(Object.keys(MAPS).map(k=>[k,genMap(k)]));modal='maps';renderAll()}
-function mapsHtml(){return`<h2>Wähle dein Gelände</h2><p>Jede Form spielt sich anders. Naturflächen und Felsen werden jedes Mal neu verteilt.</p>
-  <div class="rulebox"><b>🧪 Sonderregel zum Testen</b><div class="chips"><button class="chip2 ${pendRule?'':'on'}" data-rule="">Keine</button>${Object.keys(RULES).map(id=>`<button class="chip2 ${pendRule===id?'on':''}" data-rule="${id}">${RULES[id].icon} ${RULES[id].name}</button>`).join('')}</div>${pendRule?`<small>${pendRule==='rand'?'Ein zufälliger Lebensraum darf nur gebaut werden, wenn mindestens ein Feld am Rand liegt.':RULES[pendRule].text({})}</small>`:'<small>Erst Regel wählen, dann das Gelände antippen.</small>'}</div>
-  <div class="mapgrid">${Object.keys(MAPS).map(k=>`<button class="mapbtn" data-map="${k}">${mapPreviewSvg(mapPrev[k])}<span class="nm">${MAPS[k].icon} ${MAPS[k].name}</span><span class="tx">${MAPS[k].text}</span></button>`).join('')}
-  <button class="mapbtn rnd" data-map="rnd"><span class="dice">🎲</span><span class="nm">Zufällig</span><span class="tx">Lass dich überraschen.</span></button></div>
-  ${mapsBack?`<button class="btn sub" id="mMapsBack">Zurück</button>`:''}`}
-function chooseMap(k){const o=pendRule?{state:{rule:{id:pendRule}}}:{};pendRule=null;if(k==='rnd'){const ks=Object.keys(MAPS);k=ks[Math.floor(Math.random()*ks.length)];modal=null;newGame(k,undefined,o)}else{modal=null;newGame(k,mapPrev[k],o)}saveMeta();renderScreen()}
 
 /* ---------- tutorial slideshow ---------- */
 function tutSlides(){return withRot(false,()=>{
@@ -277,12 +270,12 @@ function helpHtml(){const rs=(()=>{try{const r=runOf();return r&&r.seed?r.seed:'
   <li><b>Winter:</b> Savannen- und Wüstengehege frieren (−1 B).</li></ul>
   <div class="habrow">${Object.values(HAB).map(h=>`<span><i style="background:${h.col}"></i>${h.icon} ${h.label}</span>`).join('')}</div>
   <div class="habrow">${['attr','essen','schutz'].map(k=>`<span><i style="background:var(--paper);border:3px solid ${CAT[k].col}"></i>${CAT[k].label}</span>`).join('')}</div>`:''}`}
-let zlLook=false,zlPick0=false,mapCssDone=false;
+let mapCssDone=false;
 // die Gelände-Stile gelten auch für die kleine Karte in der Profilwahl
 function mapCss(){if(mapCssDone)return;mapCssDone=true;try{for(const sh of document.styleSheets){let rs;try{rs=[...sh.cssRules]}catch(e){continue}for(const r of rs)if(r.selectorText&&r.selectorText.includes('#board'))sh.insertRule(r.cssText.replace(/#board/g,'.zlmap svg'),sh.cssRules.length)}}catch(e){}}
 let FSBACK=null;
 function renderModal(){try{return renderModal0()}catch(e){logErr('Fenster '+(modal||'-'),e);try{const root=$('modalRoot');root.innerHTML=`<div class="overlay"><div class="modal" role="dialog" aria-modal="true"><h2>⚠️ Fehler</h2><p>Dieses Fenster konnte nicht angezeigt werden (${String(e&&e.message||e).replace(/</g,'&lt;').slice(0,160)}).</p><p class="hint" style="color:var(--muted)">Bitte über das Menü „📋 Lauf kopieren“ an Claude schicken, der Fehler steht dort.</p><button class="btn sub" id="mErrCopy">📋 Lauf kopieren</button><button class="btn main" id="mErrClose">Schließen</button></div></div>`;$('mErrCopy').onclick=()=>{try{const r=runOf();copyTxt(r?runText(r):errTxt(),$('mErrCopy'))}catch(e5){}};$('mErrClose').onclick=()=>{modal=null;try{renderAll()}catch(e2){root.innerHTML=''}}}catch(e4){}}}
-function renderModal0(){zlPick0=false;const root=$('modalRoot'),se=state?seOf(state.season):null,inGame=!!state&&!screen;let h='',wide=false;
+function renderModal0(){const root=$('modalRoot'),se=state?seOf(state.season):null,inGame=!!state&&!screen;let h='',wide=false;
   if((!modal||modal==='zoo')&&inGame&&state.mode==='camp'&&state.phase==='play'){const r=runOf();if(r&&r.fsIntro){FSBACK=modal;modal='fsIntro'}}
   if(modal==='fsIntro'&&inGame){const r=runOf(),sl=activeSlot();h=`<h2>🔓 Freischalt-Ziele für diesen Lauf</h2><p style="margin:0">In diesem Lauf kannst du diese ${r.fsPick.length} Dinge freischalten. Andere Ziele kommen in späteren Läufen dran. Nach jedem Zoo siehst du deinen Stand.</p>${fsRunHtml(r,sl)}<button class="btn main big" id="mFsIntroOk">Los geht's</button>`}
   else if(modal==='help')h=helpHtml();else if(modal==='traits')h=traitsMapHtml();
@@ -292,14 +285,10 @@ function renderModal0(){zlPick0=false;const root=$('modalRoot'),se=state?seOf(st
   else if(modal==='inspPick'&&inGame&&state.zl){h=`<h2>❄️ Der Winter kommt: Wähle die Winter-Bedingung</h2><p style="margin:0">Eine der beiden gilt für den ganzen Winter. Schau dir deinen Zoo an und entscheide.</p><div class="zboxes">${state.zl.inspOpts.map(i=>{const zz={...state.zl,insp:i};if(i==='hab')zz.inspHabs=habTop(state.buildings);return`<div class="zbox zi2"><span class="zi">${inspIcon(zz)}</span><div><b>${INSP[i].name}</b><span>${inspText(zz)}</span><button class="btn main" data-ipick="${i}" style="margin-top:8px;display:block">Diese nehmen</button></div></div>`}).join('')}</div>`}
   else if(modal==='wetter'&&inGame&&state.zl){const Z=state.zl,O=Z.inspOpts&&!Z.inspPicked?Z.inspOpts:[Z.insp];h=`<h2>❄️ Wetterbericht</h2><p style="margin:0">Der Herbst beginnt. ${O.length>1?'Für den Winter sind zwei Bedingungen angesagt, eine davon wählst du zum Winterbeginn:':'Für den Winter ist angesagt:'}</p><div class="zboxes">${O.map(i=>{const zz={...Z,insp:i};return`<div class="zbox zi2"><span class="zi">${inspIcon(zz)}</span><div><b>${INSP[i].name}</b><span>${inspText(zz)}</span></div></div>`}).join('')}</div><p style="margin:0;color:var(--muted);font-size:13px">Du hast den ganzen Herbst, um dich vorzubereiten. Die Bedingung steht ab jetzt auch im Zoo-Fenster.</p>${wSwapBtn()}<button class="btn main" id="mClose">Verstanden</button>`}
   else if(modal==='insp'&&inGame&&state.zl){h=`<h2>${inspIcon(state.zl)} Winter-Bedingung</h2><div class="zboxes"><div class="zbox zi2"><span class="zi">${inspIcon(state.zl)}</span><div><b>${INSP[state.zl.insp].name}</b><span>${inspText(state.zl)}</span></div></div></div>${wSwapBtn()}<button class="btn main" id="mClose">Verstanden</button>`}
-  else if(inGame&&state.zl&&!state.zl.prof&&state.phase==='play'&&!modal&&zlLook){root.innerHTML=`<div class="overlay zlook"><button class="btn main" id="mLookBack">⬅ Zurück zur Profilwahl</button></div>`;$('mLookBack').onclick=()=>{zlLook=false;Sfx.select();render()};return}
-  else if(inGame&&state.zl&&!state.zl.prof&&state.phase==='play'&&!modal){h=zlProfHtml();wide=true;zlPick0=true}
-  else if(modal==='maps'){h=mapsHtml();wide=true}
   else if(modal==='tut'){const sl=tutSlides(),i=Math.max(0,Math.min(tutIdx,sl.length-1)),S=sl[i];
     h=`<div class="tut"><div class="tuthead"><span>Tutorial · ${i+1} / ${sl.length}</span><button class="icbtn" id="mClose" aria-label="Tutorial schließen">✕</button></div>${S.svg}<h2>${S.title}</h2><p>${S.text}</p>
       <div class="dotsnav">${sl.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join('')}</div>
       <div class="shopbar"><button class="btn sub" id="tPrev" ${i?'':'disabled'}>‹ Zurück</button><button class="btn main" id="tNext">${i<sl.length-1?'Weiter ›':'Los geht’s'}</button></div></div>`}
-  else if(modal==='tutsolo')h=`<h2>🎓 Ab jetzt spielst du allein!</h2><p>Sommer und Herbst gehören dir. Das Saisonziel steht oben im Balken, die Regeln dieses Zoos findest du jederzeit unter „Zoo 1 ▾“.</p><p>Im Winter melde ich mich noch einmal kurz.</p><div class="shopbar"><button class="btn main" id="mClose">Los geht’s</button></div>`
   else if(modal==='restart')h=state.mode==='camp'?`<h2>Lauf beenden?</h2><p>Der Zoolatro-Lauf endet hier und kommt mit ${state.zoo} geschafften Zoo${state.zoo===1?'':'s'} in die Bestenliste.</p><div class="shopbar"><button class="btn sub" id="mClose">Abbrechen</button><button class="btn main" id="mRestartYes">Ja, Lauf beenden</button></div>`
     :`<h2>Neues Spiel starten?</h2><p>Dein aktueller Zoo, dein Deck und deine Kasse gehen verloren.</p><div class="shopbar"><button class="btn sub" id="mClose">Abbrechen</button><button class="btn main" id="mRestartYes">Ja, neu starten</button></div>`;
   else if(modal==='deck')h=`<h2>Dein Deck</h2><h3 class="stk">📥 Nachziehstapel <i>${state.deck.length}</i></h3>${state.deck.length?deckRows(state.deck,()=>''):'<div class="pile"><em>leer</em></div>'}
@@ -316,14 +305,13 @@ function renderModal0(){zlPick0=false;const root=$('modalRoot'),se=state?seOf(st
     if(!state.z2bornSnd){state.z2bornSnd=1;Sfx.combo()}const nB=state.z2born.length;
     h=`<div class="wconf" aria-hidden="true">${conf}</div><h2>🍼 Nachwuchs!</h2><p style="margin:0">${nB>1?'Zwei Zuchtpaare haben':'Ein Zuchtpaar hat'} Nachwuchs bekommen. ${nB>1?'Die Jungtiere kommen':'Das Jungtier kommt'} in dein Lauf-Deck.</p><div class="bornrow">${state.z2born.map(k=>{const c=CARDS[k];return`<div class="milecard"><span class="ic">${ic(c)}</span><span class="nm">${c.name}</span><span style="font-size:12px;font-weight:600;color:#5d6b60">Jungtier · ${costOf(k)} BP</span><span class="vals3"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(k)}</span>${fxHtml(c)}</div>`}).join('')}</div><p class="hint" style="margin:0">💞 Zucht: zwei gleiche Gehege nebeneinander, eines davon mindestens Stufe II, am Ende einer gewonnenen Jahreszeit. Höchstens 3 Jungtiere im Deck.</p><button class="btn main big" id="mBornOk">Willkommen!</button>`}
   else if(inGame&&state.phase==='win'&&gRun()){h=`<div class="fliv"><div class="fheart">🧑‍💼</div><h2 style="color:var(--gold)">Sie haben es geschafft!</h2><p style="margin:0;text-align:left">„Fantastisch, der Zoo sieht wirklich super aus! Ich sehe schon, Sie lernen schnell. Lassen Sie uns weiterziehen, ich bringe Ihnen die nächste Stufe einer erfolgreichen Zooplanung bei.“ – Jasper</p><p class="hint" style="margin:0;text-align:left">Der zweite Tutorial-Zoo kommt mit einem der nächsten Updates. Bis dahin kann ein echter Lauf starten.</p><button class="btn main big" data-gend="1">🎓 Tutorial abschließen</button></div>`}
-  else if(false){h=`<div class="fliv"><div class="fheart">🎓</div><h2 style="color:var(--gold)">Tutorial geschafft!</h2><p style="margin:0;text-align:left">Du kennst jetzt die Grundlagen. Im echten Lauf geht es weiter:</p><ul style="margin:0;text-align:left;padding-left:20px"><li><b>Herbst</b> und <b>Winter</b> folgen, der Winter ist der „Boss“ jedes Zoos mit einer eigenen Bedingung, angekündigt im Herbst.</li><li>Im <b>Shop</b> gibt es Bewerbermappen für <b>Spezialisten</b>, die deinen ganzen Lauf verstärken.</li><li>Jeder <b>Lebensraum</b> hat eine eigene Regel, z. B. Savanne: Herde (im Tutorial waren sie aus).</li><li>🌟 <b>Besucherwünsche</b> geben Belohnungen, wenn du sie erfüllst.</li><li>Im Shop gibt es außerdem die 🧰 <b>Umbau-Kiste</b> mit einmaligen Umbauten.</li><li>Neue Dinge erklären dir kleine <b>Hinweise</b>, sobald sie zum ersten Mal auftauchen.</li></ul><button class="btn main big" data-gend="1">🎓 Tutorial abschließen</button></div>`}
   else if(inGame&&state.phase==='seasonWon'){const nx=seOf(state.season+1);
     h=`<h2>${se.name} geschafft${state.day<DAYS-1?` an Tag ${state.day+1}`:''}!</h2><div class="bigscore">${fmt(state.seasonScore)}</div><p>Ziel war ${fmt(se.target)}.${state.earlyBonus&&!state.earlyR?` Früh fertig: <b>+🪙 ${state.earlyBonus}</b> für ${state.earlyBonus/EARLY_BONUS} übrige Tag${state.earlyBonus/EARLY_BONUS>1?'e':''}${state.earlyInfo||''}.`:''} In der Kasse: 🪙 ${fmt(state.money)}. Nach deinen neuen Karten geht es in den Shop. Im ${nx.name} brauchst du <b>${fmt(nx.target)}</b> Punkte.</p>${earlyBoxHtml()}${bestHtml()}${evLine(state.eventsNext,'im '+nx.name)}<button class="btn main" id="mNext">Weiter</button>`}
   else if(inGame&&state.phase==='lost')h=`<h2>Saisonziel verfehlt</h2><div class="bigscore">${fmt(state.seasonScore)} / ${fmt(se.target)}</div><p>Der ${se.name} war zu ruhig. Gesamtpunkte: <b>${fmt(state.totalScore)}</b>. ${state.mode==='camp'?`Dein Lauf endet in Zoo ${state.zoo+1} und kommt in die Zoolatro-Bestenliste.`:'Dein Ergebnis kommt in die Highscore-Liste, und du darfst eine Karte dauerhaft verbessern.'}</p><button class="btn main" id="mFinish">Weiter zur Zusammenfassung</button>`;
   else if(inGame&&state.phase==='win'&&!state.fliv)h=flivHtml();
   else if(inGame&&state.phase==='win')h=state.mode==='camp'?`<h2>Zoo ${state.zoo+1} geschafft!</h2><div class="bigscore">${fmt(state.totalScore)}</div><p>Alle vier Jahreszeiten geschafft. Jetzt geht es zu den Belohnungen: eine Verbesserung, neue Karten (die erste gratis, weitere aus der Zoo-Kasse mit deinen 🪙 ${fmt(Math.max(0,state.money))} übrigen Talern) und ein Spezialist.</p>${bestHtml()}<button class="btn main" id="mFinish">Weiter zur Belohnung</button>`
     :`<h2>Dein Zoo hat das Jahr geschafft!</h2><div class="bigscore">${fmt(state.totalScore)}</div><p>Alle vier Jahreszeiten geschafft. Dein Ergebnis kommt in die Highscore-Liste, und du darfst eine Karte dauerhaft verbessern.</p><button class="btn main" id="mFinish">Weiter zur Zusammenfassung</button>`;
-  root.innerHTML=h?`<div class="overlay"><div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true">${modal==='tutsolo'?'':guideHtml()}${h}</div></div>`:'';
+  root.innerHTML=h?`<div class="overlay"><div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true">${guideHtml()}${h}</div></div>`:'';
   root.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>pick(+b.dataset.pick));
   root.querySelectorAll('[data-iswap]').forEach(b=>b.onclick=()=>wSwap());root.querySelectorAll('[data-ipick]').forEach(b=>b.onclick=()=>{Sfx.select();zlInspPick(b.dataset.ipick)});
   root.querySelectorAll('[data-skip]').forEach(b=>b.onclick=()=>pick(null));
@@ -361,7 +349,7 @@ function renderModal0(){zlPick0=false;const root=$('modalRoot'),se=state?seOf(st
   const msd=$('mSeed');if(msd)msd.onclick=()=>{try{navigator.clipboard.writeText(runOf().seed);msd.textContent='Kopiert ✓'}catch(e){}};
   const cl=$('mClose');if(cl)cl.onclick=()=>{const gh=state&&gRun()?guideHint():null;if(gh&&gh.go)gRun().guide.seen[gh.id]=1;modal=null;renderAll()};
   const rs=$('mRestart');if(rs)rs.onclick=()=>{if(state&&gRun()){modal=null;guideEnd(false);return}if(state&&state.mode==='tut'){exitTut(false);return}modal='restart';render()};
-  const ry=$('mRestartYes');if(ry)ry.onclick=()=>{if(state.mode==='camp'){state.phase='lost';finishGame()}else openMaps(false)};
+  const ry=$('mRestartYes');if(ry)ry.onclick=()=>{state.phase='lost';finishGame()};
   root.querySelectorAll('[data-mute]').forEach(b=>b.onclick=()=>{Sfx.muted=b.dataset.mute==='1';try{localStorage.setItem('zoodeck-muted',Sfx.muted?'1':'0')}catch(e){}if(!Sfx.muted){Sfx.init();Sfx.select()}render()});
   root.querySelectorAll('[data-nbm]').forEach(b=>b.onclick=()=>{META.oldBoard=+b.dataset.nbm;saveMeta();Sfx.select();render()});
   root.querySelectorAll('[data-pwm]').forEach(b=>b.onclick=()=>{META.fxPow=b.dataset.pwm;saveMeta();Sfx.select();renderModal()});
@@ -369,19 +357,14 @@ function renderModal0(){zlPick0=false;const root=$('modalRoot'),se=state?seOf(st
   root.querySelectorAll('[data-vtm]').forEach(b=>b.onclick=()=>{META.testVerst=!!+b.dataset.vtm;saveMeta();Sfx.select();renderModal()});
   root.querySelectorAll('[data-scf]').forEach(b=>b.onclick=()=>{SCFAST=+b.dataset.scf;try{localStorage.setItem('zoodeck-fast',SCFAST)}catch(e){}Sfx.select();renderModal()});
   root.querySelectorAll('[data-pan]').forEach(b=>b.onclick=()=>{PANSPEED=+b.dataset.pan;try{localStorage.setItem('zoodeck-pan',PANSPEED)}catch(e){}Sfx.select();renderModal()});
-  root.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>chooseMap(b.dataset.map));
-  root.querySelectorAll('[data-zprof]').forEach(b=>b.onclick=()=>{zlLook=false;zlPick(b.dataset.zprof)});
-  {const zb=root.querySelector('#zlBack');if(zb)zb.onclick=()=>{zlLook=false;zlBack()}}
-  document.body.classList.toggle('zlpick',zlPick0);
+  {const zb=root.querySelector('#zlBack');if(zb)zb.onclick=()=>{zlBack()}}
   {const zm=$('zlMap'),bd=$b();if(zm&&bd){mapCss();const sv=bd.cloneNode(true);sv.removeAttribute('id');sv.setAttribute('viewBox',VB.join(' '));sv.querySelectorAll('[id]').forEach(e=>{if(e.tagName!=='pattern')e.removeAttribute('id')});zm.appendChild(sv)}}
   {const pk=$('mPeek');if(pk)pk.onclick=()=>zlPeek()}
   {const fl=$('mFliv');if(fl)fl.onclick=()=>{state.fliv=true;Sfx.select();render()}}
-  root.querySelectorAll('[data-rule]').forEach(b=>b.onclick=()=>{pendRule=b.dataset.rule||null;Sfx.select();renderAll()});
   {const a=$('mTraits');if(a)a.onclick=()=>{modal='traits';Sfx.select();render()};{const nw=$('mNews');if(nw)nw.onclick=()=>{Sfx.select();showNews()}}document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{META.view=b.dataset.view;saveMeta();Sfx.select();applyView();render();setTimeout(()=>{try{railRender()}catch(e){}},0)});const z=$('mTrBack');if(z)z.onclick=()=>{modal='help';Sfx.select();render()}}const mt=$('mTut');if(mt)mt.onclick=()=>{tutIdx=0;modal='tut';render()};
   const tp=$('tPrev');if(tp)tp.onclick=()=>{tutIdx--;renderAll()};
   const tn=$('tNext');if(tn)tn.onclick=()=>{if(tutIdx>=tutSlides().length-1){modal=null;tutIdx=0}else tutIdx++;renderAll()};
   const nx=$('mNext');if(nx)nx.onclick=()=>{state.pendingSeason=true;nextDraft()};
-  const mb=$('mMapsBack');if(mb)mb.onclick=()=>{modal=null;if(!state){screen='mode';screenArg={slot:META.active}}renderAll()};
   const fi=$('mFinish');if(fi)fi.onclick=finishGame;
   const ho=$('mHome');if(ho)ho.onclick=()=>{if(state&&state.mode==='tut'){exitTut(false);screen='title';renderAll();return}saveMeta();modal=null;screen='title';renderAll()}}
 
@@ -389,8 +372,9 @@ function renderModal0(){zlPick0=false;const root=$('modalRoot'),se=state?seOf(st
 const SAVE_KEY='zoodeck-save-v1';
 let META={slots:[null,null,null],active:null,lastSlot:null,scores:[]},screen=null,screenArg={},saveT=0;
 function loadMeta(){try{const raw=localStorage.getItem(SAVE_KEY);if(raw){const m=JSON.parse(raw);if(m&&Array.isArray(m.slots)&&m.slots.length===3)META=Object.assign({scores:[],cscores:[]},m)}}catch(e){}
-  // Kampagnen-Modus gibt es nicht mehr: alte Kampagnen-Läufe verwerfen, Zoolatro-Läufe behalten
-  for(const sl of META.slots){if(!sl)continue;const rs=[sl.run,sl.runAlt].filter(r=>r&&r.zl);sl.run=rs[0]||null;sl.runAlt=rs[1]||null}}
+  // 0.73a: nur noch Zoolatro (2.0): alte Kampagnen-, Zoolatro-1- und Freies-Spiel-Stände verwerfen, Verbesserungen und Freischaltungen bleiben
+  for(const sl of META.slots){if(!sl)continue;const rs=[sl.run,sl.runAlt].filter(r=>r&&r.z2);sl.run=rs[0]||null;sl.runAlt=rs[1]||null;sl.game=null}
+  if(META.lastMode&&META.lastMode!=='camp')META.lastMode=null}
 function saveMeta(){try{const sl=activeSlot();if(sl&&state&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}localStorage.setItem(SAVE_KEY,JSON.stringify(META))}catch(e){}}
 function saveSoon(){clearTimeout(saveT);saveT=setTimeout(saveMeta,400)}
 const activeSlot=()=>META.active!=null?META.slots[META.active]:null;
@@ -429,7 +413,7 @@ function z2Breed(){state.z2born=[];const sl=activeSlot(),run=sl&&sl.run;if(!run|
   state.z2born=born;state.z2bornSeen=!born.length;state.z2bornSnd=0;return born}
 // Stress-Felder: solange eine passende Karte gewählt ist, Felder im Umkreis von 2 um mögliche Störer bzw. Gestresste markieren (nur Reichweite, keine Bewertung)
 function strzMarks(sc,idx){if(!sc||state.phase!=='play'||(TUTNOW&&!TUTTR))return'';const t=(c,x)=>(c.tags||[]).includes(x),food=c=>(c.cat==='essen'||c.cat==='attr')&&!ruhigC(c),vs=new Set(state.buildings.map(b=>b.key));
-  const jOff=hasSpec('dompteur')||hasSpec('rb_jagd')||hasSpec('frieden'),tOff=vs.has('ruhezone')||(CTX.zl&&CTX.zl.prof==='nacht')||hasSpec('rb_party')||hasSpec('ruhepol'),src=[];
+  const jOff=hasSpec('dompteur')||hasSpec('rb_jagd')||hasSpec('frieden'),tOff=vs.has('ruhezone')||hasSpec('rb_party')||hasSpec('ruhepol'),src=[];
   if(!jOff){if(t(sc,'beute'))src.push([c=>t(c,'raubtier'),'🦷']);if(t(sc,'raubtier'))src.push([c=>t(c,'beute'),'🦷'])}
   if(!tOff){if(t(sc,'scheu'))src.push([food,'🙈']);if(food(sc))src.push([c=>t(c,'scheu'),'🙈'])}
   if(!src.length)return'';const n=new Map(),ic=new Map(),bk=new Set(BOARD.map(([q,r])=>hk(q,r)));

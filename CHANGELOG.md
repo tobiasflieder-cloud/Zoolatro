@@ -5,6 +5,10 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.73a · 08.11.2026 · Aufgeräumt
+- 🧹 Aufgeräumt: Die alten Modi „Freies Spiel“ und „Zoolatro-Modus“ (Zoolatro 1) sind entfernt, ebenso die längst abgeschalteten Zoo-Profile und alte Tutorial-Teile. Angefangene Läufe dieser alten Modi werden verworfen, Ihre Verbesserungen und Freischaltungen bleiben.
+- Am Spiel selbst ändert sich nichts: Zoolatro und das Tutorial spielen sich genau wie vorher.
+
 ## 0.72a · 08.11.2026 · Goldfelder ×4, Regeln genauer erklärt
 - ★ Goldene Felder und ✨ Schimmernd multiplizieren sich jetzt: Schimmernd auf einem Goldfeld oder ein Gehege auf zwei Goldfeldern zählt ×4 (bisher ×3).
 - 📖 Lebensraum-Regeln genauer erklärt: Bei Wasser, Gebirge und Arktis zählt bei einem Verstoß die ganze Gruppe nur ×0,5. Ein einzelnes Wasser-Gehege bleibt bei ×1.

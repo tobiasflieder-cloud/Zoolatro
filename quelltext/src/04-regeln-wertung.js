@@ -54,7 +54,6 @@ const foodOnRun=r=>!!r&&!!r.zl&&(!r.tut||(typeof state!=='undefined'&&state&&sta
 function foodOn(){try{return foodOnRun(runOf())&&!!state&&state.mode==='camp'}catch(e){return false}}
 function foodLvNow(){try{const r=runOf();return foodOnRun(r)?(r.fdl||{}):{}}catch(e){return{}}}
 const fdTeam=id=>{try{return(state&&state.spec||[]).includes(id)}catch(e){return false}};
-const fdMax=()=>fdTeam('futtermeister')?3:2; // alt, nur noch Rückfall
 // 0.71a: Futterplätze nach Seltenheit: gewöhnlich 1, selten 2, sehr selten 3; Futtermeister +1
 const fdMaxK=k=>{const c=CARDS[k];const r=c&&c.rar;return(r==='sehr selten'?3:r==='selten'?2:1)+(fdTeam('futtermeister')?1:0)};
 const fdSlotsHtml=k=>{try{const c=CARDS[k];if(!c||c.cat!=='gehege'||c.ms||!foodOn())return'';const n=fdOf(k).length,m=fdMaxK(k),fr=Math.max(0,m-n);return`<span class="fdslot${fr?'':' full'}" title="Futterplätze">🍽️ ${n}/${m}${fr?` · ${fr} frei`:' · voll'}</span>`}catch(e){return''}};
@@ -99,7 +98,7 @@ Object.assign(SPEC,{
   rb_party:{name:'Partyzoo',icon:'🎉',tier:3,rb:1,fx:['+30 %|statt Stress: scheue Tiere +30 % B und N je benachbartes Gastro-Gebäude oder Attraktion (höchstens +60 %)']},
   rb_winter:{name:'Winterfest',icon:'🧣',tier:3,rb:1,fx:['kein Frost|für Savanne und Wüste im Winter','halb|so stark wirken die Nachteile der Winter-Bedingung','×3,75|statt ×2,5 für jeden König beim Schneekönig']},
   rb_leicht:{name:'Leichtbauer',icon:'🏗️',tier:3,rb:1,fx:['0 BP|kosten Karten mit 1 Feld, höchstens 2 pro Tag']}});
-let PURN=6;const CROWNF=1.3;
+const PURN=4,CROWNF=1.3; // Reinheit ab 4 verschiedenen Arten (vorher hier 6, syncCtx setzte 4)
 // Vielfalt: je Lebensraum mit mindestens 2 verschiedenen Gehege-Arten ×1,05 Natur (es gilt Vielfalt oder Reinheit, das Bessere)
 function vielfalt(bs){const H=(CTX&&CTX.habs)||DEFHABS,m={};for(const h of H)m[h]=new Set();for(const b of bs){const c=K(b);if(c.cat!=='gehege'||!c.hab||!m[c.hab])continue;m[c.hab].add(spK(b.key))}const per=H.map(h=>m[h].size),lvl=Math.min(5,Math.min(...per));return{lvl,per,habs:H,f:lvl>=2?1+.05*lvl:1}}
 const vfTxt=v=>v.habs.map((h,i)=>HAB[h].icon+v.per[i]).join(' ');
@@ -120,8 +119,6 @@ const DECKRULE={grund:'＋ 2 Gratis-Neuziehen pro Jahreszeit statt 1. Keine Kehr
   forscher:'＋ Meilensteine brauchen 1 verschiedene Art weniger. － Zwischen den Zoos 1 Karte weniger zur Auswahl.',
   polar:'＋ Winterziel −15 %, Arktis-Gehege sind von der Winter-Bedingung ausgenommen. － Sommerziel +15 %.',
   alpen:'＋ Jedes Gehege bekommt +1 B je benachbarten Felsen (höchstens +2). － 3 Felsen mehr auf dem Gelände.'};
-// 0.90: zum Deck passendes Profil wird nicht angeboten (Artenschutzzentrum immer erlaubt)
-const DECKPROF={kueste:'aqua',steppe:'safari',dschungel:'dschungel',oase:'wuestenzoo',polar:'polar',alpen:'alpen',freizeit:'freizeit',geniesser:'erlebnis',forscher:'natur'};
 const runDeck=()=>{try{const r=runOf();return r&&r.zl&&!r.tut?r.deckId||'grund':''}catch(e){return''}};
 const maxSpec=()=>MAXSPEC+(runDeck()==='freizeit'?1:0)+(runAus('team')?1:0);
 const dkNow=()=>{try{if(typeof state==='undefined'||!state||state.mode!=='camp')return'';const sl=activeSlot(),r=sl&&sl.run;return r&&r.zl&&!r.tut?r.deckId||'grund':''}catch(e){return''}};
@@ -252,9 +249,9 @@ const natCells=(cells,hab)=>hab?cnt(cells,([q,r])=>TERR.get(hk(q,r))===hab):0;
 const upStep=b=>Math.ceil(b.cells.length/2); // Ausbau: +1 B und +1 N je angefangene 2 Felder
 // Mehrfach gebaut und ausgebaut: Anteil am eigenen Wert (Grundwert plus die Boni, die es selbst bekommt), seit 0.61a
 const DUPW=[1,.75,.25],LVLW=[0,0,.75,1.25]; // 0.61a: Ausbau +75 % / +50 % des eigenen Werts
-const dupW=n=>hasSpec('rb_klon')||(n===1&&hasSpec('zwilling'))?1:(n===1&&CTX.zl&&CTX.zl.prof==='stadt'&&!CTX.zl.fix)?.5:DUPW[Math.min(n,2)];
+const dupW=n=>hasSpec('rb_klon')||(n===1&&hasSpec('zwilling'))?1:DUPW[Math.min(n,2)];
 const dupOf=(b,bs)=>{let n=0;for(const x of bs){if(x===b)break;if(x.key===b.key)n++}return n};
-const STRESS=.3,STRZ0=.05,STRMAX=.4;let STRZ=STRZ0;const strzNow=()=>CTX&&CTX.zl&&CTX.zl.prof==='ruhe'&&!CTX.zl.fix?STRZ0*2:STRZ0; // Show-Bonus je Auslöser; Stress: −5 % Natur für den ganzen Zoo je Störer, höchstens −40 %
+const STRESS=.3,STRZ0=.05,STRMAX=.4;let STRZ=STRZ0;const strzNow=()=>STRZ0; // Show-Bonus je Auslöser; Stress: −5 % Natur für den ganzen Zoo je Störer, höchstens −40 %
 // value of one building, with a labelled breakdown
 function evalB(b,bs,idx,parts){const c=K(b),nb=nbrs(b,idx);let a=c.a,s=c.s,stN=0;if((c.cat==='attr'||c.cat==='essen')&&hasSpec('quer')){const t=a;a=s;s=t}const vs=new Set(nb.filter(n=>K(n).cat==='verst').map(n=>n.key)),wq=vs.has('winterquartier');
   const add=(label,da,ds)=>{da=da||0;ds=ds||0;if(!da&&!ds)return;a+=da;s+=ds;if(parts)parts.push({label,a:da,s:ds})};
@@ -278,8 +275,7 @@ function evalB(b,bs,idx,parts){const c=K(b),nb=nbrs(b,idx);let a=c.a,s=c.s,stN=0
   const pa0=Math.max(0,a),ps0=Math.max(0,s);for(const[nm,fa,fs]of pct)add(`${nm} +${Math.round(Math.max(fa,fs)*100)} %`,Math.round(pa0*fa),Math.round(ps0*fs));
   // Wiederholung: die 2. gleiche Anlage bringt 75 %, die 3. 50 %, ab der 4. 25 % (Besucher und Natur)
   if(b.pr==='liebling'){const z=(CTX.zoo||0)+1;add('📈 Lieblingstier',z,z)}
-  if(CTX.zl){const Z=CTX.zl,P=ZPROF[Z.prof],fac=(label,e)=>{if(!e)return;if(e.a||e.s)add(label,e.a,e.s);const fa=e.fa!=null?e.fa:e.f,fs=e.fs!=null?e.fs:e.f;if(fa!=null||fs!=null)add(label,fa!=null&&a>0?Math.round(a*fa)-a:0,fs!=null&&s>0?Math.round(s*fs)-s:0)};
-    if(P){fac(P.name,P.g(b,c));if(!Z.fix)fac(P.name+' (Nachteil)',P.m(b,c))}
+  if(CTX.zl){const Z=CTX.zl;
     {const mul=(l,f)=>{const a0=Math.max(0,a),s0=Math.max(0,s);add(l,a0*(f-1),s0*(f-1))};{const es=edN(b,'s');if(es)mul(es>1?`✨ Schimmernd ×${es}: zählt ${es+1}-fach`:'✨ Schimmernd: zählt doppelt',es+1)}for(const[q,r]of b.cells){if(Z.gold.has(hk(q,r)))mul('★ Goldenes Feld: zählt doppelt',2);if(Z.g4&&Z.g4.has(hk(q,r)))mul('💥 ×4-Feld: zählt vierfach',4)}} // 0.72a: Schimmernd und Goldfelder multiplizieren (×2 · ×2 = ×4)
     if(Z.insp&&CTX.winter&&!CTX.ni&&!wq&&!(CTX.dk==='polar'&&c.cat==='gehege'&&c.hab==='arktis')){const I=INSP[Z.insp],e=inspFx(b,c,nb,bs,Z);if(e){const L='❄️ '+I.name;if(e.a)add(L,e.a,0);else if(e.fa!=null)add(L+(e.l?': '+e.l:''),a>0?Math.round(a*e.fa)-a:0,e.fs!=null&&s>0?Math.round(s*e.fs)-s:0);else if(e.fs!=null)add(L+(e.fs===.5?': nur halbe Natur':e.fs===0?': keine Natur':`: Natur ×${String(e.fs).replace('.',',')}`),0,s>0?Math.round(s*e.fs)-s:0);else if(e.f===0)add(L+': zählt nicht',-a,-s);else if(e.f<1)add(L+(e.l?`: ${e.l}, −${Math.round((1-e.f)*100)} %`:e.f===.5?': nur die Hälfte':`: nur ${Math.round(e.f*100)} %`),a>0?Math.round(a*e.f)-a:0,s>0?Math.round(s*e.f)-s:0);else add(L+(e.f===2?': zählt doppelt':`: zählt ${String(e.f).replace(".",",")}-fach`),Math.round(Math.max(0,a)*(e.f-1)),Math.round(Math.max(0,s)*(e.f-1)))}}}
   if(c.jt&&(nb.some(n=>String(n.key).split(/[#^]/)[0]===c.par)||fdHas(b,'mi')))add((fdHas(b,'mi')&&!nb.some(n=>String(n.key).split(/[#^]/)[0]===c.par)?'🍼 Aufzuchtmilch: ':'🍼 ')+'Familie: zählt doppelt',Math.max(0,a),Math.max(0,s));
@@ -287,11 +283,9 @@ function evalB(b,bs,idx,parts){const c=K(b),nb=nbrs(b,idx);let a=c.a,s=c.s,stN=0
   {const F=fdOf(b.key);if(F.length){let m=1;const l=[];for(const f of['fr','wm','kb','wv'])if(F.includes(f)&&CTX.season===FOOD[f].se){m*=1.5;l.push(FOOD[f].icon+' '+FOOD[f].name)}if(F.includes('gh')){m*=1.5;l.push('✨ Goldhafer')}if(m>1)add(`${l.join(' + ')}: ×${mxs(m)}`,a>0?Math.round(a*(m-1)):0,s>0?Math.round(s*(m-1)):0)}}
   if(vs.has('scheinwerfer')&&c.cat==='gehege'&&nb.some(n=>n.key==='scheinwerfer'&&spotOf(n,idx)===b))add('🔦 Scheinwerfer: ×1,5',a>0?Math.round(a*.5):0,s>0?Math.round(s*.5):0);
   // Stress und Show (ganz am Ende): Stress (Beute neben Raubtier, scheu neben Essen/Attraktion außer Picknick/Restaurant) zählt Störer (max. 2) für den Zoo-Multiplikator −5 % N je Störer (max. −40 %, in scoreZoo0); Showtier neben Essen/Attraktion: +30 % je, höchstens +60 %, Trubel-Nachbarn und Tribünen zählen doppelt (zusammen höchstens +120 %, Bühne/Manege verdoppeln); Tierarzt daneben hebt den Stress auf
-  if(!(TUTNOW&&!TUTTR)){const vet=fdHas(b,'kr')||nb.some(n=>n.key==='tierarzt')||(c.tags.includes('scheu')&&nb.some(n=>n.key==='regenkuppel'))||(c.key==='antilopen'&&nb.some(n=>isCat(n,'schutz')))||(c.hab==='gebirge'&&c.tags.includes('scheu')&&nb.some(n=>n.key==='bergwacht')),n2=!vet&&(c.tags.includes('beute')||c.tags.includes('scheu'))?nbrs2(b,idx):[],pr=!vet&&c.tags.includes('beute')&&!hasSpec('dompteur')&&!hasSpec('frieden')?cnt(n2,n=>has(n,'raubtier')&&!fdHas(n,'kn'))*(hasEv('ausbruch')?2:1):0,sc=!vet&&!vs.has('ruhezone')&&!hasSpec('ruhepol')&&!(CTX.zl&&CTX.zl.prof==='nacht')&&c.tags.includes('scheu')?cnt(CTX.dk==='dschungel'?nb:n2,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0,jg=hasSpec('rb_jagd'),py=hasSpec('rb_party'),pp=Math.min(2,(jg&&c.tags.includes('beute')?cnt(nb,n=>has(n,'raubtier')):0)+(py&&c.tags.includes('scheu')?cnt(nb,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0)),pr1=jg?0:pr,sc1=py?0:sc,st=Math.min(1,pr1+sc1),sh=c.tags.includes('show')&&!(CTX.zl&&CTX.zl.prof==='nacht'&&!CTX.zl.fix)?Math.min(4,Math.min(2,cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n)&&!trubelC(n))+(vs.has('buehne')?1:0)+(c.hab==='savanne'&&nb.some(n=>n.key==='bistro')?2:0))+2*(cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&trubelC(n))+cnt(nbrs2(b,idx),n=>n.key==='tribuene'&&!nb.includes(n)))):0;
+  if(!(TUTNOW&&!TUTTR)){const vet=fdHas(b,'kr')||nb.some(n=>n.key==='tierarzt')||(c.tags.includes('scheu')&&nb.some(n=>n.key==='regenkuppel'))||(c.key==='antilopen'&&nb.some(n=>isCat(n,'schutz')))||(c.hab==='gebirge'&&c.tags.includes('scheu')&&nb.some(n=>n.key==='bergwacht')),n2=!vet&&(c.tags.includes('beute')||c.tags.includes('scheu'))?nbrs2(b,idx):[],pr=!vet&&c.tags.includes('beute')&&!hasSpec('dompteur')&&!hasSpec('frieden')?cnt(n2,n=>has(n,'raubtier')&&!fdHas(n,'kn'))*(hasEv('ausbruch')?2:1):0,sc=!vet&&!vs.has('ruhezone')&&!hasSpec('ruhepol')&&c.tags.includes('scheu')?cnt(CTX.dk==='dschungel'?nb:n2,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0,jg=hasSpec('rb_jagd'),py=hasSpec('rb_party'),pp=Math.min(2,(jg&&c.tags.includes('beute')?cnt(nb,n=>has(n,'raubtier')):0)+(py&&c.tags.includes('scheu')?cnt(nb,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0)),pr1=jg?0:pr,sc1=py?0:sc,st=Math.min(1,pr1+sc1),sh=c.tags.includes('show')?Math.min(4,Math.min(2,cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n)&&!trubelC(n))+(vs.has('buehne')?1:0)+(c.hab==='savanne'&&nb.some(n=>n.key==='bistro')?2:0))+2*(cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&trubelC(n))+cnt(nbrs2(b,idx),n=>n.key==='tribuene'&&!nb.includes(n)))):0;
    const ba=Math.max(0,a),bs0=Math.max(0,s);
-   const mg=CTX.zl&&CTX.zl.prof==='manege'&&c.tags.includes('show');
-   if(sh){const f=(fdHas(b,'le')?.5:c.key==='belugas'?.4:STRESS)*sh*(vs.has('buehne')?2:1)*(mg?2:1);add(`🎭 Showtier${vs.has('buehne')?' mit 🎤 Bühne':''}${mg?' (Manege ×2)':''}: +${Math.round(f*100)} %`,Math.round(ba*f),Math.round(bs0*f))}
-   else if(mg&&!CTX.zl.fix)add('🎪 Manege: ohne Trubel daneben nur die Hälfte',-Math.round(ba*.5),-Math.round(bs0*.5));
+   if(sh){const f=(fdHas(b,'le')?.5:c.key==='belugas'?.4:STRESS)*sh*(vs.has('buehne')?2:1);add(`🎭 Showtier${vs.has('buehne')?' mit 🎤 Bühne':''}: +${Math.round(f*100)} %`,Math.round(ba*f),Math.round(bs0*f))}
    if(pp){const f=STRESS*pp;add(`${jg&&c.tags.includes('beute')?'🦁 Jagdrevier':'🎉 Partyzoo'}: +${Math.round(f*100)} %`,Math.round(ba*f),Math.round(bs0*f))}
    if(st&&parts)parts.push({label:`😣 Gestresst (${pr1&&sc1?'Raubtier und Trubel':pr1?'Raubtier in der Nähe':'Trubel in der Nähe'}): Zoo −${Math.round(STRZ*100)} % Natur`,a:0,s:0});stN=st}
   if(c.km&&!(TUTNOW&&!TUTTR&&/Beute|Raubtier|scheu|Show/i.test((c.fx||[]).join(' ')))){const m=c.km(nb,bs,b,{st:stN,idx});if(m){const fa=m.fa!=null?m.fa:m.f,fs=m.fs!=null?m.fs:m.f,aa=Math.max(0,a),ss=Math.max(0,s);add(`🔗 Kombo ×${String(Math.max(fa||1,fs||1)).replace('.',',')}: ${m.l}`,fa!=null?Math.round(aa*(fa-1)):0,fs!=null?Math.round(ss*(fs-1)):0)}}
@@ -324,7 +318,6 @@ function scoreZoo0(bs,idx,A,S,steps,mults){STRZ=strzNow();const V=bs.map(b=>eval
   if(CTX.zl){const Z=CTX.zl,rb=bs.reduce((t,b)=>t+edN(b,'r'),0);if(rb)mults.push({id:null,label:rb>1?`Regenbogen ×${rb}`:'Regenbogen',icon:'🌈',ma:+Math.pow(1.2,rb).toFixed(2)});
     for(const ck of[Z.crown,...(Z.crown2||[])]){if(!ck)continue;const cb=idx.get(ck);if(cb&&isCat(cb,'gehege')&&cb.cells.length>=4)mults.push({id:cb.id,label:'Kronenfeld',icon:'👑',ma:CROWNF})}
     const pu=zlPurity(bs,idx),vf=vielfalt(bs),pf=pu.n>=PURN?purF(pu.n):1;if(vf.f>1&&vf.f>pf)mults.push({id:null,label:`Vielfalt: alle Lebensräume, je ${vf.lvl}+ Arten`,icon:'🎨',ms:+vf.f.toFixed(2)});else if(pu.n>=PURN)mults.push({id:null,label:`Reinheit: ${pu.n} ${HAB[pu.hab].label}-Gehege`,icon:HAB[pu.hab].icon,ms:+purF(pu.n).toFixed(2)});
-    if(Z.prof==='stadt'){const n=new Set(bs.filter(b=>isCat(b,'gehege')).map(b=>spK(b.key))).size,f=Math.min(1.3,1+.02*n);if(f>1)mults.push({id:null,label:`Stadtzoo: ${n} Gehege-Arten`,icon:'🏙️',ma:+f.toFixed(2)})}
     if(Z.tv){const f=Z.tv();mults.push({id:null,label:f>1?'Fernsehteam: gelungen':'Fernsehteam: zu wenig gebaut',icon:'📺',ma:f})}}
   let A2=A,S2=S;for(const m of mults){if(m.ma)A2*=m.ma;if(m.ms)S2*=m.ms}
   A2=Math.max(0,Math.round(A2));S2=Math.max(0,Math.round(S2));return{steps,mults,A:A2,S:S2,total:A2*S2}}
@@ -338,17 +331,17 @@ function weightOf(k){const c=CARDS[k];if(isLocked(k))return 0;return c.rar==='wi
 function pickWeighted(keys,rnd=Math.random){const tot=keys.reduce((t,k)=>t+weightOf(k),0);let r=rnd()*tot;
   for(const k of keys){r-=weightOf(k);if(r<=0)return k}return keys[keys.length-1]}
 const ownsUnique=k=>CARDS[k].tags.includes('einmalig')&&typeof state!=='undefined'&&!!state&&(cnt(state.buildings,b=>b.key===baseK(k))+cnt([...state.hand,...state.deck,...state.discard],x=>baseK(x)===baseK(k)))>=(hasSpec('sammel')?2:1);
-function makeOffer(n=3,rnd=Math.random,bs=(typeof state!=='undefined'&&state)?state.buildings:[]){const Z=typeof state!=='undefined'&&state&&state.zl,P=Z&&ZPROF[Z.prof];
+function makeOffer(n=3,rnd=Math.random,bs=(typeof state!=='undefined'&&state)?state.buildings:[]){const Z=typeof state!=='undefined'&&state&&state.zl;
   const TH=['wasser','savanne','wueste'],pool=Object.keys(CARDS).filter(k=>weightOf(k)>0&&!builtUnique(bs,k)&&!ownsUnique(k)&&(!TUTNOW||(!k.includes('^')&&!k.includes('~')&&!k.includes('#')&&(!CARDS[k].hab||TH.includes(CARDS[k].hab))&&(!CARDS[k].rq||TH.includes(CARDS[k].rq))))),out=[];
   while(out.length<n){let p=pool.filter(x=>!out.includes(x));{const last=(Z&&state.lastOffer)||[],q=p.filter(x=>!last.includes(x));if(q.length>=n)p=q}
     {const dk=typeof runDeck==='function'?runDeck():'';if(dk&&dk!=='grund'&&DECKS[dk]&&DECKS[dk].type&&rnd()<.2){const T=DECKS[dk].type,t=p.filter(x=>HAB[T]?CARDS[x].hab===T:CARDS[x].cat===T);if(t.length)p=t}}
     out.push(pickWeighted(p,rnd))}return out}
 function shuffle(a,rnd=Math.random){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function drawHand(st,rnd=Math.random){const HN=(st.zl&&st.zl.prof==='bau'&&!st.zl.fix?HAND-1:HAND)+(st.mode==='camp'&&hasSpec('grosshand')?1:0)+(st.mode==='camp'&&runAus('hand')?1:0);while(st.hand.length<HN){if(!st.deck.length){if(!st.discard.length)break;st.deck=shuffle(st.discard,rnd);st.discard=[]}st.hand.push(st.deck.pop())}}
+function drawHand(st,rnd=Math.random){const HN=HAND+(st.mode==='camp'&&hasSpec('grosshand')?1:0)+(st.mode==='camp'&&runAus('hand')?1:0);while(st.hand.length<HN){if(!st.deck.length){if(!st.discard.length)break;st.deck=shuffle(st.discard,rnd);st.discard=[]}st.hand.push(st.deck.pop())}}
 // money: 1 Taler je 9 Besucher, −1 je 8 Natur; Schulden kosten −1 je 10 Taler (Kredit)
 const ENTRY=9;
 const flatC=e=>CTX.zl?Math.min(e,30)+Math.min(Math.max(e-30,0),60)/2+Math.max(e-90,0)/4:e,entryOf=A=>flatC(A/ENTRY),careOf=S=>flatC(S/8);
-function dayIncome(A,S,money){const LW=LK(),wb=LW&&LW.spec.wb?2:1,lot=LW?LW.lotto:0;const ez=CTX.zl&&CTX.zl.prof==='erlebnis',ef=(ez?1.5:1)*(CTX.dk==='geniesser'?1.2:CTX.dk==='oase'?.9:1),cf=(ez&&!CTX.zl.fix?2:1)*(CTX.dk==='oase'?.75:CTX.dk==='geniesser'?1.25:1)*(CTX.zl&&CTX.winter&&CTX.zl.insp==='heiz'?(HARD(CTX.zl)?2:1.5):1);const base=Math.round(entryOf(A)*ef*wb-careOf(S)*cf),entry=Math.round(entryOf(A)*ef*wb),don=typeof state!=='undefined'&&state&&state.buildings?(2+(state.zoo||0))*state.buildings.filter(b=>b.pr==='spende').length:0;const interest=money>=0?0:-Math.floor(-money/10);const spec=(hasSpec('kassenwart')?3:0)-((CTX.spec||[]).includes('spekulant')?5:0);let kar=0,gas=0,snk=0;if(typeof state!=='undefined'&&state&&state.buildings){snk=state.buildings.filter(b=>fdHas(b,'sn')).length;const ix=mkIndex(state.buildings);for(const b of state.buildings)if(b.key==='karawane')kar+=cnt(nbrs(b,ix),n=>isCat(n,'gehege')&&!isHab(n,'wueste'));gas=talOf(state.buildings)}return{base,interest,spec,don:don+lot,kar,gas,lot,snk,total:base+interest+spec+don+kar+gas+lot+snk,entry,care:base-entry,A,S}}
+function dayIncome(A,S,money){const LW=LK(),wb=LW&&LW.spec.wb?2:1,lot=LW?LW.lotto:0;const ef=(CTX.dk==='geniesser'?1.2:CTX.dk==='oase'?.9:1),cf=(CTX.dk==='oase'?.75:CTX.dk==='geniesser'?1.25:1)*(CTX.zl&&CTX.winter&&CTX.zl.insp==='heiz'?(HARD(CTX.zl)?2:1.5):1);const base=Math.round(entryOf(A)*ef*wb-careOf(S)*cf),entry=Math.round(entryOf(A)*ef*wb),don=typeof state!=='undefined'&&state&&state.buildings?(2+(state.zoo||0))*state.buildings.filter(b=>b.pr==='spende').length:0;const interest=money>=0?0:-Math.floor(-money/10);const spec=(hasSpec('kassenwart')?3:0)-((CTX.spec||[]).includes('spekulant')?5:0);let kar=0,gas=0,snk=0;if(typeof state!=='undefined'&&state&&state.buildings){snk=state.buildings.filter(b=>fdHas(b,'sn')).length;const ix=mkIndex(state.buildings);for(const b of state.buildings)if(b.key==='karawane')kar+=cnt(nbrs(b,ix),n=>isCat(n,'gehege')&&!isHab(n,'wueste'));gas=talOf(state.buildings)}return{base,interest,spec,don:don+lot,kar,gas,lot,snk,total:base+interest+spec+don+kar+gas+lot+snk,entry,care:base-entry,A,S}}
 applyLang(LANG);
 //ENGINE-END
 

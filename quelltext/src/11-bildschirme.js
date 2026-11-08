@@ -1,6 +1,6 @@
 // 0.71a: Zurück nach der Stufenwahl – der eben gestartete Lauf wird verworfen, der alte Stand des Speicherplatzes kommt zurück
 let ZSTART=null;
-const zlBackOk=()=>{try{if(!(ZSTART&&state&&state.zl&&!TUTNOW&&META.active===ZSTART.slot&&(state.zoo||0)===0&&state.season===0&&state.day===0&&!state.buildings.length))return false;if(modal==='zoo')return true;if(!modal&&!state.zl.prof)return true;if(!modal)ZSTART=null;return false}catch(e){return false}};
+const zlBackOk=()=>{try{if(!(ZSTART&&state&&state.zl&&!TUTNOW&&META.active===ZSTART.slot&&(state.zoo||0)===0&&state.season===0&&state.day===0&&!state.buildings.length))return false;if(modal==='zoo')return true;if(!modal)ZSTART=null;return false}catch(e){return false}};
 function zlBack(){const Z=ZSTART;if(!Z)return;ZSTART=null;const sl=META.slots[Z.slot];if(sl){const r=JSON.parse(Z.run),a=JSON.parse(Z.alt);if(r)sl.run=r;else delete sl.run;if(a)sl.runAlt=a;else delete sl.runAlt}
   META.active=Z.active;META.lastSlot=Z.last;META.lastMode=Z.mode;state=null;modal=null;Sfx.select();saveMeta();screen='cdeck';screenArg=Z.arg;renderAll()}
 //@@ modul: 11-bildschirme
@@ -62,35 +62,17 @@ function crewardStep(step){const run=activeSlot().run,a=run.reward;a.step=step;
   if(step==='spec'){a.opts=rollSpecs(3);z2Rb(run,a.opts)}
   a.peek=false;if(step==='next')a.ev=run.plan?run.plan.ev:(c=>c.spring&&!run.zl?rollEvents({...c,s:0}):[])(campCfg(run.zoo));
   saveMeta();renderScreen()}
-function modeHtml(){const a=screenArg,i=a.slot,sl=META.slots[i],run=runFor(sl,false),zrun=runFor(sl,true);
-  const free=a.fresh?`<div class="slot"><h3>Neues Spiel?</h3><div class="meta2">Das laufende freie Spiel (${gameStatus(sl.game)}) wird beendet und zählt nicht für Highscore und Belohnung.</div><div class="acts"><button class="btn main" data-freshyes="${i}">Ja, neues Spiel</button><button class="btn sub" data-cancel="1">Abbrechen</button></div></div>`
-    :`<div class="slot ${META.lastMode!=='camp'?'last':''}"><h3>🌼 Freies Spiel</h3><p>Ein Jahr auf einem Gelände deiner Wahl, mit deinen dauerhaften Verbesserungen (🏅 ${perkCount(sl)}) und freigeschalteten Bonus-Karten.</p><div class="meta2"><span><b>${gameStatus(sl.game)}</b></span><span>${sl.games||0} Spiele</span></div>
-      <div class="acts">${sl.game?`<button class="btn main" data-cont="${i}">▶ Weiterspielen</button><button class="btn sub" data-fresh="${i}">Neues Spiel</button>`:`<button class="btn main" data-play="${i}">Neues Spiel</button>`}</div></div>`;
-  const camp=a.cfresh?`<div class="slot"><h3>Neuer Lauf?</h3><div class="meta2">Der laufende Lauf (${campStatus(run)}) geht verloren und kommt nicht in die Bestenliste.</div><div class="acts"><button class="btn main" data-cnew="${i}" data-zl="0">Ja, neuer Lauf</button><button class="btn sub" data-cancel="1">Abbrechen</button></div></div>`
-    :`<div class="slot ${META.lastMode==='camp'&&!(sl.run&&sl.run.zl)?'last':''}"><h3>🗺️ Kampagne</h3><p>Zoo um Zoo wird es schwerer: engeres Gelände, härtere Ereignisse, höhere Ziele. Du wählst ein Profil (${Object.keys(DECKS).filter(id=>deckOpen(sl,id)).length} von ${Object.keys(DECKS).length} freigeschaltet) und sammelst im Lauf Karten und bis zu ${maxSpec()} Spezialisten mit Sonderregeln. Am Ende eines Laufs verbesserst du Karten dauerhaft (🏅 ${cperkCount(sl)} bisher): 1 plus 1 je geschafftem Zoo. Ziel: ${CAMP_GOAL} Zoos.</p><div class="meta2"><span><b>${campStatus(run)}</b></span><span>${sl.runs||0} Läufe</span></div>
-      <div class="acts">${run?`<button class="btn main" data-ccont="${i}" data-zl="0">▶ Lauf fortsetzen</button><button class="btn sub" data-cfresh="${i}" data-zl="0">Neuer Lauf</button>`:`<button class="btn main" data-cnew="${i}" data-zl="0">Lauf starten</button>`}</div></div>`;
+function modeHtml(){const a=screenArg,i=a.slot,sl=META.slots[i]; // 0.73a: nur noch Zoolatro (Freies Spiel, Kampagne, Zoolatro 1 entfernt)
   const z2run=runFor(sl,'z2'),z2=a.z2fresh?`<div class="slot zlm z2m"><h3>Neuer Lauf?</h3><div class="meta2">Der laufende Lauf (${campStatus(z2run)}) geht verloren und kommt nicht in die Bestenliste.</div><div class="acts"><button class="btn main" data-cnew="${i}" data-zl="2">Ja, neuer Lauf</button><button class="btn sub" data-cancel="1">Abbrechen</button></div></div>`
     :`<div class="slot zlm z2m ${META.lastMode==='camp'&&sl.run&&sl.run.z2?'last':''}"><h3>🃏 Zoolatro</h3><p>Baue 5 Zoos nacheinander, jeder schwerer als der letzte. Ein <b>Profil</b> mit eigener Regel für den ganzen Lauf, goldene <b>Sonderfelder</b>, eine Bau-Auflage und im Winter eine <b>Winter-Bedingung</b>. Dazu <b>Stufen 1–8</b> für jedes Profil, <b>Regelbrecher</b>, <b>Zucht</b> und <b>Herausforderungen</b> im 🔓 Fortschritt.</p><div class="meta2"><span><b>${campStatus(z2run)}${z2run?' · Stufe '+(z2run.stage||1):''}</b></span></div>
       <div class="acts">${z2run?`<button class="btn main" data-ccont="${i}" data-zl="2">▶ Lauf fortsetzen</button><button class="btn sub" data-cfresh="${i}" data-zl="2">Neuer Lauf</button>`:`<button class="btn main" data-cnew="${i}" data-zl="2">Lauf starten</button>`}</div></div>`;
-  const zl=a.zfresh?`<div class="slot zlm"><h3>Neuer Zoolatro-Lauf?</h3><div class="meta2">Der laufende Lauf (${campStatus(zrun)}) geht verloren und kommt nicht in die Bestenliste.</div><div class="acts"><button class="btn main" data-cnew="${i}" data-zl="1">Ja, neuer Lauf</button><button class="btn sub" data-cancel="1">Abbrechen</button></div></div>`
-    :`<div class="slot zlm ${META.lastMode==='camp'&&sl.run&&sl.run.zl&&!sl.run.z2?'last':''}"><h3>🃏 Zoolatro-Modus</h3><p>Zoo um Zoo wird es schwerer. Ein <b>Profil</b> mit Vorteil und Kehrseite für den ganzen Lauf, dazu in jedem Zoo goldene <b>Sonderfelder</b>, eine Bau-Auflage und eine <b>Winter-Bedingung</b>. Dazu veredelte Karten, wachsende Spezialisten und ein Reinheits-Bonus für riesige Zahlen. Die Ziele steigen steil.</p><div class="meta2"><span><b>${campStatus(zrun)}</b></span></div>
-      <div class="acts">${zrun?`<button class="btn main" data-ccont="${i}" data-zl="1">▶ Lauf fortsetzen</button><button class="btn sub" data-cfresh="${i}" data-zl="1">Neuer Lauf</button>`:`<button class="btn main" data-cnew="${i}" data-zl="1">Lauf starten</button>`}</div></div>`;
-  const old=(ic,t,st,btn)=>`<div class="slot"><h3>${ic} ${t} <small style="font-size:13px;color:var(--muted)">alter Modus</small></h3><p style="margin:0;font-size:13px;color:var(--muted)">Diesen Modus gibt es nicht mehr. Deinen angefangenen Lauf kannst du noch zu Ende spielen.</p><div class="meta2"><span><b>${st}</b></span></div><div class="acts">${btn}</div></div>`;
-  const oldF=sl.game&&!a.fresh?old('🌼','Freies Spiel',gameStatus(sl.game),`<button class="btn sub" data-cont="${i}">▶ Weiterspielen</button>`):'',oldZ=zrun&&!a.zfresh?old('🃏','Zoolatro-Modus',campStatus(zrun),`<button class="btn sub" data-ccont="${i}" data-zl="1">▶ Lauf fortsetzen</button>`):'';
-  return`<div class="bar2"><h2>🦁 ${esc(sl.name)}</h2><button class="btn sub" data-go="slots">Zurück</button></div>${z2}${oldZ}${oldF}<button class="btn sub" data-go="tut" style="align-self:flex-start">📖 Neu hier? Tutorial spielen</button>`}
-function unlockHtml(){const a=screenArg,sl=activeSlot();
-  return`<h2>🎁 Neue Karte freischalten</h2><p style="margin:0">Glückwunsch, ganzes Jahr geschafft! Wähle <b>1 von 3</b> Bonus-Karten. Sie kann ab jetzt in allen Spielen von ${esc(sl?sl.name:'')} in der Kartenauswahl und im Shop auftauchen.</p>
-    <div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>{const c=CARDS[k];return`<div class="pcard"><span class="ic">${ic(c)}</span><div class="info2"><span class="nm">${c.name}</span>
-      <span class="meta3">${metaTxt(c,1)} · ${costOf(k)} BP${c.tags.includes('bedroht')&&!TUTNOW?' · Rote Liste':''}</span>
-      <span class="bigvals"><span class="a">${c.a} B</span><span class="s">${c.s} N</span>${miniShape(k)}</span>${fxHtml(c)}</div>
-      <div class="pb"><button class="btn main" data-unlock="${k}">Freischalten</button></div></div>`}).join('')}</div>`}
+  return`<div class="bar2"><h2>🦁 ${esc(sl.name)}</h2><button class="btn sub" data-go="slots">Zurück</button></div>${z2}<button class="btn sub" data-go="tut" style="align-self:flex-start">📖 Neu hier? Tutorial spielen</button>`}
 function renderAll(){if(state&&!screen)render();else renderModal();renderScreen()}
 
 const SEAS_ICON=['🌱','☀️','🍂','❄️'];
 const fdate=t=>{try{return new Date(t).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'2-digit'})}catch(e){return''}};
 const fago=t=>{const d=Math.round((Date.now()-t)/60000);return d<1?'gerade eben':d<60?`vor ${d} Min.`:d<1440?`vor ${Math.round(d/60)} Std.`:fdate(t)};
 const campStatus=run=>!run?'Kein laufender Lauf':run.reward?`Zoo ${run.zoo} geschafft · Belohnung wählen`:run.game?`Zoo ${run.zoo+1} · ${SEASONS[run.game.season].name}, Tag ${Math.min(run.game.day+1,DAYS)}`:`Zoo ${run.zoo+1} startet`;
-const gameStatus=g=>g?`${MAPS[g.map]?MAPS[g.map].icon+' '+MAPS[g.map].name:''} · ${SEASONS[g.season].name}, Tag ${Math.min(g.day+1,DAYS)}`:'Kein laufendes Spiel';
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let titleBgSvg=null;
 function titleBg(){if(titleBgSvg)return titleBgSvg;return withRot(false,()=>{let g='';const ic=['🐘','🦒','🐧','🐼','🦁','🍿','🌳','🐒','🦩','🐢'];let n=0;
@@ -103,7 +85,7 @@ function slotHtml(i){const sl=META.slots[i],a=screenArg;
   if(!sl)return`<div class="slot empty"><h3>Speicherplatz ${i+1}</h3><div class="meta2">Noch leer</div><button class="btn main" data-new="${i}">＋ Neuer Zoo</button></div>`;
   if(a.del===i)return`<div class="slot"><h3>${esc(sl.name)} löschen?</h3><div class="meta2">Laufendes Spiel, Zoolatro-Lauf und ${perkCount(sl)} Verbesserungen gehen verloren. Highscores bleiben erhalten.</div><div class="acts"><button class="btn main" data-delyes="${i}" style="background:var(--bad);color:#fff">Ja, löschen</button><button class="btn sub" data-cancel="1">Abbrechen</button></div></div>`;
   return`<div class="slot ${META.lastSlot===i?'last':''}"><h3>🦁 ${esc(sl.name)}</h3>
-    <div class="meta2"><span>🃏 <b>${campStatus(runFor(sl,'z2'))}</b></span>${sl.game?`<span>🌼 alter Modus: ${gameStatus(sl.game)}</span>`:''}<span>Zuletzt: ${fago(sl.last)}</span><span>🏅 ${perkCount(sl)} Verbesserungen</span></div>
+    <div class="meta2"><span>🃏 <b>${campStatus(runFor(sl,'z2'))}</b></span><span>Zuletzt: ${fago(sl.last)}</span><span>🏅 ${perkCount(sl)} Verbesserungen</span></div>
     <div class="acts"><button class="btn main" data-mode="${i}">▶ Spielen</button>
     <button class="btn sub" data-ren="${i}" aria-label="Umbenennen">✎</button><button class="btn sub" data-del="${i}" aria-label="Löschen">🗑</button></div></div>`}
 function scoresHtml(){const hlE=META.scores.find(x=>x.date===screenArg.hl),f=screenArg.f||(hlE?(hlE.rule?'rule':'all'):'z2'),list=f==='camp'||f==='zl'||f==='z2'?(META.cscores||[]).filter(x=>f==='z2'?!!x.z2:!x.z2&&!!x.zl===(f==='zl')).slice(0,10):META.scores.filter(x=>f==='rule'?x.rule:!x.rule&&(f==='all'||x.map===f)).slice(0,10);
@@ -134,8 +116,7 @@ function glossHtml(){const tab=screenArg.tab||'cards',f=screenArg.gf||'all',sl=M
 function glossSpec(){const gsl=META.slots[META.lastSlot]||null,lkL=id=>LEGEND91.includes(id)&&!!gsl&&isNew91(gsl)&&!fsOf(gsl)['s:'+id],lkR=id=>!!SPEC[id].rb&&!rbOpen(gsl,id),how=id=>lkL(id)?fsHowTxt('s:'+id):lkR(id)?rbHow(id):'';const row=id=>{const S=SPEC[id],lk=lkL(id)||lkR(id);return`<div class="pcard${lk?' locked':''}"><span class="ic">${S.icon}</span><div class="info2"><span class="nm">${S.name}${lk?' 🔒':''}</span>${lk?`<span class="tierl" style="color:var(--gold)">🔓 Freischalten: ${how(id)}</span>`:''}<span class="tierl tier${S.tier}">${SPECTIER[S.tier]} · ab 🪙 ${SPECPRICE[S.tier]}${S.rb?' · ⚡ Regelbrecher':''}${S.mult?' · Multiplikator':''}</span>${fxHtml(S)}</div></div>`},ids=Object.keys(SPEC).filter(id=>id!=='eventmanager').sort((a,b)=>SPEC[a].tier-SPEC[b].tier||SPEC[a].name.localeCompare(SPEC[b].name,'de'));
   return`<p style="margin:0;color:var(--muted);font-size:13.5px">Spezialisten bekommst du über die 📁 Bewerbermappe im Shop (drei zur Auswahl, einen stellst du ein) und nach jedem Zoo. Sie bleiben den ganzen Lauf, das Team hat ${maxSpec()} Plätze. Bei Schulden streikt das Team. ${ids.filter(id=>!lkL(id)&&!lkR(id)).length} von ${ids.length} sind frei, 🔒 legendäre schaltest du über Ziele frei (🔓 Fortschritt), ⚡ Regelbrecher über Herausforderungen.</p><div style="display:flex;flex-direction:column;gap:8px">${ids.map(row).join('')}</div>`}
 function glossZl(){const sec=(t,rows)=>`<h3 class="sh">${t}</h3><div style="display:flex;flex-direction:column;gap:6px">${rows.join('')}</div>`,r=(ic,n,tx)=>`<div class="gzr"><span>${ic}</span><div><b>${n}</b><small>${tx}</small></div></div>`,fake={inspHab:'wasser'};
-  return (0?sec:(()=>''))('Profile (eines für den ganzen Lauf)',Object.keys(ZPROF).filter(id=>!ZPROF[id].gone).map(id=>r(ZPROF[id].icon,ZPROF[id].name,`<i class="g">＋ ${ZPROF[id].good}</i><br><i class="b">－ ${ZPROF[id].bad}</i>`)))
-    +sec('Winter-Bedingungen (eine pro Zoo, gilt nur im Winter)',Object.keys(INSP).map(id=>r(INSP[id].icon||'❄️',INSP[id].name,typeof INSP[id].text==='function'?'Im Winter zählen die Gehege eines ausgelosten Lebensraums nur zur Hälfte.':INSP[id].text)))
+  return sec('Winter-Bedingungen (eine pro Zoo, gilt nur im Winter)',Object.keys(INSP).map(id=>r(INSP[id].icon||'❄️',INSP[id].name,typeof INSP[id].text==='function'?'Im Winter zählen die Gehege eines ausgelosten Lebensraums nur zur Hälfte.':INSP[id].text)))
     +sec('Auflagen (eine pro Zoo)',Object.keys(RULES).filter(id=>!RULES[id].gone).map(id=>r(RULES[id].icon,RULES[id].name,id==='rand'?'Gehege eines ausgelosten Lebensraums brauchen mindestens ein Feld am Rand des Geländes.':id==='halb'?'Im Frühling ist nur eine ausgeloste Hälfte des Geländes bebaubar. Ab dem Sommer ist alles frei.':RULES[id].text({}))))
     +sec('Stufen, Regelbrecher, Zucht',[r('🏔️','Stufen',`Jedes Profil hat 8 Stufen. Schaffst du Zoo 3, ist die nächste frei. Stufe 1 ist die Grundstufe. Jede Stufe enthält die Verschärfungen davor: ${STAGES.slice(2).map((t,i)=>`${i+2}. ${t}`).join(' · ')}.`),r('⚡','Regelbrecher','Legendäre Spezialisten, die eine Grundregel aufheben. Sie erscheinen nur nach einem geschafften Zoo (mit 25 % als einer der drei Bewerber), höchstens einer pro Lauf. Zwei sind von Anfang an frei, die anderen über Herausforderungen.'),r('🍼','Zucht','Zwei gleiche Gehege nebeneinander, eines davon mindestens Stufe II: Am Ende der Jahreszeit kommt ein Jungtier ins Lauf-Deck. 1 Feld, halber Grundwert, gleiche Eigenschaften. Neben einem Gehege seiner Elternart zählt es doppelt. Eins pro Art und Zoo, höchstens 3 im Deck. Für Meilensteine, Reinheit und Vielfalt zählt es als seine Elternart.'),r('❄️','Winter-Wahl','Jeder Zoo zeigt zwei mögliche Winter-Bedingungen. Wenn der Winter beginnt, wählst du eine davon.'),r('🎯','Herausforderungen',`${Object.keys(CHAL).length} Aufgaben im 🔓 Fortschritt. Sie schalten Regelbrecher oder Titel frei.`)])
     +sec('Besucherwünsche (Frühling bis Herbst, je einer)',[r('🌟','So geht es','Zu Beginn von Frühling, Sommer und Herbst wünschen sich die Besucher etwas. Erfüllst du den Wunsch, gibt es sofort eine Belohnung. Erfüllst du ihn nicht, passiert nichts. Geprüft wird am Ende jedes Tages, manche Wünsche erst am Ende der Jahreszeit.'),...Object.keys(WISH).map(id=>{const D=WISH[id],W={id,h:'savanne'};return r(D.ic(W),D.hab?'Baue 2 Gehege eines Lebensraums':D.t(W),'Belohnung: '+wRwTxt(D.rw)+(D.se?` · nur im ${D.se.map(i=>SEASONS[i].name).join(' und ')}`:''))})])
@@ -187,7 +168,6 @@ function renderScreen0(){if(screen)hintHide();const root=$('screenRoot');root.cl
   else if(screen==='mode')h=`<div class="scr"><div class="inner">${modeHtml()}</div></div>`;
   else if(screen==='summary')h=`<div class="scr"><div class="inner">${summaryHtml()}</div></div>`;
   else if(screen==='creward')h=`<div class="scr"><div class="inner">${crewardHtml()}</div></div>`;
-  else if(screen==='unlock')h=`<div class="scr"><div class="inner">${unlockHtml()}</div></div>`;
   else if(screen==='perk')h=`<div class="scr"><div class="inner">${perkHtml()}</div></div>`;
   root.innerHTML=h;
   const ni=$('slotName');if(ni){ni.focus();ni.onkeydown=e=>{if(e.key==='Enter')root.querySelector('[data-sv]').click()}}
@@ -202,12 +182,10 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.pslot!=null){screenArg.ps=+d.pslot;Sfx.select();renderScreen();return}
   if(d.vack){screenArg.vAck=1;Sfx.select();saveMeta();renderScreen();return}
   if(d.go){if(d.go==='gloss'&&META.lastSlot!=null&&META.slots[META.lastSlot])applySlot(META.slots[META.lastSlot]);sc(d.go,{back:d.go==='scores'&&screen==='perk'?'title':'title',hl:screenArg.hl});return}
-  if(d.cont!=null){Sfx.select();enterSlot(+d.cont);return}
   if(d.mode!=null){sc('mode',{slot:+d.mode});return}
-  if(d.ccont!=null){Sfx.select();enterCamp(+d.ccont,false,null,d.zl==null?null:d.zl==='2'?'z2':d.zl==='1');return}
-  if(d.cnew!=null){if(d.zl==='1'||d.zl==='2'){sc('zlsetup',{slot:+d.cnew,step:'habs',prof:NOPROF,opts:[],habs:[],z2:d.zl==='2'});return}sc('cdeck',{slot:+d.cnew,zl:false});return}
+  if(d.ccont!=null){Sfx.select();enterCamp(+d.ccont,false,null,'z2');return}
+  if(d.cnew!=null){sc('zlsetup',{slot:+d.cnew,step:'habs',prof:NOPROF,opts:[],habs:[],z2:true});return}
   if(d.zsseed||d.zsseedr||d.zsseedx){const a=screenArg,inp=$('zsSeed');a.seed=d.zsseedx?'':d.zsseedr?seedNew():seedClean(inp&&inp.value);Sfx.select();renderScreen();return}
-  if(d.zsprof){const a=screenArg;a.prof=d.zsprof;a.habs=(PROFHAB[d.zsprof]||[]).slice();a.step='habs';Sfx.select();renderScreen();return}
   if(d.zsback){sc('mode',{slot:screenArg.slot});return}
   if(d.zshab){const a=screenArg,h=d.zshab;if(!habOpen(META.slots[a.slot],h)){Sfx.deny();return}if(a.habs.includes(h))a.habs=a.habs.filter(x=>x!==h);else if(a.habs.length<3)a.habs.push(h);else{Sfx.deny();return}Sfx.select();renderScreen();return}
   if(d.zsfood){META.foodOff=META.foodOff?0:1;saveMeta();Sfx.select();renderScreen();return}
@@ -216,7 +194,7 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.zsback2){const b=screenArg.back;if(b){screen='zlsetup';screenArg=b;Sfx.select();renderAll()}return}
   if(d.stlock){const[id,n]=d.stlock.split(':');screenArg.stHint={id,n:+n};Sfx.deny();renderScreen();return} // 0.71a: gesperrte Stufe
   if(d.cdeck){const i=screenArg.slot;if(!deckOpen(META.slots[i],d.cdeck)){Sfx.deny();return}Sfx.select();ZSTART={slot:i,arg:screenArg,run:JSON.stringify((META.slots[i]&&META.slots[i].run)||null),alt:JSON.stringify((META.slots[i]&&META.slots[i].runAlt)||null),active:META.active,last:META.lastSlot,mode:META.lastMode};PENDSEED=screenArg.seed||null;enterCamp(i,true,d.cdeck,screenArg.zl||false,screenArg.habs||null,screenArg.prof||null,+d.stage||1);return}
-  if(d.cfresh!=null){sc('mode',d.zl==='2'?{slot:+d.cfresh,z2fresh:1}:d.zl==='1'?{slot:+d.cfresh,zfresh:1}:{slot:+d.cfresh,cfresh:1});return}
+  if(d.cfresh!=null){sc('mode',{slot:+d.cfresh,z2fresh:1});return}
   if(d.sdack){screenArg.deckAck=1;Sfx.select();renderScreen();return}
   if(d.sumnext){const n=screenArg.next;sc(n.screen,n.arg);return}
   if(screen==='creward'){const sl=activeSlot(),run=sl&&sl.run,a=screenArg;if(!run)return;
@@ -224,7 +202,6 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
     if(d.cdack){a.deckAck=1;Sfx.select();saveMeta();renderScreen();return}
     if(d.cprev){Sfx.select();crewardStep('perk');return}
     if(d.cpeek!=null){a.peek=d.cpeek==='1';Sfx.select();saveMeta();renderScreen();window.scrollTo(0,0);return}
-    if(d.pprof){planPick(run,d.pprof);Sfx.win();saveMeta();renderScreen();return}
     if(d.cendless){run.reward=screenArg=newReward(run);Sfx.select();saveMeta();renderScreen();return}
     if(d.cpr){a.ppick=d.cpr;Sfx.select();saveMeta();renderScreen();return}
     if(d.cprk){const P=a.ppick,i=run.deck.indexOf(d.cprk);if(!PRAEG[P]||i<0)return;const nk=prKey(d.cprk,P);run.deck[i]=nk;a.lastPr=nk;a.ppick=null;Sfx.win();Sfx.sparkle();crewardStep('card');return}
@@ -243,9 +220,6 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
     if(d.cfire){fireSpec(d.cfire,false);Sfx.rotate();saveMeta();renderScreen();return}
     if(d.cskip==='spec'){Sfx.select();crewardStep('next');return}
     if(d.cstart){Sfx.select();try{startZoo()}catch(e){logErr('Zoo starten',e);showErr('⚠️ Zoo konnte nicht gestartet werden: '+String(e&&e.message||e).slice(0,120)+' – bitte „📋 Lauf kopieren“ an Claude schicken.')}return}}
-  if(d.play!=null){Sfx.select();enterSlot(+d.play,true);return}
-  if(d.fresh!=null){sc('mode',{slot:+d.fresh,fresh:1});return}
-  if(d.freshyes!=null){Sfx.select();enterSlot(+d.freshyes,true);return}
   if(d.new!=null){sc('slots',{edit:+d.new});return}
   if(d.ren!=null){sc('slots',{edit:+d.ren});return}
   if(d.del!=null){sc('slots',{del:+d.del});return}
@@ -258,7 +232,6 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.tab){screenArg.tab=d.tab;screenArg.gf='all';Sfx.select();renderScreen();return}
   if(d.gm){const sl=META.slots[META.lastSlot];screenArg.gm=d.gm;if(sl){if(d.gm==='camp'){applyPerks(sl.cperks||{});UNLOCK=new Set()}else applySlot(sl)}Sfx.select();renderScreen();return}
   if(d.gf){screenArg.gf=d.gf;Sfx.select();renderScreen();return}
-  if(d.unlock){const sl=activeSlot();if(!sl)return;sl.unlocked=sl.unlocked||[];if(!sl.unlocked.includes(d.unlock))sl.unlocked.push(d.unlock);applySlot(sl);saveMeta();Sfx.win();Sfx.sparkle();sc('perk',{step:'cat',hl:screenArg.hl,got:d.unlock});return}
   if(d.pcat){const P=screenArg.pc=screenArg.pc||{},pool=P[d.pcat]||(P[d.pcat]=shuffle(perkable(d.pcat)).slice(0,5));screenArg.step='pick';screenArg.cards=pool;Sfx.draw();renderScreen();return}
   if(d.back2){screenArg.step='cat';Sfx.select();renderScreen();return}
   if(d.skipperk){sc('scores',{hl:screenArg.hl});return}
@@ -268,13 +241,11 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(t.id==='sTut'){tutIdx=0;modal='tut';Sfx.select();renderModal();return}
   if(d.tutch){Sfx.select();startGuide();return}
   if(t.id==='sMute'){Sfx.muted=!Sfx.muted;try{localStorage.setItem('zoodeck-muted',Sfx.muted?'1':'0')}catch(e){}renderScreen();return}});
-// Übergang in openMaps/chooseMap: Spiel landet im aktiven Speicherplatz
-function appBack(){try{if(modal&&modal!=='inspPick'&&!(state&&state.zl&&!state.zl.prof)){modal=null;renderAll();return}if(state&&!screen){modal='help';render();return}if(screen&&screen!=='title'){screen='title';screenArg={};renderAll();return}const A=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.App;if(A&&A.exitApp)A.exitApp()}catch(e){}}
+function appBack(){try{if(modal&&modal!=='inspPick'){modal=null;renderAll();return}if(state&&!screen){modal='help';render();return}if(screen&&screen!=='title'){screen='title';screenArg={};renderAll();return}const A=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.App;if(A&&A.exitApp)A.exitApp()}catch(e){}}
 try{const A=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.App;if(A&&A.addListener)A.addListener('backButton',appBack)}catch(e){}
 function start(data){loadMeta();try{if(META.seenVer!==VERSION){if(META.seenVer||(META.slots||[]).some(Boolean))NEWSPEND=1;META.seenVer=VERSION;saveMeta()}if(NEWSPEND){NEWSPEND=0;setTimeout(()=>{try{showNews()}catch(e){}},400)}}catch(e){}if(META.active==='tut')META.active=null;if(data&&data.meta&&Array.isArray(data.meta.slots))META=data.meta;
   if(data&&data.state&&!META.slots.some(Boolean)){META.slots[0]={name:'Mein Zoo',created:Date.now(),last:Date.now(),game:data.state,perks:{},games:0};META.lastSlot=0}
   if(data&&data.resume!=null&&META.slots[data.resume]&&data.resumeMode==='camp'&&META.slots[data.resume].run){enterCamp(data.resume);return}
-  if(data&&data.resume!=null&&META.slots[data.resume]&&META.slots[data.resume].game){enterSlot(data.resume);return}
   screen='title';renderAll()}
 window.claude?.hot?.snapshot?.(()=>{try{saveMeta()}catch(e){}return{meta:JSON.parse(JSON.stringify(META)),resume:screen||(state&&state.mode==='tut')?null:META.active,resumeMode:state?state.mode:null}});
 window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});

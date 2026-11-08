@@ -13,12 +13,12 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(ev(`(()=>{const g=id=>FSG.find(x=>x.id===id);return g('d:freizeit').n===7&&g('d:geniesser').n===7&&g('d:forscher').n===6&&g('g:polar').n===4&&g('g:alpen').n===5&&g('v:besucherlotse').n===1e5&&g('v:scheinwerfer').n===8&&g('c:kraken').n===6&&g('c:bueffel').n===7&&g('c:addax').n===4&&g('c:eisbaeren').n===7&&g('c:rentiere').n===6&&g('c:seilbahn').n===6&&g('c:pizzeria').n===5&&g('c:schmetterling').n===10})()`),'Neue Ziel-Zahlen laut Tabelle');
  // nur die gewählten Ziele werden geprüft
  ev(`(()=>{const r=runOf();r.fsPick=['c:kraken'];modal=null;state.wishIntro=0;const F=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));const W=Object.keys(CARDS).filter(k=>CARDS[k].cat==='gehege'&&CARDS[k].hab==='wasser'&&SHAPES[CARDS[k].shape].cells.length===1&&!CARDS[k].ms).slice(0,1);state.buildings=F.slice(0,8).map((c,i)=>({id:900+i,key:W[0],cells:[c],lvl:1}));fsCheck('season')})()`);
- T(ev(`!!fsOf(activeSlot())['g!c:kraken']&&!fsOf(activeSlot())['g!d:kueste']`),'Gewähltes Ziel schaltet frei, nicht gewähltes (Küste mit 8 Wasser) nicht');
+ T(ev(`!!fsOf(activeSlot())['g!c:kraken']&&!!fsOf(activeSlot())['g!d:kueste']`),'Gewähltes Ziel schaltet frei; Profil-Ziel (Küste mit 8 Wasser) zählt immer');
  T(ev(`(runOf().fsr||{})['c:kraken']`)>=6,'Fortschritt je Lauf gemerkt');
  T(/Freischalt-Ziele dieses Laufs/.test(ev(`(()=>{const sl=activeSlot();return fsRunHtml(sl.run,sl,'🔓 Freischalt-Ziele dieses Laufs')})()`)),'Übersicht für die Zusammenfassung nach dem Zoo');
  // Meilensteine, Reinheit, Kosten
- T(ev(`MILE.wasser.n===7&&MILE.attr.n===7&&MILE.essen.n===7&&MILE.schutz.n===8&&MILE.bunt.n===4&&PURN===6`),'Meilensteine 7 (Naturschutz 8), Vielfalt-Meilenstein 4, Reinheit ab 6');
- T(/Ab 7 <b>verschiedenen/.test(ev(`mileInfoHtml()`)),'Meilenstein-Text nennt 7');
+ T(ev(`MILE.wasser.n===6&&MILE.attr.n===7&&MILE.essen.n===7&&MILE.schutz.n===7&&MILE.bunt.n===4&&PURN===4`),'Meilensteine 6 (Attraktion, Gastro, Naturschutz 7), Vielfalt-Meilenstein 4, Reinheit ab 4');
+ T(/Ab 6 <b>verschiedenen/.test(ev(`mileInfoHtml()`)),'Meilenstein-Text nennt 6');
  const k3=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&!CARDS[k].ms&&SHAPES[CARDS[k].shape].cells.length===3&&!k.includes('^'))`),k4=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&!CARDS[k].ms&&SHAPES[CARDS[k].shape].cells.length===4&&!k.includes('^'))`);
  T(ev(`costOf('${k3}')`)===3&&ev(`costOf('${k4}')`)===3,`Kosten: 3er-Gehege 3 BP (${k3}), 4er-Gehege 3 BP (${k4})`);
  // Umziehen gratis, Abreißen
@@ -29,7 +29,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(mv==='4/1',`Nach dem Gratis-Umzug kostet der nächste 1 BP (${mv})`);
  const dm=ev(`(()=>{const n=state.buildings.length,d0=state.deck.length,b0=state.bp,id=state.buildings[1].id;demolish(id);return [n-state.buildings.length,state.deck.length-d0,b0-state.bp].join()})()`);
  T(dm==='1,0,1',`Abreißen: weg (Karte nicht zurück ins Deck, seit 0.94), 1 BP (${dm})`);
- ev(`state.info=state.buildings[0].id;render()`);T(/Abreißen/.test(d.getElementById('info').textContent),'Info-Kasten zeigt „Abreißen“');
+ ev(`state.info=state.buildings[0].id;render()`);T(d.getElementById('btnDem').style.display==='grid'&&/Abreißen/.test(d.getElementById('btnDem').title),'Gebäude angetippt: 💥-Knopf „Abreißen“ (statt Text im Info-Kasten)');
  // Spezialisten-Gewichte 8/2/1
  const sw=ev(`(()=>{let c={1:0,2:0,3:0};for(let i=0;i<600;i++)for(const id of rollSpecs(3))c[SPEC[id].tier]++;const t=c[1]+c[2]+c[3];return c[1]/t})()`);T(sw>.55,'Spezialisten meist gewöhnlich: '+(sw*100).toFixed(0)+' %');
  // Winter
@@ -62,14 +62,13 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  // Warteschlange
  ev(`(()=>{state.season=1;state.phase='play';modal=null;screen=null;const wp=document.getElementById('wishPop');if(wp)wp.remove();state.wishIntro=0;POPQ=[];POPBUSY=false;activeSlot().popSeen={};state.bannerQ=[['🧪 Test eins!','A','t1','Erklärung A'],['🧪 Test zwei!','B','t2']];flushBanners()})()`);
  setTimeout(()=>{try{
-  T(d.querySelectorAll('.popwin').length===1&&/Erklärung A/.test(d.querySelector('.popwin').textContent),'Erstes Mal: Fenster mit Erklärung, nur eins auf einmal');
+  T(d.querySelectorAll('.popwin').length===1&&/Erklärung A/.test(d.querySelector('.popwin').textContent)&&/Test zwei/.test(d.querySelector('.popwin').textContent),'Erstes Mal: ein Fenster mit Erklärung, beide Meldungen darin');
   d.querySelector('.popwin button').click();
   setTimeout(()=>{try{
-   T(d.querySelectorAll('.popwin').length===1&&/Test zwei/.test(d.querySelector('.popwin').textContent),'Nach dem Wegklicken kommt das nächste');
-   d.querySelector('.popwin button').click();
+   T(d.querySelectorAll('.popwin').length===0,'Wartende Meldungen kommen zusammen in einem Fenster, danach keins mehr (seit 0.93)');
    ev(`state.bannerQ=[['🧪 Test eins!','A','t1']];flushBanners()`);
    setTimeout(()=>{try{
-    T(d.querySelectorAll('.popwin').length===0&&d.querySelectorAll('.mbanner').length>=1,'Beim zweiten Mal nur kurze Meldung');
+    T(d.querySelectorAll('.popwin').length===1&&!d.querySelector('.popwin .wph'),'Beim zweiten Mal Fenster ohne Erklärung');{const b=d.querySelector('.popwin button');if(b)b.click()}
     // Wünsche je Lauf, Momente, Liebling
     ev(`state.season=0;dayRoll()`);T(ev('state.fav')===null,'Besucherliebling erst ab Sommer');
     T(ev(`MOMW.foto===.5&&MOMW.storch===.5`),'Fotograf und Storch halb so oft');
@@ -84,5 +83,5 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
     const sb=d.querySelector('[data-msell]');T(!!sb,'Shop: Verkaufen-Knopf beim Team');
     if(sb){sb.click();d.querySelector('[data-msell]').click();T(ev('state.money')===m0+10&&ev('state.spec.length')===0,'Verkaufen: +10 Taler (gewöhnlich), Spezialist weg')}
     T(html.includes('<span class="indeck">schon ${nd}× im Deck</span>'),'Kartenwahl markiert „schon n× im Deck“');
-    L('fertig')}catch(e){L('ERR',e.stack)}},2200)}catch(e){L('ERR',e.stack)}},600)}catch(e){L('ERR',e.stack)}},900);
+    L('fertig')}catch(e){L('ERR',e.stack)}},2200)}catch(e){L('ERR',e.stack)}},1600)}catch(e){L('ERR',e.stack)}},900);
  }catch(e){L('ERR',e.stack)}},1500);

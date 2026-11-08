@@ -14,7 +14,7 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
   $('btnMute').textContent=Sfx.muted?'🔇':'🔊';
   {const nb=(state.spec||[]).length,mkOn=false;
-   $('evs').innerHTML=(state.mode==='camp'?`<button class="evb zoob" data-ev="zoo" aria-label="Dein Zoo: alle Regeln anzeigen"><span class="zt">${state.zl?(ZPROF[state.zl.prof]?ZPROF[state.zl.prof].icon:'🃏'):'🗺️'} Zoo ${state.zoo+1} ▾</span>${(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<span class="zev" data-ev="ev:${e.id}" title="${evName(e)}">${evIcon(e)}</span>`).join('')}</button>${wishBadge()}`:(state.rule&&RULES[state.rule.id]?`<button class="evb rl" data-ev="rule" title="Sonderregel" aria-label="Sonderregel: ${RULES[state.rule.id].name}">${RULES[state.rule.id].icon}</button>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join(''));renderTeam()}
+   $('evs').innerHTML=(state.mode==='camp'?`<button class="evb zoob" data-ev="zoo" aria-label="Dein Zoo: alle Regeln anzeigen"><span class="zt">${state.zl?'🃏':'🗺️'} Zoo ${state.zoo+1} ▾</span>${(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<span class="zev" data-ev="ev:${e.id}" title="${evName(e)}">${evIcon(e)}</span>`).join('')}</button>${wishBadge()}`:(state.rule&&RULES[state.rule.id]?`<button class="evb rl" data-ev="rule" title="Sonderregel" aria-label="Sonderregel: ${RULES[state.rule.id].name}">${RULES[state.rule.id].icon}</button>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join(''));renderTeam()}
   $('mkBar').classList.remove('on');
   placeZoomBtn();try{renderPts()}catch(e){}
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);
@@ -122,7 +122,7 @@ function progShort(P){try{const l=(P.fx||[])[0]||'',v=l.split('|')[0],t=l.split(
 function fxLine(l){const i=l.indexOf('|'),v=l.slice(0,i),t=l.slice(i+1),neg=/^[−-]/.test(v),word=/^[A-Za-zÄÖÜäöü]/.test(v);
   const cls=word?'w':neg?'neg':(v.includes('B')&&v.includes('N'))?'bn':v.includes('N')?'n':'b';return`<li><b class="${cls}">${v}</b> ${t}</li>`}
 // Zahlen in Eigenschafts-Texten an das Profil anpassen (Ruhezoo: Stress doppelt, Manege: Show doppelt)
-function fxDyn(t){try{const p=CTX.zl&&CTX.zl.prof;if(p==='ruhe'&&/gestresst/.test(t))return t.replace('−5 % Natur','−10 % Natur (Ruhezoo)');if(p==='manege'&&/^🎭 Showtier/.test(t))return t.replace('+30 %','+60 %').replace('höchstens +60 %','höchstens +120 %, Manege');}catch(e){}return t}
+function fxDyn(t){return t}
 function fxHtml(c,full){const L=(c.fx||[]).filter(l=>!(TUTNOW&&!TUTTR&&(TAGL().has(l)||/Beutetier|Raubtier|Showtier|^🦷|^🐇|^🙈|^🎭|^🤫|^🎉/.test(l)))).map(fxDyn);
   if(full&&c.hab){L.push(`+1 B|je Nachbar-Gehege mit Lebensraum ${HAB[c.hab].label}`,`+1 N|je Feld auf ${HAB[c.hab].label}-Naturfläche`);if(CTX.winter&&cold(c.hab))L.push('−1 B|im Winter (Kälte)');if(CTX.season===1&&hot(c.hab))L.push('−1 B|im Sommer (Hitze)')}
   if(!L.length)return`<ul class="fx"><li class="dim">Keine Spezialwirkung</li></ul>`;return`<ul class="fx">${L.map(fxLine).join('')}</ul>`}
@@ -641,7 +641,6 @@ function buy(it){if(it.sold||!canPay(it.price)){Sfx.deny();return}
   else if(it.kind==='ad'){state.adsNext.push(it.key);it.sold=true}
   else if(it.kind==='card'){state.discard.push(it.key);it.sold=true}
   else if(it.kind==='spec'){hireSpec(it.key);it.sold=true;Sfx.win()}
-  else if(it.kind==='zfix'){state.zl.fix=true;state.shop.note='Umbau fertig: Der Nachteil deines Profils gilt nicht mehr.'}
   else if(it.kind==='tv'){state.zl.tvNext=true;state.shop.note='Fernsehteam gebucht: Baue am ersten Tag der nächsten Jahreszeit mindestens 3 Gehege/Gebäude.'}
   else if(it.kind==='bp'){state.bpNext=1;state.shop.note='Saison-Bautrupp gebucht: nächste Jahreszeit +1 Baupunkt pro Tag.'}
   else if(it.kind==='dozer'){const blocks=[...TERR.entries()].filter(([k,v])=>v==='block');const[k]=blocks[Math.floor(Math.random()*blocks.length)];TERR.delete(k);state.terr=[...TERR];state.shop.note='Ein Felsen wurde weggebaggert.'}
@@ -670,7 +669,6 @@ function itemHtml(it,idx,fixed){let kind,name,text,icon;
   else if(it.kind==='profi'){kind='👥 Spezialist · ganzer Lauf';band='run';name='Profi-Mappe';text=`3 Bewerbungen, mindestens eine davon selten oder legendär. Seltene und legendäre kommen 3× so oft. Jede weitere Profi-Mappe in diesem Zoo kostet 15 Taler mehr.<span class="tx2"> · Team ${(state.spec||[]).length}/${maxSpec()}${(state.spec||[]).length>=maxSpec()?' · der Neue ersetzt jemanden':''}</span>`;icon='💼'}
   else if(it.kind==='remove'){kind='✂️ Einmalig · Deck-Pflege';band='once';name='Karte entfernen';text='Nimm eine Karte dauerhaft aus deinem Deck.';icon='✂️'}
   else if(it.kind==='bp'){kind='⏳ Nur im '+nxn;band='temp';name='Saison-Bautrupp';text=fxHtml({fx:[`+1 BP|pro Tag, nur die nächste Jahreszeit (${BP+1} statt ${BP})`]});icon='🧱'}
-  else if(it.kind==='zfix'){const P=ZPROF[state.zl.prof];kind='Zoolatro · Umbau';name='Profil-Umbau';text=`Hebt den Nachteil von ${P.icon} ${P.name} für diesen Zoo auf: „${P.bad}“.`;icon='🛠️'}
   else if(it.kind==='tv'){kind='⏳ Erster Tag im '+nxn+' · Wagnis';band='temp';name='Fernsehteam';text=fxHtml({fx:['×3 B|am ersten Tag der nächsten Jahreszeit, wenn du an dem Tag mindestens 3 Gehege/Gebäude baust','×0,5 B|sonst']});icon='📺'}
   else{kind='Einmalig';band='once';name='Felsen wegbaggern';text='Entfernt einen zufälligen Felsen vom Gelände.';icon='🚜'}
   const lk=tShopLk(),off=!!lk&&it.kind!==lk.kind,dis=it.sold||!canPay(it.price)||off;

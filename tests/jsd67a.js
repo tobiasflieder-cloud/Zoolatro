@@ -15,6 +15,6 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev(`document.body.classList.add("land")`);T(!ev("tutStep()._read"),"Querformat: ganzer Text in einer Box");
  T(ev('traitsOf("zebras").length')===0,'Merkmale im Tutorial aus');
  T(ev('TUTGUIDED.join()')==='zl,zs,zh','Geführte Kapitel Frühling/Sommer/Herbst');
- T(ev('GUIDE.length')===0,'Alte Hinweise entfernt');
+ T(ev("typeof GUIDE==='undefined'"),'Alte Hinweise entfernt (0.73a)');
  T(ev('CHANGES[0].v')==='0.67a','Neuigkeiten 0.67a');
  L('fertig')}catch(e){L('ERR',e.stack)}process.exit(0)},300);
