@@ -1,0 +1,6 @@
+# von Godot erzeugt, nicht ins Repo
+.godot/
+*.tmp
+export/
+*.apk
+*.aab

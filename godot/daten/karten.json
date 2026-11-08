@@ -1,0 +1,399 @@
+{
+ "hinweis": "Werte aus dem HTML-Spiel 0.73a (CARDS zur Laufzeit). rar_anzeige = nur Optik im Prototyp (alle Karten sind im Spiel gewöhnlich).",
+ "karten": [
+  {
+   "key": "zebras",
+   "name": "Zebrasteppe",
+   "icon": "🦓",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "s2",
+   "B": 4,
+   "N": 3,
+   "rar": "gewöhnlich",
+   "tags": [
+    "beute"
+   ],
+   "text": "",
+   "bild": "res://grafik/karten/zebras.png"
+  },
+  {
+   "key": "giraffen",
+   "name": "Giraffenweide",
+   "icon": "🦒",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "b3",
+   "B": 5,
+   "N": 3,
+   "rar": "gewöhnlich",
+   "tags": [
+    "gross",
+    "beute",
+    "show"
+   ],
+   "text": "",
+   "bild": "res://grafik/karten/giraffen.png"
+  },
+  {
+   "key": "elefanten",
+   "name": "Elefantenpark",
+   "icon": "🐘",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "d4",
+   "B": 6,
+   "N": 4,
+   "rar": "gewöhnlich",
+   "tags": [
+    "bedroht",
+    "gross"
+   ],
+   "text": "",
+   "bild": "res://grafik/karten/elefanten.png",
+   "rar_anzeige": "selten"
+  },
+  {
+   "key": "flamingos",
+   "name": "Flamingoteich",
+   "icon": "🦩",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s2",
+   "B": 2,
+   "N": 3,
+   "rar": "gewöhnlich",
+   "tags": [
+    "beute"
+   ],
+   "text": "",
+   "bild": "res://grafik/karten/flamingos.png"
+  },
+  {
+   "key": "otter",
+   "name": "Otterbach",
+   "icon": "🦦",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "l3",
+   "B": 5,
+   "N": 4,
+   "rar": "gewöhnlich",
+   "tags": [
+    "bedroht",
+    "gross"
+   ],
+   "text": "",
+   "bild": "res://grafik/karten/otter.png"
+  },
+  {
+   "key": "nilpferde",
+   "name": "Nilpferdsee",
+   "icon": "🦛",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "d4",
+   "B": 6,
+   "N": 4,
+   "rar": "gewöhnlich",
+   "tags": [
+    "bedroht",
+    "gross"
+   ],
+   "text": "+2 N je benachbartes Wasser-Gehege. Kombo ×1,5 bei 3 Wasser-Gehegen daneben",
+   "bild": "res://grafik/karten/nilpferde.png",
+   "rar_anzeige": "sehr selten"
+  },
+  {
+   "key": "fennek",
+   "name": "Fennek-Bau",
+   "icon": "🦊",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s2",
+   "B": 4,
+   "N": 3,
+   "rar": "gewöhnlich",
+   "tags": [
+    "raubtier",
+    "scheu"
+   ],
+   "text": "",
+   "bild": "res://grafik/karten/fennek.png"
+  },
+  {
+   "key": "bratwurst",
+   "name": "Bratwurstbude",
+   "icon": "🌭",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s1",
+   "B": 2,
+   "N": 0,
+   "rar": "gewöhnlich",
+   "tags": [
+    "trubel"
+   ],
+   "text": "+1 B je benachbartes Savannen-Gehege",
+   "bild": "res://grafik/karten/bratwurst.png"
+  },
+  {
+   "key": "popcorn",
+   "name": "Popcornstand",
+   "icon": "🍿",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s1",
+   "B": 1,
+   "N": 0,
+   "rar": "gewöhnlich",
+   "tags": [],
+   "text": "+5 B neben Delfinshow oder Streichelzoo, +2 B je andere Attraktion daneben",
+   "bild": "res://grafik/karten/popcorn.png"
+  },
+  {
+   "key": "gruen",
+   "name": "Grünfläche",
+   "icon": "🌳",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "B": 1,
+   "N": 1,
+   "rar": "gewöhnlich",
+   "tags": [],
+   "text": "+1 N je benachbartes Gehege",
+   "bild": "res://grafik/karten/gruen.png"
+  },
+  {
+   "key": "delfinshow",
+   "name": "Delfinshow",
+   "icon": "🐬",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s2",
+   "B": 6,
+   "N": 0,
+   "rar": "gewöhnlich",
+   "tags": [
+    "trubel"
+   ],
+   "text": "+1 B je benachbartes Wasser-Gehege",
+   "bild": "res://grafik/karten/delfinshow.png"
+  },
+  {
+   "key": "streichelzoo",
+   "name": "Streichelzoo",
+   "icon": "🐑",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s2",
+   "B": 4,
+   "N": 2,
+   "rar": "gewöhnlich",
+   "tags": [],
+   "text": "+2 B je benachbartes Gastro-Gebäude",
+   "bild": "res://grafik/karten/streichelzoo.png"
+  }
+ ],
+ "formen": {
+  "s1": {
+   "felder": [
+    [
+     0,
+     0
+    ]
+   ],
+   "name": "1 Feld"
+  },
+  "s2": {
+   "felder": [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ]
+   ],
+   "name": "2 Felder"
+  },
+  "l3": {
+   "felder": [
+    [
+     -1,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ]
+   ],
+   "name": "3er-Reihe"
+  },
+  "t3": {
+   "felder": [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "name": "Dreieck"
+  },
+  "b3": {
+   "felder": [
+    [
+     -1,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ],
+   "name": "Bogen"
+  },
+  "l4": {
+   "felder": [
+    [
+     -1,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     2,
+     0
+    ]
+   ],
+   "name": "4er-Reihe"
+  },
+  "d4": {
+   "felder": [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "name": "Raute"
+  },
+  "z4": {
+   "felder": [
+    [
+     -1,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ],
+   "name": "Zickzack"
+  }
+ },
+ "freunde": [
+  [
+   "zebras",
+   "giraffen"
+  ],
+  [
+   "flamingos",
+   "nilpferde"
+  ],
+  [
+   "affen",
+   "papageien"
+  ],
+  [
+   "kamele",
+   "fennek"
+  ],
+  [
+   "pinguine",
+   "schneegaense"
+  ],
+  [
+   "steinboecke",
+   "murmeltiere"
+  ],
+  [
+   "elefanten",
+   "warzenschweine"
+  ],
+  [
+   "otter",
+   "schwan"
+  ],
+  [
+   "pandas",
+   "rotepandas"
+  ],
+  [
+   "eulen",
+   "faultiere"
+  ],
+  [
+   "schildkroeten",
+   "korallenriff"
+  ],
+  [
+   "moschusochsen",
+   "schneehasen"
+  ],
+  [
+   "yaks",
+   "mufflons"
+  ],
+  [
+   "reptilien",
+   "skorpione"
+  ],
+  [
+   "seeloewen",
+   "pinguine"
+  ]
+ ]
+}

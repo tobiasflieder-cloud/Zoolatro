@@ -42,3 +42,9 @@ Das Erzeugen ist reproduzierbar: Gleicher Code ergibt gleiche Dateien, denn `Mat
 `parts` sind die Rechenschritte in der Reihenfolge aus `docs/regeln.md` Abschnitt 2. Ein Nachbau kann damit nicht nur die Summe,
 sondern jeden einzelnen Schritt vergleichen. `rot`/`anchor` sind aus den Feldern zurückgerechnet (erste passende Drehung).
 Bei symmetrischen Formen gibt es mehrere richtige Lösungen.
+
+## Spielwiese (Godot-Prototyp, nur Zweig `godot-prototyp`)
+`node tests/referenz/spielwiese.js` (prüfen) bzw. `… erzeuge` (neu erzeugen) – 15 Fälle in `tests/referenz/spielwiese/` mit den 12 Karten
+der Spielwiese im Tutorial-Rahmen des HTML-Spiels: `rein-*` nur Grundwert, Nachbarn, Naturfläche, Kartenbonus, Goldfeld, Kronenfeld, Herde;
+`voll-*` zusätzlich Mehrfach-Bau; `extra-*` Freundschaft, Innenhof, Allee, Dreiländereck, Kombo. Godot rechnet sie mit
+`godot/tests/test_referenz.gd` nach (Kopie in `godot/tests/faelle/`).
