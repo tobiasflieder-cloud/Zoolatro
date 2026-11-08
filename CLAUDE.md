@@ -27,6 +27,9 @@ Es ist eine einzige HTML-Datei, die aus Modulen zusammengebaut und über GitHub 
 | `CHANGELOG.md` | Änderungen je Version in Spielersprache |
 | `docs/UEBERGABE-bis-0.69a.md` | alte Übergabe-Notiz: Code-Details aller Versionen, Messwerte, Erledigt-Listen (Nachschlagen) |
 | `docs/tutorial/` | Tutorial-Planung (Tabelle, Bauplan Zoo 1, Zooplan) |
+| `docs/regeln.md` | vollständige Spielregeln mit Rechenreihenfolge und Verweisen auf den Quelltext (Vorlage für Nachbau), Abschnitt 13 = offene Widersprüche |
+| `docs/godot-plan.md` | Vorschlag für einen Port nach Godot 4 |
+| `tests/referenz/` | 50 Referenzfälle der Wertung (`node tests/referenz/referenz.js`, neu erzeugen mit `… erzeuge`) |
 
 Module: 01 Karten · 02 Zoolatro-Regeln · 03 Sprache (TXT, Kartentexte) · 04 Wertung · 05 Ton · 06 Spiel ·
 07 Anzeige · 08 Shop/Menüs · 09 Speichern/Lauf · 10 Tutorial · 11 Bildschirme.

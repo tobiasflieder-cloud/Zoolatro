@@ -1,0 +1,1067 @@
+{"fall":"bot-s14-steppe-zoo3-jz1-tag5",
+"herkunft":{"seed":14,"deck":"steppe","stage":2},
+"beschreibung":{
+ "map": "wiese",
+ "board": [
+  [
+   0,
+   0
+  ],
+  [
+   0,
+   1
+  ],
+  [
+   1,
+   0
+  ],
+  [
+   -1,
+   1
+  ],
+  [
+   0,
+   -1
+  ],
+  [
+   1,
+   1
+  ],
+  [
+   -1,
+   0
+  ],
+  [
+   1,
+   -1
+  ],
+  [
+   -1,
+   -1
+  ],
+  [
+   1,
+   -2
+  ],
+  [
+   0,
+   2
+  ],
+  [
+   -1,
+   2
+  ],
+  [
+   2,
+   0
+  ],
+  [
+   -2,
+   1
+  ],
+  [
+   -2,
+   2
+  ],
+  [
+   2,
+   1
+  ],
+  [
+   -2,
+   3
+  ],
+  [
+   0,
+   -2
+  ],
+  [
+   3,
+   -1
+  ],
+  [
+   2,
+   -1
+  ],
+  [
+   -2,
+   0
+  ],
+  [
+   3,
+   -2
+  ],
+  [
+   -3,
+   2
+  ],
+  [
+   2,
+   -2
+  ],
+  [
+   -3,
+   1
+  ],
+  [
+   -3,
+   0
+  ],
+  [
+   0,
+   3
+  ],
+  [
+   1,
+   -3
+  ],
+  [
+   1,
+   2
+  ],
+  [
+   3,
+   -3
+  ],
+  [
+   -1,
+   3
+  ],
+  [
+   2,
+   2
+  ],
+  [
+   3,
+   0
+  ],
+  [
+   -1,
+   -2
+  ],
+  [
+   1,
+   3
+  ],
+  [
+   -3,
+   3
+  ],
+  [
+   -2,
+   -2
+  ],
+  [
+   2,
+   -3
+  ],
+  [
+   -2,
+   -1
+  ],
+  [
+   4,
+   -1
+  ],
+  [
+   -1,
+   -3
+  ],
+  [
+   -1,
+   4
+  ],
+  [
+   0,
+   -3
+  ],
+  [
+   -4,
+   2
+  ],
+  [
+   -4,
+   4
+  ],
+  [
+   4,
+   -2
+  ],
+  [
+   -4,
+   1
+  ],
+  [
+   -2,
+   4
+  ],
+  [
+   3,
+   -4
+  ],
+  [
+   0,
+   4
+  ],
+  [
+   2,
+   -4
+  ],
+  [
+   -3,
+   -1
+  ],
+  [
+   -4,
+   3
+  ],
+  [
+   3,
+   1
+  ],
+  [
+   3,
+   2
+  ],
+  [
+   4,
+   -4
+  ],
+  [
+   4,
+   -3
+  ],
+  [
+   -4,
+   0
+  ],
+  [
+   2,
+   3
+  ],
+  [
+   -3,
+   4
+  ],
+  [
+   0,
+   -4
+  ],
+  [
+   4,
+   -5
+  ],
+  [
+   1,
+   -4
+  ],
+  [
+   -1,
+   -4
+  ],
+  [
+   5,
+   -1
+  ],
+  [
+   1,
+   -5
+  ],
+  [
+   -5,
+   4
+  ],
+  [
+   -2,
+   5
+  ],
+  [
+   -2,
+   -3
+  ],
+  [
+   4,
+   0
+  ],
+  [
+   3,
+   -5
+  ],
+  [
+   -1,
+   5
+  ],
+  [
+   -5,
+   3
+  ]
+ ],
+ "terrain": [
+  [
+   "-1,2",
+   "block"
+  ],
+  [
+   "2,0",
+   "block"
+  ],
+  [
+   "-1,-2",
+   "block"
+  ],
+  [
+   "3,-5",
+   "block"
+  ],
+  [
+   "-2,0",
+   "wueste"
+  ],
+  [
+   "-2,-1",
+   "wueste"
+  ],
+  [
+   "1,-5",
+   "wueste"
+  ],
+  [
+   "1,-4",
+   "wueste"
+  ],
+  [
+   "0,-4",
+   "wueste"
+  ],
+  [
+   "-1,-4",
+   "wueste"
+  ],
+  [
+   "-2,3",
+   "wasser"
+  ],
+  [
+   "-2,2",
+   "wasser"
+  ],
+  [
+   "-1,1",
+   "wasser"
+  ],
+  [
+   "-3,2",
+   "wasser"
+  ],
+  [
+   "1,0",
+   "wasser"
+  ],
+  [
+   "2,-1",
+   "wasser"
+  ],
+  [
+   "3,-4",
+   "savanne"
+  ],
+  [
+   "3,-3",
+   "savanne"
+  ],
+  [
+   "2,-3",
+   "savanne"
+  ],
+  [
+   "1,-2",
+   "savanne"
+  ],
+  [
+   "4,-1",
+   "savanne"
+  ],
+  [
+   "3,0",
+   "savanne"
+  ]
+ ],
+ "gold": [
+  "-2,-1",
+  "0,3",
+  "1,1"
+ ],
+ "g4": [],
+ "crown": "-1,0",
+ "crown2": [],
+ "zoo": 2,
+ "season": 0,
+ "seasonName": "Frühling",
+ "day": 4,
+ "winter": false,
+ "deck": "steppe",
+ "stage": 2,
+ "z2": true,
+ "habs": [
+  "wueste",
+  "wasser",
+  "savanne"
+ ],
+ "zooProfile": "keins",
+ "winterCondition": "klein",
+ "winterHard": false,
+ "winterHab": null,
+ "specialists": [
+  "k_beute",
+  "frieden",
+  "gastro",
+  "quer"
+ ],
+ "specialistsActive": [
+  "k_beute",
+  "frieden",
+  "gastro",
+  "quer"
+ ],
+ "habitatFood": {},
+ "progs": [],
+ "ads": [],
+ "events": [],
+ "money": 23,
+ "fav": null,
+ "foto": null,
+ "chaos": null,
+ "buildings": [
+  {
+   "id": 1,
+   "key": "schildkroeten",
+   "base": "schildkroeten",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 4
+   },
+   "cells": [
+    [
+     1,
+     1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "bedroht",
+    "scheu"
+   ]
+  },
+  {
+   "id": 2,
+   "key": "wasserloch",
+   "base": "wasserloch",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     0,
+     3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    0,
+    3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 3,
+   "key": "schlangen",
+   "base": "schlangen",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 3
+   },
+   "cells": [
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    2,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "bedroht"
+   ]
+  },
+  {
+   "id": 4,
+   "key": "warzenschweine",
+   "base": "warzenschweine",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     1,
+     2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": "liebling",
+   "edition": null,
+   "traits": [
+    "beute",
+    "show"
+   ],
+   "tags": [
+    "beute",
+    "show"
+   ]
+  },
+  {
+   "id": 5,
+   "key": "korallenriff",
+   "base": "korallenriff",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     1,
+     0
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    0
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "show"
+   ],
+   "tags": [
+    "show"
+   ]
+  },
+  {
+   "id": 6,
+   "key": "dingos",
+   "base": "dingos",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 2
+   },
+   "cells": [
+    [
+     1,
+     3
+    ],
+    [
+     2,
+     3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "raubtier"
+   ],
+   "tags": [
+    "raubtier"
+   ]
+  },
+  {
+   "id": 7,
+   "key": "gnu",
+   "base": "gnu",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "d4",
+   "grund": {
+    "B": 4,
+    "N": 4
+   },
+   "cells": [
+    [
+     1,
+     -1
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     -1
+    ],
+    [
+     -1,
+     0
+    ]
+   ],
+   "rot": 2,
+   "anchor": [
+    1,
+    -1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "beute",
+    "gross"
+   ]
+  },
+  {
+   "id": 8,
+   "key": "gruen",
+   "base": "gruen",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     2,
+     2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    2,
+    2
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 9,
+   "key": "fennek",
+   "base": "fennek",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 3
+   },
+   "cells": [
+    [
+     -2,
+     0
+    ],
+    [
+     -2,
+     -1
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    -2,
+    -1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": "leicht",
+   "edition": null,
+   "traits": [
+    "raubtier",
+    "scheu"
+   ],
+   "tags": [
+    "raubtier",
+    "scheu"
+   ]
+  },
+  {
+   "id": 10,
+   "key": "giraffen",
+   "base": "giraffen",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "b3",
+   "grund": {
+    "B": 5,
+    "N": 3
+   },
+   "cells": [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     -1,
+     3
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    0,
+    2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute",
+    "show"
+   ],
+   "tags": [
+    "gross",
+    "beute",
+    "show"
+   ]
+  }
+ ]
+},
+"erwartet":{
+ "A": 120,
+ "S": 122,
+ "total": 14640,
+ "mults": [
+  {
+   "label": "Beute-Kennerin",
+   "id": null,
+   "ma": null,
+   "ms": 1.18
+  },
+  {
+   "label": "Kronenfeld",
+   "id": 7,
+   "ma": 1.3,
+   "ms": null
+  },
+  {
+   "label": "Vielfalt: alle Lebensräume, je 2+ Arten",
+   "id": null,
+   "ma": null,
+   "ms": 1.1
+  }
+ ],
+ "buildings": [
+  {
+   "id": 1,
+   "a": 10,
+   "s": 17,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     2,
+     4
+    ],
+    [
+     "💧 Fluss: Kette aus 2 ×1,5",
+     2,
+     4
+    ],
+    [
+     "🤝 Freundschaft mit Korallenriff ×1,25",
+     2,
+     3
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "🔺 Dreiländereck",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 2,
+   "a": 2,
+   "s": 10,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     4
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     1,
+     5
+    ]
+   ]
+  },
+  {
+   "id": 3,
+   "a": 8,
+   "s": 8,
+   "parts": [
+    [
+     "🏜️ Einzelgänger: allein ×2",
+     4,
+     3
+    ],
+    [
+     "🔺 Dreiländereck",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 4,
+   "a": 10,
+   "s": 9,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "📈 Lieblingstier",
+     3,
+     3
+    ],
+    [
+     "🌾 Herde aus 3 ×1,4",
+     2,
+     2
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "🔺 Dreiländereck",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 5,
+   "a": 10,
+   "s": 6,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "Wasser-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "💧 Fluss: Kette aus 2 ×1,5",
+     2,
+     2
+    ],
+    [
+     "🤝 Freundschaft mit Schildkröten ×1,25",
+     2,
+     1
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 6,
+   "a": 14,
+   "s": 6,
+   "parts": [
+    [
+     "🔗 Kombo ×1,5: Beutetier in der Nähe",
+     2,
+     1
+    ],
+    [
+     "🏜️ Einzelgänger: allein ×2",
+     6,
+     3
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 7,
+   "a": 10,
+   "s": 7,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "Kartenbonus",
+     1,
+     1
+    ],
+    [
+     "🌾 Herde aus 3 ×1,4",
+     2,
+     2
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 8,
+   "a": 2,
+   "s": 7,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     3
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     1,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 9,
+   "a": 16,
+   "s": 20,
+   "parts": [
+    [
+     "Wüste-Naturfläche",
+     0,
+     2
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     4,
+     5
+    ],
+    [
+     "🏜️ Einzelgänger: allein ×2",
+     8,
+     10
+    ]
+   ]
+  },
+  {
+   "id": 10,
+   "a": 10,
+   "s": 4,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "🌾 Herde aus 3 ×1,4",
+     3,
+     1
+    ]
+   ]
+  }
+ ]
+},
+"run":{"v":2,"t0":0,"zoo":2,"perks":{},"cards":[],"spec":["k_beute","frieden","gastro","quer"],"deckId":"steppe","deck":["popcorn","cafe","gruen","gruen","infozentrum","turm","schlangen","korallenriff","fennek^leicht","schildkroeten","zebras","giraffen","warzenschweine^liebling","gnu","wasserloch","picknick","besucherlotse","winterquartier","addax","dingos","zirkus"],"habs":["wueste","wasser","savanne"],"z2":1,"stage":2,"added":["addax","dingos","zirkus"],"stats":{"cards":{"schlangen":{"a":350,"s":400},"korallenriff":{"a":467,"s":314},"schildkroeten":{"a":157,"s":325},"gnu":{"a":362,"s":318},"zebras":{"a":396,"s":247},"fennek":{"a":642,"s":515},"giraffen":{"a":839,"s":370},"wasserloch":{"a":38,"s":213},"warzenschweine":{"a":296,"s":217},"cafe":{"a":62,"s":0},"gruen":{"a":51,"s":203},"popcorn":{"a":66,"s":0},"turm":{"a":123,"s":0},"bratwurst":{"a":12,"s":0},"addax":{"a":629,"s":439},"flamingos":{"a":179,"s":198},"elefanten":{"a":199,"s":162},"nilpferde":{"a":88,"s":123},"otter":{"a":84,"s":56},"geparden":{"a":92,"s":31},"infozentrum":{"a":41,"s":41},"winterquartier":{"a":0,"s":0},"dingos":{"a":200,"s":186},"besucherlotse":{"a":0,"s":0},"kamele":{"a":161,"s":94},"picknick":{"a":28,"s":8},"skorpione":{"a":24,"s":9},"greifvogel":{"a":40,"s":8},"eiswagen":{"a":8,"s":0}},"best":{"pts":185070,"season":3,"day":2,"zoo":0},"combo":0,"earned":164,"spent":60,"progs":0,"tally":{"schlangen":3,"korallenriff":3,"schildkroeten":3,"gnu":2,"zebras":2,"fennek":2,"giraffen":2,"wasserloch":2,"warzenschweine":6,"cafe":2,"gruen":3,"popcorn":2,"turm":2,"bratwurst":1,"addax":2,"flamingos":3,"elefanten":2,"nilpferde":1,"otter":1,"geparden":2,"infozentrum":3,"winterquartier":1,"dingos":1,"besucherlotse":1,"kamele":1,"picknick":1,"skorpione":1,"greifvogel":1,"eiswagen":1},"lvl":2,"days":36},"total":1915278,"game":null,"reward":null,"zl":true,"grow":{},"maps":{"0":"bucht","1":"flusstal","2":"wiese"},"plan":null,"wishSeen":["show","big4","lvl3","arten5","gastro3","schutz3","rote2"],"offered":{"0":{"r":"anschl","i":["essen"]},"1":{"r":"max3","i":["attr"]},"2":{"r":"gross2","i":["klein"]}},"fsr":{"d:kueste":6,"d:dschungel":0,"d:oase":53,"d:freizeit":1,"d:geniesser":4,"d:forscher":3,"v:besucherlotse":114504,"v:scheinwerfer":7,"v:buehne":2,"v:ruhezone":2,"v:winterquartier":1},"bpCarry":0,"log":[{"z":0,"s":0,"p":11572,"t":10500,"d":4,"ok":1,"m":18,"sp":[],"pg":[],"w":{"t":"Ein Showtier mit vollem Show-Bonus (2 Gastro-Gebäude oder Attraktionen daneben)","ok":0}},{"z":0,"s":1,"p":82539,"t":67300,"d":3,"ok":1,"m":63,"sp":[],"pg":[],"w":{"t":"Baue ein Gehege mit 4 Feldern","ok":0}},{"z":0,"s":2,"p":266320,"t":156000,"d":3,"ok":1,"m":61,"sp":["k_beute"],"pg":[],"w":{"t":"Ein Gehege oder Gebäude auf Stufe III","ok":0}},{"z":0,"s":3,"p":497176,"t":352000,"d":3,"ok":1,"m":28,"sp":["k_beute","frieden"],"pg":[],"w":null},{"z":1,"s":0,"p":14288,"t":12000,"d":4,"ok":1,"m":12,"sp":["k_beute","frieden","gastro"],"pg":[],"w":{"t":"5 verschiedene Tierarten im Zoo","ok":1}},{"z":1,"s":1,"p":123943,"t":98300,"d":5,"ok":1,"m":-1,"sp":["k_beute","frieden","gastro"],"pg":[],"w":{"t":"3 verschiedene Gastro-Gebäude im Zoo","ok":0}},{"z":1,"s":2,"p":363843,"t":262000,"d":4,"ok":1,"m":15,"sp":["k_beute","frieden","gastro"],"pg":[],"w":{"t":"3 Naturschutz-Gebäude, die zusammenhängen","ok":0}},{"z":1,"s":3,"p":555597,"t":546000,"d":5,"ok":1,"m":1,"sp":["k_beute","frieden","gastro"],"pg":[],"w":null}],"gifts":["gsack","gsack","gsack"],"fsAll":["v:besucherlotse","v:winterquartier"],"zlog":[{"z":0,"won":1,"pts":857607,"map":"bucht","rule":"anschl","insp":"essen","prof":"keins","A":398,"S":465,"mult":["Gestresste Tiere: 2 ×0,9 N","Beute-Kennerin ×1,48 N","Kronenfeld ×1,3 B","Reinheit: 6 Savanne-Gehege ×1,45 N"],"built":{"schlangen":2,"korallenriff":2,"schildkroeten":1,"gnu":1,"zebras":1,"fennek":1,"giraffen":1,"wasserloch":1,"warzenschweine":3,"cafe":1,"gruen":2,"popcorn":1,"turm":1,"bratwurst":1,"addax":1,"flamingos":1,"elefanten":1,"nilpferde":1,"otter":1,"geparden":1,"infozentrum":1},"top":["Giraffenweide 67B/33N","Korallenriff II 46B/26N","Nilpferdsee 20B/26N","Schlangengrube 16B/20N","Gnu-Wanderung 20B/16N"],"deck":17,"ml":[{"t":"savanne","s":3,"d":1}]},{"z":1,"won":1,"pts":1057671,"map":"flusstal","rule":"max3","insp":"attr","prof":"keins","A":339,"S":493,"mult":["Gestresste Tiere: 2 ×0,9 N","Beute-Kennerin ×1,6 N","Kronenfeld ×1,3 B","Reinheit: 7 Wüste-Gehege ×1,6 N"],"built":{"fennek":1,"addax":1,"popcorn":1,"turm":1,"schildkroeten":2,"warzenschweine":3,"zebras":1,"gruen":1,"winterquartier":1,"gnu":1,"schlangen":1,"giraffen":1,"dingos":1,"korallenriff":1,"besucherlotse":1,"wasserloch":1,"infozentrum":2,"kamele":1,"flamingos":2,"elefanten":1,"cafe":1,"geparden":1,"picknick":1,"skorpione":1,"greifvogel":1,"eiswagen":1},"top":["Fennek-Bau II 40B/32N","Mendesantilopen 28B/23N","Zebrasteppe II 19B/14N","Kamelpfad II 18B/11N","Flamingoteich 14B/14N"],"deck":20,"ml":[{"t":"savanne","s":2,"d":2},{"t":"wueste","s":3,"d":1}]}],"snapA":123,"snapS":413,"sav":16,"newNow":[],"zooPts":[857607,1057671],"miles":3,"stNew":0,"chNow":[],"vNow":[],"kasse":1},
+"perks":{},
+"game":{"map":"wiese","board":[[0,0],[0,1],[1,0],[-1,1],[0,-1],[1,1],[-1,0],[1,-1],[-1,-1],[1,-2],[0,2],[-1,2],[2,0],[-2,1],[-2,2],[2,1],[-2,3],[0,-2],[3,-1],[2,-1],[-2,0],[3,-2],[-3,2],[2,-2],[-3,1],[-3,0],[0,3],[1,-3],[1,2],[3,-3],[-1,3],[2,2],[3,0],[-1,-2],[1,3],[-3,3],[-2,-2],[2,-3],[-2,-1],[4,-1],[-1,-3],[-1,4],[0,-3],[-4,2],[-4,4],[4,-2],[-4,1],[-2,4],[3,-4],[0,4],[2,-4],[-3,-1],[-4,3],[3,1],[3,2],[4,-4],[4,-3],[-4,0],[2,3],[-3,4],[0,-4],[4,-5],[1,-4],[-1,-4],[5,-1],[1,-5],[-5,4],[-2,5],[-2,-3],[4,0],[3,-5],[-1,5],[-5,3]],"undo":[],"yday":{"A":120,"S":122,"total":14640},"builtToday":2,"picks":0,"pickTotal":3,"hover":null,"hoverTerr":null,"earlyBonus":0,"dayPts":[40,465,2499,5040,14640],"past":[],"money":23,"progs":[],"ads":[],"adsNext":[],"bpMax":4,"bpBought":0,"bpNext":0,"bpSeason":0,"shop":null,"shopSub":null,"infoProg":"rule","lastIncome":{"base":-2,"interest":0,"spec":0,"don":0,"kar":0,"gas":0,"lot":0,"snk":0,"total":-2,"entry":13,"care":-15,"A":120,"S":122},"msg":null,"prevY":{"A":72,"S":70,"total":5040},"miles":{},"mileNew":[],"spec":["k_beute","frieden","gastro","quer"],"market":null,"mileSeen":{},"ledger":{"entry":28,"care":-35,"interest":0,"early":0,"spec":0},"draftRolls":0,"moving":null,"evRolled":false,"mode":"camp","zoo":2,"tmult":4,"events":[],"eventsNext":[],"boni":{},"stats":{"cards":{"schlangen":{"a":350,"s":400},"korallenriff":{"a":467,"s":314},"schildkroeten":{"a":157,"s":325},"gnu":{"a":362,"s":318},"zebras":{"a":396,"s":247},"fennek":{"a":642,"s":515},"giraffen":{"a":839,"s":370},"wasserloch":{"a":38,"s":213},"warzenschweine":{"a":296,"s":217},"cafe":{"a":62,"s":0},"gruen":{"a":51,"s":203},"popcorn":{"a":66,"s":0},"turm":{"a":123,"s":0},"bratwurst":{"a":12,"s":0},"addax":{"a":629,"s":439},"flamingos":{"a":179,"s":198},"elefanten":{"a":199,"s":162},"nilpferde":{"a":88,"s":123},"otter":{"a":84,"s":56},"geparden":{"a":92,"s":31},"infozentrum":{"a":41,"s":41},"winterquartier":{"a":0,"s":0},"dingos":{"a":200,"s":186},"besucherlotse":{"a":0,"s":0},"kamele":{"a":161,"s":94},"picknick":{"a":28,"s":8},"skorpione":{"a":24,"s":9},"greifvogel":{"a":40,"s":8},"eiswagen":{"a":8,"s":0}},"best":{"pts":185070,"season":3,"day":2,"zoo":0},"combo":0,"earned":164,"spent":60,"progs":0,"tally":{"schlangen":3,"korallenriff":3,"schildkroeten":3,"gnu":2,"zebras":2,"fennek":2,"giraffen":2,"wasserloch":2,"warzenschweine":6,"cafe":2,"gruen":3,"popcorn":2,"turm":2,"bratwurst":1,"addax":2,"flamingos":3,"elefanten":2,"nilpferde":1,"otter":1,"geparden":2,"infozentrum":3,"winterquartier":1,"dingos":1,"besucherlotse":1,"kamele":1,"picknick":1,"skorpione":1,"greifvogel":1,"eiswagen":1},"lvl":2,"days":36},"season":0,"day":4,"seasonScore":22684,"totalScore":22684,"buildings":[{"id":1,"key":"schildkroeten","cells":[[1,1]],"lvl":1},{"id":2,"key":"wasserloch","cells":[[0,3]],"lvl":1},{"id":3,"key":"schlangen","cells":[[2,1],[3,1]],"lvl":1},{"id":4,"key":"warzenschweine","cells":[[1,2]],"lvl":1,"pr":"liebling"},{"id":5,"key":"korallenriff","cells":[[1,0]],"lvl":1},{"id":6,"key":"dingos","cells":[[1,3],[2,3]],"lvl":1},{"id":7,"key":"gnu","cells":[[1,-1],[0,0],[0,-1],[-1,0]],"lvl":1},{"id":8,"key":"gruen","cells":[[2,2]],"lvl":2},{"id":9,"key":"fennek","cells":[[-2,0],[-2,-1]],"lvl":1,"pr":"leicht"},{"id":10,"key":"giraffen","cells":[[0,1],[0,2],[-1,3]],"lvl":1}],"nextId":11,"deck":["besucherlotse","zebras","zirkus","turm","cafe","addax","popcorn"],"discard":["fennek","tierarzt","elefanten","tierarzt","bistro","bienen","beduinen","schlangen","biergarten"],"hand":["winterquartier","infozentrum","picknick"],"bp":0,"selected":null,"rot":0,"preview":null,"phase":"review","offer":[],"pendingSeason":false,"lastDay":14640,"info":null,"terr":[["-1,2","block"],["2,0","block"],["-1,-2","block"],["3,-5","block"],["-2,0","wueste"],["-2,-1","wueste"],["1,-5","wueste"],["1,-4","wueste"],["0,-4","wueste"],["-1,-4","wueste"],["-2,3","wasser"],["-2,2","wasser"],["-1,1","wasser"],["-3,2","wasser"],["1,0","wasser"],["2,-1","wasser"],["3,-4","savanne"],["3,-3","savanne"],["2,-3","savanne"],["1,-2","savanne"],["4,-1","savanne"],["3,0","savanne"]],"habs":["wueste","wasser","savanne"],"zl":{"prof":"keins","opts":[],"fix":false,"gold":["-2,-1","0,3","1,1"],"crown":"-1,0","insp":"klein","ban":null,"tv":false,"tvNext":false,"edq":{},"grow":{}},"rule":{"id":"gross2"},"free1":0,"kuUsed":0,"luckNow":{"lucky":[],"encore":[],"spec":{},"lotto":0,"zirkus":0,"d":4,"s":0},"news":[],"newsNext":null,"wish":{"id":"rote2","s":0,"z":2,"ids0":[],"best":2,"ok":1,"got":"+20 Taler"},"wishIntro":1,"chaosB":null,"fav":null,"foto":null,"lottoH":null,"tfeld":null,"vline":null,"momEve":null,"momS":{"k":"2/0","ids":[]},"momZ":{"z":2,"ids":[]},"_L":{"e":28,"c":-35,"i":0,"sp":0},"lastOffer":["biergarten","infozentrum"],"offerEd":null,"wishFx":1}}

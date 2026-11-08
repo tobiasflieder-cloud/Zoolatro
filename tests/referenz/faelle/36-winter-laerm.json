@@ -1,0 +1,2606 @@
+{"fall":"winter-laerm",
+"herkunft":{"seed":13,"deck":"kueste","stage":1,"winter":"laerm","hard":false},
+"beschreibung":{
+ "map": "huegel",
+ "board": [
+  [
+   0,
+   0
+  ],
+  [
+   -1,
+   0
+  ],
+  [
+   0,
+   -1
+  ],
+  [
+   1,
+   0
+  ],
+  [
+   1,
+   -1
+  ],
+  [
+   -1,
+   1
+  ],
+  [
+   0,
+   1
+  ],
+  [
+   -1,
+   -1
+  ],
+  [
+   -1,
+   2
+  ],
+  [
+   1,
+   -2
+  ],
+  [
+   -2,
+   0
+  ],
+  [
+   2,
+   0
+  ],
+  [
+   1,
+   1
+  ],
+  [
+   0,
+   -2
+  ],
+  [
+   0,
+   2
+  ],
+  [
+   -2,
+   -1
+  ],
+  [
+   -1,
+   -2
+  ],
+  [
+   1,
+   2
+  ],
+  [
+   2,
+   1
+  ],
+  [
+   2,
+   2
+  ],
+  [
+   -2,
+   -2
+  ],
+  [
+   0,
+   3
+  ],
+  [
+   0,
+   -3
+  ],
+  [
+   3,
+   1
+  ],
+  [
+   -1,
+   -3
+  ],
+  [
+   1,
+   3
+  ],
+  [
+   1,
+   -4
+  ],
+  [
+   -1,
+   4
+  ],
+  [
+   -3,
+   -1
+  ],
+  [
+   1,
+   -5
+  ],
+  [
+   -3,
+   -2
+  ],
+  [
+   2,
+   3
+  ],
+  [
+   -2,
+   -3
+  ],
+  [
+   0,
+   -4
+  ],
+  [
+   -1,
+   -4
+  ],
+  [
+   0,
+   4
+  ],
+  [
+   3,
+   2
+  ],
+  [
+   -4,
+   -1
+  ],
+  [
+   -1,
+   5
+  ],
+  [
+   0,
+   -5
+  ],
+  [
+   4,
+   1
+  ],
+  [
+   -4,
+   -2
+  ],
+  [
+   0,
+   5
+  ],
+  [
+   -2,
+   -4
+  ],
+  [
+   1,
+   4
+  ],
+  [
+   -5,
+   -1
+  ],
+  [
+   4,
+   2
+  ],
+  [
+   -3,
+   -3
+  ],
+  [
+   3,
+   3
+  ],
+  [
+   1,
+   5
+  ],
+  [
+   2,
+   4
+  ],
+  [
+   3,
+   4
+  ],
+  [
+   -1,
+   -5
+  ],
+  [
+   -4,
+   -3
+  ],
+  [
+   0,
+   -6
+  ],
+  [
+   1,
+   -6
+  ],
+  [
+   5,
+   2
+  ],
+  [
+   -1,
+   6
+  ],
+  [
+   -5,
+   -2
+  ],
+  [
+   4,
+   3
+  ],
+  [
+   0,
+   6
+  ],
+  [
+   5,
+   1
+  ],
+  [
+   1,
+   -7
+  ],
+  [
+   -1,
+   7
+  ],
+  [
+   1,
+   6
+  ],
+  [
+   -2,
+   -5
+  ],
+  [
+   -3,
+   -4
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   2,
+   5
+  ],
+  [
+   0,
+   7
+  ],
+  [
+   3,
+   5
+  ]
+ ],
+ "terrain": [
+  [
+   "1,-2",
+   "block"
+  ],
+  [
+   "-2,-1",
+   "block"
+  ],
+  [
+   "4,2",
+   "block"
+  ],
+  [
+   "-3,-3",
+   "block"
+  ],
+  [
+   "1,4",
+   "block"
+  ],
+  [
+   "-1,4",
+   "block"
+  ],
+  [
+   "-1,0",
+   "block"
+  ],
+  [
+   "0,6",
+   "block"
+  ],
+  [
+   "0,-4",
+   "block"
+  ],
+  [
+   "1,-7",
+   "block"
+  ],
+  [
+   "0,3",
+   "wald"
+  ],
+  [
+   "1,2",
+   "wald"
+  ],
+  [
+   "1,3",
+   "wald"
+  ],
+  [
+   "1,-4",
+   "wald"
+  ],
+  [
+   "1,-5",
+   "wald"
+  ],
+  [
+   "-1,1",
+   "wald"
+  ],
+  [
+   "-1,2",
+   "wald"
+  ],
+  [
+   "0,0",
+   "wald"
+  ],
+  [
+   "4,1",
+   "arktis"
+  ],
+  [
+   "3,2",
+   "arktis"
+  ],
+  [
+   "-2,-2",
+   "arktis"
+  ],
+  [
+   "-2,-3",
+   "arktis"
+  ],
+  [
+   "-1,-3",
+   "arktis"
+  ],
+  [
+   "0,5",
+   "wasser"
+  ],
+  [
+   "-1,6",
+   "wasser"
+  ],
+  [
+   "-1,5",
+   "wasser"
+  ],
+  [
+   "4,3",
+   "wasser"
+  ],
+  [
+   "3,4",
+   "wasser"
+  ],
+  [
+   "1,0",
+   "wald"
+  ]
+ ],
+ "gold": [
+  "2,1",
+  "4,3",
+  "4,1"
+ ],
+ "g4": [],
+ "crown": "-1,-1",
+ "crown2": [],
+ "zoo": 1,
+ "season": 3,
+ "seasonName": "Winter",
+ "day": 3,
+ "winter": true,
+ "deck": "kueste",
+ "stage": 1,
+ "z2": true,
+ "habs": [
+  "arktis",
+  "wald",
+  "wasser"
+ ],
+ "zooProfile": "keins",
+ "winterCondition": "laerm",
+ "winterHard": false,
+ "winterHab": null,
+ "specialists": [
+  "z_bank",
+  "tierpfleger",
+  "bauleiterin"
+ ],
+ "specialistsActive": [
+  "z_bank",
+  "tierpfleger",
+  "bauleiterin"
+ ],
+ "habitatFood": {},
+ "progs": [],
+ "ads": [],
+ "events": [],
+ "money": 42,
+ "fav": 29,
+ "foto": null,
+ "chaos": null,
+ "buildings": [
+  {
+   "id": 1,
+   "key": "schneegaense",
+   "base": "schneegaense",
+   "cat": "gehege",
+   "hab": "arktis",
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 3
+   },
+   "cells": [
+    [
+     -2,
+     -2
+    ],
+    [
+     -2,
+     -3
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    -2,
+    -3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 2,
+   "key": "schneegaense",
+   "base": "schneegaense",
+   "cat": "gehege",
+   "hab": "arktis",
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 3
+   },
+   "cells": [
+    [
+     -1,
+     -2
+    ],
+    [
+     -1,
+     -3
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    -1,
+    -3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 3,
+   "key": "gruen",
+   "base": "gruen",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     -1,
+     -4
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -1,
+    -4
+   ],
+   "lvl": 3,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 4,
+   "key": "schwan",
+   "base": "schwan",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     -2,
+     -4
+    ],
+    [
+     -3,
+     -4
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -3,
+    -4
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "scheu"
+   ]
+  },
+  {
+   "id": 5,
+   "key": "hafen",
+   "base": "hafen",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "t3",
+   "grund": {
+    "B": 3,
+    "N": 3
+   },
+   "cells": [
+    [
+     0,
+     -5
+    ],
+    [
+     -1,
+     -5
+    ],
+    [
+     0,
+     -6
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    0,
+    -6
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "gross"
+   ]
+  },
+  {
+   "id": 6,
+   "key": "schmetterling",
+   "base": "schmetterling",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 2,
+    "N": 3
+   },
+   "cells": [
+    [
+     0,
+     -2
+    ],
+    [
+     0,
+     -3
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    0,
+    -3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 7,
+   "key": "affen",
+   "base": "affen",
+   "cat": "gehege",
+   "hab": "wald",
+   "shape": "s1",
+   "grund": {
+    "B": 4,
+    "N": 1
+   },
+   "cells": [
+    [
+     1,
+     -4
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    -4
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "show"
+   ],
+   "tags": [
+    "show"
+   ]
+  },
+  {
+   "id": 8,
+   "key": "popcorn",
+   "base": "popcorn",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 0
+   },
+   "cells": [
+    [
+     1,
+     -5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    -5
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 9,
+   "key": "faultiere",
+   "base": "faultiere",
+   "cat": "gehege",
+   "hab": "wald",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     -1,
+     -1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -1,
+    -1
+   ],
+   "lvl": 3,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "scheu"
+   ]
+  },
+  {
+   "id": 10,
+   "key": "flamingos",
+   "base": "flamingos",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s2",
+   "grund": {
+    "B": 2,
+    "N": 3
+   },
+   "cells": [
+    [
+     -4,
+     -2
+    ],
+    [
+     -4,
+     -3
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    -4,
+    -3
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "beute"
+   ]
+  },
+  {
+   "id": 11,
+   "key": "turm",
+   "base": "turm",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 0
+   },
+   "cells": [
+    [
+     1,
+     -6
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    -6
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": "gold",
+   "edition": null,
+   "traits": [
+    "ruhig"
+   ],
+   "tags": [
+    "ruhig"
+   ]
+  },
+  {
+   "id": 12,
+   "key": "wasserfall",
+   "base": "wasserfall",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     -2,
+     -5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -2,
+    -5
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 13,
+   "key": "besucherlotse",
+   "base": "besucherlotse",
+   "cat": "verst",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 0,
+    "N": 0
+   },
+   "cells": [
+    [
+     -3,
+     -2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -3,
+    -2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "einmalig"
+   ]
+  },
+  {
+   "id": 14,
+   "key": "infozentrum",
+   "base": "infozentrum",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     0,
+     -1
+    ],
+    [
+     1,
+     -1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    0,
+    -1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 15,
+   "key": "seeloewen",
+   "base": "seeloewen",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s2",
+   "grund": {
+    "B": 5,
+    "N": 1
+   },
+   "cells": [
+    [
+     -4,
+     -1
+    ],
+    [
+     -3,
+     -1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -4,
+    -1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "show"
+   ],
+   "tags": [
+    "show"
+   ]
+  },
+  {
+   "id": 16,
+   "key": "delfinshow",
+   "base": "delfinshow",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 6,
+    "N": 0
+   },
+   "cells": [
+    [
+     -5,
+     -2
+    ],
+    [
+     -5,
+     -1
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    -5,
+    -2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "trubel"
+   ],
+   "tags": [
+    "trubel"
+   ]
+  },
+  {
+   "id": 17,
+   "key": "korallenriff",
+   "base": "korallenriff",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     -2,
+     0
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -2,
+    0
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "show"
+   ],
+   "tags": [
+    "show"
+   ]
+  },
+  {
+   "id": 18,
+   "key": "cafe",
+   "base": "cafe",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 0
+   },
+   "cells": [
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     1
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    2,
+    0
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 19,
+   "key": "winterquartier",
+   "base": "winterquartier",
+   "cat": "verst",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 0,
+    "N": 0
+   },
+   "cells": [
+    [
+     0,
+     0
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    0,
+    0
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "einmalig"
+   ]
+  },
+  {
+   "id": 20,
+   "key": "korallenriff",
+   "base": "korallenriff",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     1,
+     1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": "s",
+   "traits": [
+    "show"
+   ],
+   "tags": [
+    "show"
+   ]
+  },
+  {
+   "id": 21,
+   "key": "schwan",
+   "base": "schwan",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    0,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "scheu"
+   ]
+  },
+  {
+   "id": 22,
+   "key": "lemminge",
+   "base": "lemminge",
+   "cat": "gehege",
+   "hab": "arktis",
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 2
+   },
+   "cells": [
+    [
+     4,
+     1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    4,
+    1
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "beute"
+   ]
+  },
+  {
+   "id": 23,
+   "key": "zirkus",
+   "base": "zirkus",
+   "cat": "attr",
+   "hab": null,
+   "shape": "t3",
+   "grund": {
+    "B": 4,
+    "N": 0
+   },
+   "cells": [
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     1,
+     3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "trubel"
+   ],
+   "tags": [
+    "gross",
+    "trubel"
+   ]
+  },
+  {
+   "id": 24,
+   "key": "baumschule",
+   "base": "baumschule",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     1,
+     0
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    0
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 25,
+   "key": "schildkroeten",
+   "base": "schildkroeten",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 4
+   },
+   "cells": [
+    [
+     4,
+     3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    4,
+    3
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "bedroht",
+    "scheu"
+   ]
+  },
+  {
+   "id": 26,
+   "key": "lemminge",
+   "base": "lemminge",
+   "cat": "gehege",
+   "hab": "arktis",
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 2
+   },
+   "cells": [
+    [
+     3,
+     2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    3,
+    2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "beute"
+   ]
+  },
+  {
+   "id": 27,
+   "key": "streichelzoo",
+   "base": "streichelzoo",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 2
+   },
+   "cells": [
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    0,
+    3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 28,
+   "key": "orca",
+   "base": "orca",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "d4",
+   "grund": {
+    "B": 8,
+    "N": 4
+   },
+   "cells": [
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    2,
+    3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "einmalig",
+    "gross"
+   ]
+  },
+  {
+   "id": 29,
+   "key": "schneehasen",
+   "base": "schneehasen",
+   "cat": "gehege",
+   "hab": "arktis",
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     3,
+     1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    3,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "beute"
+   ]
+  },
+  {
+   "id": 30,
+   "key": "schwan",
+   "base": "schwan",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     5,
+     1
+    ],
+    [
+     5,
+     2
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    5,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "scheu"
+   ]
+  },
+  {
+   "id": 31,
+   "key": "polarfuchs",
+   "base": "polarfuchs",
+   "cat": "gehege",
+   "hab": "arktis",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     3,
+     5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    3,
+    5
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "raubtier",
+    "scheu"
+   ],
+   "tags": [
+    "raubtier",
+    "scheu"
+   ]
+  },
+  {
+   "id": 32,
+   "key": "bienen",
+   "base": "bienen",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 0,
+    "N": 2
+   },
+   "cells": [
+    [
+     4,
+     4
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    4,
+    4
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": "s",
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 33,
+   "key": "polarstation",
+   "base": "polarstation",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     2,
+     5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    2,
+    5
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 34,
+   "key": "ausstellung",
+   "base": "ausstellung",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 2,
+    "N": 6
+   },
+   "cells": [
+    [
+     -1,
+     1
+    ],
+    [
+     -1,
+     2
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    -1,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "einmalig"
+   ]
+  },
+  {
+   "id": 35,
+   "key": "kraken",
+   "base": "kraken",
+   "cat": "gehege",
+   "hab": "wasser",
+   "shape": "s2",
+   "grund": {
+    "B": 2,
+    "N": 4
+   },
+   "cells": [
+    [
+     0,
+     5
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    0,
+    5
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 36,
+   "key": "woelfe",
+   "base": "woelfe",
+   "cat": "gehege",
+   "hab": "wald",
+   "shape": "b3",
+   "grund": {
+    "B": 4,
+    "N": 3
+   },
+   "cells": [
+    [
+     1,
+     6
+    ],
+    [
+     0,
+     7
+    ],
+    [
+     -1,
+     7
+    ]
+   ],
+   "rot": 2,
+   "anchor": [
+    0,
+    7
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "raubtier"
+   ],
+   "tags": [
+    "gross",
+    "raubtier"
+   ]
+  },
+  {
+   "id": 37,
+   "key": "tribuene",
+   "base": "tribuene",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 6,
+    "N": 0
+   },
+   "cells": [
+    [
+     -1,
+     5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -1,
+    5
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "trubel"
+   ],
+   "tags": [
+    "trubel"
+   ]
+  }
+ ]
+},
+"erwartet":{
+ "A": 416,
+ "S": 271,
+ "total": 112736,
+ "mults": [
+  {
+   "label": "Gestresste Tiere: 2",
+   "id": null,
+   "ma": null,
+   "ms": 0.9
+  },
+  {
+   "label": "Investorin",
+   "id": null,
+   "ma": 1.2,
+   "ms": null
+  },
+  {
+   "label": "Reinheit: 4 Wasser-Gehege",
+   "id": null,
+   "ma": null,
+   "ms": 1.15
+  }
+ ],
+ "buildings": [
+  {
+   "id": 1,
+   "a": 10,
+   "s": 10,
+   "parts": [
+    [
+     "Arktis-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "Arktis-Naturfläche",
+     0,
+     2
+    ],
+    [
+     "🪧 Besucherlotse +30 %",
+     1,
+     0
+    ],
+    [
+     "🧊 Nordlage ×2",
+     5,
+     5
+    ]
+   ]
+  },
+  {
+   "id": 2,
+   "a": 6,
+   "s": 6,
+   "parts": [
+    [
+     "Arktis-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "Arktis-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "🧊 Nordlage ×2",
+     4,
+     4
+    ],
+    [
+     "2. Schneegänse: zählt 75 % des eigenen Werts",
+     -2,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": 3,
+   "a": 2,
+   "s": 20,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     4
+    ],
+    [
+     "Tierpfleger",
+     0,
+     2
+    ],
+    [
+     "Bauleiterin +30 %",
+     0,
+     2
+    ],
+    [
+     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     1,
+     11
+    ]
+   ]
+  },
+  {
+   "id": 4,
+   "a": 9,
+   "s": 7,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     2
+    ],
+    [
+     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     0,
+     0
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     4,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 5,
+   "a": 7,
+   "s": 4,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     1
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -2
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     3,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 6,
+   "a": 2,
+   "s": 7,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     2
+    ],
+    [
+     "Tierpfleger",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 7,
+   "a": 20,
+   "s": 12,
+   "parts": [
+    [
+     "Dschungel-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "🎭 Showtier: +30 %",
+     1,
+     1
+    ],
+    [
+     "🌿 Schutzgebiet: Naturschutz daneben ×2",
+     5,
+     3
+    ],
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     10,
+     6
+    ]
+   ]
+  },
+  {
+   "id": 8,
+   "a": 3,
+   "s": 0,
+   "parts": [
+    [
+     "Kartenbonus",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 9,
+   "a": 18,
+   "s": 14,
+   "parts": [
+    [
+     "Bauleiterin +30 %",
+     1,
+     1
+    ],
+    [
+     "🌿 Schutzgebiet: Naturschutz daneben ×2",
+     4,
+     3
+    ],
+    [
+     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     10,
+     8
+    ]
+   ]
+  },
+  {
+   "id": 10,
+   "a": 19,
+   "s": 9,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     2
+    ],
+    [
+     "Bauleiterin +15 %",
+     1,
+     1
+    ],
+    [
+     "🪧 Besucherlotse +30 %",
+     1,
+     0
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -3
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     5,
+     2
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     8,
+     4
+    ]
+   ]
+  },
+  {
+   "id": 11,
+   "a": 6,
+   "s": 0,
+   "parts": [
+    [
+     "Kartenbonus",
+     4,
+     0
+    ],
+    [
+     "🪙 Gold +25 %",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 12,
+   "a": 2,
+   "s": 14,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     4
+    ],
+    [
+     "Tierpfleger",
+     0,
+     2
+    ],
+    [
+     "Bauleiterin +15 %",
+     0,
+     1
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     1,
+     6
+    ]
+   ]
+  },
+  {
+   "id": 13,
+   "a": 0,
+   "s": 0,
+   "parts": []
+  },
+  {
+   "id": 14,
+   "a": 2,
+   "s": 4,
+   "parts": [
+    [
+     "Tierpfleger",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 15,
+   "a": 46,
+   "s": 8,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     1
+    ],
+    [
+     "🪧 Besucherlotse +30 %",
+     2,
+     0
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -1
+    ],
+    [
+     "🎭 Showtier: +60 %",
+     5,
+     1
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     10,
+     2
+    ],
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     23,
+     4
+    ]
+   ]
+  },
+  {
+   "id": 16,
+   "a": 8,
+   "s": 0,
+   "parts": [
+    [
+     "Kartenbonus",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 17,
+   "a": 6,
+   "s": 4,
+   "parts": [
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     3,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 18,
+   "a": 10,
+   "s": 0,
+   "parts": [
+    [
+     "Kartenbonus",
+     1,
+     0
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     4,
+     0
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 19,
+   "a": 0,
+   "s": 0,
+   "parts": []
+  },
+  {
+   "id": 20,
+   "a": 35,
+   "s": 14,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     1
+    ],
+    [
+     "✨ Schimmernd: zählt doppelt",
+     4,
+     3
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -3
+    ],
+    [
+     "🎭 Showtier: +90 %",
+     7,
+     3
+    ],
+    [
+     "💧 Fluss: Kette aus 2 ×1,5",
+     8,
+     3
+    ],
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     23,
+     9
+    ],
+    [
+     "2. Korallenriff: zählt 75 % des eigenen Werts",
+     -11,
+     -4
+    ]
+   ]
+  },
+  {
+   "id": 21,
+   "a": 5,
+   "s": 4,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     1
+    ],
+    [
+     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     0,
+     0
+    ],
+    [
+     "💧 Fluss: Kette aus 2 ×1,5",
+     2,
+     2
+    ],
+    [
+     "2. Schwanensee: zählt 75 % des eigenen Werts",
+     -1,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": 22,
+   "a": 7,
+   "s": 7,
+   "parts": [
+    [
+     "Arktis-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "Arktis-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     3,
+     3
+    ],
+    [
+     "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
+     -3,
+     -3
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     1,
+     1
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     3,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 23,
+   "a": 5,
+   "s": 0,
+   "parts": [
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 24,
+   "a": 1,
+   "s": 3,
+   "parts": [
+    [
+     "Tierpfleger",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 25,
+   "a": 19,
+   "s": 49,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "Wasser-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     2
+    ],
+    [
+     "Bauleiterin +15 %",
+     0,
+     1
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     3,
+     8
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     5,
+     12
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     8,
+     21
+    ]
+   ]
+  },
+  {
+   "id": 26,
+   "a": 4,
+   "s": 1,
+   "parts": [
+    [
+     "Arktis-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "Arktis-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -1
+    ],
+    [
+     "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
+     -1,
+     -1
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     1,
+     0
+    ],
+    [
+     "2. Lemminge: zählt 75 % des eigenen Werts",
+     -1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 27,
+   "a": 4,
+   "s": 2,
+   "parts": []
+  },
+  {
+   "id": 28,
+   "a": 55,
+   "s": 7,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "Wasser-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     2
+    ],
+    [
+     "Kartenbonus",
+     20,
+     0
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -3
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     23,
+     3
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 29,
+   "a": 8,
+   "s": 2,
+   "parts": [
+    [
+     "Arktis-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -1
+    ],
+    [
+     "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
+     -2,
+     0
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "❤️ Besucherliebling des Tages ×2,0",
+     4,
+     1
+    ]
+   ]
+  },
+  {
+   "id": 30,
+   "a": 2,
+   "s": 1,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     1
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     3,
+     2
+    ],
+    [
+     "3. Schwanensee: zählt 25 % des eigenen Werts",
+     -5,
+     -4
+    ]
+   ]
+  },
+  {
+   "id": 31,
+   "a": 4,
+   "s": 1,
+   "parts": [
+    [
+     "Nordlage gebrochen: ×0,5",
+     -1,
+     -1
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 32,
+   "a": 0,
+   "s": 12,
+   "parts": [
+    [
+     "Tierpfleger",
+     0,
+     4
+    ],
+    [
+     "✨ Schimmernd: zählt doppelt",
+     0,
+     6
+    ]
+   ]
+  },
+  {
+   "id": 33,
+   "a": 1,
+   "s": 5,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     2
+    ],
+    [
+     "Tierpfleger",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 34,
+   "a": 2,
+   "s": 22,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     14
+    ],
+    [
+     "Tierpfleger",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 35,
+   "a": 5,
+   "s": 7,
+   "parts": [
+    [
+     "Wasser-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "Wasser-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "🐟 Schwarm (Die Kapitänin)",
+     0,
+     1
+    ],
+    [
+     "Kartenbonus",
+     0,
+     2
+    ],
+    [
+     "❄️ Lärmschutz: nur halbe Natur",
+     0,
+     -4
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     2,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 36,
+   "a": 8,
+   "s": 6,
+   "parts": [
+    [
+     "🌿 Schutzgebiet: Naturschutz daneben ×2",
+     4,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 37,
+   "a": 6,
+   "s": 0,
+   "parts": []
+  }
+ ]
+},
+"run":{"v":2,"t0":0,"zoo":1,"perks":{},"cards":[],"spec":["z_bank","tierpfleger","bauleiterin"],"deckId":"kueste","deck":["popcorn","cafe","gruen","gruen","infozentrum","turm^gold","schneegaense","affen","schneegaense","faultiere","flamingos","seeloewen","schwan","hafen","delfinshow","wasserfall","besucherlotse","winterquartier","zirkus","schmetterling","lemminge~j"],"habs":["arktis","wald","wasser"],"z2":1,"stage":1,"added":["zirkus","schmetterling"],"stats":{"cards":{"hafen":{"a":590,"s":798},"turm":{"a":150,"s":0},"seeloewen":{"a":780,"s":234},"popcorn":{"a":99,"s":0},"gruen":{"a":54,"s":365},"flamingos":{"a":248,"s":270},"schwan":{"a":467,"s":402},"schneegaense":{"a":411,"s":415},"affen":{"a":377,"s":169},"faultiere":{"a":310,"s":214},"wasserfall":{"a":24,"s":155},"schildkroeten":{"a":170,"s":388},"papageien":{"a":154,"s":46},"delfinshow":{"a":138,"s":0},"schneehasen":{"a":48,"s":24},"nachtfuehrung":{"a":9,"s":0},"infozentrum":{"a":40,"s":70},"krokodile":{"a":39,"s":25},"cafe":{"a":114,"s":0},"orca":{"a":504,"s":108},"schmetterling":{"a":38,"s":125},"besucherlotse":{"a":0,"s":0},"korallenriff":{"a":373,"s":275},"winterquartier":{"a":0,"s":0},"lemminge":{"a":69,"s":74},"zirkus":{"a":48,"s":0},"baumschule":{"a":10,"s":32},"streichelzoo":{"a":38,"s":20},"polarfuchs":{"a":32,"s":8},"bienen":{"a":0,"s":87},"polarstation":{"a":6,"s":31},"ausstellung":{"a":11,"s":116},"kraken":{"a":20,"s":56},"woelfe":{"a":24,"s":18},"tribuene":{"a":12,"s":0}},"best":{"pts":218456,"season":3,"day":1,"zoo":0},"combo":0,"earned":123,"spent":50,"progs":0,"tally":{"hafen":1,"turm":1,"seeloewen":2,"popcorn":1,"gruen":2,"flamingos":1,"schwan":2,"schneegaense":1,"affen":1,"faultiere":1,"wasserfall":1,"schildkroeten":2,"papageien":1,"delfinshow":1,"schneehasen":1,"nachtfuehrung":1,"infozentrum":1,"krokodile":2,"cafe":1,"orca":1},"lvl":2,"days":30},"total":706218,"game":null,"reward":null,"zl":true,"grow":{},"maps":{"0":"wiese","1":"huegel"},"plan":null,"wishSeen":["schutz3","lvl3","hab2","small4","early","calm"],"offered":{"0":{"r":"grundl","i":["klein"]},"1":{"r":"einzel","i":["glatteis"]}},"fsr":{"d:kueste":10,"d:dschungel":3,"d:oase":35,"d:freizeit":4,"d:geniesser":2,"d:forscher":3,"v:besucherlotse":123900,"v:scheinwerfer":6,"v:buehne":2,"v:ruhezone":5,"v:winterquartier":1},"bpCarry":0,"log":[{"z":0,"s":0,"p":15818,"t":9500,"d":4,"ok":1,"m":12,"sp":[],"pg":[],"w":{"t":"3 Naturschutz-Gebäude, die zusammenhängen","ok":0}},{"z":0,"s":1,"p":64830,"t":61200,"d":2,"ok":1,"m":17,"sp":[],"pg":[],"w":{"t":"Ein Gehege oder Gebäude auf Stufe III","ok":0}},{"z":0,"s":2,"p":261848,"t":142000,"d":3,"ok":1,"m":25,"sp":[],"pg":[],"w":{"t":"Baue 2 Wasser-Gehege","ok":0}},{"z":0,"s":3,"p":363722,"t":320000,"d":2,"ok":1,"m":26,"sp":["z_bank"],"pg":[],"w":null},{"z":1,"s":0,"p":13502,"t":10900,"d":5,"ok":1,"m":19,"sp":["z_bank","tierpfleger"],"pg":[],"w":{"t":"4 Gehege mit nur 1 Feld im Zoo","ok":0}},{"z":1,"s":1,"p":106267,"t":89400,"d":5,"ok":1,"m":35,"sp":["z_bank","tierpfleger"],"pg":[],"w":{"t":"Schaffe das Saisonziel mindestens 2 Tage früher","ok":0}},{"z":1,"s":2,"p":282051,"t":238000,"d":5,"ok":1,"m":33,"sp":["z_bank","tierpfleger","bauleiterin"],"pg":[],"w":{"t":"Beende die Jahreszeit mit mindestens 3 Beute- oder scheuen Tieren, keins davon gestresst","ok":0}}],"gifts":["gumb","gsack","gumb"],"fsAll":["v:besucherlotse","d:kueste","v:winterquartier"],"zlog":[{"z":0,"won":1,"pts":706218,"map":"wiese","rule":"grundl","insp":"klein","prof":"keins","A":639,"S":376,"mult":["Nachtführung ×1,5 B","Investorin ×1,1 B","Reinheit: 6 Wasser-Gehege ×1,45 N"],"built":{"hafen":1,"turm":1,"seeloewen":2,"popcorn":1,"gruen":2,"flamingos":1,"schwan":2,"schneegaense":1,"affen":1,"faultiere":1,"wasserfall":1,"schildkroeten":2,"papageien":1,"delfinshow":1,"schneehasen":1,"nachtfuehrung":1,"infozentrum":1,"krokodile":2,"cafe":1,"orca":1},"top":["Hafenbecken 56B/81N","Orca-Lagune 87B/15N","Schwanensee II 42B/42N","Seelöwenbucht 26B/12N","Papageien-Voliere 27B/8N"],"deck":17,"ml":[{"t":"wasser","s":3,"d":1}]}],"snapA":87,"snapS":107,"sav":0,"newNow":[],"zooPts":[706218],"miles":1,"stNew":0,"chNow":[],"vNow":[],"kasse":14,"luckHits":4,"jtBorn":1},
+"perks":{},
+"game":{"map":"huegel","board":[[0,0],[-1,0],[0,-1],[1,0],[1,-1],[-1,1],[0,1],[-1,-1],[-1,2],[1,-2],[-2,0],[2,0],[1,1],[0,-2],[0,2],[-2,-1],[-1,-2],[1,2],[2,1],[2,2],[-2,-2],[0,3],[0,-3],[3,1],[-1,-3],[1,3],[1,-4],[-1,4],[-3,-1],[1,-5],[-3,-2],[2,3],[-2,-3],[0,-4],[-1,-4],[0,4],[3,2],[-4,-1],[-1,5],[0,-5],[4,1],[-4,-2],[0,5],[-2,-4],[1,4],[-5,-1],[4,2],[-3,-3],[3,3],[1,5],[2,4],[3,4],[-1,-5],[-4,-3],[0,-6],[1,-6],[5,2],[-1,6],[-5,-2],[4,3],[0,6],[5,1],[1,-7],[-1,7],[1,6],[-2,-5],[-3,-4],[4,4],[2,5],[0,7],[3,5]],"undo":[],"yday":{"A":399,"S":313,"total":124887},"builtToday":1,"picks":0,"pickTotal":2,"hover":null,"hoverTerr":null,"earlyBonus":0,"dayPts":[75250,94094,89794,124887],"past":[{"name":"Frühling","pts":13502},{"name":"Sommer","pts":106267},{"name":"Herbst","pts":282051}],"money":42,"progs":[],"ads":[],"adsNext":[],"bpMax":4,"bpBought":0,"bpNext":0,"bpSeason":0,"shop":null,"shopSub":null,"infoProg":"rule","lastIncome":{"base":3,"interest":0,"spec":0,"don":0,"kar":0,"gas":1,"lot":0,"snk":0,"total":4,"entry":37,"care":-34,"A":399,"S":313},"msg":null,"prevY":{"A":323,"S":278,"total":89794},"miles":{"wasser":1,"schutz":1},"mileNew":[],"spec":["z_bank","tierpfleger","bauleiterin"],"market":null,"mileSeen":{},"ledger":{"entry":135,"care":-130,"interest":0,"early":0,"spec":0},"draftRolls":0,"moving":null,"evRolled":false,"mode":"camp","zoo":1,"tmult":2,"events":[],"eventsNext":[],"boni":{},"stats":{"cards":{"hafen":{"a":590,"s":798},"turm":{"a":150,"s":0},"seeloewen":{"a":780,"s":234},"popcorn":{"a":99,"s":0},"gruen":{"a":54,"s":365},"flamingos":{"a":248,"s":270},"schwan":{"a":467,"s":402},"schneegaense":{"a":411,"s":415},"affen":{"a":377,"s":169},"faultiere":{"a":310,"s":214},"wasserfall":{"a":24,"s":155},"schildkroeten":{"a":170,"s":388},"papageien":{"a":154,"s":46},"delfinshow":{"a":138,"s":0},"schneehasen":{"a":48,"s":24},"nachtfuehrung":{"a":9,"s":0},"infozentrum":{"a":40,"s":70},"krokodile":{"a":39,"s":25},"cafe":{"a":114,"s":0},"orca":{"a":504,"s":108},"schmetterling":{"a":38,"s":125},"besucherlotse":{"a":0,"s":0},"korallenriff":{"a":373,"s":275},"winterquartier":{"a":0,"s":0},"lemminge":{"a":69,"s":74},"zirkus":{"a":48,"s":0},"baumschule":{"a":10,"s":32},"streichelzoo":{"a":38,"s":20},"polarfuchs":{"a":32,"s":8},"bienen":{"a":0,"s":87},"polarstation":{"a":6,"s":31},"ausstellung":{"a":11,"s":116},"kraken":{"a":20,"s":56},"woelfe":{"a":24,"s":18},"tribuene":{"a":12,"s":0}},"best":{"pts":218456,"season":3,"day":1,"zoo":0},"combo":0,"earned":123,"spent":50,"progs":0,"tally":{"hafen":1,"turm":1,"seeloewen":2,"popcorn":1,"gruen":2,"flamingos":1,"schwan":2,"schneegaense":1,"affen":1,"faultiere":1,"wasserfall":1,"schildkroeten":2,"papageien":1,"delfinshow":1,"schneehasen":1,"nachtfuehrung":1,"infozentrum":1,"krokodile":2,"cafe":1,"orca":1},"lvl":2,"days":30},"season":3,"day":3,"seasonScore":384025,"totalScore":785845,"buildings":[{"id":1,"key":"schneegaense","cells":[[-2,-2],[-2,-3]],"lvl":1},{"id":2,"key":"schneegaense","cells":[[-1,-2],[-1,-3]],"lvl":1},{"id":3,"key":"gruen","cells":[[-1,-4]],"lvl":3},{"id":4,"key":"schwan","cells":[[-2,-4],[-3,-4]],"lvl":1},{"id":5,"key":"hafen","cells":[[0,-5],[-1,-5],[0,-6]],"lvl":1},{"id":6,"key":"schmetterling","cells":[[0,-2],[0,-3]],"lvl":1},{"id":7,"key":"affen","cells":[[1,-4]],"lvl":1},{"id":8,"key":"popcorn","cells":[[1,-5]],"lvl":1},{"id":9,"key":"faultiere","cells":[[-1,-1]],"lvl":3},{"id":10,"key":"flamingos","cells":[[-4,-2],[-4,-3]],"lvl":2},{"id":11,"key":"turm","cells":[[1,-6]],"lvl":1,"pr":"gold"},{"id":12,"key":"wasserfall","cells":[[-2,-5]],"lvl":2},{"id":13,"key":"besucherlotse","cells":[[-3,-2]],"lvl":1},{"id":14,"key":"infozentrum","cells":[[0,-1],[1,-1]],"lvl":1},{"id":15,"key":"seeloewen","cells":[[-4,-1],[-3,-1]],"lvl":1},{"id":16,"key":"delfinshow","cells":[[-5,-2],[-5,-1]],"lvl":1},{"id":17,"key":"korallenriff","cells":[[-2,0]],"lvl":1},{"id":18,"key":"cafe","cells":[[2,0],[2,1]],"lvl":1},{"id":19,"key":"winterquartier","cells":[[0,0]],"lvl":1},{"id":20,"key":"korallenriff","cells":[[1,1]],"lvl":1,"ed":"s"},{"id":21,"key":"schwan","cells":[[0,1],[0,2]],"lvl":1},{"id":22,"key":"lemminge","cells":[[4,1]],"lvl":2},{"id":23,"key":"zirkus","cells":[[1,2],[2,2],[1,3]],"lvl":1},{"id":24,"key":"baumschule","cells":[[1,0]],"lvl":1},{"id":25,"key":"schildkroeten","cells":[[4,3]],"lvl":2},{"id":26,"key":"lemminge","cells":[[3,2]],"lvl":1},{"id":27,"key":"streichelzoo","cells":[[0,3],[0,4]],"lvl":1},{"id":28,"key":"orca","cells":[[2,3],[3,3],[2,4],[3,4]],"lvl":1},{"id":29,"key":"schneehasen","cells":[[3,1]],"lvl":1},{"id":30,"key":"schwan","cells":[[5,1],[5,2]],"lvl":1},{"id":31,"key":"polarfuchs","cells":[[3,5]],"lvl":1},{"id":32,"key":"bienen","cells":[[4,4]],"lvl":1,"ed":"s"},{"id":33,"key":"polarstation","cells":[[2,5]],"lvl":1},{"id":34,"key":"ausstellung","cells":[[-1,1],[-1,2]],"lvl":1},{"id":35,"key":"kraken","cells":[[0,5],[1,5]],"lvl":1},{"id":36,"key":"woelfe","cells":[[1,6],[0,7],[-1,7]],"lvl":1},{"id":37,"key":"tribuene","cells":[[-1,5]],"lvl":1}],"nextId":38,"deck":["eulen","picknick","schildkroeten","seeloewen","zucht","lotterie","polarfuchs","gorillas","moschusochsen"],"discard":["korallenriff","schneegaense","lemminge~j","turm","korallenriff","flamingos","woelfe","polarfuchs","seeloewen"],"hand":["rentiere","nilpferde","rentiere","papageien"],"bp":2,"selected":null,"rot":0,"preview":null,"phase":"review","offer":[],"pendingSeason":false,"lastDay":124887,"info":null,"terr":[["1,-2","block"],["-2,-1","block"],["4,2","block"],["-3,-3","block"],["1,4","block"],["-1,4","block"],["-1,0","block"],["0,6","block"],["0,-4","block"],["1,-7","block"],["0,3","wald"],["1,2","wald"],["1,3","wald"],["1,-4","wald"],["1,-5","wald"],["-1,1","wald"],["-1,2","wald"],["0,0","wald"],["4,1","arktis"],["3,2","arktis"],["-2,-2","arktis"],["-2,-3","arktis"],["-1,-3","arktis"],["0,5","wasser"],["-1,6","wasser"],["-1,5","wasser"],["4,3","wasser"],["3,4","wasser"],["1,0","wald"]],"habs":["arktis","wald","wasser"],"zl":{"prof":"keins","opts":[],"fix":false,"gold":["2,1","4,3","4,1"],"crown":"-1,-1","insp":"laerm","ban":null,"tv":false,"tvNext":false,"edq":{},"grow":{},"hard":0},"rule":{"id":"einzel"},"free1":0,"bpWish":0,"bpWhy":[],"bannerQ":[],"kuUsed":0,"luckNow":{"lucky":[],"encore":[],"spec":{},"lotto":0,"zirkus":1,"d":3,"s":3},"news":[],"newsNext":null,"wish":null,"wishIntro":1,"chaosB":null,"fav":29,"foto":null,"lottoH":null,"tfeld":null,"vline":null,"momEve":null,"momS":{"k":"1/3","ids":[]},"momZ":{"z":1,"ids":["geburtstag"]},"_L":{"e":396,"c":-364,"i":0,"sp":0},"lastOffer":["seeloewen","flamingos"],"offerEd":null,"z2born":["lemminge~j"],"z2jt":["lemminge"],"z2bornSeen":false,"z2bornSnd":0,"earlyR":null,"earlyInfo":"","mappe":null,"ausbauKey":"rd","shopTab":"shop","sc":{},"mappeN":1,"mileLog":[{"t":"wasser","s":2,"d":1},{"t":"schutz","s":2,"d":4}]}}

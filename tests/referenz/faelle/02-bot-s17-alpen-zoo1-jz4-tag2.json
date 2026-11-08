@@ -1,0 +1,2207 @@
+{"fall":"bot-s17-alpen-zoo1-jz4-tag2",
+"herkunft":{"seed":17,"deck":"alpen","stage":5},
+"beschreibung":{
+ "map": "huegel",
+ "board": [
+  [
+   0,
+   0
+  ],
+  [
+   -1,
+   1
+  ],
+  [
+   -1,
+   0
+  ],
+  [
+   0,
+   -1
+  ],
+  [
+   1,
+   -2
+  ],
+  [
+   1,
+   -1
+  ],
+  [
+   0,
+   1
+  ],
+  [
+   1,
+   0
+  ],
+  [
+   -1,
+   2
+  ],
+  [
+   1,
+   1
+  ],
+  [
+   -1,
+   -1
+  ],
+  [
+   -2,
+   0
+  ],
+  [
+   2,
+   0
+  ],
+  [
+   0,
+   2
+  ],
+  [
+   0,
+   -2
+  ],
+  [
+   0,
+   -3
+  ],
+  [
+   1,
+   2
+  ],
+  [
+   -1,
+   -2
+  ],
+  [
+   -2,
+   -1
+  ],
+  [
+   2,
+   1
+  ],
+  [
+   0,
+   3
+  ],
+  [
+   1,
+   -4
+  ],
+  [
+   -1,
+   4
+  ],
+  [
+   -2,
+   -2
+  ],
+  [
+   2,
+   2
+  ],
+  [
+   3,
+   1
+  ],
+  [
+   -1,
+   -3
+  ],
+  [
+   -3,
+   -1
+  ],
+  [
+   3,
+   2
+  ],
+  [
+   -3,
+   -2
+  ],
+  [
+   -2,
+   -3
+  ],
+  [
+   1,
+   3
+  ],
+  [
+   0,
+   4
+  ],
+  [
+   0,
+   -4
+  ],
+  [
+   -4,
+   -1
+  ],
+  [
+   2,
+   3
+  ],
+  [
+   4,
+   1
+  ],
+  [
+   1,
+   -5
+  ],
+  [
+   1,
+   4
+  ],
+  [
+   -1,
+   5
+  ],
+  [
+   -1,
+   -4
+  ],
+  [
+   0,
+   -5
+  ],
+  [
+   1,
+   -6
+  ],
+  [
+   0,
+   5
+  ],
+  [
+   2,
+   4
+  ],
+  [
+   -5,
+   -1
+  ],
+  [
+   3,
+   3
+  ],
+  [
+   4,
+   2
+  ],
+  [
+   -2,
+   -4
+  ],
+  [
+   -4,
+   -2
+  ],
+  [
+   -3,
+   -3
+  ],
+  [
+   1,
+   5
+  ],
+  [
+   3,
+   4
+  ],
+  [
+   0,
+   6
+  ],
+  [
+   -1,
+   -5
+  ],
+  [
+   5,
+   1
+  ],
+  [
+   -2,
+   -5
+  ],
+  [
+   2,
+   5
+  ],
+  [
+   -1,
+   6
+  ],
+  [
+   -5,
+   -2
+  ],
+  [
+   -4,
+   -3
+  ],
+  [
+   0,
+   -6
+  ],
+  [
+   -3,
+   -4
+  ],
+  [
+   4,
+   3
+  ],
+  [
+   -1,
+   7
+  ],
+  [
+   5,
+   3
+  ],
+  [
+   0,
+   -7
+  ],
+  [
+   4,
+   4
+  ],
+  [
+   -1,
+   -6
+  ],
+  [
+   5,
+   2
+  ],
+  [
+   3,
+   5
+  ]
+ ],
+ "terrain": [
+  [
+   "1,4",
+   "block"
+  ],
+  [
+   "-2,-5",
+   "block"
+  ],
+  [
+   "1,-6",
+   "block"
+  ],
+  [
+   "-4,-2",
+   "block"
+  ],
+  [
+   "2,1",
+   "block"
+  ],
+  [
+   "-1,0",
+   "savanne"
+  ],
+  [
+   "0,0",
+   "savanne"
+  ],
+  [
+   "-2,0",
+   "savanne"
+  ],
+  [
+   "0,-4",
+   "savanne"
+  ],
+  [
+   "1,-4",
+   "savanne"
+  ],
+  [
+   "0,-3",
+   "savanne"
+  ],
+  [
+   "1,5",
+   "savanne"
+  ],
+  [
+   "2,4",
+   "savanne"
+  ],
+  [
+   "-2,-3",
+   "wueste"
+  ],
+  [
+   "-3,-3",
+   "wueste"
+  ],
+  [
+   "-1,2",
+   "wueste"
+  ],
+  [
+   "0,2",
+   "wueste"
+  ],
+  [
+   "1,2",
+   "wueste"
+  ],
+  [
+   "0,-7",
+   "gebirge"
+  ],
+  [
+   "0,-6",
+   "gebirge"
+  ],
+  [
+   "5,3",
+   "gebirge"
+  ],
+  [
+   "4,3",
+   "gebirge"
+  ],
+  [
+   "4,4",
+   "gebirge"
+  ],
+  [
+   "0,1",
+   "wueste"
+  ],
+  [
+   "-1,-4",
+   "wueste"
+  ]
+ ],
+ "gold": [
+  "-3,-1",
+  "-1,-3"
+ ],
+ "g4": [],
+ "crown": "-1,5",
+ "crown2": [],
+ "zoo": 0,
+ "season": 3,
+ "seasonName": "Winter",
+ "day": 1,
+ "winter": true,
+ "deck": "alpen",
+ "stage": 5,
+ "z2": true,
+ "habs": [
+  "savanne",
+  "wueste",
+  "gebirge"
+ ],
+ "zooProfile": "keins",
+ "winterCondition": "essen",
+ "winterHard": false,
+ "winterHab": null,
+ "specialists": [
+  "bauleiterin",
+  "sammel"
+ ],
+ "specialistsActive": [
+  "bauleiterin",
+  "sammel"
+ ],
+ "habitatFood": {},
+ "progs": [],
+ "ads": [],
+ "events": [],
+ "money": 93,
+ "fav": 20,
+ "foto": null,
+ "chaos": null,
+ "buildings": [
+  {
+   "id": 1,
+   "key": "reptilien",
+   "base": "reptilien",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 3
+   },
+   "cells": [
+    [
+     -1,
+     -3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -1,
+    -3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 2,
+   "key": "steinboecke",
+   "base": "steinboecke",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 3
+   },
+   "cells": [
+    [
+     -3,
+     -1
+    ],
+    [
+     -4,
+     -1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -4,
+    -1
+   ],
+   "lvl": 3,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "bedroht",
+    "beute"
+   ]
+  },
+  {
+   "id": 3,
+   "key": "gruen",
+   "base": "gruen",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     -2,
+     -2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -2,
+    -2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 4,
+   "key": "bergwacht",
+   "base": "bergwacht",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     -3,
+     -2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -3,
+    -2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 5,
+   "key": "gruen",
+   "base": "gruen",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 1
+   },
+   "cells": [
+    [
+     0,
+     -3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    0,
+    -3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 6,
+   "key": "cafe",
+   "base": "cafe",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 3,
+    "N": 0
+   },
+   "cells": [
+    [
+     -1,
+     -2
+    ],
+    [
+     0,
+     -2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -1,
+    -2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 7,
+   "key": "murmeltiere",
+   "base": "murmeltiere",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 3
+   },
+   "cells": [
+    [
+     -5,
+     -1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -5,
+    -1
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "scheu"
+   ]
+  },
+  {
+   "id": 8,
+   "key": "warzenschweine",
+   "base": "warzenschweine",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     -2,
+     -1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -2,
+    -1
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute",
+    "show"
+   ],
+   "tags": [
+    "beute",
+    "show"
+   ]
+  },
+  {
+   "id": 9,
+   "key": "infozentrum",
+   "base": "infozentrum",
+   "cat": "schutz",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     -1,
+     -1
+    ],
+    [
+     0,
+     -1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -1,
+    -1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 10,
+   "key": "skorpione",
+   "base": "skorpione",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     -3,
+     -3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -3,
+    -3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "show"
+   ],
+   "tags": [
+    "show"
+   ]
+  },
+  {
+   "id": 11,
+   "key": "zebras",
+   "base": "zebras",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 3
+   },
+   "cells": [
+    [
+     -2,
+     0
+    ],
+    [
+     -1,
+     0
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -2,
+    0
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "beute"
+   ]
+  },
+  {
+   "id": 12,
+   "key": "berghuette",
+   "base": "berghuette",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 0
+   },
+   "cells": [
+    [
+     -2,
+     -4
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -2,
+    -4
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 13,
+   "key": "adlerhorst",
+   "base": "adlerhorst",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     -5,
+     -2
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -5,
+    -2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 14,
+   "key": "mufflons",
+   "base": "mufflons",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 2
+   },
+   "cells": [
+    [
+     -4,
+     -3
+    ],
+    [
+     -3,
+     -4
+    ]
+   ],
+   "rot": 2,
+   "anchor": [
+    -3,
+    -4
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute",
+    "show"
+   ],
+   "tags": [
+    "beute",
+    "show"
+   ]
+  },
+  {
+   "id": 15,
+   "key": "popcorn",
+   "base": "popcorn",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 0
+   },
+   "cells": [
+    [
+     -2,
+     -3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -2,
+    -3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": []
+  },
+  {
+   "id": 16,
+   "key": "giraffen",
+   "base": "giraffen",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "b3",
+   "grund": {
+    "B": 5,
+    "N": 3
+   },
+   "cells": [
+    [
+     1,
+     -2
+    ],
+    [
+     1,
+     -1
+    ],
+    [
+     0,
+     0
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    1,
+    -1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute",
+    "show"
+   ],
+   "tags": [
+    "gross",
+    "beute",
+    "show"
+   ]
+  },
+  {
+   "id": 17,
+   "key": "turm",
+   "base": "turm",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 1,
+    "N": 0
+   },
+   "cells": [
+    [
+     -1,
+     1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    -1,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "ruhig"
+   ],
+   "tags": [
+    "ruhig"
+   ]
+  },
+  {
+   "id": 18,
+   "key": "schneeleoparden",
+   "base": "schneeleoparden",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "s2",
+   "grund": {
+    "B": 5,
+    "N": 4
+   },
+   "cells": [
+    [
+     0,
+     -6
+    ],
+    [
+     0,
+     -7
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    0,
+    -7
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "raubtier"
+   ],
+   "tags": [
+    "bedroht",
+    "raubtier"
+   ]
+  },
+  {
+   "id": 19,
+   "key": "rotepandas",
+   "base": "rotepandas",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 3
+   },
+   "cells": [
+    [
+     1,
+     0
+    ],
+    [
+     2,
+     0
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    0
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "scheu"
+   ],
+   "tags": [
+    "bedroht",
+    "scheu"
+   ]
+  },
+  {
+   "id": 20,
+   "key": "gipfel",
+   "base": "gipfel",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "z4",
+   "grund": {
+    "B": 7,
+    "N": 5
+   },
+   "cells": [
+    [
+     1,
+     3
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     1
+    ]
+   ],
+   "rot": 2,
+   "anchor": [
+    3,
+    2
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "einmalig",
+    "gross"
+   ]
+  },
+  {
+   "id": 21,
+   "key": "elefanten",
+   "base": "elefanten",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "d4",
+   "grund": {
+    "B": 6,
+    "N": 4
+   },
+   "cells": [
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     -1,
+     4
+    ],
+    [
+     -1,
+     5
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    0,
+    3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "bedroht",
+    "gross"
+   ]
+  },
+  {
+   "id": 22,
+   "key": "warzenschweine",
+   "base": "warzenschweine",
+   "cat": "gehege",
+   "hab": "savanne",
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     0,
+     5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    0,
+    5
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute",
+    "show"
+   ],
+   "tags": [
+    "beute",
+    "show"
+   ]
+  },
+  {
+   "id": 23,
+   "key": "dingos",
+   "base": "dingos",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s2",
+   "grund": {
+    "B": 4,
+    "N": 2
+   },
+   "cells": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ]
+   ],
+   "rot": 1,
+   "anchor": [
+    1,
+    1
+   ],
+   "lvl": 2,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "raubtier"
+   ],
+   "tags": [
+    "raubtier"
+   ]
+  },
+  {
+   "id": 24,
+   "key": "pfeifhasen",
+   "base": "pfeifhasen",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 2
+   },
+   "cells": [
+    [
+     5,
+     1
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    5,
+    1
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "beute"
+   ],
+   "tags": [
+    "beute"
+   ]
+  },
+  {
+   "id": 25,
+   "key": "braunbaeren",
+   "base": "braunbaeren",
+   "cat": "gehege",
+   "hab": "gebirge",
+   "shape": "b3",
+   "grund": {
+    "B": 6,
+    "N": 3
+   },
+   "cells": [
+    [
+     5,
+     2
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     3,
+     3
+    ]
+   ],
+   "rot": 2,
+   "anchor": [
+    4,
+    3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [],
+   "tags": [
+    "gross"
+   ]
+  },
+  {
+   "id": 26,
+   "key": "lotterie",
+   "base": "lotterie",
+   "cat": "essen",
+   "hab": null,
+   "shape": "s1",
+   "grund": {
+    "B": 2,
+    "N": 0
+   },
+   "cells": [
+    [
+     1,
+     5
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    1,
+    5
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "trubel"
+   ],
+   "tags": [
+    "trubel"
+   ]
+  },
+  {
+   "id": 27,
+   "key": "skorpione",
+   "base": "skorpione",
+   "cat": "gehege",
+   "hab": "wueste",
+   "shape": "s1",
+   "grund": {
+    "B": 3,
+    "N": 2
+   },
+   "cells": [
+    [
+     2,
+     3
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    2,
+    3
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": "s",
+   "traits": [
+    "show"
+   ],
+   "tags": [
+    "show"
+   ]
+  },
+  {
+   "id": 28,
+   "key": "lehrpfad",
+   "base": "lehrpfad",
+   "cat": "attr",
+   "hab": null,
+   "shape": "s2",
+   "grund": {
+    "B": 2,
+    "N": 1
+   },
+   "cells": [
+    [
+     1,
+     -4
+    ],
+    [
+     0,
+     -4
+    ]
+   ],
+   "rot": 0,
+   "anchor": [
+    0,
+    -4
+   ],
+   "lvl": 1,
+   "food": [],
+   "imprint": null,
+   "edition": null,
+   "traits": [
+    "ruhig"
+   ],
+   "tags": [
+    "ruhig"
+   ]
+  }
+ ]
+},
+"erwartet":{
+ "A": 601,
+ "S": 258,
+ "total": 155058,
+ "mults": [
+  {
+   "label": "Gestresste Tiere: 1",
+   "id": null,
+   "ma": null,
+   "ms": 0.95
+  },
+  {
+   "label": "Kronenfeld",
+   "id": 21,
+   "ma": 1.3,
+   "ms": null
+  },
+  {
+   "label": "Reinheit: 4 Gebirge-Gehege",
+   "id": null,
+   "ma": null,
+   "ms": 1.15
+  }
+ ],
+ "buildings": [
+  {
+   "id": 1,
+   "a": 8,
+   "s": 12,
+   "parts": [
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     2,
+     3
+    ],
+    [
+     "🏜️ Einzelgänger: allein ×2",
+     4,
+     6
+    ]
+   ]
+  },
+  {
+   "id": 2,
+   "a": 79,
+   "s": 45,
+   "parts": [
+    [
+     "Gebirge-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Bauleiterin +30 %",
+     2,
+     1
+    ],
+    [
+     "★ Goldenes Feld: zählt doppelt",
+     7,
+     4
+    ],
+    [
+     "⛰️ Rand/Felsen (3) ×2",
+     14,
+     8
+    ],
+    [
+     "🤝 Freundschaft mit Murmeltiere ×1,25",
+     7,
+     4
+    ],
+    [
+     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     44,
+     25
+    ]
+   ]
+  },
+  {
+   "id": 3,
+   "a": 1,
+   "s": 4,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 4,
+   "a": 1,
+   "s": 3,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 5,
+   "a": 1,
+   "s": 2,
+   "parts": [
+    [
+     "Kartenbonus",
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "id": 6,
+   "a": 0,
+   "s": 0,
+   "parts": [
+    [
+     "Kartenbonus",
+     3,
+     0
+    ],
+    [
+     "❄️ Lebensmittelaufsicht: zählt nicht",
+     -6,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 7,
+   "a": 25,
+   "s": 11,
+   "parts": [
+    [
+     "Gebirge-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Bauleiterin +15 %",
+     1,
+     0
+    ],
+    [
+     "⛰️ Rand/Felsen (2) ×1,75",
+     5,
+     2
+    ],
+    [
+     "🤝 Freundschaft mit Steinböcke ×1,25",
+     3,
+     1
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     11,
+     5
+    ]
+   ]
+  },
+  {
+   "id": 8,
+   "a": 7,
+   "s": 7,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "🎭 Showtier: +30 %",
+     1,
+     1
+    ],
+    [
+     "🌾 Herde aus 3 ×1,3",
+     1,
+     1
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     3,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 9,
+   "a": 2,
+   "s": 2,
+   "parts": []
+  },
+  {
+   "id": 10,
+   "a": 10,
+   "s": 10,
+   "parts": [
+    [
+     "Wüste-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "🎭 Showtier: +60 %",
+     2,
+     2
+    ],
+    [
+     "🏜️ Einzelgänger: allein ×2",
+     5,
+     5
+    ]
+   ]
+  },
+  {
+   "id": 11,
+   "a": 9,
+   "s": 9,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "Savanne-Naturfläche",
+     0,
+     2
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "🌾 Herde aus 3 ×1,3",
+     2,
+     2
+    ],
+    [
+     "🤝 Freundschaft mit Giraffenweide ×1,25",
+     2,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 12,
+   "a": 0,
+   "s": 0,
+   "parts": [
+    [
+     "Kartenbonus",
+     1,
+     0
+    ],
+    [
+     "❄️ Lebensmittelaufsicht: zählt nicht",
+     -3,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 13,
+   "a": 11,
+   "s": 4,
+   "parts": [
+    [
+     "Gebirge-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Kartenbonus",
+     1,
+     0
+    ],
+    [
+     "⛰️ Rand/Felsen (2) ×1,75",
+     5,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 14,
+   "a": 18,
+   "s": 6,
+   "parts": [
+    [
+     "Gebirge-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     2,
+     0
+    ],
+    [
+     "🎭 Showtier: +30 %",
+     2,
+     1
+    ],
+    [
+     "⛰️ Rand/Felsen (4) ×2",
+     9,
+     3
+    ]
+   ]
+  },
+  {
+   "id": 15,
+   "a": 0,
+   "s": 0,
+   "parts": [
+    [
+     "❄️ Lebensmittelaufsicht: zählt nicht",
+     -1,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 16,
+   "a": 13,
+   "s": 9,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "Savanne-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "🎭 Showtier: +30 %",
+     2,
+     1
+    ],
+    [
+     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     0,
+     0
+    ],
+    [
+     "🌾 Herde aus 3 ×1,3",
+     2,
+     2
+    ],
+    [
+     "🤝 Freundschaft mit Zebrasteppe ×1,25",
+     2,
+     2
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 17,
+   "a": 5,
+   "s": 0,
+   "parts": [
+    [
+     "Kartenbonus",
+     4,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 18,
+   "a": 12,
+   "s": 12,
+   "parts": [
+    [
+     "Gebirge-Naturfläche",
+     0,
+     2
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "⛰️ Rand/Felsen (3) ×2",
+     6,
+     6
+    ]
+   ]
+  },
+  {
+   "id": 19,
+   "a": 18,
+   "s": 10,
+   "parts": [
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "🔗 Kombo ×1,5: nicht gestresst",
+     3,
+     2
+    ],
+    [
+     "⛰️ Rand/Felsen (3) ×2",
+     8,
+     5
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 20,
+   "a": 134,
+   "s": 28,
+   "parts": [
+    [
+     "Gebirge-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     2,
+     0
+    ],
+    [
+     "Kartenbonus",
+     16,
+     0
+    ],
+    [
+     "⛰️ Rand/Felsen (3) ×2",
+     27,
+     5
+    ],
+    [
+     "🏡 Innenhof ×1,2",
+     11,
+     2
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "🔺 Dreiländereck",
+     0,
+     2
+    ],
+    [
+     "❤️ Besucherliebling des Tages ×2,0",
+     67,
+     14
+    ]
+   ]
+  },
+  {
+   "id": 21,
+   "a": 15,
+   "s": 10,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "🌾 Herde aus 2 ×1,15",
+     1,
+     1
+    ],
+    [
+     "🤝 Freundschaft mit Warzenschweine ×1,25",
+     2,
+     1
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "🔺 Dreiländereck",
+     0,
+     2
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     3,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 22,
+   "a": 6,
+   "s": 3,
+   "parts": [
+    [
+     "Savanne-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "🎭 Showtier: +60 %",
+     2,
+     1
+    ],
+    [
+     "🌾 Herde aus 2 ×1,15",
+     1,
+     0
+    ],
+    [
+     "🤝 Freundschaft mit Elefantenpark ×1,25",
+     2,
+     1
+    ],
+    [
+     "2. Warzenschweine: zählt 75 % des eigenen Werts",
+     -2,
+     -1
+    ]
+   ]
+  },
+  {
+   "id": 23,
+   "a": 40,
+   "s": 26,
+   "parts": [
+    [
+     "Wüste-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "Bauleiterin +15 %",
+     1,
+     0
+    ],
+    [
+     "🔗 Kombo ×1,5: Beutetier in der Nähe",
+     3,
+     2
+    ],
+    [
+     "🏜️ Einzelgänger: allein ×2",
+     8,
+     5
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "🔺 Dreiländereck",
+     0,
+     2
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     5,
+     3
+    ],
+    [
+     "Ausbau Stufe II: +75 % des eigenen Werts",
+     17,
+     11
+    ]
+   ]
+  },
+  {
+   "id": 24,
+   "a": 9,
+   "s": 5,
+   "parts": [
+    [
+     "Gebirge-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "⛰️ Rand/Felsen (1) ×1,5",
+     2,
+     1
+    ],
+    [
+     "🏡 Innenhof ×1,2",
+     1,
+     1
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     2,
+     1
+    ]
+   ]
+  },
+  {
+   "id": 25,
+   "a": 20,
+   "s": 9,
+   "parts": [
+    [
+     "Gebirge-Nachbarn",
+     2,
+     0
+    ],
+    [
+     "Gebirge-Naturfläche",
+     0,
+     1
+    ],
+    [
+     "⛰️ Rand/Felsen (1) ×1,5",
+     4,
+     2
+    ],
+    [
+     "🏡 Innenhof ×1,2",
+     2,
+     1
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     4,
+     2
+    ]
+   ]
+  },
+  {
+   "id": 26,
+   "a": 0,
+   "s": 0,
+   "parts": [
+    [
+     "❄️ Lebensmittelaufsicht: zählt nicht",
+     -2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": 27,
+   "a": 14,
+   "s": 8,
+   "parts": [
+    [
+     "⛰️ Der Gipfelstürmer: Felsen",
+     1,
+     0
+    ],
+    [
+     "Winterkälte",
+     -1,
+     0
+    ],
+    [
+     "✨ Schimmernd: zählt doppelt",
+     3,
+     2
+    ],
+    [
+     "🏜️ Einzelgänger: allein ×2",
+     6,
+     4
+    ],
+    [
+     "🌳 Allee",
+     2,
+     0
+    ],
+    [
+     "❤️ neben dem Besucherliebling ×1,25",
+     4,
+     2
+    ],
+    [
+     "2. Skorpionhaus: zählt 75 % des eigenen Werts",
+     -4,
+     -2
+    ]
+   ]
+  },
+  {
+   "id": 28,
+   "a": 4,
+   "s": 1,
+   "parts": [
+    [
+     "Kartenbonus",
+     2,
+     0
+    ]
+   ]
+  }
+ ]
+},
+"run":{"v":2,"t0":0,"zoo":0,"perks":{},"cards":[],"spec":["bauleiterin","sammel"],"deckId":"alpen","deck":["popcorn","cafe","gruen","gruen","infozentrum","turm","zebras","reptilien","warzenschweine","skorpione","steinboecke","murmeltiere","mufflons","adlerhorst","berghuette","bergwacht"],"habs":["savanne","wueste","gebirge"],"z2":1,"stage":5,"added":[],"stats":{"cards":{"reptilien":{"a":148,"s":156},"steinboecke":{"a":535,"s":319},"gruen":{"a":25,"s":75},"bergwacht":{"a":12,"s":37},"cafe":{"a":61,"s":0},"murmeltiere":{"a":201,"s":104},"warzenschweine":{"a":102,"s":75},"infozentrum":{"a":25,"s":25},"skorpione":{"a":143,"s":119},"zebras":{"a":112,"s":104},"berghuette":{"a":25,"s":0},"adlerhorst":{"a":103,"s":41},"mufflons":{"a":180,"s":64},"popcorn":{"a":7,"s":0},"giraffen":{"a":114,"s":76},"turm":{"a":42,"s":0},"schneeleoparden":{"a":90,"s":96},"rotepandas":{"a":96,"s":60},"gipfel":{"a":335,"s":76},"elefanten":{"a":47,"s":34},"dingos":{"a":90,"s":62},"pfeifhasen":{"a":21,"s":12},"braunbaeren":{"a":34,"s":16},"lotterie":{"a":0,"s":0},"lehrpfad":{"a":4,"s":1}},"best":{"pts":155058,"season":3,"day":1,"zoo":0},"combo":0,"earned":158,"spent":75,"progs":0,"tally":{},"lvl":1,"days":13},"total":0,"game":null,"reward":null,"zl":true,"grow":{},"maps":{"0":"huegel"},"plan":null,"wishSeen":["show","calm","day4"],"offered":{"0":{"r":"raub","i":["essen"]}},"fsr":{"d:kueste":0,"d:dschungel":0,"d:oase":79,"d:freizeit":1,"d:geniesser":3,"d:forscher":1,"v:besucherlotse":94785,"v:scheinwerfer":4,"v:buehne":2,"v:ruhezone":2},"log":[{"z":0,"s":0,"p":19669,"t":11500,"d":5,"ok":1,"m":41,"sp":[],"pg":[],"w":{"t":"Ein Showtier mit vollem Show-Bonus (2 Gastro-Gebäude oder Attraktionen daneben)","ok":1}},{"z":0,"s":1,"p":113593,"t":74100,"d":4,"ok":1,"m":43,"sp":["bauleiterin"],"pg":[],"w":{"t":"Beende die Jahreszeit mit mindestens 3 Beute- oder scheuen Tieren, keins davon gestresst","ok":1}},{"z":0,"s":2,"p":172016,"t":171000,"d":2,"ok":1,"m":94,"sp":["bauleiterin"],"pg":[],"w":{"t":"Baue an einem Tag 4 Karten","ok":0}}],"bpCarry":1,"gifts":["gumb"]},
+"perks":{},
+"game":{"map":"huegel","board":[[0,0],[-1,1],[-1,0],[0,-1],[1,-2],[1,-1],[0,1],[1,0],[-1,2],[1,1],[-1,-1],[-2,0],[2,0],[0,2],[0,-2],[0,-3],[1,2],[-1,-2],[-2,-1],[2,1],[0,3],[1,-4],[-1,4],[-2,-2],[2,2],[3,1],[-1,-3],[-3,-1],[3,2],[-3,-2],[-2,-3],[1,3],[0,4],[0,-4],[-4,-1],[2,3],[4,1],[1,-5],[1,4],[-1,5],[-1,-4],[0,-5],[1,-6],[0,5],[2,4],[-5,-1],[3,3],[4,2],[-2,-4],[-4,-2],[-3,-3],[1,5],[3,4],[0,6],[-1,-5],[5,1],[-2,-5],[2,5],[-1,6],[-5,-2],[-4,-3],[0,-6],[-3,-4],[4,3],[-1,7],[5,3],[0,-7],[4,4],[-1,-6],[5,2],[3,5]],"undo":[],"yday":{"A":601,"S":258,"total":155058},"builtToday":3,"picks":0,"pickTotal":2,"hover":null,"hoverTerr":null,"earlyBonus":0,"dayPts":[104420,155058],"past":[{"name":"Frühling","pts":19669},{"name":"Sommer","pts":113593},{"name":"Herbst","pts":172016}],"money":93,"progs":[],"ads":[],"adsNext":[],"bpMax":4,"bpBought":0,"bpNext":0,"bpSeason":0,"shop":null,"shopSub":null,"infoProg":"rule","lastIncome":{"base":17,"interest":0,"spec":0,"don":5,"kar":0,"gas":4,"lot":5,"snk":0,"total":26,"entry":48,"care":-31,"A":601,"S":258},"msg":null,"prevY":{"A":460,"S":227,"total":104420},"miles":{"gebirge":1},"mileNew":[],"spec":["bauleiterin","sammel"],"market":null,"mileSeen":{},"ledger":{"entry":89,"care":-60,"interest":0,"early":0,"spec":0},"draftRolls":0,"moving":null,"evRolled":false,"mode":"camp","zoo":0,"tmult":1,"events":[],"eventsNext":[],"boni":{},"stats":{"cards":{"reptilien":{"a":148,"s":156},"steinboecke":{"a":535,"s":319},"gruen":{"a":25,"s":75},"bergwacht":{"a":12,"s":37},"cafe":{"a":61,"s":0},"murmeltiere":{"a":201,"s":104},"warzenschweine":{"a":102,"s":75},"infozentrum":{"a":25,"s":25},"skorpione":{"a":143,"s":119},"zebras":{"a":112,"s":104},"berghuette":{"a":25,"s":0},"adlerhorst":{"a":103,"s":41},"mufflons":{"a":180,"s":64},"popcorn":{"a":7,"s":0},"giraffen":{"a":114,"s":76},"turm":{"a":42,"s":0},"schneeleoparden":{"a":90,"s":96},"rotepandas":{"a":96,"s":60},"gipfel":{"a":335,"s":76},"elefanten":{"a":47,"s":34},"dingos":{"a":90,"s":62},"pfeifhasen":{"a":21,"s":12},"braunbaeren":{"a":34,"s":16},"lotterie":{"a":0,"s":0},"lehrpfad":{"a":4,"s":1}},"best":{"pts":155058,"season":3,"day":1,"zoo":0},"combo":0,"earned":158,"spent":75,"progs":0,"tally":{},"lvl":1,"days":13},"season":3,"day":1,"seasonScore":259478,"totalScore":564756,"buildings":[{"id":1,"key":"reptilien","cells":[[-1,-3]],"lvl":1},{"id":2,"key":"steinboecke","cells":[[-3,-1],[-4,-1]],"lvl":3},{"id":3,"key":"gruen","cells":[[-2,-2]],"lvl":1},{"id":4,"key":"bergwacht","cells":[[-3,-2]],"lvl":1},{"id":5,"key":"gruen","cells":[[0,-3]],"lvl":1},{"id":6,"key":"cafe","cells":[[-1,-2],[0,-2]],"lvl":1},{"id":7,"key":"murmeltiere","cells":[[-5,-1]],"lvl":2},{"id":8,"key":"warzenschweine","cells":[[-2,-1]],"lvl":2},{"id":9,"key":"infozentrum","cells":[[-1,-1],[0,-1]],"lvl":1},{"id":10,"key":"skorpione","cells":[[-3,-3]],"lvl":1},{"id":11,"key":"zebras","cells":[[-2,0],[-1,0]],"lvl":1},{"id":12,"key":"berghuette","cells":[[-2,-4]],"lvl":1},{"id":13,"key":"adlerhorst","cells":[[-5,-2]],"lvl":1},{"id":14,"key":"mufflons","cells":[[-4,-3],[-3,-4]],"lvl":1},{"id":15,"key":"popcorn","cells":[[-2,-3]],"lvl":1},{"id":16,"key":"giraffen","cells":[[1,-2],[1,-1],[0,0]],"lvl":1},{"id":17,"key":"turm","cells":[[-1,1]],"lvl":1},{"id":18,"key":"schneeleoparden","cells":[[0,-6],[0,-7]],"lvl":1},{"id":19,"key":"rotepandas","cells":[[1,0],[2,0]],"lvl":1},{"id":20,"key":"gipfel","cells":[[1,3],[2,2],[3,2],[4,1]],"lvl":1},{"id":21,"key":"elefanten","cells":[[0,3],[0,4],[-1,4],[-1,5]],"lvl":1},{"id":22,"key":"warzenschweine","cells":[[0,5]],"lvl":1},{"id":23,"key":"dingos","cells":[[1,1],[1,2]],"lvl":2},{"id":24,"key":"pfeifhasen","cells":[[5,1]],"lvl":1},{"id":25,"key":"braunbaeren","cells":[[5,2],[4,3],[3,3]],"lvl":1},{"id":26,"key":"lotterie","cells":[[1,5]],"lvl":1},{"id":27,"key":"skorpione","cells":[[2,3]],"lvl":1,"ed":"s"},{"id":28,"key":"lehrpfad","cells":[[1,-4],[0,-4]],"lvl":1}],"nextId":29,"deck":["elefanten","pfeifhasen","bratwurst","pfeifhasen","mufflons","yaks","stiftung","fennek"],"discard":["pfeifhasen","braunbaeren","glashaus","nachtfuehrung"],"hand":["addax","braunbaeren"],"bp":0,"selected":null,"rot":0,"preview":null,"phase":"review","offer":[],"pendingSeason":false,"lastDay":155058,"info":null,"terr":[["1,4","block"],["-2,-5","block"],["1,-6","block"],["-4,-2","block"],["2,1","block"],["-1,0","savanne"],["0,0","savanne"],["-2,0","savanne"],["0,-4","savanne"],["1,-4","savanne"],["0,-3","savanne"],["1,5","savanne"],["2,4","savanne"],["-2,-3","wueste"],["-3,-3","wueste"],["-1,2","wueste"],["0,2","wueste"],["1,2","wueste"],["0,-7","gebirge"],["0,-6","gebirge"],["5,3","gebirge"],["4,3","gebirge"],["4,4","gebirge"],["0,1","wueste"],["-1,-4","wueste"]],"habs":["savanne","wueste","gebirge"],"zl":{"prof":"keins","opts":[],"fix":false,"gold":["-3,-1","-1,-3"],"crown":"-1,5","insp":"essen","ban":null,"tv":false,"tvNext":false,"edq":{},"grow":{},"hard":false,"wplus":false},"rule":{"id":"raub"},"free1":0,"kuUsed":0,"luckNow":{"lucky":[],"encore":[],"spec":{},"lotto":5,"zirkus":0,"d":1,"s":3},"news":[],"newsNext":null,"wish":null,"wishIntro":1,"chaosB":null,"fav":20,"foto":null,"lottoH":null,"tfeld":null,"vline":null,"momEve":null,"momS":{"k":"0/3","ids":[]},"momZ":{"z":0,"ids":[]},"_L":{"e":287,"c":-214,"i":0,"sp":0},"lastOffer":["nachtfuehrung","oase"],"offerEd":null,"wishFx":1,"z2born":[],"z2jt":[],"z2bornSeen":true,"z2bornSnd":0,"earlyR":{"left":3,"bp":3,"gift":"gumb","gtal":0},"earlyInfo":" · ⚡ <b>+3 Baupunkte</b> in der nächsten Jahreszeit (je Tag 1) · 🎁 <b>Gratis 🧰 Umbau-Kiste</b> im nächsten Shop","mappe":null,"ausbauKey":"rd","shopTab":"shop","mappeN":2,"bannerQ":[],"sc":{},"mileLog":[{"t":"gebirge","s":1,"d":3}],"bpWish":0,"bpWhy":[]}}

@@ -23,6 +23,7 @@ for t in jsd*.js; do
   b=$(ZF="$TMP/alt.html" timeout 300 node "$t" 2>&1 | grep -E "$F" | grep -vE "Version|Neuigkeiten" | sort)
   if [ "$a" == "$b" ]; then echo "${t%.js}: gleich"; else echo "== ${t%.js}: Unterschied (< alt, > neu)"; diff <(echo "$b") <(echo "$a") | grep '^[<>]'; fi
 done
+echo "== Referenzfälle Wertung"; node referenz/referenz.js 2>&1 | grep -E "FAIL|EXC|Fälle gleich" | cut -c1-200
 if [ -z "${SCHNELL:-}" ]; then
   echo "== Tutorial-Durchlauf (tutcal5)"; timeout 1200 node tutcal5.js 2>&1 | grep -E "SEASON|GEND|$F|BADOFFER|NO " | cut -c1-160
   echo "== Bot-Lauf (Absturz-Test)"; Z2=1 timeout 900 node sim94.js 1 "$TMP/bot.json" 2>&1 | grep -E "$F|done" | cut -c1-160
