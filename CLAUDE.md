@@ -84,15 +84,29 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.73a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **Totes Holz entfernen.** Ziel: Das Spiel verhält sich danach genau gleich (`pruefen.sh` alles „gleich“, Referenzfälle unverändert).
+   a) **Sicher weg** (wird nirgends mehr erreicht):
+      - Alte Tutorial-Kapitel `TUT.zls`, `zlssh`, `zlh`, `zlhsh`, `zlw` (Modul 10; nur `zl`, `zlsh`, `zs`, `zssh`, `zh` werden benutzt) – vorher prüfen, ob `TUTCH` sie noch nennt.
+      - Altes Mini-Tutorial: `startTut` (wird nirgends aufgerufen), `exitTut`/`mode:'tut'`-Zweige, soweit nur dafür.
+      - `const GUIDE=[]` samt Abfragen (`guideHint` o. ä.), falls sie nur noch ins Leere greifen.
+      - Fenster `tutsolo` („Ab jetzt spielst du allein“, wird nie geöffnet) und der `else if(false)`-Zweig „Tutorial geschafft“ (Modul 08).
+      - `deckReady` (gibt sofort `false` zurück) und ihre Aufrufer; `fdMax` (seit 0.71a ersetzt durch `fdMaxK`); doppeltes `PURN=6` in Modul 04 (gilt ist `PURN=4` aus `syncCtx`) – auf einen Wert festlegen.
+      - **Zoo-Profile** `ZPROF` (seit 0.91 abgeschaltet, `if(0)` in `initZl`, `NOPROF='keins'`): Profilwahl-Fenster `zlProfHtml`, `zlPick`,
+        Profil-Abfragen in Wertung/Kosten/Taler (`CTX.zl.prof` = stadt/ruhe/manege/nacht/erlebnis/bau/gross/klein …, `Z.fix`, `PROFHAB`, `DECKPROF`, `profHints`).
+        Achtung: `prof` wird in alten Spielständen noch gespeichert – Laden muss weiter klappen.
+   b) **Zur Entscheidung (Tobi):** Die alten Modi **Freies Spiel** und **Zoolatro 1** sind nur noch als „alter Modus“ zum Zu-Ende-Spielen da
+      (Bildschirm Speicherplätze, `old(…)`); der Kampagnen-Modus wird schon verworfen. Ganz entfernen (angefangene alte Läufe gehen verloren)
+      oder noch eine Version lassen? Dazu gehören u. a. `enterSlot`/`mode:'free'`, `tmult`, Kampagnen-Reste, gestrichene Auflagen „bleibt für alte Spielstände“.
+   c) **Tests aufräumen:** veraltete Prüfungen anpassen oder löschen (z. B. `jsd93` Meilensteine 7/8, Reinheit 6; Tests für entfernte Teile),
+      `jsd94` „Gebirge: Rand ×1,5“ unabhängig vom Zufall machen. Danach soll `pruefen.sh` gegen den Stand vorher „gleich“ sein und die
+      Einzeltests möglichst ohne FAIL laufen.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
-als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · totes Holz entfernen (alte Tutorial-Kapitel,
-leere `GUIDE`, abgeschaltete Sommer-Tutorial-Abfrage, Code alter Modi) · Grafikstil · Futter-Balance · neue Meilensteine
+als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · „Alles zurücksetzen“ · Weiterspielen nach dem Ziel beobachten.
 · **Stufen 1–8 überarbeiten** (nicht nur höhere Ziele: weniger Goldfelder, Naturfelder Stufe 4 → 15 und Stufe 7 → 12,
 schwere Winter-Bedingung ab Stufe 5, Krone schwächer) · **Winter-Bedingungen** in leicht und schwer teilen · neue Winter-Ideen:
