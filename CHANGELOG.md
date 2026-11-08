@@ -5,6 +5,11 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.72a · 08.11.2026 · Goldfelder ×4, Regeln genauer erklärt
+- ★ Goldene Felder und ✨ Schimmernd multiplizieren sich jetzt: Schimmernd auf einem Goldfeld oder ein Gehege auf zwei Goldfeldern zählt ×4 (bisher ×3).
+- 📖 Lebensraum-Regeln genauer erklärt: Bei Wasser, Gebirge und Arktis zählt bei einem Verstoß die ganze Gruppe nur ×0,5. Ein einzelnes Wasser-Gehege bleibt bei ×1.
+- 🎭 Showtier-Text ergänzt: Trubel-Nachbarn und Tribünen zählen doppelt, zusammen höchstens +120 %.
+
 ## 0.71a · 08.11.2026 · Naturfelder, Seltenheit, Futterplätze
 - 🌿 Naturfelder fest verteilt: Jeder Zoo hat 18 Naturfelder, nur in Ihren drei Lebensräumen, als Flecken zu 2–4 Feldern. Jedes Gelände hat seinen Schwerpunkt, das Flusstal einen kürzeren Fluss.
 - ★ Seltene und sehr seltene Karten erkennen Sie an einer farbigen Ecke oben rechts auf der Handkarte. Legendäre Spezialisten glänzen im Team und in der Bewerbermappe.
