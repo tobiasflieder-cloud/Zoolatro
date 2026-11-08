@@ -90,9 +90,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Danach Referenzfälle neu erzeugen (`node tests/referenz/referenz.js erzeuge`) und Unterschiede prüfen.
 2. **Hilfetext Lebensraum-Regeln** (`HABRULE`, Modul 09) an den Code anpassen: Bei Wasser, Gebirge, Arktis zählt bei einem Verstoß
    die **ganze Gruppe** ×0,5 (Text sagt heute nur „nur ×0,5“ bzw. „Ganz innen nur ×0,5“).
-   Offen: Ein einzelnes Wasser-Gehege ohne Wasser-Nachbarn bekommt heute **gar keinen** Faktor (×1). So lassen?
-3. **Showtier-Text** (offen, siehe Frage an Tobi): Text sagt „+30 % je Nachbar, höchstens +60 %“; Trubel-Nachbarn und Tribünen zählen
-   aber doppelt, Obergrenze im Code +120 % (mit Bühne/Manege mehr).
+   Ein einzelnes Wasser-Gehege ohne Wasser-Nachbarn bleibt bei ×1 (entschieden) – im Text so erwähnen.
+3. **Showtier-Text an den Code anpassen** (Code bleibt): Merkmal-Text (`03-sprache.js` „show“, `04` Kommentar, Hilfe) sagt heute
+   „+30 % je Nachbar, höchstens +60 %“. Neu sinngemäß: „+30 % B und N je benachbartes Gastro-Gebäude oder Attraktion (höchstens +60 %);
+   Trubel-Nachbarn und Tribünen zählen doppelt, zusammen höchstens +120 %“. Bühne/Manege-Texte prüfen.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
