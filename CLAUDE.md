@@ -84,7 +84,15 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.72a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **Schimmernd und Goldfeld multiplizieren statt addieren** (`evalB`, Zoolatro-Teil): heute `a0` einmal genommen, Schimmernd `+a0·n`,
+   je Goldfeld `+a0`, je ×4-Feld `+3·a0` → Schimmernd + 1 Goldfeld = ×3. Neu: Faktoren nacheinander, Schimmernd ×(n+1), je Goldfeld ×2,
+   je ×4-Feld ×4 → Schimmernd + Goldfeld = ×4. Offen: Gilt das auch für 2 Goldfelder unter einem Gehege (heute ×3, neu ×4)?
+   Danach Referenzfälle neu erzeugen (`node tests/referenz/referenz.js erzeuge`) und Unterschiede prüfen.
+2. **Hilfetext Lebensraum-Regeln** (`HABRULE`, Modul 09) an den Code anpassen: Bei Wasser, Gebirge, Arktis zählt bei einem Verstoß
+   die **ganze Gruppe** ×0,5 (Text sagt heute nur „nur ×0,5“ bzw. „Ganz innen nur ×0,5“).
+   Offen: Ein einzelnes Wasser-Gehege ohne Wasser-Nachbarn bekommt heute **gar keinen** Faktor (×1). So lassen?
+3. **Showtier-Text** (offen, siehe Frage an Tobi): Text sagt „+30 % je Nachbar, höchstens +60 %“; Trubel-Nachbarn und Tribünen zählen
+   aber doppelt, Obergrenze im Code +120 % (mit Bühne/Manege mehr).
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
