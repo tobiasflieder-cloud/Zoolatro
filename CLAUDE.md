@@ -98,11 +98,20 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    „Zoo 1: Wähle dein Profil“ (Zoo-Profil, `modal='zoo'`) – dort gibt es nur „Wählen“. Neu: Knopf „◂ Zurück“ in diesem Fenster (nur in Zoo 1,
    solange noch kein Zoo-Profil gewählt ist): verwirft den eben gestarteten Lauf und führt zurück zur Profil-/Stufenwahl mit denselben
    Einstellungen (Lebensräume, Startwert). Beim Bauen prüfen, dass ein alter Lauf im Speicherplatz dabei nicht verloren geht.
+5. **Naturfelder fest verteilen** (normales Spiel/Zoolatro, nicht das Tutorial-Gelände): **18 Naturfelder je Zoo**, nur in den
+   3 gewählten Lebensräumen – kein Umfärben mehr (heute: `genMap0` legt die 4 Grund-Lebensräume, `genMap` färbt nicht gewählte um).
+   Flecken zu 2–4 Feldern. Schwerpunkte je Gelände (Rest = übrige gewählte Lebensräume):
+   Wiese 6/6/6 · Flusstal Wasser 8 (Rest je 5) · Bucht Wasser 7 + Wüste 7 (Rest 4) · Zwei Hügel Wald 8, falls gewählt, sonst Savanne 8 (Rest je 5) ·
+   Zerklüftet Wüste 8 (Rest je 5). Ist ein Schwerpunkt-Lebensraum nicht gewählt, wird sein Anteil gleichmäßig auf die gewählten verteilt
+   (bei ungeraden Resten reihum). Messwerte heute (Mittel, 4 Lebensräume): Wiese ~15 Felder, Flusstal ~22 (davon Wasser ~15 als Fluss),
+   Bucht ~10 (Wüste <1), Hügel ~18, Zerklüftet ~10.
+   Offen, vor dem Bauen klären: (a) Flusstal – bleibt der Fluss als zusammenhängender Strang (dann > 4 Felder) oder auch Flecken?
+   (b) Felsen und Geländeform bleiben wie bisher? (c) Abstand der Flecken zueinander / zum Rand egal?
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
-- Naturflächen-Verteilung im normalen Spiel: (a) gleichmäßiger oder (b) nur Fehler beheben (Umfärben reihum, Bucht-Kap nach innen). Details in docs/.
+- Naturflächen-Verteilung: entschieden → Punkt 5 der Liste (feste Verteilung).
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
 als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · totes Holz entfernen (alte Tutorial-Kapitel,
