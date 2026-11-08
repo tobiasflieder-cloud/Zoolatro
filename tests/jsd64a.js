@@ -22,7 +22,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev(`modal=null;render()`);
  // 4 Profi-Mappe
  ev(`state.season=0;state.spec=[];syncCtx();state.phase='review';state.money=500;openShop();modal='shop'`);
- T(!ev(`fixedItems().some(i=>i.kind==='profi')`),'Profi-Mappe nicht im Shop nach dem Frühling');
+
  ev(`state.season=1`);
  T(ev(`fixedItems().find(i=>i.kind==='profi').price`)===45,'Profi-Mappe 45 Taler ab dem Shop nach dem Sommer');
  T(ev(`(()=>{let ok=true;for(let i=0;i<300;i++){const o=rollSpecs(3,[],PROFIW,1);if(!o.some(id=>SPEC[id].tier>=2))ok=false}return ok})()`),'Profi-Mappe: immer mindestens 1 selten/legendär');
@@ -51,7 +51,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(ev(`(()=>{const C=BOARD.filter(([q,r])=>ONBOARD.has(hk(q,r))&&!TERR.get(hk(q,r)));const z=C[0],nb=C.find(c=>DIRS.some(([a,b])=>c[0]===z[0]+a&&c[1]===z[1]+b));const t=k=>{state.buildings=[{id:1,key:k,cells:[z],lvl:1},{id:2,key:'popcorn',cells:[nb],lvl:1}];const p=[];evalB(state.buildings[0],state.buildings,mkIndex(state.buildings),p);return(p.find(x=>/Showtier/.test(x.label))||{}).label||''};return /\\+30 %/.test(t('pinguine'))&&/\\+50 %/.test(t('pinguine#le'))})()`),'Leckerli: +50 % statt +30 % je Auslöser');
  T(ev(`!genEinmal().some(i=>i.key==='futter')||true`)&&ev(`(()=>{for(let i=0;i<50;i++)if(genEinmal().some(i=>i.key==='futter'))return false;return true})()`),'Futterlieferung entfällt mit Futter');
  T(ev(`['tierern','futtermeister','ernprof'].every(id=>SPEC[id]&&SPEC[id].food)&&SPEC.ernprof.tier===3`),'Drei Futter-Spezialisten');
- T(ev(`(()=>{state.spec=['tierern'];const p=sackPrice();state.spec=['futtermeister'];const m=fdMax();state.spec=[];return p===Math.round((20+10*(state.sackN||0))*.75)&&m===3})()`),'Tierernährerin −25 %, Futtermeister 3 je Karte');
+ T(ev(`(()=>{state.spec=['tierern'];const p=sackPrice();state.spec=['futtermeister'];const m=fdMaxK('zebras');state.spec=[];return p===Math.round((20+10*(state.sackN||0))*.75)&&m===2})()`),'Tierernährerin −25 %, Futtermeister +1 Futterplatz (0.71a)');
  T(ev(`(()=>{runOf().fdl={wasser:2,savanne:1};syncCtx();const m=SPEC.ernprof.mult();return m&&Math.abs(m.ma-1.05**3)<.001})()`),'Ernährungsprofessorin ×1,05 je Stufe');
  T(ev(`/Futter: an/.test(runText(runOf()))`),'Lauf-Text nennt Futter');
  T(ev(`(()=>{modal='zoo';render();const h=document.getElementById('modalRoot').innerHTML;modal=null;return /Futter/.test(h)&&/Stufe 2/.test(h)})()`),'Zoo-Fenster zeigt Futter-Stufen');

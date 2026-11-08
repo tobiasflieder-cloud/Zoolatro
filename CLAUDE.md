@@ -67,7 +67,6 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 ### Tutorial (Modul 10) – Jasper, Zoo 1
 - Kapitel `TUT.zl` (Frühling), `zlsh` (Frühlings-Shop), `zs` (Sommer), `zssh` (Sommer-Shop), `zh` (Herbst Tag 1 + Abschied).
   `TUTGUIDED=['zl','zs','zh']`, Start über `TUTCH`. Herbst ab Tag 2 und Winter spielt man frei; Ende = Jasper-Endtext, Knopf `data-gend`.
-  Alte Kapitel `zls/zlh/zlw` sind ungenutzt (können weg).
 - Schritt-Felder: `t` (Text oder Häppchen-Liste, Häppchen auch `{t,glow,mark}`), `h`, `only` (Karte), `at` (Zielfelder), `rot`, `setup`, `done`,
   `btn`, `end`, `glow`, `mark`, `undo`, `redraw`, `mv`, `up`, `lock` (Shop-Sperre `{tab,kind}`), `spec` (erzwungener Bewerber), `food` (erzwungenes Futter), `leave`, `arot`,
   `pv` (Häppchen, solange die Karte genau auf `at` liegt; 🔨 gesperrt bis zum letzten, Zähler `state.tut.pk`; `tutPvOn`/`tutPvLock`).
@@ -85,7 +84,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.73a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.74a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -94,8 +93,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
-als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · totes Holz entfernen (alte Tutorial-Kapitel,
-leere `GUIDE`, abgeschaltete Sommer-Tutorial-Abfrage, Code alter Modi) · Grafikstil · Futter-Balance · neue Meilensteine
+als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · „Alles zurücksetzen“ · Weiterspielen nach dem Ziel beobachten.
 · **Stufen 1–8 überarbeiten** (nicht nur höhere Ziele: weniger Goldfelder, Naturfelder Stufe 4 → 15 und Stufe 7 → 12,
 schwere Winter-Bedingung ab Stufe 5, Krone schwächer) · **Winter-Bedingungen** in leicht und schwer teilen · neue Winter-Ideen:
@@ -103,6 +101,13 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.73a:** Totes Holz entfernt: alte Tutorial-Kapitel (`zls/zlssh/zlh/zlhsh/zlw`, `TUTCH_ALT`), `startTut`, `GUIDE` (→ `guideHint=()=>null`),
+  Fenster `tutsolo`, `deckReady`, `fdMax`, doppeltes `PURN` (jetzt `const PURN=4`), Zoo-Profile `ZPROF` mit Profilwahl, `zlPick`, `profHints`,
+  `PROFHAB`, `DECKPROF`, Profil-Umbau `zfix` und alle Profil-Abfragen in Wertung/Kosten/Taler (`state.zl.prof` bleibt als `'keins'` im Spielstand).
+  Alte Modi: Freies Spiel (`enterSlot`, Gelände-Wahl `openMaps`/`mapsHtml`/`chooseMap`, „Neue Karte freischalten“, Spielende) und Zoolatro 1/Kampagne
+  als Spieler-Modus; `loadMeta` behält nur Zoolatro-2.0-Läufe. **Der Zoolatro-1-Rechenweg (`enterCamp(…,true)`) bleibt**, das Tutorial läuft darüber.
+  Tests aufgeräumt (`jsd64a/67a/68a/93/94/96` an heutige Regeln angepasst, `jsd94` Gebirge-Rand zufallsfest): alle Einzeltests ohne FAIL.
+  Übrig (bewusst gelassen): Bildschirme `summary`/`perk`/`scores` (von Zoolatro mitbenutzt), `tmult`, `exitTut`-Zweige.
 - **0.72a:** Schimmernd und Goldfelder/×4-Felder multiplizieren nacheinander (`evalB`, `mul`): Schimmernd + Gold = ×4, 2 Goldfelder = ×4;
   Hilfetext `HABRULE` (ganze Gruppe ×0,5, einzelnes Wasser-Gehege ×1); Showtier-Text (Trubel/Tribüne doppelt, höchstens +120 %);
   neuer Test `jsd72a.js`. Bekannt: `jsd94` „Gebirge: Rand ×1,5“ schlägt zufällig fehl, wenn das Randfeld auch an einen Felsen grenzt.

@@ -5,9 +5,6 @@ function restoreGame(s){const ok=s&&Array.isArray(s.deck)&&Array.isArray(s.terr)
     state.progs=state.progs.filter(id=>PROGS[id]);state.ads=state.ads.filter(id=>ADS[id]);state.adsNext=state.adsNext.filter(id=>ADS[id]);
     if(state.phase==='scoring'||(state.phase==='draft'&&!state.picks)||(state.phase==='shop'&&!state.shop)||state.phase==='market')state.phase='play';
     syncCtx();return true}catch(e){console.warn('Spielstand verworfen',e);return false}}
-function enterSlot(i,fresh){META.active=i;META.lastSlot=i;META.lastMode='free';const sl=META.slots[i];applySlot(sl);sl.last=Date.now();
-  if(!fresh&&sl.game&&restoreGame(sl.game)){sl.game=state;screen=null;modal=null;saveMeta();renderAll();return}
-  state=null;sl.game=null;saveMeta();openMaps(true)}
 const RUNPERK=5; // dauerhafte + Lauf-Verbesserungen zusammen
 function mergePerks(a,b){const o={};for(const p of[a||{},b||{}])for(const k in p){const q=o[k]=o[k]||{};q.a=(q.a||0)+(p[k].a||0);q.s=(q.s||0)+(p[k].s||0)}return o}
 function applyRun(run){const sl=activeSlot();applyPerks(mergePerks({},run.perks));UNLOCK=new Set(run.cards||[])}
@@ -30,7 +27,7 @@ function startZoo(){const sl=activeSlot(),run=sl.run;if(run&&(run.spec||[]).incl
   const zl0={prof:null,opts:null,fix:false,gold:[],crown:null,insp:null,ban:null,tv:false,tvNext:false,edq:{},grow:Object.fromEntries(Object.entries(run.grow||{}).filter(([k])=>!/^z_(wald|wasser|wueste|savanne|arktis|gebirge)$/.test(k)))};
   if(pl&&run.zl)Object.assign(zl0,{prof:pl.prof||run.prof||null,opts:pl.opts,gold:pl.gold,crown:pl.crown,insp:pl.insp||(pl.inspOpts&&pl.inspOpts[0]),inspOpts:undefined,inspHab:pl.inspHab,ban:null});
   if(run.zl)zl0.prof=run.prof||NOPROF;
-  GENHABS=run.habs||null;const gm=run.tut&&run.zoo===0?{cells:hexDisc(5),terr:new Map(TUTMAP.terr)}:pl?{cells:pl.cells,terr:new Map(pl.terr)}:genMap(cf.map,Math.random,cf.rocks);GENHABS=null;newGame(cf.map,gm,{deck:run.deck,events:ev0,plan:!!pl,state:Object.assign({mode:'camp',money:10+(run.deckId==='oase'&&run.zl&&!run.tut?40:0),habs:run.habs||null,zoo:run.zoo,tmult:run.zl?ZLMULT(run.zoo):cf.mult,spec:(run.spec||[]).slice(),stats:run.stats||newStats()},run.zl?Object.assign({zl:zl0},pl?(pl.rule?{rule:pl.rule,infoProg:'rule'}:{}):!run.tut?{rule:{id:(SEEN=seenOf(run,run.zoo),ruleRoll())}}:{}):{})});SEEN={r:new Set(),i:new Set()};if(run.zl&&!run.tut)noteOffered(run);if(run.tut&&run.zoo===0){state.zl.prof=NOPROF;state.zl.insp='frei';state.zl.inspHab=null;state.zl.gold=TUTMAP.gold.slice();state.zl.crown=TUTMAP.crown;state.tgf=.4;state.tT=TUTT.slice();state.events=[];state.tut={ch:'zl',i:0};syncCtx();TUT.zl.steps[0].setup(state)}if(run.zl)zlGift();if((!run.zl||state.zl.prof)&&!run.tut)modal='zoo';saveMeta();renderAll()}
+  GENHABS=run.habs||null;const gm=run.tut&&run.zoo===0?{cells:hexDisc(5),terr:new Map(TUTMAP.terr)}:pl?{cells:pl.cells,terr:new Map(pl.terr)}:genMap(cf.map,Math.random,cf.rocks);GENHABS=null;newGame(cf.map,gm,{deck:run.deck,events:ev0,plan:!!pl,state:Object.assign({mode:'camp',money:10+(run.deckId==='oase'&&run.zl&&!run.tut?40:0),habs:run.habs||null,zoo:run.zoo,tmult:run.zl?ZLMULT(run.zoo):cf.mult,spec:(run.spec||[]).slice(),stats:run.stats||newStats()},run.zl?Object.assign({zl:zl0},pl?(pl.rule?{rule:pl.rule,infoProg:'rule'}:{}):!run.tut?{rule:{id:(SEEN=seenOf(run,run.zoo),ruleRoll())}}:{}):{})});SEEN={r:new Set(),i:new Set()};if(run.zl&&!run.tut)noteOffered(run);if(run.tut&&run.zoo===0){state.zl.prof=NOPROF;state.zl.insp='frei';state.zl.inspHab=null;state.zl.gold=TUTMAP.gold.slice();state.zl.crown=TUTMAP.crown;state.tgf=.4;state.tT=TUTT.slice();state.events=[];state.tut={ch:'zl',i:0};syncCtx();TUT.zl.steps[0].setup(state)}if((!run.zl||state.zl.prof)&&!run.tut)modal='zoo';saveMeta();renderAll()}
 const UNLOCK_DECK={kueste:{goal:100,k:'wB',txt:'Wasser-Gehege gebaut (über alle Läufe)'},geniesser:{goal:150,k:'eB',txt:'Gastro-Gebäude gebaut (über alle Läufe)'},
   freizeit:{goal:4000,k:'aB',txt:'Besucher mit Attraktionen (über alle Läufe)'},forscher:{goal:5000,k:'sN',txt:'Natur mit Naturschutz-Gebäuden (über alle Läufe)'},
   dschungel:{goal:9,k:'wald',txt:'verschiedene Dschungel-Gehege in einem Zoo (dein Bestwert)'},oase:{goal:150000,k:'day',txt:'Punkte an einem Tag (dein Bestwert)'},
@@ -40,7 +37,7 @@ function cuOf(sl){if(!sl.cu){sl.ulv=ULV;const c=sl.ctype||{};sl.cu={wB:0,eB:0,aB
 const ULV=2,OLDGOAL={dschungel:7,oase:70000,steppe:20};
 function ulMig(sl){const cu=sl.cu;if(!cu||sl.ulv===ULV)return;for(const id in UNLOCK_DECK){const U=UNLOCK_DECK[id];if(!cu.open.includes(id)&&(cu[U.k]||0)>=(OLDGOAL[id]||U.goal))cu.open.push(id)}sl.ulv=ULV}
 const deckOpen=(sl,id)=>{if(!DECKS[id].type||DECKS[id].free)return true;const cu=cuOf(sl);ulMig(sl);return cu.open.includes(id)||!!(sl.fs&&sl.fs['d:'+id])};
-const deckReady=(sl,id)=>{return false;const U=UNLOCK_DECK[id];return!!U&&!deckOpen(sl,id)&&(cuOf(sl)[U.k]||0)>=U.goal};
+
 // am Ende jedes Kampagnen-Zoos: Fortschritt der Freischalt-Aufgaben und Lauf-Statistik fortschreiben (nur neu gesetzte Gebäude, Ausbau zählt nicht)
 function tallyUnlock(sl,run){const cu=cuOf(sl),before=Object.keys(DECKS).filter(id=>deckOpen(sl,id)),bs=state.buildings,n=f=>cnt(bs,b=>f(CARDS[b.key]));
   cu.wB+=n(c=>c.cat==='gehege'&&c.hab==='wasser');cu.arB=(cu.arB||0)+n(c=>c.cat==='gehege'&&c.hab==='arktis');if(cu.arB>=100&&!run.tut){sl.vu=sl.vu||{};sl.vu.winterquartier=sl.vu.winterquartier||'pending'}cu.eB+=n(c=>c.cat==='essen');
@@ -52,7 +49,6 @@ function tallyUnlock(sl,run){const cu=cuOf(sl),before=Object.keys(DECKS).filter(
   run.newNow=[];
   run.zooPts=(run.zooPts||[]).concat([state.totalScore]);run.miles=(run.miles||0)+Object.keys(state.miles||{}).length}
 // Zoolatro-Start (0.91): 1. vier von sechs Lebensräumen (mit Seed), 2. Profil; Profile gibt es nicht mehr
-const PROFHAB={aqua:['wasser'],safari:['savanne'],dschungel:['wald'],wuestenzoo:['wueste'],polar:['arktis'],alpen:['gebirge']};
 function zlSetupHtml(){const a=screenArg,i=a.slot,sl=META.slots[i];
   return`<div class="bar2"><h2>🃏 Neuer Lauf · 1 von 2</h2><button class="btn sub" data-zsback="1">Zurück</button></div><p style="margin:0;color:var(--muted)">Wähle <b>3 Lebensräume</b>. Jeder hat eine eigene starke Regel. Nur deren Tiere kommen in dein Deck, ins Kartenangebot und als Naturflächen auf den Zooplan. Danach wählst du dein Profil.</p>
     <div class="seedbox"><b>🌱 Seed</b> <small>(Testlauf: gleiche Zoos, alle Spezialisten wählbar, zählt nicht für Fortschritt)</small><div class="seedrow"><input id="zsSeed" maxlength="16" placeholder="leer = normaler Lauf" value="${a.seed||''}" autocomplete="off"><button class="btn sub" data-zsseed="1">Übernehmen</button><button class="btn sub" data-zsseedr="1">🎲</button>${a.seed?'<button class="btn sub" data-zsseedx="1">✕</button>':''}</div>${a.seed?`<small style="color:var(--gold)">Seed <b>${a.seed}</b> aktiv.</small>`:''}</div>
@@ -77,7 +73,6 @@ function statZoo(sl,run,won){if(!sl||!run||run.tut||run.test)return;const S=stat
   for(const b of state.buildings){const c=CARDS[b.key],B=lexBase(b.key);if(!c||!B)continue;S.built[B.k]=(S.built[B.k]||0)+1;const P=CARDS[B.k];
     if(P&&P.cat==='gehege'&&P.hab&&!P.ms){S.geh++;if(B.jt)S.jt++;const e=L[B.k]=L[B.k]||{n:0,z:0};e.n++;e.z=Math.max(e.z,z);if((b.lvl||1)>=3)e.l3=1;if(B.jt)e.jt=1;if(b.ed||c.ed)e.ed=1}}
   if(state.season===3&&state.zl&&state.zl.insp){const w=S.win[state.zl.insp]=S.win[state.zl.insp]||[0,0];w[1]++;if(won)w[0]++}
-  if(state.zl&&state.zl.prof)S.prof[state.zl.prof]=(S.prof[state.zl.prof]||0)+1;
   if(won){S.zoos++;S.bestZoo=Math.max(S.bestZoo,state.totalScore||0)}}
 function statRun(sl,run){if(!sl||!run||run.tut||run.test)return;const S=statOf(sl);S.runs++;S.bestRun=Math.max(S.bestRun,run.zoo||0);if((run.zoo||0)>=1){S.cur++;S.streak=Math.max(S.streak,S.cur)}else S.cur=0;
   for(const id of run.spec||[]){if(!SPEC[id])continue;S.spec[id]=(S.spec[id]||0)+1;if(SPEC[id].rb)S.rb[id]=1}}
@@ -85,7 +80,7 @@ const slotPick=()=>{const ids=META.slots.map((x,i)=>x?i:null).filter(i=>i!=null)
   return{id,sl:id!=null?META.slots[id]:null,sel:ids.length>1?`<div class="chips pslots">${ids.map(i=>`<button class="chip2 ${i===id?'on':''}" data-pslot="${i}">${esc(META.slots[i].name)}</button>`).join('')}</div>`:''}};
 function statHtml(){const{sl,sel}=slotPick(),back='<div class="bar2"><h2>📊 Statistik</h2><button class="btn sub" data-go="title">Zurück</button></div>'+sel;
   if(!sl)return back+'<p class="empty-note">Lege zuerst einen Spielstand an und spiele einen Lauf.</p>';const S=statOf(sl),cu=cuOf(sl),top=(o,n)=>Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,n);
-  const box=(k,v,d='')=>`<div class="sumbox"><span class="k">${k}</span><span class="v">${v}</span>${d?`<span class="d">${d}</span>`:''}</div>`,tb=top(S.built,5).filter(([k])=>CARDS[k]),fs=top(S.spec,1)[0],fp=top(S.prof,1)[0];
+  const box=(k,v,d='')=>`<div class="sumbox"><span class="k">${k}</span><span class="v">${v}</span>${d?`<span class="d">${d}</span>`:''}</div>`,tb=top(S.built,5).filter(([k])=>CARDS[k]),fs=top(S.spec,1)[0];
   const rh=(META.runHist||[]).length?`<button class="btn sub" data-runcopy="3" style="align-self:center">📋 Letzte ${(META.runHist||[]).length} Läufe kopieren</button>`:'';
   return back+rh+`<p style="margin:0;color:var(--muted)">Spielstand <b style="color:var(--text)">${esc(sl.name)}</b> · gezählt ab Version 0.66</p>
     <div class="sumgrid">${box('Läufe',S.runs)}${box('Zoos geschafft',S.zoos)}${box('Bester Lauf',S.bestRun+' Zoo'+(S.bestRun===1?'':'s'))}${box('Längste Serie',S.streak,'Läufe mit mindestens 1 Zoo')}${box('Bester Tag',fmt(cu.day||0),'Punkte')}${box('Bester Zoo',fmt(S.bestZoo),'Punkte')}${box('Gehege gebaut',fmt(S.geh))}${box('Jungtiere',S.jt)}</div>
@@ -156,7 +151,7 @@ function verstUnlock(sl,run){run.vNow=[];run.newNow=[];fsMig(sl);return;sl.vu=sl
   const ok={futterkueche:z>=1,besucherlotse:z>=3,winterquartier:(cuOf(sl).arB||0)>=100,scheinwerfer:pu>=7,buehne:fullShow>=5,ruhezone:calm>=6};
   // höchstens eine Freischaltung je geschafftem Zoo: alles weitere wartet in sl.ulq (wer am längsten wartet, kommt zuerst)
   const q=sl.ulq=sl.ulq||[];for(const k of Object.keys(ok))if((ok[k]||sl.vu[k]==='pending')&&sl.vu[k]!==1&&!q.includes('v:'+k)){q.push('v:'+k);sl.vu[k]='pending'}
-  for(const d in UNLOCK_DECK)if(deckReady(sl,d)&&!q.includes('d:'+d))q.push('d:'+d);
+
   run.vNow=[];run.newNow=[];const g=q.shift();if(g){const[t,k]=g.split(':');if(t==='v'){sl.vu[k]=1;run.deck.push(k);run.vNow=[k]}else{cuOf(sl).open.push(k);run.newNow=[k];run.newDecks=(run.newDecks||[]).concat([k])}}}
 
 // ===== 0.91: Freischalten über Ziele =====
@@ -454,12 +449,8 @@ function finishGame(){const sl=activeSlot(),won=state.phase==='win',date=Date.no
     if(!won){endRun(false);return}
     if(!run.tut)verstUnlock(sl,run);
     run.kasse=Math.max(0,Math.round(state.money||0));run.zoo++;state=null;modal=null;if(run.zoo===CAMP_GOAL){sl.trophy=sl.trophy||{};sl.trophy[run.deckId||'grund']=1}run.reward=run.zoo===CAMP_GOAL?{step:'won'}:newReward(run);screen='creward';screenArg=run.reward;saveMeta();Sfx.win();renderAll();return}
-  const sum=summaryOf(state.stats,{total:state.totalScore,won,map:state.map,season:state.season});
-  META.scores.push({name:sl?sl.name:'Gast',slot:META.active,pts:state.totalScore,map:state.map,season:state.season,won,date,rule:state.rule?state.rule.id:undefined});
-  META.scores.sort((a,b)=>b.pts-a.pts);META.scores=META.scores.slice(0,100);
-  if(sl){sl.game=null;sl.games=(sl.games||0)+1}state=null;modal=null;const locked=Object.keys(CARDS).filter(isLocked);
-  const next=won&&sl&&locked.length?{screen:'unlock',arg:{cards:shuffle(locked).slice(0,3),hl:date}}:{screen:'perk',arg:{step:'cat',hl:date}};
-  screen='summary';screenArg={sum,next};saveMeta();if(won)Sfx.win();renderAll()}
+  // 0.73a: Ende eines freien Spiels gibt es nicht mehr (nur noch Zoolatro-Läufe)
+  state=null;modal=null;screen='title';screenArg={};saveMeta();renderAll()}
 function summaryHtml(){if((screenArg.sum.newNow||[]).length&&!screenArg.deckAck)return deckWinHtml(screenArg.sum.newNow,'<button class="btn main big" data-sdack="1">Weiter</button>');
   const m=screenArg.sum,mx=Math.max(1,...Object.values(m.habs)),fav=Object.keys(m.habs).reduce((a,b)=>m.habs[b]>m.habs[a]?b:a),tot=Object.values(m.habs).reduce((a,b)=>a+b,0);
   const head=m.camp?(m.won?`🏆 Zoolatro geschafft`:`Lauf beendet`):(m.won?'🏆 Jahr geschafft':'Spiel beendet');

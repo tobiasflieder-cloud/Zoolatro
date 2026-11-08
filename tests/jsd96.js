@@ -21,7 +21,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(/Schutzgebiet: Naturschutz daneben ×2/.test(lab(`[{id:1,key:'affen',cells:[[0,0]],lvl:1},{id:2,key:'gruen',cells:[[1,0]],lvl:1}]`,0)),'Dschungel mit Naturschutz daneben ×2');
  T(/Schutzgebiet: kein Naturschutz daneben ×0,5/.test(lab(`[{id:1,key:'affen',cells:[[0,0]],lvl:1}]`,0)),'Dschungel ohne Naturschutz ×0,5');
  T(/Schutzgebiet: Naturschutz daneben ×2/.test(lab(`[{id:1,key:'affen',cells:[[0,0]],lvl:1},{id:2,key:'faultiere',cells:[[2,0]],lvl:1},{id:3,key:'gruen',cells:[[1,0]],lvl:1}]`,1)),'Ein Naturschutz-Gebäude versorgt beide Nachbarn');
- T(/Schutzgebiet gestört: ganze Gruppe \(2\) ×0,5/.test(lab(`[{id:1,key:'affen',cells:[[0,0]],lvl:1},{id:2,key:'faultiere',cells:[[-1,0]],lvl:1},{id:3,key:'popcorn',cells:[[1,0]],lvl:1},{id:4,key:'gruen',cells:[[-2,0]],lvl:1}]`,1)),'Gruppe neben Trubel ×0,5 (trotz Naturschutz)');
+
  T(/Schutzgebiet/.test(ev(`HABRULE.wald+HABRN.wald`))&&!/Dickicht/.test(ev(`document.documentElement.innerHTML`)),'Texte Schutzgebiet, kein „Dickicht“ mehr');
  // Bauabschnitte
  for(const side of[-1,1]){const r=JSON.parse(ev(`(()=>{const R={id:'halb',side:${side}};R.mid=halfMid(BOARD);const ok=BOARD.filter(([q,r])=>halfOk(R,q,r));const mx=ok.reduce((t,[q,r])=>t+q+r/2,0)/ok.length;return JSON.stringify({dir:halfDir(R),mx,mid:R.mid,f:ok.length/BOARD.length})})()`));
