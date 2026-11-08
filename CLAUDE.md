@@ -94,10 +94,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
       - **Zoo-Profile** `ZPROF` (seit 0.91 abgeschaltet, `if(0)` in `initZl`, `NOPROF='keins'`): Profilwahl-Fenster `zlProfHtml`, `zlPick`,
         Profil-Abfragen in Wertung/Kosten/Taler (`CTX.zl.prof` = stadt/ruhe/manege/nacht/erlebnis/bau/gross/klein …, `Z.fix`, `PROFHAB`, `DECKPROF`, `profHints`).
         Achtung: `prof` wird in alten Spielständen noch gespeichert – Laden muss weiter klappen.
-   b) **Zur Entscheidung (Tobi):** Die alten Modi **Freies Spiel** und **Zoolatro 1** sind nur noch als „alter Modus“ zum Zu-Ende-Spielen da
-      (Bildschirm Speicherplätze, `old(…)`); der Kampagnen-Modus wird schon verworfen. Ganz entfernen (angefangene alte Läufe gehen verloren)
-      oder noch eine Version lassen? Dazu gehören u. a. `enterSlot`/`mode:'free'`, `tmult`, Kampagnen-Reste, gestrichene Auflagen „bleibt für alte Spielstände“.
-   c) **Tests aufräumen:** veraltete Prüfungen anpassen oder löschen (z. B. `jsd93` Meilensteine 7/8, Reinheit 6; Tests für entfernte Teile),
+   b) **Alte Modi entfernen (entschieden):** **Freies Spiel** und **Zoolatro 1** ganz raus (heute nur „alter Modus“ zum Zu-Ende-Spielen,
+      Bildschirm Speicherplätze, `old(…)`), dazu Kampagnen-Reste und gestrichene Auflagen „bleibt für alte Spielstände“, `enterSlot`/`mode:'free'`, `tmult`.
+      Alte Läufe dieser Modi werden beim Laden still verworfen (wie heute schon die Kampagne), Spielstand und Freischaltungen bleiben.
+      Zoolatro 2.0 und das Tutorial dürfen sich nicht ändern. Im „Neu in Zoolatro“-Fenster erwähnen.
+   c) **Tests aufräumen (entschieden, mit dabei):** veraltete Prüfungen anpassen oder löschen (z. B. `jsd93` Meilensteine 7/8, Reinheit 6; Tests für entfernte Teile),
       `jsd94` „Gebirge: Rand ×1,5“ unabhängig vom Zufall machen. Danach soll `pruefen.sh` gegen den Stand vorher „gleich“ sein und die
       Einzeltests möglichst ohne FAIL laufen.
 
