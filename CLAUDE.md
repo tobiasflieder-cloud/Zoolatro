@@ -98,25 +98,35 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    „Zoo 1: Wähle dein Profil“ (Zoo-Profil, `modal='zoo'`) – dort gibt es nur „Wählen“. Neu: Knopf „◂ Zurück“ in diesem Fenster (nur in Zoo 1,
    solange noch kein Zoo-Profil gewählt ist): verwirft den eben gestarteten Lauf und führt zurück zur Profil-/Stufenwahl mit denselben
    Einstellungen (Lebensräume, Startwert). Beim Bauen prüfen, dass ein alter Lauf im Speicherplatz dabei nicht verloren geht.
-5. **Naturfelder fest verteilen** (normales Spiel/Zoolatro, nicht das Tutorial-Gelände): **18 Naturfelder je Zoo**, nur in den
-   3 gewählten Lebensräumen – kein Umfärben mehr (heute: `genMap0` legt die 4 Grund-Lebensräume, `genMap` färbt nicht gewählte um).
+5. **Naturfelder fest verteilen** (normales Spiel/Zoolatro, nicht das Tutorial-Gelände): **18 Naturfelder je Zoo**, nur für die
+   3 gewählten Lebensräume – kein Umfärben nicht gewählter Lebensräume mehr (heute: `genMap0` legt die 4 Grund-Lebensräume, `genMap` färbt um).
    Flecken zu 2–4 Feldern. Schwerpunkte je Gelände (Rest = übrige gewählte Lebensräume):
-   Wiese 6/6/6 · Flusstal Wasser 8 (Rest je 5) · Bucht Wasser 7 + Wüste 7 (Rest 4) · Zwei Hügel Wald 8, falls gewählt, sonst Savanne 8 (Rest je 5) ·
-   Zerklüftet Wüste 8 (Rest je 5). Ist ein Schwerpunkt-Lebensraum nicht gewählt, wird sein Anteil gleichmäßig auf die gewählten verteilt
-   (bei ungeraden Resten reihum). Messwerte heute (Mittel, 4 Lebensräume): Wiese ~15 Felder, Flusstal ~22 (davon Wasser ~15 als Fluss),
-   Bucht ~10 (Wüste <1), Hügel ~18, Zerklüftet ~10.
-   Geklärt: Flusstal – das Wasser bleibt ein zusammenhängender Fluss (8 Felder als Strang), nur die übrigen Lebensräume als Flecken.
-   Felsen und Geländeform bleiben wie bisher. Abstand der Flecken zueinander/zum Rand ist egal.
+   Wiese 6/6/6 · Flusstal Wasser 8 (Rest je 5; Fluss bleibt ein zusammenhängender Strang, nur kürzer) · Bucht Wasser 7 + Wüste 7 (Rest 4) ·
+   Zwei Hügel Wald 8, falls gewählt, sonst Savanne 8 (Rest je 5) · Zerklüftet Wüste 8 (Rest je 5).
+   Ist der Schwerpunkt-Lebensraum nicht gewählt, wird sein Anteil gleichmäßig auf die gewählten verteilt (ungerade Reste reihum).
+   Felsen und Geländeform bleiben wie bisher; Abstand der Flecken zueinander/zum Rand egal.
+   Messwerte heute (Mittel, 4 Lebensräume): Wiese ~15 Felder, Flusstal ~22 (Wasser ~15), Bucht ~10 (Wüste <1), Hügel ~18, Zerklüftet ~10.
+6. **Seltenheit auf Handkarten:** nur „selten“ und „sehr selten“ markieren, alle anderen Seltenheiten nicht.
+   Farbige Ecke oben rechts in der Kartenecke: Dreieck ca. 30 px, `linear-gradient(225deg, hell 0, farbe 46 %, transparent 47 %)`,
+   feine Schattenkante, folgt der Rundung der Karte.
+   Selten: blau `#2f7fe0` → hell `#9cc8ff`, weißer ★. Sehr selten: lila `#9b4dff` → pink `#ff9be6`, weiße ★★ übereinander, leichtes Funkeln.
+   Die Kostenpunkte rücken bei seltenen Karten ca. 15 px nach links; bei 3 Kostenpunkten und breiter Form das Form-Symbol etwas kleiner,
+   damit nichts aneinanderstößt. Veredelungen (Gold/Schimmernd/Regenbogen) bleiben unverändert.
+   Spezialisten der Stufe 3 bekommen in der Team-Leiste und in der Bewerbermappe zusätzlich einen langsamen Glanz und leichtes Leuchten.
+7. **Futterplätze nach Seltenheit:** gewöhnliche Tiere können 1 Futter bekommen, seltene 2, sehr seltene 3 (heute höchstens 2 für alle, `fdMax`).
+   Der Spezialist Futtermeister gibt +1, also 2/3/4. In der Karten-Info und im Futtersack anzeigen, wie viele Plätze noch frei sind.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
-- Naturflächen-Verteilung: entschieden → Punkt 5 der Liste (feste Verteilung).
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
 als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · totes Holz entfernen (alte Tutorial-Kapitel,
 leere `GUIDE`, abgeschaltete Sommer-Tutorial-Abfrage, Code alter Modi) · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · „Alles zurücksetzen“ · Weiterspielen nach dem Ziel beobachten.
+· **Stufen 1–8 überarbeiten** (nicht nur höhere Ziele: weniger Goldfelder, Naturfelder Stufe 4 → 15 und Stufe 7 → 12,
+schwere Winter-Bedingung ab Stufe 5, Krone schwächer) · **Winter-Bedingungen** in leicht und schwer teilen · neue Winter-Ideen:
+am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
 
