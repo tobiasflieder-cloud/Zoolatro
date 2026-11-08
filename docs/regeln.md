@@ -1,4 +1,4 @@
-# Zoolatro – Spielregeln (Stand 0.72a)
+# Zoolatro – Spielregeln (Stand 0.73a)
 
 Vorlage für einen Nachbau (z. B. in Godot). Beschrieben ist das, **was der Code tut**. Wo Kommentar, Hilfetext oder alte Tests etwas
 anderes sagen, steht das unter „⚠️ Unklar/Widerspruch“ (gesammelt in Abschnitt 13).
@@ -78,7 +78,6 @@ Betrag, das sind die Zeilen in den Referenzfällen.
    - **Alle Prozente gehen auf denselben Wert** `pa0=max(0,a)`, `ps0=max(0,s)`, gemessen nach Schritt 1–5. Sie werden nicht verkettet.
 6. **Prägung Lieblingstier** `liebling`: `+z` B und N mit z = Nummer des Zoos (1–5).
 7. **Nur im Zoolatro-Lauf** (`CTX.zl`):
-   - Zoo-Profil `ZPROF[prof].g` (Vorteil) und `.m` (Nachteil, entfällt bei `fix`). Derzeit abgeschaltet (`NOPROF='keins'`, Abschnitt 13).
    - **Veredelung Schimmernd** (`ed` mit n× `s`): ×(n+1).
    - **Goldenes Feld** (`Z.gold`): je eigenes Feld auf einem goldenen Feld ×2. **×4-Feld** (`Z.g4`): je Feld ×4.
      Seit 0.72a **nacheinander multipliziert** (jeweils auf `max(0,aktueller Wert)`): Schimmernd + 1 Goldfeld = ×4, 2 Goldfelder = ×4,
@@ -98,8 +97,7 @@ Betrag, das sind die Zeilen in den Referenzfällen.
       Aus mit Ruhezone daneben, Spezialist Ruhepol, Partyzoo.
     - Ein Gebäude ist höchstens **einfach** gestresst (`st=min(1,…)`). Es verliert selbst nichts, sondern zählt für den Zoo-Faktor (Abschnitt 3).
     - **Showtier** (`show`): `sh = min(4, min(2, normale Gastro/Attraktionen daneben + Bühne + 2 bei Savanne neben Bistro) + 2·(Trubel-Gastro/-Attraktionen daneben + Tribünen im Umkreis 2, nicht direkt daneben))`.
-      Faktor `f = (Leckerli 0,5 | Belugas 0,4 | sonst 0,3) · sh · (Bühne daneben 2) · (Manege 2)`, Zuschlag `round(max(0,a)·f)`.
-      Manege ohne Show-Auslöser: −50 %.
+      Faktor `f = (Leckerli 0,5 | Belugas 0,4 | sonst 0,3) · sh · (Bühne daneben 2)`, Zuschlag `round(max(0,a)·f)`.
     - Jagdrevier/Partyzoo: statt Stress +30 % je Auslöser direkt daneben, höchstens 2.
 13. **Kombo** `c.km(...)` → Faktor (×fa auf B, ×fs auf N).
 14. **Zoolatro-Zusätze** `09:extra92` (nur mit `state.zl`). Jeder Eintrag ist entweder fest `{a,s}` oder Faktor `[Text, fa, fs]`,
@@ -124,17 +122,16 @@ Ergebnis `{a,s}` (kann negativ sein), dazu `st` (gestresst 0/1).
 1. `V[i] = evalB(b_i)` für alle Gebäude.
 2. **Mehrfach-Bau und Ausbau** `04:multiAdj`, gemessen am eigenen Wert `own=max(0,V)`:
    - Das n-te Gebäude **derselben Karte** (gleicher Schlüssel, Reihenfolge der Bau-Liste) zählt `DUPW=[1, 0,75, 0,25]` →
-     1. 100 %, 2. 75 %, ab dem 3. 25 %. Zuschlag `round((w−1)·own)`. Ausnahmen: Klonlabor 100 %, Zwilling: der 2. 100 %,
-     Stadtzoo-Profil: der 2. 50 %.
+     1. 100 %, 2. 75 %, ab dem 3. 25 %. Zuschlag `round((w−1)·own)`. Ausnahmen: Klonlabor 100 %, Zwilling: der 2. 100 %.
    - **Ausbaustufe** `lvl`: Stufe II `+0,75·w·own`, Stufe III `+1,25·w·own` (`LVLW=[0,0,0,75,1,25]`).
 3. Prägung **Publikumsmagnet**: +50 % von dem, was das Gebäude seinen Nachbarn bringt (`06:giveOf`).
 4. `A = Σ B`, `S = Σ N` (negative Werte zählen mit).
 5. **Zoo-Multiplikatoren** (`mults`, jeweils `ma` für B oder `ms` für N):
    - Karten-Multiplikator `c.mult(nb,bs)` (z. B. Verstärker),
-   - **Gestresste Tiere**: N × `(1 − min(0,4; Anzahl·0,05))` (Profil Ruhezoo 0,10 je Tier),
+   - **Gestresste Tiere**: N × `(1 − min(0,4; Anzahl·0,05))`,
    - Förderprogramme, Werbung, Spezialisten mit `mult` (nicht im Streik),
    - nur Zoolatro: **Regenbogen** ×1,2^n B (Veredelungen `r` im Zoo), **Kronenfeld** ×1,3 B je Krone (`Z.crown`, `Z.crown2`), wenn
-     darauf ein **Gehege mit ≥4 Feldern** steht, **Vielfalt oder Reinheit** (das Bessere, Abschnitt 4.3), Stadtzoo, Fernsehteam.
+     darauf ein **Gehege mit ≥4 Feldern** steht, **Vielfalt oder Reinheit** (das Bessere, Abschnitt 4.3), Fernsehteam.
 6. `A2 = round(A·Π ma)`, `S2 = round(S·Π ms)`, beide mindestens 0. **Tagespunkte `total = A2 · S2`.**
 
 `breakdown(b,bs)` liefert dieselben Zeilen wie die Anzeige: `evalB`-Zeilen + Magnet + Mehrfach/Ausbau.
@@ -342,16 +339,15 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 1. **Reinheit ab 4 oder 6?** `04` setzt `PURN=6`, `05:syncCtx` überschreibt bei jedem Aufruf mit `PURN=4`. Kommentare, Hilfetexte und
    alte Tests (`jsd93`: „Reinheit ab 6“) sagen 6. Es gilt also 4.
 2. **Mehrfach-Bau**: Der Kommentar in `evalB` sagt „2. 75 %, 3. 50 %, ab 4. 25 %“, der Code (`DUPW=[1,.75,.25]`) gibt dem 3. schon 25 %.
-3. **Showtier „höchstens +60 %“** (Text bis 0.71a; seit 0.72a erklärt der Text die Doppelzählung): Laut Code kann `sh` bis 4 gehen, weil Trubel doppelt zählt. Mit Bühne und Manege
-   ×2·×2 sind bis +480 % möglich.
+3. **Showtier „höchstens +60 %“** (Text bis 0.71a; seit 0.72a erklärt der Text die Doppelzählung): Laut Code kann `sh` bis 4 gehen, weil Trubel doppelt zählt. Mit Bühne ×2 sind bis
+   +240 % möglich (Manege gibt es seit 0.73a nicht mehr). Entschieden: Code bleibt, Text erklärt es.
 4. **Stress „Störer max. 2“** (Kommentar): Der Code zählt je Tier höchstens 1 (`st=min(1,…)`), der Zoo-Faktor dann −5 % je gestresstes Tier.
 5. **Gebirge/Arktis/Wasser-Text** (`HABRULE`, Hilfe): „Ganz innen nur ×0,5“. Laut Code bricht dann **die ganze Gruppe** (×0,5 für alle).
    Ein einzeln stehendes Wasser-Gehege bekommt gar keinen Faktor, laut Text „Kette ×1,5“.
 6. ~~Schimmernd + Goldfeld addieren sich~~ → seit 0.72a multipliziert (×4).
 7. **Lauf-Länge**: Ein Zoolatro-Lauf hat **5 Zoos** (`CAMP`). Die Stufe schaltet nach Zoo 3 frei, der Lauf geht aber weiter.
    Der Auftrag sprach von 3 Zoos.
-8. **Zoo-Profile** (`ZPROF`, „Wähle dein Profil“): Seit 0.91 abgeschaltet (`initZl`: `if(0)Z.opts=…`, `NOPROF='keins'`), aber im Code
-   noch überall abgefragt (`evalB` Schritt 7, Manege, Stadtzoo, Ruhezoo, Erlebnis, Bau …). Im Nachbau weglassen oder bewusst entscheiden.
+8. ~~Zoo-Profile abgeschaltet, aber noch abgefragt~~ → in 0.73a ganz entfernt (mit Manege, Stadtzoo, Ruhezoo, Erlebnis, Bau …).
 9. **Winter-Bedingung „koenig“ verschärft schwächer**: verschärft ×2, normal ×2,5. Da die anderen ohnehin 0 zählen, ist „verschärft“
    hier nur ein kleinerer Bonus. Vermutlich gewollt, aber auffällig.
 10. **`nachbar`, `koenig` u. a. ohne `text`**: Manche Bedingungen haben nur die verschärfte Fassung `ht`, der normale Text kommt aus `03` (TXT).

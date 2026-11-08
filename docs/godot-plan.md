@@ -46,7 +46,7 @@ res://
 | JS-Modul | Inhalt | Godot |
 |---|---|---|
 | 01 Karten | Konstanten, `CARDS`, `SHAPES`, `HAB`, `TRAITS`, `PROGS/ADS/EVENTS`, `SPEC`, Kosten | `data/*.json` + `Data.gd`; Kosten → `Rules.cost()`; `Hex.gd` |
-| 02 Zoolatro-Regeln | Zoo-Profile, Winter-Bedingungen, Schneekönig, Veredelungen | `data/winter.json` + `rules/effects/WinterCondition.gd`; `Rules` |
+| 02 Zoolatro-Regeln | Winter-Bedingungen, Schneekönig, Veredelungen | `data/winter.json` + `rules/effects/WinterCondition.gd`; `Rules` |
 | 03 Sprache | Texte `TXT` | Godot-Übersetzung (`.po` oder CSV), Schlüssel statt fertiger Sätze |
 | 04 Wertung | Futter, Gelände-Erzeugung, `evalB`, `scoreZoo`, Angebote, `dayIncome` | `Rules.gd`, `MapGen.gd`, `data/food.json` |
 | 05 Ton | Klänge, **und** `seTarget`/`syncCtx` | `Sfx.gd`; Ziele und Kontext → `Rules.gd`/`Game.gd` |
@@ -100,9 +100,9 @@ Gleiche Zufallsfolgen wie im JS-Spiel sind **nicht** nötig: Die Referenzfälle 
 ## 5. Offene Fragen (für Tobi)
 1. **Regel-Widersprüche** aus `regeln.md` Abschnitt 13 vorher klären: Reinheit ab 4 oder 6, 3. Doppel-Gehege 25 % oder 50 %,
    Show-Obergrenze, Gruppenbruch statt Einzel-Abzug, Schimmernd + Gold. Sonst baut man Eigenheiten nach, die keiner will.
-2. **Totes Holz** vor dem Port entfernen oder bewusst weglassen: Zoo-Profile (`ZPROF`, abgeschaltet), alte Modi (freies Spiel,
-   Kampagne ohne Zoolatro?), alte Tutorial-Kapitel, `GUIDE`. Was davon soll es in Godot noch geben?
-3. **Zoolatro 1 und 2.0**: Gibt es beide Modi weiter oder nur 2.0 mit Stufen?
+2. ~~Totes Holz~~ → in 0.73a entfernt (Zoo-Profile, alte Modi, alte Tutorial-Kapitel, `GUIDE`).
+3. ~~Zoolatro 1 und 2.0~~ → entschieden: nur Zoolatro (2.0) mit Stufen. Das Tutorial nutzt intern noch den alten Zoolatro-1-Rechenweg (`enterCamp(…,true)`);
+   im Port reicht ein Modus mit Tutorial-Schaltern.
 4. **Grafik**: Emojis wie heute (einfach, plattformabhängig) oder eigene Bilder (`ART`-Tabelle gibt es schon)? Hexfelder als TileMap oder selbst gezeichnet?
 5. **Speicherstände**: Sollen alte Spielstände aus der Web-Version übernommen werden? Das ginge über einen Export als JSON.
 6. **Plattformen**: Android und Web? iOS? Die Web-Ausgabe von Godot ist deutlich größer als die heutige HTML-Datei.
