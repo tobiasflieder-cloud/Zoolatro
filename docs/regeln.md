@@ -334,6 +334,10 @@ Zoo-Momente (`09:MOMENTS`).
 ---
 
 ## 13. ⚠️ Unklar / widersprüchlich (gefunden beim Aufschreiben)
+
+**Entscheidungen von Tobi (08.11.2026):** 1. Reinheit ab **4** ist richtig · 2. das 3. gleiche Gehege **25 %** ist richtig ·
+4. **1 Störer je Tier** bleibt · 5. **ganze Gruppe ×0,5** ist richtig · 6. Schimmernd + Goldfeld **soll ×4** sein → kommt als
+Spieländerung (Liste fürs nächste Bauen), danach werden die Referenzfälle neu erzeugt. Offen: 3 (Show-Obergrenze), 7–15.
 1. **Reinheit ab 4 oder 6?** `04` setzt `PURN=6`, `05:syncCtx` überschreibt bei jedem Aufruf mit `PURN=4`. Kommentare, Hilfetexte und
    alte Tests (`jsd93`: „Reinheit ab 6“) sagen 6. Es gilt also 4.
 2. **Mehrfach-Bau**: Der Kommentar in `evalB` sagt „2. 75 %, 3. 50 %, ab 4. 25 %“, der Code (`DUPW=[1,.75,.25]`) gibt dem 3. schon 25 %.
