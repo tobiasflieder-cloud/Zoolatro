@@ -1,6 +1,6 @@
 # Referenzfälle für die Wertung
 
-50 feste Zoo-Aufstellungen mit dem erwarteten Ergebnis. Sie dienen als Prüfstein für einen Nachbau (z. B. Godot): Wer dieselben Eingaben
+51 feste Zoo-Aufstellungen mit dem erwarteten Ergebnis. Sie dienen als Prüfstein für einen Nachbau (z. B. Godot): Wer dieselben Eingaben
 wertet, muss dieselben Zahlen bekommen. Die Regeln dazu stehen in `docs/regeln.md`.
 
 ```
@@ -22,6 +22,7 @@ Das Erzeugen ist reproduzierbar: Gleicher Code ergibt gleiche Dateien, denn `Mat
 - **33 Winter-Fälle** (`winter-<bedingung>[-verschaerft].json`): die größte Winter-Aufstellung, einmal mit jeder Winter-Bedingung,
   und, wo es sie gibt, in der verschärften Fassung.
 - **2 Futter-Fälle** (`futter-jz2/3.json`): eine Sommer- und eine Herbst-Aufstellung, Einzelfutter auf den Gehegen, Lebensraum-Futter Stufe 1–3.
+- **1 Gold-Fall** (`gold-schimmernd.json`, ab 0.72a): ein Gehege auf 2 Goldfeldern (×4), ein schimmerndes auf einem Goldfeld (×4), ein doppelt schimmerndes (×3).
 
 ## Aufbau einer Datei
 ```

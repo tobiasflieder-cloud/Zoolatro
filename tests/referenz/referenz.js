@@ -94,6 +94,11 @@ async function erzeuge(){fs.mkdirSync(DIR,{recursive:true});for(const f of fs.re
   for(const se of[1,2]){const base=cand.filter(c=>c.s.season===se).sort((a,b)=>b.s.n-a.s.n)[0];if(!base)continue;
     const F=await craft(base.s,`(()=>{const FL=['kf','be','mo','mw','gp','ho','fr','wm','kb','wv','gh','mi','le','kr','kn','sn'].filter(f=>FOOD[f]);let i=0;for(const b of state.buildings){const c=CARDS[b.key];if(c.cat!=='gehege'||c.ms)continue;const f=FL[i++%FL.length];if(!FOOD[f].ok||FOOD[f].ok(c))b.key=fdKey(b.key,f)}
       const r=runOf();r.fdl={};habsNow().forEach((h,j)=>{if(HFOOD[h])r.fdl[h]=j+1});syncCtx()})()`);F.src={...base.s.src,futter:true};const r=await evalCase(F);await save(`futter-jz${se+1}`,F,r)}
+  // Goldfelder und Schimmernd (0.72a: multiplizieren): ein Gehege auf 2 Goldfeldern, ein anderes schimmernd auf einem Goldfeld
+  {const base=cand.filter(c=>c.s.season===2).sort((a,b)=>b.s.n-a.s.n)[0];if(base){
+    const F=await craft(base.s,`(()=>{const Z=state.zl,G=state.buildings.filter(b=>CARDS[b.key].cat==='gehege'&&!CARDS[b.key].ms);const b1=G.find(b=>b.cells.length>=2),b2=G.find(b=>b!==b1);
+      const g=new Set(Z.gold);b1.cells.slice(0,2).forEach(c=>g.add(hk(...c)));if(b2){g.add(hk(...b2.cells[0]));b2.ed='s'}const b3=G.find(b=>b!==b1&&b!==b2);if(b3)b3.ed='ss';Z.gold=[...g];syncCtx()})()`);
+    F.src={...base.s.src,gold:true};const r=await evalCase(F);await save('gold-schimmernd',F,r)}}
   console.log(n,'Fälle geschrieben nach',DIR)}
 
 (async()=>{try{if(MODE==='erzeuge'){await erzeuge();process.exit(0)}else process.exit(await pruefe()?1:0)}catch(e){console.log('EXC',e.stack);process.exit(2)}})();

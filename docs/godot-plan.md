@@ -1,7 +1,7 @@
 # Zoolatro in Godot 4 – Vorschlag
 
 Stand 0.71a. Das ist ein Vorschlag, nichts davon ist entschieden. Grundlage: `docs/regeln.md` (Regeln mit Verweisen) und
-`tests/referenz/` (50 Referenzfälle mit erwarteten Punkten je Gebäude).
+`tests/referenz/` (51 Referenzfälle mit erwarteten Punkten je Gebäude).
 
 ## 1. Ausgangslage
 - Das Spiel besteht heute aus rund 650 KB JavaScript und 110 KB CSS in einer Datei. Regeln, Anzeige und Speichern sind stark verwoben:
@@ -84,7 +84,7 @@ Gleiche Zufallsfolgen wie im JS-Spiel sind **nicht** nötig: Die Referenzfälle 
 1. **Inhalte exportieren** (JS → JSON): ein Node-Skript liest `build/zoodeck.html` in jsdom und schreibt `CARDS`, `SHAPES`, `HAB`,
    `FOOD`, `HFOOD`, `SPEC` (ohne Funktionen), `INSP`, `DECKS`, `STAGES`, `MILE`, `FRIENDS`, Texte. Das passt zum Punkt „Inhalte als
    Datendateien“ der Liste. Danach die Wirkungs-Bausteine festlegen (3.2).
-2. **Wertung** (`Hex.gd`, `Rules.eval_building`, `Rules.score_zoo`) **gegen die Referenzfälle**, Fall für Fall, bis alle 50 Fälle in allen
+2. **Wertung** (`Hex.gd`, `Rules.eval_building`, `Rules.score_zoo`) **gegen die Referenzfälle**, Fall für Fall, bis alle 51 Fälle in allen
    Zeilen gleich sind. Erst die Fälle ohne Spezialisten und Winter, dann Winter, dann Spezialisten und Futter.
    Fehlende Bausteine (z. B. Karten, die in keinem Fall vorkommen) mit zusätzlichen Fällen abdecken: `referenz.js erzeuge` erweitern.
 3. **Gelände erzeugen** (`MapGen.gd`): Formen, Felsen, Schrumpfen, 18 Naturfelder. Prüfen über Eigenschaften (Anzahl, Fleckgrößen,

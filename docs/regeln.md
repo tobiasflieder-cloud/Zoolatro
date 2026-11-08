@@ -1,4 +1,4 @@
-# Zoolatro – Spielregeln (Stand 0.71a)
+# Zoolatro – Spielregeln (Stand 0.72a)
 
 Vorlage für einen Nachbau (z. B. in Godot). Beschrieben ist das, **was der Code tut**. Wo Kommentar, Hilfetext oder alte Tests etwas
 anderes sagen, steht das unter „⚠️ Unklar/Widerspruch“ (gesammelt in Abschnitt 13).
@@ -79,9 +79,10 @@ Betrag, das sind die Zeilen in den Referenzfällen.
 6. **Prägung Lieblingstier** `liebling`: `+z` B und N mit z = Nummer des Zoos (1–5).
 7. **Nur im Zoolatro-Lauf** (`CTX.zl`):
    - Zoo-Profil `ZPROF[prof].g` (Vorteil) und `.m` (Nachteil, entfällt bei `fix`). Derzeit abgeschaltet (`NOPROF='keins'`, Abschnitt 13).
-   - **Veredelung Schimmernd** (`ed` mit `s`): `+a0·n`, `+s0·n` (zählt n+1-fach).
-   - **Goldenes Feld** (`Z.gold`): je eigenes Feld auf einem goldenen Feld `+a0`, `+s0` („zählt doppelt“). **×4-Feld** (`Z.g4`): `+3·a0`, `+3·s0`.
-     `a0,s0` werden **einmal vor** Schimmernd und Gold genommen. Schimmernd und Gold addieren sich also: Schimmernd + 1 Goldfeld ergibt ×3, nicht ×4.
+   - **Veredelung Schimmernd** (`ed` mit n× `s`): ×(n+1).
+   - **Goldenes Feld** (`Z.gold`): je eigenes Feld auf einem goldenen Feld ×2. **×4-Feld** (`Z.g4`): je Feld ×4.
+     Seit 0.72a **nacheinander multipliziert** (jeweils auf `max(0,aktueller Wert)`): Schimmernd + 1 Goldfeld = ×4, 2 Goldfelder = ×4,
+     2× Schimmernd + 2 Goldfelder = ×12. Reihenfolge: erst Schimmernd, dann die Felder in der Reihenfolge von `b.cells`.
    - **Winter-Bedingung** (Abschnitt 6), wenn Winter, kein Winterquartier daneben, nicht Arktis-Gehege mit Profil Polar.
      Gerechnet mit `inspFx`; Winterfest halbiert Nachteile.
 8. **Jungtier** (`c.jt`): neben einem Elterntier (`c.par`) oder mit Aufzuchtmilch `mi` **×2** („Familie“).
@@ -336,17 +337,17 @@ Zoo-Momente (`09:MOMENTS`).
 ## 13. ⚠️ Unklar / widersprüchlich (gefunden beim Aufschreiben)
 
 **Entscheidungen von Tobi (08.11.2026):** 1. Reinheit ab **4** ist richtig · 2. das 3. gleiche Gehege **25 %** ist richtig ·
-4. **1 Störer je Tier** bleibt · 5. **ganze Gruppe ×0,5** ist richtig · 6. Schimmernd + Goldfeld **soll ×4** sein → kommt als
-Spieländerung (Liste fürs nächste Bauen), danach werden die Referenzfälle neu erzeugt. 3. Show: Code bleibt (Trubel doppelt, höchstens +120 %), nur der Text wird angepasst · einzelnes Wasser-Gehege ohne Wasser-Nachbar bleibt ×1. Offen: 7–15.
+4. **1 Störer je Tier** bleibt · 5. **ganze Gruppe ×0,5** ist richtig · 6. Schimmernd + Goldfeld **soll ×4** sein → gebaut in 0.72a,
+Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchstens +120 %), nur der Text wird angepasst · einzelnes Wasser-Gehege ohne Wasser-Nachbar bleibt ×1. Offen: 7–15.
 1. **Reinheit ab 4 oder 6?** `04` setzt `PURN=6`, `05:syncCtx` überschreibt bei jedem Aufruf mit `PURN=4`. Kommentare, Hilfetexte und
    alte Tests (`jsd93`: „Reinheit ab 6“) sagen 6. Es gilt also 4.
 2. **Mehrfach-Bau**: Der Kommentar in `evalB` sagt „2. 75 %, 3. 50 %, ab 4. 25 %“, der Code (`DUPW=[1,.75,.25]`) gibt dem 3. schon 25 %.
-3. **Showtier „höchstens +60 %“** (Kommentar): Laut Code kann `sh` bis 4 gehen, weil Trubel doppelt zählt. Mit Bühne und Manege
+3. **Showtier „höchstens +60 %“** (Text bis 0.71a; seit 0.72a erklärt der Text die Doppelzählung): Laut Code kann `sh` bis 4 gehen, weil Trubel doppelt zählt. Mit Bühne und Manege
    ×2·×2 sind bis +480 % möglich.
 4. **Stress „Störer max. 2“** (Kommentar): Der Code zählt je Tier höchstens 1 (`st=min(1,…)`), der Zoo-Faktor dann −5 % je gestresstes Tier.
 5. **Gebirge/Arktis/Wasser-Text** (`HABRULE`, Hilfe): „Ganz innen nur ×0,5“. Laut Code bricht dann **die ganze Gruppe** (×0,5 für alle).
    Ein einzeln stehendes Wasser-Gehege bekommt gar keinen Faktor, laut Text „Kette ×1,5“.
-6. **Schimmernd + Goldfeld**: Beide addieren sich (×3 statt ×4). Ob das gewollt ist, ist unklar.
+6. ~~Schimmernd + Goldfeld addieren sich~~ → seit 0.72a multipliziert (×4).
 7. **Lauf-Länge**: Ein Zoolatro-Lauf hat **5 Zoos** (`CAMP`). Die Stufe schaltet nach Zoo 3 frei, der Lauf geht aber weiter.
    Der Auftrag sprach von 3 Zoos.
 8. **Zoo-Profile** (`ZPROF`, „Wähle dein Profil“): Seit 0.91 abgeschaltet (`initZl`: `if(0)Z.opts=…`, `NOPROF='keins'`), aber im Code
