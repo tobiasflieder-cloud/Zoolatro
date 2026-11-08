@@ -82,19 +82,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.72a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.73a) – erst bauen, wenn Tobi „bauen“ sagt
 
-1. **Schimmernd und Goldfeld multiplizieren statt addieren** (`evalB`, Zoolatro-Teil): heute `a0` einmal genommen, Schimmernd `+a0·n`,
-   je Goldfeld `+a0`, je ×4-Feld `+3·a0` → Schimmernd + 1 Goldfeld = ×3. Neu: Faktoren nacheinander, Schimmernd ×(n+1), je Goldfeld ×2,
-   je ×4-Feld ×4 → Schimmernd + Goldfeld = ×4, 2 Goldfelder unter einem Gehege = ×4 (heute ×3) – entschieden.
-   Anzeige-Texte („zählt doppelt“, „zählt n-fach“) bei mehreren Faktoren prüfen.
-   Danach Referenzfälle neu erzeugen (`node tests/referenz/referenz.js erzeuge`) und Unterschiede prüfen.
-2. **Hilfetext Lebensraum-Regeln** (`HABRULE`, Modul 09) an den Code anpassen: Bei Wasser, Gebirge, Arktis zählt bei einem Verstoß
-   die **ganze Gruppe** ×0,5 (Text sagt heute nur „nur ×0,5“ bzw. „Ganz innen nur ×0,5“).
-   Ein einzelnes Wasser-Gehege ohne Wasser-Nachbarn bleibt bei ×1 (entschieden) – im Text so erwähnen.
-3. **Showtier-Text an den Code anpassen** (Code bleibt): Merkmal-Text (`03-sprache.js` „show“, `04` Kommentar, Hilfe) sagt heute
-   „+30 % je Nachbar, höchstens +60 %“. Neu sinngemäß: „+30 % B und N je benachbartes Gastro-Gebäude oder Attraktion (höchstens +60 %);
-   Trubel-Nachbarn und Tribünen zählen doppelt, zusammen höchstens +120 %“. Bühne/Manege-Texte prüfen.
+(leer)
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -110,6 +100,9 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.72a:** Schimmernd und Goldfelder/×4-Felder multiplizieren nacheinander (`evalB`, `mul`): Schimmernd + Gold = ×4, 2 Goldfelder = ×4;
+  Hilfetext `HABRULE` (ganze Gruppe ×0,5, einzelnes Wasser-Gehege ×1); Showtier-Text (Trubel/Tribüne doppelt, höchstens +120 %);
+  neuer Test `jsd72a.js`. Bekannt: `jsd94` „Gebirge: Rand ×1,5“ schlägt zufällig fehl, wenn das Randfeld auch an einen Felsen grenzt.
 - **0.71a:** „Weiter ▸“ immer rechts (`tutNav`); `tutCheck` schaltet mehrere erledigte Schritte auf einmal (Tag-2-Hand);
   Profilwahl mit 8 Stufen-Knöpfen (`.stgrid`, gesperrt `data-stlock` + Hinweis); ◂ Zurück nach der Stufenwahl (`ZSTART`, `zlBackOk`, `zlBack`,
   in der Zoo-Übersicht bzw. Zoo-Profilwahl); Naturfelder fest (`NATN=18`, `NATFOCUS`, `natQuota`, `natPlace` in `genMap`, Flusstal-Strang 8);

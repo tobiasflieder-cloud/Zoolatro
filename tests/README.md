@@ -20,7 +20,7 @@ Alle lesen das Spiel aus `build/zoodeck.html` (vorher `python3 quelltext/mache.p
 
 | Datei | Zweck |
 |---|---|
-| `jsd61a.js` … `jsd71a.js` | Tests je Version (Ausgabe mit FAIL/ERR/WINERR/MISSING = Problem). `jsd67a`/`jsd68a`/`jsd70a` = Jasper-Tutorial |
+| `jsd61a.js` … `jsd72a.js` | Tests je Version (Ausgabe mit FAIL/ERR/WINERR/MISSING = Problem). `jsd67a`/`jsd68a`/`jsd70a` = Jasper-Tutorial |
 | `jsd93.js`, `jsd94.js`, `jsd96.js` | breite Regel-Tests (Winter, Lebensräume, Umbauten, Grunddeck) |
 | `tutcal5.js` | spielt das Jasper-Tutorial komplett durch (Häppchen, feste Felder, Rückgängig, Neu ziehen, Ausbau, Umzug, Shops, freier Rest per Bot). `MEAS=1` misst Punkte je Tag, `V=1` ausführlich. Dauert einige Minuten |
 | `sim94.js` + `bot7.js` | Bot-Lauf: `Z2=1 node sim94.js 1 /tmp/x.json` – nur als Absturz-Test |
