@@ -1,3 +1,8 @@
+// 0.71a: Zurück nach der Stufenwahl – der eben gestartete Lauf wird verworfen, der alte Stand des Speicherplatzes kommt zurück
+let ZSTART=null;
+const zlBackOk=()=>{try{if(!(ZSTART&&state&&state.zl&&!TUTNOW&&META.active===ZSTART.slot&&(state.zoo||0)===0&&state.season===0&&state.day===0&&!state.buildings.length))return false;if(modal==='zoo')return true;if(!modal&&!state.zl.prof)return true;if(!modal)ZSTART=null;return false}catch(e){return false}};
+function zlBack(){const Z=ZSTART;if(!Z)return;ZSTART=null;const sl=META.slots[Z.slot];if(sl){const r=JSON.parse(Z.run),a=JSON.parse(Z.alt);if(r)sl.run=r;else delete sl.run;if(a)sl.runAlt=a;else delete sl.runAlt}
+  META.active=Z.active;META.lastSlot=Z.last;META.lastMode=Z.mode;state=null;modal=null;Sfx.select();saveMeta();screen='cdeck';screenArg=Z.arg;renderAll()}
 //@@ modul: 11-bildschirme
 function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run;if((run.vNow||[]).length&&!a.vAck)return verstWinHtml(run.vNow,'<button class="btn main big" data-vack="1">Weiter</button>');if((run.newNow||[]).length&&!a.deckAck)return deckWinHtml(run.newNow,'<button class="btn main big" data-cdack="1">Weiter</button>');
   const cardRow=(k,btn)=>{const c=CARDS[k],nd=cnt(run.deck,x=>x===k);return`<div class="pcard${nd?' hasdk':''}">${nd?`<span class="indeck">schon ${nd}× im Deck</span>`:'<span class="indeck nw">neu</span>'}<span class="ic">${ic(c)}</span><div class="info2"><span class="nm">${c.name}</span>
@@ -209,7 +214,8 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.zsrand){const a=screenArg;a.habs=shuffle(Object.keys(HAB).filter(h=>habOpen(META.slots[a.slot],h))).slice(0,3);Sfx.select();renderScreen();return}
   if(d.zsnext){const a=screenArg;if(a.habs.length!==3)return;sc('cdeck',{slot:a.slot,zl:a.z2?'z2':true,prof:a.prof,habs:Object.keys(HAB).filter(h=>a.habs.includes(h)),seed:a.seed||'',back:a});return}
   if(d.zsback2){const b=screenArg.back;if(b){screen='zlsetup';screenArg=b;Sfx.select();renderAll()}return}
-  if(d.cdeck){const i=screenArg.slot;if(!deckOpen(META.slots[i],d.cdeck)){Sfx.deny();return}Sfx.select();PENDSEED=screenArg.seed||null;enterCamp(i,true,d.cdeck,screenArg.zl||false,screenArg.habs||null,screenArg.prof||null,+d.stage||1);return}
+  if(d.stlock){const[id,n]=d.stlock.split(':');screenArg.stHint={id,n:+n};Sfx.deny();renderScreen();return} // 0.71a: gesperrte Stufe
+  if(d.cdeck){const i=screenArg.slot;if(!deckOpen(META.slots[i],d.cdeck)){Sfx.deny();return}Sfx.select();ZSTART={slot:i,arg:screenArg,run:JSON.stringify((META.slots[i]&&META.slots[i].run)||null),alt:JSON.stringify((META.slots[i]&&META.slots[i].runAlt)||null),active:META.active,last:META.lastSlot,mode:META.lastMode};PENDSEED=screenArg.seed||null;enterCamp(i,true,d.cdeck,screenArg.zl||false,screenArg.habs||null,screenArg.prof||null,+d.stage||1);return}
   if(d.cfresh!=null){sc('mode',d.zl==='2'?{slot:+d.cfresh,z2fresh:1}:d.zl==='1'?{slot:+d.cfresh,zfresh:1}:{slot:+d.cfresh,cfresh:1});return}
   if(d.sdack){screenArg.deckAck=1;Sfx.select();renderScreen();return}
   if(d.sumnext){const n=screenArg.next;sc(n.screen,n.arg);return}

@@ -54,11 +54,14 @@ const foodOnRun=r=>!!r&&!!r.zl&&(!r.tut||(typeof state!=='undefined'&&state&&sta
 function foodOn(){try{return foodOnRun(runOf())&&!!state&&state.mode==='camp'}catch(e){return false}}
 function foodLvNow(){try{const r=runOf();return foodOnRun(r)?(r.fdl||{}):{}}catch(e){return{}}}
 const fdTeam=id=>{try{return(state&&state.spec||[]).includes(id)}catch(e){return false}};
-const fdMax=()=>fdTeam('futtermeister')?3:2;
+const fdMax=()=>fdTeam('futtermeister')?3:2; // alt, nur noch Rückfall
+// 0.71a: Futterplätze nach Seltenheit: gewöhnlich 1, selten 2, sehr selten 3; Futtermeister +1
+const fdMaxK=k=>{const c=CARDS[k];const r=c&&c.rar;return(r==='sehr selten'?3:r==='selten'?2:1)+(fdTeam('futtermeister')?1:0)};
+const fdSlotsHtml=k=>{try{const c=CARDS[k];if(!c||c.cat!=='gehege'||c.ms||!foodOn())return'';const n=fdOf(k).length,m=fdMaxK(k),fr=Math.max(0,m-n);return`<span class="fdslot${fr?'':' full'}" title="Futterplätze">🍽️ ${n}/${m}${fr?` · ${fr} frei`:' · voll'}</span>`}catch(e){return''}};
 const sackPrice=()=>Math.round((20+10*(state.sackN||0))*(fdTeam('tierern')?.75:1));
 const sackOn=()=>foodOn();
 function foodPile(){return['deck','discard','hand'].flatMap(p=>(state[p]||[]).map((k,i)=>[p,i,k]))}
-function fdFits(f,k){const c=CARDS[k];if(!c||c.cat!=='gehege'||c.ms)return false;const F=fdOf(k);if(F.length>=fdMax()||F.includes(f))return false;return!FOOD[f].ok||FOOD[f].ok(c)}
+function fdFits(f,k){const c=CARDS[k];if(!c||c.cat!=='gehege'||c.ms)return false;const F=fdOf(k);if(F.length>=fdMaxK(k)||F.includes(f))return false;return!FOOD[f].ok||FOOD[f].ok(c)}
 const ueFits=k=>{const c=CARDS[k];return!!c&&c.cat==='gehege'&&!c.pr&&!c.jt&&!c.sig&&!c.ms};
 function rollFood(n){const P=foodPile(),C=[];for(const h of habsNow())if(HFOOD[h])C.push(['h:'+h,HFOODW]);
   for(const f in FOOD){const ok=f==='ue'?P.some(x=>ueFits(x[2])):P.some(x=>fdFits(f,x[2]));if(ok)C.push([f,FOODR[FOOD[f].r]])}
@@ -71,7 +74,7 @@ function foodBoxHtml(){const run=runOf();if(!run||!foodOnRun(run))return'';const
   return(hs.length?hs.map(h=>`${HFOOD[h].icon} ${HFOOD[h].name} · ${HAB[h].label} <b>Stufe ${L[h]}</b>: je Gehege +${fdLvB(L[h])} B +${fdLvB(L[h])} N`).join('<br>'):'Noch kein Lebensraum-Futter.')+'<br><span class="hint">Futter gibt es im Shop im Reiter 🧰 Umbau &amp; Futter: 🧺 Futtersack.</span>'}
 Object.assign(SPEC,{
   tierern:{name:'Tierernährerin',icon:'👩‍🌾',tier:2,food:1,fx:['−25 %|🧺 Futtersäcke kosten ein Viertel weniger']},
-  futtermeister:{name:'Futtermeister',icon:'🥣',tier:2,food:1,fx:['3 Futter|je Karte statt 2 Einzelfutter']},
+  futtermeister:{name:'Futtermeister',icon:'🥣',tier:2,food:1,fx:['+1 Futterplatz|je Karte (gewöhnlich 2, selten 3, sehr selten 4)']},
   ernprof:{name:'Ernährungsprofessorin',icon:'👩‍🏫',tier:3,food:1,fx:['×1,05 B|je Lebensraum-Futter-Stufe, für den ganzen Zoo'],mult:()=>{const L=CTX&&CTX.fdl||{},n=Object.values(L).reduce((a,b)=>a+(b||0),0);return n?{ma:+(1.05**n).toFixed(3)}:null}}});
 const edFx={g:'+25 % B|🪙 Gold-Ausgabe',s:'×2|✨ Schimmernd: das Gehege/Gebäude zählt doppelt',r:'×1,2 B|🌈 Regenbogen: für den ganzen Zoo'};
 for(const k of Object.keys(CARDS))for(const e in EDS)Object.defineProperty(CARDS[k+'~'+e],'fx',{get(){return[edFx[e],...(CARDS[k].fx||[])]}});
@@ -187,7 +190,31 @@ const MAPSHRINK=.8;
 function shrinkMap(m,rnd){const n0=m.cells.length,keep=Math.round(n0*MAPSHRINK);if(keep>=n0)return m;let cx=0,cy=0;for(const c of m.cells){const[x,y]=axXY(...c);cx+=x;cy+=y}cx/=n0;cy/=n0;
   const sc=m.cells.map(c=>{const[x,y]=axXY(...c);return[c,Math.hypot(x-cx,y-cy)+rnd()*1.8]}).sort((a,b)=>a[1]-b[1]),cells=connectedPart(sc.slice(0,keep).map(e=>e[0])),set=new Set(cells.map(c=>hk(...c)));
   for(const k of[...m.terr.keys()])if(!set.has(k))m.terr.delete(k);return{...m,cells}}
-function genMap(key,rnd=Math.random,extra=0){const m=shrinkMap(genMap0(key,rnd,extra),rnd);if(GENHABS){const U=DEFHABS.filter(h=>!GENHABS.includes(h)),N=NEWHABS.filter(h=>GENHABS.includes(h));for(const[k,v]of m.terr)if(HAB[v]&&!GENHABS.includes(v)){const i=U.indexOf(v);m.terr.set(k,N[i]||GENHABS[0])}}return m}
+// 0.71a: Naturfelder fest verteilen – 18 je Zoo, nur gewählte Lebensräume, Flecken zu 2–4 (Flusstal: Wasser als Fluss-Strang)
+const NATN=18,NATFOCUS={flusstal:H=>({wasser:8}),bucht:H=>({wasser:7,wueste:7}),huegel:H=>H.includes('wald')?{wald:8}:{savanne:8},zerkluftet:H=>({wueste:8})};
+function natQuota(key,H,n=NATN){const F=(NATFOCUS[key]||(()=>({})))(H),q={};let left=n;for(const h of H)if(F[h]){q[h]=F[h];left-=F[h]}
+  const rest=H.filter(h=>!F[h]);if(!rest.length){const fs=H.filter(h=>F[h]);let i=0;while(left>0){q[fs[i%fs.length]]++;left--;i++}return q}
+  const b=Math.floor(left/rest.length);let r=left-b*rest.length;rest.forEach(h=>{q[h]=b+(r>0?1:0);if(r>0)r--});return q}
+function natPlace(m,key,H,rnd){const t=m.terr,set=new Set(m.cells.map(c=>hk(...c))),pick=a=>a[Math.floor(rnd()*a.length)];
+  for(const[k,v]of[...t])if(HAB[v])t.delete(k);
+  const free=k=>set.has(k)&&!t.has(k),nbs=k=>{const[q,r]=k.split(',').map(Number);return DIRS.map(([dq,dr])=>hk(q+dq,r+dr))};
+  const touch=(k,own)=>nbs(k).some(n=>t.has(n)&&HAB[t.get(n)]&&!own.has(n));
+  const edge=[...set].filter(k=>nbs(k).some(n=>!set.has(n)));
+  const Q=natQuota(key,H);let placed=0;
+  // Flusstal: Wasser als zusammenhängender Strang von links nach rechts
+  if(key==='flusstal'&&Q.wasser){const X=k=>axXY(...k.split(',').map(Number))[0];const xs=[...set].map(X),xmin=Math.min(...xs);
+    for(let tries=0;tries<60;tries++){const st=pick([...set].filter(k=>free(k)&&X(k)<xmin+3));if(!st)break;const path=[st],own=new Set([st]);
+      while(path.length<Q.wasser){const cur=path[path.length-1],c=nbs(cur).filter(n=>free(n)&&!own.has(n)&&X(n)>=X(cur)-.1&&!nbs(n).some(z=>own.has(z)&&z!==cur));if(!c.length)break;const e=c.filter(n=>X(n)>X(cur)+.5),nx=e.length&&rnd()<.75?pick(e):pick(c);path.push(nx);own.add(nx)}
+      if(path.length===Q.wasser){path.forEach(k=>t.set(k,'wasser'));placed+=path.length;Q.wasser=0;break}}}
+  const sizes=n=>{const o=[];while(n>0){const s=n<=4?n:2+Math.floor(rnd()*Math.min(3,n-3));o.push(s);n-=s}return o};
+  const patch=(h,size,strict)=>{const seeds=(key==='bucht'&&(h==='wasser'||h==='wueste')?edge:[...set]).filter(k=>free(k)&&(!strict||!touch(k,new Set())));
+    for(let tries=0;tries<40&&seeds.length;tries++){const sd=pick(seeds),p=[sd],own=new Set([sd]);
+      for(let g=0;g<60&&p.length<size;g++){const c=nbs(pick(p)).filter(n=>free(n)&&!own.has(n)&&(!strict||!touch(n,own)));if(c.length){const n=pick(c);p.push(n);own.add(n)}}
+      if(p.length===size){p.forEach(k=>t.set(k,h));return size}}return 0};
+  const order=Object.keys(Q).filter(h=>Q[h]>0).sort((a,b)=>Q[b]-Q[a]);
+  for(const h of order)for(const sz of sizes(Q[h])){let got=patch(h,sz,true)||patch(h,sz,false);if(!got){for(let s2=sz-1;s2>=1&&!got;s2--)got=patch(h,s2,false)}placed+=got}
+  return m}
+function genMap(key,rnd=Math.random,extra=0){const m=shrinkMap(genMap0(key,rnd,extra),rnd);const H=(GENHABS&&GENHABS.length?GENHABS:DEFHABS).filter(h=>HAB[h]);return natPlace(m,key,H,rnd)}
 function genMap0(key,rnd=Math.random,extra=0){const t=new Map(),pick=a=>a[Math.floor(rnd()*a.length)],habs=DEFHABS.slice();let cells;
   if(key==='flusstal'){cells=[];for(let row=0;row<7;row++)for(let c=0;c<13;c++)cells.push([c-Math.floor(row/2),row]);
     let row=2+Math.floor(rnd()*3);const at=(c,rw)=>hk(c-Math.floor(rw/2),rw);

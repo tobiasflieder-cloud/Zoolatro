@@ -57,7 +57,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   Lebensraum-Regeln `habRule`/`habRulesOn`, Formen `shapesOf` (Innenhof, Allee, Dreiländereck), Zusatz-Faktoren `extra92`.
 - **Lauf:** Zoolatro-Lauf `sl.run`, `state` = laufender Zoo, `META` = Geräte-Speicher. `TUTNOW` = gerade Tutorial.
 - **Shop:** `fixedItems()`, Reiter `META.shopT` (`run` Team · `umb` Umbau & Futter · `more` Extras), Unteransichten `state.shopSub`.
-- **Futter:** `FOOD`, `HFOOD`, `rollFood`, Futtersack (`state.sack`), Lebensraum-Futter in `run.fdl`.
+- **Futter:** `FOOD`, `HFOOD`, `rollFood`, Futtersack (`state.sack`), Lebensraum-Futter in `run.fdl`. Futterplätze je Karte `fdMaxK(k)` (Seltenheit `c.rar`).
+- **Gelände:** `genMap0` (Form, Felsen) → `shrinkMap` → `natPlace` (18 Naturfelder nach `natQuota`, gewählte Lebensräume `GENHABS`).
 - **Früh geschafft:** `earlyReward(left)` → `run.bpCarry`, Geschenke `run.gifts` (`gsack`/`gumb`/`gprofi`), Anzeige `earlyInfo` im Sieg-Fenster.
 
 ### Tutorial (Modul 10) – Jasper, Zoo 1
@@ -81,40 +82,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.71a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.72a) – erst bauen, wenn Tobi „bauen“ sagt
 
-1. **„Weiter ▸“ immer rechts:** Heute steht der Knopf nur in einer rechtsbündigen Zeile (`.tnav`), wenn es auch „◂ Zurück“ gibt;
-   sonst steht er links. Fix: `tutNav` (Modul 10) packt die Knöpfe immer in `.tnav` (gilt auch für Schritt-Knöpfe wie „Weiter“ aus `btn`).
-2. **Tag 2 im Tutorial: falsche Handkarten, kurzes Stocken.** Ursache: Am Tagesbeginn wird erst eine zufällige Hand gezogen; zwei Schritte
-   (Abrechnung, Kartenwahl) sind dann gleichzeitig erledigt, `tutCheck` schaltet aber je Zeichnen nur einen Schritt weiter (das Zeichnen in
-   `tutNext` läuft mit `tutBusy` ohne Prüfung). Erst beim nächsten Zeichnen kommt der Bratwurst-Schritt mit der richtigen Hand (Bratwurst, Giraffe).
-   Fix: `tutCheck` schaltet in einer Schleife weiter, solange der neue Schritt schon erledigt ist (mit Obergrenze), danach einmal zeichnen.
-   Gilt damit für alle Stellen, an denen mehrere Schritte zugleich fertig sind.
-3. **Profilwahl (Zoolatro 2.0): immer 8 Stufen-Knöpfe.** Heute zeigt jedes freigeschaltete Profil nur Knöpfe bis zur höchsten freien Stufe
-   (`deckSelHtml`, Modul 09, `stMax(sl,id)`). Neu: Stufe 1–8 immer da; freie wählbar (höchste freie hervorgehoben),
-   gesperrte grau mit 🔒 und nicht tippbar (Tipp → kurzer Hinweis „Zoo 3 mit Stufe N-1 schaffen“), damit man den Fortschritt sieht.
-   Darstellung platzsparend (z. B. 2 Reihen à 4 kleine Knöpfe), am Handy prüfen.
-4. **Zurück nach der Stufenwahl:** Nach dem Tippen auf eine Stufe startet der Lauf sofort (`enterCamp`) und es kommt das Fenster
-   „Zoo 1: Wähle dein Profil“ (Zoo-Profil, `modal='zoo'`) – dort gibt es nur „Wählen“. Neu: Knopf „◂ Zurück“ in diesem Fenster (nur in Zoo 1,
-   solange noch kein Zoo-Profil gewählt ist): verwirft den eben gestarteten Lauf und führt zurück zur Profil-/Stufenwahl mit denselben
-   Einstellungen (Lebensräume, Startwert). Beim Bauen prüfen, dass ein alter Lauf im Speicherplatz dabei nicht verloren geht.
-5. **Naturfelder fest verteilen** (normales Spiel/Zoolatro, nicht das Tutorial-Gelände): **18 Naturfelder je Zoo**, nur für die
-   3 gewählten Lebensräume – kein Umfärben nicht gewählter Lebensräume mehr (heute: `genMap0` legt die 4 Grund-Lebensräume, `genMap` färbt um).
-   Flecken zu 2–4 Feldern. Schwerpunkte je Gelände (Rest = übrige gewählte Lebensräume):
-   Wiese 6/6/6 · Flusstal Wasser 8 (Rest je 5; Fluss bleibt ein zusammenhängender Strang, nur kürzer) · Bucht Wasser 7 + Wüste 7 (Rest 4) ·
-   Zwei Hügel Wald 8, falls gewählt, sonst Savanne 8 (Rest je 5) · Zerklüftet Wüste 8 (Rest je 5).
-   Ist der Schwerpunkt-Lebensraum nicht gewählt, wird sein Anteil gleichmäßig auf die gewählten verteilt (ungerade Reste reihum).
-   Felsen und Geländeform bleiben wie bisher; Abstand der Flecken zueinander/zum Rand egal.
-   Messwerte heute (Mittel, 4 Lebensräume): Wiese ~15 Felder, Flusstal ~22 (Wasser ~15), Bucht ~10 (Wüste <1), Hügel ~18, Zerklüftet ~10.
-6. **Seltenheit auf Handkarten:** nur „selten“ und „sehr selten“ markieren, alle anderen Seltenheiten nicht.
-   Farbige Ecke oben rechts in der Kartenecke: Dreieck ca. 30 px, `linear-gradient(225deg, hell 0, farbe 46 %, transparent 47 %)`,
-   feine Schattenkante, folgt der Rundung der Karte.
-   Selten: blau `#2f7fe0` → hell `#9cc8ff`, weißer ★. Sehr selten: lila `#9b4dff` → pink `#ff9be6`, weiße ★★ übereinander, leichtes Funkeln.
-   Die Kostenpunkte rücken bei seltenen Karten ca. 15 px nach links; bei 3 Kostenpunkten und breiter Form das Form-Symbol etwas kleiner,
-   damit nichts aneinanderstößt. Veredelungen (Gold/Schimmernd/Regenbogen) bleiben unverändert.
-   Spezialisten der Stufe 3 bekommen in der Team-Leiste und in der Bewerbermappe zusätzlich einen langsamen Glanz und leichtes Leuchten.
-7. **Futterplätze nach Seltenheit:** gewöhnliche Tiere können 1 Futter bekommen, seltene 2, sehr seltene 3 (heute höchstens 2 für alle, `fdMax`).
-   Der Spezialist Futtermeister gibt +1, also 2/3/4. In der Karten-Info und im Futtersack anzeigen, wie viele Plätze noch frei sind.
+(leer)
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -130,6 +100,11 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.71a:** „Weiter ▸“ immer rechts (`tutNav`); `tutCheck` schaltet mehrere erledigte Schritte auf einmal (Tag-2-Hand);
+  Profilwahl mit 8 Stufen-Knöpfen (`.stgrid`, gesperrt `data-stlock` + Hinweis); ◂ Zurück nach der Stufenwahl (`ZSTART`, `zlBackOk`, `zlBack`,
+  in der Zoo-Übersicht bzw. Zoo-Profilwahl); Naturfelder fest (`NATN=18`, `NATFOCUS`, `natQuota`, `natPlace` in `genMap`, Flusstal-Strang 8);
+  Seltenheits-Ecke auf Handkarten (`.rarc.r1/.r2`, Kostenpunkte nach links, `shpWide`), Stufe-3-Spezialisten glänzen (`.tm.t3`, `.pcard.t3`);
+  Futterplätze nach Seltenheit (`fdMaxK`, `fdSlotsHtml`); neuer Test `jsd71a.js`.
 - **0.70a:** Tutorial-Pause in der Vorschau (Schritt-Feld `pv` an Zebras/Bratwurst/Giraffe, Hammer gesperrt bis zum letzten Häppchen,
   alte Weiter-Schritte danach entfernt); ◂ Zurück in Häppchen; kein Willkommen-Feld im Tutorial; Früh-geschafft-Kasten (`earlyBoxHtml`,
   `state.earlyR`) mit 🎁-Abzeichen am Shop-Reiter und leuchtendem Geschenk; Zoolatro-Ziele Sommer/Herbst/Winter +20 % (`ZLUP`);

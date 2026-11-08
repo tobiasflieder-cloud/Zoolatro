@@ -1030,7 +1030,27 @@ small.fsbn{font-size:11.5px;color:var(--muted)}
 .infowrap{height:32px}
 .info{min-height:30px}
 .info:empty{display:none}
-.tnav{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}.tnav .btn{flex:0 1 auto}
+.tnav{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.stgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}.stgrid .btn{padding:7px 4px;font-size:13px;min-width:0;white-space:nowrap}.stgrid .stlk{opacity:.45;filter:grayscale(1)}
+.fdslot{display:inline-block;font-size:11.5px;padding:1px 6px;border-radius:8px;background:#e7f3df;color:#2e5e1e;margin:2px 4px 0 0;white-space:nowrap}.fdslot.full{background:#eee;color:#777}
+/* 0.71a: Seltenheits-Ecke auf Handkarten (nur selten / sehr selten) */
+.hand .card .rarc{position:absolute;top:0;right:0;width:30px;height:30px;border-top-right-radius:12px;overflow:hidden;pointer-events:none;z-index:1;filter:drop-shadow(-1px 1px 0 #0003)}
+.hand .card .rarc.r1{background:linear-gradient(225deg,#9cc8ff 0,#2f7fe0 46%,transparent 47%)}
+.hand .card .rarc.r2{background:linear-gradient(225deg,#ff9be6 0,#9b4dff 46%,transparent 47%);animation:rarsp 2.6s ease-in-out infinite}
+.hand .card .rarc i{position:absolute;top:2px;right:3px;font-style:normal;color:#fff;font-size:9px;line-height:.85;text-align:center;text-shadow:0 0 2px #0006}
+.hand .card .rarc.r2 i{top:1px;font-size:8px}
+@keyframes rarsp{0%,100%{filter:drop-shadow(-1px 1px 0 #0003) brightness(1)}50%{filter:drop-shadow(-1px 1px 0 #0003) drop-shadow(0 0 3px #ff9be6) brightness(1.2)}}
+.hand .card.rar .cost{right:21px}
+body.land .hand .card.rar .cost{right:23px}
+.hand .card.rar.c3w .shape{width:18px;height:12px}
+@media (prefers-reduced-motion:reduce){.hand .card .rarc.r2,.tm.t3,.pcard.t3{animation:none}}
+/* 0.71a: Spezialisten Stufe 3: langsamer Glanz, leichtes Leuchten */
+.pcard.t3{position:relative;box-shadow:0 0 0 2px #ffd166,0 0 10px #ffd16699}
+.team .tm.t3{box-shadow:inset 0 0 0 2px var(--rc,#8a7cff),0 3px 0 #0006,0 0 9px color-mix(in srgb,var(--rc,#ffd166) 60%,transparent)}
+.team .tm.t3.on{box-shadow:inset 0 0 0 3px #ffd166,0 3px 0 #0006,0 0 9px #ffd16699}
+.tm.t3::before,.pcard.t3::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#fff8 50%,transparent 65%);background-size:250% 100%;animation:t3sh 4.5s linear infinite;pointer-events:none;border-radius:inherit}
+@keyframes t3sh{0%{background-position:150% 0}60%,100%{background-position:-100% 0}}
+.sthint{margin:4px 0 0;font-size:12.5px;color:var(--muted)}.tnav .btn{flex:0 1 auto}
 .info .tday{font-size:15px}
 .boardarea{position:relative}
 .actions.ov{position:absolute;left:8px;right:8px;bottom:8px;z-index:8;display:flex;justify-content:center;gap:8px;pointer-events:none}

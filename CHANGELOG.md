@@ -5,6 +5,13 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.71a · 08.11.2026 · Naturfelder, Seltenheit, Futterplätze
+- 🌿 Naturfelder fest verteilt: Jeder Zoo hat 18 Naturfelder, nur in Ihren drei Lebensräumen, als Flecken zu 2–4 Feldern. Jedes Gelände hat seinen Schwerpunkt, das Flusstal einen kürzeren Fluss.
+- ★ Seltene und sehr seltene Karten erkennen Sie an einer farbigen Ecke oben rechts auf der Handkarte. Legendäre Spezialisten glänzen im Team und in der Bewerbermappe.
+- 🍽️ Futterplätze nach Seltenheit: gewöhnliche Tiere 1, seltene 2, sehr seltene 3 (mit Futtermeister je einer mehr). Karten-Info und Futtersack zeigen die freien Plätze.
+- 🏔️ Profilwahl: Alle 8 Stufen sind zu sehen, gesperrte mit 🔒. Nach der Stufenwahl führt ◂ Zurück wieder zur Auswahl.
+- Tutorial: „Weiter ▸“ steht immer rechts, und an Tag 2 erscheinen gleich die richtigen Handkarten.
+
 ## 0.70a · 06.11.2026 · Pause in der Vorschau, Früh-Kasten
 - 🧑‍💼 Jasper erklärt Zebras, Bratwurstbude und Giraffenweide jetzt schon, wenn die Karte richtig liegt – gebaut wird mit 🔨 nach seinem letzten Satz.
 - ◂ Zurück: In Jaspers Texten können Sie einen Satz zurückblättern.
