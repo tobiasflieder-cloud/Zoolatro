@@ -95,24 +95,18 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.74a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.75a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
 **Offen / zur Entscheidung:**
-- **Querformat-Platzierung** (gefunden mit `tests/quer.js`, noch nicht geändert): Der Tipp-Kasten `#hintBox` (z-index 300, oben mittig) liegt über allen Fenstern
-  (Fenster z-index 20) und verdeckt bei 1280×800 „▶ Weiterspielen“ im Menü ☰, bis man ihn wegtippt. Vorschlag: Tipp-Kasten unter die Fenster legen oder
-  ausblenden, solange ein Fenster offen ist. Außerdem liegen im Querformat „Schließen“ im Deck-Fenster und „Weiter zum …“ im Shop-Reiter Extras (1280×800)
-  unterhalb des Bildschirms (nur per Scrollen erreichbar). Das Besucherwunsch-Fenster am Tagesbeginn deckt den ganzen Bildschirm ab (gewollt, wegtippen).
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
 
-**Godot-Vorbereitung (Stand):** 2a–2c fertig auf godot-daten, wartet auf Anspielen durch Tobi (nicht in main). Textvergleich alt/neu: `bash tests/textvergleich.sh`.
-  Dort auch behoben (Fehler bestand schon in main/0.73a): Im Querformat (`body.land3`) reagierten „Los geht's“ in der Zoo-Übersicht und „▶ Weiterspielen“
-  im Menü nicht, weil `railRender` die Zoo-Übersicht samt `#mClose`/`#zlBack` in die Seitenleiste kopierte (doppelte ids, Handler am unsichtbaren Doppel).
+**Godot-Vorbereitung (Stand):** 2a–2c fertig und mit 0.74a in main. Nächster Schritt laut `docs/godot-plan.md`: Wertung in Godot gegen die Referenzfälle.
+  Werkzeuge: Textvergleich alt/neu `bash tests/textvergleich.sh`, Querformat-Test `node tests/quer.js` (auch in `pruefen.sh`).
 
-**Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
-als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · Grafikstil · Futter-Balance · neue Meilensteine
+**Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · „Alles zurücksetzen“ · Weiterspielen nach dem Ziel beobachten.
 · **Stufen 1–8 überarbeiten** (nicht nur höhere Ziele: weniger Goldfelder, Naturfelder Stufe 4 → 15 und Stufe 7 → 12,
 schwere Winter-Bedingung ab Stufe 5, Krone schwächer) · **Winter-Bedingungen** in leicht und schwer teilen · neue Winter-Ideen:
@@ -120,6 +114,13 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.74a:** Godot-Vorbereitung 2a–2c: alle Inhalte in `daten/*.json` (Karten, Merkmale, Spezialisten, Futter, Winter, Gelände, Stufen, Profile,
+  Texte `texte_de.json`, Tutorial, Förderprogramme, Werbung, Ereignisse, Prägungen, Herausforderungen), Code-Wirkungen über Kennungen
+  (`KARTEN_WIRKUNG`, `SPEZ_WIRKUNG`, `FUTTER_WIRKUNG`, `WINTER_WIRKUNG`, `PROG_/WERBUNG_/EREIGNIS_WIRKUNG`, `CHAL_WIRKUNG`, `TUT_WIRKUNG`, Stufen `stAb`/`stW`);
+  Verhalten und alle angezeigten Texte unverändert (Referenzfälle, `textvergleich.sh`, Spielstand 0.73a lädt). Querformat-Fehler (bestand seit 0.73a):
+  `railRender` kopierte die Zoo-Übersicht samt `#mClose`/`#zlBack` in die Seitenleiste → doppelte ids, „Los geht's“ und „▶ Weiterspielen“ ohne Wirkung;
+  jetzt ohne Knöpfe in der Leiste. Tipp-Kasten `#hintBox` wartet bei offenem Fenster (`hintCheck`: nur `winter` zeigt sich, dann oben, Klasse `inmod`);
+  letzte Knopfzeile (`.tnav`/`.shopbar`/`.btn` als letztes Kind von `.modal`) klebt unten. Neue Tests `quer.js` (Playwright), `jsddaten.js`, Textvergleich.
 - **0.73a:** Totes Holz entfernt: alte Tutorial-Kapitel (`zls/zlssh/zlh/zlhsh/zlw`, `TUTCH_ALT`), `startTut`, `GUIDE` (→ `guideHint=()=>null`),
   Fenster `tutsolo`, `deckReady`, `fdMax`, doppeltes `PURN` (jetzt `const PURN=4`), Zoo-Profile `ZPROF` mit Profilwahl, `zlPick`, `profHints`,
   `PROFHAB`, `DECKPROF`, Profil-Umbau `zfix` und alle Profil-Abfragen in Wertung/Kosten/Taler (`state.zl.prof` bleibt als `'keins'` im Spielstand).

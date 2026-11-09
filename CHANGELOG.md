@@ -5,6 +5,12 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.74a · 09.11.2026 · Querformat repariert
+- 🖥️ Querformat: „Los geht’s“ in der Zoo-Übersicht und „▶ Weiterspielen“ im Menü reagieren wieder (am Rechner und auf Tablets im Querformat). Der Fehler steckte schon in 0.73a.
+- 💡 Tipps warten jetzt, bis ein Fenster geschlossen ist, und verdecken keine Knöpfe mehr. Nur der Winter-Tipp erscheint bei der Winter-Wahl, ganz oben.
+- ⬇️ Die Knöpfe unten in langen Fenstern (zum Beispiel „Schließen“ im Deck oder „Weiter zum …“ im Shop) bleiben immer sichtbar, auch wenn man nach unten scrollen müsste.
+- 🧰 Im Hintergrund: Karten, Texte, Spezialisten, Futter, Gelände, Winter-Bedingungen, Stufen, Tutorial und alle anderen Inhalte liegen jetzt als eigene Daten-Dateien vor (Vorbereitung für eine spätere Godot-Fassung). Am Spiel ändert sich dadurch nichts, Spielstände laden weiter.
+
 ## 0.73a · 08.11.2026 · Aufgeräumt
 - 🧹 Aufgeräumt: Die alten Modi „Freies Spiel“ und „Zoolatro-Modus“ (Zoolatro 1) sind entfernt, ebenso die längst abgeschalteten Zoo-Profile und alte Tutorial-Teile. Angefangene Läufe dieser alten Modi werden verworfen, Ihre Verbesserungen und Freischaltungen bleiben.
 - Am Spiel selbst ändert sich nichts: Zoolatro und das Tutorial spielen sich genau wie vorher.
