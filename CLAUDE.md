@@ -100,10 +100,16 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 (leer)
 
 **Offen / zur Entscheidung:**
+- **Querformat-Platzierung** (gefunden mit `tests/quer.js`, noch nicht geändert): Der Tipp-Kasten `#hintBox` (z-index 300, oben mittig) liegt über allen Fenstern
+  (Fenster z-index 20) und verdeckt bei 1280×800 „▶ Weiterspielen“ im Menü ☰, bis man ihn wegtippt. Vorschlag: Tipp-Kasten unter die Fenster legen oder
+  ausblenden, solange ein Fenster offen ist. Außerdem liegen im Querformat „Schließen“ im Deck-Fenster und „Weiter zum …“ im Shop-Reiter Extras (1280×800)
+  unterhalb des Bildschirms (nur per Scrollen erreichbar). Das Besucherwunsch-Fenster am Tagesbeginn deckt den ganzen Bildschirm ab (gewollt, wegtippen).
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
 
 **Godot-Vorbereitung (Stand):** 2a–2c fertig auf godot-daten, wartet auf Anspielen durch Tobi (nicht in main). Textvergleich alt/neu: `bash tests/textvergleich.sh`.
+  Dort auch behoben (Fehler bestand schon in main/0.73a): Im Querformat (`body.land3`) reagierten „Los geht's“ in der Zoo-Übersicht und „▶ Weiterspielen“
+  im Menü nicht, weil `railRender` die Zoo-Übersicht samt `#mClose`/`#zlBack` in die Seitenleiste kopierte (doppelte ids, Handler am unsichtbaren Doppel).
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
 als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · Grafikstil · Futter-Balance · neue Meilensteine

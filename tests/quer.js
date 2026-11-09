@@ -28,7 +28,7 @@ async function wunschWeg(p){const h=await p.$('#hintBox.on #hOk');if(h&&await h.
   await w.click({timeout:2000}).catch(x=>T(false,'Besucherwunsch-Fenster lässt sich nicht wegtippen'));await p.waitForTimeout(300)}}
 const HW=new Set();const klick=async(p,sel)=>{if(!/wishPop/.test(sel))await wunschWeg(p);const e=await p.$(sel);if(!e||!await e.isVisible())return false;
   try{await e.click({timeout:1500})}catch(x){const m=/<([a-z]+)( id="[^"]*")?( class="[^"]*")?[^>]*>.*? intercepts pointer events/.exec(x.message);const w=m?m[0].replace(/>.*? intercepts.*/,'>'):'?';
-    const k=sel+w;if(!HW.has(k)){HW.add(k);L('HINWEIS',`Klick auf ${sel} wird zuerst abgefangen von ${w}`)}await p.waitForTimeout(4000);try{await e.click({timeout:1500})}catch(y){T(false,`Klick auf ${sel} bleibt blockiert von ${w}`);return false}}
+    const k=sel+w;if(!HW.has(k)){HW.add(k);L('HINWEIS',`Klick auf ${sel} wird zuerst abgefangen von ${w}`)}if(/hintBox|hOk/.test(w))await wunschWeg(p);else await p.waitForTimeout(4000);try{await e.click({timeout:1500})}catch(y){T(false,`Klick auf ${sel} bleibt blockiert von ${w}`);return false}}
   await p.waitForTimeout(250);return true};
 const klickText=async(p,re)=>{await wunschWeg(p);for(const e of await p.$$('button:not([disabled])')){if(re.test((await e.textContent()).trim())&&await e.isVisible()){try{await e.click({timeout:3000})}catch(x){T(false,`Klick auf „${(await e.textContent()).trim().slice(0,20)}“ blockiert: ${(/<[^>]*> intercepts/.exec(x.message)||['?'])[0]}`);return false}await p.waitForTimeout(250);return true}}return false};
 // neuer Lauf über die echten Menüs bis zur Zoo-Übersicht
