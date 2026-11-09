@@ -1,16 +1,16 @@
 // Querformat-Test (Playwright, echtes Chromium): Knöpfe in Fenstern im Querformat erreichbar und wirksam.
 // Anlass: Im Querformat mit Seitenleiste (body.land3) zeichnete railRender die Zoo-Übersicht samt Knöpfen #mClose/#zlBack
 // ein zweites Mal in die Leiste; der Klick-Handler hing am unsichtbaren Doppel, „Los geht's“ reagierte nicht.
-//   node tests/quer.js                 -> prüft build/zoodeck.html bei 1280×800 und 1600×900
+//   node tests/quer.js                 -> prüft build/zoodeck.html bei 1280×800, 1600×900 und im Hochformat (Pixel 7)
 //   ZF=pfad.html node tests/quer.js    -> anderer Stand;  V=1 -> ausführlich
 // Ausgabe: ok / FAIL (Knopf verdeckt, doppelte id, Knopf ohne Wirkung, Ziel nicht erreicht) / HINWEIS (Platzierung, nur zur Info).
 // Braucht Playwright mit Chromium (in der Claude-Umgebung vorinstalliert; sonst: npm i -D playwright && npx playwright install chromium).
-const {chromium}=require('playwright');const path=require('path');
+const {chromium,devices}=require('playwright');const path=require('path');
 const FILE='file://'+path.resolve(process.env.ZF||path.join(__dirname,'..','build','zoodeck.html'));
 const BOT=require('fs').readFileSync(path.join(__dirname,'bot7.js'),'utf8');
 const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),V=!!process.env.V;
 const SEED=`{let S=4242;Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}`;
-async function seite(b,vp){const p=await b.newPage({viewport:vp});p._errs=[];p.on('pageerror',e=>p._errs.push(e.message));await p.addInitScript(SEED);await p.goto(FILE);await p.waitForTimeout(600);
+async function seite(b,vp){const p=vp.dev?await (await b.newContext({...devices[vp.dev]})).newPage():await b.newPage({viewport:vp});p._errs=[];p.on('pageerror',e=>p._errs.push(e.message));await p.addInitScript(SEED);await p.goto(FILE);await p.waitForTimeout(600);
   await p.evaluate(()=>{for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};SCFAST=1});return p}
 const zu=p=>p.evaluate(()=>String(screen)+'/'+String(modal)+'/'+(state?state.phase+':'+state.season+':'+state.day:''));
 // alle sichtbaren Knöpfe in Fenster und Tutorial-Kasten: verdeckt? außerhalb? doppelte ids im ganzen Dokument?
@@ -39,7 +39,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   if(await zu(p)!=='null/fsIntro/play:0:0'){T(false,`${wo}: Einführung fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Einführung',seen);await klick(p,'#mFsIntroOk');
   if(await zu(p)!=='null/zoo/play:0:0'){T(false,`${wo}: Zoo-Übersicht fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Zoo-Übersicht',seen);return true}
 (async()=>{const b=await chromium.launch();try{
- for(const vp of[{width:1280,height:800},{width:1600,height:900}]){const wo=vp.width+'×'+vp.height,seen=new Set();
+ for(const vp of[{width:1280,height:800},{width:1600,height:900},{dev:'Pixel 7'}]){const wo=vp.dev?'Handy '+vp.dev:vp.width+'×'+vp.height,seen=new Set();
   // 1) Neuer Lauf: Übersicht → „Los geht's“ → erster Spieltag
   let p=await seite(b,vp);L('==',wo,'body:',await p.evaluate(()=>{applyView();return document.body.className}));
   if(await bisUebersicht(p,wo,seen)){await klick(p,'#mClose');T(await zu(p)==='null/null/play:0:0',`${wo}: neuer Lauf über die Zoo-Übersicht bis zum ersten Spieltag (${await zu(p)})`)}
