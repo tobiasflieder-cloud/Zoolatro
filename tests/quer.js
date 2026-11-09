@@ -18,7 +18,7 @@ async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[]
    const W=innerWidth,H=innerHeight;for(const b of document.querySelectorAll('#modalRoot button, #coach button')){if(!b.offsetParent||b.disabled)continue;const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,nm=(b.id?'#'+b.id+' ':'')+b.textContent.trim().replace(/\s+/g,' ').slice(0,24);
      if(x<0||y<0||x>W||y>H){out.aus.push(nm+' @'+Math.round(x)+','+Math.round(y));continue}const e=document.elementFromPoint(x,y);if(!(e&&(e===b||b.contains(e))))out.cov.push(nm+' von '+(e?e.tagName+(e.id?'#'+e.id:'')+'.'+String(e.className).split(' ')[0]:'?'))}return out});
   const key=wo.replace(/[0-9:]+$/,'');
-  for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov){if(/#hOk|hintBox/.test(c)){if(!seen.has('hint'+wo)){seen.add('hint'+wo);L('HINWEIS',`${wo}: Tipp-Kasten (#hintBox, über allen Fenstern) verdeckt ${c}`)}}else T(false,`${wo}: Knopf verdeckt: ${c}`)}
+  for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov)T(false,`${wo}: Knopf verdeckt: ${c}`);
   for(const a of r.aus)if(!seen.has(key+a)){seen.add(key+a);L('HINWEIS',`${wo}: Knopf außerhalb des Bildschirms: ${a}`)}
   if(V)L('   geprüft',wo,await zu(p));return r}
 // Klick wie ein Mensch; fängt ein anderes Element den Klick ab, gibt es einen HINWEIS und nach 4 s einen zweiten Versuch
@@ -44,6 +44,11 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   for(const [sel,name,zu1] of[['#btnHelp','Menü ☰','#mClose'],['[data-ev="zoo"]','Zoo-Übersicht im Spiel','#mClose'],['#btnDeck','Deck','#mClose']]){
    if(!await klick(p,sel)){T(false,`${wo}: ${name} lässt sich nicht öffnen`);continue}const m=await p.evaluate(()=>modal);await pruefe(p,`${wo} ${name}`,seen);
    const ok=await klick(p,zu1)||await klickText(p,/Schließen|Zurück|Weiterspielen|^✕$/);T(ok&&await p.evaluate(()=>!modal),`${wo}: ${name} (${m}) schließt`)}
+  // 2b) Winter-Wahl mit Winter-Tipp: der einzige Tipp, der bei offenem Fenster erscheint (oben), darf nichts verdecken; andere Tipps warten
+  await p.evaluate(()=>{const sl=hintSlot();sl.hints=sl.hints||{};delete sl.hints.winter;META.noHints=0;state.hintNow=null;state.zl.inspOpts=['essen','koenig'];modal='inspPick';renderAll()});await p.waitForTimeout(300);
+  T(/on/.test(await p.evaluate(()=>{const e=document.getElementById('hintBox');return e?e.className+' '+e.dataset.h:''}))&&await p.evaluate(()=>document.getElementById('hintBox').dataset.h==='winter'),`${wo}: Winter-Tipp erscheint in der Winter-Wahl`);
+  await pruefe(p,wo+' Winter-Wahl mit Tipp',seen);
+  await p.evaluate(()=>{const sl=hintSlot();sl.hints.winter=1;state.hintNow=null;state.zl.inspOpts=null;modal=null;renderAll()});
   // 3) Spielablauf bis in den Sommer: Kartenwahl, Tagesbilanz, Jahreszeit-Ende, Shop (Bot baut, Knöpfe werden geklickt)
   await p.evaluate(()=>{window._r=[render,renderModal,saveMeta,renderAll]});
   await p.evaluate(BOT+';BOT.zl=true;BOT.cur={zoos:[],built:0,cd:{},picked:{},specs:[],progs:[]}').catch(e=>L('FAIL bot',e.message));

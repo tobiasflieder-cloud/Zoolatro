@@ -489,7 +489,8 @@ function hintCheck(cur){let el=$('hintBox');if(!el){el=document.createElement('d
   const X={sel:selKey()&&state.phase==='play'?CARDS[selKey()]:null,cur,t:(c,x)=>(c.tags||[]).includes(x),food:c=>(c.cat==='essen'||c.cat==='attr')&&!ruhigC(c)};
   let H=state.hintNow&&!sl.hints[state.hintNow]&&hintOk(sl,state.hintNow)?HINTS.find(h=>h.id===state.hintNow):null;
   if(!H)for(const h of HINTS){if(sl.hints[h.id]||!hintOk(sl,h.id))continue;let ok=false;try{ok=h.w(X)}catch(e){}if(ok){H=h;break}}
-  if(!H){hintHide();return}if(state.hintNow!==H.id){state.hintNow=H.id;el.innerHTML=''}if(el.dataset.h===H.id&&el.className==='on')return;el.dataset.h=H.id;el.className='on';
+  if(!H){hintHide();return}if(modal&&H.id!=='winter'){hintHide();return} // Tipp wartet, bis das Fenster zu ist (verdeckte sonst Fenster-Knöpfe)
+  const cls=modal?'on inmod':'on';if(state.hintNow!==H.id){state.hintNow=H.id;el.innerHTML=''}if(el.dataset.h===H.id&&el.className===cls)return;el.dataset.h=H.id;el.className=cls;
   el.innerHTML=`<div class="hic">${H.ic}</div><div class="htx"><b>${H.t}</b><span>${typeof H.x==='function'?H.x(X):H.x}</span><div class="hbt"><button class="btn main" id="hOk">Verstanden</button><button class="btn sub" id="hOff">Keine Hinweise mehr</button></div></div>`;
   const done=off=>{sl.hints[H.id]=1;if(off)META.noHints=1;state.hintNow=null;el.dataset.h='';Sfx.select();saveMeta();render()};$('hOk').onclick=()=>done(false);$('hOff').onclick=()=>done(true)}
 // Zuchtpaare im Zoo (2.0): 💞 zwischen zwei gleichen benachbarten Gehegen, eines Stufe II, wenn noch Zucht möglich ist

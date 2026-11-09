@@ -424,7 +424,7 @@ text.tt-a{fill:#3a1d00} text.tt-s{fill:#00302b} text.tt-tot{fill:var(--gold)} te
 .card.ms::after{content:'🏅';position:absolute;left:3px;bottom:3px;font-size:13px}
 .milecard{background:var(--paper);color:var(--ink);border-radius:14px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 0 0 4px var(--gold),0 0 40px #ffd16677;text-align:center}
 .bornrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}.strz{fill:url(#szh);stroke:#ff5a5f66;stroke-width:.35}.strz.s2{fill:#ff5a5f44;stroke:#ff5a5fbb}.strzi{font-size:3.6px;text-anchor:middle;dominant-baseline:central;opacity:.85}
-#hintBox{display:none;position:fixed;left:50%;top:118px;transform:translateX(-50%);width:min(430px,calc(100vw - 24px));z-index:300;background:var(--paper);color:var(--ink);border-radius:14px;padding:10px 12px;gap:10px;box-shadow:0 0 0 3px var(--gold),0 10px 30px #0008;animation:pop .35s ease both}#hintBox.on{display:flex}#hintBox .hic{font-size:30px;line-height:1}#hintBox .htx{display:flex;flex-direction:column;gap:4px;font-size:13.5px}#hintBox .htx b{font-size:15px}#hintBox .hbt{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}#hintBox .hbt .btn{padding:6px 12px;font-size:13px}
+#hintBox{display:none;position:fixed;left:50%;top:118px;transform:translateX(-50%);width:min(430px,calc(100vw - 24px));z-index:300;background:var(--paper);color:var(--ink);border-radius:14px;padding:10px 12px;gap:10px;box-shadow:0 0 0 3px var(--gold),0 10px 30px #0008;animation:pop .35s ease both}#hintBox.on{display:flex}#hintBox.inmod{top:6px}#hintBox .hic{font-size:30px;line-height:1}#hintBox .htx{display:flex;flex-direction:column;gap:4px;font-size:13.5px}#hintBox .htx b{font-size:15px}#hintBox .hbt{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}#hintBox .hbt .btn{padding:6px 12px;font-size:13px}
 .lexgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.lexc{background:var(--card2,#ffffff12);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:3px;font-size:12.5px}.lexc .li{font-size:30px;line-height:1.1}.lexc.un .li{filter:brightness(0) blur(5px);opacity:.45;font-size:26px}.lhx{width:44px;height:40px;display:grid;place-items:center;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);overflow:hidden}.lexc.un{opacity:.75}.lexc .lb{display:flex;gap:4px;font-size:13px}.lexc .lb span{opacity:.25}.lexc .lb span.on{opacity:1}.lexc .lf{color:var(--muted);font-size:12px}.lexh.full{color:var(--gold)}
 .bestbox{display:flex;flex-direction:column;gap:5px;background:#ffffff0d;border-radius:12px;padding:10px}.bestrow{display:flex;gap:8px;align-items:center;background:#ffffff10;border:0;border-radius:9px;padding:6px 9px;color:var(--text);font:inherit;text-align:left;cursor:pointer}.bestrow b{flex:1;font-size:14px}.bestrow i{font-style:normal;font-size:13px}.bestrow .a{color:#ffb35c}.bestrow .s{color:#3fd6c4}
 #modalRoot.peek{opacity:0;pointer-events:none;transition:opacity .2s}
@@ -1046,6 +1046,8 @@ small.fsbn{font-size:11.5px;color:var(--muted)}
 .info{min-height:30px}
 .info:empty{display:none}
 .tnav{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.modal>.tnav:last-child,.modal>.shopbar:last-child{position:sticky;bottom:-16px;z-index:3;background:inherit;margin:0 -16px -16px;padding:10px 16px 16px;border-radius:0 0 16px 16px}
+.modal>.btn:last-child{position:sticky;bottom:0;z-index:3;flex:none;box-shadow:0 0 0 10px var(--panel)}
 .stgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}.stgrid .btn{padding:7px 4px;font-size:13px;min-width:0;white-space:nowrap}.stgrid .stlk{opacity:.45;filter:grayscale(1)}
 .fdslot{display:inline-block;font-size:11.5px;padding:1px 6px;border-radius:8px;background:#e7f3df;color:#2e5e1e;margin:2px 4px 0 0;white-space:nowrap}.fdslot.full{background:#eee;color:#777}
 /* 0.71a: Seltenheits-Ecke auf Handkarten (nur selten / sehr selten) */
@@ -3518,7 +3520,8 @@ function hintCheck(cur){let el=$('hintBox');if(!el){el=document.createElement('d
   const X={sel:selKey()&&state.phase==='play'?CARDS[selKey()]:null,cur,t:(c,x)=>(c.tags||[]).includes(x),food:c=>(c.cat==='essen'||c.cat==='attr')&&!ruhigC(c)};
   let H=state.hintNow&&!sl.hints[state.hintNow]&&hintOk(sl,state.hintNow)?HINTS.find(h=>h.id===state.hintNow):null;
   if(!H)for(const h of HINTS){if(sl.hints[h.id]||!hintOk(sl,h.id))continue;let ok=false;try{ok=h.w(X)}catch(e){}if(ok){H=h;break}}
-  if(!H){hintHide();return}if(state.hintNow!==H.id){state.hintNow=H.id;el.innerHTML=''}if(el.dataset.h===H.id&&el.className==='on')return;el.dataset.h=H.id;el.className='on';
+  if(!H){hintHide();return}if(modal&&H.id!=='winter'){hintHide();return} // Tipp wartet, bis das Fenster zu ist (verdeckte sonst Fenster-Knöpfe)
+  const cls=modal?'on inmod':'on';if(state.hintNow!==H.id){state.hintNow=H.id;el.innerHTML=''}if(el.dataset.h===H.id&&el.className===cls)return;el.dataset.h=H.id;el.className=cls;
   el.innerHTML=`<div class="hic">${H.ic}</div><div class="htx"><b>${H.t}</b><span>${typeof H.x==='function'?H.x(X):H.x}</span><div class="hbt"><button class="btn main" id="hOk">Verstanden</button><button class="btn sub" id="hOff">Keine Hinweise mehr</button></div></div>`;
   const done=off=>{sl.hints[H.id]=1;if(off)META.noHints=1;state.hintNow=null;el.dataset.h='';Sfx.select();saveMeta();render()};$('hOk').onclick=()=>done(false);$('hOff').onclick=()=>done(true)}
 // Zuchtpaare im Zoo (2.0): 💞 zwischen zwei gleichen benachbarten Gehegen, eines Stufe II, wenn noch Zucht möglich ist
