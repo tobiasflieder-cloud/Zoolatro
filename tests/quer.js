@@ -14,11 +14,14 @@ async function seite(b,vp){const p=await b.newPage({viewport:vp});p._errs=[];p.o
   await p.evaluate(()=>{for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};SCFAST=1});return p}
 const zu=p=>p.evaluate(()=>String(screen)+'/'+String(modal)+'/'+(state?state.phase+':'+state.season+':'+state.day:''));
 // alle sichtbaren Knöpfe in Fenster und Tutorial-Kasten: verdeckt? außerhalb? doppelte ids im ganzen Dokument?
-async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[],aus:[],dup:[]};const c={};document.querySelectorAll('[id]').forEach(e=>c[e.id]=(c[e.id]||0)+1);out.dup=Object.keys(c).filter(k=>c[k]>1);
+async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[],aus:[],dup:[],fuss:[]};const c={};document.querySelectorAll('[id]').forEach(e=>c[e.id]=(c[e.id]||0)+1);out.dup=Object.keys(c).filter(k=>c[k]>1);
    const W=innerWidth,H=innerHeight;for(const b of document.querySelectorAll('#modalRoot button, #coach button')){if(!b.offsetParent||b.disabled)continue;const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,nm=(b.id?'#'+b.id+' ':'')+b.textContent.trim().replace(/\s+/g,' ').slice(0,24);
-     if(x<0||y<0||x>W||y>H){out.aus.push(nm+' @'+Math.round(x)+','+Math.round(y));continue}const e=document.elementFromPoint(x,y);if(!(e&&(e===b||b.contains(e))))out.cov.push(nm+' von '+(e?e.tagName+(e.id?'#'+e.id:'')+'.'+String(e.className).split(' ')[0]:'?'))}return out});
+     const frei=()=>{const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;if(x<0||y<0||x>W||y>H)return'aus';const e=document.elementFromPoint(x,y);return e&&(e===b||b.contains(e))?'':(e?e.tagName+(e.id?'#'+e.id:'')+'.'+String(e.className).split(' ')[0]:'?')};
+     let f=frei();if(f&&b.closest('.modal>.tnav:last-child,.modal>.shopbar:last-child')||f&&b.matches('.modal>.btn:last-child'))out.fuss.push(nm+' ('+f+')');if(f){b.scrollIntoView({block:'center'});f=frei()} // in langen Fenstern erst hinscrollen, wie ein Spieler
+     if(f==='aus')out.aus.push(nm+' @'+Math.round(x)+','+Math.round(y));else if(f)out.cov.push(nm+' von '+f)}
+   for(const m of document.querySelectorAll('.modal'))m.scrollTop=0;return out});
   const key=wo.replace(/[0-9:]+$/,'');
-  for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov)T(false,`${wo}: Knopf verdeckt: ${c}`);
+  for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov)T(false,`${wo}: Knopf verdeckt: ${c}`);for(const c of r.fuss)T(false,`${wo}: Knopf der Fußzeile ohne Scrollen nicht sichtbar: ${c}`);
   for(const a of r.aus)if(!seen.has(key+a)){seen.add(key+a);L('HINWEIS',`${wo}: Knopf außerhalb des Bildschirms: ${a}`)}
   if(V)L('   geprüft',wo,await zu(p));return r}
 // Klick wie ein Mensch; fängt ein anderes Element den Klick ab, gibt es einen HINWEIS und nach 4 s einen zweiten Versuch
