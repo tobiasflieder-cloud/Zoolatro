@@ -8,17 +8,9 @@
 // veredelte Karten sind eigene Exemplare: 'affen~s' erbt alles von 'affen', bleibt aber aus Listen und Zufallspools heraus
 for(const k of Object.keys(CARDS))for(const e in EDS)Object.defineProperty(CARDS,k+'~'+e,{enumerable:false,value:Object.assign(Object.create(CARDS[k]),{ed:e,base:k,name:CARDS[k].name+' '+EDS[e].icon})});
 // Verbesserungen nach jedem Zoo: liegen auf genau einem Exemplar im Deck (Schlüssel 'affen^star')
-const PRAEG={gold:{icon:'🪙',name:'Gold',fx:'+25 % B|🪙 Gold: Verbesserung',text:'+25 % Besucher',w:3},
-  star:{icon:'⭐',name:'Star',fx:'×1,25|⭐ Star: die Karte zählt ×1,25',text:'Die Karte zählt ×1,25 (Besucher und Natur)',w:2},
-  magnet:{icon:'🧲',name:'Publikumsmagnet',fx:'+50 %|🧲 Publikumsmagnet: auf alle Boni, die sie ihren Nachbarn gibt',text:'Boni, die sie ihren Nachbarn gibt, +50 %',w:1},
-  leicht:{icon:'🪶',name:'Leichtbau',fx:'−1 BP|🪶 Leichtbau (mindestens 1)',text:'Kostet 1 Baupunkt weniger, mindestens 1',w:3},
-  zucht:{icon:'🧬',name:'Zuchtpaar',fx:'×2|🧬 Zuchtpaar: zählt für die Reinheit als zusätzliche Art (eine pro Zoo)',text:'Zählt für die Reinheit als zusätzliche Art. Nur Gehege, nur eine pro Zoo zählt.',w:2,geh:true},
-  spende:{icon:'💰',name:'Spendenbox',fx:'+2 🪙|💰 Spendenbox: pro Tag, solange gebaut, ab Zoo 2 je Zoo +1 mehr',text:'+2 Taler pro Tag, solange gebaut, ab Zoo 2 je Zoo +1 mehr (Zoo 3: +4)',w:3},
-  stamm:{icon:'🔁',name:'Stammgast',fx:'🔁|Stammgast: am 1. Tag jeder Jahreszeit sicher auf der Hand',text:'Liegt am ersten Tag jeder Jahreszeit sicher auf der Hand',w:2},
-  liebling:{icon:'📈',name:'Lieblingstier',fx:'+Zoo|📈 Lieblingstier: +B und +N in Höhe der Zoo-Nummer',text:'+Besucher und +Natur in Höhe der Zoo-Nummer (Zoo 3: +3 B +3 N)',w:2},
-  glueck:{icon:'🎲',name:'Glücks-Prägung',fx:'×3|🎲 Glück: zählt am Tagesende mit 1 zu 4 Chance dreifach',text:'Zählt am Tagesende mit 1 zu 4 Chance dreifach (Besucher und Natur)',w:3},
-  zugabe:{icon:'🔂',name:'Zugabe',fx:'×2|🔂 Zugabe: zählt am Tagesende mit 1 zu 3 Chance ein zweites Mal',text:'Zählt am Tagesende mit 1 zu 3 Chance ein zweites Mal',w:2},
-  wackel:{icon:'🫙',name:'Wackelig',fx:'×2|🫙 Wackelig: zählt doppelt, zerbricht aber am Ende jeder Jahreszeit mit 1 zu 6 Chance',text:'Zählt immer doppelt, zerbricht aber am Ende jeder Jahreszeit mit 1 zu 6 Chance (weg aus Zoo und Deck)',w:1}};
+// Godot-Vorbereitung 2c: Prägungen stehen in daten/praegungen.json; ihre Wirkung steckt in der Wertung (Kennung = Schlüssel)
+const PRAEG_DATEN=/*@@DATEN:praegungen@@*/null;
+const PRAEG={};for(const d of PRAEG_DATEN.praegungen){const P={};for(const p in d)if(p!=='key')P[p]=d[p];PRAEG[d.key]=P}
 const prKey=(k,p)=>String(k).split('^')[0]+'^'+p;
 Object.setPrototypeOf(CARDS,new Proxy(Object.prototype,{get(t,k,r){if(typeof k==='string'&&k.includes('#')&&!k.includes('^')){const i=k.indexOf('#'),b0=k.slice(0,i),par=CARDS[b0];if(!par)return undefined;const F=k.slice(i+1).split('.').filter(f=>FOOD[f]);const o=derive(par,{food:F,base:par.base||b0,name:par.name+' '+F.map(f=>FOOD[f].icon).join('')});Object.defineProperty(o,'fx',{get(){return[...F.map(f=>`${FOOD[f].icon}|${FOOD[f].name}: ${FOOD[f].text}`),...(par.fx||[])]}});Object.defineProperty(CARDS,k,{enumerable:false,value:o});return o}
   if(typeof k==='string'&&k.includes('^')){const[b0,pp]=k.split('^'),par=CARDS[b0],P=PRAEG[pp];if(!par||!P)return undefined;const o=derive(par,{pr:pp,base:par.base||b0,name:par.name+' '+P.icon});Object.defineProperty(o,'fx',{get(){return[P.fx,...(par.fx||[])]}});Object.defineProperty(CARDS,k,{enumerable:false,value:o});return o}return Reflect.get(t,k,r)}}));

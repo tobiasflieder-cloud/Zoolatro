@@ -389,21 +389,24 @@ const stTF=()=>{const s=stOf();return STUFEN_DATEN.stufen.filter(x=>x.kennung===
 const STAGES=['',...STUFEN_DATEN.stufen.map(x=>x.text)];
 const z2Of=sl=>{sl.z2=sl.z2||{};sl.z2.st=sl.z2.st||{};sl.z2.ch=sl.z2.ch||{};return sl.z2};
 const stMax=(sl,d)=>Math.min(8,z2Of(sl).st[d]||1);
-const RBFREE=['rb_klon','rb_wild'];
+// Godot-Vorbereitung 2c: Herausforderungen stehen in daten/herausforderungen.json; Bedingungen hier in CHAL_WIRKUNG (Kennung = Schlüssel)
+const CHAL_DATEN=/*@@DATEN:herausforderungen@@*/null;
+const RBFREE=CHAL_DATEN.regelbrecher_frei.slice();
 const gehOf=()=>state.buildings.filter(b=>CARDS[b.key].cat==='gehege');
-const CHAL={
-  zwei:{icon:'🌗',name:'Zwei Welten',txt:'Schaffe einen Zoo mit mindestens 6 Gehegen, die alle aus höchstens 2 Lebensräumen stammen.',rb:'rb_jagd',ok:x=>x.won&&gehOf().length>=6&&new Set(gehOf().map(b=>CARDS[b.key].hab)).size<=2},
-  ohnegastro:{icon:'🚫',name:'Ohne Imbiss',txt:'Schaffe Zoo 3 ohne ein einziges Gastro-Gebäude.',rb:'rb_party',ok:x=>x.won&&x.z===2&&!state.buildings.some(b=>CARDS[b.key].cat==='essen')},
-  koenig:{icon:'⛄',name:'Schneekönig',txt:'Schaffe einen Winter mit der Bedingung Schneekönig.',rb:'rb_winter',ok:x=>x.won&&state.zl&&state.zl.insp==='koenig'},
-  klein:{icon:'🤏',name:'Kleiner Zoo',txt:'Schaffe einen Zoo mit höchstens 14 Gehegen und Gebäuden.',rb:'rb_leicht',ok:x=>x.won&&state.buildings.length<=14},
-  jung3:{icon:'🍼',name:'Kinderstube',txt:'Bekomme 3 Jungtiere in einem Lauf.',title:'Zuchtmeisterin',ok:x=>(x.run.jtBorn||0)>=3},
-  mio:{icon:'💥',name:'Millionen-Tag',txt:'Erziele 1 Million Punkte an einem Tag.',title:'Rekordhalter',ok:()=>!!(state.stats.best&&state.stats.best.pts>=1e6)},
-  rein:{icon:'🧬',name:'Reinzucht',txt:'Erreiche Reinheit ×1,5: 10 verschiedene Arten eines Lebensraums zusammen.',title:'Artenkennerin',ok:()=>zlPurity(state.buildings,mkIndex(state.buildings)).n>=10},
-  regel:{icon:'⚡',name:'Regelbruch',txt:'Schaffe einen Zoo mit einem Regelbrecher im Team.',title:'Rebell',ok:x=>x.won&&(state.spec||[]).some(id=>SPEC[id]&&SPEC[id].rb)},
-  spar:{icon:'💰',name:'Sparfuchs',txt:'Schaffe einen Zoo mit mindestens 300 Talern in der Kasse.',title:'Sparfuchs',ok:x=>x.won&&state.money>=300},
-  alle5:{icon:'🏆',name:'Zoodirektion',txt:'Schaffe alle 5 Zoos in einem Lauf.',title:'Zoodirektorin',ok:x=>x.won&&x.z>=CAMP_GOAL-1},
-  vielseitig:{icon:'🎴',name:'Vielseitig',txt:'Schalte bei 3 verschiedenen Profilen Stufe 4 frei.',title:'Allrounder',ok:x=>Object.values(z2Of(x.sl).st).filter(v=>v>=4).length>=3},
-  gipfel:{icon:'🏔️',name:'Gipfelstürmer',txt:'Schalte bei einem Profil Stufe 8 frei.',title:'Gipfelstürmerin',ok:x=>Object.values(z2Of(x.sl).st).some(v=>v>=8)}};
+const CHAL_WIRKUNG={ok:{
+  zwei:x=>x.won&&gehOf().length>=6&&new Set(gehOf().map(b=>CARDS[b.key].hab)).size<=2,
+  ohnegastro:x=>x.won&&x.z===2&&!state.buildings.some(b=>CARDS[b.key].cat==='essen'),
+  koenig:x=>x.won&&state.zl&&state.zl.insp==='koenig',
+  klein:x=>x.won&&state.buildings.length<=14,
+  jung3:x=>(x.run.jtBorn||0)>=3,
+  mio:()=>!!(state.stats.best&&state.stats.best.pts>=1e6),
+  rein:()=>zlPurity(state.buildings,mkIndex(state.buildings)).n>=10,
+  regel:x=>x.won&&(state.spec||[]).some(id=>SPEC[id]&&SPEC[id].rb),
+  spar:x=>x.won&&state.money>=300,
+  alle5:x=>x.won&&x.z>=CAMP_GOAL-1,
+  vielseitig:x=>Object.values(z2Of(x.sl).st).filter(v=>v>=4).length>=3,
+  gipfel:x=>Object.values(z2Of(x.sl).st).some(v=>v>=8)}};
+const CHAL={};for(const d of CHAL_DATEN.herausforderungen){const C={};for(const p in d){if(p==='key')continue;C[p]=d[p];if(p==='ok'){C.ok=CHAL_WIRKUNG.ok[d.ok];if(!C.ok)throw new Error('Wirkung fehlt: ok '+d.ok)}}CHAL[d.key]=C}
 const rbOpen=(sl,id)=>RBFREE.includes(id)||(!!sl&&Object.keys(CHAL).some(c=>CHAL[c].rb===id&&z2Of(sl).ch[c]));
 const rbHow=id=>{const c=Object.keys(CHAL).find(c=>CHAL[c].rb===id);return c?`Herausforderung ${CHAL[c].icon} ${CHAL[c].name}`:'von Anfang an'};
 // nach einem Zoo: höchstens ein Regelbrecher pro Lauf, mit 25 % als dritter Bewerber

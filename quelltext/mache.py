@@ -6,7 +6,7 @@
   python3 quelltext/mache.py --app    -> zusätzlich build/app-index.html (für zoolatro-app/www/index.html)
 
 Quelle der Wahrheit sind die Module in quelltext/src und die Daten in daten/ (karten, merkmale, spezialisten, futter,
-winter, gelaende, stufen, profile – je eine .json).
+winter, gelaende, stufen, profile, texte_de, tutorial, foerderprogramme, werbung, ereignisse, praegungen, herausforderungen – je eine .json).
 Die Daten werden an den Platzhaltern /*@@DATEN:name@@*/null eingesetzt, es bleibt eine einzige HTML-Datei.
 index.html nie von Hand ändern.
 """
@@ -17,7 +17,7 @@ def wr(p,s):
     os.makedirs(os.path.dirname(p),exist_ok=True);open(p,'w',encoding='utf8').write(s)
 fs=sorted(os.listdir(SRC));js=[f for f in fs if f.endswith('.js')]
 game=rd(os.path.join(SRC,'00-seite-und-stil.html'))+''.join(rd(os.path.join(SRC,f)) for f in js)+rd(os.path.join(SRC,'99-ende.html'))
-# Daten einsetzen (Godot-Vorbereitung 2a/2b): /*@@DATEN:karten@@*/null -> Inhalt von daten/karten.json (kompakt)
+# Daten einsetzen (Godot-Vorbereitung 2a–2c): /*@@DATEN:karten@@*/null -> Inhalt von daten/karten.json (kompakt)
 def daten(m):
     p=os.path.join(ROOT,'daten',m.group(1)+'.json')
     if not os.path.exists(p):sys.exit('Daten fehlen: '+p)

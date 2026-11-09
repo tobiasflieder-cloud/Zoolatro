@@ -5,90 +5,60 @@ const TUT={};
 const gRun=()=>{const sl=activeSlot();return sl&&sl.run&&sl.run.tut?sl.run:null};
 const gB=f=>state.buildings.some(b=>f(CARDS[b.key],b)),gH=f=>state.hand.some(k=>f(CARDS[k],k));
 // festes Übungsgelände und Drehbuch für den Frühling
-const TUTMAP={terr:[['2,-1','wasser'],['3,-1','wasser'],['3,-2','wasser'],['4,-1','wasser'],['-4,1','savanne'],['-4,2','savanne'],['-3,-2','wald'],['-2,-3','wald'],['1,3','wueste'],['2,3','wueste'],['-1,-3','block'],['4,1','block'],['-1,4','block']],gold:['0,0','0,3','2,-4'],crown:'2,1'}; // 0.67a: Krone 2,1, ×2-Feld 0,3 (Tobi)
-const TUTT=[5000,50000,80000,150000]; // 0.67a: gemessen (tutcal5): Frühling Tag 4 3.189 / Tag 5 6.797, Sommer Tag 4 42.412 / Tag 5 59.128; Herbst/Winter frei gespielt, großzügig // 0.56a: Tutorial 5 Tage, Frühling gemessen 6.762 // 0.91: ohne Aquazoo-Profil etwas niedriger
-const TUTOFF=[['bratwurst','gruen'],['giraffen','eiswagen'],['nilpferde','picknick'],['otter','cafe'],['popcorn','gruen'],['elefanten','teestube'],['dingos','eiswagen'],['flamingos','picknick'],['streichelzoo','gruen'],['turm','cafe'],['giraffen','eiswagen'],['delfinshow','teestube'],['fennek','picknick'],['otter','gruen'],['warzenschweine','cafe'],['wasserfall','eiswagen'],['bienen','gruen'],['gruen','picknick'],['eiswagen','cafe']]; // 0.67a: Karten der nächsten Tage zuerst
+// ===== Godot-Vorbereitung 2c: Tutorial (Gelände, Ziele, Kartenwahl, Texte, Schritte) steht in daten/tutorial.json (von mache.py eingebaut).
+// Bedingungen und Vorbereitungen, die Code sind, stehen unten in TUT_WIRKUNG und werden über eine Kennung angesprochen.
+const TUT_DATEN=/*@@DATEN:tutorial@@*/null;
+const TUTMAP=JSON.parse(JSON.stringify(TUT_DATEN.gelaende)); // festes Übungsgelände: Naturfelder/Felsen, ×2-Felder, Kronenfeld
+const TUTT=TUT_DATEN.ziele.slice();
+const TUTOFF=TUT_DATEN.kartenwahl.map(x=>x.slice()); // Karten der nächsten Tage zuerst
 const tFree=k=>!mkIndex(state.buildings).has(k)&&ONBOARD.has(k)&&TERR.get(k)!=='block',tNb=(b)=>{const o=new Set();for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr);if(tFree(k))o.add(k)}return[...o]};
 const tAt=(k,cell)=>tB(k).some(b=>b.cells.some(([q,r])=>hk(q,r)===cell)),tNear=(k)=>tB(k).flatMap(tNb);
 const tDay=(...ks)=>s=>{tHand(...ks)(s)},tBp=s=>{s.bp=Math.max(s.bp,s.bpMax)};
 // Komplett geführt: Frühling (Grundlagen), Sommer (Tiere und Platz), Herbst (Fortgeschritten) – jeder Tag mit vorgegebener Hand und festen Feldern; den Winter spielst du allein.
-// Feste Felder ab Tag 4 bestimmt der Planer beim Start des Schritts: bester freier Platz, der zur Lektion passt (immer gleich, weil nichts frei gebaut wird)
-const tAdjTo=(cells,f)=>{const own=new Set(cells.map(c=>hk(...c)));return state.buildings.some(b=>f(CARDS[b.key],b)&&b.cells.some(([q,r])=>DIRS.some(([dq,dr])=>own.has(hk(q+dq,r+dr)))))};
-const tP={adj:f=>cells=>tAdjTo(cells,f),not:f=>cells=>!tAdjTo(cells,f),on:h=>cells=>cells.some(c=>TERR.get(hk(...c))===h),all:(...fs)=>cells=>fs.every(f=>f(cells)),key:k=>(c,b)=>b.key===baseK(k),tag:t=>c=>(c.tags||[]).includes(t),cat:x=>c=>c.cat===x,hab:h=>c=>c.hab===h,big:c=>c.cat==='gehege'&&(c.tags||[]).includes('gross')};
-function tPlan(key,pref,ex){const bs=state.buildings.filter(b=>b!==ex),c=CARDS[key],n=SHAPES[c.shape].cells.length,seen=new Set(),cand=[];
-  for(const[q,r]of BOARD)for(let rot=0;rot<(n>1?6:1);rot++){const cells=placeCells(key,rot,q,r),k=cells.map(x=>hk(...x)).sort().join('|');if(seen.has(k))continue;seen.add(k);if(!fits(bs,cells,key))continue;cand.push({cells,k,ok:!pref||pref(cells)})}
-  const pool=cand.some(x=>x.ok)?cand.filter(x=>x.ok):cand;let best=null;
-  for(const x of pool){const nb={id:-1,key:baseK(key),cells:x.cells,lvl:1};if(c.ed)nb.ed=c.ed;if(c.pr)nb.pr=c.pr;x.v=scoreZoo([...bs,nb]).total;if(!best||x.v>best.v||(x.v===best.v&&x.k<best.k))best=x}
-  return best?best.cells.map(x=>hk(...x)):null}
-// B: ein Bau-Schritt. o.day = Hand für einen neuen Tag, o.pref = Wunschlage, o.bp = Baupunkte auffüllen
-const tFx=k=>{const T=TAGL();return(CARDS[baseK(k)].fx||[]).filter(l=>!T.has(l)).map(l=>'<b>'+l.replace('|','</b> ')).join(', ')};
-// 0.57a: Showtiere neben dem geplanten Feld nennen (Gastro/Attraktion)
-const tShowNb=(key,at)=>{const c=CARDS[baseK(key)];if(!at||!(c.cat==='essen'||c.cat==='attr')||ruhigC(c))return'';const own=new Set(at),L=state.buildings.filter(b=>(CARDS[b.key].tags||[]).includes('show')&&b.cells.some(([q,r])=>DIRS.some(([dq,dr])=>own.has(hk(q+dq,r+dr)))));if(!L.length)return'';const tr=(c.tags||[]).includes('trubel');return` Hier steht sie neben ${L.map(b=>'<b>'+CARDS[b.key].name+'</b>').join(' und ')}: 🎭 <b>Showtiere</b> bekommen je Gastro-Gebäude oder Attraktion daneben +30 %${tr?', bei 🎉 Trubel doppelt':''}.`};
-function tBld(key,t,h,o={}){const n=SHAPES[CARDS[key].shape].cells.length,nm=CARDS[baseK(key)].name,R=x=>x&&x.replace(/\{N\}/g,nm).replace(/\{FX\}/g,()=>tFx(key));const st={get t(){return R(t)+tShowNb(key,st.at)},get h(){return R(h)},only:key,rot:n>1&&!o.norot,done:()=>tNew(key)};
-  st.setup=s=>{if(o.day)tDay(...o.day)(s);if(o.bp)s.bp=Math.max(s.bp,o.bp);st.at=null;st.at=tPlan(key,o.pref)};return st}
-const tEnd=(day,t)=>({t:t||'Tippe auf <b>💤 Tag beenden</b> und dann auf <b>▶ Nächsten Tag starten</b>.',only:'-',end:true,done:()=>state.phase==='play'&&state.day>=day});
-const tSeasonEnd=t=>({t,only:'-',end:true,done:()=>!['play','scoring','review'].includes(state.phase)});
 const tUp=(key,t,h,lvl,o={})=>{const st={t,h,only:key,up:true,mark:()=>tB(key).filter(b=>(b.lvl||1)<lvl).slice(0,1).flatMap(b=>b.cells.map(c=>hk(...c))),done:()=>tB(key).some(b=>(b.lvl||1)>=lvl)};if(o.day)st.setup=s=>tDay(...o.day)(s);return st};
 // ===== 0.67a Neues Tutorial (Tobi, 04.11.): Berater Jasper, Zoo 1 geführt bis Herbst Tag 2, danach frei bis Jahresende =====
 // Texte als Häppchen: t = Liste; Eintrag = Text oder {t,glow,mark}. Handy: eins nach dem anderen (Weiter ▸), Querformat: alle zusammen.
 const tNat=()=>[...TERR.entries()].filter(([k,v])=>v&&v!=='block'&&ONBOARD.has(k)).map(([k])=>k),tRock=()=>[...TERR.entries()].filter(([k,v])=>v==='block').map(([k])=>k);
-const tEndS=(day,extra)=>({t:extra||['Tippen Sie auf 💤, um den Tag zu beenden, und danach auf ▶ für den nächsten Tag.'],only:'-',end:true,done:()=>state.phase==='play'&&state.day>=day});
-const tPut=(key,at,t,o={})=>Object.assign({t,only:key,at,rot:o.rot!==false&&SHAPES[CARDS[key].shape].cells.length>1,h:o.h||`${CARDS[key].name} auf die leuchtenden Felder${SHAPES[CARDS[key].shape].cells.length>1&&o.rot!==false?' (mit ↻ drehen)':''}, dann 🔨`,done:()=>tAt(key,at[0])},o.x||{});
+const tEndS=(day,extra)=>({t:extra||[TUT_DATEN.texte.tag_ende],only:'-',end:true,done:()=>state.phase==='play'&&state.day>=day});
+const tPut=(key,at,t,o={})=>Object.assign({t,only:key,at,rot:o.rot!==false&&SHAPES[CARDS[key].shape].cells.length>1,h:o.h||TUT_DATEN.texte.bau_hinweis.replace('{N}',CARDS[key].name).replace('{D}',SHAPES[CARDS[key].shape].cells.length>1&&o.rot!==false?TUT_DATEN.texte.bau_drehen:''),done:()=>tAt(key,at[0])},o.x||{});
 const tSetHand=(...ks)=>s=>{s.discard.push(...s.hand.filter(k=>!ks.includes(k)));s.hand=ks.slice();s.selected=null;s.preview=null};
-TUT.zl={name:'Frühling',steps:[
- {t:['Sie müssen der neue Zoodirektor sein – herzlich willkommen! Ich bin Jasper, Ihr Berater.','Es muss sehr aufregend sein, einen Zoo von Grund auf selbst zu bauen.','Ich zeige Ihnen die Grundlagen für einen erfolgreichen Zoo – aber das wissen Sie bestimmt besser als ich.'],btn:'Weiter',only:'-',setup:tDay('warzenschweine','korallenriff','zebras')},
- {t:[{t:'Neben den grünen Baufeldern hat unser Gelände auch Naturfelder.',mark:tNat},{t:'Tiere auf einem passenden Naturfeld fühlen sich besonders wohl.',mark:tNat},{t:'Auf Felsen kann nicht gebaut werden.',mark:tRock}],btn:'Weiter',only:'-'},
- tPut('warzenschweine',['-4,0'],['Wie wäre es zuerst mit Warzenschweinen? Die kommen immer gut an.',{t:'Auf der Karte sehen Sie, was das Gehege an Besuchern (B) und Natur (N) bringt.',glow:['#hand .card']},'Nur mit einer guten Balance aus beidem wird man langfristig erfolgreich.',{t:'Unser Bauteam schafft 4 Baupunkte (BP) am Tag.',glow:['bp']},{t:'Oben rechts auf der Karte steht, wie viele BP sie kostet.',glow:['#hand .card .cost']}],{h:'Warzenschweine auf das leuchtende Feld, dann 🔨 Bauen'}),
- tPut('korallenriff',['-3,0'],['Wie wäre ein Korallenriff neben den Warzenschweinen?']),
- tPut('zebras',['-4,2','-4,3'],['Klasse! Und jetzt noch die Zebras?'],{rot:false,x:{arot:true,pv:[{t:'Sehen Sie: Die Werte steigen, weil die Zebras auf dem passenden Naturfeld stehen.',mark:()=>['-4,2'],glow:['#info .resbig']},'Jetzt bauen Sie mit 🔨.']},h:'Zebras auf die leuchtenden Felder, dann 🔨'}),
- {t:[{t:'Alle BP sind ausgegeben, das war schon der erste Tag!',glow:['bp']},{t:'Besucher × Natur ergibt die Punkte unseres Zoos.',glow:['cA','cS','cT']},'Mit 💤 beenden Sie den Tag.'],only:'-',end:true,done:()=>state.phase==='review'},
- {t:[{t:'Oben sehen Sie die Abrechnung des Tages: Besucher × Natur = Tagesertrag.',glow:['cA','cS','cT']},'Mit ▶ starten Sie den nächsten Tag.'],only:'-',end:true,done:()=>state.phase==='draft'||(state.phase==='play'&&state.day>=1)},
- {t:['Für jedes gebaute Gehege dürfen Sie eine neue Karte für Ihr Deck auswählen. Heute leuchtet die richtige.'],ph:'draft',only:'-',done:()=>state.phase==='play'&&state.day>=1},
- tPut('bratwurst',['-3,2'],['So ein Zoobesuch macht hungrig. Bauen wir eine Bratwurstbude!',{t:'Achten Sie auf das Symbol oben links auf der Karte.',glow:['#hand .card .mk-hb']}],{x:{setup:tDay('bratwurst','giraffen'),pv:[{t:'Sehen Sie? Die Bude bringt mehr als ihren Grundwert: Sie profitiert von den Savannen-Gehegen daneben.',glow:['#info .resbig'],mark:()=>['-4,2','-4,3']},'Solche Wechselwirkungen sind der Schlüssel zum Erfolg.',{t:'Außerdem bringen Gastro-Gebäude Taler, die brauchen wir später.',glow:['money']},'Jetzt bauen Sie mit 🔨.']}}),
- tPut('giraffen',['-3,1','-4,1','-5,2'],['Jetzt die Giraffenweide, sie verbindet alle unsere Savannen-Gehege.',{t:'Dafür müssen Sie sie erst drehen, mit dieser Taste ↻.',glow:['btnRot']}],{x:{setup:s=>{s.tutHerd=1;syncCtx()},pv:[{t:'Schauen Sie mal! Der Zoo-Wert steigt viel stärker als der Wert der Karte.',glow:['#info .resbig']},{t:'Jeder Lebensraum hat eine Besonderheit: Die Savanne mag zusammenhängende Gehege.',mark:()=>['-4,0','-4,2','-4,3']},'Was die anderen Lebensräume mögen, sehen Sie später selbst.','Jetzt bauen Sie mit 🔨.']}}),
- tEndS(2),
- tPut('nilpferde',['2,1','2,0','3,-1','3,0'],[{t:'Es gibt noch weitere besondere Felder. Ein ×2-Feld verdoppelt die Punkte von allem, was darauf steht.',mark:()=>(state.zl.gold||[])},{t:'Das Kronenfeld gibt sogar ×1,3 Besucher für den ganzen Zoo, aber nur mit einem 4-Feld-Gehege darauf.',mark:()=>[state.zl.crown]},'Probieren wir es aus! Bauen Sie den Nilpferdsee auf das Kronenfeld.'],{x:{setup:tDay('nilpferde')}}),
- tEndS(3),
- tPut('otter',['-2,0','-2,1','-2,2'],['Erweitern wir den Zoo um weitere Tiere und Gastro-Gebäude.','Auch der Otterbach bekommt einen Bonus: für das Korallenriff aus demselben Lebensraum daneben. Das gilt in jedem Lebensraum.'],{x:{setup:tDay('otter','popcorn')}}),
- tPut('popcorn',['-1,0'],['Und der Popcornstand kommt gleich daneben.']),
- tEndS(4),
- tPut('elefanten',['-3,3','-4,4','-3,4','-4,5'],[{t:'Hier sehen Sie das Ziel jeder Jahreszeit. Verfehlen wir es, wird der Zoo dichtgemacht.',glow:['bar']},'Aber es sieht gut aus: Nach diesem Tag sollten wir es geschafft haben.','Ein weiteres Savannen-Gehege bringt uns viele Besucher und Natur.'],{x:{setup:tDay('elefanten')}}),
- {t:['Tippen Sie auf 💤, um den Tag zu beenden.'],only:'-',end:true,done:()=>!['play','scoring','review'].includes(state.phase)},
- {t:['Super, Ziel erreicht!','Das vierte Savannen-Gehege hat uns einen Reinheitsbonus gebracht: Jetzt hängen 4 verschiedene Gehege eines Lebensraums zusammen. Mit weiteren steigt er.','Aber auch ein vielfältiger Zoo kann einen Bonus bekommen.','Mit dem verdienten Geld bereiten wir uns jetzt auf den Sommer vor.'],ph:'seasonWon',only:'-',done:()=>state.phase!=='seasonWon'}]};
-TUT.zlsh={name:'Shop',steps:[
- {t:['Hier können wir uns verstärken. Spezialisten bringen Boni für bestimmte Lebensräume oder Tierarten.','Mal sehen, wer sich beworben hat!'],lock:{tab:'run',kind:'mappe'},spec:'pfleger_savanne',setup:s=>{s.money=Math.max(s.money,60);META.shopT='run'},done:()=>state.shopSub==='mappe'||(state.spec||[]).length>0},
- {t:['Die Savannen-Pflegerin passt hervorragend zu unserem Zoo. Stellen Sie sie ein!'],spec:'pfleger_savanne',done:()=>(state.spec||[]).includes('pfleger_savanne')||state.phase!=='shop'},
- {t:[{t:'Mit Umbau & Futter können wir das Gelände verändern und Tiere stärken. Das sehen wir uns beim nächsten Mal an.',glow:['[data-shtab="umb"]']},'Jetzt konzentrieren wir uns auf den Sommer.'],leave:true,done:()=>state.phase==='play'&&state.season>=1}]};
-TUT.zs={name:'Sommer',steps:[
- tPut('dingos',['1,3','2,3'],['Der Sommer, herrlich! Lassen Sie uns weitermachen.','Das Dingo-Revier wäre hier eine gute Ergänzung.'],{x:{setup:tDay('dingos','flamingos')}}),
- tPut('flamingos',['3,-4','3,-3'],['Und neben den Nilpferdsee noch den Flamingoteich.'],{x:{done:()=>tAt('flamingos','3,-4')}}),
- {t:['Hoppla, wir wollten den Teich doch direkt neben den Nilpferdsee setzen!',{t:'Kein Problem: Mit dieser Taste machen Sie es rückgängig.',glow:['btnUndo']}],h:'↶ Rückgängig antippen',undo:true,only:'-',done:()=>!tB('flamingos').length},
- tPut('flamingos',['3,-3','3,-2'],['So ist es richtig: direkt neben den Nilpferdsee.'],{x:{done:()=>tAt('flamingos','3,-2')}}),
- tEndS(1),
- {t:['Wir haben viele familienfreundliche Tiere. Da sollten wir für Unterhaltung für die Kinder sorgen.','Dafür gibt es Attraktionen. Hm, auf unserer Hand ist gerade keine.',{t:'Einmal pro Jahreszeit können wir hier gratis neue Karten ziehen.',glow:['btnRedraw']}],h:'🔄 zweimal antippen',only:'-',redraw:true,setup:s=>{tDay('zebras','reptilien','eiswagen')(s);s.tut.redrawn=false},done:()=>!!state.tut.redrawn},
- tPut('streichelzoo',['-1,-1','0,-1'],['Ah, hervorragend! Der Streichelzoo kommt hier zum Popcornstand.'],{x:{setup:tSetHand('streichelzoo','turm')}}),
- tPut('turm',['-2,3'],['Und hier kommt der Aussichtsturm hin. Von dort hat man einen tollen Blick über die großen Gehege.']),
- tEndS(2),
- {t:[{t:'Wir haben ja schon über Geld gesprochen: Auch die Besucher bringen uns Taler.',glow:['money']},'Natur kostet dagegen Pflege. Rutschen wir in die roten Zahlen, können wir unsere Spezialisten nicht bezahlen, und sie geben keine Boni mehr.'],btn:'Weiter',only:'-',setup:tDay('giraffen')},
- tPut('giraffen',['-2,4','-1,3','0,3'],['Weiter mit unserem Zoo! Eine zweite Giraffenweide bringt nur noch 75 % ihrer Punkte.','Wir könnten auch die bestehende Weide ausbauen, das bringt +75 %.',{t:'Hier bekommt die neue Weide aber den Bonus vom Aussichtsturm und vom ×2-Feld. Das lohnt sich!',mark:()=>['0,3','-2,3']}],{x:{done:()=>tAt('giraffen','0,3')}}),
- tEndS(3),
- tPut('delfinshow',['-2,-1','-3,-1'],['Lassen Sie uns noch eine Delfinshow bauen.',{t:'Auf der Karte sehen Sie ein kleines Symbol: Es zeigt, für welchen Lebensraum oder welche Gebäude-Art es Boni gibt.',glow:['#hand .card .mk-hb','#hand .card .mk-cd']},'Die Delfinshow bekommt einen Bonus für Wasser-Gehege. Also kommt sie direkt neben den Otterbach und das Korallenriff.'],{x:{setup:tDay('delfinshow','fennek')}}),
- tPut('fennek',['-1,-4','0,-4'],['Wir haben noch 2 BP übrig. Damit bauen wir einen Fennek-Bau.']),
- tEndS(4),
- Object.assign(tUp('otter','Jetzt ist das halbe Jahr schon fast herum.','Otterbach-Karte auf den Otterbach ziehen, dann Ausbauen',2,{day:['otter','warzenschweine']}),{t:['Jetzt ist das halbe Jahr schon fast herum.','Beenden wir die Jahreszeit, indem wir den Otterbach ausbauen: Ziehen Sie die Karte auf das vorhandene Gehege.']}),
- Object.assign(tUp('warzenschweine','','Warzenschweine-Karte auf die Warzenschweine ziehen, dann Ausbauen',2),{t:['Und jetzt noch die Warzenschweine.']}),
- {t:['Tippen Sie auf 💤, um den Sommer abzuschließen.'],only:'-',end:true,done:()=>!['play','scoring','review'].includes(state.phase)}]};
-TUT.zssh={name:'Shop',steps:[
- {t:[{t:'Schauen wir uns nun den Reiter Umbau & Futter an.',glow:['[data-shtab="umb"]']},'Mit Umbauten lässt sich das Gelände oder ein Gehege verändern, zum Beispiel entsteht eine neue Naturfläche. Sehr praktisch.','Und das Futter, was für eine Überraschung, verstärkt einzelne Tiere oder sogar alle Tiere eines Lebensraums. Damit könnten wir zum Beispiel unseren Elefantenpark stärken.','Hier gibt es viel zu entdecken, das sehen Sie nach und nach.'],btn:'Weiter',setup:s=>{META.shopT='umb'}},
- {t:['Probieren wir gleich einen Futtersack aus!'],lock:{tab:'umb',kind:'sack'},food:'h:savanne',setup:s=>{META.shopT='umb';const it=(fixedItems()||[]).find(i=>i.kind==='sack');s.money=Math.max(s.money,it?it.price:30)},done:()=>state.shopSub==='sack'||((runOf()||{}).fdl||{}).savanne>0},
- {t:['Steppenheu! Das stärkt alle Savannen-Gehege, und zwar für den ganzen Zoo. Nehmen Sie es.'],food:'h:savanne',done:()=>((runOf()||{}).fdl||{}).savanne>0},
- {t:['Schauen Sie sich ruhig um. Wenn Sie so weit sind, geht es weiter in den Herbst.'],leave:true,done:()=>state.phase==='play'&&state.season>=2}]};
-TUT.zh={name:'Herbst',steps:[
- tPut('wasserfall',['2,-1'],['Beginnen wir den Herbst mit der letzten Gebäude-Art: Naturschutz-Gebäude sind violett und bringen vor allem Natur.','Allein sind sie nicht so stark, aber mit anderen Gehegen und Gebäuden zusammen geben sie der Natur einen guten Schub.','Bauen wir den Wasserfall hier, er bekommt Boni für Wasser-Gehege.'],{x:{setup:tDay('wasserfall','bienen')}}),
- {t:['Schön wäre es, wenn auch das Korallenriff neben dem Wasserfall stünde.','Zum Glück können Gehege und Gebäude umziehen, einmal am Tag sogar gratis. Danach kostet es 1 BP.','Tippen Sie das Korallenriff an, dann auf 🚚 Umziehen, und setzen Sie es auf das leuchtende Feld.'],h:'Korallenriff antippen, 🚚 Umziehen, leuchtendes Feld',only:'-',mv:'korallenriff',at:['1,-1'],mark:()=>state.moving==null?tB('korallenriff').flatMap(b=>b.cells.map(c=>hk(...c))):[],done:()=>tAt('korallenriff','1,-1')},
- tPut('bienen',['2,-2'],['Falls es einmal eng wird, können Sie Gehege und Gebäude übrigens auch abreißen.','Neben den Wasserfall passt ein Bienenhotel, es profitiert direkt von ihm.']),
- tEndS(1),
- {t:['Damit haben Sie die wichtigsten Dinge schon gelernt, herzlichen Glückwunsch!','Ich schlage vor, Sie bauen jetzt selbst ein bisschen und machen sich mit dem Gelernten vertraut.','Wenn Sie das Jahr zu Ende gebracht haben, sehen wir uns wieder. Viel Erfolg!'],btn:'Los geht’s',only:'-'}]};
+// Kennungen aus daten/tutorial.json: done = erledigt-Bedingung, setup = Vorbereitung, mark = Markierung
+const TUT_WIRKUNG={
+  done:{
+  tagesbilanz:()=>state.phase==='review',
+  kartenwahl_oder_tag1:()=>state.phase==='draft'||(state.phase==='play'&&state.day>=1),
+  tag1:()=>state.phase==='play'&&state.day>=1,
+  jahreszeit_vorbei:()=>!['play','scoring','review'].includes(state.phase),
+  nach_ziel:()=>state.phase!=='seasonWon',
+  mappe_offen:()=>state.shopSub==='mappe'||(state.spec||[]).length>0,
+  pflegerin_da:()=>(state.spec||[]).includes('pfleger_savanne')||state.phase!=='shop',
+  sommer_beginnt:()=>state.phase==='play'&&state.season>=1,
+  flamingos_weg:()=>!tB('flamingos').length,
+  neu_gezogen:()=>!!state.tut.redrawn,
+  futtersack_offen:()=>state.shopSub==='sack'||((runOf()||{}).fdl||{}).savanne>0,
+  steppenheu_da:()=>((runOf()||{}).fdl||{}).savanne>0,
+  herbst_beginnt:()=>state.phase==='play'&&state.season>=2},
+  setup:{
+  herde:s=>{s.tutHerd=1;syncCtx()},
+  mappe_vorbereiten:s=>{s.money=Math.max(s.money,60);META.shopT='run'},
+  neu_ziehen_vorbereiten:s=>{s.tut.redrawn=false},
+  reiter_umbau:s=>{META.shopT='umb'},
+  futtersack_vorbereiten:s=>{META.shopT='umb';const it=(fixedItems()||[]).find(i=>i.kind==='sack');s.money=Math.max(s.money,it?it.price:30)}},
+  mark:{natur:tNat,felsen:tRock,goldfelder:()=>(state.zl.gold||[]),krone:()=>[state.zl.crown],
+  korallenriff_umziehen:()=>state.moving==null?tB('korallenriff').flatMap(b=>b.cells.map(c=>hk(...c))):[]}};
+const tutW=(art,k)=>{const f=TUT_WIRKUNG[art][k];if(!f)throw new Error('Wirkung fehlt: '+art+' '+k);return f};
+const tutMk=m=>Array.isArray(m)?(()=>m.slice()):tutW('mark',m);
+const tutHp=x=>typeof x==='string'?x:Object.assign({},x,x.mark?{mark:tutMk(x.mark)}:{});
+const tutDone=d=>typeof d==='string'?tutW('done',d):()=>tAt(d.steht[0],d.steht[1]);
+// Vorbereitung: neue Hand (hand), Hand austauschen (hand_setzen), danach die Vorbereitung mit Kennung (setup)
+const tutSetup=d=>{const f=d.setup?tutW('setup',d.setup):null;if(d.hand_setzen)return tSetHand(...d.hand_setzen);if(d.hand){const h=tDay(...d.hand);return f?s=>{h(s);f(s)}:h}return f};
+function tutSchritt(d){
+  if(d.bau){const x={},su=tutSetup(d);if(su)x.setup=su;if(d.pv)x.pv=d.pv.map(tutHp);if(d.arot)x.arot=true;if(d.done)x.done=tutDone(d.done);const o={x};if(d.h)o.h=d.h;if(d.drehen===false)o.rot=false;return tPut(d.bau,d.at.slice(),d.t.map(tutHp),o)}
+  if(d.tag_ende!=null)return tEndS(d.tag_ende);
+  if(d.ausbau)return Object.assign(tUp(d.ausbau,'',d.h,d.stufe,d.hand?{day:d.hand.slice()}:{}),{t:d.t.map(tutHp)});
+  const st={};for(const p in d){const v=d[p];if(p==='hand'||p==='hand_setzen')continue;if(p==='t')st.t=v.map(tutHp);else if(p==='mark')st.mark=tutMk(v);else if(p==='done')st.done=tutDone(v);else if(p==='setup')continue;else st[p]=Array.isArray(v)?v.slice():v&&typeof v==='object'?{...v}:v}
+  const su=tutSetup(d);if(su)st.setup=su;return st}
+for(const ch in TUT_DATEN.kapitel){const K=TUT_DATEN.kapitel[ch];TUT[ch]={name:K.name,steps:K.schritte.map(tutSchritt)}}
 // Kapitel starten automatisch, sobald ihre Jahreszeit oder ihr Shop beginnt
 const TUTCH=[['zlsh',()=>state.season===0&&state.phase==='shop'],['zs',()=>state.season===1&&state.day===0&&state.phase==='play'],['zssh',()=>state.season===1&&state.phase==='shop'],['zh',()=>state.season===2&&state.day===0&&state.phase==='play']];
 const tMark=()=>{if(state.tut){state.tut.ids=state.buildings.map(b=>b.id);state.tut.nb=state.buildings.length}},tNew=k=>tB(k).some(b=>!(state.tut&&state.tut.ids||[]).includes(b.id));
@@ -97,7 +67,7 @@ function tutChapter(){const run=gRun();if(!run||state.tut||modal)return;const G=
 const guideHint=()=>null; // 0.73a: alte Tutorial-Hinweise (GUIDE) und Kapitel zls/zlh/zlw entfernt
 // Tutorial: Schritt-Wechsel merken; passt die Spielphase nicht zum Schritt, gibt es einen neutralen Text (gilt für den Kasten unten und für die Kästen in Fenstern)
 function tutKey(st){const key=state.tut.ch+':'+state.tut.i;if(key!==coachKey){coachKey=key;coachPh=st.ph||state.phase;coachMin=false;tutFit=!!(st.tap&&st.mark)}}
-const TUTGEN={draft:'<b>Kartenwahl:</b> Wählen Sie eine Karte für Ihr Deck, heute leuchtet die richtige.',review:'<b>Tagesbilanz:</b> Hier sehen Sie, was der Tag gebracht hat. Mit ▶ geht es weiter.',seasonWon:'<b>Saisonziel geschafft!</b> Gleich geht es weiter.',shop:'<b>Shop:</b> Schauen Sie sich um, dann geht es weiter.',lost:'Das Saisonziel wurde leider nicht erreicht.'};
+const TUTGEN={...TUT_DATEN.phasen_texte};
 function tutGen(st){tutKey(st);const phG=p=>['play','scoring','review'].includes(p)?'play':p;if(phG(state.phase)===phG(coachPh)||(st.ph&&st.ph===state.phase))return null;return TUTGEN[state.phase]||''}
 const guideHtml=()=>{const h=guideHint(),st=!h&&gRun()&&state&&!screen&&state.tut?tutStep():null;if(st){const g=tutGen(st);if(g!==null)return g?`<div class="ghint"><div class="gh1">📖 Tutorial</div><p>${g}</p></div>`:''}if(st)return`<div class="ghint"><div class="gh1">🧑‍💼 Jasper</div>${tutText(st)}${tutNav(st,'data-gback="1"','data-gmore="1"',st.btn?`<button class="btn main" data-gstep="1">${st.btn}</button>`:'')}</div>`;return h?`<div class="ghint"><div class="gh1">📖 Tutorial</div><p>${h.t}</p>${h.go?'':`<button class="btn main" data-gok="${h.id}">Verstanden</button>`}</div>`:''};
 document.addEventListener('click',e=>{const t=e.target&&e.target.closest?e.target:null;if(!t)return;const b=t.closest('[data-gok]'),q=t.closest('[data-gend]'),g=t.closest('[data-gstep]'),gm=t.closest('[data-gmore]'),gb=t.closest('[data-gback]');if(!b&&!q&&!g&&!gm&&!gb)return;const run=gRun();if(!run)return;e.stopPropagation();e.preventDefault();if(gm){tutKAdd(1);Sfx.select();renderAll();return}if(gb){tutKAdd(-1);Sfx.select();renderAll();return}if(g){tutNext();return}

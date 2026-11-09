@@ -1,4 +1,4 @@
-// Godot-Vorbereitung 2a/2b (Daten in daten/*.json): ein Spielstand aus 0.73a muss weiter laden und genau gleich weiterspielen.
+// Godot-Vorbereitung 2a–2c (Daten in daten/*.json): ein Spielstand aus 0.73a muss weiter laden und genau gleich weiterspielen.
 //   node tests/jsddaten.js              -> prüft den Spielstand tests/daten/spielstand-0.73a.json gegen das aktuelle Spiel
 //   node tests/jsddaten.js erzeuge      -> erzeugt den Spielstand neu (nur mit dem alten Stand 0.73a sinnvoll: ZF=pfad/zu/0.73a.html)
 // Der Spielstand ist der komplette Gerätespeicher (localStorage) mit einem laufenden Zoolatro-Lauf (Zoo 2, mitten in einer Jahreszeit).
@@ -55,5 +55,16 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
     maps:Object.keys(MAPS).join()===GELAENDE_DATEN.gelaende.map(d=>d.key).join()&&MAPPOOL.every(m=>MAPS[m]),
     decks:Object.keys(DECKS).every(id=>DECKRULE[id]&&deckCards(id).every(k=>CARDS[k])),stages:STAGES.length===9})`));
   for(const k in dt)T(dt[k],'Daten '+k+' vollständig eingebaut');
+  // 2c: Texte, Tutorial, Förderprogramme, Werbung, Ereignisse, Prägungen, Herausforderungen
+  if(w.eval("typeof TUT_DATEN==='undefined'"))L('ok 2c-Prüfungen übersprungen (Stand ohne daten/tutorial.json)');
+  else{const c=JSON.parse(w.eval(`JSON.stringify({texte:Object.keys(TXT.de).join()==='card,spec,insp,tagfx,event,rule,prog,ad',
+    tutorial:Object.keys(TUT).join()===Object.keys(TUT_DATEN.kapitel).join()&&Object.values(TUT).every(K=>K.steps.every(st=>st.t&&(!st.done||typeof st.done==='function')&&(!st.setup||typeof st.setup==='function'))),
+    tutorial_texte:!JSON.stringify(Object.values(TUT).map(K=>K.steps.map(st=>[st.t,st.h]))).includes('{'+'N}'),
+    programme:Object.keys(PROGS).filter(k=>!PROGS[k].plus).join()===PROG_DATEN.programme.map(d=>d.key).join()&&Object.values(PROGS).every(P=>typeof(P.per||P.mult)==='function'&&P.name),
+    werbung:Object.keys(ADS).join()===WERBUNG_DATEN.werbung.map(d=>d.key).join()&&Object.values(ADS).every(P=>typeof(P.per||P.mult)==='function'&&P.name),
+    ereignisse:Object.keys(EVENTS).join()===EREIGNIS_DATEN.ereignisse.map(d=>d.key).join()&&Object.values(EVENTS).every(E=>E.name&&[1,2,3].every(k=>!JSON.stringify(E.fx(k)).includes('{k}'))),
+    praegungen:Object.keys(PRAEG).join()===PRAEG_DATEN.praegungen.map(d=>d.key).join(),
+    herausforderungen:Object.values(CHAL).every(C=>typeof C.ok==='function')&&RBFREE.length===CHAL_DATEN.regelbrecher_frei.length})`));
+    for(const k in c)T(c[k],'Daten '+k+' vollständig eingebaut')}
   d.window.close();process.exit(0)
 }catch(e){L('EXC',e.stack);process.exit(1)}})();

@@ -1,0 +1,19 @@
+{"hinweis":"Förderprogramme von Zoolatro (gelten für den Rest des Laufs). Wird von quelltext/mache.py ins Spiel eingebaut. per/mult = Kennung einer Wirkung in PROG_WIRKUNG (quelltext/src/01-regeln-karten.js, Kennung = Schlüssel). Name und Text stehen in daten/texte_de.json (prog). Die Plus-Fassungen ab Zoo 3 (plus_…) berechnet das Spiel daraus (Wirkung ×1,5, Preis ×1,8). Reihenfolge nicht ändern.",
+"felder":{"key":"Schlüssel (nie ändern, steht in Spielständen)","icon":"Emoji","price":"Preis in Talern","per":"Wirkung je Gehege/Gebäude","mult":"Faktor für den ganzen Zoo"},
+"programme":[
+{"key":"pate_savanne","icon":"🌾","price":50,"per":"pate_savanne"},
+{"key":"pate_wasser","icon":"💧","price":50,"per":"pate_wasser"},
+{"key":"pate_wald","icon":"🌿","price":50,"per":"pate_wald"},
+{"key":"pate_wueste","icon":"🏜️","price":50,"per":"pate_wueste"},
+{"key":"pate_arktis","icon":"🧊","price":50,"per":"pate_arktis"},
+{"key":"pate_gebirge","icon":"⛰️","price":50,"per":"pate_gebirge"},
+{"key":"eufonds","icon":"🇪🇺","price":52,"per":"eufonds"},
+{"key":"imbiss","icon":"🌭","price":45,"per":"imbiss"},
+{"key":"naturbund","icon":"🦋","price":45,"per":"naturbund"},
+{"key":"familie","icon":"🎟️","price":45,"per":"familie"},
+{"key":"gross","icon":"🏗️","price":50,"per":"gross"},
+{"key":"klein","icon":"🐭","price":40,"per":"klein"},
+{"key":"forschung","icon":"🎓","price":45,"per":"forschung"},
+{"key":"vielfaltspreis","icon":"🏆","price":55,"mult":"vielfaltspreis"},
+{"key":"marketing","icon":"🏙️","price":60,"mult":"marketing"}
+]}

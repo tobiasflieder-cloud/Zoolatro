@@ -222,46 +222,51 @@ const MAL='−1 N|je benachbartes scheues Gehege';
 for(const k in CARDS){const c=CARDS[k];c.key=k;c.fx=[]}
 const START_DECK=['korallenriff','flamingos','affen','papageien','reptilien','kamele','zebras','giraffen','delfinshow','turm','streichelzoo','popcorn','cafe','gruen','infozentrum','gruen']; // 16 Karten: je Lebensraum zwei Tiere, gemischte Größen, keine doppelten Tiere
 
-const PROGS={
-  pate_savanne:{icon:'🌾',price:50,per:(b,c)=>c.hab==='savanne'?{pa:.2,ps:.2}:null},
-  pate_wasser:{icon:'💧',price:50,per:(b,c)=>c.hab==='wasser'?{pa:.2,ps:.2}:null},
-  pate_wald:{icon:'🌿',price:50,per:(b,c)=>c.hab==='wald'?{pa:.2,ps:.2}:null},
-  pate_wueste:{icon:'🏜️',price:50,per:(b,c)=>c.hab==='wueste'?{pa:.2,ps:.2}:null},
-  pate_arktis:{icon:'🧊',price:50,per:(b,c)=>c.hab==='arktis'?{pa:.2,ps:.2}:null},
-  pate_gebirge:{icon:'⛰️',price:50,per:(b,c)=>c.hab==='gebirge'?{pa:.2,ps:.2}:null},
-  eufonds:{icon:'🇪🇺',price:52,per:(b,c)=>c.tags.includes('bedroht')?{ps:.4}:null},
-  imbiss:{icon:'🌭',price:45,per:(b,c)=>c.cat==='essen'?{pa:.4}:null},
-  naturbund:{icon:'🦋',price:45,per:(b,c)=>c.hab&&natCells(b.cells,c.hab)?{ps:.15*natCells(b.cells,c.hab)}:null},
-  familie:{icon:'🎟️',price:45,per:(b,c)=>c.cat==='attr'?{pa:.3}:null},
-  gross:{icon:'🏗️',price:50,per:(b,c)=>c.cat==='gehege'&&c.tags.includes('gross')?{pa:.3}:null},
-  klein:{icon:'🐭',price:40,per:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{pa:.25,ps:.25}:null},
-  forschung:{icon:'🎓',price:45,per:(b,c)=>c.cat==='schutz'?{ps:.4}:null},
-  vielfaltspreis:{icon:'🏆',price:55,
-    mult:bs=>new Set(bs.filter(n=>isCat(n,'gehege')).map(n=>spK(n.key))).size>=8?{ms:1.25}:null},
-  marketing:{icon:'🏙️',price:60,mult:()=>({ma:1.2})},
-};
-const ADS={
-  plakat:{icon:'🪧',price:24,mult:()=>({ma:1.2})},
-  social:{icon:'📱',price:20,per:(b,c)=>c.cat==='attr'?{pa:.4}:null},
-  tv:{icon:'📺',price:28,mult:()=>({ma:1.3})},
-  schule:{icon:'🎒',price:45,mult:()=>({ms:1.2})},
-  foodfest:{icon:'🎪',price:20,per:(b,c)=>c.cat==='essen'?{pa:.5}:null},
-};
+// ===== Godot-Vorbereitung 2c: Förderprogramme (daten/foerderprogramme.json), Werbung (daten/werbung.json), Ereignisse (daten/ereignisse.json).
+// Wirkungen, die Code sind, bleiben hier und werden über eine Kennung (= Schlüssel) angesprochen. Namen und Texte stehen in daten/texte_de.json.
+const PROG_DATEN=/*@@DATEN:foerderprogramme@@*/null,WERBUNG_DATEN=/*@@DATEN:werbung@@*/null,EREIGNIS_DATEN=/*@@DATEN:ereignisse@@*/null;
+const PROG_WIRKUNG={per:{
+  pate_savanne:(b,c)=>c.hab==='savanne'?{pa:.2,ps:.2}:null,
+  pate_wasser:(b,c)=>c.hab==='wasser'?{pa:.2,ps:.2}:null,
+  pate_wald:(b,c)=>c.hab==='wald'?{pa:.2,ps:.2}:null,
+  pate_wueste:(b,c)=>c.hab==='wueste'?{pa:.2,ps:.2}:null,
+  pate_arktis:(b,c)=>c.hab==='arktis'?{pa:.2,ps:.2}:null,
+  pate_gebirge:(b,c)=>c.hab==='gebirge'?{pa:.2,ps:.2}:null,
+  eufonds:(b,c)=>c.tags.includes('bedroht')?{ps:.4}:null,
+  imbiss:(b,c)=>c.cat==='essen'?{pa:.4}:null,
+  naturbund:(b,c)=>c.hab&&natCells(b.cells,c.hab)?{ps:.15*natCells(b.cells,c.hab)}:null,
+  familie:(b,c)=>c.cat==='attr'?{pa:.3}:null,
+  gross:(b,c)=>c.cat==='gehege'&&c.tags.includes('gross')?{pa:.3}:null,
+  klein:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{pa:.25,ps:.25}:null,
+  forschung:(b,c)=>c.cat==='schutz'?{ps:.4}:null},
+  mult:{
+  vielfaltspreis:bs=>new Set(bs.filter(n=>isCat(n,'gehege')).map(n=>spK(n.key))).size>=8?{ms:1.25}:null,
+  marketing:()=>({ma:1.2})}};
+const WERBUNG_WIRKUNG={per:{
+  social:(b,c)=>c.cat==='attr'?{pa:.4}:null,
+  foodfest:(b,c)=>c.cat==='essen'?{pa:.5}:null},
+  mult:{
+  plakat:()=>({ma:1.2}),
+  tv:()=>({ma:1.3}),
+  schule:()=>({ms:1.2})}};
+const EREIGNIS_WIRKUNG={per:{
+  hitze:(b,c,k)=>c.hab==='wasser'?{a:-k}:c.hab==='wueste'?{a:1}:null,
+  regen:(b,c,k)=>c.cat==='attr'?{a:-k}:c.hab==='wald'?{s:1}:null,
+  demo:(b,c,k)=>c.cat==='attr'?{a:-k}:c.tags.includes('bedroht')?{s:1}:null,
+  kontrolle:(b,c,k)=>c.cat==='essen'?{a:-k}:null,
+  ferien:(b,c)=>c.cat==='essen'||c.cat==='attr'?{a:1}:null,
+  schnee:(b,c,k)=>c.cat==='attr'?{a:-k}:c.hab==='wasser'?{a:1}:null,
+  frost:(b,c,k)=>c.hab==='savanne'?{s:-k}:null,
+  foerder:b=>(b.lvl||1)>1?{s:(b.lvl||1)-1}:null}};
+// Doku im Fernsehen: je Lebensraum
+for(const h in HAB)EREIGNIS_WIRKUNG.per['doku_'+h]=(b,c)=>c.hab===h?{a:1}:null;
+// Daten in Objekte (Wirkungen über Kennung); Ereignis-Texte: {k} = Stärke
+const mitWirkung=(liste,W,felder)=>{const o={};for(const d of liste){const x={};for(const p in d){if(p==='key')continue;const v=d[p];x[p]=Array.isArray(v)?v.slice():v&&typeof v==='object'?JSON.parse(JSON.stringify(v)):v;if(felder.includes(p)){x[p]=W[p][v];if(!x[p])throw new Error('Wirkung fehlt: '+p+' '+v)}}o[d.key]=x}return o};
+const PROGS=mitWirkung(PROG_DATEN.programme,PROG_WIRKUNG,['per','mult']);
+const ADS=mitWirkung(WERBUNG_DATEN.werbung,WERBUNG_WIRKUNG,['per','mult']);
 // Saison-Ereignisse: k = Stärke des Nachteils (1 mild, 2 mittel, 3 hart)
-const EVENTS={
-  hitze:{icon:'☀️',se:[1],fx:k=>[`−${k} B|für jedes Wasser-Gehege`,'+1 B|für jedes Wüsten-Gehege'],per:(b,c,k)=>c.hab==='wasser'?{a:-k}:c.hab==='wueste'?{a:1}:null},
-  regen:{icon:'🌧️',se:[0,1,2],fx:k=>[`−${k} B|für jede Attraktion`,'+1 N|für jedes Dschungel-Gehege'],per:(b,c,k)=>c.cat==='attr'?{a:-k}:c.hab==='wald'?{s:1}:null},
-  demo:{icon:'🪧',fx:k=>[`−${k} B|für jede Attraktion`,'+1 N|für jedes bedrohte Tier'],per:(b,c,k)=>c.cat==='attr'?{a:-k}:c.tags.includes('bedroht')?{s:1}:null},
-  kontrolle:{icon:'🦠',fx:k=>[`−${k} B|für jedes Gastro-Gebäude`],per:(b,c,k)=>c.cat==='essen'?{a:-k}:null},
-  ferien:{icon:'🎒',alt:{0:['Osterferien'],1:['Sommerferien'],2:['Herbstferien'],3:['Weihnachtsferien']},fx:k=>['+1 B|für jedes Gastro-Gebäude und jede Attraktion'],per:(b,c)=>c.cat==='essen'||c.cat==='attr'?{a:1}:null},
-  schnee:{icon:'🌨️',se:[3],fx:k=>[`−${k} B|für jede Attraktion`,'+1 B|für jedes Wasser-Gehege'],per:(b,c,k)=>c.cat==='attr'?{a:-k}:c.hab==='wasser'?{a:1}:null},
-  frost:{icon:'🥶',se:[0,2,3],alt:{0:['Später Frost'],3:['Strenger Frost','❄️']},fx:k=>[`−${k} N|für jedes Savannen-Gehege`],per:(b,c,k)=>c.hab==='savanne'?{s:-k}:null},
-  foerder:{icon:'💶',fx:k=>['+1 N|extra je Ausbaustufe eines Geheges/Gebäudes'],per:b=>(b.lvl||1)>1?{s:(b.lvl||1)-1}:null},
-  baustelle:{icon:'🚧',hard:1,fx:k=>['−1 BP|am ersten Tag der Jahreszeit']},
-  ausbruch:{icon:'🐺',hard:1,fx:k=>['doppelt|stören Raubtiere die Beutetiere daneben']},
-};
+const EVENTS=mitWirkung(EREIGNIS_DATEN.ereignisse,EREIGNIS_WIRKUNG,['per']);for(const id in EVENTS){const T=EVENTS[id].fx;EVENTS[id].fx=k=>T.map(t=>t.replace(/\{k\}/g,k))}
 const HABADJ={wasser:'Wasser',savanne:'Savannen',wald:'Dschungel',wueste:'Wüsten',arktis:'Arktis',gebirge:'Gebirgs'};
-for(const h in HAB)EVENTS['doku_'+h]={name:'Doku im Fernsehen',icon:'📺',doku:1,fx:k=>[`+1 B|für jedes ${HABADJ[h]}-Gehege`],per:(b,c)=>c.hab===h?{a:1}:null};
 const evFx=e=>EVENTS[e.id].fx(e.k||1);
 const evName=e=>e.n||EVENTS[e.id].name,evIcon=e=>e.ic||EVENTS[e.id].icon;
 const evGroup=id=>EVENTS[id].doku?'doku':id;

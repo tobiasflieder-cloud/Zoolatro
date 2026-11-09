@@ -325,7 +325,7 @@ Die Sorten bestimmen auch den Schneekönig.
 ## 12. Weitere Bausteine (nur Verweise)
 Prägungen (`b.pr`: gold, star, liebling, magnet, zucht, wackel, leicht, spende …, vergeben über `perk` und Futterlieferung) ·
 Veredelungen (`b.ed`, `02:EDS`: Gold +25 % B, Schimmernd ×2, Regenbogen ×1,2 B für den Zoo) · Verstärker (`cat:'verst'`,
-`04:verstHit`) · Jungtiere/Zucht (`z2Breed`, `c.jt`) · Förderprogramme `PROGS`, Werbung `ADS`, Ereignisse `EVENTS`, Lauf-Boni `RUNB`
+`04:verstHit`) · Jungtiere/Zucht (`z2Breed`, `c.jt`) · Förderprogramme `PROGS`, Werbung `ADS`, Ereignisse `EVENTS` (Daten in `daten/foerderprogramme.json`, `werbung.json`, `ereignisse.json`), Lauf-Boni `RUNB`
 (`01`) · wachsende Spezialisten (`grw`, `09:grwF`) · Glück (`state.luckNow`, `LK`) · Besucherwünsche (`wishEval`) ·
 Zoo-Momente (`09:MOMENTS`).
 
@@ -350,7 +350,7 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 8. ~~Zoo-Profile abgeschaltet, aber noch abgefragt~~ → in 0.73a ganz entfernt (mit Manege, Stadtzoo, Ruhezoo, Erlebnis, Bau …).
 9. **Winter-Bedingung „koenig“ verschärft schwächer**: verschärft ×2, normal ×2,5. Da die anderen ohnehin 0 zählen, ist „verschärft“
    hier nur ein kleinerer Bonus. Vermutlich gewollt, aber auffällig.
-10. **`nachbar`, `koenig` u. a. ohne `text`**: Manche Bedingungen haben nur die verschärfte Fassung `ht`, der normale Text kommt aus `03` (TXT).
+10. **`nachbar`, `koenig` u. a. ohne `text`**: Manche Bedingungen haben nur die verschärfte Fassung `ht`, der normale Text kommt aus `daten/texte_de.json` (TXT).
     Bei `ruhe`, `inventur`, `wenig`, `chaos`, `futter` gibt es keine verschärfte Fassung, auch ab Zoo 3 gilt dort die normale.
 11. **Meilensteine**: Alte Tests (`jsd93`) erwarten „Meilensteine 7, Naturschutz 8, Vielfalt 4“, der Code hat 6/7/4. Die Tests schlagen
     seit Langem fehl, `pruefen.sh` meldet sie als „gleich“.

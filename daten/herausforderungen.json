@@ -1,0 +1,17 @@
+{"hinweis":"Herausforderungen (schalten Regelbrecher oder Titel frei). Wird von quelltext/mache.py ins Spiel eingebaut. ok = Kennung einer Bedingung in CHAL_WIRKUNG (quelltext/src/08-shop-menues.js, Kennung = Schlüssel). Reihenfolge nicht ändern.",
+"felder":{"key":"Schlüssel (nie ändern, steht in Spielständen)","icon":"Emoji","name":"Name","txt":"Aufgabe","rb":"schaltet diesen Regelbrecher frei","title":"schaltet diesen Titel frei","ok":"Bedingung","regelbrecher_frei":"Regelbrecher, die von Anfang an frei sind"},
+"herausforderungen":[
+{"key":"zwei","icon":"🌗","name":"Zwei Welten","txt":"Schaffe einen Zoo mit mindestens 6 Gehegen, die alle aus höchstens 2 Lebensräumen stammen.","rb":"rb_jagd","ok":"zwei"},
+{"key":"ohnegastro","icon":"🚫","name":"Ohne Imbiss","txt":"Schaffe Zoo 3 ohne ein einziges Gastro-Gebäude.","rb":"rb_party","ok":"ohnegastro"},
+{"key":"koenig","icon":"⛄","name":"Schneekönig","txt":"Schaffe einen Winter mit der Bedingung Schneekönig.","rb":"rb_winter","ok":"koenig"},
+{"key":"klein","icon":"🤏","name":"Kleiner Zoo","txt":"Schaffe einen Zoo mit höchstens 14 Gehegen und Gebäuden.","rb":"rb_leicht","ok":"klein"},
+{"key":"jung3","icon":"🍼","name":"Kinderstube","txt":"Bekomme 3 Jungtiere in einem Lauf.","title":"Zuchtmeisterin","ok":"jung3"},
+{"key":"mio","icon":"💥","name":"Millionen-Tag","txt":"Erziele 1 Million Punkte an einem Tag.","title":"Rekordhalter","ok":"mio"},
+{"key":"rein","icon":"🧬","name":"Reinzucht","txt":"Erreiche Reinheit ×1,5: 10 verschiedene Arten eines Lebensraums zusammen.","title":"Artenkennerin","ok":"rein"},
+{"key":"regel","icon":"⚡","name":"Regelbruch","txt":"Schaffe einen Zoo mit einem Regelbrecher im Team.","title":"Rebell","ok":"regel"},
+{"key":"spar","icon":"💰","name":"Sparfuchs","txt":"Schaffe einen Zoo mit mindestens 300 Talern in der Kasse.","title":"Sparfuchs","ok":"spar"},
+{"key":"alle5","icon":"🏆","name":"Zoodirektion","txt":"Schaffe alle 5 Zoos in einem Lauf.","title":"Zoodirektorin","ok":"alle5"},
+{"key":"vielseitig","icon":"🎴","name":"Vielseitig","txt":"Schalte bei 3 verschiedenen Profilen Stufe 4 frei.","title":"Allrounder","ok":"vielseitig"},
+{"key":"gipfel","icon":"🏔️","name":"Gipfelstürmer","txt":"Schalte bei einem Profil Stufe 8 frei.","title":"Gipfelstürmerin","ok":"gipfel"}
+],
+"regelbrecher_frei":["rb_klon","rb_wild"]}

@@ -81,7 +81,7 @@ JS nutzt überall `Math.random`. In Godot über **einen** `Rng` laufen lassen. D
 Gleiche Zufallsfolgen wie im JS-Spiel sind **nicht** nötig: Die Referenzfälle prüfen nur die Wertung fester Aufstellungen.
 
 ## 4. Reihenfolge des Ports
-1. **Inhalte exportieren** (JS → JSON) – *Teil 2a erledigt: `daten/karten.json`, `daten/merkmale.json`, Wirkungen über Kennungen in `KARTEN_WIRKUNG`; Teil 2b erledigt: `daten/spezialisten.json` (`SPEZ_WIRKUNG`), `futter.json` (`FUTTER_WIRKUNG`), `winter.json` (`WINTER_WIRKUNG`), `gelaende.json` (Form über `genMap0`), `stufen.json` (Kennungen über `stAb`/`stW`), `profile.json`; offen 2c (Texte, Tutorial, übrige Tabellen)*: ein Node-Skript liest `build/zoodeck.html` in jsdom und schreibt `CARDS`, `SHAPES`, `HAB`,
+1. **Inhalte exportieren** (JS → JSON) – *Teil 2a erledigt: `daten/karten.json`, `daten/merkmale.json`, Wirkungen über Kennungen in `KARTEN_WIRKUNG`; Teil 2b erledigt: `daten/spezialisten.json` (`SPEZ_WIRKUNG`), `futter.json` (`FUTTER_WIRKUNG`), `winter.json` (`WINTER_WIRKUNG`), `gelaende.json` (Form über `genMap0`), `stufen.json` (Kennungen über `stAb`/`stW`), `profile.json`; Teil 2c erledigt: `texte_de.json` (`TXT`), `tutorial.json` (`TUT_WIRKUNG`), `foerderprogramme.json`, `werbung.json`, `ereignisse.json`, `praegungen.json`, `herausforderungen.json`*: ein Node-Skript liest `build/zoodeck.html` in jsdom und schreibt `CARDS`, `SHAPES`, `HAB`,
    `FOOD`, `HFOOD`, `SPEC` (ohne Funktionen), `INSP`, `DECKS`, `STAGES`, `MILE`, `FRIENDS`, Texte. Das passt zum Punkt „Inhalte als
    Datendateien“ der Liste. Danach die Wirkungs-Bausteine festlegen (3.2).
 2. **Wertung** (`Hex.gd`, `Rules.eval_building`, `Rules.score_zoo`) **gegen die Referenzfälle**, Fall für Fall, bis alle 51 Fälle in allen

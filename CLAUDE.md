@@ -20,7 +20,7 @@ Es ist eine einzige HTML-Datei, die aus Modulen zusammengebaut und über GitHub 
 | Pfad | Inhalt |
 |---|---|
 | `quelltext/src/` | **Quelle der Wahrheit.** Module 00–11 + `00-seite-und-stil.html` (Kopf, CSS) + `99-ende.html` |
-| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a/2b): `karten.json`, `merkmale.json`, `spezialisten.json`, `futter.json`, `winter.json`, `gelaende.json`, `stufen.json`, `profile.json`. Werden von `mache.py` ins Spiel eingebaut |
+| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a–2c): `karten.json`, `merkmale.json`, `spezialisten.json`, `futter.json`, `winter.json`, `gelaende.json`, `stufen.json`, `profile.json`, `texte_de.json` (alle Namen/Texte aus `TXT`), `tutorial.json`, `foerderprogramme.json`, `werbung.json`, `ereignisse.json`, `praegungen.json`, `herausforderungen.json`. Werden von `mache.py` ins Spiel eingebaut |
 | `quelltext/mache.py` | baut `build/zoodeck.html` (Tests), `index.html` (GitHub Pages), setzt die Daten aus `daten/` ein und den Cache in `sw.js` |
 | `quelltext/huelle/` | Rahmen um das Spiel für Web (`web-*`, mit Service Worker) und App (`app-*`) |
 | `index.html`, `sw.js`, `manifest.webmanifest`, Icons | die veröffentlichte Seite. **`index.html` nie von Hand ändern.** |
@@ -62,6 +62,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - **Weitere Daten (2b):** Spezialisten `daten/spezialisten.json` → `SPEC` (Wirkungen `SPEZ_WIRKUNG`, Modul 01), Futter → `FOOD`/`HFOOD` (`FUTTER_WIRKUNG`, Modul 04),
   Winter-Bedingungen → `INSP` (`WINTER_WIRKUNG`, Modul 02), Gelände → `MAPS`/`CAMP`/`NATFOCUS`, Profile → `DECKS`/`DECKRULE`/`UNLOCK_DECK`,
   Stufen → `STAGES`, Wirkung über Kennungen `stAb(k)`/`stW(k,d)` (Modul 08). Namen/Texte, die in `TXT` stehen, fehlen in den JSON-Dateien.
+- **Daten (2c):** Texte `daten/texte_de.json` → `TXT.de` (Modul 03; Text ändern = nur dort), Förderprogramme/Werbung/Ereignisse → `PROGS`/`ADS`/`EVENTS`
+  (`PROG_WIRKUNG`, `WERBUNG_WIRKUNG`, `EREIGNIS_WIRKUNG` in Modul 01; Ereignis-Texte mit `{k}` = Stärke), Prägungen → `PRAEG`, Herausforderungen → `CHAL` (`CHAL_WIRKUNG`, Modul 08).
 - **Wertung:** `evalB(b,bs,idx,parts)` je Gebäude, `scoreZoo` mit Multiplikatoren (Kronenfeld, Reinheit, Vielfalt, Stress …).
   Lebensraum-Regeln `habRule`/`habRulesOn`, Formen `shapesOf` (Innenhof, Allee, Dreiländereck), Zusatz-Faktoren `extra92`.
 - **Lauf:** Zoolatro-Lauf `sl.run`, `state` = laufender Zoo, `META` = Geräte-Speicher. `TUTNOW` = gerade Tutorial.
@@ -71,6 +73,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - **Früh geschafft:** `earlyReward(left)` → `run.bpCarry`, Geschenke `run.gifts` (`gsack`/`gumb`/`gprofi`), Anzeige `earlyInfo` im Sieg-Fenster.
 
 ### Tutorial (Modul 10) – Jasper, Zoo 1
+- **Alles in `daten/tutorial.json`** (Gelände `TUTMAP`, Ziele `TUTT`, Kartenwahl `TUTOFF`, Phasen-Texte, Kapitel mit Schritten); `tutSchritt` baut daraus die Schritte.
+  Schritt-Arten in der JSON: `bau` (→ `tPut`), `tag_ende` (→ `tEndS`), `ausbau` (→ `tUp`), sonst normale Felder. Bedingungen/Vorbereitungen/Markierungen,
+  die Code sind, stehen in `TUT_WIRKUNG` (`done`, `setup`, `mark`) und werden per Kennung genannt; `done:{steht:[Karte,Feld]}`, `mark` auch als Feldliste.
 - Kapitel `TUT.zl` (Frühling), `zlsh` (Frühlings-Shop), `zs` (Sommer), `zssh` (Sommer-Shop), `zh` (Herbst Tag 1 + Abschied).
   `TUTGUIDED=['zl','zs','zh']`, Start über `TUTCH`. Herbst ab Tag 2 und Winter spielt man frei; Ende = Jasper-Endtext, Knopf `data-gend`.
 - Schritt-Felder: `t` (Text oder Häppchen-Liste, Häppchen auch `{t,glow,mark}`), `h`, `only` (Karte), `at` (Zielfelder), `rot`, `setup`, `done`,
@@ -98,7 +103,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
 
-**Godot-Vorbereitung (Stand):** 2a und 2b fertig auf dem Zweig `godot-daten` (nicht in main), 2c offen (Texte, Tutorial, übrige Tabellen als Daten).
+**Godot-Vorbereitung (Stand):** 2a–2c fertig auf godot-daten, wartet auf Anspielen durch Tobi (nicht in main). Textvergleich alt/neu: `bash tests/textvergleich.sh`.
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
 als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · Grafikstil · Futter-Balance · neue Meilensteine

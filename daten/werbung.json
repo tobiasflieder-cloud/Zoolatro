@@ -1,0 +1,9 @@
+{"hinweis":"Werbung von Zoolatro (gilt für die nächste Jahreszeit). Wird von quelltext/mache.py ins Spiel eingebaut. per/mult = Kennung einer Wirkung in WERBUNG_WIRKUNG (quelltext/src/01-regeln-karten.js, Kennung = Schlüssel). Name und Text stehen in daten/texte_de.json (ad). Reihenfolge nicht ändern.",
+"felder":{"key":"Schlüssel (nie ändern, steht in Spielständen)","icon":"Emoji","price":"Preis in Talern","per":"Wirkung je Gehege/Gebäude","mult":"Faktor für den ganzen Zoo"},
+"werbung":[
+{"key":"plakat","icon":"🪧","price":24,"mult":"plakat"},
+{"key":"social","icon":"📱","price":20,"per":"social"},
+{"key":"tv","icon":"📺","price":28,"mult":"tv"},
+{"key":"schule","icon":"🎒","price":45,"mult":"schule"},
+{"key":"foodfest","icon":"🎪","price":20,"per":"foodfest"}
+]}

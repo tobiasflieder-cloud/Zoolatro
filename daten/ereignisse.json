@@ -1,0 +1,20 @@
+{"hinweis":"Saison-Ereignisse von Zoolatro. Wird von quelltext/mache.py ins Spiel eingebaut. per = Kennung einer Wirkung in EREIGNIS_WIRKUNG (quelltext/src/01-regeln-karten.js, Kennung = Schlüssel). In fx steht {k} für die Stärke des Nachteils (1 mild, 2 mittel, 3 hart). Fehlt name, steht er in daten/texte_de.json (event). Reihenfolge nicht ändern (Zufall im Spiel hängt daran).",
+"felder":{"key":"Schlüssel (nie ändern, steht in Spielständen)","icon":"Emoji","name":"Name","se":"nur in diesen Jahreszeiten (0–3)","alt":"anderer Name (und Emoji) je Jahreszeit","hard":"nur in schweren Zoos","doku":"gehört zur Gruppe Doku (es kommt höchstens eine)","fx":"Wirkungstexte mit {k} = Stärke","per":"Wirkung je Gehege/Gebäude"},
+"ereignisse":[
+{"key":"hitze","icon":"☀️","se":[1],"per":"hitze","fx":["−{k} B|für jedes Wasser-Gehege","+1 B|für jedes Wüsten-Gehege"]},
+{"key":"regen","icon":"🌧️","se":[0,1,2],"per":"regen","fx":["−{k} B|für jede Attraktion","+1 N|für jedes Dschungel-Gehege"]},
+{"key":"demo","icon":"🪧","per":"demo","fx":["−{k} B|für jede Attraktion","+1 N|für jedes bedrohte Tier"]},
+{"key":"kontrolle","icon":"🦠","per":"kontrolle","fx":["−{k} B|für jedes Gastro-Gebäude"]},
+{"key":"ferien","icon":"🎒","alt":{"0":["Osterferien"],"1":["Sommerferien"],"2":["Herbstferien"],"3":["Weihnachtsferien"]},"per":"ferien","fx":["+1 B|für jedes Gastro-Gebäude und jede Attraktion"]},
+{"key":"schnee","icon":"🌨️","se":[3],"per":"schnee","fx":["−{k} B|für jede Attraktion","+1 B|für jedes Wasser-Gehege"]},
+{"key":"frost","icon":"🥶","se":[0,2,3],"alt":{"0":["Später Frost"],"3":["Strenger Frost","❄️"]},"per":"frost","fx":["−{k} N|für jedes Savannen-Gehege"]},
+{"key":"foerder","icon":"💶","per":"foerder","fx":["+1 N|extra je Ausbaustufe eines Geheges/Gebäudes"]},
+{"key":"baustelle","icon":"🚧","hard":1,"fx":["−1 BP|am ersten Tag der Jahreszeit"]},
+{"key":"ausbruch","icon":"🐺","hard":1,"fx":["doppelt|stören Raubtiere die Beutetiere daneben"]},
+{"key":"doku_wasser","icon":"📺","doku":1,"per":"doku_wasser","fx":["+1 B|für jedes Wasser-Gehege"]},
+{"key":"doku_savanne","icon":"📺","doku":1,"per":"doku_savanne","fx":["+1 B|für jedes Savannen-Gehege"]},
+{"key":"doku_wald","icon":"📺","doku":1,"per":"doku_wald","fx":["+1 B|für jedes Dschungel-Gehege"]},
+{"key":"doku_wueste","icon":"📺","doku":1,"per":"doku_wueste","fx":["+1 B|für jedes Wüsten-Gehege"]},
+{"key":"doku_arktis","name":"Doku im Fernsehen","icon":"📺","doku":1,"per":"doku_arktis","fx":["+1 B|für jedes Arktis-Gehege"]},
+{"key":"doku_gebirge","name":"Doku im Fernsehen","icon":"📺","doku":1,"per":"doku_gebirge","fx":["+1 B|für jedes Gebirgs-Gehege"]}
+]}
