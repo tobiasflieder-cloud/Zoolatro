@@ -1,5 +1,5 @@
 {"hinweis":"Futter von Zoolatro. Wird von quelltext/mache.py ins Spiel eingebaut. ok = Kennung einer Bedingung in FUTTER_WIRKUNG (quelltext/src/04-regeln-wertung.js, Kennung = Futter-Schlüssel), fehlt ok, passt das Futter zu jedem Gehege. Reihenfolge nicht ändern (Zufall im Spiel hängt daran).",
-"felder":{"key":"Schlüssel (nie ändern, steht in Kartenschlüsseln: otter#kf.ho)","icon":"Emoji","name":"Name","r":"Seltenheit 0 gewöhnlich, 1 selten, 2 sehr selten","for":"für welche Tiere (Anzeige)","ok":"Bedingung, auf welche Karten es passt","se":"Jahreszeit (0–3), in der es wirkt","text":"Wirkungstext"},
+"felder":{"key":"Schlüssel (nie ändern, steht in Kartenschlüsseln: otter#kf.ho)","icon":"Emoji","name":"Name","r":"Seltenheit 0 gewöhnlich, 1 selten, 2 legendär","for":"für welche Tiere (Anzeige)","ok":"Bedingung, auf welche Karten es passt","se":"Jahreszeit (0–3), in der es wirkt","text":"Wirkungstext"},
 "futter":[
 {"key":"kf","icon":"🥩","name":"Kraftfutter","r":0,"for":"Gehege","text":"+2 B und +2 N"},
 {"key":"kr","icon":"🌿","name":"Beruhigungskräuter","r":1,"for":"Gehege","text":"Das Tier wird nie gestresst"},
@@ -20,6 +20,6 @@
 {"key":"ue","icon":"🎁","name":"Überraschungsfutter","r":2,"for":"zufälliges Gehege","text":"Ein zufälliges Gehege deines Decks bekommt eine zufällige Prägung (wie früher die Futterlieferung)"}
 ],
 "seltenheit_gewicht":[6,3,1],
-"seltenheit_name":["gewöhnlich","selten","sehr selten"],
+"seltenheit_name":["gewöhnlich","selten","legendär"],
 "lebensraum_gewicht":4,
 "lebensraum_futter":{"wasser":{"icon":"🐟","name":"Fischmix"},"savanne":{"icon":"🌾","name":"Steppenheu"},"wald":{"icon":"🍌","name":"Tropenfrüchte"},"wueste":{"icon":"🌵","name":"Kaktusfeigen"},"arktis":{"icon":"🦐","name":"Krill"},"gebirge":{"icon":"🌼","name":"Bergkräuter"}}}

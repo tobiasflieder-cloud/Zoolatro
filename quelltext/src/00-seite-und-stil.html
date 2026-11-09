@@ -755,7 +755,7 @@ body:not(.land) .top:has(.zoomtop) .dots{display:none}
 .shk1{animation:shk .28s linear}.shk2{animation:shk .4s linear;--sk:4px}.shk3{animation:shk .5s linear;--sk:6px}@keyframes shk{0%,100%{transform:none}20%{transform:translate(calc(var(--sk,2px)*-1),1px)}40%{transform:translate(var(--sk,2px),-1px)}60%{transform:translate(calc(var(--sk,2px)*-.6),0)}80%{transform:translate(calc(var(--sk,2px)*.5),1px)}}
 body.fxp .card{position:relative;transition:transform .14s ease}body.fxp .card.tilt{transform:perspective(520px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-5px)}
 body.fxp .card.tilt::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--gx) var(--gy),#ffffffaa,transparent 55%);mix-blend-mode:soft-light}
-body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 22%,#ff9ec466 36%,#9ad8ff66 46%,#ffd16666 56%,transparent 70%);background-size:260% 100%;animation:holo 3.2s linear infinite;mix-blend-mode:screen}@keyframes holo{from{background-position:130% 0}to{background-position:-130% 0}}
+body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 22%,#ff9ec466 36%,#9ad8ff66 46%,#ffd16666 56%,transparent 70%);background-size:260% 100%;background-repeat:no-repeat;animation:holo 3.2s linear infinite;animation-delay:var(--hd,0s);mix-blend-mode:screen}@keyframes holo{from{background-position:130% 0}to{background-position:-130% 0}}
 .spark{position:absolute;color:#fff3b0;font-size:13px;pointer-events:none;z-index:6;text-shadow:0 0 6px #ffd166;animation:spark .8s ease-out forwards;transform:translate(-50%,-50%)}
 @keyframes spark{to{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.4)}}
 /* Bildschirme */
@@ -968,6 +968,11 @@ body.land #coach{max-width:480px;font-size:15.5px}body.land #coach p{margin:0 0 
 .wishpop .wpr{margin:0;font-size:14px}.wishpop .wpr b{color:#9a6b00}
 .wishpop .wph{margin:0;font-size:12.5px;color:#5d6b60}
 .wishpop .btn{margin-top:4px;flex:none}
+/* 0.75a: große Einblendungen (Auflage, Überraschung) und große Karte im Tutorial */
+.bigpop .bpcard{display:flex;justify-content:center;pointer-events:none}.bigpop .bpcard .ocard{width:min(210px,70%);box-shadow:0 0 0 2px var(--gold),0 6px 18px #0005}
+.tcard{position:absolute;inset:0;z-index:7;background:#06140cb3;display:grid;place-items:center;pointer-events:none;animation:pop .3s ease}
+.tcard .ocard{width:min(220px,58%);box-shadow:0 0 0 3px var(--gold),0 10px 30px #000a}
+body.land .tcard{place-items:center end;padding-right:6%}
 .evb.pulse{animation:tutglow 1.2s ease-in-out 3}
 
 /* 0.92 Glück, Tagesereignisse, Team hüpft */
@@ -1035,23 +1040,21 @@ small.fsbn{font-size:11.5px;color:var(--muted)}
 .modal>.btn:last-child{position:sticky;bottom:0;z-index:3;flex:none;box-shadow:0 0 0 10px var(--panel)}
 .stgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}.stgrid .btn{padding:7px 4px;font-size:13px;min-width:0;white-space:nowrap}.stgrid .stlk{opacity:.45;filter:grayscale(1)}
 .fdslot{display:inline-block;font-size:11.5px;padding:1px 6px;border-radius:8px;background:#e7f3df;color:#2e5e1e;margin:2px 4px 0 0;white-space:nowrap}.fdslot.full{background:#eee;color:#777}
-/* 0.71a: Seltenheits-Ecke auf Handkarten (nur selten / sehr selten) */
-.hand .card .rarc{position:absolute;top:0;right:0;width:30px;height:30px;border-top-right-radius:12px;overflow:hidden;pointer-events:none;z-index:1;filter:drop-shadow(-1px 1px 0 #0003)}
-.hand .card .rarc.r1{background:linear-gradient(225deg,#9cc8ff 0,#2f7fe0 46%,transparent 47%)}
-.hand .card .rarc.r2{background:linear-gradient(225deg,#ff9be6 0,#9b4dff 46%,transparent 47%);animation:rarsp 2.6s ease-in-out infinite}
-.hand .card .rarc i{position:absolute;top:2px;right:3px;font-style:normal;color:#fff;font-size:9px;line-height:.85;text-align:center;text-shadow:0 0 2px #0006}
-.hand .card .rarc.r2 i{top:1px;font-size:8px}
-@keyframes rarsp{0%,100%{filter:drop-shadow(-1px 1px 0 #0003) brightness(1)}50%{filter:drop-shadow(-1px 1px 0 #0003) drop-shadow(0 0 3px #ff9be6) brightness(1.2)}}
-.hand .card.rar .cost{right:21px}
-body.land .hand .card.rar .cost{right:23px}
-.hand .card.rar.c3w .shape{width:18px;height:12px}
-@media (prefers-reduced-motion:reduce){.hand .card .rarc.r2,.tm.t3,.pcard.t3{animation:none}}
-/* 0.71a: Spezialisten Stufe 3: langsamer Glanz, leichtes Leuchten */
+/* 0.75a: Seltenheit = Glanz (rg1 selten alle 7 s, rg2 legendär alle 4,5 s mit Farbsaum), für Handkarten und Spezialisten.
+   Eigene Ebene (isolation) + Glanz z-index:-1: liegt über dem Hintergrund, unter allem Inhalt. Kein Wiederholen des Glanzbilds (no-repeat). */
+.card.rg1,.card.rg2,.tm.rg1,.tm.rg2,.pcard.rg1,.pcard.rg2{isolation:isolate}
+.glz{position:absolute;inset:0;border-radius:inherit;pointer-events:none;overflow:hidden;z-index:-1}
+.glz::before{content:'';position:absolute;inset:0;background-size:250% 100%;background-repeat:no-repeat;animation:glanz var(--glzT) linear infinite;animation-delay:var(--d,0s)}
+@keyframes glanz{0%{background-position:150% 0}45%,100%{background-position:-100% 0}}
+.rg1{--glzT:7s}.rg2{--glzT:4.5s}
+.rg1 .glz::before{background-image:linear-gradient(110deg,transparent 38%,#ffffffcc 50%,transparent 62%)}
+.card.rg1 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#b9d4ff40 44%,#ffffff 50%,#b9d4ff40 56%,transparent 66%)}
+.rg2 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#ff9be655 44%,#fff6d8ee 50%,#9cc8ff55 56%,transparent 66%)}
+@media (prefers-reduced-motion:reduce){.glz::before{animation:none}}
+/* Spezialisten Stufe 3: Rahmen und leichtes Leuchten bleiben (Glanz jetzt über .glz) */
 .pcard.t3{position:relative;box-shadow:0 0 0 2px #ffd166,0 0 10px #ffd16699}
 .team .tm.t3{box-shadow:inset 0 0 0 2px var(--rc,#8a7cff),0 3px 0 #0006,0 0 9px color-mix(in srgb,var(--rc,#ffd166) 60%,transparent)}
 .team .tm.t3.on{box-shadow:inset 0 0 0 3px #ffd166,0 3px 0 #0006,0 0 9px #ffd16699}
-.tm.t3::before,.pcard.t3::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#fff8 50%,transparent 65%);background-size:250% 100%;animation:t3sh 4.5s linear infinite;pointer-events:none;border-radius:inherit}
-@keyframes t3sh{0%{background-position:150% 0}60%,100%{background-position:-100% 0}}
 .sthint{margin:4px 0 0;font-size:12.5px;color:var(--muted)}.tnav .btn{flex:0 1 auto}
 .info .tday{font-size:15px}
 .boardarea{position:relative}

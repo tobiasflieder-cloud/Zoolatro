@@ -5,6 +5,15 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.75a · 09.11.2026 · Glanz, Legendär, Einblendungen
+- ✨ Seltenheit zeigt sich jetzt als Glanz: Seltene Karten glänzen ab und zu silbern, legendäre öfter und farbig. Die farbige Ecke mit den Sternen ist weg, die Kostenpunkte sitzen wieder an ihrem Platz.
+- 👥 Spezialisten: Stufe Selten glänzt wie seltene Karten, Stufe Legendär wie legendäre. Der Glanz springt beim Antippen nicht mehr und läuft gleichmäßig weiter.
+- 🏷️ „Sehr selten“ heißt jetzt „Legendär“.
+- 📜 Die Auflage wird zu Beginn jedes Zoos groß eingeblendet, danach der Besucherwunsch.
+- 🎁 Überraschungsfutter zeigt die beschenkte Karte groß, mit ihrer neuen Prägung.
+- 🏟️ Die Tribüne ist jetzt legendär: Sie kommt seltener und kostet im Shop 20 statt 15 Taler.
+- Im Tutorial kann Jasper jetzt eine Karte groß in der Mitte zeigen und Teile davon hervorheben (wird in Zoo 1 noch nicht genutzt).
+
 ## 0.74a · 09.11.2026 · Querformat repariert
 - 🖥️ Querformat: „Los geht’s“ in der Zoo-Übersicht und „▶ Weiterspielen“ im Menü reagieren wieder (am Rechner und auf Tablets im Querformat). Der Fehler steckte schon in 0.73a.
 - 💡 Tipps warten jetzt, bis ein Fenster geschlossen ist, und verdecken keine Knöpfe mehr. Nur der Winter-Tipp erscheint bei der Winter-Wahl, ganz oben.

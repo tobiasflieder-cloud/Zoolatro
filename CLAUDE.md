@@ -78,7 +78,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   die Code sind, stehen in `TUT_WIRKUNG` (`done`, `setup`, `mark`) und werden per Kennung genannt; `done:{steht:[Karte,Feld]}`, `mark` auch als Feldliste.
 - Kapitel `TUT.zl` (Frühling), `zlsh` (Frühlings-Shop), `zs` (Sommer), `zssh` (Sommer-Shop), `zh` (Herbst Tag 1 + Abschied).
   `TUTGUIDED=['zl','zs','zh']`, Start über `TUTCH`. Herbst ab Tag 2 und Winter spielt man frei; Ende = Jasper-Endtext, Knopf `data-gend`.
-- Schritt-Felder: `t` (Text oder Häppchen-Liste, Häppchen auch `{t,glow,mark}`), `h`, `only` (Karte), `at` (Zielfelder), `rot`, `setup`, `done`,
+- Schritt-Felder: `t` (Text oder Häppchen-Liste, Häppchen auch `{t,glow,mark,karte,leuchten}`, `karte` = große Karte in der Mitte), `h`, `only` (Karte), `at` (Zielfelder), `rot`, `setup`, `done`,
   `btn`, `end`, `glow`, `mark`, `undo`, `redraw`, `mv`, `up`, `lock` (Shop-Sperre `{tab,kind}`), `spec` (erzwungener Bewerber), `food` (erzwungenes Futter), `leave`, `arot`,
   `pv` (Häppchen, solange die Karte genau auf `at` liegt; 🔨 gesperrt bis zum letzten, Zähler `state.tut.pk`; `tutPvOn`/`tutPvLock`).
   Helfer `tPut(key,at,t,o)`, `tDay`, `tNat`, `tRock`, `tEndS`, `tSetHand`.
@@ -95,7 +95,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.75a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.76a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -114,6 +114,13 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.75a** ([Auftrag](docs/auftraege/0.75a-glanz-einblendungen.md)): Seltenheits-Ecke `.rarc`/`shpWide` entfernt; Glanz-Schicht `<span class="glz">` (erstes Kind,
+  `z-index:-1` in eigener Ebene `isolation:isolate`) für Handkarten (`rgOf(c.rar)`: `rg1` selten, `rg2` sehr selten) und Spezialisten (`rgSpec`: Stufe 2 `rg1`,
+  Stufe 3 ohne Regelbrecher `rg2`; `.tm` und `.pcard`, alter `t3sh`-Glanz weg); gemeinsame Uhr `glzD`/`holoD` (negative Verzögerung), `no-repeat` auch im Holo.
+  „sehr selten“ → „Legendär“ nur in Spielertexten (`rarLabel`, Futterplätze, Good Luck, Futtermeister, `FOODRN`), intern bleibt `rar:'sehr selten'`.
+  Einblendungen `bigPop(id,inner,ok)` (Stil `.wishpop`): Auflage beim Zoo-Start (`state.ruleIntro`, vor dem Wunsch, nicht im Tutorial), Überraschungsfutter
+  (`state.surprise`, Karte per `offerCard`). Tutorial-Häppchen `{t,karte,leuchten}` → große Karte `#tutCard` (`tutCardRender`, `TUTLEUCHT`). Tribüne `sehr selten`.
+  Neuer Test `jsd75a.js`; `quer.js` tippt auch `.bigpop` weg.
 - **0.74a:** Godot-Vorbereitung 2a–2c: alle Inhalte in `daten/*.json` (Karten, Merkmale, Spezialisten, Futter, Winter, Gelände, Stufen, Profile,
   Texte `texte_de.json`, Tutorial, Förderprogramme, Werbung, Ereignisse, Prägungen, Herausforderungen), Code-Wirkungen über Kennungen
   (`KARTEN_WIRKUNG`, `SPEZ_WIRKUNG`, `FUTTER_WIRKUNG`, `WINTER_WIRKUNG`, `PROG_/WERBUNG_/EREIGNIS_WIRKUNG`, `CHAL_WIRKUNG`, `TUT_WIRKUNG`, Stufen `stAb`/`stW`);

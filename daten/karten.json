@@ -131,6 +131,6 @@
 {"key":"ausstellung","icon":"🖼️","cat":"schutz","shape":"s2","a":2,"s":6,"rar":"meilenstein","ms":1,"bonus":"ausstellung","tags":["einmalig"]},
 {"key":"zirkus","icon":"🎪","cat":"attr","shape":"t3","a":4,"s":0,"rar":"selten","tags":["gross","trubel"]},
 {"key":"lotterie","icon":"🎫","cat":"essen","shape":"s1","a":2,"s":0,"rar":"selten","tags":["trubel"]},
-{"key":"tribuene","icon":"🏟️","cat":"attr","shape":"s1","a":6,"s":0,"rar":"selten","tags":["trubel"]},
+{"key":"tribuene","icon":"🏟️","cat":"attr","shape":"s1","a":6,"s":0,"rar":"sehr selten","tags":["trubel"]},
 {"key":"flossteil","icon":"🛶","cat":"attr","shape":"s1","a":0,"s":0,"rar":"spezial","sig":"floss","tags":["ruhig"]}
 ]}

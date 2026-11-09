@@ -92,6 +92,17 @@ const tutNav=(st,back,more,btn)=>{const b=tutBack(st)?`<button class="btn sub" $
 const tutMore=st=>{const C=tutChunks(st);return!tutWide()&&C.length>1&&tutK(st)<C.length-1};
 const tutMarkAll=st=>{let m=[];try{if(st.mark)m=st.mark()||[]}catch(e){}if(st._read)return m;const C=tutChunks(st);(tutWide()?C:[C[tutK(st)]]).forEach(c=>{if(c&&c.mark)try{m=m.concat(c.mark()||[])}catch(e){}});return m};
 const tutGlowAll=st=>{const g=[...(st.glow||[])];if(st._pv&&!tutMore(st))g.push('btnBuild');if(tutWide())tutChunks(st).forEach(c=>(c.glow||[]).forEach(x=>g.push(x)));else{const c=tutChunks(st)[tutK(st)];if(c&&c.glow)c.glow.forEach(x=>g.push(x))}return g};
+// 0.75a: Häppchen können eine Karte groß in der Mitte zeigen: {t:'…', karte:'giraffen', leuchten:['show','kosten','form','werte','name','symbol']}
+// Sie bleibt, solange Häppchen sie nennen (Querformat: alle Häppchen auf einmal, die erste Karte gilt), Hintergrund abgedunkelt, Textbox bleibt bedienbar.
+const TUTLEUCHT={kosten:'.band',form:'.shape',werte:'.st',name:'.nm',symbol:'.ic'};
+const tutKarte=st=>{if(!st)return null;const C=tutChunks(st);const L=tutWide()?C:[C[tutK(st)]];const c=L.find(x=>x&&x.karte&&CARDS[x.karte]);return c?{karte:c.karte,leuchten:c.leuchten||[]}:null};
+function tutCardRender(){const co=$('coach');let el=$('tutCard');let K=null;try{K=state&&state.tut&&gRun()&&!modal&&!screen?tutKarte(tutStep()):null}catch(e){K=null}
+  if(!K||!co){if(el)el.remove();return}
+  if(!el){el=document.createElement('div');el.id='tutCard';el.className='tcard';co.parentNode.insertBefore(el,co)}
+  if(el.dataset.k!==K.karte){el.dataset.k=K.karte;el.innerHTML=offerCard(K.karte,0).replace(/ data-pick="0"/,' tabindex="-1"')}
+  el.querySelectorAll('.tutglow').forEach(e=>e.classList.remove('tutglow'));
+  for(const l of K.leuchten){if(TUTLEUCHT[l])el.querySelectorAll(TUTLEUCHT[l]).forEach(e=>e.classList.add('tutglow'));
+    else if(TRAITIC[l])el.querySelectorAll('.tx > *').forEach(e=>{if(e.textContent.includes(TRAITIC[l]))e.classList.add('tutglow')})}}
 function tutRotFor(key,at){for(let rot=0;rot<6;rot++)for(const[q,r]of BOARD){const c=placeCells(key,rot,q,r);if(c&&tutCellsEq(c,at))return rot}return null}
 function tutMarks(){const st=tutStep();if(!st||state.phase!=='play')return'';const mk=tutMarkAll(st);if(!st.at&&!mk.length)return'';const cs=st.at&&(!st.mv||state.moving!=null)?st.at:[];const fc=cs.filter(tFree);let ar='';if(fc.length){const[cx,cy]=centroid(fc.map(k=>k.split(',').map(Number)));ar=`<text class="tgar" x="${cx.toFixed(2)}" y="${(cy-SZ*1.25).toFixed(2)}" pointer-events="none">👇</text>`}return[...fc,...mk].map(k=>{const[q,r]=k.split(',').map(Number),[x,y]=px(q,r);return`<polygon class="tgo" points="${hexPts(x,y,SZ*.86)}" pointer-events="none"/>`}).join('')+ar}
 function exitTut(done){if(done&&state&&state.tut){META.tutDone=META.tutDone||{};META.tutDone[state.tut.ch]=1}state=null;modal=null;screen='tut';screenArg={};document.body.classList.remove('tutmode');

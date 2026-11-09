@@ -55,7 +55,7 @@
 {"key":"frieden","name":"Friedensstifter","icon":"🕊️","tier":2,"fx":["kein Stress|zwischen Raubtieren und Beutetieren"]},
 {"key":"ruhepol","name":"Ruhepol","icon":"🧘","tier":1,"fx":["kein Stress|für scheue Tiere"]},
 {"key":"tierern","name":"Tierernährerin","icon":"👩‍🌾","tier":2,"food":1,"fx":["−25 %|🧺 Futtersäcke kosten ein Viertel weniger"]},
-{"key":"futtermeister","name":"Futtermeister","icon":"🥣","tier":2,"food":1,"fx":["+1 Futterplatz|je Karte (gewöhnlich 2, selten 3, sehr selten 4)"]},
+{"key":"futtermeister","name":"Futtermeister","icon":"🥣","tier":2,"food":1,"fx":["+1 Futterplatz|je Karte (gewöhnlich 2, selten 3, legendär 4)"]},
 {"key":"ernprof","name":"Ernährungsprofessorin","icon":"👩‍🏫","tier":3,"food":1,"fx":["×1,05 B|je Lebensraum-Futter-Stufe, für den ganzen Zoo"],"mult":"ernprof"},
 {"key":"z_wald","icon":"🌲","tier":2,"zl":1,"hg":1,"fx":["×1 B|für den ganzen Zoo, wächst um +0,05 je neu gebautem Dschungel-Gehege in diesem Zoo, höchstens ×1,5"],"mult":"z_wald"},
 {"key":"z_wasser","icon":"🌊","tier":2,"zl":1,"hg":1,"fx":["×1 N|für den ganzen Zoo, wächst um +0,05 je neu gebautem Wasser-Gehege in diesem Zoo, höchstens ×1,5"],"mult":"z_wasser"},

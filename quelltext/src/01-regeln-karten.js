@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.74a';
+const VERSION='0.75a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.75a',d:'09.11.2026',t:'Glanz, Legendär, Einblendungen',i:['✨ Seltenheit zeigt sich jetzt als Glanz: Seltene Karten glänzen ab und zu silbern, legendäre öfter und farbig. Die farbige Ecke mit den Sternen ist weg, die Kostenpunkte sitzen wieder an ihrem Platz.','👥 Spezialisten: Stufe Selten glänzt wie seltene Karten, Stufe Legendär wie legendäre. Der Glanz springt beim Antippen nicht mehr und läuft gleichmäßig weiter.','🏷️ „Sehr selten“ heißt jetzt „Legendär“.','📜 Die Auflage wird zu Beginn jedes Zoos groß eingeblendet, danach der Besucherwunsch.','🎁 Überraschungsfutter zeigt die beschenkte Karte groß, mit ihrer neuen Prägung.','🏟️ Die Tribüne ist jetzt legendär: Sie kommt seltener und kostet im Shop 20 statt 15 Taler.']},
  {v:'0.74a',d:'09.11.2026',t:'Querformat repariert',i:['🖥️ Querformat: „Los geht’s“ in der Zoo-Übersicht und „▶ Weiterspielen“ im Menü reagieren wieder (am Rechner und auf Tablets im Querformat).','💡 Tipps warten jetzt, bis ein Fenster geschlossen ist, und verdecken keine Knöpfe mehr. Nur der Winter-Tipp erscheint bei der Winter-Wahl, ganz oben.','⬇️ Die Knöpfe unten in langen Fenstern (zum Beispiel „Schließen“ im Deck oder „Weiter zum …“ im Shop) bleiben immer sichtbar.','🧰 Im Hintergrund: Karten, Texte, Spezialisten, Tutorial und alle anderen Inhalte liegen jetzt als eigene Daten-Dateien vor. Am Spiel ändert sich dadurch nichts.']},
- {v:'0.73a',d:'08.11.2026',t:'Aufgeräumt',i:['🧹 Aufgeräumt: Die alten Modi „Freies Spiel“ und „Zoolatro-Modus“ (Zoolatro 1) sind entfernt, ebenso die längst abgeschalteten Zoo-Profile und alte Tutorial-Teile. Angefangene Läufe dieser alten Modi werden verworfen, Ihre Verbesserungen und Freischaltungen bleiben.','Am Spiel selbst ändert sich nichts: Zoolatro und das Tutorial spielen sich genau wie vorher.']},
- {v:'0.72a',d:'08.11.2026',t:'Goldfelder ×4, Regeln genauer erklärt',i:['★ Goldene Felder und ✨ Schimmernd multiplizieren sich jetzt: Schimmernd auf einem Goldfeld oder ein Gehege auf zwei Goldfeldern zählt ×4 (bisher ×3).','📖 Lebensraum-Regeln genauer erklärt: Bei Wasser, Gebirge und Arktis zählt bei einem Verstoß die ganze Gruppe nur ×0,5. Ein einzelnes Wasser-Gehege bleibt bei ×1.','🎭 Showtier-Text ergänzt: Trubel-Nachbarn und Tribünen zählen doppelt, zusammen höchstens +120 %.']}];
+ {v:'0.73a',d:'08.11.2026',t:'Aufgeräumt',i:['🧹 Aufgeräumt: Die alten Modi „Freies Spiel“ und „Zoolatro-Modus“ (Zoolatro 1) sind entfernt, ebenso die längst abgeschalteten Zoo-Profile und alte Tutorial-Teile. Angefangene Läufe dieser alten Modi werden verworfen, Ihre Verbesserungen und Freischaltungen bleiben.','Am Spiel selbst ändert sich nichts: Zoolatro und das Tutorial spielen sich genau wie vorher.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -203,7 +203,7 @@ const perkN=k=>{const q=PERKS[k];return q?(q.a||0)+(q.s||0):0};
 const TRAITS=Object.fromEntries(Object.entries(MERKMALE_DATEN.merkmale).map(([t,m])=>[t,m.karten.slice()]));
 const TRAITNAME=Object.fromEntries(Object.entries(MERKMALE_DATEN.merkmale).map(([t,m])=>[t,m.name]));
 const ruhigC=c=>!!c&&((CARDS[baseK(c.key)]||c).tags||[]).includes('ruhig'),trubelC=c=>!!c&&((CARDS[baseK(c.key)]||c).tags||[]).includes('trubel');
-const rarLabel=c=>c.rar==='winter'?'nur im Winter':c.rar==='saison'?'nur im '+SEANAME[c.only]:c.rar==='meilenstein'?'Meilenstein':c.rar;
+const rarLabel=c=>c.rar==='winter'?'nur im Winter':c.rar==='saison'?'nur im '+SEANAME[c.only]:c.rar==='meilenstein'?'Meilenstein':c.rar==='sehr selten'?'Legendär':c.rar; // 0.75a: „sehr selten“ heißt für Spieler „Legendär“ (intern bleibt rar:'sehr selten')
 const traitOf=c=>['raubtier','scheu','show','beute'].find(t=>c.tags.includes(t));
 const TRAITIC=Object.fromEntries(Object.entries(MERKMALE_DATEN.merkmale).map(([t,m])=>[t,m.icon])),traitsOf=c=>(typeof TUTNOW!=='undefined'&&TUTNOW&&!TUTTR)?[]:['raubtier','beute','scheu','show','ruhig','trubel'].filter(t=>(c.tags||[]).includes(t));
 let TUTTR=false; // 0.67a: Merkmale im Tutorial (Zoo 1) aus
