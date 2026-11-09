@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seltenheit Glanz</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#12301f;--ink:#1d2a21;--muted:#9fbba5;--gold:#ffd166;--f-display:"Lilita One","Trebuchet MS",sans-serif;--f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#eaf2e3;font-family:var(--f-body);font-size:14px;line-height:1.35;padding:16px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1{font-family:var(--f-display);font-weight:400;color:var(--gold);font-size:24px;margin:0}
+h2{font-family:var(--f-display);font-weight:400;font-size:19px;margin:0 0 2px;color:var(--gold)}
+p{margin:0 0 8px;color:var(--muted);font-size:13px}
+.lbl{display:flex;gap:7px;margin:0 0 4px;font-size:11px;color:var(--muted);padding:0 10px}.lbl span{flex:1;text-align:center}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.btns button{font-family:inherit;border:0;border-radius:8px;padding:6px 12px;background:#224d33;color:#eaf2e3;font-weight:600;cursor:pointer}
+.btns button.on{background:var(--gold);color:#3a2a00}
+
+.hand{display:flex;gap:7px;background:#e9dcbd;border-radius:14px;padding:8px 10px 12px}
+.card{flex:1 1 0;min-width:0;background:#fffaf0;color:var(--ink);border:0;border-radius:12px;padding:0;display:flex;flex-direction:column;align-items:center;box-shadow:0 3px 0 #0002,0 0 0 1px #0001;min-height:112px;overflow:hidden;position:relative;font-family:inherit}
+.shape{z-index:1;position:absolute;top:7px;left:5px;width:22px;height:15px}
+.cost{z-index:1;position:absolute;top:9px;right:6px;display:flex;gap:1.5px}.cost i{width:6px;height:6px;border-radius:50%;background:var(--ink);display:block}
+.mk-ic{z-index:1;position:relative;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:27px;line-height:1;margin:27px auto 8px;background:var(--mkc);flex:none}
+.mk-tr{position:absolute;right:-9px;bottom:-5px;font-size:12px;line-height:1;background:#fff;border-radius:99px;padding:2px;box-shadow:0 1px 3px #0005}
+.mk-hb{position:absolute;left:-9px;top:-5px;font-size:11px;line-height:1;background:#fff;border-radius:99px;padding:2px;box-shadow:0 1px 3px #0004}
+.mk-v{display:flex;width:100%;margin-top:auto;position:relative;z-index:1}
+.mk-v b{flex:1;font-family:var(--f-display);font-weight:400;font-size:18px;padding:4px 0 3px;line-height:1;text-align:center}
+.mk-v b.a{background:#ff9f1c;color:#3a1d00}.mk-v b.s{background:#2ec4b6;color:#00302b}
+.rs{position:absolute;top:8px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:1px;line-height:1}
+.card[data-ed="s"]{box-shadow:0 0 0 2px #e8f4ff,0 0 12px #bfe3ffaa}
+.card[data-edl]::after{content:attr(data-edl);position:absolute;top:24px;left:4px;font-size:13px;line-height:1;filter:drop-shadow(0 1px 1px #0008);z-index:3}
+.card[data-ed]::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 22%,#ff9ec466 36%,#9ad8ff66 46%,#ffd16666 56%,transparent 70%);background-size:260% 100%;animation:holo 3.2s linear infinite;mix-blend-mode:screen;z-index:2}
+@keyframes holo{from{background-position:130% 0}to{background-position:-130% 0}}
+
+/* ===== Die zwei Seltenheits-Effekte (gelten für Karten UND Spezialisten) ===== */
+.r1{--rar1:#2f7fe0;--glz:#ffffffcc;--glzT:7s}
+.r2{--rar1:#9b4dff;--glz:#fff6d8ee;--glzT:4.5s}
+.r1 .rs{color:#2f7fe0}.r2 .rs{color:#9b4dff}
+.glz{position:absolute;inset:0;border-radius:inherit;pointer-events:none;overflow:hidden;z-index:0}
+.glz::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 38%,var(--glz) 50%,transparent 62%);background-size:250% 100%;background-repeat:no-repeat;animation:glanz var(--glzT) linear infinite;animation-delay:var(--d,0s)}
+.card.r1 .glz::before{background:linear-gradient(110deg,transparent 34%,#b9d4ff40 44%,#ffffff 50%,#b9d4ff40 56%,transparent 66%);background-size:250% 100%;background-repeat:no-repeat}
+.r2 .glz::before{background:linear-gradient(110deg,transparent 34%,#ff9be655 44%,var(--glz) 50%,#9cc8ff55 56%,transparent 66%);background-size:250% 100%;background-repeat:no-repeat}
+@keyframes glanz{0%{background-position:150% 0}45%,100%{background-position:-100% 0}}
+
+/* Team-Leiste (wie im Spiel) */
+.team{display:flex;gap:6px;background:#1a3f2a;border-radius:14px;padding:10px}
+.tm{flex:1 1 0;min-width:0;position:relative;border:0;background:linear-gradient(180deg,#2d2560,#1f1a45);border-radius:11px;box-shadow:inset 0 0 0 2px var(--rc,#8a7cff),0 3px 0 #0006;padding:6px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;color:#fff;font-family:inherit;overflow:hidden}
+.tm>span:not(.glz){position:relative;z-index:1}.tm .i{font-size:22px;line-height:1.1}.tm .n{font-size:10.5px;font-weight:600}.tm .v{font-family:var(--f-display);font-size:14px;color:var(--gold)}
+.tm.t1{--rc:#8fa69a}.tm.t2{--rc:#5b9df0}.tm.t3{--rc:#c38bff;box-shadow:inset 0 0 0 2px var(--rc),0 3px 0 #0006,0 0 9px #c38bff99}
+.alt.t3::before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#fff8 50%,transparent 65%);background-size:250% 100%;animation:t3sh 4.5s linear infinite;pointer-events:none;border-radius:inherit}
+@keyframes t3sh{0%{background-position:150% 0}60%,100%{background-position:-100% 0}}
+@media (prefers-reduced-motion:reduce){.glz::before,.card::before,.alt::before{animation:none!important}}
+</style></head><body><div class="wrap">
+<h1>Zwei Glanz-Effekte: Selten und Legendär</h1>
+<p>Nur zwei Stufen, gleich für Handkarten und Spezialisten. Tierkarten ohne Einfärbung und ohne Sterne. Selten: ein ruhiger weißer Glanz alle 7 s. Legendär: ein wärmerer Glanz mit Farbsaum alle 4,5 s. Gewöhnlich bleibt ohne alles.</p>
+
+<section><h2>Handkarten</h2>
+<div class="lbl"><span>gewöhnlich</span><span>selten</span><span>legendär</span><span>selten ✨</span><span>legendär ✨</span></div>
+<div class="hand" id="hand"></div></section>
+
+<section><h2>Spezialisten im Team</h2>
+<p>Stufen-Farben bleiben (grau, blau, lila). Selten und Legendär bekommen denselben Glanz wie die Karten.</p>
+<div class="team" id="teamNeu"></div></section>
+
+<section><h2>Das Stocken</h2>
+<p>Heute wiederholt sich das Glanzbild seitlich, deshalb bleibt bei jedem zweiten Durchlauf ein zweiter Streifen mitten auf der Karte stehen und verschwindet dann ruckartig. Zusätzlich startet der Glanz neu, wenn die Leiste neu gezeichnet wird (hier alle 1,7 s).</p>
+<div class="btns"><button id="bAlt" class="on">heute (stockt)</button><button id="bNeu">repariert</button></div>
+<div class="team" id="teamTest"></div></section>
+</div>
+<script>
+const hex='<svg class="shape" viewBox="0 0 22 15"><g fill="#5cbfe3" stroke="#1d2a21" stroke-width=".8"><polygon points="3,4 6,1 9,4 9,7 6,10 3,7"/><polygon points="9,4 12,1 15,4 15,7 12,10 9,7"/><polygon points="6,10 9,7 12,10 12,13 9,15 6,13"/></g></svg>';
+// Reparatur: Glanz läuft nach einer gemeinsamen Uhr. Beim Neuzeichnen setzt er dort fort, wo er war (negative Verzögerung).
+const dly=(sek,i)=>`--d:-${(((performance.now()/1000)+i*0.6)%sek).toFixed(2)}s`;
+const C=[{ic:'🦓',col:'#e2c46e',hb:'🌾',tr:'👥',a:4,s:1,cost:2,r:''},{ic:'🦒',col:'#e2c46e',hb:'🌾',tr:'🏃',a:6,s:2,cost:3,r:'r1'},{ic:'🐼',col:'#7cc860',hb:'🌲',tr:'⭐',a:9,s:5,cost:3,r:'r2'},{ic:'🦛',col:'#5cbfe3',hb:'💧',tr:'👥',a:5,s:2,cost:2,r:'r1',ed:1},{ic:'🐋',col:'#5cbfe3',hb:'💧',tr:'⭐',a:8,s:6,cost:3,r:'r2',ed:1}];
+document.getElementById('hand').innerHTML=C.map((c,i)=>{const st=c.r==='r1'?'★':c.r==='r2'?'★★':'',T=c.r==='r1'?7:4.5;
+ return`<button class="card ${c.r}" ${c.ed?'data-ed="s" data-edl="✨"':''} style="--mkc:color-mix(in srgb,${c.col} 45%,#fff)">${c.r?`<span class="glz" style="${dly(T,i)}"></span>`:''}${hex}<span class="cost">${'<i></i>'.repeat(c.cost)}</span><span class="mk-ic">${c.ic}<span class="mk-hb">${c.hb}</span><span class="mk-tr">${c.tr}</span></span><span class="mk-v"><b class="a">${c.a}</b><b class="s">${c.s}</b></span></button>`}).join('');
+const S=[{i:'🧹',n:'Pfleger',v:'+2 B',t:1},{i:'🍖',n:'Futtermeister',v:'+1 Futter',t:2},{i:'🎪',n:'Showmaster',v:'×1,5',t:3},{i:'🔭',n:'Forscherin',v:'+3 N',t:3}];
+const team=(alt)=>S.map((s,i)=>{const r=s.t===2?'r1':s.t===3?'r2':'',T=s.t===2?7:4.5;
+ return alt?`<button class="tm t${s.t} alt">${''}<span class="i">${s.i}</span><span class="n">${s.n}</span><span class="v">${s.v}</span></button>`
+ :`<button class="tm t${s.t} ${r}">${r?`<span class="glz" style="${dly(T,i)}"></span>`:''}<span class="i">${s.i}</span><span class="n">${s.n}</span><span class="v">${s.v}</span></button>`}).join('');
+document.getElementById('teamNeu').innerHTML=team(false);
+let alt=true;const tt=document.getElementById('teamTest'),draw=()=>{tt.innerHTML=team(alt)};draw();setInterval(draw,1700);
+const bA=document.getElementById('bAlt'),bN=document.getElementById('bNeu');
+bA.onclick=()=>{alt=true;bA.classList.add('on');bN.classList.remove('on');draw()};
+bN.onclick=()=>{alt=false;bN.classList.add('on');bA.classList.remove('on');draw()};
+</script></body></html>
