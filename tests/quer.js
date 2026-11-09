@@ -23,7 +23,7 @@ async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[]
   if(V)L('   geprüft',wo,await zu(p));return r}
 // Klick wie ein Mensch; fängt ein anderes Element den Klick ab, gibt es einen HINWEIS und nach 4 s einen zweiten Versuch
 // Besucherwunsch-Fenster am Tagesbeginn (#wishPop, ganzer Bildschirm): wie ein Spieler wegtippen, vorher dessen Knopf prüfen
-async function wunschWeg(p){const h=await p.$('#hintBox.on #hOk');if(h&&await h.isVisible()){await h.click({timeout:2000}).catch(()=>{});await p.waitForTimeout(200)}for(let i=0;i<3;i++){const w=await p.$('#wishPop button, #wishPop .btn');if(!w||!await w.isVisible())return;
+async function wunschWeg(p){for(let j=0;j<4;j++){await p.waitForTimeout(150);const h=await p.$('#hintBox.on #hOk');if(!h||!await h.isVisible())break;await h.click({timeout:2000,force:true}).catch(()=>{});await p.waitForTimeout(250)}for(let i=0;i<3;i++){const w=await p.$('#wishPop button, #wishPop .btn');if(!w||!await w.isVisible())return;
   const frei=await w.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});if(!frei)T(false,'Knopf im Besucherwunsch-Fenster verdeckt');
   await w.click({timeout:2000}).catch(x=>T(false,'Besucherwunsch-Fenster lässt sich nicht wegtippen'));await p.waitForTimeout(300)}}
 const HW=new Set();const klick=async(p,sel)=>{if(!/wishPop/.test(sel))await wunschWeg(p);const e=await p.$(sel);if(!e||!await e.isVisible())return false;
