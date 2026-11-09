@@ -1,0 +1,47 @@
+// Godot-Vorbereitung 2a (Daten in daten/*.json): ein Spielstand aus 0.73a muss weiter laden und genau gleich weiterspielen.
+//   node tests/jsddaten.js              -> prüft den Spielstand tests/daten/spielstand-0.73a.json gegen das aktuelle Spiel
+//   node tests/jsddaten.js erzeuge      -> erzeugt den Spielstand neu (nur mit dem alten Stand 0.73a sinnvoll: ZF=pfad/zu/0.73a.html)
+// Der Spielstand ist der komplette Gerätespeicher (localStorage) mit einem laufenden Zoolatro-Lauf (Zoo 2, mitten in einer Jahreszeit).
+// Geprüft wird: Laden klappt, Lauf geht weiter, Wertung des Zoos gleich, und 3 weitere Bot-Tage mit festem Zufall ergeben dieselben Punkte.
+const {JSDOM}=require('jsdom');const fs=require('fs'),path=require('path');
+const FIX=path.join(__dirname,'daten','spielstand-0.73a.json');
+const html=fs.readFileSync(process.env.ZF||path.join(__dirname,'..','build','zoodeck.html'),'utf8');
+const mulberry=s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m);
+function dom(seed,store){return new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,
+  beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,200));w.addEventListener('error',e=>console.log('WINERR',e.message));
+    if(store)for(const k in store)w.localStorage.setItem(k,store[k]);w.Math.random=mulberry(seed)}})}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const bot=fs.readFileSync(path.join(__dirname,'bot7.js'),'utf8')+";BOT.zl=true;BOT.cur={zoos:[],built:0,cd:{},picked:{},specs:[],progs:[]};";
+// 3 Bot-Tage weiterspielen, Tagespunkte zurückgeben
+const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3&&g++<60){const ph=state.phase;
+  if(ph==='play'){botDay();botScore();out.push({season:state.season,day:state.day,pts:state.lastDay,n:state.buildings.length});endDay()}
+  else if(ph==='draft'){const base=scoreZoo(state.buildings).total;let bi=0,bv=-1e9;state.offer.forEach((k,i)=>{const b=botBest(k,base),v=b?b.g/costOf(k):-1;if(v>bv){bv=v;bi=i}});pick(bi)}
+  else if(ph==='seasonWon'){state.pendingSeason=true;nextDraft()}else if(ph==='shop')botShop();else break}return JSON.stringify(out)})()`));
+(async()=>{try{
+  if(process.argv[2]==='erzeuge'){
+    const d=dom(73,null);await wait(300);const w=d.window;w.eval(`window._keep=[render,renderModal,saveMeta];`);w.eval(bot);
+    w.eval(`META.slots[0]={name:'Tobi',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;runOf().fsIntro=0`);
+    // Zoo 1 durchspielen, Belohnungen, dann in Zoo 2 bis Sommer Tag 3
+    w.eval(`(()=>{let g=0;while(g++<400){const ph=state&&state.phase;if(!state)break;if(state.zoo>=1&&state.season>=1&&state.day>=2&&ph==='play')break;
+      if(ph==='play'){botDay();botScore();endDay()}else if(ph==='draft'){pick(0)}else if(ph==='seasonWon'){state.pendingSeason=true;nextDraft()}else if(ph==='shop')botShop();
+      else if(ph==='win'){finishGame();const run=META.slots[0].run;let h=0;while(run.reward&&h++<30){const a=run.reward;if(botClick('[data-vack]')||botClick('[data-cdack]')){}else if(a.step==='prev')botClick('[data-cprev]');else if(a.step==='perk'){if(!botClick('[data-cskip="perk"]'))break}else if(a.step==='card'){if(!botClick('[data-ccard]:not([disabled])'))botClick('[data-cskip="card"]')}else if(a.step==='trim')botClick('[data-cskip="trim"]');else if(a.step==='spec'){if(!botClick('[data-cspec]:not([disabled])'))botClick('[data-cstart]')}else if(a.step==='next'){botClick('[data-cstart]');break}else break}modal=null}
+      else break}})()`);
+    w.eval(`[render,renderModal,saveMeta]=window._keep;saveMeta()`);
+    const store={};for(let i=0;i<w.localStorage.length;i++){const k=w.localStorage.key(i);store[k]=w.localStorage.getItem(k)}
+    const info=JSON.parse(w.eval(`JSON.stringify({version:VERSION,zoo:state.zoo,season:state.season,day:state.day,n:state.buildings.length,total:scoreZoo(state.buildings).total,spec:state.spec})`));
+    d.window.close();
+    // Erwartung: Laden in 0.73a und 3 Tage weiter
+    const d2=dom(7373,store);await wait(300);const w2=d2.window;w2.eval(bot);w2.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};enterCamp(0,false,null,'z2');modal=null`);
+    const total2=w2.eval('scoreZoo(state.buildings).total'),tage=weiter(w2);d2.window.close();
+    fs.mkdirSync(path.dirname(FIX),{recursive:true});fs.writeFileSync(FIX,JSON.stringify({erzeugt_mit:info.version,stand:info,erwartet:{total:total2,tage},localStorage:store},null,1));
+    L('Spielstand geschrieben:',JSON.stringify(info),'weiter:',JSON.stringify(tage));process.exit(0)}
+  const F=JSON.parse(fs.readFileSync(FIX,'utf8'));
+  const d=dom(7373,F.localStorage);await wait(300);const w=d.window;w.eval(bot);
+  T(w.eval('!!META.slots[0]&&!!META.slots[0].run&&!!META.slots[0].run.z2'),'Spielstand '+F.erzeugt_mit+' geladen: Zoolatro-Lauf vorhanden');
+  w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};enterCamp(0,false,null,'z2');modal=null`);
+  T(w.eval('!!state&&state.zoo')===F.stand.zoo&&w.eval('state.season')===F.stand.season&&w.eval('state.buildings.length')===F.stand.n,`Lauf geht weiter (Zoo ${F.stand.zoo+1}, Jahreszeit ${F.stand.season+1}, ${F.stand.n} Gebäude)`);
+  const tot=w.eval('scoreZoo(state.buildings).total');T(tot===F.erwartet.total,`Wertung gleich (${tot} / erwartet ${F.erwartet.total})`);
+  const tage=weiter(w);T(JSON.stringify(tage)===JSON.stringify(F.erwartet.tage),`3 weitere Tage gleich: ${tage.map(t=>t.pts).join(', ')} (erwartet ${F.erwartet.tage.map(t=>t.pts).join(', ')})`);
+  d.window.close();process.exit(0)
+}catch(e){L('EXC',e.stack);process.exit(1)}})();

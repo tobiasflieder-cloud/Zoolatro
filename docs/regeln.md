@@ -21,7 +21,7 @@ Tagespunkte. Eine Jahreszeit hat 5 Tage und ein Punkteziel. Vier Jahreszeiten si
   - kein Eintrag = normales Baufeld.
 - **Randfeld** (`isEdge`): Feld mit mindestens einem Nachbarn außerhalb von `BOARD`.
 
-### 1.2 Karten (`01:CARDS`)
+### 1.2 Karten (`daten/karten.json` → `01:CARDS`, Wirkungen in `01:KARTEN_WIRKUNG`)
 Jede Karte hat: `cat` (Kategorie), `a` (Grund-Besucher B), `s` (Grund-Natur N), `shape` (Form), optional `hab` (Lebensraum),
 `tags`, `rar` (Seltenheit), `bonus` (Nachbar-Bonus, Funktion), `km` (Kombo-Faktor), `mult` (Zoo-Multiplikator), `tal` (Taler je Tag).
 - **Kategorien** (`01:CAT`): `gehege`, `attr` (Attraktion), `essen` (Gastro & Shops), `schutz` (Naturschutz), `verst` (Verstärker).

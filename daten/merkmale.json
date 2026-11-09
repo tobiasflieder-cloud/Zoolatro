@@ -1,0 +1,114 @@
+{
+ "hinweis": "Merkmale (Tier-Eigenschaften) von Zoolatro. Wird von quelltext/mache.py ins Spiel eingebaut. karten = Kartenschlüssel mit diesem Merkmal (stehen zusätzlich schon in tags in karten.json). Reihenfolge nicht ändern.",
+ "merkmale": {
+  "raubtier": {
+   "name": "Raubtier",
+   "icon": "🦷",
+   "karten": [
+    "loewen",
+    "tiger",
+    "geparden",
+    "woelfe",
+    "eisbaeren",
+    "krokodile",
+    "schneeleoparden",
+    "dingos",
+    "luchse",
+    "polarfuchs",
+    "fennek"
+   ]
+  },
+  "beute": {
+   "name": "Beute",
+   "icon": "🐇",
+   "karten": [
+    "zebras",
+    "giraffen",
+    "warzenschweine",
+    "addax",
+    "flamingos",
+    "kamele",
+    "kaengurus",
+    "wuestenigel",
+    "antilopen",
+    "schneehasen",
+    "rentiere",
+    "lemminge",
+    "steinboecke",
+    "mufflons",
+    "pfeifhasen",
+    "koalas"
+   ]
+  },
+  "scheu": {
+   "name": "Scheu",
+   "icon": "🙈",
+   "karten": [
+    "pandas",
+    "faultiere",
+    "schildkroeten",
+    "nashoerner",
+    "fennek",
+    "schwan",
+    "eulen",
+    "koalas",
+    "polarfuchs",
+    "murmeltiere",
+    "luchse",
+    "rotepandas"
+   ]
+  },
+  "show": {
+   "name": "Showtier",
+   "icon": "🎭",
+   "karten": [
+    "seeloewen",
+    "korallenriff",
+    "affen",
+    "papageien",
+    "erdmaennchen",
+    "skorpione",
+    "giraffen",
+    "warzenschweine",
+    "pinguine",
+    "belugas",
+    "mufflons",
+    "yaks"
+   ]
+  },
+  "ruhig": {
+   "name": "Ruhig",
+   "icon": "🤫",
+   "karten": [
+    "lehrpfad",
+    "picknick",
+    "restaurant",
+    "teestube",
+    "turm",
+    "glashaus",
+    "besucherzentrum",
+    "nachtfuehrung",
+    "flossteil"
+   ]
+  },
+  "trubel": {
+   "name": "Trubel",
+   "icon": "🎉",
+   "karten": [
+    "tribuene",
+    "arena",
+    "zirkus",
+    "abenteuer",
+    "wasserspiel",
+    "delfinshow",
+    "biergarten",
+    "weihnachtsmarkt",
+    "kuerbisfest",
+    "bratwurst",
+    "lotterie",
+    "achterbahn",
+    "foodcourt"
+   ]
+  }
+ }
+}

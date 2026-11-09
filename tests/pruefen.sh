@@ -11,10 +11,14 @@ python3 quelltext/mache.py >/dev/null || exit 1
 TMP=$(mktemp -d)
 mkdir -p "$TMP/q/src"
 git archive "$REF" quelltext/src | tar -x -C "$TMP/q" --strip-components=1 2>/dev/null
-python3 - "$TMP/q/src" "$TMP/alt.html" <<'P'
-import os,sys
+mkdir -p "$TMP/daten"; git archive "$REF" daten 2>/dev/null | tar -x -C "$TMP" 2>/dev/null
+python3 - "$TMP/q/src" "$TMP/alt.html" "$TMP/daten" <<'P'
+import os,sys,re,json
 d=sys.argv[1];fs=sorted(os.listdir(d));rd=lambda f:open(os.path.join(d,f),encoding='utf8').read()
-open(sys.argv[2],'w',encoding='utf8').write(rd('00-seite-und-stil.html')+''.join(rd(f) for f in fs if f.endswith('.js'))+rd('99-ende.html'))
+g=rd('00-seite-und-stil.html')+''.join(rd(f) for f in fs if f.endswith('.js'))+rd('99-ende.html')
+# Daten wie in mache.py einsetzen (ab Godot-Vorbereitung 2a)
+g=re.sub(r'/\*@@DATEN:([a-z0-9_]+)@@\*/null',lambda m:json.dumps(json.load(open(os.path.join(sys.argv[3],m.group(1)+'.json'),encoding='utf8')),ensure_ascii=False,separators=(',',':')).replace('</','<\\/'),g)
+open(sys.argv[2],'w',encoding='utf8').write(g)
 P
 cd tests
 F='FAIL|ERR|WINERR|MISSING|EXC|STUCK|UNHANDLED'

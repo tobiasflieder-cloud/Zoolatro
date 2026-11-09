@@ -28,7 +28,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  // Karten und Gastro-Taler
  T(ev(`CARDS.otter.a===5&&CARDS.otter.s===4&&CARDS.bueffel.a===7&&CARDS.schwan.s===2&&!CARDS.flamingos.bonus`),'Kartenwerte und „nur Merkmal“ aus der Tabelle');
  T(ev(`(()=>{const bs=[{id:1,key:'cafe',cells:[[0,0]],lvl:1},{id:2,key:'gruen',cells:[[1,0]],lvl:1},{id:3,key:'infozentrum',cells:[[0,1]],lvl:1}];state.buildings=bs;return talOf(bs)===2&&dayIncome(0,0,0).gas===2})()`),'Zoo-Café: 1 Taler je Naturschutz daneben, im Tagesertrag');
- T(ev(`(()=>{const bs=[{id:1,key:'baumschule',cells:[[0,0]],lvl:1},{id:2,key:'affen',cells:[[1,0]],lvl:1}];syncCtx();return evalB(bs[0],bs,mkIndex(bs)).s===CARDS.baumschule.s+2})()`),'Baumschule +2 N je Dschungel-Gehege');
+ T(ev(`(()=>{const g0=state.zl.gold;state.zl.gold=[];const bs=[{id:1,key:'baumschule',cells:[[0,0]],lvl:1},{id:2,key:'affen',cells:[[1,0]],lvl:1}];syncCtx();const ok=evalB(bs[0],bs,mkIndex(bs)).s===CARDS.baumschule.s+2;state.zl.gold=g0;syncCtx();return ok})()`),'Baumschule +2 N je Dschungel-Gehege (ohne Goldfeld, sonst zufällig ×2)');
  // Tribüne
 
  // Flößerin, Jäger, wachsende Spezialisten

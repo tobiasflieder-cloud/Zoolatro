@@ -77,278 +77,108 @@ const cnt=(arr,f)=>arr.filter(f).length;
 const essenMalus=nb=>0; // Gastro-Gebäude stören nur scheue Tiere
 const cold=h=>h==='savanne'||h==='wueste',hot=h=>h==='arktis'||h==='gebirge';
 
-const CARDS={
-  pinguine:{icon:'🐧',cat:'gehege',hab:'wasser',shape:'s1',a:3,s:2,rar:'gewöhnlich',
-    bonus:nb=>({a:CTX.winter?2:0})},
-  flamingos:{icon:'🦩',cat:'gehege',hab:'wasser',shape:'s2',a:2,s:3,rar:'gewöhnlich',
-    bonus:nb=>({s:cnt(nb,n=>n.key==='gruen'),a:sea(1)?1:0})},
-  schildkroeten:{icon:'🐢',cat:'gehege',hab:'wasser',shape:'s1',a:1,s:3,tags:['bedroht'],rar:'gewöhnlich',text:'Bedrohte Art.'},
-  seeloewen:{icon:'🦭',cat:'gehege',hab:'wasser',shape:'s2',a:5,s:1,rar:'gewöhnlich'},
-  otter:{icon:'🦦',cat:'gehege',hab:'wasser',shape:'l3',a:3,s:3,rar:'gewöhnlich',
-    bonus:nb=>({s:2*cnt(nb,n=>n.key==='gruen'||n.key==='wasserfall')})},
-  nilpferde:{icon:'🦛',cat:'gehege',hab:'wasser',shape:'d4',a:6,s:4,tags:['bedroht'],rar:'selten',text:'Großes Gehege. Bedrohte Art.',bonus:nb=>({s:2*cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wasser'))})},
-  affen:{icon:'🐒',cat:'gehege',hab:'wald',shape:'s1',a:4,s:1,rar:'gewöhnlich'},
-  pandas:{icon:'🐼',cat:'gehege',hab:'wald',shape:'s2',a:4,s:4,tags:['bedroht'],rar:'selten',text:'Bedrohte Art. Publikumsliebling.'},
-  // 0.90 Signatur-Karten: gibt es nur im jeweiligen Deck (nie im Angebot), werden mit dem Deck freigeschaltet
-  hafen:{icon:'⚓',cat:'gehege',hab:'wasser',shape:'t3',a:3,s:3,tags:[],rar:'signatur',sig:'kueste',bonus:nb=>{const w=cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wasser'));return{a:w>=3?2:0,s:w+(w>=3?Math.round((3+w)*.5):0)}}},
-  gnu:{icon:'🐂',cat:'gehege',hab:'savanne',shape:'d4',a:4,s:4,tags:['beute'],rar:'signatur',sig:'steppe',bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'savanne'))})},
-  regenkuppel:{icon:'🐸',cat:'gehege',hab:'wald',shape:'s2',a:2,s:4,tags:[],rar:'signatur',sig:'dschungel',bonus:nb=>({s:2*cnt(nb,n=>has(n,'scheu'))})},
-  karawane:{icon:'🏕️',cat:'gehege',hab:'wueste',shape:'s2',a:4,s:2,tags:[],rar:'signatur',sig:'oase'},
-  achterbahn:{icon:'🎠',cat:'attr',shape:'l3',a:4,s:0,rar:'signatur',sig:'freizeit',bonus:(nb,bs,b)=>({a:cnt(bs||[],n=>n!==b&&isCat(n,'attr'))})},
-  foodcourt:{icon:'🍱',cat:'essen',shape:'s2',a:3,s:0,rar:'signatur',sig:'geniesser',bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'essen'))})},
-  fstation:{icon:'🔬',cat:'schutz',shape:'s1',a:1,s:2,rar:'signatur',sig:'forscher'},
-  eisgrotte:{icon:'❄️',cat:'gehege',hab:'arktis',shape:'s2',a:3,s:3,tags:[],rar:'signatur',sig:'polar',bonus:()=>CTX.winter?{a:6,s:6}:{a:0,s:0}},
-  adlerhorst:{icon:'🪺',cat:'gehege',hab:'gebirge',shape:'s1',a:2,s:2,tags:[],rar:'signatur',sig:'alpen',bonus:(nb,bs,b)=>({a:rocksR2(b)})},
-  tiger:{icon:'🐯',cat:'gehege',hab:'wald',shape:'t3',a:6,s:4,tags:['bedroht'],rar:'selten',text:'Großes Gehege. Bedrohte Art.'},
-  faultiere:{icon:'🦥',cat:'gehege',hab:'wald',shape:'s1',a:3,s:2,rar:'gewöhnlich',
-    bonus:nb=>({s:cnt(nb,n=>isCat(n,'essen')||isCat(n,'attr'))?0:2})},
-  woelfe:{icon:'🐺',cat:'gehege',hab:'wald',shape:'b3',a:4,s:3,rar:'gewöhnlich',
-    bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege'))})},
-  reptilien:{icon:'🦎',cat:'gehege',hab:'wueste',shape:'s1',a:3,s:3,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege')&&!isHab(n,'wueste'))}),text:'Ruhige Tiere, solider Artenschutz.'},
-  erdmaennchen:{icon:'🦙',cat:'gehege',hab:'wueste',shape:'s1',a:3,s:1,rar:'gewöhnlich',gone:1},
-  addax:{icon:'🦌🏜️',cat:'gehege',hab:'wueste',shape:'b3',a:5,s:3,tags:['bedroht'],rar:'selten'},
-  kamele:{icon:'🐫',cat:'gehege',hab:'wueste',shape:'l3',a:4,s:2,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege')&&!isHab(n,'wueste'))}),text:'Großes Gehege, langgezogen.'},
-  fennek:{icon:'🦊',cat:'gehege',hab:'wueste',shape:'s1',a:3,s:2,rar:'gewöhnlich',
-    bonus:nb=>({a:cnt(nb,n=>isCat(n,'schutz'))+2*cnt(nb,n=>n.key==='nachtfuehrung')})},
-  skorpione:{icon:'🦂',cat:'gehege',hab:'wueste',shape:'s1',a:3,s:2,rar:'gewöhnlich',
-    bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')&&!isHab(n,'wueste'))})},
-  giraffen:{icon:'🦒',cat:'gehege',hab:'savanne',shape:'b3',a:5,s:3,rar:'gewöhnlich',text:'Großes Gehege, gebogen.'},
-  zebras:{icon:'🦓',cat:'gehege',hab:'savanne',shape:'t3',a:4,s:3,rar:'gewöhnlich',text:'Großes Gehege, kompakt.'},
-  warzenschweine:{icon:'🐗',cat:'gehege',hab:'savanne',shape:'s1',a:2,s:2,rar:'gewöhnlich',
-    bonus:nb=>({a:cnt(nb,n=>has(n,'gross')&&isCat(n,'gehege'))})},
-  geparden:{icon:'🐆',cat:'gehege',hab:'savanne',shape:'s2',a:4,s:2,tags:['bedroht'],rar:'selten',text:'Bedrohte Art.'},
-  elefanten:{icon:'🐘',cat:'gehege',hab:'savanne',shape:'d4',a:6,s:4,tags:['bedroht'],rar:'selten',text:'Großes Gehege. Bedrohte Art.'},
-  loewen:{icon:'🦁',cat:'gehege',hab:'savanne',shape:'l4',a:8,s:2,rar:'selten',text:'Großes Gehege, sehr lang. Sehr beliebt.'},
-  nashoerner:{icon:'🦏',cat:'gehege',hab:'savanne',shape:'z4',a:3,s:7,tags:['bedroht'],rar:'sehr selten',text:'Großes Gehege. Bedrohte Art, starker Artenschutz.'},
-
-  delfinshow:{icon:'🐬',cat:'attr',shape:'s2',a:6,s:0,rar:'gewöhnlich',
-    bonus:nb=>({s:-cnt(nb,n=>isCat(n,'gehege')&&!isHab(n,'wasser'))})},
-  turm:{icon:'🗼',cat:'attr',shape:'s1',a:1,s:0,rar:'gewöhnlich',
-    bonus:nb=>({a:4*cnt(nb,n=>has(n,'gross')&&isCat(n,'gehege'))})},
-  streichelzoo:{icon:'🐑',cat:'attr',shape:'s1',a:3,s:1,rar:'gewöhnlich',
-    bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'essen'))})},
-  spielplatz:{gone:1,icon:'🛝',cat:'attr',shape:'s1',a:2,s:0,rar:'gewöhnlich',
-    bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'essen')||n.key==='streichelzoo')})},
-  zoobahn:{gone:1,icon:'🚂',cat:'attr',shape:'l4',a:3,s:0,rar:'selten',
-    bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege'))})},
-  tropenhaus:{icon:'🌴',cat:'attr',shape:'t3',a:5,s:5,rar:'sehr selten',
-    bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege'))*(CTX.winter?2:1)})},
-  nachtfuehrung:{icon:'🌙',cat:'attr',shape:'s1',a:2,s:0,rar:'sehr selten',
-    
-    mult:(nb,all)=>cnt(all,n=>isCat(n,'gehege'))>=4?{ma:1.3}:null},
-  glashaus:{icon:'🪴',cat:'attr',shape:'s2',a:3,s:2,rar:'winter',
-    bonus:nb=>({a:(CTX.winter?3:1)*cnt(nb,n=>cold(K(n).hab))})},
-
-  popcorn:{icon:'🍿',cat:'essen',shape:'s1',a:1,s:0,rar:'gewöhnlich',
-    
-    bonus:nb=>({a:5*cnt(nb,n=>n.key==='delfinshow')+2*cnt(nb,n=>isCat(n,'attr')&&n.key!=='delfinshow'),s:essenMalus(nb)})},
-  eiswagen:{icon:'🍦',cat:'essen',shape:'s1',a:2,s:0,rar:'gewöhnlich',
-    
-    bonus:nb=>({a:(CTX.winter?1:sea(1)?3:2)*cnt(nb,n=>isCat(n,'gehege')),s:essenMalus(nb)})},
-  bratwurst:{icon:'🌭',cat:'essen',shape:'s1',a:2,s:0,rar:'gewöhnlich',
-    
-    bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege'))+cnt(nb,n=>isHab(n,'savanne')),s:essenMalus(nb)})},
-  cafe:{icon:'☕',cat:'essen',shape:'s1',a:2,s:0,rar:'gewöhnlich',
-    
-    bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'schutz'))+(CTX.season>=2?2:0),s:essenMalus(nb)})},
-  getraenke:{gone:1,icon:'🥤',cat:'essen',shape:'s1',a:1,s:0,rar:'selten',
-    
-    bonus:nb=>({a:nb.length,s:essenMalus(nb)})},
-  crepes:{gone:1,icon:'🥞',cat:'essen',shape:'s1',a:2,s:0,rar:'selten',
-    
-    bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'attr')),s:essenMalus(nb)})},
-  picknick:{icon:'🧺',cat:'essen',shape:'s2',a:1,s:1,rar:'gewöhnlich',
-    
-    bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege'))+(CTX.season<2?1:0),a:cnt(nb,n=>isCat(n,'essen'))-(CTX.winter?1:0)})},
-  bistro:{icon:'🍽️',cat:'essen',shape:'s1',a:2,s:0,rar:'selten',
-    
-    bonus:nb=>({a:5*cnt(nb,n=>isHab(n,'savanne')),s:essenMalus(nb)})},
-  souvenir:{gone:1,icon:'🛍️',cat:'essen',shape:'s1',a:3,s:0,rar:'gewöhnlich',
-    
-    bonus:nb=>({a:cnt(nb,n=>isCat(n,'attr')),s:essenMalus(nb)})},
-  weihnachtsmarkt:{icon:'🎄',cat:'essen',shape:'s2',a:2,s:0,rar:'winter',
-    
-    bonus:nb=>({a:cnt(nb,n=>isCat(n,'essen'))+(CTX.winter?6:0),s:essenMalus(nb)})},
-
-  gruen:{icon:'🌳',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',
-    bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege'))+(sea(0)?1:0)})},
-  wasserfall:{icon:'🏞️',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',
-    bonus:nb=>{let w=cnt(nb,n=>isHab(n,'wasser'));if(CTX.winter)w=Math.floor(w/2);return{a:w,s:w}}},
-  infozentrum:{icon:'📚',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',
-    bonus:nb=>({s:2*cnt(nb,n=>isCat(n,'attr'))})},
-  tierarzt:{icon:'🩺',cat:'schutz',shape:'s1',a:0,s:2,rar:'gewöhnlich',
-    bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege'))})},
-  zucht:{icon:'🥚',cat:'schutz',shape:'s1',a:0,s:2,rar:'selten',
-    
-    bonus:nb=>({s:nb.filter(n=>has(n,'bedroht')).reduce((t,n)=>t+K(n).s,0)})},
-  vielfalt:{icon:'🧬',cat:'schutz',shape:'s1',a:0,s:1,rar:'selten',
-    bonus:(nb,all)=>({s:new Set(all.filter(n=>isCat(n,'gehege')).map(n=>spK(n.key))).size})},
-  labor:{gone:1,icon:'🔬',cat:'schutz',shape:'s1',a:0,s:2,rar:'selten',
-    bonus:(nb,all)=>({s:cnt(all,n=>isCat(n,'gehege'))})},
-  stiftung:{icon:'🏛️',cat:'schutz',shape:'s1',a:0,s:1,rar:'sehr selten',
-    mult:()=>({ms:1.3})},
-};
-// Bonus-Karten: werden pro Speicherplatz nach einem Sieg freigeschaltet
-Object.assign(CARDS,{
-  gorillas:{icon:'🦍',cat:'gehege',hab:'wald',shape:'t3',a:6,s:5,tags:['bedroht'],rar:'selten',bonus_:1,bonus:nb=>({s:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wald'))})},
-  koalas:{icon:'🐨',cat:'gehege',hab:'wald',shape:'s1',a:4,s:3,tags:['bedroht'],rar:'selten',bonus_:1,bonus:nb=>({a:cnt(nb,n=>isCat(n,'schutz'))?2:0})},
-  eisbaeren:{icon:'🐻‍❄️',cat:'gehege',hab:'wasser',shape:'b3',a:7,s:3,tags:['bedroht'],rar:'selten',bonus_:1,bonus:()=>({a:CTX.winter?2:0})},
-  krokodile:{icon:'🐊',cat:'gehege',hab:'wasser',shape:'s2',a:5,s:2,rar:'selten',bonus_:1,bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'essen'))})},
-  schneeleoparden:{icon:'🐆❄️',cat:'gehege',hab:'wueste',shape:'s2',a:5,s:4,tags:['bedroht'],rar:'selten',bonus_:1,bonus:()=>({a:CTX.winter?3:0})},
-  kaengurus:{icon:'🦘',cat:'gehege',hab:'wueste',shape:'l3',a:5,s:3,rar:'selten',bonus_:1,bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wueste'))})},
-  aquarium:{icon:'🐠',cat:'attr',shape:'t3',a:5,s:2,rar:'selten',bonus_:1,bonus:nb=>({a:2*cnt(nb,n=>isHab(n,'wasser'))})},
-  biergarten:{icon:'🍺',cat:'essen',shape:'s2',a:3,s:0,rar:'selten',bonus_:1,bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'essen'))+(sea(1)?3:0),s:essenMalus(nb)})},
-  schmetterling:{icon:'🦋',cat:'schutz',shape:'s2',a:2,s:3,rar:'selten',bonus_:1,
-    bonus:(nb,all,b)=>{const own=new Set(b.cells.map(c=>hk(...c))),seen=new Set();for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr),t=TERR.get(k);if(t&&t!=='block'&&!own.has(k))seen.add(k)}return{s:seen.size}}},
-});
-// Ergänzungen, damit jeder Lebensraum 7 Grundkarten und 2 Bonus-Karten hat, Attraktionen, Essen und Naturschutz je 9 und 2
-Object.assign(CARDS,{
-  schwan:{icon:'🦢',cat:'gehege',hab:'wasser',shape:'s2',a:3,s:3,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isCat(n,'schutz'))})},
-  eulen:{icon:'🦉',cat:'gehege',hab:'wald',shape:'s1',a:2,s:3,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>has(n,'scheu')),a:2*cnt(nb,n=>n.key==='nachtfuehrung')})},
-  papageien:{icon:'🦜',cat:'gehege',hab:'wald',shape:'s2',a:5,s:2,rar:'gewöhnlich'},
-  schlangen:{icon:'🐍',cat:'gehege',hab:'wueste',shape:'s1',a:3,s:2,rar:'gewöhnlich',bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wueste'))})},
-  wuestenigel:{icon:'🦔',cat:'gehege',hab:'wueste',shape:'s1',a:2,s:3,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isCat(n,'schutz'))})},
-  bueffel:{icon:'🐃',cat:'gehege',hab:'savanne',shape:'d4',a:7,s:4,rar:'selten',bonus_:1,bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'savanne'))})},
-  antilopen:{icon:'🦌',cat:'gehege',hab:'savanne',shape:'t3',a:5,s:4,tags:['bedroht'],rar:'selten',bonus_:1},
-  karussell:{gone:1,icon:'🎠',cat:'attr',shape:'s1',a:3,s:0,rar:'gewöhnlich',bonus:nb=>({a:cnt(nb,n=>isCat(n,'attr')||isCat(n,'essen'))})},
-  arena:{icon:'🤹',cat:'attr',shape:'t3',a:6,s:0,rar:'selten',bonus:nb=>({a:cnt(nb,n=>isCat(n,'gehege')),s:0})},
-  bienen:{icon:'🐝',cat:'schutz',shape:'s1',a:0,s:2,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isCat(n,'schutz'))+cnt(nb,n=>n.key==='gruen')})},
-  baumschule:{icon:'🌱',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',bonus:nb=>{const w=cnt(nb,n=>isHab(n,'wald'));return{a:w,s:w}}},
-  wasserloch:{icon:'🫗',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',bonus:nb=>{const w=cnt(nb,n=>isHab(n,'savanne'));return{a:w,s:w}}},
-  oase:{icon:'🏝️',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',bonus:nb=>{const w=cnt(nb,n=>isHab(n,'wueste'));return{a:w,s:w}}},
-  pizzeria:{icon:'🍕',cat:'essen',shape:'s2',a:4,s:0,rar:'selten',bonus_:1,bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'attr')),s:essenMalus(nb)})},
-});
-// Saison-Karten: tauchen nur in ihrer Jahreszeit in Auswahl und Shop auf
-Object.assign(CARDS,{
-  blumenschau:{gone:1,icon:'🌷',cat:'attr',shape:'s2',a:2,s:2,rar:'saison',only:0,bonus:nb=>({a:sea(0)?3:0,s:cnt(nb,n=>n.key==='gruen')})},
-  wasserspiel:{icon:'💦',cat:'attr',shape:'s2',a:3,s:0,rar:'saison',only:1,bonus:nb=>({a:(sea(1)?4:0)+cnt(nb,n=>isHab(n,'wasser'))})},
-  kuerbisfest:{icon:'🎃',cat:'essen',shape:'s2',a:2,s:0,rar:'saison',only:2,bonus:nb=>({a:(sea(2)?5:0)+cnt(nb,n=>isCat(n,'essen')),s:essenMalus(nb)})},
-  eisbahn:{gone:1,icon:'⛸️',cat:'attr',shape:'t3',a:4,s:0,rar:'winter',bonus:()=>({a:CTX.winter?5:0})},
-});
-// Meilenstein-Karten: Geschenk ab 5 Gehegen eines Lebensraums bzw. 6 Gebäuden einer Art
+// ===== Godot-Vorbereitung 2a: Kartendaten stehen in daten/karten.json, Merkmale in daten/merkmale.json (von mache.py eingebaut).
+// Wirkungen, die Code sind, bleiben hier: die Karte nennt in bonus/km/mult/tal eine Kennung aus KARTEN_WIRKUNG (= Kartenschlüssel).
+const KARTEN_DATEN=/*@@DATEN:karten@@*/null,MERKMALE_DATEN=/*@@DATEN:merkmale@@*/null;
+const KARTEN_WIRKUNG=(()=>{const W=(nb,h)=>cnt(nb,n=>isCat(n,'gehege')&&isHab(n,h)),S=nb=>cnt(nb,n=>isCat(n,'schutz')),E=nb=>cnt(nb,n=>isCat(n,'essen')),G=nb=>cnt(nb,n=>isCat(n,'gehege'));
+  const bonus={},km={},mult={},tal={};
+  // Kartenbonus (Nachbarn)
+  bonus.nilpferde=nb=>({s:2*cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wasser'))});
+  bonus.hafen=()=>({});
+  bonus.gnu=nb=>({a:W(nb,'savanne'),s:W(nb,'savanne')});
+  bonus.regenkuppel=nb=>({s:2*cnt(nb,n=>has(n,'scheu'))});
+  bonus.achterbahn=(nb,bs,b)=>({a:cnt(bs||[],n=>n!==b&&isCat(n,'attr'))});
+  bonus.foodcourt=nb=>({a:2*cnt(nb,n=>isCat(n,'essen'))});
+  bonus.eisgrotte=()=>CTX.winter?{a:6,s:6}:{a:0,s:0};
+  bonus.adlerhorst=(nb,bs,b)=>({a:rocksR2(b)});
+  bonus.delfinshow=nb=>({a:W(nb,'wasser')});
+  bonus.turm=nb=>({a:4*cnt(nb,n=>has(n,'gross')&&isCat(n,'gehege'))});
+  bonus.streichelzoo=nb=>({a:2*cnt(nb,n=>isCat(n,'essen'))});
+  bonus.spielplatz=nb=>({a:2*cnt(nb,n=>isCat(n,'essen')||n.key==='streichelzoo')});
+  bonus.zoobahn=nb=>({a:cnt(nb,n=>isCat(n,'gehege'))});
+  bonus.tropenhaus=nb=>({s:cnt(nb,n=>isCat(n,'gehege'))*(CTX.winter?2:1)});
+  bonus.glashaus=nb=>({a:(CTX.winter?3:1)*cnt(nb,n=>cold(K(n).hab))});
+  bonus.popcorn=nb=>({a:(nb.some(n=>n.key==='delfinshow'||n.key==='streichelzoo')?5:0)+2*cnt(nb,n=>isCat(n,'attr')&&n.key!=='delfinshow'&&n.key!=='streichelzoo')});
+  bonus.eiswagen=nb=>({a:(sea(1)?3:1)*G(nb)});
+  bonus.getraenke=nb=>({a:nb.length,s:essenMalus(nb)});
+  bonus.crepes=nb=>({a:2*cnt(nb,n=>isCat(n,'attr')),s:essenMalus(nb)});
+  bonus.bistro=nb=>({a:2*W(nb,'savanne')});
+  bonus.souvenir=nb=>({a:cnt(nb,n=>isCat(n,'attr')),s:essenMalus(nb)});
+  bonus.weihnachtsmarkt=()=>({a:CTX.winter?5:0});
+  bonus.gruen=nb=>({s:G(nb)});
+  bonus.infozentrum=nb=>({s:2*cnt(nb,n=>isCat(n,'attr'))});
+  bonus.tierarzt=nb=>({s:cnt(nb,n=>isCat(n,'gehege'))});
+  bonus.zucht=nb=>({s:nb.filter(n=>has(n,'bedroht')).reduce((t,n)=>t+K(n).s,0)});
+  bonus.vielfalt=(nb,all)=>({s:new Set(all.filter(n=>isCat(n,'gehege')).map(n=>spK(n.key))).size});
+  bonus.labor=(nb,all)=>({s:cnt(all,n=>isCat(n,'gehege'))});
+  bonus.gorillas=nb=>({s:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wald'))});
+  bonus.eisbaeren=()=>({a:CTX.winter?2:0});
+  bonus.aquarium=nb=>({a:2*cnt(nb,n=>isHab(n,'wasser'))});
+  bonus.biergarten=nb=>({a:E(nb)+(sea(1)?3:0)});
+  bonus.schmetterling=(nb,all,b)=>{const own=new Set(b.cells.map(c=>hk(...c))),seen=new Set();for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr),t=TERR.get(k);if(t&&t!=='block'&&!own.has(k))seen.add(k)}return{s:seen.size}};
+  bonus.bueffel=nb=>({a:cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'savanne'))});
+  bonus.karussell=nb=>({a:cnt(nb,n=>isCat(n,'attr')||isCat(n,'essen'))});
+  bonus.arena=nb=>({a:cnt(nb,n=>isCat(n,'gehege')),s:0});
+  bonus.bienen=nb=>({s:2*cnt(nb,n=>isCat(n,'schutz')&&n.key!=='bienen')});
+  bonus.pizzeria=nb=>({a:2*cnt(nb,n=>isCat(n,'attr'))+2*cnt(nb,n=>isCat(n,'essen')&&n.key!=='pizzeria')});
+  bonus.blumenschau=nb=>({a:sea(0)?3:0,s:cnt(nb,n=>n.key==='gruen')});
+  bonus.wasserspiel=()=>({a:sea(1)?4:0});
+  bonus.kuerbisfest=nb=>({a:sea(2)?5+2*E(nb):0});
+  bonus.eisbahn=()=>({a:CTX.winter?5:0});
+  bonus.orca=(nb,all,b)=>({a:2*cnt(all||[],n=>n!==b&&isCat(n,'gehege')&&isHab(n,'wasser'))});
+  bonus.grossesavanne=(nb,all,b)=>{const n=others(all,b,x=>isHab(x,'savanne'));return{a:n,s:n}};
+  bonus.orangutan=(nb,all,b)=>({s:2*others(all,b,n=>isHab(n,'wald'))});
+  bonus.greifvogel=(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'wueste'))});
+  bonus.kraken=nb=>({s:cnt(nb,n=>isCat(n,'schutz'))?2:0});
+  bonus.rentiere=nb=>({a:CTX.winter?2:0,s:W(nb,'arktis')});
+  bonus.polarlicht=(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'arktis'))});
+  bonus.braunbaeren=nb=>({s:2*W(nb,'wald')});
+  bonus.seilbahn=(nb,all)=>({a:2*cnt(nb,n=>isHab(n,'gebirge'))+cnt(all||[],n=>isCat(n,'gehege')&&isHab(n,'gebirge'))});
+  bonus.gipfel=(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'gebirge'))});
+  bonus.weltzoo=nb=>{const k=new Set(nb.map(n=>K(n).cat).filter(c=>CATS4.includes(c))).size;return{a:k,s:k}};
+  bonus.lehrpfad=nb=>({a:2*cnt(nb,n=>isCat(n,'schutz'))});
+  bonus.besucherzentrum=nb=>({a:Math.min(8,2*new Set(nb.map(n=>K(n).cat).filter(c=>CATS4.includes(c))).size)});
+  bonus.abenteuer=(nb,all,b)=>({a:2*others(all,b,n=>isCat(n,'attr'))});
+  bonus.restaurant=(nb,all,b)=>({a:2*others(all,b,n=>isCat(n,'essen'))});
+  bonus.ausstellung=(nb,all,b)=>({s:2*others(all,b,n=>isCat(n,'schutz'))});
+  // Kombo-Faktor am Ende der Wertung
+  km.nilpferde=nb=>W(nb,'wasser')>=3?{f:1.5,l:'3 Wasser-Gehege daneben'}:null;
+  km.hafen=nb=>W(nb,'wasser')>=3?{f:1.5,l:'3 Wasser-Gehege daneben'}:null;
+  km.tiger=(nb,bs,b,o)=>!nbrs2(b,o.idx).some(n=>has(n,'beute'))?{fa:1.5,l:'Revier ohne Beute in der Nähe'}:null;
+  km.nashoerner=(nb,bs,b,o)=>!o.st&&W(nb,'savanne')>=2?{f:2,l:'ohne Stress, 2 Savannen-Gehege daneben'}:null;
+  km.weihnachtsmarkt=nb=>CTX.winter&&E(nb)>=2?{f:1.5,l:'Winter, 2 Gastro-Gebäude daneben'}:null;
+  km.zucht=nb=>cnt(nb,n=>isCat(n,'gehege')&&has(n,'bedroht'))>=2?{f:1.5,l:'2 bedrohte Gehege daneben'}:null;
+  km.vielfalt=()=>typeof state!=='undefined'&&state&&(state.miles||{}).bunt?{fs:2,l:'Meilenstein 🎨 Vielfalt'}:null;
+  km.gorillas=nb=>S(nb)?{f:1.5,l:'Naturschutz daneben'}:null;
+  km.koalas=(nb,bs,b,o)=>!o.st?{f:2,l:'nicht gestresst'}:null;
+  km.eisbaeren=nb=>CTX.winter&&cnt(nb,n=>isCat(n,'attr'))&&E(nb)?{f:1.5,l:'Winter mit Attraktion und Gastro daneben'}:null;
+  km.krokodile=nb=>E(nb)>=2?{f:1.5,l:'2 Gastro-Gebäude daneben'}:null;
+  km.kaengurus=nb=>cnt(nb,n=>isCat(n,'gehege')&&!isHab(n,'wueste'))>=3?{f:1.5,l:'3 andere Gehege daneben'}:null;
+  km.biergarten=nb=>E(nb)>=3?{f:1.5,l:'3 Gastro-Gebäude daneben'}:null;
+  km.schmetterling=(nb,bs,b)=>{const own=new Set(b.cells.map(c=>hk(...c))),seen=new Set();for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr),t=TERR.get(k);if(t&&t!=='block'&&!own.has(k))seen.add(k)}return seen.size>=4?{f:1.5,l:'4 Naturflächen-Felder daneben'}:null};
+  km.bueffel=nb=>W(nb,'savanne')>=3?{f:1.5,l:'3 Savannen-Gehege daneben'}:null;
+  km.kraken=nb=>W(nb,'wasser')>=2?{f:1.5,l:'2 Wasser-Gehege daneben'}:null;
+  km.dingos=(nb,bs,b,o)=>nbrs2(b,o.idx).some(n=>has(n,'beute'))?{f:1.5,l:'Beutetier in der Nähe'}:null;
+  km.rotepandas=(nb,bs,b,o)=>!o.st?{f:1.5,l:'nicht gestresst'}:null;
+  // Multiplikator für den ganzen Zoo
+  mult.nachtfuehrung=(nb,all)=>cnt(all,n=>isCat(n,'gehege'))>=4?{ma:cnt(all,n=>isCat(n,'gehege')&&has(n,'scheu'))>=4?1.5:1.3}:null;
+  mult.stiftung=all=>({ms:+Math.min(1.8,1.3+.1*new Set((Array.isArray(all)?all:[]).filter(n=>isCat(n,'gehege')&&has(n,'bedroht')).map(n=>spK(n.key))).size).toFixed(2)});
+  // Taler je Tag
+  tal.eiswagen=nb=>(sea(1)?3:1)*G(nb);
+  tal.bistro=nb=>2*W(nb,'savanne');
+  tal.weihnachtsmarkt=()=>CTX.winter?2:0;
+  tal.biergarten=nb=>E(nb);
+  tal.kuerbisfest=()=>sea(2)?2:0;
+  // Gastro: B und Taler aus derselben Rechnung
+  const gt=(k,f)=>{bonus[k]=nb=>({a:f(nb)});tal[k]=nb=>f(nb)};
+  gt('beduinen',nb=>W(nb,'wueste'));gt('bratwurst',nb=>W(nb,'savanne'));gt('picknick',nb=>E(nb));gt('cafe',nb=>S(nb));gt('berghuette',nb=>W(nb,'gebirge'));gt('teestube',nb=>W(nb,'arktis'));
+  // Naturschutz: +2 N je benachbartes Gehege eines Lebensraums
+  for(const[k,h]of[['baumschule','wald'],['oase','wueste'],['wasserfall','wasser'],['wasserloch','savanne'],['bergwacht','gebirge'],['polarstation','arktis']])bonus[k]=nb=>({s:2*W(nb,h)});
+  return{bonus,km,mult,tal}})();
+const CARDS={};for(const d of KARTEN_DATEN.karten){const c={};for(const p in d){if(p==='key')continue;const v=d[p];c[p]=Array.isArray(v)?v.slice():v;if((p==='bonus'||p==='km'||p==='mult'||p==='tal')&&typeof v==='string'){c[p]=KARTEN_WIRKUNG[p][v];if(!c[p])throw new Error('Wirkung fehlt: '+p+' '+v)}}CARDS[d.key]=c}
 const spK=k=>(CARDS[k]&&CARDS[k].par)||String(k).split(/[#^]/)[0]; // 0.64a: Futter/Prägung ändern die Art nicht // Jungtier zählt als seine Elternart
 const others=(all,b,f)=>new Set(all.filter(n=>n!==b&&spK(n.key)!==spK(b.key)&&!K(n).ms&&f(n)).map(n=>spK(n.key))).size; // verschiedene andere Arten
-Object.assign(CARDS,{
-  orca:{icon:'🐋',cat:'gehege',hab:'wasser',shape:'d4',a:8,s:4,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'wasser'))})},
-  grossesavanne:{icon:'🦬',cat:'gehege',hab:'savanne',shape:'z4',a:6,s:6,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>{const n=others(all,b,x=>isHab(x,'savanne'));return{a:n,s:n}}},
-  orangutan:{icon:'🦧',cat:'gehege',hab:'wald',shape:'t3',a:6,s:6,tags:['bedroht'],rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({s:2*others(all,b,n=>isHab(n,'wald'))})},
-  greifvogel:{icon:'🦅',cat:'gehege',hab:'wueste',shape:'s2',a:7,s:4,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'wueste'))})},
-  // --- Arktis und Gebirge (0.53) ---
-  korallenriff:{icon:'🪸',cat:'gehege',hab:'wasser',shape:'s1',a:3,s:2,rar:'gewöhnlich'},
-  kraken:{icon:'🐙',cat:'gehege',hab:'wasser',shape:'s2',a:2,s:4,rar:'selten',bonus:nb=>({s:cnt(nb,n=>isCat(n,'schutz'))?2:0})},
-  dingos:{icon:'🐕',cat:'gehege',hab:'wueste',shape:'s2',a:4,s:2,rar:'selten',bonus:nb=>({a:cnt(nb,n=>isHab(n,'wueste'))})},
-  polarfuchs:{icon:'🐾',cat:'gehege',hab:'arktis',shape:'s1',a:3,s:2,rar:'gewöhnlich',bonus:()=>({s:CTX.winter?2:0})},
-  schneehasen:{icon:'🐇',cat:'gehege',hab:'arktis',shape:'s1',a:2,s:2,rar:'gewöhnlich',bonus:nb=>({a:cnt(nb,n=>isHab(n,'arktis'))})},
-  moschusochsen:{icon:'🦣',cat:'gehege',hab:'arktis',shape:'b3',a:4,s:4,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isHab(n,'arktis'))})},
-  rentiere:{icon:'🫎',cat:'gehege',hab:'arktis',shape:'t3',a:5,s:3,rar:'gewöhnlich',bonus:()=>({a:CTX.winter?2:0})},
-  belugas:{icon:'🐳',cat:'gehege',hab:'arktis',shape:'l3',a:6,s:3,tags:['bedroht'],rar:'selten'},
-  schneegaense:{icon:'🪿',cat:'gehege',hab:'arktis',shape:'s2',a:3,s:3,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isHab(n,'wasser')||isHab(n,'arktis'))})},
-  lemminge:{icon:'🐹',cat:'gehege',hab:'arktis',shape:'s1',a:1,s:2,rar:'gewöhnlich',bonus:nb=>({s:cnt(nb,n=>isHab(n,'arktis'))})},
-  polarstation:{icon:'📡',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',rq:'arktis',bonus:nb=>{const w=cnt(nb,n=>isHab(n,'arktis'));return{a:w,s:w}}},
-  beduinen:{icon:'⛺',cat:'essen',shape:'s1',a:2,s:0,rar:'gewöhnlich',rq:'wueste',bonus:nb=>({a:cnt(nb,n=>isHab(n,'wueste'))+(CTX.winter?2:0)})},
-  teestube:{icon:'🫖',cat:'essen',shape:'s1',a:2,s:0,rar:'gewöhnlich',rq:'arktis',bonus:nb=>({a:cnt(nb,n=>isHab(n,'arktis'))+(CTX.winter?3:0)})},
-  polarlicht:{icon:'🌌',cat:'gehege',hab:'arktis',shape:'d4',a:8,s:4,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'arktis'))})},
-  steinboecke:{icon:'🐐',cat:'gehege',hab:'gebirge',shape:'s2',a:3,s:3,rar:'gewöhnlich',bonus:(nb,all,b)=>({a:Math.min(2,rocksNb(b))})},
-  murmeltiere:{icon:'🦫',cat:'gehege',hab:'gebirge',shape:'s1',a:2,s:3,rar:'gewöhnlich',bonus:nb=>({a:cnt(nb,n=>isHab(n,'gebirge'))})},
-  mufflons:{icon:'🐏',cat:'gehege',hab:'gebirge',shape:'s2',a:4,s:2,rar:'gewöhnlich',bonus:(nb,all,b)=>({a:edgeN(b)})},
-  yaks:{icon:'🐄',cat:'gehege',hab:'gebirge',shape:'t3',a:5,s:3,rar:'gewöhnlich',bonus:()=>({a:CTX.season>=2?2:0})},
-  braunbaeren:{icon:'🐻',cat:'gehege',hab:'gebirge',shape:'b3',a:6,s:3,rar:'selten',bonus:nb=>({s:2*cnt(nb,n=>isHab(n,'wald'))})},
-  luchse:{icon:'🐈',cat:'gehege',hab:'gebirge',shape:'s1',a:4,s:2,rar:'selten',bonus:nb=>({a:cnt(nb,n=>isCat(n,'essen')||isCat(n,'attr'))?0:3})},
-  rotepandas:{icon:'🦝',cat:'gehege',hab:'gebirge',shape:'s2',a:4,s:3,tags:['bedroht'],rar:'selten',bonus:nb=>({a:cnt(nb,n=>isCat(n,'schutz'))?2:0})},
-  pfeifhasen:{icon:'🐁',cat:'gehege',hab:'gebirge',shape:'s1',a:2,s:2,rar:'gewöhnlich',bonus:(nb,all,b)=>({s:Math.min(2,rocksNb(b))})},
-  seilbahn:{icon:'🚡',cat:'attr',shape:'l3',a:4,s:0,rar:'selten',rq:'gebirge',bonus:nb=>({a:2*cnt(nb,n=>isHab(n,'gebirge'))})},
-  berghuette:{icon:'🛖',cat:'essen',shape:'s1',a:2,s:0,rar:'gewöhnlich',rq:'gebirge',bonus:nb=>({a:cnt(nb,n=>isHab(n,'gebirge'))+(CTX.winter?2:0)})},
-  bergwacht:{icon:'⛑️',cat:'schutz',shape:'s1',a:1,s:1,rar:'gewöhnlich',rq:'gebirge',bonus:nb=>{const w=cnt(nb,n=>isHab(n,'gebirge'));return{a:w,s:w}}},
-  // Verstärker: zählen selbst nicht, verstärken nur ihre Nachbarn (jeder Verstärker zählt pro Nachbar einmal)
-  futterkueche:{tags:['einmalig'],icon:'🥕',cat:'verst',shape:'s1',a:0,s:0,rar:'selten'},
-  besucherlotse:{tags:['einmalig'],icon:'🪧',cat:'verst',shape:'s1',a:0,s:0,rar:'selten'},
-  scheinwerfer:{tags:['einmalig'],icon:'🔦',cat:'verst',shape:'s1',a:0,s:0,rar:'selten'},
-  winterquartier:{tags:['einmalig'],icon:'🧣',cat:'verst',shape:'s1',a:0,s:0,rar:'selten'},
-  buehne:{tags:['einmalig'],icon:'🎤',cat:'verst',shape:'s1',a:0,s:0,rar:'selten'},
-  ruhezone:{tags:['einmalig'],icon:'🍃',cat:'verst',shape:'s1',a:0,s:0,rar:'selten'},
-  gipfel:{icon:'🏔️',cat:'gehege',hab:'gebirge',shape:'z4',a:7,s:5,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'gebirge'))})},
-  weltzoo:{icon:'🌍',cat:'attr',shape:'s2',a:4,s:4,rar:'meilenstein',ms:1,bonus:nb=>{const k=new Set(nb.map(n=>K(n).cat).filter(c=>CATS4.includes(c))).size;return{a:k,s:k}}},
-  lehrpfad:{icon:'🥾',cat:'attr',shape:'s2',a:2,s:1,rar:'gewöhnlich',bonus:nb=>({a:2*cnt(nb,n=>isCat(n,'schutz'))})},
-  besucherzentrum:{icon:'🗺️',cat:'attr',shape:'s1',a:1,s:0,rar:'selten',bonus:nb=>({a:Math.min(8,2*new Set(nb.map(n=>K(n).cat).filter(c=>CATS4.includes(c))).size)})},
-  abenteuer:{icon:'🎢',cat:'attr',shape:'t3',a:8,s:0,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isCat(n,'attr'))})},
-  restaurant:{icon:'🍝',cat:'essen',shape:'s2',a:6,s:0,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({a:2*others(all,b,n=>isCat(n,'essen'))})},
-  ausstellung:{icon:'🖼️',cat:'schutz',shape:'s2',a:2,s:6,rar:'meilenstein',ms:1,bonus:(nb,all,b)=>({s:2*others(all,b,n=>isCat(n,'schutz'))})},
-});
-// Größen- und Typ-Anpassungen: weniger Einser, je 13 Arten bei Attraktionen, Essen und Naturschutz
-{const big={cafe:[3,0],souvenir:[4,0],bistro:[3,0],infozentrum:[2,2],tierarzt:[0,3],zucht:[0,3],labor:[0,3],stiftung:[0,2],streichelzoo:[4,2],nachtfuehrung:[3,0],eulen:[3,4],fennek:[4,3],schlangen:[4,3]};
-  for(const k in big){CARDS[k].shape='s2';CARDS[k].a=big[k][0];CARDS[k].s=big[k][1]}
-  CARDS.zebras.shape='s2';CARDS.zebras.text='Mittelgroßes Gehege.';CARDS.tropenhaus.cat='schutz';CARDS.blumenschau.cat='schutz';
-  {const S=(k,sh,a,s_,r)=>{const c=CARDS[k];c.shape=sh;c.a=a;c.s=s_;if(r)c.rar=r};
-    // je Lebensraum genau ein 4-Felder-Gehege (für das Kronenfeld), alle gewöhnlich
-    S('gorillas','d4',7,6,'gewöhnlich');S('kamele','l4',5,3);S('belugas','l4',7,4,'gewöhnlich');S('yaks','d4',6,4);S('nilpferde','d4',6,4,'gewöhnlich');S('elefanten','d4',6,4,'gewöhnlich');
-    S('loewen','t3',7,2);S('nashoerner','b3',3,6);S('bueffel','t3',6,3)}
-  CARDS.pinguine.hab='arktis';CARDS.eisbaeren.hab='arktis';CARDS.schneeleoparden.hab='gebirge';
-  CARDS.wasserfall.rq='wasser';CARDS.aquarium.rq='wasser';CARDS.delfinshow.rq='wasser';CARDS.bistro.rq='savanne';CARDS.baumschule.rq='wald';CARDS.wasserloch.rq='savanne';CARDS.oase.rq='wueste'}
-// 0.92 Glücks-Kombo-Karten
-CARDS.zirkus={icon:'🎪',cat:'attr',shape:'t3',a:4,s:0,rar:'selten',tags:[]};
-CARDS.lotterie={icon:'🎫',cat:'essen',shape:'s1',a:2,s:0,rar:'selten',tags:[]};
-const LOCK91_=['kraken','krokodile','nilpferde','antilopen','bueffel','nashoerner','gorillas','koalas','tiger','dingos','kaengurus','addax','belugas','eisbaeren','rentiere','braunbaeren','rotepandas','schneeleoparden','aquarium','nachtfuehrung','seilbahn','biergarten','kuerbisfest','pizzeria','bistro','weihnachtsmarkt','vielfalt','bergwacht','polarstation','schmetterling','tropenhaus','stiftung','zucht'];
-// ===== 0.91: Kombo-Wirkungen der 33 Freischalt-Karten (stärker in einer bestimmten Kombination; km = Faktor am Ende der Wertung) =====
-{const C=CARDS,W=(nb,h)=>cnt(nb,n=>isCat(n,'gehege')&&isHab(n,h)),S=nb=>cnt(nb,n=>isCat(n,'schutz')),E=nb=>cnt(nb,n=>isCat(n,'essen'));
-  C.kraken.km=nb=>W(nb,'wasser')>=2?{f:1.5,l:'2 Wasser-Gehege daneben'}:null;
-  C.krokodile.km=nb=>E(nb)>=2?{f:1.5,l:'2 Gastro-Gebäude daneben'}:null;
-  C.nilpferde.km=nb=>W(nb,'wasser')>=3?{f:1.5,l:'3 Wasser-Gehege daneben'}:null;
-  C.antilopen.bonus=nb=>({s:W(nb,'savanne')});
-  C.bueffel.km=nb=>W(nb,'savanne')>=3?{f:1.5,l:'3 Savannen-Gehege daneben'}:null;
-  C.nashoerner.km=(nb,bs,b,o)=>!o.st&&W(nb,'savanne')>=2?{f:2,l:'ohne Stress, 2 Savannen-Gehege daneben'}:null;
-  C.gorillas.km=nb=>S(nb)?{f:1.5,l:'Naturschutz daneben'}:null;
-  C.koalas.km=(nb,bs,b,o)=>!o.st?{f:2,l:'nicht gestresst'}:null;
-  C.tiger.km=(nb,bs,b,o)=>!nbrs2(b,o.idx).some(n=>has(n,'beute'))?{fa:1.5,l:'Revier ohne Beute in der Nähe'}:null;
-  C.dingos.km=nb=>{const g=nb.filter(n=>isCat(n,'gehege'));return g.length&&g.every(n=>isHab(n,'wueste'))?{f:1.5,l:'nur Wüste daneben'}:null};
-  C.kaengurus.km=nb=>W(nb,'wueste')>=3?{f:1.5,l:'3 Wüsten-Gehege daneben'}:null;
-  C.addax.bonus=nb=>({s:2*W(nb,'wueste')*(S(nb)?2:1)});
-  C.eisbaeren.km=nb=>CTX.winter&&W(nb,'wasser')?{f:1.5,l:'Winter mit Wasser daneben'}:null;
-  C.rentiere.bonus=nb=>({a:CTX.winter?2:0,s:W(nb,'arktis')});
-  C.braunbaeren.bonus=nb=>({s:2*cnt(nb,n=>isHab(n,'wald')),a:W(nb,'gebirge')});
-  C.rotepandas.km=(nb,bs,b,o)=>!o.st?{f:1.5,l:'nicht gestresst'}:null;
-  C.schneeleoparden.bonus=(nb,bs,b)=>({a:(CTX.winter?3:0)+Math.min(3,rocksNb(b))});
-  C.nachtfuehrung.mult=(nb,all)=>cnt(all,n=>isCat(n,'gehege'))>=4?{ma:cnt(all,n=>isCat(n,'gehege')&&has(n,'scheu'))>=4?1.5:1.3}:null;
-  C.seilbahn.bonus=(nb,all)=>({a:2*cnt(nb,n=>isHab(n,'gebirge'))+cnt(all||[],n=>isCat(n,'gehege')&&isHab(n,'gebirge'))});
-  C.biergarten.km=nb=>E(nb)>=3?{f:1.5,l:'3 Gastro-Gebäude daneben'}:null;
-  C.kuerbisfest.bonus=nb=>({a:sea(2)?5+2*E(nb):0});
-  C.pizzeria.bonus=nb=>({a:2*cnt(nb,n=>isCat(n,'attr'))+2*cnt(nb,n=>isCat(n,'essen')&&n.key!=='pizzeria')});
-  C.weihnachtsmarkt.bonus=()=>({a:CTX.winter?6:0});C.weihnachtsmarkt.km=nb=>CTX.winter&&E(nb)>=2?{f:1.5,l:'Winter, 2 Gastro-Gebäude daneben'}:null;
-  C.vielfalt.km=()=>typeof state!=='undefined'&&state&&(state.miles||{}).bunt?{fs:2,l:'Meilenstein 🎨 Vielfalt'}:null;
-  C.schmetterling.km=(nb,bs,b)=>{const own=new Set(b.cells.map(c=>hk(...c))),seen=new Set();for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr),t=TERR.get(k);if(t&&t!=='block'&&!own.has(k))seen.add(k)}return seen.size>=4?{f:1.5,l:'4 Naturflächen-Felder daneben'}:null};
-  C.stiftung.mult=all=>({ms:+Math.min(1.8,1.3+.1*new Set((Array.isArray(all)?all:[]).filter(n=>isCat(n,'gehege')&&has(n,'bedroht')).map(n=>spK(n.key))).size).toFixed(2)});
-  C.zucht.km=nb=>cnt(nb,n=>isCat(n,'gehege')&&has(n,'bedroht'))>=2?{f:1.5,l:'2 bedrohte Gehege daneben'}:null;
-  for(const k of LOCK91_)if(C[k])C[k].bonus_=0}
-// 0.94 neue Karten: Tribüne (nur ganz von Gehegen umschlossen), Floß-Teil (kommt über die Flößerin auf die Hand)
-CARDS.tribuene={icon:'🏟️',cat:'attr',shape:'s1',a:6,s:0,rar:'selten',tags:[]}; // 0.64a: Variante B – Trubel, Show-Bonus für Showtiere im Umkreis 2
-CARDS.flossteil={icon:'🛶',cat:'attr',shape:'s1',a:0,s:0,rar:'spezial',sig:'floss',tags:[]};
 const tribOk=b=>{try{const idx=mkIndex(state.buildings),own=new Set(b.cells.map(c=>hk(...c)));for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr);if(own.has(k))continue;const n=idx.get(k);if(!n||!isCat(n,'gehege'))return false}return true}catch(e){return false}};
-// ===== 0.94: Karten nach Tobis Planungstabelle (Gehege meist nur noch Merkmal, Gastro bringt Taler, Naturschutz +2 N) =====
-{const C=CARDS,W=(nb,h)=>cnt(nb,n=>isCat(n,'gehege')&&isHab(n,h)),S=nb=>cnt(nb,n=>isCat(n,'schutz')),E=nb=>cnt(nb,n=>isCat(n,'essen')),G=nb=>cnt(nb,n=>isCat(n,'gehege'));
-  const val={otter:[5,4],schildkroeten:[1,4],schwan:[3,2],krokodile:[5,3],bueffel:[7,4]};for(const k in val)if(C[k]){C[k].a=val[k][0];C[k].s=val[k][1]}
-  // nur noch Merkmal (Bonus fällt weg)
-  for(const k of['schlangen','flamingos','schwan','krokodile','giraffen','loewen','warzenschweine','antilopen','nashoerner','eulen','faultiere','woelfe','koalas','fennek','kamele','skorpione','wuestenigel','dingos','kaengurus','addax','lemminge','pinguine','polarfuchs','schneehasen','luchse','mufflons','murmeltiere','pfeifhasen','steinboecke','yaks','rotepandas','schneeleoparden','reptilien','otter','elefanten','moschusochsen','schneegaense'])if(C[k])delete C[k].bonus;
-  C.hafen.bonus=()=>({});C.hafen.km=nb=>W(nb,'wasser')>=3?{f:1.5,l:'3 Wasser-Gehege daneben'}:null;C.orca.bonus=(nb,all,b)=>({a:2*cnt(all||[],n=>n!==b&&isCat(n,'gehege')&&isHab(n,'wasser'))});
-  C.gnu.bonus=nb=>({a:W(nb,'savanne'),s:W(nb,'savanne')});
-  // Kombos neu
-  C.dingos.km=(nb,bs,b,o)=>nbrs2(b,o.idx).some(n=>has(n,'beute'))?{f:1.5,l:'Beutetier in der Nähe'}:null;
-  C.kaengurus.km=nb=>cnt(nb,n=>isCat(n,'gehege')&&!isHab(n,'wueste'))>=3?{f:1.5,l:'3 andere Gehege daneben'}:null;
-  C.eisbaeren.km=nb=>CTX.winter&&cnt(nb,n=>isCat(n,'attr'))&&E(nb)?{f:1.5,l:'Winter mit Attraktion und Gastro daneben'}:null;
-  C.braunbaeren.bonus=()=>({});C.braunbaeren.km=null;C.braunbaeren.bonus=nb=>({s:2*W(nb,'wald')});
-  // Attraktionen
-  C.delfinshow.bonus=nb=>({a:W(nb,'wasser')});C.wasserspiel.bonus=()=>({a:sea(1)?4:0});
-  C.popcorn.bonus=nb=>({a:(nb.some(n=>n.key==='delfinshow'||n.key==='streichelzoo')?5:0)+2*cnt(nb,n=>isCat(n,'attr')&&n.key!=='delfinshow'&&n.key!=='streichelzoo')});
-  // Gastro: B und Taler (tal = Taler am Tag)
-  const gt=(k,f)=>{C[k].bonus=nb=>({a:f(nb)});C[k].tal=nb=>f(nb)};
-  gt('beduinen',nb=>W(nb,'wueste'));gt('bratwurst',nb=>W(nb,'savanne'));gt('picknick',nb=>E(nb));gt('cafe',nb=>S(nb));gt('berghuette',nb=>W(nb,'gebirge'));gt('teestube',nb=>W(nb,'arktis'));
-  C.eiswagen.bonus=nb=>({a:(sea(1)?3:1)*G(nb)});C.eiswagen.tal=nb=>(sea(1)?3:1)*G(nb);
-  C.biergarten.bonus=nb=>({a:E(nb)+(sea(1)?3:0)});C.biergarten.tal=nb=>E(nb);
-  C.kuerbisfest.bonus=nb=>({a:sea(2)?5+2*E(nb):0});C.kuerbisfest.tal=()=>sea(2)?2:0;
-  C.bistro.bonus=nb=>({a:2*W(nb,'savanne')});C.bistro.tal=nb=>2*W(nb,'savanne');
-  C.weihnachtsmarkt.bonus=()=>({a:CTX.winter?5:0});C.weihnachtsmarkt.tal=()=>CTX.winter?2:0;
-  // Naturschutz
-  for(const[k,h]of[['baumschule','wald'],['oase','wueste'],['wasserfall','wasser'],['wasserloch','savanne'],['bergwacht','gebirge'],['polarstation','arktis']])if(C[k])C[k].bonus=nb=>({s:2*W(nb,h)});
-  C.bienen.bonus=nb=>({s:2*cnt(nb,n=>isCat(n,'schutz')&&n.key!=='bienen')});C.gruen.bonus=nb=>({s:G(nb)});
-}
 // Taler aus Gastro-Gebäuden je Tag
 const talOf=bs=>{let t=0;try{const ix=mkIndex(bs);for(const b of bs){const c=K(b);if(c&&c.tal)t+=Math.max(0,c.tal(nbrs(b,ix),bs,b)||0)}}catch(e){}return t};
 const MILE={wasser:{card:'orca',n:6,label:'Wasser-Gehege',icon:'💧',f:c=>c.hab==='wasser'},savanne:{card:'grossesavanne',n:6,label:'Savannen-Gehege',icon:'🌾',f:c=>c.hab==='savanne'},
@@ -357,8 +187,6 @@ const MILE={wasser:{card:'orca',n:6,label:'Wasser-Gehege',icon:'💧',f:c=>c.hab
 MILE.bunt={card:'weltzoo',n:4,label:'Arten je Kategorie',icon:'🎨',f:()=>false};MILE.arktis={card:'polarlicht',n:6,label:'Arktis-Gehege',icon:'🧊',f:c=>c.hab==='arktis'};MILE.gebirge={card:'gipfel',n:6,label:'Gebirgs-Gehege',icon:'⛰️',f:c=>c.hab==='gebirge'};
 const mileKeys=()=>Object.keys(MILE).filter(t=>!HAB[t]||habsNow().includes(t));
 const CATS4=['gehege','attr','essen','schutz'],mileCount=(bs,t)=>mileCount0(bs,t)+(bs.some(b=>b.key==='fstation')?1:0)+(t==='essen'&&bs.some(b=>b.key==='foodcourt')?1:0),mileCount0=(bs,t)=>t==='bunt'?Math.min(...CATS4.map(cat=>new Set(bs.filter(b=>!CARDS[b.key].ms&&CARDS[b.key].cat===cat).map(b=>spK(b.key))).size)):new Set(bs.filter(b=>!CARDS[b.key].ms&&MILE[t].f(CARDS[b.key])).map(b=>spK(b.key))).size; // nur verschiedene Arten zählen
-for(const k of ['labor','vielfalt','stiftung','nachtfuehrung'])CARDS[k].tags=['einmalig'];
-for(const k in CARDS){const c=CARDS[k];c.tags=c.tags||[];if(c.ms)c.tags.push('einmalig');if(SHAPES[c.shape].cells.length>=3)c.tags.push('gross')}
 for(const k in CARDS){CARDS[k].a0=CARDS[k].a;CARDS[k].s0=CARDS[k].s}
 // Progression: dauerhafte Kartenverbesserungen eines Speicherplatzes
 const MAXPERK=3;let PERKS={},UNLOCK=new Set();
@@ -372,17 +200,12 @@ function applySlot(sl){applyPerks(sl&&sl.perks);UNLOCK=new Set(sl&&sl.unlocked||
 function applyPerks(p){PERKS=p||{};for(const k in CARDS){const q=PERKS[k]||{};CARDS[k].a=CARDS[k].a0+(q.a||0);CARDS[k].s=CARDS[k].s0+(q.s||0)}}
 const perkN=k=>{const q=PERKS[k];return q?(q.a||0)+(q.s||0):0};
 // Tier-Eigenschaften
-const TRAITS={raubtier:['loewen','tiger','geparden','woelfe','eisbaeren','krokodile','schneeleoparden','dingos','luchse','polarfuchs','fennek'],beute:['zebras','giraffen','warzenschweine','addax','flamingos','kamele','kaengurus','wuestenigel','antilopen','schneehasen','rentiere','lemminge','steinboecke','mufflons','pfeifhasen','koalas'],scheu:['pandas','faultiere','schildkroeten','nashoerner','fennek','schwan','eulen','koalas','polarfuchs','murmeltiere','luchse','rotepandas'],show:['seeloewen','korallenriff','affen','papageien','erdmaennchen','skorpione','giraffen','warzenschweine','pinguine','belugas','mufflons','yaks']};
-const TRAITNAME={raubtier:'Raubtier',beute:'Beute',scheu:'Scheu',show:'Showtier',ruhig:'Ruhig',trubel:'Trubel'};
-// 0.52a: Ruhig (stört scheue Tiere nicht, kein Show-Bonus) / Trubel (Show-Tiere daneben doppelter Show-Bonus)
-TRAITS.ruhig=['lehrpfad','picknick','restaurant','teestube','turm','glashaus','besucherzentrum','nachtfuehrung','flossteil'];TRAITS.trubel=['tribuene','arena','zirkus','abenteuer','wasserspiel','delfinshow','biergarten','weihnachtsmarkt','kuerbisfest','bratwurst','lotterie','achterbahn','foodcourt'];
-for(const t in TRAITS)for(const k of TRAITS[t])if(CARDS[k]){CARDS[k].tags=CARDS[k].tags||[];if(!CARDS[k].tags.includes(t))CARDS[k].tags.push(t)}
-// 0.63a: bedrohte Tiere ausgeglichen (3 je Lebensraum, mindestens 1 von Anfang an frei)
-{const ADDB=['otter','kamele','schlangen','pinguine','steinboecke'],DELB=['antilopen','koalas'];for(const k in CARDS){const b=String(k).split(/[~^]/)[0],C=CARDS[k];C.tags=C.tags||[];if(ADDB.includes(b)&&!C.tags.includes('bedroht'))C.tags=['bedroht',...C.tags];if(DELB.includes(b))C.tags=C.tags.filter(t=>t!=='bedroht')}}
+const TRAITS=Object.fromEntries(Object.entries(MERKMALE_DATEN.merkmale).map(([t,m])=>[t,m.karten.slice()]));
+const TRAITNAME=Object.fromEntries(Object.entries(MERKMALE_DATEN.merkmale).map(([t,m])=>[t,m.name]));
 const ruhigC=c=>!!c&&((CARDS[baseK(c.key)]||c).tags||[]).includes('ruhig'),trubelC=c=>!!c&&((CARDS[baseK(c.key)]||c).tags||[]).includes('trubel');
 const rarLabel=c=>c.rar==='winter'?'nur im Winter':c.rar==='saison'?'nur im '+SEANAME[c.only]:c.rar==='meilenstein'?'Meilenstein':c.rar;
 const traitOf=c=>['raubtier','scheu','show','beute'].find(t=>c.tags.includes(t));
-const TRAITIC={raubtier:'🦷',beute:'🐇',scheu:'🙈',show:'🎭',ruhig:'🤫',trubel:'🎉'},traitsOf=c=>(typeof TUTNOW!=='undefined'&&TUTNOW&&!TUTTR)?[]:['raubtier','beute','scheu','show','ruhig','trubel'].filter(t=>(c.tags||[]).includes(t));
+const TRAITIC=Object.fromEntries(Object.entries(MERKMALE_DATEN.merkmale).map(([t,m])=>[t,m.icon])),traitsOf=c=>(typeof TUTNOW!=='undefined'&&TUTNOW&&!TUTTR)?[]:['raubtier','beute','scheu','show','ruhig','trubel'].filter(t=>(c.tags||[]).includes(t));
 let TUTTR=false; // 0.67a: Merkmale im Tutorial (Zoo 1) aus
 // Kurzzeile auf Karten: Lebensraum nur als farbiges Sechseck, dahinter alle Eigenschaften (ab 3 als Symbole)
 // 0.63a: Lebensräume, mit denen ein Gebäude (kein Gehege) laut Kartentext zusammenwirkt

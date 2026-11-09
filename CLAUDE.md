@@ -20,7 +20,8 @@ Es ist eine einzige HTML-Datei, die aus Modulen zusammengebaut und über GitHub 
 | Pfad | Inhalt |
 |---|---|
 | `quelltext/src/` | **Quelle der Wahrheit.** Module 00–11 + `00-seite-und-stil.html` (Kopf, CSS) + `99-ende.html` |
-| `quelltext/mache.py` | baut `build/zoodeck.html` (Tests), `index.html` (GitHub Pages) und setzt den Cache in `sw.js` |
+| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a): `karten.json` (alle Karten), `merkmale.json` (Tier-Merkmale). Werden von `mache.py` ins Spiel eingebaut |
+| `quelltext/mache.py` | baut `build/zoodeck.html` (Tests), `index.html` (GitHub Pages), setzt die Daten aus `daten/` ein und den Cache in `sw.js` |
 | `quelltext/huelle/` | Rahmen um das Spiel für Web (`web-*`, mit Service Worker) und App (`app-*`) |
 | `index.html`, `sw.js`, `manifest.webmanifest`, Icons | die veröffentlichte Seite. **`index.html` nie von Hand ändern.** |
 | `tests/` | jsdom-Tests, Tutorial-Durchlauf, Bot – siehe `tests/README.md` |
@@ -54,7 +55,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 4. Code-Orientierung (Kurzfassung, Details in docs/)
 
-- **Karten:** `CARDS` (Werte, Form, `bonus`), Texte in `TXT.de.card`, Merkmale in `TRAITS` (raubtier/beute/scheu/show/ruhig/trubel),
+- **Karten:** Daten in `daten/karten.json` (Werte, Form, Tags, Seltenheit …; Reihenfolge nie ändern, der Zufall hängt daran). Wirkungen, die Code sind,
+  stehen in `KARTEN_WIRKUNG` (Modul 01); die Karte nennt in `bonus`/`km`/`mult`/`tal` die Kennung (= Kartenschlüssel). Neue Karte = Eintrag in der JSON
+  (+ ggf. Funktion in `KARTEN_WIRKUNG`). Zur Laufzeit wie bisher `CARDS` (Werte, Form, `bonus`), Texte in `TXT.de.card`, Merkmale in `daten/merkmale.json` → `TRAITS` (raubtier/beute/scheu/show/ruhig/trubel),
   `tags` (bedroht, gross, einmalig), Lebensraum-Bindung `rq`. Kartenschlüssel: `basis~variante#futter1.futter2^praegung` (Proxy in `CARDS`).
 - **Wertung:** `evalB(b,bs,idx,parts)` je Gebäude, `scoreZoo` mit Multiplikatoren (Kronenfeld, Reinheit, Vielfalt, Stress …).
   Lebensraum-Regeln `habRule`/`habRulesOn`, Formen `shapesOf` (Innenhof, Allee, Dreiländereck), Zusatz-Faktoren `extra92`.
