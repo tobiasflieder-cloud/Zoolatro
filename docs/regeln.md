@@ -178,7 +178,7 @@ Arktis südlich), dann zählt **die ganze Gruppe** ×0,5.
 
 ---
 
-## 6. Winter-Bedingungen (`02:INSP`, Auswahl in `06:initZl`)
+## 6. Winter-Bedingungen (`daten/winter.json` → `02:INSP`, Wirkungen in `02:WINTER_WIRKUNG`, Auswahl in `06:initZl`)
 - Je Zoo wird **eine** Bedingung gelost (bevorzugt noch nicht gesehene, `SEEN.i`). `zucht` erst ab Zoo 2, `futter` erst ab Zoo 3.
   Sichtbar ab Herbst (`inspHid`). Einmal je Zoo für 30 Taler tauschbar (`wSwap`).
 - **Verschärft** (`Z.hard`) ab Zoo 3. `HARD(Z)` gilt nur für Bedingungen mit verschärfter Fassung (`ht`).
@@ -264,7 +264,7 @@ Nach jeder gewonnenen Jahreszeit (außer Winter). Reiter: 👥 Team · 🧰 Umba
 - **Futtersack** (`04:rollFood`): Kandidaten = Lebensraum-Futter für jeden Lebensraum des Laufs (Gewicht `HFOODW=4`) + jedes Einzelfutter,
   das auf mindestens eine Karte in Stapel/Hand/Ablage passt (Gewicht `FOODR=[6,3,1]` nach Seltenheit). Ziehen ohne Zurücklegen.
   **Futterplätze** je Karte `fdMaxK`: gewöhnlich 1, selten 2, sehr selten 3, Futtermeister +1.
-- Spezialisten: höchstens `MAXSPEC=5` (+1 Profil Freizeit, +1 Ausbau „Mehr Büros“). Stufe 1–3 (`SPECTIER`), Regelbrecher (`rb`).
+- Spezialisten (`daten/spezialisten.json` → `01:SPEC`, Wirkungen in `01:SPEZ_WIRKUNG`): höchstens `MAXSPEC=5` (+1 Profil Freizeit, +1 Ausbau „Mehr Büros“). Stufe 1–3 (`SPECTIER`), Regelbrecher (`rb`).
   Die Reihenfolge im Team zählt (Doppelgänger, Teamsitzung).
 
 ---
@@ -280,7 +280,7 @@ Nach jeder gewonnenen Jahreszeit (außer Winter). Reiter: 👥 Team · 🧰 Umba
   (die erste gratis, weitere aus der Zoo-Kasse = übrige Taler) → Aussortieren → Spezialist → Start.
 - Verlieren einer Jahreszeit beendet den Lauf.
 
-### 10.2 Profile (Decks) `04:DECKS`, `04:DECKRULE`
+### 10.2 Profile (Decks) `daten/profile.json` → `04:DECKS`, `04:DECKRULE`
 Startdeck mit 16 Karten (`deckCards`, `grundDeck`: Gehege passend zu den 3 gewählten Lebensräumen + Grundgebäude). Themen-Profile
 bringen Themen- und Signatur-Karten und eine Regel mit Vorteil und Kehrseite:
 Grund (2× gratis neu ziehen) · Küste (Schwarm, Wüste −1 N) · Steppe (Herde stärker, 4-Feld −1 BP, 1-Feld +1 BP) ·
@@ -290,7 +290,7 @@ Forscher (Meilensteine 1 Art weniger, 1 Karte weniger zur Auswahl) · Polar (Win
 Alpen (+1 B je Felsen daneben, höchstens 2, 3 Felsen mehr).
 Freischalten über Ziele (`fsCheck`, `UNLOCK_DECK`).
 
-### 10.3 Stufen (Zoolatro 2.0, `08:STAGES`, `stOf`, `stMax`)
+### 10.3 Stufen (Zoolatro 2.0, `daten/stufen.json` → `08:STAGES`, Kennungen über `stAb`/`stW`, `stOf`, `stMax`)
 Je Profil Stufe 1–8. Die nächste wird frei, wenn man mit der höchsten freien Stufe Zoo 3 schafft. Jede Stufe enthält alle davor:
 | Stufe | Verschärfung | Code |
 |---|---|---|
@@ -310,7 +310,7 @@ Die Sorten bestimmen auch den Schneekönig.
 
 ---
 
-## 11. Gelände erzeugen (`04:genMap` = `genMap0` → `shrinkMap` → `natPlace`)
+## 11. Gelände erzeugen (`daten/gelaende.json`; `04:genMap` = `genMap0` → `shrinkMap` → `natPlace`)
 - `genMap0`: Form je Gelände (Wiese Sechseck Radius 5, Flusstal 13×7, Bucht/Zerklüftet Sternform, Zwei Hügel zwei Scheiben mit Brücke)
   und Felsen (`addRocks`). `shrinkMap` behält 80 % (`MAPSHRINK`) der Felder um die Mitte, zusammenhängend.
 - `natPlace` (0.71a): alle Naturflächen werden neu gelegt, **18** (`NATN`), nur in den gewählten Lebensräumen (`GENHABS`), Mengen nach

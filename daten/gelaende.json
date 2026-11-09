@@ -1,0 +1,15 @@
+{"hinweis":"Gelände von Zoolatro. Wird von quelltext/mache.py ins Spiel eingebaut. Die Form jedes Geländes wird im Spiel berechnet (genMap0 in quelltext/src/04-regeln-wertung.js, Kennung = Gelände-Schlüssel). Reihenfolge nicht ändern.",
+"felder":{"key":"Schlüssel (nie ändern, steht in Spielständen)","name":"Name","icon":"Emoji","text":"Beschreibung","norot":"Gelände wird nie gedreht","kampagne":"Zoo 1–5: map Gelände, rocks Felsen, k Stärke der Ereignisse, n Anzahl Ereignisse, spring Ereignis im Frühling, hard schwere Ereignisse, mult Zielfaktor (danach berechnet)","wuerfel_pool":"Gelände, aus denen je Zoo gewürfelt wird (ohne Wiederholung, Zerklüftet erst ab Zoo 3)","felsen":"Mindest-Felsen je Gelände","schrumpfen":"Anteil der Felder, der bleibt","naturfelder":"Naturfelder je Zoo","natur_fokus":"Schwerpunkt je Gelände: erste Variante, deren Lebensräume alle gewählt sind, sonst die letzte; der Rest wird gleichmäßig verteilt"},
+"gelaende":[
+{"key":"wiese","name":"Wiese","icon":"🌼","text":"Kompaktes Sechseck mit zufälligen Naturflächen."},
+{"key":"flusstal","norot":true,"name":"Flusstal","icon":"🏞️","text":"Lang und schmal. Ein Fluss schlängelt sich der Länge nach hindurch."},
+{"key":"bucht","name":"Bucht","icon":"🏖️","text":"Ausgefranste Ufer mit Wasser- und Wüstenflächen am Rand."},
+{"key":"huegel","name":"Zwei Hügel","icon":"⛰️","text":"Zwei Zoo-Bereiche mit Dschungel, verbunden durch Savanne."},
+{"key":"zerkluftet","name":"Zerklüftet","icon":"🪨","text":"Unregelmäßiger Rand und viele Felsen. Für Fortgeschrittene."}
+],
+"kampagne":[{"map":"wiese","rocks":0,"k":1,"n":1,"spring":false,"mult":1},{"map":"bucht","rocks":4,"k":1,"n":1,"spring":true,"mult":1.25},{"map":"flusstal","rocks":5,"k":2,"n":1,"spring":true,"mult":1.5},{"map":"zerkluftet","rocks":3,"k":2,"n":2,"spring":true,"mult":1.8},{"map":"huegel","rocks":6,"k":3,"n":2,"spring":true,"hard":true,"mult":2.2}],
+"wuerfel_pool":["wiese","bucht","flusstal","zerkluftet","huegel"],
+"felsen":{"wiese":0,"bucht":4,"flusstal":5,"zerkluftet":3,"huegel":6},
+"schrumpfen":0.8,
+"naturfelder":18,
+"natur_fokus":{"flusstal":[{"wasser":8}],"bucht":[{"wasser":7,"wueste":7}],"huegel":[{"wald":8},{"savanne":8}],"zerkluftet":[{"wueste":8}]}}

@@ -285,68 +285,57 @@ Object.assign(RUNB,{
 
 // terrain: hk -> habitat key or 'block'
 let TERR=new Map();
-const MAPS={
-  wiese:{name:'Wiese',icon:'🌼',text:'Kompaktes Sechseck mit zufälligen Naturflächen.'},
-  flusstal:{norot:true,name:'Flusstal',icon:'🏞️',text:'Lang und schmal. Ein Fluss schlängelt sich der Länge nach hindurch.'},
-  bucht:{name:'Bucht',icon:'🏖️',text:'Ausgefranste Ufer mit Wasser- und Wüstenflächen am Rand.'},
-  huegel:{name:'Zwei Hügel',icon:'⛰️',text:'Zwei Zoo-Bereiche mit Dschungel, verbunden durch Savanne.'},
-  zerkluftet:{name:'Zerklüftet',icon:'🪨',text:'Unregelmäßiger Rand und viele Felsen. Für Fortgeschrittene.'},
-};
+// Godot-Vorbereitung 2b: Gelände stehen in daten/gelaende.json (Form und Felsen berechnet genMap0 in Modul 04, Kennung = Gelände-Schlüssel)
+const GELAENDE_DATEN=/*@@DATEN:gelaende@@*/null;
+const MAPS={};for(const d of GELAENDE_DATEN.gelaende){const m={};for(const p in d)if(p!=='key')m[p]=d[p];MAPS[d.key]=m}
 // Spezialisten: Mitarbeiter mit Sonderregel, gelten für den ganzen Kampagnen-Lauf (höchstens 5)
-const MAXSPEC=5,SPECPRICE=[0,20,35,50],SPECTIER=['','Gewöhnlich','Selten','Legendär'];
+// ===== Godot-Vorbereitung 2b: Spezialisten stehen in daten/spezialisten.json (von mache.py eingebaut).
+// Wirkungen, die Code sind, bleiben hier: der Spezialist nennt in per/mult eine Kennung aus SPEZ_WIRKUNG (= Spezialisten-Schlüssel).
+const SPEZ_DATEN=/*@@DATEN:spezialisten@@*/null;
+const MAXSPEC=SPEZ_DATEN.max_team,SPECPRICE=SPEZ_DATEN.preis.slice(),SPECTIER=SPEZ_DATEN.stufen_name.slice();
 const halfHab=(bs,h)=>{const g=bs.filter(n=>isCat(n,'gehege'));return g.length>=4&&cnt(g,n=>isHab(n,h))*2>=g.length};
-const SPEC={};
-for(const h in HAB)SPEC['pfleger_'+h]={name:HABADJ[h]+'-Pflegerin',icon:HAB[h].icon,tier:1,fx:[`+15 % B und N|für jedes ${HABADJ[h]}-Gehege`],per:(b,c)=>c.hab===h?{pa:.15,ps:.15}:null};
-Object.assign(SPEC,{
-  gastro:{icon:'🍿',tier:1,per:(b,c,nb)=>c.cat==='essen'?{a:2*others(nb,b,n=>isCat(n,'essen'))}:null},
-  kurator:{icon:'🗂️',gone:1,tier:2,mult:bs=>{const n=new Set(bs.filter(b=>isCat(b,'gehege')).map(b=>spK(b.key))).size,f=Math.min(1.6,1+.05*n);return f>1?{ma:+f.toFixed(2)}:null}},
-  gaertner:{icon:'🌳',tier:1,per:(b,c,nb)=>c.cat==='schutz'?{s:2*others(nb,b,n=>isCat(n,'schutz'))}:null},
-  animateur:{icon:'🎡',tier:1,per:(b,c,nb)=>c.cat==='attr'?{a:2*others(nb,b,n=>isCat(n,'attr'))}:null},
-  kassenwart:{icon:'💰',tier:1,fx:['+3 Taler|jeden Tag']},
-  kleintier:{icon:'🐭',tier:1,per:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{pa:.2,ps:.2}:null},
-  architekt:{icon:'📐',tier:1,per:(b,c)=>c.cat==='gehege'&&c.tags.includes('gross')?{pa:.15}:null},
-  meeresbio:{icon:'🐧',tier:2,mult:bs=>halfHab(bs,'wasser')?{ms:1.5}:null},
-  safari:{icon:'🦒',tier:2,mult:bs=>halfHab(bs,'savanne')?{ma:1.5}:null},
-  foerster:{icon:'🌲',tier:2,mult:bs=>halfHab(bs,'wald')?{ms:1.5}:null},
-  wuestenkenner:{icon:'🏜️',tier:2,mult:bs=>halfHab(bs,'wueste')?{ma:1.5}:null},
-  polarkenner:{icon:'🧊',tier:2,mult:bs=>halfHab(bs,'arktis')?{ms:1.5}:null},
-  bergkenner:{icon:'⛰️',tier:2,mult:bs=>halfHab(bs,'gebirge')?{ma:1.5}:null},
-  dompteur:{icon:'🦁',tier:2,per:(b,c)=>c.tags.includes('raubtier')?{pa:.3}:null},
-  artenschuetzer:{icon:'🐼',tier:2,per:(b,c)=>c.tags.includes('bedroht')?{ps:.25}:null},
-  tierpfleger:{icon:'🤝',tier:2,per:(b,c,nb)=>c.cat==='schutz'?{s:2*cnt(nb,n=>has(n,'scheu'))}:null},
-  bauleiterin:{icon:'📈',tier:2,per:b=>(b.lvl||1)>1?{pa:.15*((b.lvl||1)-1),ps:.15*((b.lvl||1)-1)}:null},
-  sammler:{icon:'🧬',tier:2,per:(b,c,nb,all)=>{if(c.cat!=='gehege')return null;const h=vielfalt(all).lvl;return h>=2?{ps:.1}:null}},
-  eventmanager:{icon:'🎪',tier:2,gone:1,fx:['keine|Nachteile durch Saison-Ereignisse, die Vorteile bleiben']},
-  zwilling:{icon:'🔁',tier:3,fx:['100 %|statt 75 % für die zweite gleiche Anlage']},
-  polier:{icon:'🧱',tier:3,fx:['+1 BP|jeden Tag','2 BP|kosten Karten mit nur 1 Feld am ersten Tag jeder Jahreszeit']},
-  spekulant:{icon:'🎲',tier:3,mult:()=>({ma:1.3})},
-  direktor:{icon:'👑',tier:3,mult:()=>({ma:1.15,ms:1.15})},
-});
-// ===== 0.92: Glücks-Spezialisten und Tobis Ideen (Name und Text stehen hier, nicht in TXT) =====
-{const KN=(tag,f,key)=>bs=>{const n=cnt(bs,b=>isCat(b,'gehege')&&has(b,tag));const v=Math.min(1.6,1+f*n);return v>1?{[key]:+v.toFixed(2)}:null};
-Object.assign(SPEC,{
-  gluecksspielerin:{name:'Glücksspielerin',icon:'🃏',tier:2,luck:1/3,fx:['×1,5 B|mit 1 zu 3 Chance an jedem Tag'],mult:()=>{const L=LK();return L&&L.spec.gl?{ma:1.5}:null}},
-  wettbuero:{name:'Wettbüro-Chef',icon:'🏇',tier:2,luck:1/2,fx:['×2 Eintritt|mit 1 zu 2 Chance an jedem Tag, sonst nichts']},
-  glueckspilz:{name:'Glückspilz',icon:'🍀',tier:3,fx:['×2|alle Chancen im Zoo (1 zu 4 wird 1 zu 2)']},
-  lotto:{name:'Lebensraum-Lotto',icon:'🎰',tier:2,fx:['×2|jeden Morgen für die Gehege eines ausgelosten Lebensraums']},
-  mischer:{name:'Kartenmischer',icon:'🔄',tier:1,fx:['1×|jeden Tag gratis neue Handkarten ziehen']},
-  spreng:{name:'Sprengmeisterin',icon:'🧨',tier:2,fx:['Felsen|können überbaut werden','🦴|manchmal liegt darunter ein Fossil (+20 Taler)']},
-  vermesser:{name:'Vermesser',icon:'📏',tier:2,fx:['×2|jeden Tag für alles auf einer ausgelosten geraden Linie aus 5 Feldern']},
-  umzug:{name:'Umzugshelfer',icon:'🚚',tier:1,fx:['0 BP|kostet das Umziehen']},
-  wunsch:{name:'Wunscherfüllerin',icon:'🎈',tier:1,fx:['doppelt|Belohnungen der Besucherwünsche']},
-  talent:{name:'Talentsucher',icon:'🔍',tier:1,fx:['×2,5|so oft kommen seltene Karten ins Angebot']},
-  quer:{name:'Querdenkerin',icon:'🔀',tier:2,fx:['B ⇄ N|Attraktionen und Gastro: Grundwerte Besucher und Natur vertauscht']},
-  ausw:{name:'Auswilderung',icon:'🌿',tier:2,fx:['×1,5 N|am Tag, an dem du ein Gehege auswilderst (1× pro Jahreszeit; es verschwindet aus Zoo und Deck)'],mult:()=>state&&state.auswDay===state.day+'/'+state.season?{ms:1.5}:null},
-  rand:{name:'Panorama-Lage',icon:'🌄',tier:2,fx:['bis ×2|je Zoo ist ein Drittel der Randfelder Panorama-Lage (markiert); Gehege und Gebäude darauf zählen ×(1 + Anteil ihrer Felder dort)']},
-  tagesfeld:{name:'Tagesfeld',icon:'⭐',tier:2,fx:['×3|jeden Tag für ein ausgelostes Feld, bebaut oder frei']},
-  grosshand:{name:'Große Hand',icon:'🖐️',tier:2,fx:['6|Handkarten statt 5']},
-  k_beute:{name:'Beute-Kennerin',icon:'🐇',tier:2,fx:['×1 N|+0,06 je Beutetier im Zoo (höchstens ×1,6)'],mult:KN('beute',.06,'ms')},
-  k_raub:{name:'Raubtier-Kenner',icon:'🦷',tier:2,fx:['×1 B|+0,12 je Raubtier im Zoo (höchstens ×1,6)'],mult:KN('raubtier',.12,'ma')},
-  k_scheu:{name:'Scheu-Kennerin',icon:'🙈',tier:2,fx:['×1 N|+0,1 je scheues Tier im Zoo (höchstens ×1,6)'],mult:KN('scheu',.1,'ms')},
-  k_show:{name:'Show-Kenner',icon:'🎭',tier:2,fx:['×1 B|+0,1 je Showtier im Zoo (höchstens ×1,6)'],mult:KN('show',.1,'ma')},
-  k_rot:{name:'Rote-Liste-Kennerin',icon:'🔴',tier:2,fx:['×1 N|+0,15 je bedrohtes Tier im Zoo (höchstens ×1,6)'],mult:KN('bedroht',.15,'ms')},
-  doppel:{name:'Doppelgänger',icon:'🪞',tier:3,fx:['Kopie|wirkt wie der Spezialist rechts daneben in der Team-Reihe']},
-  sammel:{name:'Sammlerstück',icon:'🏺',tier:1,fx:['2×|dürfen einzigartige Gebäude gebaut werden']},
-  frieden:{name:'Friedensstifter',icon:'🕊️',tier:2,fx:['kein Stress|zwischen Raubtieren und Beutetieren']},
-  ruhepol:{name:'Ruhepol',icon:'🧘',tier:1,fx:['kein Stress|für scheue Tiere']}})}
+const SPEZ_WIRKUNG=(()=>{const per={},mult={};
+  // Wirkung je Gehege/Gebäude
+  for(const h in HAB)per['pfleger_'+h]=(b,c)=>c.hab===h?{pa:.15,ps:.15}:null;
+  Object.assign(per,{
+  gastro:(b,c,nb)=>c.cat==='essen'?{a:2*others(nb,b,n=>isCat(n,'essen'))}:null,
+  gaertner:(b,c,nb)=>c.cat==='schutz'?{s:2*others(nb,b,n=>isCat(n,'schutz'))}:null,
+  animateur:(b,c,nb)=>c.cat==='attr'?{a:2*others(nb,b,n=>isCat(n,'attr'))}:null,
+  kleintier:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{pa:.2,ps:.2}:null,
+  architekt:(b,c)=>c.cat==='gehege'&&c.tags.includes('gross')?{pa:.15}:null,
+  dompteur:(b,c)=>c.tags.includes('raubtier')?{pa:.3}:null,
+  artenschuetzer:(b,c)=>c.tags.includes('bedroht')?{ps:.25}:null,
+  tierpfleger:(b,c,nb)=>c.cat==='schutz'?{s:2*cnt(nb,n=>has(n,'scheu'))}:null,
+  bauleiterin:b=>(b.lvl||1)>1?{pa:.15*((b.lvl||1)-1),ps:.15*((b.lvl||1)-1)}:null,
+  sammler:(b,c,nb,all)=>{if(c.cat!=='gehege')return null;const h=vielfalt(all).lvl;return h>=2?{ps:.1}:null}});
+  // Faktor für den ganzen Zoo
+  Object.assign(mult,{
+  kurator:bs=>{const n=new Set(bs.filter(b=>isCat(b,'gehege')).map(b=>spK(b.key))).size,f=Math.min(1.6,1+.05*n);return f>1?{ma:+f.toFixed(2)}:null},
+  meeresbio:bs=>halfHab(bs,'wasser')?{ms:1.5}:null,
+  safari:bs=>halfHab(bs,'savanne')?{ma:1.5}:null,
+  foerster:bs=>halfHab(bs,'wald')?{ms:1.5}:null,
+  wuestenkenner:bs=>halfHab(bs,'wueste')?{ma:1.5}:null,
+  polarkenner:bs=>halfHab(bs,'arktis')?{ms:1.5}:null,
+  bergkenner:bs=>halfHab(bs,'gebirge')?{ma:1.5}:null,
+  spekulant:()=>({ma:1.3}),
+  direktor:()=>({ma:1.15,ms:1.15})});
+  // 0.92: Glücks-Spezialisten und Tobis Ideen
+  {const KN=(tag,f,key)=>bs=>{const n=cnt(bs,b=>isCat(b,'gehege')&&has(b,tag));const v=Math.min(1.6,1+f*n);return v>1?{[key]:+v.toFixed(2)}:null};
+  Object.assign(mult,{
+  gluecksspielerin:()=>{const L=LK();return L&&L.spec.gl?{ma:1.5}:null},
+  ausw:()=>state&&state.auswDay===state.day+'/'+state.season?{ms:1.5}:null,
+  k_beute:KN('beute',.06,'ms'),k_raub:KN('raubtier',.12,'ma'),k_scheu:KN('scheu',.1,'ms'),k_show:KN('show',.1,'ma'),k_rot:KN('bedroht',.15,'ms')})}
+  // Futter (0.64a)
+  mult.ernprof=()=>{const L=CTX&&CTX.fdl||{},n=Object.values(L).reduce((a,b)=>a+(b||0),0);return n?{ma:+(1.05**n).toFixed(3)}:null};
+  // Zoolatro 2.0: wachsende Spezialisten (HGROW, HGMAX, gf in Modul 04)
+  {const G=(id,k)=>mult[id]=()=>{const f=gf(id,HGROW[k],HGMAX);return f>1?{[k]:f}:null};
+  G('z_wald','ma');G('z_wasser','ms');G('z_wueste','ma');G('z_savanne','ms');G('z_arktis','ma');G('z_gebirge','ms');
+  mult.z_bank=()=>{const m=typeof state!=='undefined'&&state?state.money:0,f=Math.min(1.5,+(1+.05*Math.max(0,Math.floor(m/10))).toFixed(2));return f>1?{ma:f}:null};
+  mult.z_rekord=()=>{const f=gf('z_rekord',.25);return f>1?{ms:f}:null}}
+  // 0.94 (flossLen, grwF in Modul 09)
+  mult.floss=bs=>{const n=flossLen(bs||[]),f=+(1+.1*n).toFixed(2);return n?{ma:f}:null};
+  mult.wgast=()=>{const f=grwF('ga');return f>1?{ma:f}:null};
+  mult.wnat=()=>{const f=grwF('nat');return f>1?{ms:f}:null};
+  return{per,mult}})();
+const SPEC={};for(const d of SPEZ_DATEN.spezialisten){const S={};for(const p in d){if(p==='key')continue;const v=d[p];S[p]=Array.isArray(v)?v.slice():v;if(p==='per'||p==='mult'){S[p]=SPEZ_WIRKUNG[p][v];if(!S[p])throw new Error('Wirkung fehlt: '+p+' '+v)}}SPEC[d.key]=S}
 const bpBase=()=>BP+(hasSpec('polier')?1:0);

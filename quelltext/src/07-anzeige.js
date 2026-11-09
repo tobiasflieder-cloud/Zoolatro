@@ -310,7 +310,7 @@ $('hand').addEventListener('pointerleave',()=>{if(state.hover==null)return;state
 $('board').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||state.phase!=='play'||state.selected!=null)return;const t=e.target.closest('[data-terr]');const v=t?t.dataset.terr:null;
   if(v===state.hoverTerr)return;state.hoverTerr=v;setInfo(infoHtml(null,scoreZoo(state.buildings)))});
 $('board').addEventListener('pointerleave',()=>{if(!state.hoverTerr)return;state.hoverTerr=null;if(state.phase==='play')setInfo(infoHtml(hypo(),scoreZoo(state.buildings)))});
-const rdFree0=()=>!!state&&stOf()<6&&(state.rdFree!==state.season+'/'+(state.zoo||0)||(runDeck()==='grund'&&state.rdFree2!==state.season+'/'+(state.zoo||0))),rdFree=()=>rdFree0()||mixFree()||(!!state&&(state.rdBonus||0)>0);
+const rdFree0=()=>!!state&&!stAb('kein_neuziehen')&&(state.rdFree!==state.season+'/'+(state.zoo||0)||(runDeck()==='grund'&&state.rdFree2!==state.season+'/'+(state.zoo||0))),rdFree=()=>rdFree0()||mixFree()||(!!state&&(state.rdBonus||0)>0);
 function redraw(){if(state.phase!=='play'||winIs('glatteis')||umbBm()||(state.bp<1&&!rdFree())){Sfx.deny();return}{const ts=tutStep();if(ts&&!ts.redraw){Sfx.deny();tutNudge();return}}
   if(state.infoProg!=='redraw'){state.infoProg='redraw';state.moving=null;state.selected=null;state.preview=null;state.info=null;Sfx.select();render();return}
   state.infoProg=null;state.moving=null;if(state.tut)state.tut.redrawn=true;state.discard.push(...state.hand);state.hand=[];if(rdFree0()){const key=state.season+'/'+(state.zoo||0);if(state.rdFree!==key)state.rdFree=key;else state.rdFree2=key}else if(mixFree())state.rdMix=(state.zoo||0)+'/'+state.season+'/'+state.day;else if((state.rdBonus||0)>0)state.rdBonus--;else state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
@@ -573,13 +573,13 @@ const EINMAL={futter:{icon:'🥕',name:'Futterlieferung',price:15,text:'Ein zuf�
 const AUSBAU={hand:{icon:'🖐️',name:'Größere Hand',text:'+1 Handkarte, für den ganzen Lauf.'},team:{icon:'🪑',name:'Mehr Büros',text:'+1 Platz im Team, für den ganzen Lauf.'},rd:{icon:'🔄',name:'Kartenautomat',text:'+1 Gratis-Neuziehen in jeder Jahreszeit, für den ganzen Lauf.'},mappe:{icon:'📂',name:'Personalbüro',text:'Bewerbermappen haben 4 statt 3 Bewerbungen, für den ganzen Lauf.'}};
 function genEinmal(){const n=state.mode==='camp'?2+(runAus('shop')?1:0):0;return shuffle(Object.keys(EINMAL).filter(k=>!(k==='futter'&&foodOn()))).slice(0,n).map(k=>({kind:'einmal',key:k,price:priced(EINMAL[k].price)}))}
 function ausbauItem(){if(state.mode!=='camp'||!state.zl)return null;const run=runOf();if(!run)return null;if(state.ausbauDone)return null;if(state.ausbauKey&&!AUSBAU[state.ausbauKey])state.ausbauKey=null;if(!state.ausbauKey){const av=Object.keys(AUSBAU).filter(k=>!(run.ausbau||[]).includes(k));if(!av.length)return null;state.ausbauKey=av[Math.floor(Math.random()*av.length)]}return{kind:'ausbau',key:state.ausbauKey,price:priced(40)}}
-const mappePrice=()=>Math.round((25+10*(state.mappeN||0))*(stOf()>=4?1.25:1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1));
+const mappePrice=()=>Math.round((25+10*(state.mappeN||0))*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1));
 // 0.64a Profi-Mappe: 3 Bewerbungen, mind. 1 selten/legendär, Selten/Legendär 3× so oft; ab Sommer, nicht im Tutorial
-const PROFIW=[0,8,6,3],profiPrice=()=>Math.round((45+15*(state.profiN||0))*(stOf()>=4?1.25:1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1)),profiOn=()=>!!(state&&state.mode==='camp'&&runOf()&&!runOf().tut);
+const PROFIW=SPEZ_DATEN.profi_gewicht.slice(),profiPrice=()=>Math.round((45+15*(state.profiN||0))*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1)),profiOn=()=>!!(state&&state.mode==='camp'&&runOf()&&!runOf().tut);
 function runOf(){const sl=activeSlot();return sl&&sl.run}
 const specPrice=id=>Math.round(priced(SPECPRICE[SPEC[id].tier])*(1+.25*((state.spec||[]).length))*(runDeck()==='freizeit'?1.25:1));
 function rollMarket(n,excl=[]){if((()=>{try{const r=runOf();return r&&r.seed}catch(e){return 0}})())return rollSpecs(n,excl);const out=rollSpecs(n,excl),isM=id=>!!SPEC[id].mult;let g=0;while(out.filter(isM).length>1&&g++<20){const i=out.findIndex((id,j)=>isM(id)&&out.slice(0,j).some(isM)),alt=rollSpecs(8,[...excl,...out]).find(id=>!isM(id));if(!alt)break;out[i]=alt}return out}
-const SPECHAB={meeresbio:'wasser',safari:'savanne',foerster:'wald',wuestenkenner:'wueste',polarkenner:'arktis',bergkenner:'gebirge'};
+const SPECHAB={...SPEZ_DATEN.lebensraum};
 const specOff=id=>{const h=SPECHAB[id]||(/^(pfleger|z)_(.+)$/.exec(id)||[])[2];return!!h&&!!HAB[h]&&!habsNow().includes(h)};
 function rollSpecs(n,excl=[],WT,guar){WT=WT||[0,8,2,1];const run=runOf(),have=run?run.spec||[]:[],pool=Object.keys(SPEC).filter(id=>id!=='eventmanager'&&!SPEC[id].gone&&!SPEC[id].rb&&!specOff(id)&&!specLocked(id)&&!have.includes(id)&&!excl.includes(id)&&(!SPEC[id].zl||(run&&run.zl))&&(!SPEC[id].food||foodOnRun(run))),out=[];
   if(run&&run.seed&&n<8)return pool.sort((a,b)=>SPEC[b].tier-SPEC[a].tier||SPEC[a].name.localeCompare(SPEC[b].name));
@@ -596,7 +596,7 @@ const marketRoll=()=>5+2*(state.market?state.market.rolls:0);
 // 0.71a: breite Form (für kleineres Form-Symbol bei 3 Kostenpunkten und Seltenheits-Ecke)
 function shpWide(k,rot){try{const cells=rotCells(SHAPES[CARDS[k].shape].cells,rot||0);let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;for(const[q,r]of cells){const[x,y]=px(q,r);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y)}return(x1-x0)>(y1-y0)*1.2&&(x1-x0)>SZ*2}catch(e){return false}}
 function specCard(id,btn){const S=SPEC[id];return`<div class="pcard${S.tier>=3&&!S.rb?' t3':''}"><span class="ic">${S.icon}</span><div class="info2"><span class="nm">${S.name}</span><span class="tierl tier${S.tier}">${S.rb?'⚡ Regelbrecher':SPECTIER[S.tier]}</span>${fxHtml(S)}</div><div class="pb">${btn}</div></div>`}
-const SELLP={1:10,2:15,3:25};
+const SELLP={...SPEZ_DATEN.verkauf};
 const teamMini=()=>{const L=(state&&state.spec||[]).filter(id=>SPEC[id]);return`<div class="tmini"><h4>Dein Team ${L.length}/${maxSpec()}</h4><div>${L.map(id=>{let v='';try{v=specVal(id)[0]}catch(e){}return`<span style="--rc:${TIERC[SPEC[id].tier]||'#8a7cff'}">${SPEC[id].icon} <b>${v}</b> ${SPEC[id].name}</span>`}).join('')||'<span>noch niemand</span>'}</div></div>`};
 function teamHtml(mode){const run=runOf(),L=(run&&run.spec||[]).filter(id=>SPEC[id]);
   return`<h3>Deine Spezialisten ${L.length}/${maxSpec()}</h3>${L.length?`<div style="display:flex;flex-direction:column;gap:6px">${L.map(id=>specCard(id,mode==='msell'?`<button class="btn ${state&&state.sellArm===id?'main':'sub'}" data-msell="${id}">${state&&state.sellArm===id?'Wirklich?':'Verkaufen'}<br><b>+🪙 ${SELLP[SPEC[id].tier]||10}</b></button>`:mode?`<button class="btn sub" data-${mode}="${id}">Entlassen${mode==='mfire'?`<br><b>+🪙 ${Math.floor(SPECPRICE[SPEC[id].tier]/2)}</b>`:''}</button>`:'')).join('')}</div>`:'<p style="margin:0;color:var(--muted);font-size:13px">Noch niemand eingestellt.</p>'}`}
@@ -612,7 +612,7 @@ function genShopItems(){const pick=a=>a.length?a.splice(Math.floor(Math.random()
   const out=[];let hasM=false;for(const[kind,arr]of[['prog',progs],['prog',progs],...(state.zl&&(state.zoo||0)>=2?[['prog',plusP]]:[]),['ad',ads],['card',cards]]){let k=pick(arr);if(k&&isMultItem(kind,k)){if(hasM){const j=arr.findIndex(x=>!isMultItem(kind,x));k=j>=0?arr.splice(j,1)[0]:null}else hasM=true}if(k)out.push(mkItem(kind,k))}
   return out}
 const inflation=()=>1+.5*state.season; // Preise steigen jede Saison um 50 %
-const priced=p=>Math.round(p*inflation()*(stOf()>=4?1.25:1)*(runDeck()==='geniesser'?.8:1));
+const priced=p=>Math.round(p*inflation()*stW('teurer',1)*(runDeck()==='geniesser'?.8:1));
 const isMultItem=(kind,key)=>kind==='prog'?!!PROGS[key].mult:kind==='ad'?!!ADS[key].mult:false;
 function mkItem(kind,key){if(kind==='prog'||kind==='ad'){const D=kind==='prog'?PROGS[key]:ADS[key],n=D.mult?(state.multBought||0):0;return{kind,key,price:Math.round(priced(D.price)*(1+.5*n)),sur:n*50}}
   const c=CARDS[key];return{kind,key,price:priced(c.rar==='sehr selten'?20:c.rar==='winter'||c.rar==='saison'?16:15)}}

@@ -1,0 +1,12 @@
+{"hinweis":"Stufen (Schwierigkeit) eines Zoolatro-Laufs. Wird von quelltext/mache.py ins Spiel eingebaut. Jede Stufe enthält die Verschärfungen davor. kennung = Wirkung im Spiel (stAb/stW in quelltext/src/08-shop-menues.js), wert = Zahl dazu. Reihenfolge nicht ändern.",
+"felder":{"nr":"Stufe (1–8, steht in Spielständen als run.stage)","kennung":"grund = keine Verschärfung · ziel = Saisonziele ×wert · gold = nur wert goldene Felder · teurer = Shop und Stellenmarkt ×wert · kein_neuziehen = kein Gratis-Neuziehen · bp_erster_tag = erster Tag jeder Jahreszeit wert Baupunkte weniger","wert":"Zahl zur Wirkung","text":"Anzeige"},
+"stufen":[
+{"nr":1,"kennung":"grund","text":"Grundstufe"},
+{"nr":2,"kennung":"ziel","wert":1.1,"text":"Saisonziele +10 %"},
+{"nr":3,"kennung":"gold","wert":2,"text":"Nur 2 goldene Felder"},
+{"nr":4,"kennung":"teurer","wert":1.25,"text":"Shop und Stellenmarkt 25 % teurer"},
+{"nr":5,"kennung":"ziel","wert":1.1,"text":"Saisonziele +10 %"},
+{"nr":6,"kennung":"kein_neuziehen","text":"Kein Gratis-Neuziehen"},
+{"nr":7,"kennung":"bp_erster_tag","wert":1,"text":"Erster Tag jeder Jahreszeit: 1 Baupunkt weniger"},
+{"nr":8,"kennung":"ziel","wert":1.1,"text":"Saisonziele nochmals +10 %"}
+]}

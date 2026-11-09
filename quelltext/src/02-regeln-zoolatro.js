@@ -9,28 +9,29 @@ const mxs=v=>{const t=String(+(+v).toFixed(2));return(t.includes('.')?t:t+'.0').
 const cSize=c=>SHAPES[c.shape].cells.length;
 const NOPROF='keins'; // 0.91: Profile gestrichen
 // 0.93: eine Bedingung je Zoo; ab Zoo 3 verschärft (ht = Text der verschärften Fassung), ab Zoo 5 zusätzlich Winterziel +10 %
-const INSP={frei:{name:'Keine Winter-Bedingung',icon:'☀️',text:'Im ersten Tutorial-Zoo gibt es noch keine Winter-Bedingung.',ht:'Im ersten Tutorial-Zoo gibt es noch keine Winter-Bedingung.',fx:()=>null},essen:{text:'Im Winter zählen Gastro-Gebäude selbst nicht. Ihre Boni für Nachbarn bleiben.',ht:'Im Winter zählen Gastro-Gebäude selbst nicht, ihre Boni für Nachbarn nur zur Hälfte.',fx:(b,c)=>c.cat==='essen'?{f:0}:null},
-  attr:{text:'Im Winter zählen Attraktionen selbst nicht. Ihre Boni für Nachbarn zählen nur zur Hälfte.',ht:'Im Winter zählen Attraktionen selbst nicht, ihre Boni nur zur Hälfte. Gehege neben einer Attraktion verlieren 10 %.',fx:(b,c,nb,bs,Z)=>c.cat==='attr'?{f:0}:HARD(Z)&&c.cat==='gehege'&&nb.some(n=>isCat(n,'attr'))?{f:.9,l:'Attraktion daneben'}:null},
-  nachbar:{pos:1,ht:'Im Winter zählt nur, was an mindestens 4 andere Gehege/Gebäude grenzt.',fx:(b,c,nb,bs,Z)=>nb.length<(HARD(Z)?4:3)?{f:0}:null},
-  klein:{text:'Im Winter zählen Gehege/Gebäude mit nur 1 Feld nur zur Hälfte.',ht:'Im Winter zählen Gehege/Gebäude mit 1 Feld gar nicht, mit 2 Feldern nur zur Hälfte.',fx:(b,c,nb,bs,Z)=>b.cells.length===1?{f:HARD(Z)?0:.5}:HARD(Z)&&b.cells.length===2?{f:.5}:null},
-  markt:{icon:'🎄',ht:'Im Winter zählen Gastro-Gebäude 1,5-fach. Attraktionen zählen selbst nicht. Gehege ohne Gastro-Gebäude daneben verlieren 30 %.',fx:(b,c,nb,bs,Z)=>c.cat==='essen'?{f:1.5}:c.cat==='attr'?{f:0}:c.cat==='gehege'&&!nb.some(n=>isCat(n,'essen'))?{f:HARD(Z)?.7:.85,l:'kein Gastro daneben'}:null},
-  zucht:{icon:'🐣',ht:'Im Winter zählen bedrohte Arten (Rote Liste) doppelt. Alle anderen Gehege zählen nur zur Hälfte.',fx:(b,c,nb,bs,Z)=>c.cat!=='gehege'?null:c.tags.includes('bedroht')?{f:2}:{f:HARD(Z)?.5:.7}},
-  koenig:{icon:'⛄',pos:1,ht:'Im Winter zählt von jeder Sorte nur das beste Gehege/Gebäude, dafür doppelt. Alle anderen zählen selbst nicht, wirken aber weiter als Nachbarn.',fx:(b,c,nb,bs,Z)=>kingSet(bs).has(b)?{f:HARD(Z)?2:2.5}:{f:0}},
-  team:{icon:'🪑',ht:'Im Winter zählen nur die ersten 2 Spezialisten deiner Team-Reihe. Die Reihenfolge änderst du per Ziehen.',fx:()=>null}, // 0.91 Teamsitzung: nur die ersten 3 (verschärft 2) Spezialisten zählen (in syncCtx)
-  hab:{ht:'Im Winter zählen die Gehege des Lebensraums, von dem du die meisten hast, gar nicht. Es gilt der Stand zu Winterbeginn.',text:Z=>{const H=Z.inspHabs||(typeof state!=='undefined'&&state&&state.buildings?habTop(state.buildings):[]);return`Im Winter zählen die Gehege des Lebensraums, von dem du die meisten hast, nur zur Hälfte (Besucher und Natur). Es gilt der Stand zu Winterbeginn.`+(H.length?` ${Z.inspHabs?'Getroffen':'Stand jetzt'}: ${H.map(h=>HAB[h].icon+' '+HAB[h].label).join(' und ')}.`:'')},fx:(b,c,nb,bs,Z)=>c.cat==='gehege'&&(Z.inspHabs||habTop(bs)).includes(c.hab)?{f:HARD(Z)?0:.5}:null},
-  schutzp:{pos:1,ht:'Im Winter zählen Gehege ohne Naturschutz-Gebäude daneben nur zu 25 %.',fx:(b,c,nb,bs,Z)=>c.cat==='gehege'&&!nb.some(n=>isCat(n,'schutz'))?{f:HARD(Z)?.25:.5}:null},
-  laerm:{pos:1,ht:'Im Winter bringen Gehege neben einer Attraktion gar keine Natur.',fx:(b,c,nb,bs,Z)=>c.cat==='gehege'&&nb.some(n=>isCat(n,'attr')&&n.key!=='lehrpfad')?{fs:HARD(Z)?0:.5}:null},
-  gross:{text:'Im Winter zählen Gehege nur zur Hälfte, außer sie haben mindestens 3 Felder oder Stufe II.',ht:'Im Winter zählen Gehege unter 3 Feldern gar nicht, außer sie haben Stufe II.',fx:(b,c,nb,bs,Z)=>c.cat==='gehege'&&b.cells.length<3&&(b.lvl||1)<2?{f:HARD(Z)?0:.5}:null},
-  // neu 0.93
-  heiz:{icon:'🔥',name:'Heizkosten',text:'Im Winter kostet die Pflege 1,5-mal so viel Taler.',ht:'Im Winter kostet die Pflege doppelt so viel Taler.',fx:()=>null},
-  ruhe:{icon:'😴',name:'Winterruhe',text:'Im Winter zählen Attraktionen und Gastro-Gebäude selbst nicht. Ihre Boni für Nachbarn bleiben.',fx:(b,c)=>c.cat==='attr'||c.cat==='essen'?{f:0}:null},
-  inventur:{icon:'📋',name:'Inventur',pos:1,text:'Im Winter zählen von jedem Lebensraum nur die 3 besten Gehege. Die anderen zählen selbst nicht, wirken aber weiter als Nachbarn.',fx:(b,c,nb,bs)=>c.cat!=='gehege'?null:topSet(bs,'inv').has(b)?null:{f:0}},
-  glatteis:{icon:'🧊',name:'Glatteis',text:'Im Winter kannst du nicht umziehen und nicht neu ziehen.',ht:'Im Winter kannst du nicht umziehen und nicht neu ziehen, und du hast nur 3 Baupunkte am Tag.',fx:()=>null},
-  wenig:{icon:'🎿',name:'Wenig Besuch',text:'Im Winter bringen alle Gehege und Gebäude nur 70 % Besucher, dafür 120 % Natur.',fx:()=>({fa:.7,fs:1.2,l:'B ×0,7, N ×1,2'})},
-  chaos:{icon:'🌨️',name:'Schneechaos',text:'Im Winter ist jeden Tag ein zufälliges Gehege/Gebäude eingeschneit und zählt nicht. Es wird morgens angekündigt.',fx:b=>typeof state!=='undefined'&&state&&state.chaosB===b.id?{f:0}:null},
-  futter:{icon:'🥕',name:'Futterknappheit',pos:1,text:'Im Winter zählen nur deine 10 besten Gehege und Gebäude. Die anderen zählen selbst nicht, wirken aber weiter als Nachbarn.',fx:(b,c,nb,bs)=>topSet(bs,'top10').has(b)?null:{f:0}}};
+// Godot-Vorbereitung 2b: Winter-Bedingungen stehen in daten/winter.json; Wirkungen hier in WINTER_WIRKUNG (Kennung = Schlüssel, keine = wirkt anderswo, z. B. Teamsitzung in syncCtx)
+const WINTER_DATEN=/*@@DATEN:winter@@*/null;
+const WINTER_WIRKUNG={fx:{keine:()=>null,
+  essen:(b,c)=>c.cat==='essen'?{f:0}:null,
+  attr:(b,c,nb,bs,Z)=>c.cat==='attr'?{f:0}:HARD(Z)&&c.cat==='gehege'&&nb.some(n=>isCat(n,'attr'))?{f:.9,l:'Attraktion daneben'}:null,
+  nachbar:(b,c,nb,bs,Z)=>nb.length<(HARD(Z)?4:3)?{f:0}:null,
+  klein:(b,c,nb,bs,Z)=>b.cells.length===1?{f:HARD(Z)?0:.5}:HARD(Z)&&b.cells.length===2?{f:.5}:null,
+  markt:(b,c,nb,bs,Z)=>c.cat==='essen'?{f:1.5}:c.cat==='attr'?{f:0}:c.cat==='gehege'&&!nb.some(n=>isCat(n,'essen'))?{f:HARD(Z)?.7:.85,l:'kein Gastro daneben'}:null,
+  zucht:(b,c,nb,bs,Z)=>c.cat!=='gehege'?null:c.tags.includes('bedroht')?{f:2}:{f:HARD(Z)?.5:.7},
+  koenig:(b,c,nb,bs,Z)=>kingSet(bs).has(b)?{f:HARD(Z)?2:2.5}:{f:0},
+  hab:(b,c,nb,bs,Z)=>c.cat==='gehege'&&(Z.inspHabs||habTop(bs)).includes(c.hab)?{f:HARD(Z)?0:.5}:null,
+  schutzp:(b,c,nb,bs,Z)=>c.cat==='gehege'&&!nb.some(n=>isCat(n,'schutz'))?{f:HARD(Z)?.25:.5}:null,
+  laerm:(b,c,nb,bs,Z)=>c.cat==='gehege'&&nb.some(n=>isCat(n,'attr')&&n.key!=='lehrpfad')?{fs:HARD(Z)?0:.5}:null,
+  gross:(b,c,nb,bs,Z)=>c.cat==='gehege'&&b.cells.length<3&&(b.lvl||1)<2?{f:HARD(Z)?0:.5}:null,
+  ruhe:(b,c)=>c.cat==='attr'||c.cat==='essen'?{f:0}:null,
+  inventur:(b,c,nb,bs)=>c.cat!=='gehege'?null:topSet(bs,'inv').has(b)?null:{f:0},
+  wenig:()=>({fa:.7,fs:1.2,l:'B ×0,7, N ×1,2'}),
+  chaos:b=>typeof state!=='undefined'&&state&&state.chaosB===b.id?{f:0}:null,
+  futter:(b,c,nb,bs)=>topSet(bs,'top10').has(b)?null:{f:0}},
+  text:{hab:Z=>{const H=Z.inspHabs||(typeof state!=='undefined'&&state&&state.buildings?habTop(state.buildings):[]);return`Im Winter zählen die Gehege des Lebensraums, von dem du die meisten hast, nur zur Hälfte (Besucher und Natur). Es gilt der Stand zu Winterbeginn.`+(H.length?` ${Z.inspHabs?'Getroffen':'Stand jetzt'}: ${H.map(h=>HAB[h].icon+' '+HAB[h].label).join(' und ')}.`:'')}}};
+const INSP={};for(const d of WINTER_DATEN.bedingungen){const I={};for(const p in d){if(p==='key')continue;const v=d[p];if(p==='fx'){I.fx=WINTER_WIRKUNG.fx[v];if(!I.fx)throw new Error('Wirkung fehlt: fx '+v)}else if(p==='text_wirkung')I.text=WINTER_WIRKUNG.text[v];else I[p]=v}INSP[d.key]=I}
 // 0.93: Winter-Bedingung einmal je Zoo gegen 30 Taler tauschen (bis zum Winterbeginn)
-const WSWAP=30,canWSwap=()=>!!(state&&state.zl&&state.mode==='camp'&&!state.zl.inspOpts&&!state.zl.swapped&&(state.season<3||(state.season===3&&state.day===0&&!state.builtToday))&&state.phase!=='scoring'&&!inspHid()&&!(runOf()&&runOf().tut));
+const WSWAP=WINTER_DATEN.tausch_preis,canWSwap=()=>!!(state&&state.zl&&state.mode==='camp'&&!state.zl.inspOpts&&!state.zl.swapped&&(state.season<3||(state.season===3&&state.day===0&&!state.builtToday))&&state.phase!=='scoring'&&!inspHid()&&!(runOf()&&runOf().tut));
 const wSwapBtn=()=>{try{if(!(state&&state.zl&&state.mode==='camp'&&!state.zl.inspOpts&&state.season>=2&&state.phase!=='scoring'&&!inspHid()&&!(runOf()&&runOf().tut)))return''}catch(e){return''}if(canWSwap()&&state.money>=WSWAP)return`<button class="btn sub" data-iswap="1" style="margin-top:8px">🔄 Andere Winter-Bedingung · 🪙 ${WSWAP} <small>(einmal je Zoo)</small></button>`;const why=state.zl.swapped?'schon getauscht (einmal je Zoo)':!canWSwap()?'nur bis zum ersten Bauen im Winter':`zu wenig Taler (${Math.max(0,state.money)}/${WSWAP})`;return`<button class="btn sub" disabled style="margin-top:8px">🔄 Andere Winter-Bedingung · ${why}</button>`};
 function wSwap(){if(!canWSwap()||state.money<WSWAP){Sfx.deny();return}const Z=state.zl,L=shuffle(Object.keys(INSP).filter(k=>k!==Z.insp&&!(k==='zucht'&&!(state.zoo>0)||k==='futter'&&!((state.zoo||0)>=2))));Z.insp=L[0];Z.swapped=1;if(Z.insp==='hab')Z.inspHab=shuffle(habsNow().slice())[0];state.money-=WSWAP;syncCtx();Sfx.till&&Sfx.till();render()}
 const HARD=Z=>!!(Z&&Z.hard&&INSP[Z.insp]&&INSP[Z.insp].ht);

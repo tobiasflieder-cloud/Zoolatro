@@ -20,7 +20,7 @@ Es ist eine einzige HTML-Datei, die aus Modulen zusammengebaut und über GitHub 
 | Pfad | Inhalt |
 |---|---|
 | `quelltext/src/` | **Quelle der Wahrheit.** Module 00–11 + `00-seite-und-stil.html` (Kopf, CSS) + `99-ende.html` |
-| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a): `karten.json` (alle Karten), `merkmale.json` (Tier-Merkmale). Werden von `mache.py` ins Spiel eingebaut |
+| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a/2b): `karten.json`, `merkmale.json`, `spezialisten.json`, `futter.json`, `winter.json`, `gelaende.json`, `stufen.json`, `profile.json`. Werden von `mache.py` ins Spiel eingebaut |
 | `quelltext/mache.py` | baut `build/zoodeck.html` (Tests), `index.html` (GitHub Pages), setzt die Daten aus `daten/` ein und den Cache in `sw.js` |
 | `quelltext/huelle/` | Rahmen um das Spiel für Web (`web-*`, mit Service Worker) und App (`app-*`) |
 | `index.html`, `sw.js`, `manifest.webmanifest`, Icons | die veröffentlichte Seite. **`index.html` nie von Hand ändern.** |
@@ -59,6 +59,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   stehen in `KARTEN_WIRKUNG` (Modul 01); die Karte nennt in `bonus`/`km`/`mult`/`tal` die Kennung (= Kartenschlüssel). Neue Karte = Eintrag in der JSON
   (+ ggf. Funktion in `KARTEN_WIRKUNG`). Zur Laufzeit wie bisher `CARDS` (Werte, Form, `bonus`), Texte in `TXT.de.card`, Merkmale in `daten/merkmale.json` → `TRAITS` (raubtier/beute/scheu/show/ruhig/trubel),
   `tags` (bedroht, gross, einmalig), Lebensraum-Bindung `rq`. Kartenschlüssel: `basis~variante#futter1.futter2^praegung` (Proxy in `CARDS`).
+- **Weitere Daten (2b):** Spezialisten `daten/spezialisten.json` → `SPEC` (Wirkungen `SPEZ_WIRKUNG`, Modul 01), Futter → `FOOD`/`HFOOD` (`FUTTER_WIRKUNG`, Modul 04),
+  Winter-Bedingungen → `INSP` (`WINTER_WIRKUNG`, Modul 02), Gelände → `MAPS`/`CAMP`/`NATFOCUS`, Profile → `DECKS`/`DECKRULE`/`UNLOCK_DECK`,
+  Stufen → `STAGES`, Wirkung über Kennungen `stAb(k)`/`stW(k,d)` (Modul 08). Namen/Texte, die in `TXT` stehen, fehlen in den JSON-Dateien.
 - **Wertung:** `evalB(b,bs,idx,parts)` je Gebäude, `scoreZoo` mit Multiplikatoren (Kronenfeld, Reinheit, Vielfalt, Stress …).
   Lebensraum-Regeln `habRule`/`habRulesOn`, Formen `shapesOf` (Innenhof, Allee, Dreiländereck), Zusatz-Faktoren `extra92`.
 - **Lauf:** Zoolatro-Lauf `sl.run`, `state` = laufender Zoo, `META` = Geräte-Speicher. `TUTNOW` = gerade Tutorial.
@@ -94,6 +97,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
 - Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
+
+**Godot-Vorbereitung (Stand):** 2a und 2b fertig auf dem Zweig `godot-daten` (nicht in main), 2c offen (Texte, Tutorial, übrige Tabellen als Daten).
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Inhalte (Karten, Futter, Spezialisten, Gelände, Tutorial-Texte)
 als Datendateien (JSON) auslagern, als Vorbereitung für einen möglichen Godot-Port · Grafikstil · Futter-Balance · neue Meilensteine

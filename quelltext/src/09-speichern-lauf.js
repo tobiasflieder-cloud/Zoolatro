@@ -28,10 +28,7 @@ function startZoo(){const sl=activeSlot(),run=sl.run;if(run&&(run.spec||[]).incl
   if(pl&&run.zl)Object.assign(zl0,{prof:pl.prof||run.prof||null,opts:pl.opts,gold:pl.gold,crown:pl.crown,insp:pl.insp||(pl.inspOpts&&pl.inspOpts[0]),inspOpts:undefined,inspHab:pl.inspHab,ban:null});
   if(run.zl)zl0.prof=run.prof||NOPROF;
   GENHABS=run.habs||null;const gm=run.tut&&run.zoo===0?{cells:hexDisc(5),terr:new Map(TUTMAP.terr)}:pl?{cells:pl.cells,terr:new Map(pl.terr)}:genMap(cf.map,Math.random,cf.rocks);GENHABS=null;newGame(cf.map,gm,{deck:run.deck,events:ev0,plan:!!pl,state:Object.assign({mode:'camp',money:10+(run.deckId==='oase'&&run.zl&&!run.tut?40:0),habs:run.habs||null,zoo:run.zoo,tmult:run.zl?ZLMULT(run.zoo):cf.mult,spec:(run.spec||[]).slice(),stats:run.stats||newStats()},run.zl?Object.assign({zl:zl0},pl?(pl.rule?{rule:pl.rule,infoProg:'rule'}:{}):!run.tut?{rule:{id:(SEEN=seenOf(run,run.zoo),ruleRoll())}}:{}):{})});SEEN={r:new Set(),i:new Set()};if(run.zl&&!run.tut)noteOffered(run);if(run.tut&&run.zoo===0){state.zl.prof=NOPROF;state.zl.insp='frei';state.zl.inspHab=null;state.zl.gold=TUTMAP.gold.slice();state.zl.crown=TUTMAP.crown;state.tgf=.4;state.tT=TUTT.slice();state.events=[];state.tut={ch:'zl',i:0};syncCtx();TUT.zl.steps[0].setup(state)}if((!run.zl||state.zl.prof)&&!run.tut)modal='zoo';saveMeta();renderAll()}
-const UNLOCK_DECK={kueste:{goal:100,k:'wB',txt:'Wasser-Gehege gebaut (über alle Läufe)'},geniesser:{goal:150,k:'eB',txt:'Gastro-Gebäude gebaut (über alle Läufe)'},
-  freizeit:{goal:4000,k:'aB',txt:'Besucher mit Attraktionen (über alle Läufe)'},forscher:{goal:5000,k:'sN',txt:'Natur mit Naturschutz-Gebäuden (über alle Läufe)'},
-  dschungel:{goal:9,k:'wald',txt:'verschiedene Dschungel-Gehege in einem Zoo (dein Bestwert)'},oase:{goal:150000,k:'day',txt:'Punkte an einem Tag (dein Bestwert)'},
-  steppe:{goal:40,k:'sav',txt:'Savannen-Gehege in einem Lauf gebaut (dein Bestwert)'}};
+const UNLOCK_DECK=JSON.parse(JSON.stringify(PROFIL_DATEN.freischalten)); // Godot-Vorbereitung 2b: daten/profile.json
 function cuOf(sl){if(!sl.cu){sl.ulv=ULV;const c=sl.ctype||{};sl.cu={wB:0,eB:0,aB:Math.round(c.attr||0),sN:Math.round(c.schutz||0),wald:0,day:0,sav:0,open:Object.keys(DECKS).filter(id=>DECKS[id].type&&(c[DECKS[id].type]||0)>=DECKGOAL)}}return sl.cu}
 // ab 0.66: Decks sind erst offen, wenn sie freigeschaltet wurden (höchstens eine Freischaltung je geschafftem Zoo); alte Spielstände behalten, was schon offen war
 const ULV=2,OLDGOAL={dschungel:7,oase:70000,steppe:20};
@@ -293,12 +290,7 @@ const shapesOf=(bs,idx)=>{const full=state&&state.buildings;
 const SHAPEN={hof:['🏡','Innenhof','freies Feld ganz von Gehegen umschlossen: alle Gehege daneben ×1,2'],allee:['🌳','Allee','4 Gehege in einer geraden Reihe: je +2 B'],drei:['🔺','Dreiländereck','3 Gehege aus 3 Lebensräumen treffen sich an einer Ecke: je +2 N']};
 // alle Zusatz-Wirkungen von 0.92 für ein Gebäude: [Label, Faktor B, Faktor N] oder {a,s}
 // 0.94: starke Lebensraum-Regeln (gelten immer im Zoolatro-Lauf, nicht im Tutorial)
-// 0.94 neue Spezialisten
-Object.assign(SPEC,{
-  floss:{name:'Flößerin',icon:'🛶',tier:2,fx:['×1,1 B|je Teil der längsten zusammenhängenden Floß-Strecke (6 Teile: ×1,6); beim Einstellen kommen 6 Floß-Teile ins Deck'],mult:bs=>{const n=flossLen(bs||[]),f=+(1+.1*n).toFixed(2);return n?{ma:f}:null}},
-  jaeger:{name:'Jäger',icon:'🏹',tier:2,fx:['25 %|je Tag: ein Raubtier frisst ein benachbartes Beutetier (weg aus dem Zoo) und bekommt dauerhaft dessen doppelte Punkte','+1 Art|für die Reinheit je gefressenes Beutetier']},
-  wgast:{name:'Bauherrin',icon:'🏗️',tier:2,zl:1,grw:'ga',fx:['×1 B|für den ganzen Zoo, wächst um +0,02 mit jeder im Lauf gebauten Gastro/Attraktion (bleibt über alle Zoos, höchstens ×2)'],mult:()=>{const f=grwF('ga');return f>1?{ma:f}:null}},
-  wnat:{name:'Naturstifterin',icon:'🌱',tier:2,zl:1,grw:'nat',fx:['×1 N|für den ganzen Zoo, wächst um +0,02 mit jedem im Lauf gebauten Naturschutz-Gebäude (bleibt über alle Zoos, höchstens ×2)'],mult:()=>{const f=grwF('nat');return f>1?{ms:f}:null}}});
+// 0.94 neue Spezialisten (floss, jaeger, wgast, wnat): Daten in daten/spezialisten.json, Wirkungen in SPEZ_WIRKUNG (Modul 01)
 const grwN=k=>{try{const r=runOf();return(r&&r.grw&&r.grw[k])||0}catch(e){return 0}},GRWMAX=2,grwF=k=>+Math.min(GRWMAX,1+.02*grwN(k)).toFixed(2),grwV=k=>grwF(k);
 function grwBuilt(key){const r=runOf(),c=CARDS[key];if(!r||!c)return;r.grw=r.grw||{};if(hasSpec('wgast')&&(c.cat==='essen'||c.cat==='attr')&&key!=='flossteil')r.grw.ga=(r.grw.ga||0)+1;if(hasSpec('wnat')&&c.cat==='schutz')r.grw.nat=(r.grw.nat||0)+1}
 function jaegerDay(){if(!hasSpec('jaeger')||!state.zl)return;const idx=mkIndex(state.buildings);for(const b of shuffle(state.buildings.filter(x=>isCat(x,'gehege')&&has(x,'raubtier')))){const prey=nbrs(b,idx).filter(n=>isCat(n,'gehege')&&has(n,'beute')&&!CARDS[n.key].ms);if(!prey.length||Math.random()>=.25)continue;const p=pickRnd(prey),c=CARDS[p.key];

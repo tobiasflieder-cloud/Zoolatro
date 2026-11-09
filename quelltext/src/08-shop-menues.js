@@ -381,8 +381,12 @@ const activeSlot=()=>META.active!=null?META.slots[META.active]:null;
 /* ---------- Zoolatro 2.0: Stufen, Regelbrecher, Zucht, Winter-Wahl, Herausforderungen ---------- */
 const isZ2=()=>{try{const sl=activeSlot();return!!(sl&&sl.run&&sl.run.z2)}catch(e){return false}};
 const stOf=()=>{try{const sl=activeSlot();return sl&&sl.run&&sl.run.z2?sl.run.stage||1:0}catch(e){return 0}};
-const stTF=()=>{const s=stOf();return(s>=2?1.1:1)*(s>=5?1.1:1)*(s>=8?1.1:1)};
-const STAGES=['','Grundstufe','Saisonziele +10 %','Nur 2 goldene Felder','Shop und Stellenmarkt 25 % teurer','Saisonziele +10 %','Kein Gratis-Neuziehen','Erster Tag jeder Jahreszeit: 1 Baupunkt weniger','Saisonziele nochmals +10 %'];
+// Godot-Vorbereitung 2b: Stufen stehen in daten/stufen.json; jede Stufe nennt eine Kennung, die hier und im Spiel abgefragt wird
+const STUFEN_DATEN=/*@@DATEN:stufen@@*/null;
+// stAb(k): die erste Stufe mit Kennung k, wenn sie im laufenden Lauf schon gilt (sonst null); stW(k,d): ihr Wert, sonst d
+const stAb=k=>{const x=STUFEN_DATEN.stufen.find(x=>x.kennung===k);return x&&stOf()>=x.nr?x:null},stW=(k,d)=>{const x=stAb(k);return x?x.wert:d};
+const stTF=()=>{const s=stOf();return STUFEN_DATEN.stufen.filter(x=>x.kennung==='ziel').reduce((f,x)=>f*(s>=x.nr?x.wert:1),1)};
+const STAGES=['',...STUFEN_DATEN.stufen.map(x=>x.text)];
 const z2Of=sl=>{sl.z2=sl.z2||{};sl.z2.st=sl.z2.st||{};sl.z2.ch=sl.z2.ch||{};return sl.z2};
 const stMax=(sl,d)=>Math.min(8,z2Of(sl).st[d]||1);
 const RBFREE=['rb_klon','rb_wild'];

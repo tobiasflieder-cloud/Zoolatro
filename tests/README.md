@@ -24,7 +24,7 @@ Alle lesen das Spiel aus `build/zoodeck.html` (vorher `python3 quelltext/mache.p
 | `jsd93.js`, `jsd94.js`, `jsd96.js` | breite Regel-Tests (Winter, Lebensräume, Umbauten, Grunddeck) |
 | `tutcal5.js` | spielt das Jasper-Tutorial komplett durch (Häppchen, feste Felder, Rückgängig, Neu ziehen, Ausbau, Umzug, Shops, freier Rest per Bot). `MEAS=1` misst Punkte je Tag, `V=1` ausführlich. Dauert einige Minuten |
 | `sim94.js` + `bot7.js` | Bot-Lauf: `Z2=1 node sim94.js 1 /tmp/x.json` – nur als Absturz-Test |
-| `jsddaten.js` | Spielstand aus 0.73a (`daten/spielstand-0.73a.json`, kompletter Gerätespeicher) muss laden und mit festem Zufall genau gleich weiterspielen |
+| `jsddaten.js` | Spielstand aus 0.73a (`daten/spielstand-0.73a.json`, kompletter Gerätespeicher) muss laden und mit festem Zufall genau gleich weiterspielen; dazu Stufen 1–8 wie vorher und alle Daten aus `daten/` mit Wirkung eingebaut |
 | `referenz/referenz.js` | 51 feste Zoo-Aufstellungen mit erwarteten Punkten je Gebäude prüfen (`erzeuge` = neu erzeugen, nur bei gewollter Wertungsänderung). Siehe `referenz/README.md` |
 
 Neuer Test: `jsd68a.js` kopieren, Prüfungen mit `T(bedingung,'Beschreibung')` schreiben.

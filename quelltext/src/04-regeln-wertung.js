@@ -26,26 +26,19 @@ Object.setPrototypeOf(CARDS,new Proxy(Object.prototype,{get(t,k,r){if(typeof k==
 // Einzelfutter liegt dauerhaft auf einer Karte: Schlüssel 'otter#kf.ho' (vor einer Prägung: 'otter#kf^star'), höchstens 2 je Karte (Futtermeister 3).
 // Lebensraum-Futter: Lauf-Stufen run.fdl[h]; je Gehege +2^(Stufe−1) B und N. Kauf über den 🧺 Futtersack (2 zufällige verwendbare Futter, eines nehmen).
 // Testschalter bei der Lauf-Einrichtung (META.foodOff → run.foodOff): aus = wie 0.63a.
-const FOOD={
-  kf:{icon:'🥩',name:'Kraftfutter',r:0,for:'Gehege',text:'+2 B und +2 N'},
-  kr:{icon:'🌿',name:'Beruhigungskräuter',r:1,for:'Gehege',text:'Das Tier wird nie gestresst'},
-  le:{icon:'🍎',name:'Leckerli',r:1,for:'Showtiere',ok:c=>(c.tags||[]).includes('show'),text:'Je Show-Auslöser +50 % statt +30 %'},
-  kn:{icon:'🦴',name:'Knochen',r:1,for:'Raubtiere',ok:c=>(c.tags||[]).includes('raubtier'),text:'Das Raubtier ist satt und stresst keine Beutetiere mehr'},
-  be:{icon:'🫐',name:'Beeren',r:0,for:'bedrohte Tiere',ok:c=>(c.tags||[]).includes('bedroht'),text:'+3 N'},
-  ho:{icon:'🍯',name:'Honig',r:0,for:'Gehege',text:'+1 B je Gastro-Gebäude im Umkreis von 2 Feldern'},
-  fr:{icon:'🌱',name:'Frühlingsgras',r:0,for:'Gehege',se:0,text:'Im Frühling ×1,5'},
-  wm:{icon:'🍉',name:'Wassermelone',r:0,for:'Gehege',se:1,text:'Im Sommer ×1,5'},
-  kb:{icon:'🎃',name:'Kürbis',r:0,for:'Gehege',se:2,text:'Im Herbst ×1,5'},
-  wv:{icon:'🌰',name:'Wintervorrat',r:0,for:'Gehege',se:3,text:'Im Winter ×1,5'},
-  mo:{icon:'🥕',name:'Möhrchen',r:0,for:'Beutetiere',ok:c=>(c.tags||[]).includes('beute'),text:'+3 B (Kinder dürfen füttern)'},
-  mw:{icon:'🐛',name:'Mehlwürmer',r:0,for:'scheue Tiere',ok:c=>(c.tags||[]).includes('scheu'),text:'+3 N'},
-  mi:{icon:'🍼',name:'Aufzuchtmilch',r:1,for:'Jungtiere',ok:c=>!!c.jt,text:'Familie ×2 gilt auch ohne Elterntier daneben'},
-  gp:{icon:'📦',name:'Großpackung',r:1,for:'Gehege mit 3–4 Feldern',ok:c=>+(String(c.shape||'').replace(/\D/g,'')||1)>=3,text:'+3 B und +3 N'},
-  sn:{icon:'🥜',name:'Besuchersnack',r:0,for:'Gehege',text:'+1 🪙 pro Tag, solange gebaut'},
-  gh:{icon:'✨',name:'Goldhafer',r:2,for:'Gehege',text:'Zählt ×1,5'},
-  ue:{icon:'🎁',name:'Überraschungsfutter',r:2,for:'zufälliges Gehege',text:'Ein zufälliges Gehege deines Decks bekommt eine zufällige Prägung (wie früher die Futterlieferung)'}};
-const FOODR=[6,3,1],FOODRN=['gewöhnlich','selten','sehr selten'],HFOODW=4;
-const HFOOD={wasser:{icon:'🐟',name:'Fischmix'},savanne:{icon:'🌾',name:'Steppenheu'},wald:{icon:'🍌',name:'Tropenfrüchte'},wueste:{icon:'🌵',name:'Kaktusfeigen'},arktis:{icon:'🦐',name:'Krill'},gebirge:{icon:'🌼',name:'Bergkräuter'}};
+// Godot-Vorbereitung 2b: Futter steht in daten/futter.json; Bedingungen, auf welche Karten es passt, hier in FUTTER_WIRKUNG (Kennung = Futter-Schlüssel)
+const FUTTER_DATEN=/*@@DATEN:futter@@*/null;
+const FUTTER_WIRKUNG={ok:{
+  le:c=>(c.tags||[]).includes('show'),
+  kn:c=>(c.tags||[]).includes('raubtier'),
+  be:c=>(c.tags||[]).includes('bedroht'),
+  mo:c=>(c.tags||[]).includes('beute'),
+  mw:c=>(c.tags||[]).includes('scheu'),
+  mi:c=>!!c.jt,
+  gp:c=>+(String(c.shape||'').replace(/\D/g,'')||1)>=3}};
+const FOOD={};for(const d of FUTTER_DATEN.futter){const F={};for(const p in d){if(p==='key')continue;F[p]=d[p];if(p==='ok'){F.ok=FUTTER_WIRKUNG.ok[d.ok];if(!F.ok)throw new Error('Wirkung fehlt: ok '+d.ok)}}FOOD[d.key]=F}
+const FOODR=FUTTER_DATEN.seltenheit_gewicht.slice(),FOODRN=FUTTER_DATEN.seltenheit_name.slice(),HFOODW=FUTTER_DATEN.lebensraum_gewicht;
+const HFOOD=JSON.parse(JSON.stringify(FUTTER_DATEN.lebensraum_futter));
 const fdOf=k=>{const m=/#([^~^]*)/.exec(String(k));return m&&m[1]?m[1].split('.').filter(f=>FOOD[f]):[]};
 const fdHas=(b,f)=>!!b&&fdOf(b.key).includes(f);
 const fdKey=(k,f)=>{const s=String(k),i=s.indexOf('^'),head=i<0?s:s.slice(0,i),tail=i<0?'':s.slice(i),j=head.indexOf('#'),b0=j<0?head:head.slice(0,j),L=fdOf(head);L.push(f);return b0+'#'+L.join('.')+tail};
@@ -71,10 +64,6 @@ function foodCard(o,btn){const run=runOf()||{};if(o.startsWith('h:')){const h=o.
 function foodLogAdd(t){const run=runOf();if(!run)return;(run.fdlog=run.fdlog||[]).push(`Zoo ${(run.zoo||0)+1} ${(seOf(state.season)||{}).name||''}: ${t}`)}
 function foodBoxHtml(){const run=runOf();if(!run||!foodOnRun(run))return'';const L=run.fdl||{},hs=Object.keys(L).filter(h=>L[h]>0);
   return(hs.length?hs.map(h=>`${HFOOD[h].icon} ${HFOOD[h].name} · ${HAB[h].label} <b>Stufe ${L[h]}</b>: je Gehege +${fdLvB(L[h])} B +${fdLvB(L[h])} N`).join('<br>'):'Noch kein Lebensraum-Futter.')+'<br><span class="hint">Futter gibt es im Shop im Reiter 🧰 Umbau &amp; Futter: 🧺 Futtersack.</span>'}
-Object.assign(SPEC,{
-  tierern:{name:'Tierernährerin',icon:'👩‍🌾',tier:2,food:1,fx:['−25 %|🧺 Futtersäcke kosten ein Viertel weniger']},
-  futtermeister:{name:'Futtermeister',icon:'🥣',tier:2,food:1,fx:['+1 Futterplatz|je Karte (gewöhnlich 2, selten 3, sehr selten 4)']},
-  ernprof:{name:'Ernährungsprofessorin',icon:'👩‍🏫',tier:3,food:1,fx:['×1,05 B|je Lebensraum-Futter-Stufe, für den ganzen Zoo'],mult:()=>{const L=CTX&&CTX.fdl||{},n=Object.values(L).reduce((a,b)=>a+(b||0),0);return n?{ma:+(1.05**n).toFixed(3)}:null}}});
 const edFx={g:'+25 % B|🪙 Gold-Ausgabe',s:'×2|✨ Schimmernd: das Gehege/Gebäude zählt doppelt',r:'×1,2 B|🌈 Regenbogen: für den ganzen Zoo'};
 for(const k of Object.keys(CARDS))for(const e in EDS)Object.defineProperty(CARDS[k+'~'+e],'fx',{get(){return[edFx[e],...(CARDS[k].fx||[])]}});
 // Zoolatro 2.0: Jungtiere ('zebras~j'): 1 Feld, halber Grundwert (aufgerundet), gleiche Eigenschaften; neben der Elternart zählen sie doppelt
@@ -86,18 +75,6 @@ for(const k of Object.keys(CARDS)){const P=CARDS[k];if(P.cat!=='gehege'||P.ms)co
 const ZLMULT=z=>Math.pow(2,z); // Ziele verdoppeln sich mit jedem Zoo
 const GROWMAX=3,gf=(id,st,mx=GROWMAX)=>Math.min(mx,+(1+st*(((CTX.zl||{}).grow||{})[id]||0)).toFixed(2));
 const HGROW={ma:.05,ms:.05},HGMAX=1.5;
-{const G=(id,name,icon,hab,k)=>SPEC[id]={name,icon,tier:2,zl:1,hg:1,fx:[`×1 ${k==='ma'?'B':'N'}|für den ganzen Zoo, wächst um +${String(HGROW[k]).replace('.',',')} je neu gebautem ${hab}-Gehege in diesem Zoo, höchstens ×${String(HGMAX).replace('.',',')}`],mult:()=>{const f=gf(id,HGROW[k],HGMAX);return f>1?{[k]:f}:null}};
-  G('z_wald','Waldläuferin','🌲','Dschungel','ma');G('z_wasser','Gezeitenforscher','🌊','Wasser','ms');G('z_wueste','Karawanenführer','🐪','Wüsten','ma');G('z_savanne','Herdenhüterin','🦓','Savannen','ms');G('z_arktis','Eisbrecherin','🧭','Arktis','ma');G('z_gebirge','Bergführer','🧗','Gebirgs','ms');
-  SPEC.z_bank={name:'Investorin',icon:'🏦',tier:2,zl:1,fx:['×1 B|plus 0,05 je 10 Taler in der Kasse, höchstens ×1,5'],mult:()=>{const m=typeof state!=='undefined'&&state?state.money:0,f=Math.min(1.5,+(1+.05*Math.max(0,Math.floor(m/10))).toFixed(2));return f>1?{ma:f}:null}};
-  SPEC.z_rekord={name:'Rekordjägerin',icon:'⏱️',tier:3,zl:1,fx:['×1 N|wächst um +0,25 für jedes Saisonziel, das du mindestens 2 Tage früher schaffst, höchstens ×3'],mult:()=>{const f=gf('z_rekord',.25);return f>1?{ms:f}:null}}}
-// Zoolatro 2.0: Regelbrecher (legendäre Spezialisten, heben eine Grundregel auf; höchstens einer pro Lauf)
-Object.assign(SPEC,{
-  rb_klon:{name:'Klonlabor',icon:'🧪',tier:3,rb:1,fx:['100 %|statt 75 % und 25 % für doppelte Gehege und Gebäude']},
-  rb_wild:{name:'Wildhüterin',icon:'🧭',tier:3,rb:1,fx:['alle Naturflächen|sind für jedes Gehege frei (Natur-Bonus nur auf der passenden)']},
-  rb_jagd:{name:'Jagdrevier',icon:'🦁',tier:3,rb:1,fx:['+30 %|statt Stress: Beute +30 % B und N je benachbartes Raubtier (höchstens +60 %)']},
-  rb_party:{name:'Partyzoo',icon:'🎉',tier:3,rb:1,fx:['+30 %|statt Stress: scheue Tiere +30 % B und N je benachbartes Gastro-Gebäude oder Attraktion (höchstens +60 %)']},
-  rb_winter:{name:'Winterfest',icon:'🧣',tier:3,rb:1,fx:['kein Frost|für Savanne und Wüste im Winter','halb|so stark wirken die Nachteile der Winter-Bedingung','×3,75|statt ×2,5 für jeden König beim Schneekönig']},
-  rb_leicht:{name:'Leichtbauer',icon:'🏗️',tier:3,rb:1,fx:['0 BP|kosten Karten mit 1 Feld, höchstens 2 pro Tag']}});
 const PURN=4,CROWNF=1.3; // Reinheit ab 4 verschiedenen Arten (vorher hier 6, syncCtx setzte 4)
 // Vielfalt: je Lebensraum mit mindestens 2 verschiedenen Gehege-Arten ×1,05 Natur (es gilt Vielfalt oder Reinheit, das Bessere)
 function vielfalt(bs){const H=(CTX&&CTX.habs)||DEFHABS,m={};for(const h of H)m[h]=new Set();for(const b of bs){const c=K(b);if(c.cat!=='gehege'||!c.hab||!m[c.hab])continue;m[c.hab].add(spK(b.key))}const per=H.map(h=>m[h].size),lvl=Math.min(5,Math.min(...per));return{lvl,per,habs:H,f:lvl>=2?1+.05*lvl:1}}
@@ -107,44 +84,28 @@ const purF=n=>n>=PURN?Math.min(1.6,+(1+.15*(n-PURN+1)).toFixed(2)):1;
 function zlPurity(bs,idx){let best=0,bh=null,zu=0;const seen=new Set();for(const b of bs){if(seen.has(b)||!isCat(b,'gehege'))continue;const h=K(b).hab,st=[b],ks=new Set();seen.add(b);let z=0;
     while(st.length){const x=st.pop();ks.add(spK(x.key));z+=x.ate||0;if(x.pr==='zucht'&&!zu){zu=1;z+=1}for(const y of nbrs(x,idx))if(!seen.has(y)&&isCat(y,'gehege')&&K(y).hab===h){seen.add(y);st.push(y)}}const n=ks.size+z;if(n>best){best=n;bh=h}}{const WB=bs.filter(b=>isCat(b,'gehege')&&K(b).hab==='wueste'),W=new Set(WB.map(b=>spK(b.key))),wn=W.size+WB.reduce((t,b)=>t+(b.ate||0),0);if(wn>best){best=wn;bh='wueste'}}return{n:best,hab:bh}}
 // Profile der Kampagne: 16 Karten, zwei davon gegen den Schwerpunkt getauscht
-const DECKGOAL=1500;
+// Godot-Vorbereitung 2b: Profile und Startdeck-Bausteine stehen in daten/profile.json, die Regeln wirken über den Profil-Schlüssel
+const PROFIL_DATEN=/*@@DATEN:profile@@*/null;
+const DECKGOAL=PROFIL_DATEN.ziel;
 // ab 0.85: jedes Profil hat eine eigene kleine Regel (gilt im ganzen Lauf, nicht im Tutorial)
-const DECKRULE={grund:'＋ 2 Gratis-Neuziehen pro Jahreszeit statt 1. Keine Kehrseite, gut zum Einstieg.',
-  kueste:'＋ Schwarm: Wasser-Gehege bekommen +1 N je benachbartes Wasser-Gehege. － Wüsten-Gehege −1 N.',
-  steppe:'＋ Herde stärker (+0,2 je weiteres Gehege statt +0,15), Gehege mit 4 Feldern kosten 1 BP weniger. － Gehege mit 1 Feld kosten 1 BP mehr.',
-  dschungel:'＋ Scheue Tiere werden nur gestresst, wenn der Trubel direkt daneben steht. － Attraktionen kosten 1 BP mehr.',
-  oase:'＋ 40 Taler extra zum Start jedes Zoos, Pflege −25 %. － Eintritt −10 %.',
-  freizeit:'＋ Attraktionen kosten 1 BP weniger (mindestens 1), 1 Platz mehr im Team. － Spezialisten kosten 25 % mehr.',
-  geniesser:'＋ Eintritt +20 %, Shop −20 %. － Pflege +25 %.',
-  forscher:'＋ Meilensteine brauchen 1 verschiedene Art weniger. － Zwischen den Zoos 1 Karte weniger zur Auswahl.',
-  polar:'＋ Winterziel −15 %, Arktis-Gehege sind von der Winter-Bedingung ausgenommen. － Sommerziel +15 %.',
-  alpen:'＋ Jedes Gehege bekommt +1 B je benachbarten Felsen (höchstens +2). － 3 Felsen mehr auf dem Gelände.'};
+const DECKRULE=Object.fromEntries(PROFIL_DATEN.profile.map(d=>[d.key,d.regel]));
 const runDeck=()=>{try{const r=runOf();return r&&r.zl&&!r.tut?r.deckId||'grund':''}catch(e){return''}};
 const maxSpec=()=>MAXSPEC+(runDeck()==='freizeit'?1:0)+(runAus('team')?1:0);
 const dkNow=()=>{try{if(typeof state==='undefined'||!state||state.mode!=='camp')return'';const sl=activeSlot(),r=sl&&sl.run;return r&&r.zl&&!r.tut?r.deckId||'grund':''}catch(e){return''}};
 const kuDisc=key=>false;
-const DECKS={grund:{name:'Der Zoogründer',icon:'🧑‍💼',text:'Ausgewogen, von allem etwas.'},
-  kueste:{name:'Die Kapitänin',icon:'🧑‍✈️',type:'wasser',inn:['flamingos','seeloewen','schwan','hafen','delfinshow','wasserfall']},
-  steppe:{name:'Der Safari-Ranger',icon:'🤠',type:'savanne',inn:['zebras','giraffen','warzenschweine','gnu','wasserloch','picknick']},
-  dschungel:{name:'Der Dschungelforscher',icon:'🧭',type:'wald',inn:['affen','faultiere','papageien','regenkuppel','baumschule','lehrpfad']},
-  oase:{name:'Der Oasen-Dschinn',icon:'🧞',type:'wueste',inn:['kamele','fennek','reptilien','karawane','oase','beduinen']},
-  freizeit:{name:'Der Zirkusdirektor',icon:'🎩',type:'attr',core:['popcorn'],inn:['streichelzoo','arena','delfinshow','wasserspiel','besucherzentrum','achterbahn']},
-  geniesser:{name:'Die Sterneköchin',icon:'🧑‍🍳',type:'essen',core:['infozentrum'],inn:['bratwurst','eiswagen','popcorn','picknick','cafe','foodcourt']},
-  forscher:{name:'Die Biologin',icon:'🧑‍🔬',type:'schutz',core:['turm'],inn:['tierarzt','bienen','baumschule','infozentrum','gruen','fstation']},
-  polar:{name:'Die Expeditionsleiterin',icon:'🛷',type:'arktis',free:1,inn:['pinguine','polarfuchs','schneegaense','eisgrotte','glashaus','teestube']},
-  alpen:{name:'Der Gipfelstürmer',icon:'🧗',type:'gebirge',free:1,inn:['steinboecke','murmeltiere','mufflons','adlerhorst','berghuette','bergwacht']}};
+const DECKS={};for(const d of PROFIL_DATEN.profile){const D={};for(const p in d)if(p!=='key'&&p!=='regel')D[p]=Array.isArray(d[p])?d[p].slice():d[p];DECKS[d.key]=D}
 // 0.90 Startdecks (16 Karten): Tier-Decks = 6 Kern-Gebäude + 4 Gehege aus den anderen Lebensräumen + 3 Themen-Tiere + Signatur + 2 Themen-Gebäude; Gebäude-Decks = 8 Gehege + 2 Kern + 5 Themen-Gebäude + Signatur
-const KERN=['popcorn','cafe','gruen','gruen','infozentrum','turm'],G8=['korallenriff','flamingos','affen','papageien','reptilien','kamele','zebras','giraffen'];
+const KERN=PROFIL_DATEN.startdeck.kern.slice(),G8=PROFIL_DATEN.startdeck.g8.slice();
 const deckCards0=id=>{const D=DECKS[id]||DECKS.grund;if(!D.type)return START_DECK.slice();if(HAB[D.type])return KERN.concat(['_o2','_o1','_o2','_o1'],D.inn);return G8.concat(D.core||[],D.inn)};
 // Profil an die gewählten Lebensräume anpassen: Gehege aus abgewählten Lebensräumen werden gegen gleich große aus den neuen getauscht; Platzhalter _o1/_o2 = Gehege (1/2 Felder) aus den anderen gewählten Lebensräumen
-const HABSUB={wasser:{1:['korallenriff','schildkroeten'],2:['flamingos','seeloewen'],3:['otter']},savanne:{1:['warzenschweine'],2:['zebras'],3:['giraffen']},wald:{1:['affen','faultiere'],2:['papageien','eulen'],3:['woelfe']},wueste:{1:['reptilien','skorpione'],2:['schlangen','fennek'],3:['kaengurus','addax']},arktis:{1:['polarfuchs','schneehasen','lemminge'],2:['schneegaense'],3:['moschusochsen','rentiere']},gebirge:{1:['murmeltiere','pfeifhasen'],2:['steinboecke','mufflons'],3:['yaks']}};
+const HABSUB=JSON.parse(JSON.stringify(PROFIL_DATEN.startdeck.habsub));
 // 0.96: Grunddeck = je gewähltem Lebensraum 3 Gehege (1 / 2 / 3–4 Felder) + 7 Gebäude; Ersatz-Gehege nie gesperrt
-const GRBLD=['delfinshow','turm','streichelzoo','popcorn','cafe','gruen','infozentrum'],GRPREF=['korallenriff','flamingos','otter','schildkroeten','seeloewen','affen','papageien','woelfe','faultiere','eulen','reptilien','schlangen','kamele','skorpione','fennek','warzenschweine','zebras','giraffen','polarfuchs','schneegaense','moschusochsen','schneehasen','murmeltiere','steinboecke','yaks','pfeifhasen','mufflons'];
+const GRBLD=PROFIL_DATEN.startdeck.grund_gebaeude.slice(),GRPREF=PROFIL_DATEN.startdeck.grund_vorzug.slice();
 const okK=k=>{try{return!isLocked(k)}catch(e){return true}},gSz=k=>SHAPES[CARDS[k].shape].cells.length;
 function gehege3(H){const out=[],used=new Set();for(const h of H){const all=[...GRPREF,...Object.keys(CARDS)].filter((k,i,a)=>a.indexOf(k)===i&&CARDS[k]&&CARDS[k].cat==='gehege'&&CARDS[k].hab===h&&!CARDS[k].sig&&!CARDS[k].gone&&!String(k).includes('~'));
   for(const sz of[[1],[2],[3,4]]){const pick=all.find(k=>!used.has(k)&&sz.includes(gSz(k))&&okK(k))||all.find(k=>!used.has(k)&&okK(k))||all.find(k=>!used.has(k));if(pick){used.add(pick);out.push(pick)}}}
   return out}
-const RQS1={delfinshow:'lehrpfad',baumschule:'gruen',wasserfall:'gruen',wasserloch:'gruen',oase:'gruen',beduinen:'popcorn',teestube:'popcorn',berghuette:'popcorn',glashaus:'turm',polarstation:'gruen',bergwacht:'gruen',seilbahn:'turm'};
+const RQS1={...PROFIL_DATEN.startdeck.ersatz};
 const bldFix=(L,H)=>L.map(k=>CARDS[k]&&CARDS[k].rq&&!H.includes(CARDS[k].rq)?(RQS1[k]||'gruen'):k);
 function grundDeck(H){return gehege3(H).concat(bldFix(GRBLD,H))}
 const deckCards=(id,habs)=>{const D=DECKS[id]||DECKS.grund;if(!D.type&&habs)return grundDeck(habs);if(D.type&&!HAB[D.type]&&habs)return gehege3(habs).concat(bldFix([...(D.core||[]),...D.inn],habs));const d=deckCards0(id),H=habs||DEFHABS,used=new Set(d.filter(k=>k[0]!=='_'));
@@ -153,14 +114,14 @@ const deckCards=(id,habs)=>{const D=DECKS[id]||DECKS.grund;if(!D.type&&habs)retu
   return d.map(k=>{const rq=CARDS[k].rq;if(rq&&!habs.includes(rq))return RQS[k]||'gruen';const h=CARDS[k].hab;if(!h||habs.includes(h))return k;const to=N[U.indexOf(h)]||habs[Math.max(0,U.indexOf(h))%habs.length],n=Math.min(3,SHAPES[CARDS[k].shape].cells.length),L=[...(HABSUB[to][n]||[]),...(HABSUB[to][2]||[]),...(HABSUB[to][1]||[])],pick=L.find(x=>!used.has(x)&&okK(x))||L.find(okK)||L[0];used.add(pick);return pick})};
 const typeOfCard=c=>c.hab||c.cat;
 // Kampagne: jeder Zoo wird schwerer (Gelände, Felsen, Ereignisse, Ziele)
-const CAMP=[{map:'wiese',rocks:0,k:1,n:1,spring:false,mult:1},{map:'bucht',rocks:4,k:1,n:1,spring:true,mult:1.25},{map:'flusstal',rocks:5,k:2,n:1,spring:true,mult:1.5},
-  {map:'zerkluftet',rocks:3,k:2,n:2,spring:true,mult:1.8},{map:'huegel',rocks:6,k:3,n:2,spring:true,hard:true,mult:2.2}];
+// Godot-Vorbereitung 2b: Kampagne, Würfel-Pool, Felsen, Schrumpfen und Naturfelder stehen in daten/gelaende.json
+const CAMP=JSON.parse(JSON.stringify(GELAENDE_DATEN.kampagne));
 const CAMP_GOAL=CAMP.length;
 // ab 0.85: Gelände je Zoo gewürfelt (ohne Wiederholung, Zerklüftet erst ab Zoo 3), gespeichert in run.maps
-const MAPPOOL=['wiese','bucht','flusstal','zerkluftet','huegel'];
+const MAPPOOL=GELAENDE_DATEN.wuerfel_pool.slice();
 function mapRoll(run){if(!run||!run.zl||run.tut)return;run.maps=run.maps||{};if(run.maps[run.zoo])return;const used=Object.keys(run.maps).filter(k=>+k<run.zoo).map(k=>run.maps[k]);
   let pool=MAPPOOL.filter(m=>!used.includes(m)&&!(m==='zerkluftet'&&run.zoo<2));if(!pool.length)pool=MAPPOOL.filter(m=>!(m==='zerkluftet'&&run.zoo<2));run.maps[run.zoo]=pool[Math.floor(Math.random()*pool.length)]}
-const MAPROCKS={wiese:0,bucht:4,flusstal:5,zerkluftet:3,huegel:6};
+const MAPROCKS={...GELAENDE_DATEN.felsen};
 const cfOf=run=>{const c=campCfg(run.zoo),m=run.maps&&run.maps[run.zoo];if(!m)return run.deckId==='alpen'&&run.zl&&!run.tut?{...c,rocks:(c.rocks||0)+3}:c;const z=run.zoo||0,rk=(z===0?0:m==='zerkluftet'?3:Math.max(MAPROCKS[m]||0,2*z-2))+(run.deckId==='alpen'&&run.zl&&!run.tut?3:0);return{...c,map:m,rocks:rk}};
 function campCfg(z){if(z<CAMP.length)return CAMP[z];const ks=Object.keys(MAPS),e=z-CAMP.length+1;return{map:ks[z%ks.length],rocks:6+2*e,k:3,n:2,spring:true,hard:true,mult:2.2+.5*e}}
 const axXY=(q,r)=>[Math.sqrt(3)*(q+r/2),1.5*r];
@@ -183,12 +144,13 @@ function addRocks(t,set,n,rnd){const cells=[...set];let placed=0;
   for(let tries=0;placed<n&&tries<300;tries++){const k=cells[Math.floor(rnd()*cells.length)];if(t.has(k))continue;
     const[q,r]=k.split(',').map(Number);if(DIRS.some(([dq,dr])=>t.get(hk(q+dq,r+dr))==='block'))continue;t.set(k,'block');placed++}}
 // 0.91: Gelände etwa 80 %: die äußersten Felder (mit etwas Zufall) fallen weg, das Gelände bleibt zusammenhängend
-const MAPSHRINK=.8;
+const MAPSHRINK=GELAENDE_DATEN.schrumpfen;
 function shrinkMap(m,rnd){const n0=m.cells.length,keep=Math.round(n0*MAPSHRINK);if(keep>=n0)return m;let cx=0,cy=0;for(const c of m.cells){const[x,y]=axXY(...c);cx+=x;cy+=y}cx/=n0;cy/=n0;
   const sc=m.cells.map(c=>{const[x,y]=axXY(...c);return[c,Math.hypot(x-cx,y-cy)+rnd()*1.8]}).sort((a,b)=>a[1]-b[1]),cells=connectedPart(sc.slice(0,keep).map(e=>e[0])),set=new Set(cells.map(c=>hk(...c)));
   for(const k of[...m.terr.keys()])if(!set.has(k))m.terr.delete(k);return{...m,cells}}
 // 0.71a: Naturfelder fest verteilen – 18 je Zoo, nur gewählte Lebensräume, Flecken zu 2–4 (Flusstal: Wasser als Fluss-Strang)
-const NATN=18,NATFOCUS={flusstal:H=>({wasser:8}),bucht:H=>({wasser:7,wueste:7}),huegel:H=>H.includes('wald')?{wald:8}:{savanne:8},zerkluftet:H=>({wueste:8})};
+// Schwerpunkt je Gelände: die erste Variante, deren Lebensräume alle gewählt sind, sonst die letzte
+const NATN=GELAENDE_DATEN.naturfelder,NATFOCUS=Object.fromEntries(Object.entries(GELAENDE_DATEN.natur_fokus).map(([k,V])=>[k,H=>({...(V.find(v=>Object.keys(v).every(h=>H.includes(h)))||V[V.length-1])})]));
 function natQuota(key,H,n=NATN){const F=(NATFOCUS[key]||(()=>({})))(H),q={};let left=n;for(const h of H)if(F[h]){q[h]=F[h];left-=F[h]}
   const rest=H.filter(h=>!F[h]);if(!rest.length){const fs=H.filter(h=>F[h]);let i=0;while(left>0){q[fs[i%fs.length]]++;left--;i++}return q}
   const b=Math.floor(left/rest.length);let r=left-b*rest.length;rest.forEach(h=>{q[h]=b+(r>0?1:0);if(r>0)r--});return q}
