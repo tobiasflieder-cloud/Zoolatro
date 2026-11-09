@@ -60,7 +60,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev(`state.rule={id:'halb',side:1};state.rule.mid=halfMid(BOARD)`);const hf=ev(`BOARD.filter(([q,r])=>halfOk(state.rule,q,r)).length/BOARD.length`);T(hf>.4&&hf<.65,'Bauabschnitte teilt in der Mitte: '+(hf*100).toFixed(0)+' % bebaubar');
  ev(`state.rule=null`);
  // Warteschlange
- ev(`(()=>{state.season=1;state.phase='play';modal=null;screen=null;const wp=document.getElementById('wishPop');if(wp)wp.remove();state.wishIntro=0;POPQ=[];POPBUSY=false;activeSlot().popSeen={};state.bannerQ=[['🧪 Test eins!','A','t1','Erklärung A'],['🧪 Test zwei!','B','t2']];flushBanners()})()`);
+ ev(`(()=>{state.season=1;state.phase='play';modal=null;screen=null;const wp=document.getElementById('wishPop');if(wp)wp.remove();state.ruleIntro=0;document.querySelectorAll('.bigpop').forEach(e=>e.remove());state.wishIntro=0;POPQ=[];POPBUSY=false;activeSlot().popSeen={};state.bannerQ=[['🧪 Test eins!','A','t1','Erklärung A'],['🧪 Test zwei!','B','t2']];flushBanners()})()`);
  setTimeout(()=>{try{
   T(d.querySelectorAll('.popwin').length===1&&/Erklärung A/.test(d.querySelector('.popwin').textContent)&&/Test zwei/.test(d.querySelector('.popwin').textContent),'Erstes Mal: ein Fenster mit Erklärung, beide Meldungen darin');
   d.querySelector('.popwin button').click();

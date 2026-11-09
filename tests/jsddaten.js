@@ -42,6 +42,8 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
   w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};enterCamp(0,false,null,'z2');modal=null`);
   T(w.eval('!!state&&state.zoo')===F.stand.zoo&&w.eval('state.season')===F.stand.season&&w.eval('state.buildings.length')===F.stand.n,`Lauf geht weiter (Zoo ${F.stand.zoo+1}, Jahreszeit ${F.stand.season+1}, ${F.stand.n} Gebäude)`);
   const tot=w.eval('scoreZoo(state.buildings).total');T(tot===F.erwartet.total,`Wertung gleich (${tot} / erwartet ${F.erwartet.total})`);
+  // 0.75a: Tribüne ist legendär (kommt seltener ins Angebot). Für den Vergleich mit dem 0.73a-Ablauf gilt hier die alte Seltenheit.
+  w.eval("if(CARDS.tribuene&&CARDS.tribuene.rar==='sehr selten')CARDS.tribuene.rar='selten'");
   const tage=weiter(w);T(JSON.stringify(tage)===JSON.stringify(F.erwartet.tage),`3 weitere Tage gleich: ${tage.map(t=>t.pts).join(', ')} (erwartet ${F.erwartet.tage.map(t=>t.pts).join(', ')})`);
   if(w.eval("typeof STUFEN_DATEN==='undefined'")){L('ok 2b-Prüfungen übersprungen (Stand ohne daten/stufen.json)');d.window.close();process.exit(0)}
   // 2b: Stufen wirken über Kennungen wie früher die festen Nummern (Ziel ×1,1 ab 2/5/8, 2 Goldfelder ab 3, 25 % teurer ab 4, kein Gratis-Neuziehen ab 6, −1 BP am 1. Tag ab 7)

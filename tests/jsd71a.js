@@ -33,11 +33,11 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  // Seltenheits-Ecke auf Handkarten
  ev(`state.phase='play';state.hand=['${com}','${sel}'];render()`);
  const cards=d.querySelectorAll('#hand .card');
- T(cards.length===2&&!cards[0].querySelector('.rarc')&&!!cards[1].querySelector('.rarc.r1')&&cards[1].classList.contains('rar'),'Nur seltene Karte hat blaue Ecke');
+ T(cards.length===2&&!d.querySelector('.rarc')&&!cards[0].querySelector('.glz')&&!!cards[1].querySelector('.glz')&&cards[1].classList.contains('rg1'),'Nur seltene Karte glänzt (seit 0.75a Glanz statt Ecke)');
  const ss=ev(`Object.keys(CARDS).find(k=>CARDS[k].rar==='sehr selten')`);ev(`state.hand=['${ss}'];render()`);
- T(!!d.querySelector('#hand .card .rarc.r2')&&(d.querySelector('#hand .card .rarc.r2').innerHTML.match(/★/g)||[]).length===2,'Sehr selten: lila Ecke mit ★★');
- T(/rarc\.r2\{[^}]*animation/.test(d.documentElement.innerHTML),'Sehr selten funkelt');
- T(/class="pcard t3"/.test(ev(`specCard(Object.keys(SPEC).find(id=>SPEC[id].tier===3&&!SPEC[id].rb),'')`))&&!/t3/.test(ev(`specCard(Object.keys(SPEC).find(id=>SPEC[id].tier===1),'')`)),'Bewerbermappe: Stufe 3 glänzt, Stufe 1 nicht');
+ T(!!d.querySelector('#hand .card.rg2 .glz'),'Sehr selten (Legendär): eigener Glanz rg2');
+ T(/\.glz::before\{[^}]*animation/.test(d.documentElement.innerHTML)&&/\.rg2\{--glzT:4\.5s\}/.test(d.documentElement.innerHTML),'Legendär glänzt öfter (4,5 s)');
+ T(/class="pcard t3 rg2"/.test(ev(`specCard(Object.keys(SPEC).find(id=>SPEC[id].tier===3&&!SPEC[id].rb),'')`))&&!/t3|rg\d|glz/.test(ev(`specCard(Object.keys(SPEC).find(id=>SPEC[id].tier===1),'')`)),'Bewerbermappe: Stufe 3 glänzt, Stufe 1 nicht');
  ev(`state.spec=[Object.keys(SPEC).find(id=>SPEC[id].tier===3&&!SPEC[id].rb)];render()`);T(!!d.querySelector('.tm.t3'),'Team-Leiste: Stufe 3 glänzt');
  // Stufen-Knöpfe
  ev(`(()=>{const sl=META.slots[0];delete sl.run;delete sl.runAlt;state=null;modal=null;screen='cdeck';screenArg={slot:0,zl:'z2',prof:null,habs:['wasser','savanne','wueste'],seed:''};renderAll()})()`);
