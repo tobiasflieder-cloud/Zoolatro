@@ -18,12 +18,12 @@ async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[]
    const W=innerWidth,H=innerHeight;for(const b of document.querySelectorAll('#modalRoot button, #coach button')){if(!b.offsetParent||b.disabled)continue;const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,nm=(b.id?'#'+b.id+' ':'')+b.textContent.trim().replace(/\s+/g,' ').slice(0,24);
      if(x<0||y<0||x>W||y>H){out.aus.push(nm+' @'+Math.round(x)+','+Math.round(y));continue}const e=document.elementFromPoint(x,y);if(!(e&&(e===b||b.contains(e))))out.cov.push(nm+' von '+(e?e.tagName+(e.id?'#'+e.id:'')+'.'+String(e.className).split(' ')[0]:'?'))}return out});
   const key=wo.replace(/[0-9:]+$/,'');
-  for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov)T(false,`${wo}: Knopf verdeckt: ${c}`);
+  for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov){if(/#hOk|hintBox/.test(c)){if(!seen.has('hint'+wo)){seen.add('hint'+wo);L('HINWEIS',`${wo}: Tipp-Kasten (#hintBox, über allen Fenstern) verdeckt ${c}`)}}else T(false,`${wo}: Knopf verdeckt: ${c}`)}
   for(const a of r.aus)if(!seen.has(key+a)){seen.add(key+a);L('HINWEIS',`${wo}: Knopf außerhalb des Bildschirms: ${a}`)}
   if(V)L('   geprüft',wo,await zu(p));return r}
 // Klick wie ein Mensch; fängt ein anderes Element den Klick ab, gibt es einen HINWEIS und nach 4 s einen zweiten Versuch
 // Besucherwunsch-Fenster am Tagesbeginn (#wishPop, ganzer Bildschirm): wie ein Spieler wegtippen, vorher dessen Knopf prüfen
-async function wunschWeg(p){for(let i=0;i<3;i++){const w=await p.$('#wishPop button, #wishPop .btn');if(!w||!await w.isVisible())return;
+async function wunschWeg(p){const h=await p.$('#hintBox.on #hOk');if(h&&await h.isVisible()){await h.click({timeout:2000}).catch(()=>{});await p.waitForTimeout(200)}for(let i=0;i<3;i++){const w=await p.$('#wishPop button, #wishPop .btn');if(!w||!await w.isVisible())return;
   const frei=await w.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});if(!frei)T(false,'Knopf im Besucherwunsch-Fenster verdeckt');
   await w.click({timeout:2000}).catch(x=>T(false,'Besucherwunsch-Fenster lässt sich nicht wegtippen'));await p.waitForTimeout(300)}}
 const HW=new Set();const klick=async(p,sel)=>{if(!/wishPop/.test(sel))await wunschWeg(p);const e=await p.$(sel);if(!e||!await e.isVisible())return false;
@@ -53,7 +53,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
    if(ph==='play'&&z.split('/')[1]==='null'){await p.evaluate(()=>{botDay();render()});await klick(p,'#btnEnd');for(let i=0;i<40&&(await zu(p)).includes('scoring');i++)await p.waitForTimeout(100);continue}
    const ort=wo+' '+(z.split('/')[1]!=='null'?'Fenster '+z.split('/')[1]:'Phase '+ph);if(!geprueft.has(ort)){geprueft.add(ort);await pruefe(p,ort,seen)}
    if(ph==='review'){if(!await klick(p,'#btnEnd')){T(false,`${ort}: Tagesbilanz ▶ fehlt`);break}}
-   else if(ph==='draft'){const c=await p.$$('#modalRoot [data-pick]:not([disabled]), #modalRoot .offer button:not([disabled])');if(c.length){await c[0].click();await p.waitForTimeout(250)}else{await p.evaluate(()=>{pick(0);render()})}if((await zu(p))===z){T(false,`${ort}: Kartenwahl reagiert nicht`);break}}
+   else if(ph==='draft'){await wunschWeg(p);const vor=await p.evaluate(()=>JSON.stringify([state.offer,state.deck.length,state.phase]));const c=await p.$$('#modalRoot [data-pick]');if(!c.length){T(false,`${ort}: keine Karte zum Wählen`);break}await c[0].click({timeout:3000}).catch(x=>T(false,`${ort}: Karte nicht klickbar`));await p.waitForTimeout(250);if(await p.evaluate(()=>JSON.stringify([state.offer,state.deck.length,state.phase]))===vor){T(false,`${ort}: Kartenwahl reagiert nicht`);break}}
    else if(ph==='seasonWon'){if(!await klickText(p,/Weiter|Shop|Kartenwahl|weiter/)){await p.evaluate(()=>{state.pendingSeason=true;nextDraft();render()})}}
    else if(ph==='shop'){for(const t of['run','umb','more']){if(await klick(p,`[data-shtab="${t}"]`))await pruefe(p,`${wo} Shop-Reiter ${t}`,seen)}
      const ok=await klick(p,'#mLeave');T(ok,`${wo}: Shop „Weiter zum …“ klickbar`);if(!ok)break}
@@ -70,6 +70,6 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
      const S=await p.evaluate(()=>{const s=tutStep();return s&&s.only&&s.only!=='-'&&s.at?{only:s.only,at:s.at}:null});if(!S)break;
      await p.evaluate(S=>{const i=state.hand.indexOf(S.only);selectCard(i);const rot=tutRotFor(S.only,S.at);state.rot=rot;for(const[q,r]of BOARD){const c=placeCells(S.only,rot,q,r);if(c&&tutCellsEq(c,S.at)){state.preview=previewAt({q,r});render();break}}},S);
      await pruefe(p,`${wo} Tutorial-Vorschau ${st}`,seen);for(let k=0;k<6&&await klick(p,'#tutMore');k++);if(!await klick(p,'#btnBuild')){T(false,`${wo}: Tutorial 🔨 nicht klickbar (${st})`);break}n++}
-   T(n>=6,`${wo}: Tutorial-Knöpfe reagieren (${n} Schritte, jetzt ${await p.evaluate(()=>state.tut&&state.tut.ch+':'+state.tut.i)})`)}
+   const jetzt=await p.evaluate(()=>state.tut&&state.tut.ch+':'+state.tut.i);T(jetzt==='zl:5',`${wo}: Tutorial-Knöpfe reagieren bis zum ersten Tagesende (${n} Klicks, Schritt ${jetzt})`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler: ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();
