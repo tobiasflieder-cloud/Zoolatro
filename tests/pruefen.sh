@@ -2,7 +2,7 @@
 # Baut das Spiel, lässt die Tests laufen und vergleicht mit einem Git-Stand (Standard: HEAD).
 #   bash tests/pruefen.sh            -> Vergleich mit dem letzten Commit
 #   bash tests/pruefen.sh v0.69a     -> Vergleich mit einem Tag/Commit
-#   SCHNELL=1 bash tests/pruefen.sh  -> ohne Tutorial-Durchlauf und Bot-Lauf
+#   SCHNELL=1 bash tests/pruefen.sh  -> ohne Tutorial-Durchlauf, Bot-Lauf und Querformat-Test
 # Ausgabe: je Test "gleich" oder die Zeilen, die neu FAIL/ERR sind (-) bzw. weggefallen sind (+).
 set -u
 cd "$(dirname "$0")/.."
@@ -31,5 +31,7 @@ echo "== Referenzfälle Wertung"; node referenz/referenz.js 2>&1 | grep -E "FAIL
 if [ -z "${SCHNELL:-}" ]; then
   echo "== Tutorial-Durchlauf (tutcal5)"; timeout 1200 node tutcal5.js 2>&1 | grep -E "SEASON|GEND|$F|BADOFFER|NO " | cut -c1-160
   echo "== Bot-Lauf (Absturz-Test)"; Z2=1 timeout 900 node sim94.js 1 "$TMP/bot.json" 2>&1 | grep -E "$F|done" | cut -c1-160
+  # Querformat im echten Chromium (nur neuer Stand): FAIL = Knopf verdeckt/doppelte id/ohne Wirkung, HINWEIS = Platzierung
+  if node -e "require('playwright')" 2>/dev/null; then echo "== Querformat (Playwright, nur neuer Stand)"; timeout 900 node quer.js 2>&1 | grep -E "FAIL|EXC|HINWEIS" | cut -c1-200; else echo "== Querformat: übersprungen (Playwright fehlt)"; fi
 fi
 rm -rf "$TMP"
