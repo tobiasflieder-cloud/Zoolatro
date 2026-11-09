@@ -15,11 +15,13 @@ async function seite(b,vp){const p=vp.dev?await (await b.newContext({...devices[
 const zu=p=>p.evaluate(()=>String(screen)+'/'+String(modal)+'/'+(state?state.phase+':'+state.season+':'+state.day:''));
 // alle sichtbaren Knöpfe in Fenster und Tutorial-Kasten: verdeckt? außerhalb? doppelte ids im ganzen Dokument?
 async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[],aus:[],dup:[],fuss:[]};const c={};document.querySelectorAll('[id]').forEach(e=>c[e.id]=(c[e.id]||0)+1);out.dup=Object.keys(c).filter(k=>c[k]>1);
-   const W=innerWidth,H=innerHeight;for(const b of document.querySelectorAll('#modalRoot button, #coach button')){if(!b.offsetParent||b.disabled)continue;const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,nm=(b.id?'#'+b.id+' ':'')+b.textContent.trim().replace(/\s+/g,' ').slice(0,24);
+   const W=innerWidth,H=innerHeight;const ruecksetzen=()=>{for(const m of document.querySelectorAll('.modal,.overlay'))m.scrollTop=0;scrollTo(0,0);document.scrollingElement.scrollTop=0};ruecksetzen();
+   for(const b of document.querySelectorAll('.modal>.tnav:last-child button,.modal>.shopbar:last-child button,.modal>.btn:last-child')){if(!b.offsetParent||b.disabled)continue;const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,e=document.elementFromPoint(x,y);
+     if(x<0||y<0||x>W||y>H||!(e&&(e===b||b.contains(e))))out.fuss.push((b.id?'#'+b.id+' ':'')+b.textContent.trim().slice(0,24)+' @'+Math.round(x)+','+Math.round(y))}for(const b of document.querySelectorAll('#modalRoot button, #coach button')){if(!b.offsetParent||b.disabled)continue;const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,nm=(b.id?'#'+b.id+' ':'')+b.textContent.trim().replace(/\s+/g,' ').slice(0,24);
      const frei=()=>{const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;if(x<0||y<0||x>W||y>H)return'aus';const e=document.elementFromPoint(x,y);return e&&(e===b||b.contains(e))?'':(e?e.tagName+(e.id?'#'+e.id:'')+'.'+String(e.className).split(' ')[0]:'?')};
-     let f=frei();if(f&&b.closest('.modal>.tnav:last-child,.modal>.shopbar:last-child')||f&&b.matches('.modal>.btn:last-child'))out.fuss.push(nm+' ('+f+')');if(f){b.scrollIntoView({block:'center'});f=frei()} // in langen Fenstern erst hinscrollen, wie ein Spieler
+     let f=frei();if(f){b.scrollIntoView({block:'center'});f=frei()} // in langen Fenstern erst hinscrollen, wie ein Spieler
      if(f==='aus')out.aus.push(nm+' @'+Math.round(x)+','+Math.round(y));else if(f)out.cov.push(nm+' von '+f)}
-   for(const m of document.querySelectorAll('.modal'))m.scrollTop=0;return out});
+   ruecksetzen();return out});
   const key=wo.replace(/[0-9:]+$/,'');
   for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov)T(false,`${wo}: Knopf verdeckt: ${c}`);for(const c of r.fuss)T(false,`${wo}: Knopf der Fußzeile ohne Scrollen nicht sichtbar: ${c}`);
   for(const a of r.aus)if(!seen.has(key+a)){seen.add(key+a);L('HINWEIS',`${wo}: Knopf außerhalb des Bildschirms: ${a}`)}
