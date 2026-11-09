@@ -22,11 +22,15 @@ async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[]
   for(const a of r.aus)if(!seen.has(key+a)){seen.add(key+a);L('HINWEIS',`${wo}: Knopf außerhalb des Bildschirms: ${a}`)}
   if(V)L('   geprüft',wo,await zu(p));return r}
 // Klick wie ein Mensch; fängt ein anderes Element den Klick ab, gibt es einen HINWEIS und nach 4 s einen zweiten Versuch
-const HW=new Set();const klick=async(p,sel)=>{const e=await p.$(sel);if(!e||!await e.isVisible())return false;
+// Besucherwunsch-Fenster am Tagesbeginn (#wishPop, ganzer Bildschirm): wie ein Spieler wegtippen, vorher dessen Knopf prüfen
+async function wunschWeg(p){for(let i=0;i<3;i++){const w=await p.$('#wishPop button, #wishPop .btn');if(!w||!await w.isVisible())return;
+  const frei=await w.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});if(!frei)T(false,'Knopf im Besucherwunsch-Fenster verdeckt');
+  await w.click({timeout:2000}).catch(x=>T(false,'Besucherwunsch-Fenster lässt sich nicht wegtippen'));await p.waitForTimeout(300)}}
+const HW=new Set();const klick=async(p,sel)=>{if(!/wishPop/.test(sel))await wunschWeg(p);const e=await p.$(sel);if(!e||!await e.isVisible())return false;
   try{await e.click({timeout:1500})}catch(x){const m=/<([a-z]+)( id="[^"]*")?( class="[^"]*")?[^>]*>.*? intercepts pointer events/.exec(x.message);const w=m?m[0].replace(/>.*? intercepts.*/,'>'):'?';
     const k=sel+w;if(!HW.has(k)){HW.add(k);L('HINWEIS',`Klick auf ${sel} wird zuerst abgefangen von ${w}`)}await p.waitForTimeout(4000);try{await e.click({timeout:1500})}catch(y){T(false,`Klick auf ${sel} bleibt blockiert von ${w}`);return false}}
   await p.waitForTimeout(250);return true};
-const klickText=async(p,re)=>{for(const e of await p.$$('button:not([disabled])')){if(re.test((await e.textContent()).trim())&&await e.isVisible()){try{await e.click({timeout:3000})}catch(x){T(false,`Klick auf „${(await e.textContent()).trim().slice(0,20)}“ blockiert: ${(/<[^>]*> intercepts/.exec(x.message)||['?'])[0]}`);return false}await p.waitForTimeout(250);return true}}return false};
+const klickText=async(p,re)=>{await wunschWeg(p);for(const e of await p.$$('button:not([disabled])')){if(re.test((await e.textContent()).trim())&&await e.isVisible()){try{await e.click({timeout:3000})}catch(x){T(false,`Klick auf „${(await e.textContent()).trim().slice(0,20)}“ blockiert: ${(/<[^>]*> intercepts/.exec(x.message)||['?'])[0]}`);return false}await p.waitForTimeout(250);return true}}return false};
 // neuer Lauf über die echten Menüs bis zur Zoo-Übersicht
 async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/^Anlegen/,/^Lauf starten/,/Zufällig/,/^Weiter zum/,/^Stufe 1$/])if(!await klickText(p,re)){T(false,`${wo}: Menü-Knopf ${re} fehlt (${await zu(p)})`);return false}
   if(await zu(p)!=='null/fsIntro/play:0:0'){T(false,`${wo}: Einführung fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Einführung',seen);await klick(p,'#mFsIntroOk');
