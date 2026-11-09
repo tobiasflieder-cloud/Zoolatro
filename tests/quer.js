@@ -1,0 +1,71 @@
+// Querformat-Test (Playwright, echtes Chromium): Knöpfe in Fenstern im Querformat erreichbar und wirksam.
+// Anlass: Im Querformat mit Seitenleiste (body.land3) zeichnete railRender die Zoo-Übersicht samt Knöpfen #mClose/#zlBack
+// ein zweites Mal in die Leiste; der Klick-Handler hing am unsichtbaren Doppel, „Los geht's“ reagierte nicht.
+//   node tests/quer.js                 -> prüft build/zoodeck.html bei 1280×800 und 1600×900
+//   ZF=pfad.html node tests/quer.js    -> anderer Stand;  V=1 -> ausführlich
+// Ausgabe: ok / FAIL (Knopf verdeckt, doppelte id, Knopf ohne Wirkung, Ziel nicht erreicht) / HINWEIS (Platzierung, nur zur Info).
+// Braucht Playwright mit Chromium (in der Claude-Umgebung vorinstalliert; sonst: npm i -D playwright && npx playwright install chromium).
+const {chromium}=require('playwright');const path=require('path');
+const FILE='file://'+path.resolve(process.env.ZF||path.join(__dirname,'..','build','zoodeck.html'));
+const BOT=require('fs').readFileSync(path.join(__dirname,'bot7.js'),'utf8');
+const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),V=!!process.env.V;
+const SEED=`{let S=4242;Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}`;
+async function seite(b,vp){const p=await b.newPage({viewport:vp});p._errs=[];p.on('pageerror',e=>p._errs.push(e.message));await p.addInitScript(SEED);await p.goto(FILE);await p.waitForTimeout(600);
+  await p.evaluate(()=>{for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};SCFAST=1});return p}
+const zu=p=>p.evaluate(()=>String(screen)+'/'+String(modal)+'/'+(state?state.phase+':'+state.season+':'+state.day:''));
+// alle sichtbaren Knöpfe in Fenster und Tutorial-Kasten: verdeckt? außerhalb? doppelte ids im ganzen Dokument?
+async function pruefe(p,wo,seen){const r=await p.evaluate(()=>{const out={cov:[],aus:[],dup:[]};const c={};document.querySelectorAll('[id]').forEach(e=>c[e.id]=(c[e.id]||0)+1);out.dup=Object.keys(c).filter(k=>c[k]>1);
+   const W=innerWidth,H=innerHeight;for(const b of document.querySelectorAll('#modalRoot button, #coach button')){if(!b.offsetParent||b.disabled)continue;const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,nm=(b.id?'#'+b.id+' ':'')+b.textContent.trim().replace(/\s+/g,' ').slice(0,24);
+     if(x<0||y<0||x>W||y>H){out.aus.push(nm+' @'+Math.round(x)+','+Math.round(y));continue}const e=document.elementFromPoint(x,y);if(!(e&&(e===b||b.contains(e))))out.cov.push(nm+' von '+(e?e.tagName+(e.id?'#'+e.id:'')+'.'+String(e.className).split(' ')[0]:'?'))}return out});
+  const key=wo.replace(/[0-9:]+$/,'');
+  for(const d of r.dup){T(false,`${wo}: doppelte id #${d}`)}for(const c of r.cov)T(false,`${wo}: Knopf verdeckt: ${c}`);
+  for(const a of r.aus)if(!seen.has(key+a)){seen.add(key+a);L('HINWEIS',`${wo}: Knopf außerhalb des Bildschirms: ${a}`)}
+  if(V)L('   geprüft',wo,await zu(p));return r}
+// Klick wie ein Mensch; fängt ein anderes Element den Klick ab, gibt es einen HINWEIS und nach 4 s einen zweiten Versuch
+const HW=new Set();const klick=async(p,sel)=>{const e=await p.$(sel);if(!e||!await e.isVisible())return false;
+  try{await e.click({timeout:1500})}catch(x){const m=/<([a-z]+)( id="[^"]*")?( class="[^"]*")?[^>]*>.*? intercepts pointer events/.exec(x.message);const w=m?m[0].replace(/>.*? intercepts.*/,'>'):'?';
+    const k=sel+w;if(!HW.has(k)){HW.add(k);L('HINWEIS',`Klick auf ${sel} wird zuerst abgefangen von ${w}`)}await p.waitForTimeout(4000);try{await e.click({timeout:1500})}catch(y){T(false,`Klick auf ${sel} bleibt blockiert von ${w}`);return false}}
+  await p.waitForTimeout(250);return true};
+const klickText=async(p,re)=>{for(const e of await p.$$('button:not([disabled])')){if(re.test((await e.textContent()).trim())&&await e.isVisible()){try{await e.click({timeout:3000})}catch(x){T(false,`Klick auf „${(await e.textContent()).trim().slice(0,20)}“ blockiert: ${(/<[^>]*> intercepts/.exec(x.message)||['?'])[0]}`);return false}await p.waitForTimeout(250);return true}}return false};
+// neuer Lauf über die echten Menüs bis zur Zoo-Übersicht
+async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/^Anlegen/,/^Lauf starten/,/Zufällig/,/^Weiter zum/,/^Stufe 1$/])if(!await klickText(p,re)){T(false,`${wo}: Menü-Knopf ${re} fehlt (${await zu(p)})`);return false}
+  if(await zu(p)!=='null/fsIntro/play:0:0'){T(false,`${wo}: Einführung fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Einführung',seen);await klick(p,'#mFsIntroOk');
+  if(await zu(p)!=='null/zoo/play:0:0'){T(false,`${wo}: Zoo-Übersicht fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Zoo-Übersicht',seen);return true}
+(async()=>{const b=await chromium.launch();try{
+ for(const vp of[{width:1280,height:800},{width:1600,height:900}]){const wo=vp.width+'×'+vp.height,seen=new Set();
+  // 1) Neuer Lauf: Übersicht → „Los geht's“ → erster Spieltag
+  let p=await seite(b,vp);L('==',wo,'body:',await p.evaluate(()=>{applyView();return document.body.className}));
+  if(await bisUebersicht(p,wo,seen)){await klick(p,'#mClose');T(await zu(p)==='null/null/play:0:0',`${wo}: neuer Lauf über die Zoo-Übersicht bis zum ersten Spieltag (${await zu(p)})`)}
+  // 2) Menü ☰ und Zoo-Übersicht im laufenden Spiel öffnen und schließen
+  for(const [sel,name,zu1] of[['#btnHelp','Menü ☰','#mClose'],['[data-ev="zoo"]','Zoo-Übersicht im Spiel','#mClose'],['#btnDeck','Deck','#mClose']]){
+   if(!await klick(p,sel)){T(false,`${wo}: ${name} lässt sich nicht öffnen`);continue}const m=await p.evaluate(()=>modal);await pruefe(p,`${wo} ${name}`,seen);
+   const ok=await klick(p,zu1)||await klickText(p,/Schließen|Zurück|Weiterspielen|^✕$/);T(ok&&await p.evaluate(()=>!modal),`${wo}: ${name} (${m}) schließt`)}
+  // 3) Spielablauf bis in den Sommer: Kartenwahl, Tagesbilanz, Jahreszeit-Ende, Shop (Bot baut, Knöpfe werden geklickt)
+  await p.evaluate(()=>{window._r=[render,renderModal,saveMeta,renderAll]});
+  await p.evaluate(BOT+';BOT.zl=true;BOT.cur={zoos:[],built:0,cd:{},picked:{},specs:[],progs:[]}').catch(e=>L('FAIL bot',e.message));
+  await p.evaluate(()=>{[render,renderModal,saveMeta,renderAll]=window._r});
+  const geprueft=new Set();let g=0;
+  while(g++<80){const z=await zu(p),ph=z.split('/')[2].split(':')[0];if(/^null\/null\/play:1:/.test(z)){T(true,`${wo}: Sommer erreicht (Kartenwahl, Jahreszeit-Ende und Shop per Klick)`);break}
+   if(ph==='play'&&z.split('/')[1]==='null'){await p.evaluate(()=>{botDay();render()});await klick(p,'#btnEnd');for(let i=0;i<40&&(await zu(p)).includes('scoring');i++)await p.waitForTimeout(100);continue}
+   const ort=wo+' '+(z.split('/')[1]!=='null'?'Fenster '+z.split('/')[1]:'Phase '+ph);if(!geprueft.has(ort)){geprueft.add(ort);await pruefe(p,ort,seen)}
+   if(ph==='review'){if(!await klick(p,'#btnEnd')){T(false,`${ort}: Tagesbilanz ▶ fehlt`);break}}
+   else if(ph==='draft'){const c=await p.$$('#modalRoot [data-pick]:not([disabled]), #modalRoot .offer button:not([disabled])');if(c.length){await c[0].click();await p.waitForTimeout(250)}else{await p.evaluate(()=>{pick(0);render()})}if((await zu(p))===z){T(false,`${ort}: Kartenwahl reagiert nicht`);break}}
+   else if(ph==='seasonWon'){if(!await klickText(p,/Weiter|Shop|Kartenwahl|weiter/)){await p.evaluate(()=>{state.pendingSeason=true;nextDraft();render()})}}
+   else if(ph==='shop'){for(const t of['run','umb','more']){if(await klick(p,`[data-shtab="${t}"]`))await pruefe(p,`${wo} Shop-Reiter ${t}`,seen)}
+     const ok=await klick(p,'#mLeave');T(ok,`${wo}: Shop „Weiter zum …“ klickbar`);if(!ok)break}
+   else if(ph==='lost'||ph==='win'){L('HINWEIS',`${wo}: Lauf endete (${z})`);break}
+   else{await p.waitForTimeout(150)}
+   if(g===80)T(false,`${wo}: Sommer nicht erreicht (${z})`)}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler: ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 4) Zurück in der Zoo-Übersicht
+  p=await seite(b,vp);if(await bisUebersicht(p,wo+' (Zurück)',new Set())){await klick(p,'#zlBack');T((await zu(p)).startsWith('cdeck/'),`${wo}: „◂ Zurück“ in der Zoo-Übersicht führt zur Stufenwahl (${await zu(p)})`)}await p.close();
+  // 5) Tutorial: Häppchen und Bau-Schritte im Querformat
+  p=await seite(b,vp);await p.evaluate(()=>{screen='tut';screenArg={};renderAll()});if(!await klick(p,'[data-tutch]')){T(false,`${wo}: Tutorial startet nicht`)}
+  else{let n=0;for(let i=0;i<14;i++){const st=await p.evaluate(()=>state&&state.tut?state.tut.ch+':'+state.tut.i:'-');await pruefe(p,`${wo} Tutorial ${st}`,seen);
+     if(await klick(p,'#tutMore')||await klick(p,'#tutBtn')||await klick(p,'[data-gstep]')){n++;continue}
+     const S=await p.evaluate(()=>{const s=tutStep();return s&&s.only&&s.only!=='-'&&s.at?{only:s.only,at:s.at}:null});if(!S)break;
+     await p.evaluate(S=>{const i=state.hand.indexOf(S.only);selectCard(i);const rot=tutRotFor(S.only,S.at);state.rot=rot;for(const[q,r]of BOARD){const c=placeCells(S.only,rot,q,r);if(c&&tutCellsEq(c,S.at)){state.preview=previewAt({q,r});render();break}}},S);
+     await pruefe(p,`${wo} Tutorial-Vorschau ${st}`,seen);for(let k=0;k<6&&await klick(p,'#tutMore');k++);if(!await klick(p,'#btnBuild')){T(false,`${wo}: Tutorial 🔨 nicht klickbar (${st})`);break}n++}
+   T(n>=6,`${wo}: Tutorial-Knöpfe reagieren (${n} Schritte, jetzt ${await p.evaluate(()=>state.tut&&state.tut.ch+':'+state.tut.i)})`)}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler: ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+}catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();
