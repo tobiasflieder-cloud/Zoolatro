@@ -100,8 +100,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 1. **Schilder auf dem Spielfeld noch in Prozent** (Screenshot 11.11.: „🎭 +30%“ am Showtier). Ursache: `07-anzeige.js` `labs()` Z. ~61 schreibt fest
    `'Show +30 %'`/`'Show +60 %'`, `mini()` Z. ~69 liest daraus die Prozentzahl. Lösung: Label `Show ×${mxs(pctF(STRESS))}` bzw. `pctF(2*STRESS)` (×1,25 / ×1,5),
    `mini()` allgemein `×\d+(,\d+)?` übernehmen (heute nur ×1,5 und ×2, „🎭 ×1,25“ zeigt nur das Symbol). Restliche Board-Texte auf „%“ durchsehen (Abzüge wie „−5 % N“ bleiben).
-2. **Testlauf „4 Tage“: Ziele nicht angepasst** (Frühling 9.500 wie bei 5 Tagen). `05-ton.js` `seTarget` kennt `run.d4` nicht. Vorschlag: Faktor für alle Jahreszeiten,
-   z. B. ×0,6 (Tagespunkte wachsen etwa quadratisch, 4 statt 5 Tage ≈ 55 %, dazu kleineres Feld); Wert mit Tobi festlegen. Gilt auch für Saisonziele in der Zoo-Übersicht (`06-spiel.js` Z. ~65).
+2. **Testlauf „4 Tage“: Ziele nicht angepasst** (Frühling 9.500 wie bei 5 Tagen). `05-ton.js` `seTarget` kennt `run.d4` nicht. Lösung (mit Tobi festgelegt): alle Ziele
+   ×0,6 im Testlauf (Tagespunkte wachsen etwa quadratisch, 4 statt 5 Tage ≈ 55 %, dazu kleineres Feld). Gilt auch für Saisonziele in der Zoo-Übersicht (`06-spiel.js` Z. ~65).
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
