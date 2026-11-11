@@ -1464,9 +1464,9 @@
  ]
 },
 "erwartet":{
- "A": 604,
- "S": 312,
- "total": 188448,
+ "A": 573,
+ "S": 296,
+ "total": 169608,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1554,7 +1554,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1591,7 +1591,7 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1637,7 +1637,7 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1697,13 +1697,13 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
-     3,
+     "🪧 Besucherlotse ×1,25",
+     2,
      0
     ],
     [
      "❄️ Wintermarkt: zählt nicht",
-     -12,
+     -11,
      0
     ]
    ]
@@ -1813,8 +1813,8 @@
   },
   {
    "id": 15,
-   "a": 205,
-   "s": 108,
+   "a": 185,
+   "s": 95,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1827,29 +1827,29 @@
      4
     ],
     [
-     "🎭 Showtier: +120 %",
-     19,
-     10
+     "🎭 Showtier: ×1,95",
+     15,
+     8
     ],
     [
      "⛰️ Rand/Felsen (2) ×1,75",
-     26,
-     14
+     23,
+     12
     ],
     [
      "🤝 Freundschaft mit Mufflons ×1,25",
-     15,
-     8
+     14,
+     7
     ],
     [
      "🏡 Innenhof ×1,2",
-     15,
-     8
+     14,
+     7
     ],
     [
      "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
-     114,
-     60
+     103,
+     53
     ]
    ]
   },

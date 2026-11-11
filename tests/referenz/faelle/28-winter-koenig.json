@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 275,
- "S": 155,
- "total": 42625,
+ "A": 264,
+ "S": 147,
+ "total": 38808,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1750,7 +1750,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1804,14 +1804,14 @@
      2
     ],
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      0,
-     2
+     1
     ],
     [
      "❄️ Schneekönig: zählt nicht",
      -1,
-     -9
+     -8
     ]
    ]
   },
@@ -1889,7 +1889,7 @@
   {
    "id": 7,
    "a": 52,
-   "s": 28,
+   "s": 24,
    "parts": [
     [
      "Dschungel-Naturfläche",
@@ -1902,19 +1902,19 @@
      3
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      3,
-     2
+     1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
      13,
-     7
+     6
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
      26,
-     14
+     12
     ]
    ]
   },
@@ -1941,14 +1941,14 @@
    "s": 0,
    "parts": [
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      1,
-     1
+     0
     ],
     [
      "❄️ Schneekönig: zählt nicht",
      -4,
-     -3
+     -2
     ]
    ]
   },
@@ -1968,18 +1968,18 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
-     1,
+     "Bauleiterin ×1,1",
+     0,
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
     [
      "❄️ Schneekönig: zählt nicht",
-     -6,
+     -5,
      -6
     ]
    ]
@@ -1995,7 +1995,7 @@
      0
     ],
     [
-     "🪙 Gold +25 %",
+     "🪙 Gold ×1,2",
      1,
      0
     ],
@@ -2022,7 +2022,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],
@@ -2067,7 +2067,7 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
@@ -2142,8 +2142,8 @@
   },
   {
    "id": 20,
-   "a": 86,
-   "s": 63,
+   "a": 77,
+   "s": 59,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2166,24 +2166,24 @@
      9
     ],
     [
-     "🎭 Showtier: +90 %",
-     18,
-     13
+     "🎭 Showtier: ×1,7",
+     14,
+     11
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     19,
-     14
+     17,
+     13
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     57,
-     42
+     51,
+     39
     ],
     [
      "2. Korallenriff: zählt 75 % des eigenen Werts",
-     -28,
-     -21
+     -25,
+     -19
     ]
    ]
   },
@@ -2291,7 +2291,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],

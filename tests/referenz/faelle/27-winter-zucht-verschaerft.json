@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 290,
- "S": 292,
- "total": 84680,
+ "A": 289,
+ "S": 284,
+ "total": 82076,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1750,7 +1750,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1801,7 +1801,7 @@
   {
    "id": 3,
    "a": 2,
-   "s": 20,
+   "s": 18,
    "parts": [
     [
      "Kartenbonus",
@@ -1814,14 +1814,14 @@
      2
     ],
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      0,
-     2
+     1
     ],
     [
      "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
      1,
-     11
+     10
     ]
    ]
   },
@@ -1917,7 +1917,7 @@
      -1
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      1,
      0
     ],
@@ -1948,12 +1948,12 @@
   {
    "id": 9,
    "a": 9,
-   "s": 9,
+   "s": 5,
    "parts": [
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      1,
-     1
+     0
     ],
     [
      "❄️ Zuchtprogramm: nur die Hälfte",
@@ -1963,12 +1963,12 @@
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
      2,
-     2
+     1
     ],
     [
      "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
      5,
-     5
+     3
     ]
    ]
   },
@@ -1988,18 +1988,18 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
-     1,
+     "Bauleiterin ×1,1",
+     0,
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
     [
      "❄️ Zuchtprogramm: nur die Hälfte",
-     -3,
+     -2,
      -3
     ],
     [
@@ -2025,7 +2025,7 @@
      0
     ],
     [
-     "🪙 Gold +25 %",
+     "🪙 Gold ×1,2",
      1,
      0
     ]
@@ -2047,7 +2047,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],
@@ -2092,7 +2092,7 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
@@ -2102,7 +2102,7 @@
      -1
     ],
     [
-     "🎭 Showtier: +60 %",
+     "🎭 Showtier: ×1,5",
      2,
      1
     ],
@@ -2177,8 +2177,8 @@
   },
   {
    "id": 20,
-   "a": 18,
-   "s": 14,
+   "a": 17,
+   "s": 12,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2201,9 +2201,9 @@
      -3
     ],
     [
-     "🎭 Showtier: +90 %",
-     4,
-     3
+     "🎭 Showtier: ×1,7",
+     3,
+     2
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
@@ -2212,12 +2212,12 @@
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     12,
-     9
+     11,
+     8
     ],
     [
      "2. Korallenriff: zählt 75 % des eigenen Werts",
-     -6,
+     -5,
      -4
     ]
    ]
@@ -2341,7 +2341,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],

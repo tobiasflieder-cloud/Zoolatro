@@ -6,10 +6,11 @@ wertet, muss dieselben Zahlen bekommen. Die Regeln dazu stehen in `docs/regeln.m
 ```
 node tests/referenz/referenz.js            # prüft alle Fälle gegen das aktuelle Spiel (build/zoodeck.html)
 node tests/referenz/referenz.js erzeuge    # erzeugt alle Fälle neu (ca. 3 Minuten)
+node tests/referenz/referenz.js aktualisiere # gleiche Aufstellungen behalten, nur „erwartet“ neu rechnen
 ```
 Vorher `python3 quelltext/mache.py`. Ein anderer Spielstand geht mit `ZF=pfad`.
 
-**Wann neu erzeugen?** Nur wenn sich die Wertung **absichtlich** ändert. Dann zeigt der Vergleich der Dateien (git diff), welche Zahlen
+**Wann neu erzeugen?** Nur wenn sich die Wertung **absichtlich** ändert. Meist reicht `aktualisiere` (seit 0.76a): Die Aufstellungen bleiben gleich, nur die Zahlen ändern sich. `erzeuge` spielt die Bot-Läufe neu und ergibt nach Regeländerungen andere Aufstellungen. Dann zeigt der Vergleich der Dateien (git diff), welche Zahlen
 sich geändert haben. Bei unabsichtlichen Abweichungen meldet die Prüfung `FAIL <fall>: …`.
 Das Erzeugen ist reproduzierbar: Gleicher Code ergibt gleiche Dateien, denn `Math.random` ist durch einen festen Zufallsgenerator ersetzt.
 

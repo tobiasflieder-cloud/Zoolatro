@@ -1221,9 +1221,9 @@
  ]
 },
 "erwartet":{
- "A": 426,
+ "A": 419,
  "S": 341,
- "total": 145266,
+ "total": 142879,
  "mults": [
   {
    "label": "Nachtführung",
@@ -1324,7 +1324,7 @@
      3
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      2,
      1
     ],
@@ -1632,7 +1632,7 @@
   },
   {
    "id": 14,
-   "a": 23,
+   "a": 20,
    "s": 8,
    "parts": [
     [
@@ -1646,23 +1646,23 @@
      2
     ],
     [
-     "🪙 Gold-Ausgabe +25 %",
-     2,
+     "🪙 Gold-Ausgabe ×1,2",
+     1,
      0
     ],
     [
-     "🎭 Showtier: +30 %",
-     3,
+     "🎭 Showtier: ×1,25",
+     2,
      1
     ],
     [
      "💧 Fluss: Kette aus 9 ×2",
-     12,
+     10,
      4
     ],
     [
      "🏡 Innenhof ×1,2",
-     5,
+     4,
      2
     ],
     [
@@ -1672,14 +1672,14 @@
     ],
     [
      "2. Seelöwenbucht: zählt 75 % des eigenen Werts",
-     -8,
+     -6,
      -2
     ]
    ]
   },
   {
    "id": 15,
-   "a": 27,
+   "a": 25,
    "s": 8,
    "parts": [
     [
@@ -1688,13 +1688,13 @@
      0
     ],
     [
-     "🎭 Showtier: +60 %",
-     4,
+     "🎭 Showtier: ×1,5",
+     3,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     10,
+     9,
      3
     ],
     [

@@ -1258,9 +1258,9 @@
  ]
 },
 "erwartet":{
- "A": 169,
- "S": 125,
- "total": 21125,
+ "A": 166,
+ "S": 123,
+ "total": 20418,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1303,7 +1303,7 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1445,7 +1445,7 @@
      1
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      1,
      1
     ],
@@ -1501,7 +1501,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1523,7 +1523,7 @@
      0
     ],
     [
-     "🪙 Gold +25 %",
+     "🪙 Gold ×1,2",
      1,
      0
     ]
@@ -1566,7 +1566,7 @@
   },
   {
    "id": 15,
-   "a": 23,
+   "a": 21,
    "s": 5,
    "parts": [
     [
@@ -1580,18 +1580,18 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
     [
-     "🎭 Showtier: +60 %",
-     5,
+     "🎭 Showtier: ×1,5",
+     4,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     10,
+     9,
      2
     ]
    ]
@@ -1639,8 +1639,8 @@
   },
   {
    "id": 20,
-   "a": 17,
-   "s": 13,
+   "a": 16,
+   "s": 11,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1658,18 +1658,18 @@
      3
     ],
     [
-     "🎭 Showtier: +90 %",
+     "🎭 Showtier: ×1,7",
+     6,
+     4
+    ],
+    [
+     "💧 Fluss: Kette aus 2 ×1,5",
      7,
      5
     ],
     [
-     "💧 Fluss: Kette aus 2 ×1,5",
-     8,
-     6
-    ],
-    [
      "2. Korallenriff: zählt 75 % des eigenen Werts",
-     -6,
+     -5,
      -4
     ]
    ]

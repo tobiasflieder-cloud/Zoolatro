@@ -1373,9 +1373,9 @@
  ]
 },
 "erwartet":{
- "A": 524,
- "S": 305,
- "total": 159820,
+ "A": 494,
+ "S": 294,
+ "total": 145236,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1384,7 +1384,7 @@
    "ms": null
   },
   {
-   "label": "Reinheit: 4 Wüste-Gehege",
+   "label": "Vielfalt: alle Lebensräume, je 3+ Arten",
    "id": null,
    "ma": null,
    "ms": 1.15
@@ -1497,7 +1497,7 @@
   },
   {
    "id": 3,
-   "a": 29,
+   "a": 28,
    "s": 11,
    "parts": [
     [
@@ -1521,8 +1521,8 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
-     4,
+     "🪧 Besucherlotse ×1,25",
+     3,
      0
     ],
     [
@@ -1568,7 +1568,7 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
@@ -1590,7 +1590,7 @@
      5
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],
@@ -1642,8 +1642,8 @@
   },
   {
    "id": 8,
-   "a": 48,
-   "s": 36,
+   "a": 42,
+   "s": 32,
    "parts": [
     [
      "Wüste-Naturfläche",
@@ -1666,14 +1666,14 @@
      3
     ],
     [
-     "🎭 Showtier: +120 %",
-     13,
-     10
+     "🎭 Showtier: ×1,95",
+     10,
+     8
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     24,
-     18
+     21,
+     16
     ]
    ]
   },
@@ -1772,8 +1772,8 @@
   },
   {
    "id": 14,
-   "a": 60,
-   "s": 27,
+   "a": 48,
+   "s": 24,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1791,23 +1791,23 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
-     2,
+     "🪧 Besucherlotse ×1,25",
+     1,
      0
     ],
     [
      "🍉 Wassermelone: ×1,5",
-     4,
-     2
-    ],
-    [
-     "🎭 Showtier: +30 %",
      3,
      2
     ],
     [
+     "🎭 Showtier: ×1,25",
+     2,
+     1
+    ],
+    [
      "🌾 Herde aus 3 ×1,3",
-     4,
+     3,
      2
     ],
     [
@@ -1817,15 +1817,15 @@
     ],
     [
      "📸 Fotograf ×3,0",
-     40,
-     18
+     32,
+     16
     ]
    ]
   },
   {
    "id": 15,
-   "a": 40,
-   "s": 30,
+   "a": 36,
+   "s": 28,
    "parts": [
     [
      "Gebirge-Naturfläche",
@@ -1848,14 +1848,14 @@
      4
     ],
     [
-     "🎭 Showtier: +120 %",
-     11,
-     8
+     "🎭 Showtier: ×1,95",
+     9,
+     7
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     20,
-     15
+     18,
+     14
     ]
    ]
   },
@@ -1877,7 +1877,7 @@
    "s": 0,
    "parts": [
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ]

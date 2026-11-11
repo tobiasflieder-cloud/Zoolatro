@@ -1178,9 +1178,9 @@
  ]
 },
 "erwartet":{
- "A": 236,
- "S": 236,
- "total": 55696,
+ "A": 232,
+ "S": 234,
+ "total": 54288,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1204,7 +1204,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 17,
+   "a": 14,
    "s": 8,
    "parts": [
     [
@@ -1218,18 +1218,18 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
-     2,
+     "🪧 Besucherlotse ×1,25",
+     1,
      0
     ],
     [
      "🔗 Kombo ×1,5: nicht gestresst",
-     4,
+     3,
      2
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     6,
+     5,
      3
     ]
    ]
@@ -1468,7 +1468,7 @@
      1
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      2,
      1
     ],
@@ -1513,8 +1513,8 @@
   },
   {
    "id": 14,
-   "a": 14,
-   "s": 9,
+   "a": 13,
+   "s": 8,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1527,9 +1527,9 @@
      1
     ],
     [
-     "🎭 Showtier: +90 %",
-     4,
-     3
+     "🎭 Showtier: ×1,7",
+     3,
+     2
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
@@ -1658,7 +1658,7 @@
      0
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      1,
      1
     ],

@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 358,
- "S": 303,
- "total": 108474,
+ "A": 350,
+ "S": 292,
+ "total": 102200,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1750,7 +1750,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1801,7 +1801,7 @@
   {
    "id": 3,
    "a": 2,
-   "s": 25,
+   "s": 23,
    "parts": [
     [
      "Kartenbonus",
@@ -1814,9 +1814,9 @@
      2
     ],
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      0,
-     2
+     1
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
@@ -1826,7 +1826,7 @@
     [
      "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
      1,
-     14
+     13
     ]
    ]
   },
@@ -1912,7 +1912,7 @@
      1
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      1,
      1
     ],
@@ -1938,33 +1938,33 @@
   {
    "id": 9,
    "a": 23,
-   "s": 18,
+   "s": 11,
    "parts": [
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      1,
-     1
+     0
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
      4,
-     3
+     2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
      2,
-     2
+     1
     ],
     [
      "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
      13,
-     10
+     6
     ]
    ]
   },
   {
    "id": 10,
-   "a": 19,
+   "a": 16,
    "s": 19,
    "parts": [
     [
@@ -1978,23 +1978,23 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
-     1,
+     "Bauleiterin ×1,1",
+     0,
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     5,
+     4,
      5
     ],
     [
      "Ausbau Stufe II: +75 % des eigenen Werts",
-     8,
+     7,
      8
     ]
    ]
@@ -2010,7 +2010,7 @@
      0
     ],
     [
-     "🪙 Gold +25 %",
+     "🪙 Gold ×1,2",
      1,
      0
     ]
@@ -2032,7 +2032,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],
@@ -2063,7 +2063,7 @@
   },
   {
    "id": 15,
-   "a": 23,
+   "a": 21,
    "s": 5,
    "parts": [
     [
@@ -2077,18 +2077,18 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
     [
-     "🎭 Showtier: +60 %",
-     5,
+     "🎭 Showtier: ×1,5",
+     4,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     10,
+     9,
      2
     ]
    ]
@@ -2136,8 +2136,8 @@
   },
   {
    "id": 20,
-   "a": 17,
-   "s": 13,
+   "a": 16,
+   "s": 11,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2155,18 +2155,18 @@
      3
     ],
     [
-     "🎭 Showtier: +90 %",
+     "🎭 Showtier: ×1,7",
+     6,
+     4
+    ],
+    [
+     "💧 Fluss: Kette aus 2 ×1,5",
      7,
      5
     ],
     [
-     "💧 Fluss: Kette aus 2 ×1,5",
-     8,
-     6
-    ],
-    [
      "2. Korallenriff: zählt 75 % des eigenen Werts",
-     -6,
+     -5,
      -4
     ]
    ]
@@ -2274,7 +2274,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],

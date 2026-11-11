@@ -1501,9 +1501,9 @@
  ]
 },
 "erwartet":{
- "A": 350,
+ "A": 346,
  "S": 276,
- "total": 96600,
+ "total": 95496,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1758,7 +1758,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
@@ -1817,7 +1817,7 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1840,7 +1840,7 @@
   },
   {
    "id": 10,
-   "a": 23,
+   "a": 20,
    "s": 11,
    "parts": [
     [
@@ -1854,8 +1854,8 @@
      0
     ],
     [
-     "🎭 Showtier: +60 %",
-     4,
+     "🎭 Showtier: ×1,5",
+     3,
      2
     ],
     [
@@ -1865,12 +1865,12 @@
     ],
     [
      "🌾 Herde aus 5 ×1,8",
-     8,
+     7,
      4
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     5,
+     4,
      2
     ]
    ]
@@ -1891,7 +1891,7 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -2204,7 +2204,7 @@
      0
     ],
     [
-     "🎭 Showtier: +60 %",
+     "🎭 Showtier: ×1,5",
      3,
      3
     ],

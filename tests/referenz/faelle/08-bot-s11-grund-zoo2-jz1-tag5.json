@@ -840,9 +840,9 @@
  ]
 },
 "erwartet":{
- "A": 90,
+ "A": 87,
  "S": 57,
- "total": 5130,
+ "total": 4959,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -922,7 +922,7 @@
      0
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -978,7 +978,7 @@
   },
   {
    "id": 8,
-   "a": 18,
+   "a": 16,
    "s": 11,
    "parts": [
     [
@@ -992,13 +992,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
-     2,
+     "🪧 Besucherlotse ×1,25",
+     1,
      0
     ],
     [
      "★ Goldenes Feld: zählt doppelt",
-     7,
+     6,
      5
     ],
     [
@@ -1020,7 +1020,7 @@
   },
   {
    "id": 9,
-   "a": 10,
+   "a": 9,
    "s": 3,
    "parts": [
     [
@@ -1034,8 +1034,8 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
-     2,
+     "🪧 Besucherlotse ×1,25",
+     1,
      0
     ],
     [

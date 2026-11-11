@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 221,
- "S": 130,
- "total": 28730,
+ "A": 214,
+ "S": 122,
+ "total": 26108,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1750,7 +1750,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1804,14 +1804,14 @@
      2
     ],
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      0,
-     2
+     1
     ],
     [
      "❄️ Schneekönig: zählt nicht",
      -1,
-     -9
+     -8
     ]
    ]
   },
@@ -1902,7 +1902,7 @@
      2
     ],
     [
-     "🎭 Showtier: +30 %",
+     "🎭 Showtier: ×1,25",
      2,
      1
     ],
@@ -1941,14 +1941,14 @@
    "s": 0,
    "parts": [
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      1,
-     1
+     0
     ],
     [
      "❄️ Schneekönig: zählt nicht",
      -4,
-     -3
+     -2
     ]
    ]
   },
@@ -1968,18 +1968,18 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
-     1,
+     "Bauleiterin ×1,1",
+     0,
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
     [
      "❄️ Schneekönig: zählt nicht",
-     -6,
+     -5,
      -6
     ]
    ]
@@ -1995,7 +1995,7 @@
      0
     ],
     [
-     "🪙 Gold +25 %",
+     "🪙 Gold ×1,2",
      1,
      0
     ],
@@ -2022,7 +2022,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],
@@ -2067,7 +2067,7 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
@@ -2142,8 +2142,8 @@
   },
   {
    "id": 20,
-   "a": 68,
-   "s": 53,
+   "a": 62,
+   "s": 45,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2166,24 +2166,24 @@
      6
     ],
     [
-     "🎭 Showtier: +90 %",
-     14,
-     11
+     "🎭 Showtier: ×1,7",
+     11,
+     8
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     15,
-     12
+     14,
+     10
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     45,
-     35
+     41,
+     30
     ],
     [
      "2. Korallenriff: zählt 75 % des eigenen Werts",
-     -22,
-     -17
+     -20,
+     -15
     ]
    ]
   },
@@ -2291,7 +2291,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],

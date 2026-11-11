@@ -1750,7 +1750,7 @@
      2
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
@@ -1814,14 +1814,14 @@
      2
     ],
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      0,
-     2
+     1
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
      -1,
-     -9
+     -8
     ]
    ]
   },
@@ -1941,14 +1941,14 @@
    "s": 0,
    "parts": [
     [
-     "Bauleiterin +30 %",
+     "Bauleiterin ×1,21 (2×)",
      1,
-     1
+     0
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
      -4,
-     -3
+     -2
     ]
    ]
   },
@@ -1968,18 +1968,18 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
-     1,
+     "Bauleiterin ×1,1",
+     0,
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      1,
      0
     ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
-     -3,
+     -2,
      -3
     ],
     [
@@ -2005,7 +2005,7 @@
      0
     ],
     [
-     "🪙 Gold +25 %",
+     "🪙 Gold ×1,2",
      1,
      0
     ],
@@ -2032,7 +2032,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],
@@ -2077,7 +2077,7 @@
      1
     ],
     [
-     "🪧 Besucherlotse +30 %",
+     "🪧 Besucherlotse ×1,25",
      2,
      0
     ],
@@ -2087,7 +2087,7 @@
      -1
     ],
     [
-     "🎭 Showtier: +60 %",
+     "🎭 Showtier: ×1,5",
      2,
      1
     ],
@@ -2296,7 +2296,7 @@
      2
     ],
     [
-     "Bauleiterin +15 %",
+     "Bauleiterin ×1,1",
      0,
      1
     ],
