@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zoo-Buch Entwurf</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#12301f;--panel:#1a3f2a;--panel2:#224d33;--paper:#f6efdf;--ink:#1d2a21;--text:#eaf2e3;--muted:#9fbba5;--gold:#ffd166;--f-display:"Lilita One","Trebuchet MS",sans-serif;--f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#0c2216;color:var(--text);font-family:var(--f-body);font-size:14px;line-height:1.35;padding:16px}
+.wrap{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.col{display:flex;flex-direction:column;gap:10px;width:380px;max-width:100%}
+.lbl{font-family:var(--f-display);color:var(--gold);font-size:18px}
+.note{color:var(--muted);font-size:13px}
+.phone{background:var(--bg);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px;border:2px solid #2b5a3b}
+.bar2{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h2{font-family:var(--f-display);font-weight:400;font-size:22px;margin:0;color:var(--gold)}
+.btn{border:0;border-radius:10px;padding:7px 12px;font-family:inherit;font-weight:600;background:var(--panel2);color:var(--text);font-size:13px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.tab{flex:none;border:0;border-radius:10px 10px 4px 4px;padding:7px 11px;background:var(--panel);color:var(--muted);font-weight:600;font-size:13px;font-family:inherit}
+.tab.on{background:var(--gold);color:#3a2a00}
+.sum{background:var(--panel);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+.sum b{display:block;font-family:var(--f-display);font-weight:400;font-size:20px;color:var(--gold)}
+.sum span{font-size:11.5px;color:var(--muted)}
+.bar{grid-column:1/-1;height:7px;border-radius:9px;background:#0c2216;overflow:hidden}.bar i{display:block;height:100%;width:55%;background:linear-gradient(90deg,#ffd166,#ff9f1c)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip2{border:0;border-radius:99px;padding:5px 10px;background:var(--panel2);color:var(--text);font-size:12.5px;font-weight:600;font-family:inherit}
+.chip2.on{background:var(--gold);color:#3a2a00}
+.chip2.st{background:transparent;border:1.5px solid var(--panel2)}.chip2.st.on{background:#eaf2e3;color:#12301f;border-color:#eaf2e3}
+.sh{font-family:var(--f-display);font-weight:400;font-size:16px;margin:4px 0 0;display:flex;justify-content:space-between}
+.sh small{font-family:var(--f-body);font-size:12px;color:var(--muted);font-weight:600}
+.gcard{background:var(--paper);color:var(--ink);border-radius:12px;padding:10px 12px 10px 16px;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden}
+.gb{position:absolute;left:0;top:0;bottom:0;width:6px}
+.gh{display:flex;align-items:center;gap:8px}.gh .ic{font-size:26px}.gh .nm{font-family:var(--f-display);font-size:16px;line-height:1.1;flex:1}
+.stt{font-size:11px;font-weight:600;border-radius:99px;padding:2px 8px}
+.stt.ok{background:#d8f0dd;color:#1e6b33}.stt.frei{background:#e7e2d4;color:#5b5440}.stt.lock{background:#e2e2e2;color:#555}
+.gm{display:flex;gap:6px;flex-wrap:wrap;font-size:11.5px;font-weight:600}
+.gm span{background:#1d2a2112;border-radius:5px;padding:1px 6px}.gm .a{color:#b86500}.gm .s{color:#00857a}.gm .r1{color:#1f5fb8}
+.tx{font-size:12.5px;line-height:1.3;color:#3b4a3f}
+.lexrow{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px dashed #1d2a2126;padding-top:6px;font-size:12px;color:#4a5a4f}
+.badges{display:flex;gap:3px}.badges span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#1d2a2110;filter:grayscale(1);opacity:.4;font-size:13px}.badges span.on{filter:none;opacity:1;background:#ffe9a8}
+.fact{font-size:12px;font-style:italic;color:#5b6a5f}
+.gcard.lock{background:#d9d6cc}.gcard.lock .ic{filter:grayscale(1);opacity:.55}.gcard.lock .nm{color:#555}
+.cond{font-size:12.5px;color:#3b3b3b;background:#ffffff80;border-radius:8px;padding:6px 8px}
+.cond .pb{height:6px;border-radius:9px;background:#0002;margin-top:5px;overflow:hidden}.cond .pb i{display:block;height:100%;background:#7a8a7e}
+.home{background:var(--bg);border-radius:22px;padding:14px;border:2px solid #2b5a3b;display:flex;flex-direction:column;gap:8px}
+.home .trow{display:flex;gap:6px;flex-wrap:wrap}
+.home .old{opacity:.45;text-decoration:line-through}
+.home .new{background:var(--gold);color:#3a2a00}
+ul{margin:0;padding-left:18px;color:var(--muted);font-size:13px}
+</style></head><body>
+<div class="wrap">
+
+<div class="col">
+  <div class="lbl">Zoo-Buch · Reiter „Karten“</div>
+  <div class="phone">
+    <div class="bar2"><h2>📖 Zoo-Buch</h2><button class="btn">Zurück</button></div>
+    <div class="tabs"><button class="tab on">🃏 Karten</button><button class="tab">🤝 Freundschaften</button><button class="tab">👥 Team</button><button class="tab">📣 Förderung</button><button class="tab">🔓 Freischalten</button></div>
+    <div class="sum"><div><b>38/86</b><span>entdeckt</span></div><div><b>61/86</b><span>freigeschaltet</span></div><div><b>112/344</b><span>🏅 Abzeichen</span></div><div class="bar"><i></i></div></div>
+    <div class="chips"><button class="chip2 st on">Alle</button><button class="chip2 st">✓ Entdeckt</button><button class="chip2 st">Noch nie gebaut</button><button class="chip2 st">🔒 Gesperrt</button></div>
+    <div class="chips"><button class="chip2">Alle</button><button class="chip2">Wasser</button><button class="chip2">Savanne</button><button class="chip2 on">Dschungel</button><button class="chip2">Wüste</button><button class="chip2">…</button></div>
+
+    <div class="sh">🌿 Dschungel <small>3/9 entdeckt · 🏅 7/36</small></div>
+
+    <div class="gcard"><span class="gb" style="background:#7cc860"></span>
+      <div class="gh"><span class="ic">🐯</span><span class="nm">Tigerwald</span><span class="stt ok">✓ entdeckt</span></div>
+      <div class="gm"><span>Dschungel-Gehege</span><span>🦷 Raubtier</span><span class="a">6 B</span><span class="s">4 N</span><span>3 BP</span><span class="r1">Selten</span></div>
+      <div class="tx">🔗 +50 % B Revier: kein Beutetier im Umkreis von 2 Feldern.</div>
+      <div class="lexrow"><span>4× gebaut · bis Zoo 3</span><span class="badges"><span class="on" title="gebaut">🏗️</span><span class="on" title="Stufe III">⭐</span><span title="Jungtier">🍼</span><span title="veredelt">✨</span></span></div>
+      <div class="fact">Kein Tiger hat dasselbe Streifenmuster wie ein anderer.</div>
+    </div>
+
+    <div class="gcard"><span class="gb" style="background:#7cc860"></span>
+      <div class="gh"><span class="ic">🦜</span><span class="nm">Papageien-Voliere</span><span class="stt frei">noch nie gebaut</span></div>
+      <div class="gm"><span>Dschungel-Gehege</span><span>🎭 Showtier</span><span class="a">5 B</span><span class="s">2 N</span><span>2 BP</span><span>Gewöhnlich</span></div>
+      <div class="tx">Showtier: +20 % B je Gastro oder Attraktion daneben.</div>
+    </div>
+
+    <div class="gcard lock"><span class="gb" style="background:#9aa39c"></span>
+      <div class="gh"><span class="ic">🦍</span><span class="nm">Gorillawald</span><span class="stt lock">🔒 gesperrt</span></div>
+      <div class="cond"><b>Freischalten:</b> Meilenstein 🌿 Dschungel erreichen.<div class="pb"><i style="width:0%"></i></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="col">
+  <div class="lbl">Startbildschirm</div>
+  <div class="home">
+    <div class="trow"><button class="btn">🏆 Highscores</button><button class="btn old">📚 Glossar</button><button class="btn old">🔓 Fortschritt</button><button class="btn">📊 Statistik</button><button class="btn old">🦒 Tierlexikon</button><button class="btn">📖 Tutorial</button></div>
+    <div class="trow"><button class="btn new">📖 Zoo-Buch</button><button class="btn">🏆 Highscores</button><button class="btn">📊 Statistik</button><button class="btn">🎓 Tutorial</button></div>
+  </div>
+  <div class="note">Glossar, Tierlexikon und Fortschritt werden zu einem Knopf. Das Tutorial bekommt ein anderes Symbol, damit es nicht mit dem Buch verwechselt wird.</div>
+
+  <div class="lbl" style="margin-top:8px">Die drei Zustände einer Karte</div>
+  <ul>
+    <li><b style="color:#d8f0dd">✓ entdeckt</b>: schon einmal gebaut. Volle Karte plus Lexikon-Zeile (wie oft gebaut, Abzeichen, Tierfakt).</li>
+    <li><b style="color:#e7e2d4">noch nie gebaut</b>: freigeschaltet, aber noch nicht ausprobiert. Volle Karte, keine Lexikon-Zeile.</li>
+    <li><b style="color:#cfcfcf">🔒 gesperrt</b>: grau, mit dem echten Grund und, wo möglich, einem Fortschrittsbalken.</li>
+  </ul>
+  <div class="lbl" style="margin-top:8px">Die anderen Reiter</div>
+  <ul>
+    <li>🤝 Freundschaften: wie heute im Lexikon</li>
+    <li>👥 Team: die Spezialisten (aus dem Glossar)</li>
+    <li>📣 Förderung: Förderprogramme und Werbung (aus dem Glossar)</li>
+    <li>🔓 Freischalten: die heutige Fortschritt-Seite (Lebensräume, legendäre Spezialisten …)</li>
+  </ul>
+</div>
+
+</div>
+</body></html>
