@@ -56,9 +56,9 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
     // dazu allgemein: was ein Gebäude als Nachbar der neuen Karte bringt (Symbol der neuen Karte) und was die neue Karte ihm bringt
     const fake={id:-1,key:selKey(),cells:[],lvl:1},bon=(C,nb,self)=>{try{return(C.bonus&&C.bonus(nb,state.buildings,self))||{}}catch(e){return{}}},b0=bon(sc,[],fake);
     const labs=(c,b)=>{const o=[];
-      if(!(TUTNOW&&!TUTTR)){{const jg=hasSpec('rb_jagd');if(has_(sc,'beute')&&has_(c,'raubtier'))o.push(jg?['🦁 +30 %',1]:['🦁 Zoo −5 % N',-1]);if(has_(sc,'raubtier')&&has_(c,'beute'))o.push(jg?['Beute +30 %',1]:stressedNow(b)?['😣 schon gestresst',0]:['Beute Zoo −5 % N',-1])}
-      {const py=hasSpec('rb_party');if(stressFood(sc)&&has_(c,'scheu'))o.push(py?['Scheu +30 %',1]:stressedNow(b)?['😣 schon gestresst',0]:['Scheu Zoo −5 % N',-1]);if(has_(sc,'scheu')&&stressFood(c))o.push(py?['🙈 +30 %',1]:['🙈 Zoo −5 % N',-1])}
-      if(has_(sc,'show')&&isFood(c)&&!ruhigC(c))o.push([trubelC(c)?'🎭 +60 %':'🎭 +30 %',1]);if(isFood(sc)&&!ruhigC(sc)&&has_(c,'show'))o.push([trubelC(sc)?'Show +60 %':'Show +30 %',1]);}
+      if(!(TUTNOW&&!TUTTR)){{const jg=hasSpec('rb_jagd');if(has_(sc,'beute')&&has_(c,'raubtier'))o.push(jg?['🦁 ×1,25',1]:['🦁 Zoo −5 % N',-1]);if(has_(sc,'raubtier')&&has_(c,'beute'))o.push(jg?['Beute ×1,25',1]:stressedNow(b)?['😣 schon gestresst',0]:['Beute Zoo −5 % N',-1])}
+      {const py=hasSpec('rb_party');if(stressFood(sc)&&has_(c,'scheu'))o.push(py?['Scheu ×1,25',1]:stressedNow(b)?['😣 schon gestresst',0]:['Scheu Zoo −5 % N',-1]);if(has_(sc,'scheu')&&stressFood(c))o.push(py?['🙈 +30 %',1]:['🙈 Zoo −5 % N',-1])}
+      if(has_(sc,'show')&&isFood(c)&&!ruhigC(c))o.push([trubelC(c)?'🎭 ×1,5':'🎭 ×1,25',1]);if(isFood(sc)&&!ruhigC(sc)&&has_(c,'show'))o.push([trubelC(sc)?'Show +60 %':'Show +30 %',1]);}
       if(sc.key==='tierarzt'&&c.cat==='gehege'&&(has_(c,'beute')||has_(c,'scheu')))o.push(['kein Stress',1]);if((has_(sc,'beute')||has_(sc,'scheu'))&&c.key==='tierarzt')o.push(['🩺 kein Stress',1]);
       if(sc.cat==='verst'){const t=verstHit(sc.key,c);if(t)o.push([t,1])}if(c.cat==='verst'){const t=verstHit(b.key,sc);if(t)o.push([sc.icon+' '+t,1])}
       {const r=bon(sc,[b],fake),da=(r.a||0)-(b0.a||0),ds=(r.s||0)-(b0.s||0);if(da||ds)o.push([sc.icon+' '+vTxt(da,ds),da+ds>0?1:-1])}
@@ -170,7 +170,7 @@ function calcHtml(h,cur){if(!h||!h.r||!h.ok)return'';const id=h.up?h.up.id:h.mov
 function brkHtml(c,brk){return`<div class="brk"><span>Grundwert <b>${c.a} B · ${c.s} N</b></span>${brk.parts.map(p=>`<span class="${p.a+p.s<0?'m':'p'}">${p.label} ${vTxt(p.a,p.s)}</span>`).join('')}<span>= <b>${brk.a} B · ${brk.s} N</b></span></div>`}
 const habLine=c=>c.hab?` Lebensraum: +1 B je ${HAB[c.hab].label}-Nachbar, +1 N je Feld auf ${HAB[c.hab].label}-Naturfläche.${cold(c.hab)?' Im Winter −1 B (Kälte).':''}${hot(c.hab)?' Im Sommer −1 B (Hitze).':''}`:'';
 // was eine Wirkung im jetzigen Zoo bringt (vor Multiplikatoren)
-function yieldOf(fn){let a=0,s=0,n=0;const idx=mkIndex(state.buildings);for(const b of state.buildings){let e=fn(b,CARDS[b.key],nbrs(b,idx));if(e&&(e.pa||e.ps)){const v=evalB(b,state.buildings,idx);e={a:Math.round(v.pa0*(e.pa||0)),s:Math.round(v.ps0*(e.ps||0))}}if(e&&(e.a||e.s)){a+=e.a||0;s+=e.s||0;n++}}return{a,s,n}}
+function yieldOf(fn){let a=0,s=0,n=0;const idx=mkIndex(state.buildings);for(const b of state.buildings){let e=fn(b,CARDS[b.key],nbrs(b,idx));if(e&&(e.pa||e.ps||e.fa||e.fs)){const v=evalB(b,state.buildings,idx);const n=e.n==null?1:e.n,fa=e.fa!=null?e.fa:pctF(e.pa||0),fs=e.fs!=null?e.fs:pctF(e.ps||0);e={a:Math.round(v.pa0*(fa**n-1)),s:Math.round(v.ps0*(fs**n-1))}}if(e&&(e.a||e.s)){a+=e.a||0;s+=e.s||0;n++}}return{a,s,n}}
 const yieldTxt=y=>`<b>${vTxt(y.a,y.s)||'nichts'}</b>${y.n?` · ${y.n} Gehege/Gebäude`:''}`;
 function yieldHtml(P){if(P.per)return`<p class="hint">Aktuell pro Tag: ${yieldTxt(yieldOf(P.per))} (vor Multiplikatoren)</p>`;
   if(P.mult){const m=P.mult(state.buildings);return`<p class="hint">Aktuell: <b>${m?'aktiv':'noch nicht aktiv'}</b></p>`}return''}
@@ -314,7 +314,7 @@ $('hand').addEventListener('pointerleave',()=>{if(state.hover==null)return;state
 $('board').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||state.phase!=='play'||state.selected!=null)return;const t=e.target.closest('[data-terr]');const v=t?t.dataset.terr:null;
   if(v===state.hoverTerr)return;state.hoverTerr=v;setInfo(infoHtml(null,scoreZoo(state.buildings)))});
 $('board').addEventListener('pointerleave',()=>{if(!state.hoverTerr)return;state.hoverTerr=null;if(state.phase==='play')setInfo(infoHtml(hypo(),scoreZoo(state.buildings)))});
-const rdFree0=()=>!!state&&!stAb('kein_neuziehen')&&(state.rdFree!==state.season+'/'+(state.zoo||0)||(runDeck()==='grund'&&state.rdFree2!==state.season+'/'+(state.zoo||0))),rdFree=()=>rdFree0()||mixFree()||(!!state&&(state.rdBonus||0)>0);
+const rdFree0=()=>!!state&&(state.rdFree!==state.season+'/'+(state.zoo||0)||(runDeck()==='grund'&&state.rdFree2!==state.season+'/'+(state.zoo||0))),rdFree=()=>rdFree0()||mixFree()||(!!state&&(state.rdBonus||0)>0);
 function redraw(){if(state.phase!=='play'||winIs('glatteis')||umbBm()||(state.bp<1&&!rdFree())){Sfx.deny();return}{const ts=tutStep();if(ts&&!ts.redraw){Sfx.deny();tutNudge();return}}
   if(state.infoProg!=='redraw'){state.infoProg='redraw';state.moving=null;state.selected=null;state.preview=null;state.info=null;Sfx.select();render();return}
   state.infoProg=null;state.moving=null;if(state.tut)state.tut.redrawn=true;state.discard.push(...state.hand);state.hand=[];if(rdFree0()){const key=state.season+'/'+(state.zoo||0);if(state.rdFree!==key)state.rdFree=key;else state.rdFree2=key}else if(mixFree())state.rdMix=(state.zoo||0)+'/'+state.season+'/'+state.day;else if((state.rdBonus||0)>0)state.rdBonus--;else state.bp-=1;state.undo=[];state.selected=null;state.preview=null;state.hover=null;drawHand(state);Sfx.draw();Sfx.rotate();render()}
@@ -585,7 +585,7 @@ const specPrice=id=>Math.round(priced(SPECPRICE[SPEC[id].tier])*(1+.25*((state.s
 function rollMarket(n,excl=[]){if((()=>{try{const r=runOf();return r&&r.seed}catch(e){return 0}})())return rollSpecs(n,excl);const out=rollSpecs(n,excl),isM=id=>!!SPEC[id].mult;let g=0;while(out.filter(isM).length>1&&g++<20){const i=out.findIndex((id,j)=>isM(id)&&out.slice(0,j).some(isM)),alt=rollSpecs(8,[...excl,...out]).find(id=>!isM(id));if(!alt)break;out[i]=alt}return out}
 const SPECHAB={...SPEZ_DATEN.lebensraum};
 const specOff=id=>{const h=SPECHAB[id]||(/^(pfleger|z)_(.+)$/.exec(id)||[])[2];return!!h&&!!HAB[h]&&!habsNow().includes(h)};
-function rollSpecs(n,excl=[],WT,guar){WT=WT||[0,8,2,1];const run=runOf(),have=run?run.spec||[]:[],pool=Object.keys(SPEC).filter(id=>id!=='eventmanager'&&!SPEC[id].gone&&!SPEC[id].rb&&!specOff(id)&&!specLocked(id)&&!have.includes(id)&&!excl.includes(id)&&(!SPEC[id].zl||(run&&run.zl))&&(!SPEC[id].food||foodOnRun(run))),out=[];
+function rollSpecs(n,excl=[],WT,guar){WT=WT||[0,8,2,1];const run=runOf(),have=run?run.spec||[]:[],pool=Object.keys(SPEC).filter(id=>id!=='eventmanager'&&!(id==='wunsch'&&stAb('keine_wuensche'))&&!SPEC[id].gone&&!SPEC[id].rb&&!specOff(id)&&!specLocked(id)&&!have.includes(id)&&!excl.includes(id)&&(!SPEC[id].zl||(run&&run.zl))&&(!SPEC[id].food||foodOnRun(run))),out=[];
   if(run&&run.seed&&n<8)return pool.sort((a,b)=>SPEC[b].tier-SPEC[a].tier||SPEC[a].name.localeCompare(SPEC[b].name));
   while(out.length<n&&pool.length){const w=pool.map(id=>WT[SPEC[id].tier]),tot=w.reduce((a,b)=>a+b,0);let r=Math.random()*tot,i=0;for(;i<pool.length-1;i++){r-=w[i];if(r<=0)break}out.push(pool.splice(i,1)[0])}
   // 0.64a Profi-Mappe: mindestens eine seltene oder legendäre Bewerbung
@@ -602,10 +602,10 @@ function bigPop(id,inner,ok){let el=document.getElementById(id);if(!inner){if(el
   const b=el.querySelector('[data-bpok]');if(b)b.onclick=()=>{Sfx.select();el.remove();ok()}}
 // 0.75a: Seltenheits-Glanz (rg1 selten, rg2 legendär) für Handkarten und Spezialisten. Gemeinsame Uhr: negative Verzögerung,
 // damit der Glanz beim Neuzeichnen dort weiterläuft, wo er war; i verschiebt die Phase, damit nicht alle gleichzeitig glänzen.
-const rgOf=r=>r==='selten'?'rg1':r==='sehr selten'?'rg2':'',rgSpec=S=>S.tier===2?'rg1':S.tier>=3&&!S.rb?'rg2':'';
+const rgOf=r=>r==='selten'?'rg1':r==='sehr selten'?'rg2':'',rgName=rg=>rg==='rg1'?'Selten':rg==='rg2'?'Legendär':'',rgSpec=S=>S.tier===2?'rg1':S.tier>=3&&!S.rb?'rg2':'';
 const glzD=(sek,i)=>`--d:-${(((performance.now()/1000)+i*0.6)%sek).toFixed(2)}s`,holoD=i=>`--hd:-${(((performance.now()/1000)+i*0.6)%3.2).toFixed(2)}s`;
 const glzI=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))%97;return h%7};
-const glzHtml=(rg,i)=>rg?`<span class="glz" style="${glzD(rg==='rg2'?4.5:7,i)}" aria-hidden="true"></span>`:'';
+const glzHtml=(rg,i)=>rg?`<span class="glz" style="${glzD(rg==='rg2'?2.7:4,i)}" aria-hidden="true"></span>`:'';
 function specCard(id,btn){const S=SPEC[id],rg=rgSpec(S);return`<div class="pcard${S.tier>=3&&!S.rb?' t3':''}${rg?' '+rg:''}">${glzHtml(rg,glzI(id))}<span class="ic">${S.icon}</span><div class="info2"><span class="nm">${S.name}</span><span class="tierl tier${S.tier}">${S.rb?'⚡ Regelbrecher':SPECTIER[S.tier]}</span>${fxHtml(S)}</div><div class="pb">${btn}</div></div>`}
 const SELLP={...SPEZ_DATEN.verkauf};
 const teamMini=()=>{const L=(state&&state.spec||[]).filter(id=>SPEC[id]);return`<div class="tmini"><h4>Dein Team ${L.length}/${maxSpec()}</h4><div>${L.map(id=>{let v='';try{v=specVal(id)[0]}catch(e){}return`<span style="--rc:${TIERC[SPEC[id].tier]||'#8a7cff'}">${SPEC[id].icon} <b>${v}</b> ${SPEC[id].name}</span>`}).join('')||'<span>noch niemand</span>'}</div></div>`};
@@ -658,10 +658,11 @@ function buy(it){if(it.sold||!canPay(it.price)){Sfx.deny();return}
   syncCtx();render()}
 const TYPEORD=['wasser','wald','wueste','savanne','arktis','gebirge','attr','essen','schutz','verst'];
 const TRAITL={beute:'Beute',raubtier:'Raubtier',scheu:'scheu',show:'Showtier',bedroht:'bedroht',gross:'groß',einmalig:'einmalig'};
-function deckRows(keys,btn){const u=[...new Set(keys)].sort((a,b)=>TYPEORD.indexOf(typeOfCard(CARDS[a]))-TYPEORD.indexOf(typeOfCard(CARDS[b]))||CARDS[a].name.localeCompare(CARDS[b].name));let out='',last=null;
+// deckRows: extra(k) = optionale Zusatzzeile in der Infospalte (0.76a: Futterplätze beim Futter verteilen)
+function deckRows(keys,btn,extra){const u=[...new Set(keys)].sort((a,b)=>TYPEORD.indexOf(typeOfCard(CARDS[a]))-TYPEORD.indexOf(typeOfCard(CARDS[b]))||CARDS[a].name.localeCompare(CARDS[b].name));let out='',last=null;
   for(const k of u){const c=CARDS[k],t=typeOfCard(c),n=cnt(keys,x=>x===k),col=colOf(c);
     if(t!==last){last=t;const tn=cnt(keys,x=>typeOfCard(CARDS[x])===t);const MT=MILE[t]||{icon:'🔆',label:CAT[t]?CAT[t].label:t};out+=`<div class="drh"><i style="background:${col}"></i>${MT.icon} ${MT.label} · ${tn} Karte${tn===1?'':'n'}</div>`}
-    out+=`<div class="drow" style="border-left:9px solid ${col}"><span class="ic">${ic(c)}</span><span class="inf"><b>${c.name}${n>1?' ×'+n:''}</b><small><span class="dtag" style="background:${col}">${c.hab?HAB[c.hab].label:CAT[c.cat].label}</span>${c.tags.filter(x=>TRAITL[x]).map(x=>`<span class="dtr">${TRAITL[x]}</span>`).join('')}</small><small>${c.a} B · ${c.s} N · ${costTxt(k)}</small></span>${miniShape(k)}${btn(k)}</div>`}
+    out+=`<div class="drow" style="border-left:9px solid ${col}"><span class="ic">${ic(c)}</span><span class="inf"><b>${c.name}${n>1?' ×'+n:''}</b><small><span class="dtag" style="background:${col}">${c.hab?HAB[c.hab].label:CAT[c.cat].label}</span>${c.tags.filter(x=>TRAITL[x]).map(x=>`<span class="dtr">${TRAITL[x]}</span>`).join('')}</small><small class="dval">${c.a} B · ${c.s} N · ${costTxt(k)}</small>${extra&&extra(k)?`<small class="dex">${extra(k)}</small>`:''}</span>${miniShape(k)}${btn(k)}</div>`}
   return`<div class="drows">${out}</div>`}
 function removeCard(pile,key){const pi=state.pendItem&&state.pendItem.key==='tierarzt'?state.pendItem:null,price=pi?pi.price:priced(10);if(pi){pi.sold=true;state.pendItem=null}if(!canPay(price)){Sfx.deny();return}const arr=state[pile],i=arr.indexOf(key);if(i<0)return;arr.splice(i,1);state.money-=price;state.stats.spent+=price;Sfx.till();state.shopSub=null;state.rmArm=null;state.shop.note=`${CARDS[key].name} wurde aus dem Deck entfernt.`;render()}
 const tShopSt=()=>{try{return state&&state.phase==='shop'&&gRun()&&tutStep()||null}catch(e){return null}},tShopLk=()=>{const st=tShopSt();return st&&st.lock||null};

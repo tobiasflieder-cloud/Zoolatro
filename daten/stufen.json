@@ -1,12 +1,12 @@
-{"hinweis":"Stufen (Schwierigkeit) eines Zoolatro-Laufs. Wird von quelltext/mache.py ins Spiel eingebaut. Jede Stufe enthält die Verschärfungen davor. kennung = Wirkung im Spiel (stAb/stW in quelltext/src/08-shop-menues.js), wert = Zahl dazu. Reihenfolge nicht ändern.",
-"felder":{"nr":"Stufe (1–8, steht in Spielständen als run.stage)","kennung":"grund = keine Verschärfung · ziel = Saisonziele ×wert · gold = nur wert goldene Felder · teurer = Shop und Stellenmarkt ×wert · kein_neuziehen = kein Gratis-Neuziehen · bp_erster_tag = erster Tag jeder Jahreszeit wert Baupunkte weniger","wert":"Zahl zur Wirkung","text":"Anzeige"},
+{"hinweis":"Stufen (Schwierigkeit) eines Zoolatro-Laufs. Wird von quelltext/mache.py ins Spiel eingebaut. Jede Stufe enthält alle Verschärfungen davor. wirkungen = Liste {kennung, wert}; kommt eine Kennung mehrfach vor, gilt die höchste erreichte Stufe (stAb/stW in quelltext/src/08-shop-menues.js), nur ziel multipliziert sich. Reihenfolge nicht ändern.",
+"felder":{"nr":"Stufe (1–8, steht in Spielständen als run.stage)","text":"Anzeige","wirkungen":"ziel = Saisonziele ×wert · natur = nur wert Naturfelder · gold = nur wert goldene Felder · reinheit = Reinheit erst ab wert Tieren · teurer = Shop und Stellenmarkt ×wert · krone = Kronenfeld ×wert · bp_erster_tag = erster Tag jeder Jahreszeit wert Baupunkte weniger · keine_krone = kein Kronenfeld · keine_wuensche = keine Besucherwünsche (und keine Wunscherfüllerin im Stellenmarkt)"},
 "stufen":[
-{"nr":1,"kennung":"grund","text":"Grundstufe"},
-{"nr":2,"kennung":"ziel","wert":1.1,"text":"Saisonziele +10 %"},
-{"nr":3,"kennung":"gold","wert":2,"text":"Nur 2 goldene Felder"},
-{"nr":4,"kennung":"teurer","wert":1.25,"text":"Shop und Stellenmarkt 25 % teurer"},
-{"nr":5,"kennung":"ziel","wert":1.1,"text":"Saisonziele +10 %"},
-{"nr":6,"kennung":"kein_neuziehen","text":"Kein Gratis-Neuziehen"},
-{"nr":7,"kennung":"bp_erster_tag","wert":1,"text":"Erster Tag jeder Jahreszeit: 1 Baupunkt weniger"},
-{"nr":8,"kennung":"ziel","wert":1.1,"text":"Saisonziele nochmals +10 %"}
+{"nr":1,"text":"Grundstufe","wirkungen":[]},
+{"nr":2,"text":"Saisonziele +10 % · nur 15 Naturfelder","wirkungen":[{"kennung":"ziel","wert":1.1},{"kennung":"natur","wert":15}]},
+{"nr":3,"text":"Nur 1 goldenes Feld","wirkungen":[{"kennung":"gold","wert":1}]},
+{"nr":4,"text":"Saisonziele +10 % · Reinheit erst ab 6 Tieren","wirkungen":[{"kennung":"ziel","wert":1.1},{"kennung":"reinheit","wert":6}]},
+{"nr":5,"text":"Shop und Stellenmarkt 25 % teurer","wirkungen":[{"kennung":"teurer","wert":1.25}]},
+{"nr":6,"text":"Krone nur noch ×1,15 · erster Tag jeder Jahreszeit 1 Baupunkt weniger","wirkungen":[{"kennung":"krone","wert":1.15},{"kennung":"bp_erster_tag","wert":1}]},
+{"nr":7,"text":"Saisonziele +10 % · nur 12 Naturfelder","wirkungen":[{"kennung":"ziel","wert":1.1},{"kennung":"natur","wert":12}]},
+{"nr":8,"text":"Keine Besucherwünsche · keine Gold- und Kronenfelder · nur 9 Naturfelder","wirkungen":[{"kennung":"keine_wuensche"},{"kennung":"gold","wert":0},{"kennung":"keine_krone"},{"kennung":"natur","wert":9}]}
 ]}

@@ -69,13 +69,17 @@ Betrag, das sind die Zeilen in den Referenzfällen.
 4. **Futter, feste Werte** (`04:fdOf`): Kraftfutter `kf` +2/+2 · Beeren `be` +3 N · Möhrchen `mo` +3 B · Mehlwürmer `mw` +3 N ·
    Großpackung `gp` +3/+3 · Honig `ho` +1 B je Gastro im Umkreis 2.
    **Lebensraum-Futter** (`run.fdl[hab]=n`, nur Gehege): `+2^(n−1)` B und N (`04:fdLvB`: Stufe 1 → +1, 2 → +2, 3 → +4 …).
-5. **Feste Boni und Prozent-Boni sammeln**:
+5. **Feste Boni und Faktor-Boni sammeln** (seit 0.76a Faktoren statt Prozente):
    - Förderprogramme `PROGS[id].per`, Werbung `ADS[id].per`, Spezialisten `SPEC[id].per`: liefern entweder feste `{a,s}` (sofort addiert)
-     oder Prozent `{pa,ps}` (gesammelt). Spezialisten wirken nicht im **Streik** (Taler < 0 und Team nicht leer, `01:strike`).
+     oder einen Satz `{pa,ps,n}` (gesammelt). Spezialisten wirken nicht im **Streik** (Taler < 0 und Team nicht leer, `01:strike`).
    - Ereignisse der Jahreszeit `EVENTS[id].per` (fest; Eventmanager schneidet Minus ab), Lauf-Boni `RUNB` (fest, × Anzahl).
-   - Prozent: Futterküche daneben +30 % N (Gehege) · Aquarium daneben +20 % N je Aquarium (Wasser-Gehege) · Besucherlotse daneben
-     +30 % B · Prägung Gold +25 % B · Veredelung Gold +25 % B je Stück.
-   - **Alle Prozente gehen auf denselben Wert** `pa0=max(0,a)`, `ps0=max(0,s)`, gemessen nach Schritt 1–5. Sie werden nicht verkettet.
+   - Umrechnung `04:pctF`: Satz X → Faktor **×(1 + 0,8·X), gerundet auf 0,05** (0,15 → ×1,1 · 0,2 → ×1,15 · 0,25 → ×1,2 · 0,3 → ×1,25 ·
+     0,4 → ×1,3 · 0,5 → ×1,4 · 0,6 → ×1,5); Abzüge bleiben (−0,1 → ×0,9). „Je Stück“ (`n`): Faktor hoch n.
+   - Weitere: Futterküche daneben ×1,25 N (Gehege) · Aquarium daneben ×1,15 N je Aquarium (Wasser-Gehege) · Besucherlotse daneben ×1,25 B ·
+     Prägung Gold ×1,2 B · Veredelung Gold ×1,2 B je Stück · Naturbund ×1,1 N je Naturfeld · Bauleiterin ×1,1 B und N je Ausbaustufe.
+   - Plus-Förderprogramme (ab Zoo 3) liefern direkt den Faktor `{fa,fs}` = 1 + (Faktor − 1)·1,5 (passt zum Text).
+   - **Die Faktoren werden nacheinander multipliziert**, jeweils auf `max(0, aktueller Wert)`, in der Reihenfolge Programme, Werbung,
+     Spezialisten, Futterküche, Aquarium, Besucherlotse, Gold, Gold-Ausgabe.
 6. **Prägung Lieblingstier** `liebling`: `+z` B und N mit z = Nummer des Zoos (1–5).
 7. **Nur im Zoolatro-Lauf** (`CTX.zl`):
    - **Veredelung Schimmernd** (`ed` mit n× `s`): ×(n+1).
@@ -164,7 +168,7 @@ Arktis südlich), dann zählt **die ganze Gruppe** ×0,5.
 ### 4.3 Reinheit und Vielfalt (`04:zlPurity`, `04:vielfalt`, nur Zoolatro)
 - **Reinheit**: größte zusammenhängende Gruppe von Gehegen eines Lebensraums. n = Anzahl **verschiedener Arten** (`spK`) + Jäger-Beute
   + einmal +1 für Prägung Zucht. Wüsten-Gehege zählen zusätzlich **ohne Zusammenhang** (wegen „Einzelgänger“).
-  Ab `PURN=4` (gesetzt in `syncCtx`): N × `min(1,6; 1 + 0,15·(n−PURN+1))`.
+  Ab `PURN` (Stufe 1–3: 4, ab Stufe 4: 6; gesetzt in `syncCtx`): N × `min(1,6; 1 + 0,15·(n−PURN+1))`.
 - **Vielfalt**: für alle Lebensräume des Laufs (`CTX.habs`) die Anzahl verschiedener Gehege-Arten. Der kleinste Wert `lvl` (höchstens 5)
   zählt, ab lvl 2: N × (1 + 0,05·lvl).
 - Es gilt **nur das Bessere** von beiden.
@@ -290,18 +294,20 @@ Forscher (Meilensteine 1 Art weniger, 1 Karte weniger zur Auswahl) · Polar (Win
 Alpen (+1 B je Felsen daneben, höchstens 2, 3 Felsen mehr).
 Freischalten über Ziele (`fsCheck`, `UNLOCK_DECK`).
 
-### 10.3 Stufen (Zoolatro 2.0, `daten/stufen.json` → `08:STAGES`, Kennungen über `stAb`/`stW`, `stOf`, `stMax`)
-Je Profil Stufe 1–8. Die nächste wird frei, wenn man mit der höchsten freien Stufe Zoo 3 schafft. Jede Stufe enthält alle davor:
-| Stufe | Verschärfung | Code |
+### 10.3 Stufen (Zoolatro 2.0, `daten/stufen.json` → `08:STAGES`, Wirkungen über `stAb`/`stW`, `stOf`, `stMax`)
+Je Profil Stufe 1–8. Die nächste wird frei, wenn man mit der höchsten freien Stufe Zoo 3 schafft. Jede Stufe enthält alle davor.
+Seit 0.76a kann eine Stufe mehrere Wirkungen haben; kommt eine Kennung mehrfach vor, gilt die höchste erreichte Stufe, nur `ziel` multipliziert sich.
+| Stufe | Verschärfung | Kennung → Code |
 |---|---|---|
-| 1 | Grundstufe | – |
-| 2 | Saisonziele +10 % | `stTF` |
-| 3 | nur 2 goldene Felder | `initZl` |
-| 4 | Shop und Stellenmarkt +25 % | `priced`, `mappePrice`, `profiPrice` |
-| 5 | Saisonziele +10 % | `stTF` |
-| 6 | kein Gratis-Neuziehen | `rdFree0` |
-| 7 | Tag 1 jeder Jahreszeit 1 BP weniger | `startDay` |
-| 8 | Saisonziele nochmals +10 % | `stTF` |
+| 1 | Grundstufe (3 Goldfelder ×2, Kronenfeld ×1,3, 18 Naturfelder, Reinheit ab 4) | – |
+| 2 | Saisonziele +10 % · nur 15 Naturfelder | `ziel` → `stTF` · `natur` → `natNow`/`natQuota` (Schwerpunkt anteilig) |
+| 3 | nur 1 goldenes Feld | `gold` → `initZl` |
+| 4 | Saisonziele +10 % · Reinheit erst ab 6 | `ziel` · `reinheit` → `PURN` (in `syncCtx`) |
+| 5 | Shop und Stellenmarkt +25 % | `teurer` → `priced`, `mappePrice`, `profiPrice` |
+| 6 | Krone ×1,15 · Tag 1 jeder Jahreszeit 1 BP weniger | `krone` → `CROWNF` (in `syncCtx`) · `bp_erster_tag` → `startDay` |
+| 7 | Saisonziele +10 % · nur 12 Naturfelder | `ziel` · `natur` |
+| 8 | keine Besucherwünsche (keine 🎈 Wunscherfüllerin) · keine Gold- und Kronenfelder · nur 9 Naturfelder | `keine_wuensche` → `wishOn`, `rollSpecs` · `gold` 0, `keine_krone` → `initZl` · `natur` |
+Das ×4-Feld aus dem Shop bleibt auch auf Stufe 8 möglich. Ziele gesamt: Stufe 1 ×1, 2–3 ×1,1, 4–6 ×1,21, 7–8 ×1,33.
 
 ### 10.4 Meilensteine (`01:MILE`, `mileCount`)
 Je Sorte (Wasser-, Savannen-, Dschungel-, Wüsten-, Arktis-, Gebirgs-Gehege, Attraktionen, Gastro: 6 verschiedene Arten; Naturschutz 7;
@@ -354,8 +360,7 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
     Bei `ruhe`, `inventur`, `wenig`, `chaos`, `futter` gibt es keine verschärfte Fassung, auch ab Zoo 3 gilt dort die normale.
 11. **Meilensteine**: Alte Tests (`jsd93`) erwarten „Meilensteine 7, Naturschutz 8, Vielfalt 4“, der Code hat 6/7/4. Die Tests schlagen
     seit Langem fehl, `pruefen.sh` meldet sie als „gleich“.
-12. **Prozent-Boni nicht verkettet, Zoolatro-Faktoren schon**: Schritt 5 rechnet alle Prozente auf denselben Wert, Schritt 14 multipliziert
-    nacheinander. Die Reihenfolge in `extra92` ändert das Ergebnis nur durch die Rundung. Für den Nachbau genau übernehmen.
+12. ~~Prozent-Boni nicht verkettet~~ → seit 0.76a sind alle Boni Faktoren und werden nacheinander multipliziert (Schritt 5 und 14). Die Reihenfolge in `extra92` ändert das Ergebnis nur durch die Rundung. Für den Nachbau genau übernehmen.
 13. **Rundung**: Jeder Zuschlag wird einzeln gerundet (`Math.round`, .5 → aufwärts, bei negativen Zahlen Richtung +∞). GDScript `round()`
     rundet .5 von null weg, also anders bei −x,5. Im Nachbau `floor(x+0.5)` nehmen.
 14. **Teil-Listen bei Formen**: `shapesOf` nimmt für Teilmengen der Bau-Liste (Vorschau, Schneekönig, TÜV-Zweitwertung) die Formen

@@ -234,7 +234,7 @@ const PROG_WIRKUNG={per:{
   pate_gebirge:(b,c)=>c.hab==='gebirge'?{pa:.2,ps:.2}:null,
   eufonds:(b,c)=>c.tags.includes('bedroht')?{ps:.4}:null,
   imbiss:(b,c)=>c.cat==='essen'?{pa:.4}:null,
-  naturbund:(b,c)=>c.hab&&natCells(b.cells,c.hab)?{ps:.15*natCells(b.cells,c.hab)}:null,
+  naturbund:(b,c)=>c.hab&&natCells(b.cells,c.hab)?{ps:.15,n:natCells(b.cells,c.hab)}:null,
   familie:(b,c)=>c.cat==='attr'?{pa:.3}:null,
   gross:(b,c)=>c.cat==='gehege'&&c.tags.includes('gross')?{pa:.3}:null,
   klein:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{pa:.25,ps:.25}:null,
@@ -311,7 +311,7 @@ const SPEZ_WIRKUNG=(()=>{const per={},mult={};
   dompteur:(b,c)=>c.tags.includes('raubtier')?{pa:.3}:null,
   artenschuetzer:(b,c)=>c.tags.includes('bedroht')?{ps:.25}:null,
   tierpfleger:(b,c,nb)=>c.cat==='schutz'?{s:2*cnt(nb,n=>has(n,'scheu'))}:null,
-  bauleiterin:b=>(b.lvl||1)>1?{pa:.15*((b.lvl||1)-1),ps:.15*((b.lvl||1)-1)}:null,
+  bauleiterin:b=>(b.lvl||1)>1?{pa:.15,ps:.15,n:(b.lvl||1)-1}:null,
   sammler:(b,c,nb,all)=>{if(c.cat!=='gehege')return null;const h=vielfalt(all).lvl;return h>=2?{ps:.1}:null}});
   // Faktor für den ganzen Zoo
   Object.assign(mult,{

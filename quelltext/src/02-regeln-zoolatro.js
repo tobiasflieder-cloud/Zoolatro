@@ -51,4 +51,4 @@ function kingSet0(bs){const idx=mkIndex(bs),best={},keep=CTX.ni;CTX.ni=true;for(
 // Schneekönig-Vergleich für die Anzeige: Sorte, bester der Sorte und Abstand
 function kingCmp(b,bs){const idx=mkIndex(bs),keep=CTX.ni;CTX.ni=true;const sorte=c=>Object.keys(MILE).find(t=>MILE[t].f(c)),t=sorte(CARDS[b.key]);if(!t){CTX.ni=keep;return null}const val=x=>{const v=evalB(x,bs,idx),f=1+(LVLW[x.lvl||1]||0);return{a:Math.round(v.a*f),s:Math.round(v.s*f)}};let best=null;for(const x of bs){if(sorte(CARDS[x.key])!==t)continue;const v=val(x);if(!best||v.a+v.s>best.v.a+best.v.s)best={b:x,v}}const me=val(b);CTX.ni=keep;return{t,label:MILE[t].label,best:best.b,bv:best.v,me,king:best.b===b,gap:best.v.a+best.v.s-me.a-me.s}}
 const kingSet=bs=>KING&&KING.bs===bs?KING.set:kingSet0(bs);
-const EDS={g:{icon:'🪙',name:'Gold',text:'+25 % B'},s:{icon:'✨',name:'Schimmernd',text:'zählt doppelt'},r:{icon:'🌈',name:'Regenbogen',text:'×1,2 B für den ganzen Zoo'}};
+const EDS={g:{icon:'🪙',name:'Gold',text:'×1,2 B'},s:{icon:'✨',name:'Schimmernd',text:'zählt doppelt'},r:{icon:'🌈',name:'Regenbogen',text:'×1,2 B für den ganzen Zoo'}};

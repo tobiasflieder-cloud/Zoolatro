@@ -1,9 +1,9 @@
 {"hinweis":"Prägungen (Verbesserungen auf einem Exemplar, Kartenschlüssel affen^star). Wird von quelltext/mache.py ins Spiel eingebaut. Die Wirkung steckt in der Wertung (quelltext/src/04-regeln-wertung.js, Kennung = Schlüssel). Reihenfolge nicht ändern (Zufall im Spiel hängt daran).",
-"felder":{"key":"Schlüssel (nie ändern, steht in Kartenschlüsseln)","icon":"Emoji","name":"Name","fx":"Zeile auf der Karte („Wert|Erklärung“)","text":"Text in der Auswahl","w":"Gewicht beim Auslosen","geh":"nur für Gehege"},
+"felder":{"key":"Schlüssel (nie ändern, steht in Kartenschlüsseln)","icon":"Emoji","name":"Name","fx":"Zeile auf der Karte („Wert|Erklärung“)","text":"Text in der Auswahl","w":"Gewicht beim Auslosen","geh":"nur für Gehege","aus":"wird nicht mehr ausgelost (bleibt auf alten Karten gültig)"},
 "praegungen":[
-{"key":"gold","icon":"🪙","name":"Gold","fx":"+25 % B|🪙 Gold: Verbesserung","text":"+25 % Besucher","w":3},
+{"key":"gold","aus":1,"icon":"🪙","name":"Gold","fx":"×1,2 B|🪙 Gold: Verbesserung","text":"×1,2 Besucher","w":3},
 {"key":"star","icon":"⭐","name":"Star","fx":"×1,25|⭐ Star: die Karte zählt ×1,25","text":"Die Karte zählt ×1,25 (Besucher und Natur)","w":2},
-{"key":"magnet","icon":"🧲","name":"Publikumsmagnet","fx":"+50 %|🧲 Publikumsmagnet: auf alle Boni, die sie ihren Nachbarn gibt","text":"Boni, die sie ihren Nachbarn gibt, +50 %","w":1},
+{"key":"magnet","icon":"🧲","name":"Publikumsmagnet","fx":"×1,5|🧲 Publikumsmagnet: auf alle Boni, die sie ihren Nachbarn gibt","text":"Boni, die sie ihren Nachbarn gibt, ×1,5","w":1},
 {"key":"leicht","icon":"🪶","name":"Leichtbau","fx":"−1 BP|🪶 Leichtbau (mindestens 1)","text":"Kostet 1 Baupunkt weniger, mindestens 1","w":3},
 {"key":"zucht","icon":"🧬","name":"Zuchtpaar","fx":"×2|🧬 Zuchtpaar: zählt für die Reinheit als zusätzliche Art (eine pro Zoo)","text":"Zählt für die Reinheit als zusätzliche Art. Nur Gehege, nur eine pro Zoo zählt.","w":2,"geh":true},
 {"key":"spende","icon":"💰","name":"Spendenbox","fx":"+2 🪙|💰 Spendenbox: pro Tag, solange gebaut, ab Zoo 2 je Zoo +1 mehr","text":"+2 Taler pro Tag, solange gebaut, ab Zoo 2 je Zoo +1 mehr (Zoo 3: +4)","w":3},

@@ -3,7 +3,7 @@
 "futter":[
 {"key":"kf","icon":"🥩","name":"Kraftfutter","r":0,"for":"Gehege","text":"+2 B und +2 N"},
 {"key":"kr","icon":"🌿","name":"Beruhigungskräuter","r":1,"for":"Gehege","text":"Das Tier wird nie gestresst"},
-{"key":"le","icon":"🍎","name":"Leckerli","r":1,"for":"Showtiere","ok":"le","text":"Je Show-Auslöser +50 % statt +30 %"},
+{"key":"le","icon":"🍎","name":"Leckerli","r":1,"for":"Showtiere","ok":"le","text":"Show-Bonus ×1,4 statt ×1,25 (mit zwei Auslösern ×1,8 statt ×1,5)"},
 {"key":"kn","icon":"🦴","name":"Knochen","r":1,"for":"Raubtiere","ok":"kn","text":"Das Raubtier ist satt und stresst keine Beutetiere mehr"},
 {"key":"be","icon":"🫐","name":"Beeren","r":0,"for":"bedrohte Tiere","ok":"be","text":"+3 N"},
 {"key":"ho","icon":"🍯","name":"Honig","r":0,"for":"Gehege","text":"+1 B je Gastro-Gebäude im Umkreis von 2 Feldern"},

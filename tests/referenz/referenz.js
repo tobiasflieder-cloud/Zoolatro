@@ -1,6 +1,7 @@
 // Referenzfälle für die Wertung (Vorlage für einen Nachbau, z. B. in Godot)
 //   node tests/referenz/referenz.js            -> prüft alle Fälle in tests/referenz/faelle/ gegen das aktuelle Spiel
 //   node tests/referenz/referenz.js erzeuge    -> erzeugt die Fälle neu (Bot-Läufe mit festem Zufallswert + Sonderfälle)
+//   node tests/referenz/referenz.js aktualisiere -> gleiche Aufstellungen, nur „erwartet“ neu rechnen (absichtliche Wertungsänderung)
 // Liest das Spiel aus build/zoodeck.html (vorher python3 quelltext/mache.py) oder aus ZF=pfad.
 // Ausgabe der Prüfung: je Fall "ok" oder "FAIL <fall>: <was abweicht>".
 const {JSDOM}=require(require('path').join(__dirname,'..','node_modules','jsdom'));
@@ -101,4 +102,9 @@ async function erzeuge(){fs.mkdirSync(DIR,{recursive:true});for(const f of fs.re
     F.src={...base.s.src,gold:true};const r=await evalCase(F);await save('gold-schimmernd',F,r)}}
   console.log(n,'Fälle geschrieben nach',DIR)}
 
-(async()=>{try{if(MODE==='erzeuge'){await erzeuge();process.exit(0)}else process.exit(await pruefe()?1:0)}catch(e){console.log('EXC',e.stack);process.exit(2)}})();
+// aktualisiere: dieselben Aufstellungen behalten, nur „erwartet“ mit dem aktuellen Spiel neu rechnen (bei absichtlicher Regeländerung, z. B. 0.76a)
+async function aktualisiere(){const files=fs.readdirSync(DIR).filter(f=>f.endsWith('.json')).sort();let n=0;
+  for(const f of files){const p=path.join(DIR,f),t=fs.readFileSync(p,'utf8'),F=JSON.parse(t),r=await evalCase(F),i=t.indexOf('\n"erwartet":'),j=t.indexOf(',\n"run":');
+    if(i<0||j<0)throw new Error('Aufbau unbekannt: '+f);fs.writeFileSync(p,t.slice(0,i)+'\n"erwartet":'+JSON.stringify(r,null,1)+t.slice(j));n++}
+  console.log(n+' Fälle aktualisiert (nur „erwartet“)')}
+(async()=>{try{if(MODE==='erzeuge'){await erzeuge();process.exit(0)}if(MODE==='aktualisiere'){await aktualisiere();process.exit(0)}else process.exit(await pruefe()?1:0)}catch(e){console.log('EXC',e.stack);process.exit(2)}})();

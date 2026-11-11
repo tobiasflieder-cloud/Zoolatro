@@ -543,7 +543,8 @@ b.cx{color:#ff8a8d;font-weight:700}.pcard b.cx,.ocard b.cx,.drow b.cx{color:#b31
 .drow .inf{flex:1;min-width:0;display:flex;flex-direction:column}
 .drow .inf b{font-family:var(--f-display);font-weight:400;font-size:16px}
 .drow .inf small{font-size:12px;color:#5d6b60}
-.drow .btn{flex:none;min-width:112px;min-height:40px;padding:8px 10px;font-size:13.5px}
+.drow .inf small.dval{white-space:nowrap}.drow .inf small.dex .fdslot{margin:2px 0 0}
+.drow .btn{flex:none;min-width:90px;min-height:40px;padding:8px 10px;font-size:13.5px}
 .drow.out{opacity:.8;background:#d9d2c0}
 .deckchips{display:flex;flex-wrap:wrap;gap:5px;font-size:12.5px;background:var(--panel);border-radius:12px;padding:8px 10px}
 .deckchips span{background:var(--panel2);border-radius:8px;padding:3px 8px}
@@ -1042,13 +1043,15 @@ small.fsbn{font-size:11.5px;color:var(--muted)}
 .fdslot{display:inline-block;font-size:11.5px;padding:1px 6px;border-radius:8px;background:#e7f3df;color:#2e5e1e;margin:2px 4px 0 0;white-space:nowrap}.fdslot.full{background:#eee;color:#777}
 /* 0.75a: Seltenheit = Glanz (rg1 selten alle 7 s, rg2 legendär alle 4,5 s mit Farbsaum), für Handkarten und Spezialisten.
    Eigene Ebene (isolation) + Glanz z-index:-1: liegt über dem Hintergrund, unter allem Inhalt. Kein Wiederholen des Glanzbilds (no-repeat). */
-.card.rg1,.card.rg2,.tm.rg1,.tm.rg2,.pcard.rg1,.pcard.rg2{isolation:isolate}
+.card.rg1,.card.rg2,.tm.rg1,.tm.rg2,.pcard.rg1,.pcard.rg2{isolation:isolate}.ocard.rg1,.ocard.rg2{position:relative;isolation:isolate}
 .glz{position:absolute;inset:0;border-radius:inherit;pointer-events:none;overflow:hidden;z-index:-1}
-.glz::before{content:'';position:absolute;inset:0;background-size:250% 100%;background-repeat:no-repeat;animation:glanz var(--glzT) linear infinite;animation-delay:var(--d,0s)}
-@keyframes glanz{0%{background-position:150% 0}45%,100%{background-position:-100% 0}}
-.rg1{--glzT:7s}.rg2{--glzT:4.5s}
+.glz::before{content:'';position:absolute;inset:0;background-size:250% 100%;background-repeat:no-repeat;animation:var(--glzA,glanz1) var(--glzT) linear infinite;animation-delay:var(--d,0s)}
+/* 0.76a: Glanz öfter, Streifen gleich langsam (Selten ≈3,15 s im 4-s-Takt, Legendär ≈2,0 s im 2,7-s-Takt) */
+@keyframes glanz1{0%{background-position:150% 0}79%,100%{background-position:-100% 0}}
+@keyframes glanz2{0%{background-position:150% 0}74%,100%{background-position:-100% 0}}
+.rg1{--glzT:4s;--glzA:glanz1}.rg2{--glzT:2.7s;--glzA:glanz2}
 .rg1 .glz::before{background-image:linear-gradient(110deg,transparent 38%,#ffffffcc 50%,transparent 62%)}
-.card.rg1 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#b9d4ff40 44%,#ffffff 50%,#b9d4ff40 56%,transparent 66%)}
+.card.rg1 .glz::before,.ocard.rg1 .glz::before,.pcard.kcard.rg1 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#b9d4ff40 44%,#ffffff 50%,#b9d4ff40 56%,transparent 66%)}
 .rg2 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#ff9be655 44%,#fff6d8ee 50%,#9cc8ff55 56%,transparent 66%)}
 @media (prefers-reduced-motion:reduce){.glz::before{animation:none}}
 /* Spezialisten Stufe 3: Rahmen und leichtes Leuchten bleiben (Glanz jetzt über .glz) */
