@@ -5,6 +5,14 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.76a · 11.11.2026 · Faktoren, Stufen, Schliff
+- ✖️ Prozente werden Faktoren: Alle „+X %“-Boni (Spezialisten, Förderprogramme, Werbung, Gold, Show …) sind jetzt Faktoren wie „×1,2 B“ und werden nacheinander gerechnet. Sie sind dabei etwas schwächer: +25 % wird ×1,2, +50 % wird ×1,4.
+- 🏔️ Stufen 1–8 neu: weniger Naturfelder (15, 12, 9), weniger Goldfelder, Reinheit ab Stufe 4 erst ab 6 Tieren, schwächere Krone, auf Stufe 8 keine Besucherwünsche und keine Gold- und Kronenfelder. Das kostenlose Neuziehen bleibt auf allen Stufen.
+- ✨ Glanz öfter, und überall, wo Karten angeboten werden: in der Kartenwahl, im Shop und zwischen zwei Zoos, dazu „Selten“ oder „Legendär“ in der Infozeile.
+- 🍽️ „Wer bekommt …?“ beim Futter verteilen ist am Handy wieder lesbar: Werte in einer Zeile, Futterplätze darunter.
+- 🍀 Glück seltener: Der ❤️ Besucherliebling kommt nur noch an etwa jedem vierten Tag. Die Prägung 🪙 Gold wird nicht mehr verteilt, vorhandene behalten ihre Wirkung.
+- Die Hilfe nennt jetzt die richtigen Chancen für Zoo-Momente (10 % am Tag, höchstens einer pro Jahreszeit).
+
 ## 0.75a · 09.11.2026 · Glanz, Legendär, Einblendungen
 - ✨ Seltenheit zeigt sich jetzt als Glanz: Seltene Karten glänzen ab und zu silbern, legendäre öfter und farbig. Die farbige Ecke mit den Sternen ist weg, die Kostenpunkte sitzen wieder an ihrem Platz.
 - 👥 Spezialisten: Stufe Selten glänzt wie seltene Karten, Stufe Legendär wie legendäre. Der Glanz springt beim Antippen nicht mehr und läuft gleichmäßig weiter.

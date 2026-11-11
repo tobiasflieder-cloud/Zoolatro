@@ -21,5 +21,5 @@ const L=(...a)=>console.log(...a);const w=dom.window;setTimeout(()=>{try{const e
  const hr=ev('JSON.stringify(HABRULE)');
  T(/ganze Kette nur ×0,5/.test(hr)&&/einzelnes Wasser-Gehege ohne Wasser-Nachbarn bleibt bei ×1/i.test(hr),'Hilfe Wasser: ganze Kette ×0,5, einzeln ×1');
  T(/ganze Gruppe zusammenhängender Gebirgs-Gehege nur ×0,5/.test(hr)&&/ganze Gruppe zusammenhängender Arktis-Gehege nur ×0,5/.test(hr),'Hilfe Gebirge/Arktis: ganze Gruppe ×0,5');
- T(/zählen doppelt, zusammen höchstens \+120 %/.test(ev(`JSON.stringify(TXT)`)),'Showtier-Text: Trubel doppelt, höchstens +120 %');
+ T(/zählen doppelt, zusammen bis ×1,95/.test(ev(`JSON.stringify(TXT)`)),'Showtier-Text: Trubel doppelt, bis ×1,95 (seit 0.76a Faktoren)');
 }catch(e){L('EXC',e.stack)}process.exit(0)},300);

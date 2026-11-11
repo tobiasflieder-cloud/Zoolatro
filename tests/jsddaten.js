@@ -44,12 +44,14 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
   const tot=w.eval('scoreZoo(state.buildings).total');T(tot===F.erwartet.total,`Wertung gleich (${tot} / erwartet ${F.erwartet.total})`);
   // 0.75a: Tribüne ist legendär (kommt seltener ins Angebot). Für den Vergleich mit dem 0.73a-Ablauf gilt hier die alte Seltenheit.
   w.eval("if(CARDS.tribuene&&CARDS.tribuene.rar==='sehr selten')CARDS.tribuene.rar='selten'");
-  const tage=weiter(w);T(JSON.stringify(tage)===JSON.stringify(F.erwartet.tage),`3 weitere Tage gleich: ${tage.map(t=>t.pts).join(', ')} (erwartet ${F.erwartet.tage.map(t=>t.pts).join(', ')})`);
+  // Seit 0.76a gelten andere Regeln (Faktoren statt Prozente, Besucherliebling seltener): die Punkte der 3 Tage weichen absichtlich ab.
+  // Geprüft wird, dass der alte Spielstand mit den neuen Regeln 3 Tage fehlerfrei weiterläuft.
+  const tage=weiter(w);T(tage.length===3&&tage.every(t=>t.pts>0),`3 weitere Tage laufen mit den Regeln von heute: ${tage.map(t=>t.pts).join(', ')} (0.73a: ${F.erwartet.tage.map(t=>t.pts).join(', ')})`);
   if(w.eval("typeof STUFEN_DATEN==='undefined'")){L('ok 2b-Prüfungen übersprungen (Stand ohne daten/stufen.json)');d.window.close();process.exit(0)}
   // 2b: Stufen wirken über Kennungen wie früher die festen Nummern (Ziel ×1,1 ab 2/5/8, 2 Goldfelder ab 3, 25 % teurer ab 4, kein Gratis-Neuziehen ab 6, −1 BP am 1. Tag ab 7)
   const st=JSON.parse(w.eval(`(()=>{const sl=META.slots[0],r0=sl.run,o=[];for(let s=1;s<=8;s++){sl.run=Object.assign({},r0,{stage:s});o.push([stOf(),stTF(),stW('gold',3),stW('teurer',1),!!stAb('kein_neuziehen'),stW('bp_erster_tag',0)])}sl.run=r0;return JSON.stringify(o)})()`));
-  const soll=[1,2,3,4,5,6,7,8].map(s=>[s,(s>=2?1.1:1)*(s>=5?1.1:1)*(s>=8?1.1:1),s>=3?2:3,s>=4?1.25:1,s>=6,s>=7?1:0]);
-  T(JSON.stringify(st)===JSON.stringify(soll),'Stufen 1–8 wirken wie vorher (Ziel, Goldfelder, Preise, Neuziehen, Baupunkte)');
+  const soll=[1,2,3,4,5,6,7,8].map(s=>[s,(s>=2?1.1:1)*(s>=4?1.1:1)*(s>=7?1.1:1),s>=8?0:s>=3?1:3,s>=5?1.25:1,false,s>=6?1:0]); // 0.76a: neue Stufen
+  T(JSON.stringify(st)===JSON.stringify(soll),'Stufen 1–8 wirken wie in der Tabelle (Ziel, Goldfelder, Preise, Baupunkte; Gratis-Neuziehen bleibt)');
   // 2b: alle Daten eingebaut, jede Kennung hat eine Wirkung
   const dt=JSON.parse(w.eval(`JSON.stringify({spec:Object.keys(SPEC).length===SPEZ_DATEN.spezialisten.length&&SPEZ_DATEN.spezialisten.every(d=>(!d.per||typeof SPEC[d.key].per==='function')&&(!d.mult||typeof SPEC[d.key].mult==='function')),
     food:Object.keys(FOOD).join()===FUTTER_DATEN.futter.map(d=>d.key).join()&&FUTTER_DATEN.futter.every(d=>!d.ok||typeof FOOD[d.key].ok==='function'),

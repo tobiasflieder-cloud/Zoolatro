@@ -95,7 +95,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.76a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.77a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -108,12 +108,19 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · „Alles zurücksetzen“ · Weiterspielen nach dem Ziel beobachten.
-· **Stufen 1–8 überarbeiten** (nicht nur höhere Ziele: weniger Goldfelder, Naturfelder Stufe 4 → 15 und Stufe 7 → 12,
-schwere Winter-Bedingung ab Stufe 5, Krone schwächer) · **Winter-Bedingungen** in leicht und schwer teilen · neue Winter-Ideen:
+· **Stufen:** schwere Winter-Bedingung ab Stufe 5 (Rest, nicht in 0.76a) · **Winter-Bedingungen** in leicht und schwer teilen · neue Winter-Ideen:
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
 
+- **0.76a** ([Auftrag](docs/auftraege/0.76a-schliff-stufen-faktoren.md)): Glanz-Takt 4 s / 2,7 s (`glanz1`/`glanz2`, `--glzA`); `deckRows(keys,btn,extra)`
+  mit Futterplätzen in der Infospalte, `.dval` ohne Umbruch, Knopf 90 px; Glanz und „Selten“/„Legendär“ in `offerCard` und Lauf-Deck (`cardRow`, `.kcard`, `rgName`).
+  Stufen: `stufen.json` mit `wirkungen`, `stAb`/`stW` nehmen die höchste erreichte Stufe, `stTF` multipliziert `ziel`; `natNow` (Schwerpunkt anteilig in `natQuota`),
+  `PURN`/`CROWNF` als `let` aus `syncCtx`, `keine_krone`/`gold` in `initZl`, `keine_wuensche` in `wishOn` und `rollSpecs`; altes „kein Gratis-Neuziehen“ entfällt.
+  Prozente → Faktoren: `pctF(x)` = ×(1+0,8x) auf 0,05, Abzüge bleiben; `pct`-Einträge `[Name,fa,fs,n]` nacheinander, je Stück hoch n (`n` in `naturbund`,
+  `bauleiterin`, Aquarium, Gold-Ausgabe); Show/Jagdrevier/Partyzoo als `pctF(Gesamtzuschlag)`; Plus-Programme liefern `{fa,fs}`. Texte überall „×1,2 B“.
+  Referenzfälle mit `referenz.js aktualisiere` (gleiche 51 Aufstellungen, nur „erwartet“ neu). Prägung Gold `aus:1` (`praegLos`). Besucherliebling `chance(.25)`.
+  Tests: `jsd64a/71a/72a/jsddaten` an neue Regeln angepasst (nichts gelöscht), neuer Test `jsd76a.js`.
 - **0.75a** ([Auftrag](docs/auftraege/0.75a-glanz-einblendungen.md)): Seltenheits-Ecke `.rarc`/`shpWide` entfernt; Glanz-Schicht `<span class="glz">` (erstes Kind,
   `z-index:-1` in eigener Ebene `isolation:isolate`) für Handkarten (`rgOf(c.rar)`: `rg1` selten, `rg2` sehr selten) und Spezialisten (`rgSpec`: Stufe 2 `rg1`,
   Stufe 3 ohne Regelbrecher `rg2`; `.tm` und `.pcard`, alter `t3sh`-Glanz weg); gemeinsame Uhr `glzD`/`holoD` (negative Verzögerung), `no-repeat` auch im Holo.
