@@ -89,5 +89,13 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
    for(const t of tabs){if(await klick(p,`.bktabs [data-tab="${t}"]`)&&await p.evaluate(t=>{const b=document.querySelector(`.bktabs [data-tab="${t}"]`);return!!b&&b.classList.contains('on')},t))n++;
      const qx=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(qx>2)T(false,`${wo}: Zoo-Buch Reiter ${t} breiter als der Bildschirm (${qx} px)`)}
    T(n===tabs.length&&n>=5,`${wo}: Zoo-Buch: alle ${tabs.length} Reiter antippbar`);await klick(p,'.bar2 [data-go="title"]');T((await zu(p)).startsWith('title/'),`${wo}: Zoo-Buch „Zurück“ führt zum Startbildschirm`)}
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (Zoo-Buch): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (Zoo-Buch): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 7) 0.78a Feedback-Kasten nach einem verlorenen Lauf: alles erreichbar, keine Querverschiebung, Überspringen wirkt
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.fbOff=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);const sl=activeSlot();state.phase='lost';sl.run.game=null;state=null;modal=null;endRun(false)});await p.waitForTimeout(300);
+  if(!await p.$('.fbbox'))T(false,`${wo}: Feedback-Kasten fehlt`);else{let ok=0;for(const sel of['[data-fbs="5"]','[data-fbd="passt"]','#fbTxt','#fbInc','[data-fbsend]','[data-fbskip]','[data-fboff]']){const e=await p.$(sel);if(!e)continue;await e.scrollIntoViewIfNeeded();
+     const frei=await e.evaluate(b=>{const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,el=document.elementFromPoint(x,y);return x>=0&&x<=innerWidth&&!!el&&(el===b||b.contains(el))});if(frei)ok++;else T(false,`${wo}: Feedback-Kasten: ${sel} verdeckt`)}
+   T(ok===7,`${wo}: Feedback-Kasten: alle 7 Bedienelemente erreichbar`);const qx=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(qx>2)T(false,`${wo}: Feedback-Kasten breiter als der Bildschirm (${qx} px)`);
+   await klick(p,'[data-fbskip]');T(!await p.$('.fbbox')&&(await zu(p)).startsWith('summary/'),`${wo}: Feedback „Überspringen“ führt zur Zusammenfassung`)}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (Feedback): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

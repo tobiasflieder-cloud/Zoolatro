@@ -849,6 +849,15 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
 .pcard .meta3{font-size:11.5px;color:#5d6b60;font-weight:600}
 .pcard .bigvals .shape{width:38px;height:24px}
 .gcard.locked{opacity:.6}.gcard.locked .ic{filter:grayscale(1) brightness(.4)}
+/* 0.78a Feedback-Kasten */
+.fbbox{display:flex;flex-direction:column;gap:10px;background:#0003;border-radius:16px;padding:14px}
+.fbbox h2{margin:0}.fbsub{margin:0;color:var(--muted);font-size:13px}
+.fbstars{display:flex;gap:6px;justify-content:center}.fbst{border:0;background:none;font-size:34px;line-height:1;padding:2px 4px;cursor:pointer;color:var(--gold)}
+.fbl{font-weight:700;font-size:13.5px}
+.fbbox textarea{width:100%;box-sizing:border-box;border-radius:10px;border:1.5px solid #ffffff33;background:#0004;color:var(--text);font:inherit;font-size:15px;padding:8px 10px;resize:vertical}
+.fbinc{display:flex;align-items:center;gap:8px;font-size:14px}.fbinc input{width:20px;height:20px}
+.fbok{margin:0;color:var(--gold);font-weight:700;text-align:center}
+.fboff{align-self:center;border:0;background:none;color:var(--muted);text-decoration:underline;font:inherit;font-size:12.5px;cursor:pointer}
 /* 0.77a Zoo-Buch */
 .bktabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.bktabs::-webkit-scrollbar{display:none}
 .bktabs button{flex:none;border:0;border-radius:10px 10px 4px 4px;padding:8px 11px;font:inherit;font-weight:700;font-size:13px;background:#0005;color:var(--muted);cursor:pointer}
@@ -1204,12 +1213,12 @@ document.documentElement.lang='de';
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.77a';
+const VERSION='0.78a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.78a',d:'11.11.2026',t:'Feedback nach dem Lauf',i:['💬 Nach jedem Lauf (gewonnen oder verloren) fragt das Spiel einmal nach deiner Meinung: Sterne, Schwierigkeit und ein paar Worte. „📤 Feedback senden“ öffnet das Teilen-Menü deines Handys, z. B. für WhatsApp. Alles freiwillig, abschaltbar im Menü.','🎭 Die Schilder auf dem Spielfeld zeigen den Show-Bonus jetzt als Faktor (×1,25 statt +30 %).','🧪 Testlauf „4 Tage“: alle Ziele sind ×0,6.']},
  {v:'0.77a',d:'11.11.2026',t:'Zoo-Buch, Testlauf, Förderung',i:['📖 Neues Zoo-Buch: Glossar, Tierlexikon und Fortschritt sind jetzt ein Knopf mit Reitern (Karten, Freundschaften, Team, Förderung, Freischalten, Regeln).','🃏 Jede Karte steht genau einmal im Buch: ✓ entdeckt, noch nie gebaut oder 🔒 gesperrt mit dem echten Grund und Fortschrittsbalken.','🐞 Karten aus Lebensräumen, die im aktuellen Lauf nicht gewählt sind, gelten nicht mehr als gesperrt.','🧪 Testlauf „4 Tage“: 4 Tage je Jahreszeit und ein kleineres Feld. Zählt nicht für Bestwerte, Highscores, Statistik und Freischaltungen.','🏡 Die Formen Innenhof, Allee und Dreiländereck gibt es nicht mehr.','📣 Förderprogramme und Werbung stehen im Shop gemeinsam unter „Förderung“.','🎓 Das Tutorial hat ein neues Symbol.']},
- {v:'0.76a',d:'11.11.2026',t:'Faktoren, Stufen, Schliff',i:['✖️ Prozente werden Faktoren: Alle „+X %“-Boni (Spezialisten, Förderprogramme, Werbung, Gold, Show …) sind jetzt Faktoren wie „×1,2 B“ und werden nacheinander gerechnet. Sie sind dabei etwas schwächer: +25 % wird ×1,2, +50 % wird ×1,4.','🏔️ Stufen 1–8 neu: weniger Naturfelder (15, 12, 9), weniger Goldfelder, Reinheit ab Stufe 4 erst ab 6 Tieren, schwächere Krone, auf Stufe 8 keine Besucherwünsche und keine Gold- und Kronenfelder. Das kostenlose Neuziehen bleibt auf allen Stufen.','✨ Glanz öfter, und überall, wo Karten angeboten werden: in der Kartenwahl, im Shop und zwischen zwei Zoos, dazu „Selten“ oder „Legendär“ in der Infozeile.','🍽️ „Wer bekommt …?“ beim Futter verteilen ist am Handy wieder lesbar: Werte in einer Zeile, Futterplätze darunter.','🍀 Glück seltener: Der ❤️ Besucherliebling kommt nur noch an etwa jedem vierten Tag. Die Prägung 🪙 Gold wird nicht mehr verteilt, vorhandene behalten ihre Wirkung.']},
- {v:'0.75a',d:'09.11.2026',t:'Glanz, Legendär, Einblendungen',i:['✨ Seltenheit zeigt sich jetzt als Glanz: Seltene Karten glänzen ab und zu silbern, legendäre öfter und farbig. Die farbige Ecke mit den Sternen ist weg, die Kostenpunkte sitzen wieder an ihrem Platz.','👥 Spezialisten: Stufe Selten glänzt wie seltene Karten, Stufe Legendär wie legendäre. Der Glanz springt beim Antippen nicht mehr und läuft gleichmäßig weiter.','🏷️ „Sehr selten“ heißt jetzt „Legendär“.','📜 Die Auflage wird zu Beginn jedes Zoos groß eingeblendet, danach der Besucherwunsch.','🎁 Überraschungsfutter zeigt die beschenkte Karte groß, mit ihrer neuen Prägung.','🏟️ Die Tribüne ist jetzt legendär: Sie kommt seltener und kostet im Shop 20 statt 15 Taler.']}];
+ {v:'0.76a',d:'11.11.2026',t:'Faktoren, Stufen, Schliff',i:['✖️ Prozente werden Faktoren: Alle „+X %“-Boni (Spezialisten, Förderprogramme, Werbung, Gold, Show …) sind jetzt Faktoren wie „×1,2 B“ und werden nacheinander gerechnet. Sie sind dabei etwas schwächer: +25 % wird ×1,2, +50 % wird ×1,4.','🏔️ Stufen 1–8 neu: weniger Naturfelder (15, 12, 9), weniger Goldfelder, Reinheit ab Stufe 4 erst ab 6 Tieren, schwächere Krone, auf Stufe 8 keine Besucherwünsche und keine Gold- und Kronenfelder. Das kostenlose Neuziehen bleibt auf allen Stufen.','✨ Glanz öfter, und überall, wo Karten angeboten werden: in der Kartenwahl, im Shop und zwischen zwei Zoos, dazu „Selten“ oder „Legendär“ in der Infozeile.','🍽️ „Wer bekommt …?“ beim Futter verteilen ist am Handy wieder lesbar: Werte in einer Zeile, Futterplätze darunter.','🍀 Glück seltener: Der ❤️ Besucherliebling kommt nur noch an etwa jedem vierten Tag. Die Prägung 🪙 Gold wird nicht mehr verteilt, vorhandene behalten ihre Wirkung.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -2068,7 +2077,8 @@ const ZLSEAS=[1.15,1.46,1.68,1.55]; // 0.92 neu gemessen (Glück, Besucherliebli
 // Spezial-Decks mit schnellerer Reinheit bekommen höhere Ziele (Zoolatro)
 const DECKTF={},deckSF=i=>{try{const sl=activeSlot();return sl&&sl.run&&sl.run.zl&&!sl.run.tut&&sl.run.deckId==='polar'?(i===3?.85:i===1?1.15:1):1}catch(e){return 1}},deckTF=()=>{try{const sl=activeSlot();return sl&&sl.run&&sl.run.zl&&!sl.run.tut?(DECKTF[sl.run.deckId]||1):1}catch(e){return 1}};
 const ZLUP=[1,1.2,1.2,1.2]; // 0.70a: Zoolatro-Ziele Sommer/Herbst/Winter +20 %
-const seTarget=(i,zl,zoo,tm)=>{const t=SEASONS[i].target*(zl?(ZLUP[i]||1)*Math.pow(ZLSEAS[i]||2,zoo||0)*deckTF()*deckSF(i)*stTF()*(i===3&&(zoo||0)>=4?1.1:1):(tm||1));return t>=100000?Math.round(t/1000)*1000:Math.round(t/100)*100};
+const D4TF=.6,d4TF=()=>{try{return isD4(runOf())?D4TF:1}catch(e){return 1}}; // 0.78a: Testlauf „4 Tage“: alle Ziele ×0,6
+const seTarget=(i,zl,zoo,tm)=>{const t=SEASONS[i].target*(zl?(ZLUP[i]||1)*Math.pow(ZLSEAS[i]||2,zoo||0)*deckTF()*deckSF(i)*stTF()*(i===3&&(zoo||0)>=4?1.1:1)*d4TF():(tm||1));return t>=100000?Math.round(t/1000)*1000:Math.round(t/100)*100};
 const seOf=i=>{const x=SEASONS[i];if(!x)return undefined;if(state.tT&&state.tT[i])return{...x,target:state.tT[i]};if(i===0&&state.t0)return{...x,target:state.t0};const t=seTarget(i,!!state.zl,state.zoo,state.tmult);return{...x,target:state.tgf&&i>0?Math.round(t*state.tgf/100)*100:t}};
 function syncCtx(){try{const r=runOf();DAYS=isD4(r)?4:DAYS0;TUTNOW=!!(r&&r.tut)}catch(e){DAYS=DAYS0;TUTNOW=false}try{PURN=stW('reinheit',4);CROWNF=stW('krone',1.3)}catch(e){PURN=4;CROWNF=1.3}/* 0.76a: Reinheit und Krone je Stufe */CTX={fdl:foodLvNow(),dk:dkNow(),habs:state.habs||DEFHABS,winter:!!seOf(state.season).winter,season:state.season,zoo:state.zoo||0,progs:state.progs,ads:state.ads,ev:state.events||[],boni:{},spec:teamNow(),zl:state.zl?{prof:state.zl.prof,gold:new Set(state.zl.gold),g4:new Set(state.zl.g4||[]),crown:state.zl.crown,crown2:state.zl.crown2||[],insp:state.zl.insp,hard:state.zl.hard,wplus:state.zl.wplus,inspHab:state.zl.inspHab,inspHabs:state.zl.inspHabs||null,tax:state.zl.ban||null,grow:state.zl.grow,tv:state.zl.tv?(()=>state.builtToday>=3?3:.5):null}:null,strike:()=>!!state&&state.money<0&&(state.spec||[]).length>0};document.body.classList.toggle('winter',CTX.winter);setWeather(state.season)}
 const teamAct=()=>{const L=state.spec||[];return state.zl&&state.zl.insp==='team'&&seOf(state.season).winter?L.slice(0,HARD(state.zl)?2:3):L};
@@ -2442,8 +2452,8 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
     const fake={id:-1,key:selKey(),cells:[],lvl:1},bon=(C,nb,self)=>{try{return(C.bonus&&C.bonus(nb,state.buildings,self))||{}}catch(e){return{}}},b0=bon(sc,[],fake);
     const labs=(c,b)=>{const o=[];
       if(!(TUTNOW&&!TUTTR)){{const jg=hasSpec('rb_jagd');if(has_(sc,'beute')&&has_(c,'raubtier'))o.push(jg?['🦁 ×1,25',1]:['🦁 Zoo −5 % N',-1]);if(has_(sc,'raubtier')&&has_(c,'beute'))o.push(jg?['Beute ×1,25',1]:stressedNow(b)?['😣 schon gestresst',0]:['Beute Zoo −5 % N',-1])}
-      {const py=hasSpec('rb_party');if(stressFood(sc)&&has_(c,'scheu'))o.push(py?['Scheu ×1,25',1]:stressedNow(b)?['😣 schon gestresst',0]:['Scheu Zoo −5 % N',-1]);if(has_(sc,'scheu')&&stressFood(c))o.push(py?['🙈 +30 %',1]:['🙈 Zoo −5 % N',-1])}
-      if(has_(sc,'show')&&isFood(c)&&!ruhigC(c))o.push([trubelC(c)?'🎭 ×1,5':'🎭 ×1,25',1]);if(isFood(sc)&&!ruhigC(sc)&&has_(c,'show'))o.push([trubelC(sc)?'Show +60 %':'Show +30 %',1]);}
+      {const py=hasSpec('rb_party');if(stressFood(sc)&&has_(c,'scheu'))o.push(py?['Scheu ×1,25',1]:stressedNow(b)?['😣 schon gestresst',0]:['Scheu Zoo −5 % N',-1]);if(has_(sc,'scheu')&&stressFood(c))o.push(py?['🙈 ×'+mxs(pctF(STRESS)),1]:['🙈 Zoo −5 % N',-1])}
+      if(has_(sc,'show')&&isFood(c)&&!ruhigC(c))o.push([trubelC(c)?'🎭 ×1,5':'🎭 ×1,25',1]);if(isFood(sc)&&!ruhigC(sc)&&has_(c,'show'))o.push([trubelC(sc)?'Show ×'+mxs(pctF(2*STRESS)):'Show ×'+mxs(pctF(STRESS)),1]);}
       if(sc.key==='tierarzt'&&c.cat==='gehege'&&(has_(c,'beute')||has_(c,'scheu')))o.push(['kein Stress',1]);if((has_(sc,'beute')||has_(sc,'scheu'))&&c.key==='tierarzt')o.push(['🩺 kein Stress',1]);
       if(sc.cat==='verst'){const t=verstHit(sc.key,c);if(t)o.push([t,1])}if(c.cat==='verst'){const t=verstHit(b.key,sc);if(t)o.push([sc.icon+' '+t,1])}
       {const r=bon(sc,[b],fake),da=(r.a||0)-(b0.a||0),ds=(r.s||0)-(b0.s||0);if(da||ds)o.push([sc.icon+' '+vTxt(da,ds),da+ds>0?1:-1])}
@@ -2451,7 +2461,7 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
       return o};
     // ein Mini-Schild je Gebäude: Zahlen zusammengefasst, Sonderregeln als Symbol
     const mini=L=>{let a=0,n=0;const sym=[];for(const[l]of L){if(/schon gestresst/.test(l)){sym.push('😣 schon gestresst');continue}const m=l.match(/^(?:\S+ )?([+−-]\d+ B)?\s*([+−-]\d+ N)?$/);if(m&&(m[1]||m[2])){if(m[1])a+=+m[1].replace('−','-').replace(' B','');if(m[2])n+=+m[2].replace('−','-').replace(' N','');continue}
-        const p=(l.match(/[+−-]\d+ ?% ?[BN]?/)||[''])[0].replace(/ /g,''),ic=/kein Trubel|ohne|stärkstes|% [BN]/.test(l)?'🔆':/Show|🎭/.test(l)?'🎭':/Scheu|🙈/.test(l)?'🙈':/Beute|🦁/.test(l)?'🦷':/Stress/.test(l)?'🩺':'';sym.push((ic?`<tspan class="ts">${ic}</tspan>`:'')+(ic==='🩺'?'':p||(/×1,5/.test(l)?'×1,5':/×2/.test(l)?'×2':/ohne/.test(l)?'❄️':/kein Trubel/.test(l)?'🙈':'')))}
+        const p=(l.match(/[+−-]\d+ ?% ?[BN]?/)||[''])[0].replace(/ /g,''),ic=/kein Trubel|ohne|stärkstes|% [BN]/.test(l)?'🔆':/Show|🎭/.test(l)?'🎭':/Scheu|🙈/.test(l)?'🙈':/Beute|🦁/.test(l)?'🦷':/Stress/.test(l)?'🩺':'';const xm=(l.match(/×\d+(?:,\d+)?/)||[''])[0];sym.push((ic?`<tspan class="ts">${ic}</tspan>`:'')+(ic==='🩺'?'':p||xm||(/ohne/.test(l)?'❄️':/kein Trubel/.test(l)?'🙈':'')))}
       const num=(a?(a>0?'+':'−')+Math.abs(a)+'B':'')+(n?(n>0?'+':'−')+Math.abs(n)+'N':'');return[num,...[...new Set(sym)]].filter(Boolean).join(' ')};
     for(const b of state.buildings){if(b.id===state.moving)continue;const L=labs(CARDS[b.key],b);if(!L.length)continue;const pos=L.some(x=>x[1]>0),neg=L.some(x=>x[1]<0),cls=pos&&neg?'mix':pos?'pos':neg?'neg':'nul';trm[b.id]=cls;const[cx,cy]=centroid(b.cells);
       const l=mini(L),pl=l.replace(/<[^>]+>/g,''),em=(pl.match(/\p{Extended_Pictographic}/gu)||[]).length,w=(pl.length-em)*2.5+em*4.2+3,y=cy+(b.cells.length>1?5:4.2);marks+=`<g class="trl ${cls}"><rect x="${(cx-w/2).toFixed(2)}" y="${(y-3.1).toFixed(2)}" width="${w.toFixed(2)}" height="6.2" rx="3.1"/><text x="${cx.toFixed(2)}" y="${y.toFixed(2)}">${l}</text></g>`}}
@@ -3307,6 +3317,7 @@ function traitsMapHtml(){const N=(ic,t,cl)=>`<span class="tmn ${cl||''}"><b>${ic
 function helpHtml(){const rs=(()=>{try{const r=runOf();return r&&r.seed?r.seed:''}catch(e){return''}})();return`<h2>Menü</h2>${rs?`<p class="seedline">🌱 Seed: <b class="seedv">${rs}</b> <button class="btn sub" id="mSeed" style="padding:3px 10px">Kopieren</button></p>`:''}<button class="btn main big" id="mClose">▶ Weiterspielen</button>
   ${(()=>{try{const r=runOf();return r&&!r.tut&&state&&state.mode==='camp'}catch(e){return false}})()?'<button class="btn sub" id="mRunCopy" style="align-self:center;padding:6px 14px">📋 Lauf kopieren</button>':''}<div class="viewsel"><span>📐 Ansicht</span>${[['auto','Automatisch'],['hoch','Hochformat'],['quer','Querformat']].map(([k,t])=>`<button class="btn sub${(META.view||'auto')===k?' on':''}" data-view="${k}">${t}</button>`).join('')}</div><div class="menubtns"><button class="btn sub" id="mHome">🏠 Hauptmenü</button><button class="btn sub" id="mTut">📖 Kurzübersicht</button><button class="btn sub" id="mTraits">🔗 Eigenschaften</button><button class="btn sub" id="mNews">📜 Neuigkeiten</button><button class="btn sub" id="mRestart">${state&&(state.mode==='tut'||gRun())?'✕ Tutorial beenden':state&&state.mode==='camp'?'🏳 Lauf beenden':'⟲ Neues Spiel'}</button></div>
   <div class="setrow"><span>Ton:</span>${[[0,'🔊 An'],[1,'🔇 Aus']].map(([v,l])=>`<button class="chip2 ${(Sfx.muted?1:0)===v?'on':''}" data-mute="${v}">${l}</button>`).join('')}</div>
+  <div class="setrow"><span>💬 Feedback nach dem Lauf:</span>${[[0,'An'],[1,'Aus']].map(([v,l])=>`<button class="chip2 ${(META.fbOff?1:0)===v?'on':''}" data-fbm="${v}">${l}</button>`).join('')}</div>
   ${META.dev?`<div class="setrow"><span>🌿 Spielfeld:</span>${[[0,'neu'],[1,'alt']].map(([v,l])=>`<button class="chip2 ${(META.oldBoard?1:0)===v?'on':''}" data-nbm="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>💥 Wucht:</span>${[['s','stark'],['n','normal']].map(([v,l])=>`<button class="chip2 ${(META.fxPow||'s')===v?'on':''}" data-pwm="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>✨ Effekt-Probe:</span>${[[0,'an'],[1,'aus']].map(([v,l])=>`<button class="chip2 ${(META.fxOff?1:0)===v?'on':''}" data-fxm="${v}">${l}</button>`).join('')}</div>
@@ -3428,6 +3439,7 @@ function renderModal0(){const root=$('modalRoot'),se=state?seOf(state.season):nu
   root.querySelectorAll('[data-nbm]').forEach(b=>b.onclick=()=>{META.oldBoard=+b.dataset.nbm;saveMeta();Sfx.select();render()});
   root.querySelectorAll('[data-pwm]').forEach(b=>b.onclick=()=>{META.fxPow=b.dataset.pwm;saveMeta();Sfx.select();renderModal()});
   root.querySelectorAll('[data-fxm]').forEach(b=>b.onclick=()=>{META.fxOff=+b.dataset.fxm;saveMeta();Sfx.select();document.body.classList.toggle('fxp',fxOn());renderModal()});
+  root.querySelectorAll('[data-fbm]').forEach(b=>b.onclick=()=>{META.fbOff=+b.dataset.fbm?1:0;saveMeta();Sfx.select();renderModal()});
   root.querySelectorAll('[data-vtm]').forEach(b=>b.onclick=()=>{META.testVerst=!!+b.dataset.vtm;saveMeta();Sfx.select();renderModal()});
   root.querySelectorAll('[data-scf]').forEach(b=>b.onclick=()=>{SCFAST=+b.dataset.scf;try{localStorage.setItem('zoodeck-fast',SCFAST)}catch(e){}Sfx.select();renderModal()});
   root.querySelectorAll('[data-pan]').forEach(b=>b.onclick=()=>{PANSPEED=+b.dataset.pan;try{localStorage.setItem('zoodeck-pan',PANSPEED)}catch(e){}Sfx.select();renderModal()});
@@ -3725,7 +3737,7 @@ function wonAnim(){const e=$('wonTot');if(!e||reduced)return;const v=+e.dataset.
 function endRun(won){const sl=activeSlot(),run=sl.run,date=Date.now();if(run.tut){guideEnd(false);return}try{META.lastRunTxt=runText(run);(META.runHist=META.runHist||[]).unshift(META.lastRunTxt);META.runHist=META.runHist.slice(0,10)}catch(e){}META.cscores=META.cscores||[];
   META.cscores.push({name:sl.name,slot:META.active,zoos:run.zoo,pts:run.total||0,won:run.zoo>=CAMP_GOAL,date,zl:run.zl?1:undefined,z2:run.z2?1:undefined,stage:run.z2?run.stage||1:undefined,test:run.test||(META.testVerst?1:undefined)});META.cscores.sort((a,b)=>b.zoos-a.zoos||b.pts-a.pts);META.cscores=META.cscores.slice(0,100);
   const newDecks=run.newDecks||[];
-  const sum=summaryOf(run.stats||newStats(),{total:run.total||0,camp:true,zoos:run.zoo,won:run.zoo>=CAMP_GOAL,newDecks,newNow:run.reward&&run.reward.deckAck?[]:(run.newNow||[]),z2news:run.z2?z2NewsHtml(run):'',look:runLook(sl,run)});const n=1+run.zoo;statRun(sl,run);sl.runs=(sl.runs||0)+1;try{if(!run.seed)fsCheck('run')}catch(e){console.warn(e)}sum.fsNow=(run.fsAll||[]).slice();try{const fs=fsOf(sl),L=FSG.filter(g=>!fs['g!'+g.id]&&g.n>1&&(((run.fsPick||[]).includes(g.id))||g.un.some(u=>u.startsWith('d:')))).map(g=>({g,v:Math.min(g.n,(run.fsr||{})[g.id]||0)})).filter(x=>x.v>0).sort((a,b)=>b.v/b.g.n-a.v/a.g.n).slice(0,3);sum.fsNear=L.map(x=>`${unName(x.g.un[0])} ${fmt(x.v)}/${fmt(x.g.n)}`)}catch(e){sum.fsNear=[]}sl.run=null;sl.cperks=sl.cperks||{};applyPerks(sl.cperks);UNLOCK=new Set();state=null;modal=null;
+  const sum=summaryOf(run.stats||newStats(),{total:run.total||0,camp:true,zoos:run.zoo,won:run.zoo>=CAMP_GOAL,newDecks,newNow:run.reward&&run.reward.deckAck?[]:(run.newNow||[]),z2news:run.z2?z2NewsHtml(run):'',look:runLook(sl,run)});const n=1+run.zoo;statRun(sl,run);sl.runs=(sl.runs||0)+1;try{if(!run.seed)fsCheck('run')}catch(e){console.warn(e)}sum.fsNow=(run.fsAll||[]).slice();if(fbAsk(run)){run.fbAsked=1;sum.fb={v:VERSION,stage:run.z2?run.stage||1:null,deck:(DECKS[run.deckId]||{}).name||run.deckId,zoos:run.zoo||0,won:run.zoo>=CAMP_GOAL,txt:META.lastRunTxt||''}}try{const fs=fsOf(sl),L=FSG.filter(g=>!fs['g!'+g.id]&&g.n>1&&(((run.fsPick||[]).includes(g.id))||g.un.some(u=>u.startsWith('d:')))).map(g=>({g,v:Math.min(g.n,(run.fsr||{})[g.id]||0)})).filter(x=>x.v>0).sort((a,b)=>b.v/b.g.n-a.v/a.g.n).slice(0,3);sum.fsNear=L.map(x=>`${unName(x.g.un[0])} ${fmt(x.v)}/${fmt(x.g.n)}`)}catch(e){sum.fsNear=[]}sl.run=null;sl.cperks=sl.cperks||{};applyPerks(sl.cperks);UNLOCK=new Set();state=null;modal=null;
   screen='summary';screenArg={sum,next:{screen:'scores',arg:{f:run.z2?'z2':'zl',hl:date,back:'title'}}};saveMeta();if(sum.won)Sfx.win();else Sfx.lose();renderAll()}
 // Verstärker freischalten: Bedingungen am Ende eines geschafften Zoos; neu freigeschaltete kommen sofort einmal ins Deck
 function verstUnlock(sl,run){run.vNow=[];run.newNow=[];fsMig(sl);return;sl.vu=sl.vu||{};if(run&&run.seed)return;const bs=state.buildings,n=t=>cnt(bs,b=>CARDS[b.key].cat==='gehege'&&CARDS[b.key].tags.includes(t)),z=state.zoo||0,pu=state.zl?zlPurity(bs,mkIndex(bs)).n:0;
@@ -4010,17 +4022,39 @@ function finishGame(){const sl=activeSlot(),won=state.phase==='win',date=Date.no
   // 0.73a: Ende eines freien Spiels gibt es nicht mehr (nur noch Zoolatro-Läufe)
   state=null;modal=null;screen='title';screenArg={};saveMeta();renderAll()}
 function summaryHtml(){if((screenArg.sum.newNow||[]).length&&!screenArg.deckAck)return deckWinHtml(screenArg.sum.newNow,'<button class="btn main big" data-sdack="1">Weiter</button>');
+  if(screenArg.sum.fb&&!screenArg.fbDone)return fbHtml();
   const m=screenArg.sum,mx=Math.max(1,...Object.values(m.habs)),fav=Object.keys(m.habs).reduce((a,b)=>m.habs[b]>m.habs[a]?b:a),tot=Object.values(m.habs).reduce((a,b)=>a+b,0);
   const head=m.camp?(m.won?`🏆 Zoolatro geschafft`:`Lauf beendet`):(m.won?'🏆 Jahr geschafft':'Spiel beendet');
   const sub=m.camp?`${m.zoos} Zoo${m.zoos===1?'':'s'} geschafft`:`${MAPS[m.map]?MAPS[m.map].icon+' '+MAPS[m.map].name:''} · ${m.won?'alle vier Jahreszeiten':'bis '+SEASONS[m.season].name}`;
   const box=(k,v,d='')=>`<div class="sumbox"><span class="k">${k}</span><span class="v">${v}</span>${d?`<span class="d">${d}</span>`:''}</div>`;
-  return`<h2>📊 ${head}</h2><p style="margin:0;color:var(--muted)">${sub}</p><div class="bigscore">${fmt(m.total)}</div>${m.z2news||''}${m.fsNow?`<div class="fsbox">${m.fsNow.length?`<b>🔓 In diesem Lauf freigeschaltet</b><div class="fschips">${m.fsNow.map(u=>`<span>${unName(u)}</span>`).join('')}</div>`:`<b>🔓 Diesmal nichts freigeschaltet</b>${(m.fsNear||[]).length?`<div class="fschips">${m.fsNear.map(x=>`<span>${x}</span>`).join('')}</div><small style="color:var(--muted)">am nächsten dran</small>`:''}`}</div>`:''}${m.look?lookHtml(m.look):''}
+  return`${screenArg.fbMsg?`<p class="fbok">${screenArg.fbMsg}</p>`:''}<h2>📊 ${head}</h2><p style="margin:0;color:var(--muted)">${sub}</p><div class="bigscore">${fmt(m.total)}</div>${m.z2news||''}${m.fsNow?`<div class="fsbox">${m.fsNow.length?`<b>🔓 In diesem Lauf freigeschaltet</b><div class="fschips">${m.fsNow.map(u=>`<span>${unName(u)}</span>`).join('')}</div>`:`<b>🔓 Diesmal nichts freigeschaltet</b>${(m.fsNear||[]).length?`<div class="fschips">${m.fsNear.map(x=>`<span>${x}</span>`).join('')}</div><small style="color:var(--muted)">am nächsten dran</small>`:''}`}</div>`:''}${m.look?lookHtml(m.look):''}
     <div class="sumgrid">${box('Bester Tag',m.best?fmt(m.best.pts):'–',m.best?`${m.camp?'Zoo '+((m.best.zoo||0)+1)+' · ':''}${SEASONS[m.best.season].name}, Tag ${m.best.day+1}`:'')}${box('Größte Kombo',m.combo?'×'+m.combo:'–',m.combo>=4?'Nachbarn für ein Gehege/Gebäude':'')}
       ${box('Höchster Ausbau','Stufe '+ROMAN[Math.min(3,m.lvl)])}${box('Freigeschaltet',(m.fsNow||[]).length,'in diesem Lauf')}${box('Taler verdient','🪙 '+fmt(m.earned))}${box('Taler ausgegeben','🪙 '+fmt(m.spent))}</div>
     <h3 class="sh">Dein Zoo</h3><div class="habbars">${tot?Object.keys(HAB).map(h=>`<div class="hbar ${h===fav?'fav':''}"><span>${HAB[h].icon} ${HAB[h].label}${h===fav?' ★':''}</span><span class="tr"><i style="width:${m.habs[h]/mx*100}%;background:${HAB[h].col}"></i></span><b>${m.habs[h]}</b></div>`).join(''):'<span style="color:var(--muted);font-size:13px">Keine Gehege gebaut.</span>'}
       <div class="slotrow" style="margin-top:4px"><span>🎡 Attraktionen: ${m.cats.attr}</span><span>🍿 Gastro-Gebäude: ${m.cats.essen}</span><span>🌳 Naturschutz: ${m.cats.schutz}</span></div></div>
     <h3 class="sh">Deine 5 stärksten Karten</h3>${m.top.length?`<div class="toplist">${m.top.map((t,i)=>`<div><span class="rk">${i+1}.</span><span class="nm">${CARDS[t.k].icon} ${CARDS[t.k].name}</span><span class="a">${fmt(t.a)} B</span><span class="s">${fmt(t.s)} N</span></div>`).join('')}</div><p style="margin:0;color:var(--muted);font-size:12.5px">Summe aller Besucher und Natur, die diese Karten über das ganze Spiel eingebracht haben.</p>`:'<p style="margin:0;color:var(--muted)">Für dieses Spiel wurde noch nicht mitgezählt.</p>'}
     ${m.camp&&META.lastRunTxt?'<button class="btn sub" data-runcopy="2" style="align-self:center">📋 Lauf kopieren</button>':''}<button class="btn main big" data-sumnext="1">Weiter</button>`}
+// ===== 0.78a: Feedback-Kasten nach einem Lauf (einmal je Lauf, nicht im Tutorial/Testlauf; Senden über das Teilen-Menü, sonst kopieren) =====
+const fbAsk=run=>!!run&&!run.tut&&!run.d4&&!run.fbAsked&&!META.fbOff;
+const FBDIFF=[['leicht','zu leicht'],['passt','passt'],['schwer','zu schwer']];
+function fbText(){const a=screenArg,F=a.sum.fb,s=a.fbS||0,L=[`🦓 Zoolatro-Feedback · Version ${F.v}`];
+  L.push(`Spaß: ${s?'⭐'.repeat(s)+'☆'.repeat(5-s)+` (${s}/5)`:'–'}`);L.push(`Schwierigkeit: ${a.fbD?FBDIFF.find(d=>d[0]===a.fbD)[1]:'–'}`);
+  L.push(`${F.stage?'Stufe '+F.stage+' · ':''}Profil ${F.deck} · Lauf ${F.won?'gewonnen':'verloren'} (${F.zoos}/${CAMP_GOAL} Zoos)`);
+  const c=(a.fbC||'').trim();if(c)L.push(`Kommentar: ${c}`);if(a.fbInc!==false&&F.txt)L.push('','— Lauf —',F.txt);return L.join('\n')}
+function fbSave(){const a=screenArg;if(a.fbSaved)return;a.fbSaved=1;META.fbHist=[{d:Date.now(),v:a.sum.fb.v,s:a.fbS||0,diff:a.fbD||null,c:(a.fbC||'').trim()},...(META.fbHist||[])].slice(0,5);saveMeta()}
+function fbSend(){const t=fbText(),a=screenArg;fbSave();const ok=()=>{a.fbDone=1;a.fbMsg='💚 Danke für dein Feedback!';renderScreen()};
+  try{if(navigator.share){navigator.share({text:t}).then(ok,()=>{});return}}catch(e){}
+  try{const S=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.Share;if(S&&S.share){Promise.resolve(S.share({text:t})).then(ok,()=>{});return}}catch(e){}
+  copyTxt(t);a.fbCopied=1;renderScreen()}
+function fbHtml(){const a=screenArg,s=a.fbS||0;
+  return`<div class="fbbox"><h2>💬 Wie hat's dir gefallen?</h2><p class="fbsub">Alles freiwillig. Gesendet wird über das Teilen-Menü deines Handys, z. B. per WhatsApp.</p>
+    <div class="fbstars">${[1,2,3,4,5].map(i=>`<button class="fbst ${i<=s?'on':''}" data-fbs="${i}" aria-label="${i} Sterne">${i<=s?'⭐':'☆'}</button>`).join('')}</div>
+    <div class="fbl">Schwierigkeit</div><div class="chips">${FBDIFF.map(([k,l])=>`<button class="chip2 ${a.fbD===k?'on':''}" data-fbd="${k}">${l}</button>`).join('')}</div>
+    <div class="fbl">Was war gut? Was hat genervt?</div><textarea id="fbTxt" rows="4" placeholder="Darf leer bleiben">${esc(a.fbC||'')}</textarea>
+    <label class="fbinc"><input type="checkbox" id="fbInc" ${a.fbInc!==false?'checked':''}> Lauf mitschicken</label>
+    ${a.fbCopied?'<p class="fbok">Kopiert ✓ – jetzt z. B. in WhatsApp einfügen.</p>':''}
+    <div class="shopbar"><button class="btn sub" data-fbskip="1">${a.fbCopied?'Weiter':'Überspringen'}</button><button class="btn main" data-fbsend="1">📤 Feedback senden</button></div>
+    <button class="fboff" data-fboff="1">Nicht mehr fragen</button></div>`}
 /* ---------- spielbares Tutorial: drei Kapitel auf einem kleinen Übungs-Zoo ---------- */
 const tB=(k)=>state.buildings.filter(b=>b.key===baseK(k));
 const tAdj=(k,f)=>{const idx=mkIndex(state.buildings);return tB(k).some(b=>nbrs(b,idx).some(n=>f(CARDS[n.key],n)))};
@@ -4372,6 +4406,7 @@ function renderScreen0(){if(screen)hintHide();if(BUCHALT[screen]){screenArg={...
   else if(screen==='perk')h=`<div class="scr"><div class="inner">${perkHtml()}</div></div>`;
   root.innerHTML=h;
   const ni=$('slotName');if(ni){ni.focus();ni.onkeydown=e=>{if(e.key==='Enter')root.querySelector('[data-sv]').click()}}
+  {const ft=$('fbTxt');if(ft)ft.oninput=()=>{screenArg.fbC=ft.value};const fi=$('fbInc');if(fi)fi.onchange=()=>{screenArg.fbInc=fi.checked}}
   const gq=$('gq');if(gq)gq.oninput=()=>{screenArg.q=gq.value;$('glist').innerHTML=screenArg.tab==='progs'?buchFoerdList():buchCards(slotPick().sl)}}
 $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;Sfx.init();
   const sc=(n,arg={})=>{screen=n;screenArg=arg;Sfx.select();renderAll()};
@@ -4398,6 +4433,11 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.cdeck){const i=screenArg.slot;if(!deckOpen(META.slots[i],d.cdeck)){Sfx.deny();return}Sfx.select();ZSTART={slot:i,arg:screenArg,run:JSON.stringify((META.slots[i]&&META.slots[i].run)||null),alt:JSON.stringify((META.slots[i]&&META.slots[i].runAlt)||null),active:META.active,last:META.lastSlot,mode:META.lastMode};PENDSEED=screenArg.seed||null;enterCamp(i,true,d.cdeck,screenArg.zl||false,screenArg.habs||null,screenArg.prof||null,+d.stage||1);return}
   if(d.cfresh!=null){sc('mode',{slot:+d.cfresh,z2fresh:1});return}
   if(d.sdack){screenArg.deckAck=1;Sfx.select();renderScreen();return}
+  if(d.fbs){screenArg.fbS=+d.fbs;Sfx.select();renderScreen();return}
+  if(d.fbd){screenArg.fbD=screenArg.fbD===d.fbd?null:d.fbd;Sfx.select();renderScreen();return}
+  if(d.fbsend){fbSend();return}
+  if(d.fbskip){screenArg.fbDone=1;Sfx.select();renderScreen();return}
+  if(d.fboff){META.fbOff=1;saveMeta();screenArg.fbDone=1;screenArg.fbMsg='Alles klar, wir fragen nicht mehr. Im Menü kannst du das Feedback wieder einschalten.';Sfx.select();renderScreen();return}
   if(d.sumnext){const n=screenArg.next;sc(n.screen,n.arg);return}
   if(screen==='creward'){const sl=activeSlot(),run=sl&&sl.run,a=screenArg;if(!run)return;
     if(d.cend){endRun(true);return}

@@ -65,7 +65,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - **Daten (2c):** Texte `daten/texte_de.json` → `TXT.de` (Modul 03; Text ändern = nur dort), Förderprogramme/Werbung/Ereignisse → `PROGS`/`ADS`/`EVENTS`
   (`PROG_WIRKUNG`, `WERBUNG_WIRKUNG`, `EREIGNIS_WIRKUNG` in Modul 01; Ereignis-Texte mit `{k}` = Stärke), Prägungen → `PRAEG`, Herausforderungen → `CHAL` (`CHAL_WIRKUNG`, Modul 08).
 - **Wertung:** `evalB(b,bs,idx,parts)` je Gebäude, `scoreZoo` mit Multiplikatoren (Kronenfeld, Reinheit, Vielfalt, Stress …).
-  Lebensraum-Regeln `habRule`/`habRulesOn`, Formen `shapesOf` (Innenhof, Allee, Dreiländereck), Zusatz-Faktoren `extra92`.
+  Lebensraum-Regeln `habRule`/`habRulesOn`, Zusatz-Faktoren `extra92` (Formen seit 0.77a gestrichen).
 - **Lauf:** Zoolatro-Lauf `sl.run`, `state` = laufender Zoo, `META` = Geräte-Speicher. `TUTNOW` = gerade Tutorial.
 - **Shop:** `fixedItems()`, Reiter `META.shopT` (`run` Team · `umb` Umbau & Futter · `more` Extras), Unteransichten `state.shopSub`.
 - **Futter:** `FOOD`, `HFOOD`, `rollFood`, Futtersack (`state.sack`), Lebensraum-Futter in `run.fdl`. Futterplätze je Karte `fdMaxK(k)` (Seltenheit `c.rar`).
@@ -95,13 +95,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.78a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.79a) – erst bauen, wenn Tobi „bauen“ sagt
 
-1. **Schilder auf dem Spielfeld noch in Prozent** (Screenshot 11.11.: „🎭 +30%“ am Showtier). Ursache: `07-anzeige.js` `labs()` Z. ~61 schreibt fest
-   `'Show +30 %'`/`'Show +60 %'`, `mini()` Z. ~69 liest daraus die Prozentzahl. Lösung: Label `Show ×${mxs(pctF(STRESS))}` bzw. `pctF(2*STRESS)` (×1,25 / ×1,5),
-   `mini()` allgemein `×\d+(,\d+)?` übernehmen (heute nur ×1,5 und ×2, „🎭 ×1,25“ zeigt nur das Symbol). Restliche Board-Texte auf „%“ durchsehen (Abzüge wie „−5 % N“ bleiben).
-2. **Testlauf „4 Tage“: Ziele nicht angepasst** (Frühling 9.500 wie bei 5 Tagen). `05-ton.js` `seTarget` kennt `run.d4` nicht. Lösung (mit Tobi festgelegt): alle Ziele
-   ×0,6 im Testlauf (Tagespunkte wachsen etwa quadratisch, 4 statt 5 Tage ≈ 55 %, dazu kleineres Feld). Gilt auch für Saisonziele in der Zoo-Übersicht (`06-spiel.js` Z. ~65).
+(leer)
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -117,6 +113,11 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.78a** ([Auftrag](docs/auftraege/0.78a-feedback-kasten.md)): Feedback-Kasten nach dem Lauf (Modul 09): `endRun` setzt `run.fbAsked` und `sum.fb`, wenn `fbAsk(run)`
+  (nicht Tutorial, nicht `run.d4`, nicht `META.fbOff`); `summaryHtml` zeigt vorher `fbHtml()` (Sterne `screenArg.fbS`, Schwierigkeit `fbD`, Text `fbC`, Häkchen `fbInc`).
+  `fbText()` wie im Auftrag, `fbSend()`: `navigator.share` → `Capacitor.Plugins.Share` → `copyTxt` + „Kopiert ✓“; Abbrechen lässt den Kasten offen. `fbSave()` → `META.fbHist` (5).
+  „Nicht mehr fragen“ → `META.fbOff`, Schalter im Menü `data-fbm`. Show-Schilder `labs()` als `pctF` (×1,25/×1,5, auch 🙈 Partyzoo), `mini()` übernimmt jedes „×a,b“.
+  Testlauf-Ziele `D4TF=0,6` über `d4TF()` in `seTarget`. Neuer Test `jsd78a.js`, `quer.js` prüft den Kasten.
 - **0.77a** ([Auftrag](docs/auftraege/0.77a-zoobuch-testmodus-aufraeumen.md)): Zoo-Buch `buchHtml` (Modul 11, Bildschirm `buch`, Reiter `screenArg.tab`:
   `cards`/`friends`/`spec`/`progs`/`free`/`zl`; alte Bildschirme `gloss`/`lex`/`prog` leiten über `BUCHALT` um). Kartenzustand `buchInfo` (entdeckt = `sl.lex` oder
   `statOf(sl).built`), Sperrgrund `buchLock` (Signatur → Profil, Verstärker, Lebensraum Arktis/Gebirge, `fsLocked`, Bonus) unabhängig vom laufenden Lauf; Filter `screenArg.bs`.

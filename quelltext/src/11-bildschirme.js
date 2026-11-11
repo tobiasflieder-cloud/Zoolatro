@@ -198,6 +198,7 @@ function renderScreen0(){if(screen)hintHide();if(BUCHALT[screen]){screenArg={...
   else if(screen==='perk')h=`<div class="scr"><div class="inner">${perkHtml()}</div></div>`;
   root.innerHTML=h;
   const ni=$('slotName');if(ni){ni.focus();ni.onkeydown=e=>{if(e.key==='Enter')root.querySelector('[data-sv]').click()}}
+  {const ft=$('fbTxt');if(ft)ft.oninput=()=>{screenArg.fbC=ft.value};const fi=$('fbInc');if(fi)fi.onchange=()=>{screenArg.fbInc=fi.checked}}
   const gq=$('gq');if(gq)gq.oninput=()=>{screenArg.q=gq.value;$('glist').innerHTML=screenArg.tab==='progs'?buchFoerdList():buchCards(slotPick().sl)}}
 $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;Sfx.init();
   const sc=(n,arg={})=>{screen=n;screenArg=arg;Sfx.select();renderAll()};
@@ -224,6 +225,11 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.cdeck){const i=screenArg.slot;if(!deckOpen(META.slots[i],d.cdeck)){Sfx.deny();return}Sfx.select();ZSTART={slot:i,arg:screenArg,run:JSON.stringify((META.slots[i]&&META.slots[i].run)||null),alt:JSON.stringify((META.slots[i]&&META.slots[i].runAlt)||null),active:META.active,last:META.lastSlot,mode:META.lastMode};PENDSEED=screenArg.seed||null;enterCamp(i,true,d.cdeck,screenArg.zl||false,screenArg.habs||null,screenArg.prof||null,+d.stage||1);return}
   if(d.cfresh!=null){sc('mode',{slot:+d.cfresh,z2fresh:1});return}
   if(d.sdack){screenArg.deckAck=1;Sfx.select();renderScreen();return}
+  if(d.fbs){screenArg.fbS=+d.fbs;Sfx.select();renderScreen();return}
+  if(d.fbd){screenArg.fbD=screenArg.fbD===d.fbd?null:d.fbd;Sfx.select();renderScreen();return}
+  if(d.fbsend){fbSend();return}
+  if(d.fbskip){screenArg.fbDone=1;Sfx.select();renderScreen();return}
+  if(d.fboff){META.fbOff=1;saveMeta();screenArg.fbDone=1;screenArg.fbMsg='Alles klar, wir fragen nicht mehr. Im Menü kannst du das Feedback wieder einschalten.';Sfx.select();renderScreen();return}
   if(d.sumnext){const n=screenArg.next;sc(n.screen,n.arg);return}
   if(screen==='creward'){const sl=activeSlot(),run=sl&&sl.run,a=screenArg;if(!run)return;
     if(d.cend){endRun(true);return}

@@ -5,6 +5,13 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.78a · 11.11.2026 · Feedback nach dem Lauf
+- 💬 Nach jedem Lauf, gewonnen oder verloren, fragt das Spiel einmal nach deiner Meinung: Spaß (1–5 ⭐), Schwierigkeit (zu leicht · passt · zu schwer) und ein freier Kommentar. Auf Wunsch wird der Lauf mitgeschickt.
+- 📤 „Feedback senden“ öffnet das Teilen-Menü des Handys (z. B. WhatsApp). Wo es das nicht gibt, wird der Text kopiert. Es wird nichts automatisch verschickt.
+- 🔕 „Nicht mehr fragen“ schaltet den Kasten ab, im Menü lässt er sich wieder einschalten. Nicht im Tutorial und nicht im Testlauf „4 Tage“.
+- 🎭 Die Schilder auf dem Spielfeld zeigen den Show-Bonus jetzt als Faktor (×1,25 bzw. ×1,5) statt in Prozent.
+- 🧪 Testlauf „4 Tage“: Alle Ziele sind ×0,6, auch in der Zoo-Übersicht.
+
 ## 0.77a · 11.11.2026 · Zoo-Buch, Testlauf, Förderung
 - 📖 Neues Zoo-Buch auf dem Startbildschirm: Glossar, Tierlexikon und Fortschritt sind jetzt ein Knopf mit Reitern: 🃏 Karten · 🤝 Freundschaften · 👥 Team · 📣 Förderung · 🔓 Freischalten · 📜 Regeln.
 - 🃏 Jede Karte steht genau einmal im Buch, mit einem von drei Zuständen: ✓ entdeckt (mit „wie oft gebaut“, Abzeichen und Tierfakt), noch nie gebaut, oder 🔒 gesperrt mit dem echten Grund (Freischalt-Ziel, Profil, Verstärker, gesperrter Lebensraum) und Fortschrittsbalken. Oben eine Übersicht, Filter nach Zustand und Lebensraum, je Gruppe „x/y entdeckt · 🏅“.
