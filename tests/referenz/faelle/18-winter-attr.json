@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 354,
+ "A": 342,
  "S": 296,
- "total": 104784,
+ "total": 101232,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2334,7 +2334,7 @@
   },
   {
    "id": 26,
-   "a": 4,
+   "a": 2,
    "s": 2,
    "parts": [
     [
@@ -2351,11 +2351,6 @@
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
      -1,
      -1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
@@ -2383,7 +2378,7 @@
   },
   {
    "id": 28,
-   "a": 55,
+   "a": 53,
    "s": 12,
    "parts": [
     [
@@ -2410,17 +2405,12 @@
      "💧 Fluss: Kette aus 4 ×1,75",
      23,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 29,
-   "a": 8,
+   "a": 4,
    "s": 2,
    "parts": [
     [
@@ -2434,13 +2424,8 @@
      -1
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ Besucherliebling des Tages ×2,0",
-     4,
+     2,
      1
     ]
    ]
@@ -2474,18 +2459,13 @@
   },
   {
    "id": 31,
-   "a": 4,
+   "a": 2,
    "s": 1,
    "parts": [
     [
      "Nordlage gebrochen: ×0,5",
      -1,
      -1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },

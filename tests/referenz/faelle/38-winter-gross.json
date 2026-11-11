@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 330,
+ "A": 318,
  "S": 260,
- "total": 85800,
+ "total": 82680,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2344,7 +2344,7 @@
   },
   {
    "id": 26,
-   "a": 3,
+   "a": 1,
    "s": 1,
    "parts": [
     [
@@ -2366,21 +2366,6 @@
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
      -1,
      -1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "❤️ neben dem Besucherliebling ×1,25",
-     1,
-     0
-    ],
-    [
-     "2. Lemminge: zählt 75 % des eigenen Werts",
-     -1,
-     0
     ]
    ]
   },
@@ -2392,7 +2377,7 @@
   },
   {
    "id": 28,
-   "a": 55,
+   "a": 53,
    "s": 12,
    "parts": [
     [
@@ -2419,17 +2404,12 @@
      "💧 Fluss: Kette aus 4 ×1,75",
      23,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 29,
-   "a": 6,
+   "a": 2,
    "s": 2,
    "parts": [
     [
@@ -2448,13 +2428,8 @@
      0
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ Besucherliebling des Tages ×2,0",
-     3,
+     1,
      1
     ]
    ]
@@ -2493,7 +2468,7 @@
   },
   {
    "id": 31,
-   "a": 3,
+   "a": 1,
    "s": 1,
    "parts": [
     [
@@ -2504,11 +2479,6 @@
     [
      "Nordlage gebrochen: ×0,5",
      -1,
-     0
-    ],
-    [
-     "🌳 Allee",
-     2,
      0
     ]
    ]

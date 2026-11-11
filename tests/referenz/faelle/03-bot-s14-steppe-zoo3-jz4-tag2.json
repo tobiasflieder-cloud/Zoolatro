@@ -1501,9 +1501,9 @@
  ]
 },
 "erwartet":{
- "A": 346,
- "S": 276,
- "total": 95496,
+ "A": 317,
+ "S": 266,
+ "total": 84322,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1527,8 +1527,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 13,
-   "s": 21,
+   "a": 10,
+   "s": 19,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1551,18 +1551,8 @@
      3
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
+     2,
      4
     ]
    ]
@@ -1597,17 +1587,12 @@
   {
    "id": 3,
    "a": 10,
-   "s": 10,
+   "s": 8,
    "parts": [
     [
      "🏜️ Einzelgänger: allein ×2",
      4,
      3
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
@@ -1618,8 +1603,8 @@
   },
   {
    "id": 4,
-   "a": 14,
-   "s": 14,
+   "a": 10,
+   "s": 10,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1652,25 +1637,15 @@
      2
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
-    ],
-    [
      "❤️ Besucherliebling des Tages ×2,0",
-     7,
-     7
+     5,
+     5
     ]
    ]
   },
   {
    "id": 5,
-   "a": 18,
+   "a": 14,
    "s": 11,
    "parts": [
     [
@@ -1694,20 +1669,15 @@
      1
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "Ausbau Stufe II: +75 % des eigenen Werts",
-     8,
+     6,
      5
     ]
    ]
   },
   {
    "id": 6,
-   "a": 15,
+   "a": 13,
    "s": 8,
    "parts": [
     [
@@ -1726,11 +1696,6 @@
      3
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
      3,
      2
@@ -1739,7 +1704,7 @@
   },
   {
    "id": 7,
-   "a": 18,
+   "a": 16,
    "s": 11,
    "parts": [
     [
@@ -1766,11 +1731,6 @@
      "🌾 Herde aus 5 ×1,8",
      7,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -1877,7 +1837,7 @@
   },
   {
    "id": 11,
-   "a": 12,
+   "a": 10,
    "s": 10,
    "parts": [
     [
@@ -1904,11 +1864,6 @@
      "🏜️ Einzelgänger: allein ×2",
      5,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -1949,7 +1904,7 @@
   },
   {
    "id": 15,
-   "a": 13,
+   "a": 11,
    "s": 11,
    "parts": [
     [
@@ -1976,11 +1931,6 @@
      "🤝 Freundschaft mit Giraffenweide ×1,25",
      2,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -2140,7 +2090,7 @@
   },
   {
    "id": 26,
-   "a": 38,
+   "a": 36,
    "s": 8,
    "parts": [
     [
@@ -2157,11 +2107,6 @@
      "🏜️ Einzelgänger: allein ×2",
      18,
      4
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -2185,7 +2130,7 @@
   },
   {
    "id": 29,
-   "a": 15,
+   "a": 14,
    "s": 14,
    "parts": [
     [
@@ -2219,13 +2164,8 @@
      4
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "2. Giraffenweide: zählt 75 % des eigenen Werts",
-     -5,
+     -4,
      -4
     ]
    ]

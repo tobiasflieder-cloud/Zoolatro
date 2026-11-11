@@ -836,15 +836,15 @@
  ]
 },
 "erwartet":{
- "A": 113,
- "S": 67,
- "total": 7571,
+ "A": 105,
+ "S": 61,
+ "total": 6405,
  "mults": [],
  "buildings": [
   {
    "id": 1,
-   "a": 16,
-   "s": 13,
+   "a": 14,
+   "s": 11,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -860,16 +860,6 @@
      "💧 Fluss: Kette aus 3 ×1,75",
      6,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -921,7 +911,7 @@
   },
   {
    "id": 5,
-   "a": 13,
+   "a": 11,
    "s": 5,
    "parts": [
     [
@@ -938,17 +928,12 @@
      "💧 Fluss: Kette aus 3 ×1,75",
      5,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 6,
-   "a": 8,
+   "a": 6,
    "s": 6,
    "parts": [
     [
@@ -965,11 +950,6 @@
      "🤝 Freundschaft mit Steinböcke ×1,25",
      1,
      1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -1021,8 +1001,8 @@
   },
   {
    "id": 10,
-   "a": 11,
-   "s": 8,
+   "a": 9,
+   "s": 6,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1038,33 +1018,18 @@
      "🤝 Freundschaft mit Murmeltiere ×1,25",
      2,
      1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
   {
    "id": 11,
    "a": 1,
-   "s": 3,
+   "s": 1,
    "parts": [
     [
      "🌾 Herde: allein ×0,5",
      -1,
      -1
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },

@@ -41,7 +41,8 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
   T(w.eval('!!META.slots[0]&&!!META.slots[0].run&&!!META.slots[0].run.z2'),'Spielstand '+F.erzeugt_mit+' geladen: Zoolatro-Lauf vorhanden');
   w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};enterCamp(0,false,null,'z2');modal=null`);
   T(w.eval('!!state&&state.zoo')===F.stand.zoo&&w.eval('state.season')===F.stand.season&&w.eval('state.buildings.length')===F.stand.n,`Lauf geht weiter (Zoo ${F.stand.zoo+1}, Jahreszeit ${F.stand.season+1}, ${F.stand.n} Gebäude)`);
-  const tot=w.eval('scoreZoo(state.buildings).total');T(tot===F.erwartet.total,`Wertung gleich (${tot} / erwartet ${F.erwartet.total})`);
+  // Seit 0.77a gibt es keine Formen (Innenhof, Allee, Dreiländereck) mehr: die Gesamtwertung des alten Spielstands weicht absichtlich ab.
+  const tot=w.eval('scoreZoo(state.buildings).total');T(tot>0&&tot<=F.erwartet.total,`Wertung läuft mit den Regeln von heute (${tot}; 0.73a mit Formen: ${F.erwartet.total})`);
   // 0.75a: Tribüne ist legendär (kommt seltener ins Angebot). Für den Vergleich mit dem 0.73a-Ablauf gilt hier die alte Seltenheit.
   w.eval("if(CARDS.tribuene&&CARDS.tribuene.rar==='sehr selten')CARDS.tribuene.rar='selten'");
   // Seit 0.76a gelten andere Regeln (Faktoren statt Prozente, Besucherliebling seltener): die Punkte der 3 Tage weichen absichtlich ab.

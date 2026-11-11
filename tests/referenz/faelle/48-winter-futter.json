@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 228,
+ "A": 216,
  "S": 210,
- "total": 47880,
+ "total": 45360,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2319,7 +2319,7 @@
   },
   {
    "id": 26,
-   "a": 2,
+   "a": 0,
    "s": 0,
    "parts": [
     [
@@ -2336,21 +2336,6 @@
      "❄️ Futterknappheit: zählt nicht",
      -3,
      -3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "❤️ neben dem Besucherliebling ×1,25",
-     1,
-     0
-    ],
-    [
-     "2. Lemminge: zählt 75 % des eigenen Werts",
-     -1,
-     0
     ]
    ]
   },
@@ -2368,7 +2353,7 @@
   },
   {
    "id": 28,
-   "a": 2,
+   "a": 0,
    "s": 0,
    "parts": [
     [
@@ -2395,17 +2380,12 @@
      "❄️ Futterknappheit: zählt nicht",
      -30,
      -7
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 29,
-   "a": 4,
+   "a": 0,
    "s": 0,
    "parts": [
     [
@@ -2417,16 +2397,6 @@
      "❄️ Futterknappheit: zählt nicht",
      -4,
      -2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "❤️ Besucherliebling des Tages ×2,0",
-     2,
-     0
     ]
    ]
   },
@@ -2454,18 +2424,13 @@
   },
   {
    "id": 31,
-   "a": 2,
+   "a": 0,
    "s": 0,
    "parts": [
     [
      "❄️ Futterknappheit: zählt nicht",
      -3,
      -2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },

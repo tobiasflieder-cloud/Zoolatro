@@ -1221,9 +1221,9 @@
  ]
 },
 "erwartet":{
- "A": 419,
- "S": 341,
- "total": 142879,
+ "A": 348,
+ "S": 293,
+ "total": 101964,
  "mults": [
   {
    "label": "Nachtführung",
@@ -1241,8 +1241,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 56,
-   "s": 81,
+   "a": 45,
+   "s": 68,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1275,19 +1275,9 @@
      27
     ],
     [
-     "🏡 Innenhof ×1,2",
-     7,
-     11
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     11,
-     16
+     9,
+     14
     ]
    ]
   },
@@ -1310,8 +1300,8 @@
   },
   {
    "id": 3,
-   "a": 26,
-   "s": 12,
+   "a": 20,
+   "s": 10,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1332,16 +1322,6 @@
      "💧 Fluss: Kette aus 9 ×2",
      10,
      5
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     4,
-     2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -1413,8 +1393,8 @@
   },
   {
    "id": 7,
-   "a": 26,
-   "s": 26,
+   "a": 23,
+   "s": 18,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1432,31 +1412,21 @@
      4
     ],
     [
-     "🏡 Innenhof ×1,2",
-     2,
-     2
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
      3,
-     3
+     2
     ],
     [
      "Ausbau Stufe II: +75 % des eigenen Werts",
-     11,
-     11
+     10,
+     8
     ]
    ]
   },
   {
    "id": 8,
-   "a": 16,
-   "s": 12,
+   "a": 11,
+   "s": 11,
    "parts": [
     [
      "🧊 Nordlage ×2",
@@ -1464,26 +1434,16 @@
      3
     ],
     [
-     "🏡 Innenhof ×1,2",
-     1,
-     1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "Ausbau Stufe II: +75 % des eigenen Werts",
-     7,
+     5,
      5
     ]
    ]
   },
   {
    "id": 9,
-   "a": 12,
-   "s": 4,
+   "a": 8,
+   "s": 3,
    "parts": [
     [
      "Dschungel-Nachbarn",
@@ -1504,16 +1464,6 @@
      "🤝 Freundschaft mit Papageien-Voliere ×1,25",
      2,
      1
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     2,
-     1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -1536,8 +1486,8 @@
   },
   {
    "id": 11,
-   "a": 7,
-   "s": 4,
+   "a": 4,
+   "s": 2,
    "parts": [
     [
      "Dschungel-Nachbarn",
@@ -1553,21 +1503,6 @@
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
      2,
      1
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     1,
-     0
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -1632,8 +1567,8 @@
   },
   {
    "id": 14,
-   "a": 20,
-   "s": 8,
+   "a": 15,
+   "s": 6,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1661,25 +1596,15 @@
      4
     ],
     [
-     "🏡 Innenhof ×1,2",
-     4,
-     2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "2. Seelöwenbucht: zählt 75 % des eigenen Werts",
-     -6,
+     -5,
      -2
     ]
    ]
   },
   {
    "id": 15,
-   "a": 25,
+   "a": 23,
    "s": 8,
    "parts": [
     [
@@ -1701,18 +1626,13 @@
      "🤝 Freundschaft mit Affeninsel ×1,25",
      5,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 16,
-   "a": 11,
-   "s": 11,
+   "a": 8,
+   "s": 9,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1735,18 +1655,8 @@
      6
     ],
     [
-     "🏡 Innenhof ×1,2",
-     2,
-     2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "2. Schwanensee: zählt 75 % des eigenen Werts",
-     -3,
+     -2,
      -3
     ]
    ]
@@ -1759,8 +1669,8 @@
   },
   {
    "id": 18,
-   "a": 3,
-   "s": 3,
+   "a": 1,
+   "s": 1,
    "parts": [
     [
      "Arktis-Naturfläche",
@@ -1776,16 +1686,6 @@
      "Nordlage gebrochen: ×0,5",
      0,
      -1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -1809,7 +1709,7 @@
   },
   {
    "id": 21,
-   "a": 16,
+   "a": 14,
    "s": 10,
    "parts": [
     [
@@ -1826,17 +1726,12 @@
      "💧 Fluss: Kette aus 9 ×2",
      7,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 22,
-   "a": 3,
+   "a": 2,
    "s": 5,
    "parts": [
     [
@@ -1860,13 +1755,8 @@
      3
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "2. Schildkröten: zählt 75 % des eigenen Werts",
-     -1,
+     0,
      -1
     ]
    ]

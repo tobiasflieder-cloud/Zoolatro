@@ -8,7 +8,7 @@ function railRender(){const rail=document.getElementById('rail');if(!rail||!docu
 window.addEventListener('resize',()=>{try{applyView();railRender()}catch(e){}});
 function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}catch(e){}},0);document.body.classList.toggle('fxp',fxOn());if(!FXWARM&&state&&state.phase==='play')fxWarm();document.body.classList.toggle('nb',!META.oldBoard);zoomAuto();
   const se=seOf(state.season);
-  $('seasonName').textContent=`${se.winter?'❄️ ':''}${se.name} · Tag ${Math.min(state.day+1,DAYS)}/${DAYS}`;
+  $('seasonName').textContent=`${isD4(runOf())?'🧪 ':''}${se.winter?'❄️ ':''}${se.name} · Tag ${Math.min(state.day+1,DAYS)}/${DAYS}`;
   $('dots').innerHTML=Array.from({length:DAYS},(_,i)=>`<span class="dot ${i<state.day?'done':i===state.day?'now':''}"></span>`).join('');
   $('sScore').textContent=fmt(state.seasonScore);$('sTarget').textContent=fmt(se.target);
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
@@ -89,7 +89,7 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
   $('bp').innerHTML=`<span>BP</span> ${Array.from({length:Math.max(state.bpMax,state.bp)},(_,i)=>`<i class="${i<state.bp?'on':''} ${i>=state.bpMax?'x':''}"></i>`).join('')}`;
   $('btnDeck').innerHTML=`🂠 ${state.deck.length} · <span class="wd">Ablage</span><span class="nw">Abl.</span> ${state.discard.length}`;
   {const rb=$('btnRedraw'),fr=rdFree();rb.textContent=fr?'🔄 gratis':'🔄 −1';rb.classList.toggle('free',fr);rb.disabled=!(state.phase==='play'&&(state.bp>=1||fr)&&state.hand.length+state.deck.length+state.discard.length>0);rb.classList.toggle('arm',state.infoProg==='redraw')}
-  {const fr=MAXPROGS-state.progs.length;$('progs').innerHTML=state.progs.map(id=>`<button class="prog" data-prog="${id}" title="${PROGS[id].name}: ${PROGS[id].text}">${PROGS[id].icon} ${progShort(PROGS[id])}</button>`).join('')
+  {const fr=MAXPROGS-state.progs.length;$('progs').innerHTML=(state.progs.length||state.ads.length||state.bpSeason?'<span class="prog lbl" title="Förderung: Förderprogramme (dauerhaft) und Werbung (⏳ diese Jahreszeit)">📣</span>':'')+state.progs.map(id=>`<button class="prog" data-prog="${id}" title="${PROGS[id].name}: ${PROGS[id].text} (dauerhaft)">${PROGS[id].icon} ${progShort(PROGS[id])}</button>`).join('')
     +state.ads.map(id=>`<button class="prog ad" data-ad="${id}" title="${ADS[id].name}: ${ADS[id].text} (diese Jahreszeit)">${ADS[id].icon} ${progShort(ADS[id])} ⏳</button>`).join('')
     +(state.bpSeason?`<button class="prog ad" data-ad="bautrupp" title="Saison-Bautrupp: +1 Baupunkt pro Tag (diese Jahreszeit)">🧱 +1 BP ⏳</button>`:'')
     +(state.progs.length&&fr>0?`<span class="prog empty" title="Freie Plätze für Förderprogramme">＋ ${fr} frei</span>`:'');$('progs').classList.toggle('none',!state.progs.length&&!state.ads.length&&!state.bpSeason)}
@@ -668,8 +668,8 @@ function removeCard(pile,key){const pi=state.pendItem&&state.pendItem.key==='tie
 const tShopSt=()=>{try{return state&&state.phase==='shop'&&gRun()&&tutStep()||null}catch(e){return null}},tShopLk=()=>{const st=tShopSt();return st&&st.lock||null};
 function itemHtml(it,idx,fixed){let kind,name,text,icon;
   const nxn=(seOf(state.season+1)||{name:'nächste Jahreszeit'}).name;let band='';
-  if(it.kind==='prog'){const P=PROGS[it.key];kind='🏛️ Bis Zoo-Ende · ganzer Zoo';band='perm';name=P.name;text=fxHtml(P)+'<span class="tx2">wirkt auch auf bereits gebaute</span>';icon=P.icon}
-  else if(it.kind==='ad'){const P=ADS[it.key];kind='⏳ Nur im '+nxn;band='temp';name=P.name;text=fxHtml(P);icon=P.icon}
+  if(it.kind==='prog'){const P=PROGS[it.key];kind='📣 Förderprogramm · dauerhaft bis Zoo-Ende';band='perm';name=P.name;text=fxHtml(P)+'<span class="tx2">wirkt auch auf bereits gebaute</span>';icon=P.icon}
+  else if(it.kind==='ad'){const P=ADS[it.key];kind='📣 Werbung · ⏳ nur im '+nxn;band='temp';name=P.name;text=fxHtml(P);icon=P.icon}
   else if(it.kind==='card'){const c=CARDS[it.key];kind=`🃏 Karte fürs Deck · ${rarLabel(c)}`;band='card';name=c.name+(habIcs(c)?' '+habIcs(c):'')+catDotHtml(c)+' '+miniShape(it.key);text=`${c.a} B · ${c.s} N · ${costOf(it.key)} BP`+fxHtml(c)+`<span class="tx2">${haveTxt(inDeckN(it.key),cnt(state.buildings,b=>b.key===it.key))}</span>`;icon=c.icon}
   else if(it.kind==='spec'){const S=SPEC[it.key];kind=`👥 Spezialist · ganzer Lauf`;band='run';name=S.name;text=fxHtml(S);icon=S.icon}
   else if(it.kind==='einmal'){const E=EINMAL[it.key];kind='🃏 Einmal-Karte';band='once';name=E.name;text=E.text;icon=E.icon}

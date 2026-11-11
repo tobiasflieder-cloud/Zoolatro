@@ -796,9 +796,9 @@
  ]
 },
 "erwartet":{
- "A": 120,
- "S": 122,
- "total": 14640,
+ "A": 107,
+ "S": 114,
+ "total": 12198,
  "mults": [
   {
    "label": "Beute-Kennerin",
@@ -822,8 +822,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 10,
-   "s": 17,
+   "a": 8,
+   "s": 15,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -844,16 +844,6 @@
      "🤝 Freundschaft mit Korallenriff ×1,25",
      2,
      3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -877,24 +867,19 @@
   {
    "id": 3,
    "a": 8,
-   "s": 8,
+   "s": 6,
    "parts": [
     [
      "🏜️ Einzelgänger: allein ×2",
      4,
      3
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
   {
    "id": 4,
-   "a": 10,
-   "s": 9,
+   "a": 8,
+   "s": 7,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -910,22 +895,12 @@
      "🌾 Herde aus 3 ×1,4",
      2,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
   {
    "id": 5,
-   "a": 10,
+   "a": 8,
    "s": 6,
    "parts": [
     [
@@ -947,17 +922,12 @@
      "🤝 Freundschaft mit Schildkröten ×1,25",
      2,
      1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 6,
-   "a": 14,
+   "a": 12,
    "s": 6,
    "parts": [
     [
@@ -969,17 +939,12 @@
      "🏜️ Einzelgänger: allein ×2",
      6,
      3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 7,
-   "a": 10,
+   "a": 8,
    "s": 7,
    "parts": [
     [
@@ -996,11 +961,6 @@
      "🌾 Herde aus 3 ×1,4",
      2,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },

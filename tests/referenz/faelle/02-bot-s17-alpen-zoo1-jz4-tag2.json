@@ -1406,9 +1406,9 @@
  ]
 },
 "erwartet":{
- "A": 575,
- "S": 258,
- "total": 148350,
+ "A": 514,
+ "S": 241,
+ "total": 123874,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1771,7 +1771,7 @@
   },
   {
    "id": 16,
-   "a": 12,
+   "a": 10,
    "s": 9,
    "parts": [
     [
@@ -1808,11 +1808,6 @@
      "🤝 Freundschaft mit Zebrasteppe ×1,25",
      2,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -1852,7 +1847,7 @@
   },
   {
    "id": 19,
-   "a": 18,
+   "a": 16,
    "s": 10,
    "parts": [
     [
@@ -1869,18 +1864,13 @@
      "⛰️ Rand/Felsen (3) ×2",
      8,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 20,
-   "a": 134,
-   "s": 28,
+   "a": 108,
+   "s": 20,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1903,31 +1893,16 @@
      5
     ],
     [
-     "🏡 Innenhof ×1,2",
-     11,
-     2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
-    ],
-    [
      "❤️ Besucherliebling des Tages ×2,0",
-     67,
-     14
+     54,
+     10
     ]
    ]
   },
   {
    "id": 21,
-   "a": 15,
-   "s": 10,
+   "a": 13,
+   "s": 8,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1953,16 +1928,6 @@
      "🤝 Freundschaft mit Warzenschweine ×1,25",
      2,
      1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
@@ -2015,8 +1980,8 @@
   },
   {
    "id": 23,
-   "a": 32,
-   "s": 26,
+   "a": 26,
+   "s": 23,
    "parts": [
     [
      "Wüste-Naturfläche",
@@ -2044,31 +2009,21 @@
      5
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     4,
+     3,
      3
     ],
     [
      "Ausbau Stufe II: +75 % des eigenen Werts",
-     14,
-     11
+     11,
+     10
     ]
    ]
   },
   {
    "id": 24,
-   "a": 9,
-   "s": 5,
+   "a": 8,
+   "s": 4,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2081,11 +2036,6 @@
      1
     ],
     [
-     "🏡 Innenhof ×1,2",
-     1,
-     1
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
      2,
      1
@@ -2094,8 +2044,8 @@
   },
   {
    "id": 25,
-   "a": 20,
-   "s": 9,
+   "a": 15,
+   "s": 8,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2113,18 +2063,8 @@
      2
     ],
     [
-     "🏡 Innenhof ×1,2",
-     2,
-     1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     4,
+     3,
      2
     ]
    ]
@@ -2143,7 +2083,7 @@
   },
   {
    "id": 27,
-   "a": 14,
+   "a": 11,
    "s": 8,
    "parts": [
     [
@@ -2167,13 +2107,8 @@
      4
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     4,
+     3,
      2
     ],
     [

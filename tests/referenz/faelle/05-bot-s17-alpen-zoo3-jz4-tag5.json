@@ -1727,9 +1727,9 @@
  ]
 },
 "erwartet":{
- "A": 423,
- "S": 208,
- "total": 87984,
+ "A": 389,
+ "S": 202,
+ "total": 78578,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1753,8 +1753,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 10,
-   "s": 13,
+   "a": 8,
+   "s": 10,
    "parts": [
     [
      "Wüste-Naturfläche",
@@ -1777,26 +1777,16 @@
      4
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
      2,
-     3
+     2
     ]
    ]
   },
   {
    "id": 2,
-   "a": 23,
-   "s": 8,
+   "a": 21,
+   "s": 6,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1822,23 +1812,13 @@
      "⛰️ Rand/Felsen (1) ×1,5",
      7,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
   {
    "id": 3,
-   "a": 14,
-   "s": 7,
+   "a": 12,
+   "s": 5,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1864,16 +1844,6 @@
      "🌾 Herde aus 3 ×1,3",
      3,
      1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -1999,7 +1969,7 @@
   },
   {
    "id": 9,
-   "a": 2,
+   "a": 0,
    "s": 0,
    "parts": [
     [
@@ -2016,11 +1986,6 @@
      "❄️ Wegekontrolle: zählt nicht",
      -4,
      -3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -2038,7 +2003,7 @@
   },
   {
    "id": 12,
-   "a": 6,
+   "a": 2,
    "s": 2,
    "parts": [
     [
@@ -2062,13 +2027,8 @@
      -1
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ Besucherliebling des Tages ×2,0",
-     3,
+     1,
      1
     ]
    ]
@@ -2087,7 +2047,7 @@
   },
   {
    "id": 14,
-   "a": 7,
+   "a": 5,
    "s": 3,
    "parts": [
     [
@@ -2119,11 +2079,6 @@
      "🌾 Herde aus 3 ×1,3",
      2,
      1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ],
     [
      "2. Warzenschweine: zählt 75 % des eigenen Werts",
@@ -2223,7 +2178,7 @@
   },
   {
    "id": 22,
-   "a": 4,
+   "a": 0,
    "s": 0,
    "parts": [
     [
@@ -2235,16 +2190,6 @@
      "❄️ Wegekontrolle: zählt nicht",
      -4,
      -3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
-     2,
-     0
     ]
    ]
   },
@@ -2267,7 +2212,7 @@
   },
   {
    "id": 24,
-   "a": 14,
+   "a": 12,
    "s": 8,
    "parts": [
     [
@@ -2289,11 +2234,6 @@
      "🏜️ Einzelgänger: allein ×2",
      6,
      4
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -2333,7 +2273,7 @@
   },
   {
    "id": 27,
-   "a": 12,
+   "a": 10,
    "s": 6,
    "parts": [
     [
@@ -2355,11 +2295,6 @@
      "🏜️ Einzelgänger: allein ×2",
      5,
      3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -2495,7 +2430,7 @@
   },
   {
    "id": 34,
-   "a": 16,
+   "a": 14,
    "s": 10,
    "parts": [
     [
@@ -2512,28 +2447,18 @@
      "⛰️ Rand/Felsen (3) ×2",
      7,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 35,
-   "a": 2,
+   "a": 0,
    "s": 0,
    "parts": [
     [
      "❄️ Wegekontrolle: zählt nicht",
      -2,
      -2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },

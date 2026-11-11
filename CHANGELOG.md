@@ -5,6 +5,15 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.77a · 11.11.2026 · Zoo-Buch, Testlauf, Förderung
+- 📖 Neues Zoo-Buch auf dem Startbildschirm: Glossar, Tierlexikon und Fortschritt sind jetzt ein Knopf mit Reitern: 🃏 Karten · 🤝 Freundschaften · 👥 Team · 📣 Förderung · 🔓 Freischalten · 📜 Regeln.
+- 🃏 Jede Karte steht genau einmal im Buch, mit einem von drei Zuständen: ✓ entdeckt (mit „wie oft gebaut“, Abzeichen und Tierfakt), noch nie gebaut, oder 🔒 gesperrt mit dem echten Grund (Freischalt-Ziel, Profil, Verstärker, gesperrter Lebensraum) und Fortschrittsbalken. Oben eine Übersicht, Filter nach Zustand und Lebensraum, je Gruppe „x/y entdeckt · 🏅“.
+- 🐞 Karten aus Lebensräumen, die im aktuellen Lauf nicht gewählt sind, galten im Glossar als gesperrt. Jetzt nur noch ein kleiner Hinweis „nicht in diesem Lauf“.
+- 🧪 Testlauf „4 Tage“ (Schalter bei der Lauf-Einrichtung neben „Futter“): jede Jahreszeit 4 statt 5 Tage, kleineres Spielfeld und weniger Naturfelder. Zählt nicht für Bestwerte, Highscores, Statistik und Freischaltungen. Im Spiel steht 🧪 vor der Jahreszeit.
+- 🏡 Die Formen Innenhof, Allee und Dreiländereck gibt es nicht mehr.
+- 📣 Förderprogramme und Werbung stehen im Shop gemeinsam unter „Förderung“, mit Laufzeit („dauerhaft“ bzw. „⏳ nur im …“). Über dem Spielfeld stehen beide in einer Zeile.
+- 🎓 Das Tutorial hat ein neues Symbol, damit es nicht mit dem Buch verwechselt wird.
+
 ## 0.76a · 11.11.2026 · Faktoren, Stufen, Schliff
 - ✖️ Prozente werden Faktoren: Alle „+X %“-Boni (Spezialisten, Förderprogramme, Werbung, Gold, Show …) sind jetzt Faktoren wie „×1,2 B“ und werden nacheinander gerechnet. Sie sind dabei etwas schwächer: +25 % wird ×1,2, +50 % wird ×1,4.
 - 🏔️ Stufen 1–8 neu: weniger Naturfelder (15, 12, 9), weniger Goldfelder, Reinheit ab Stufe 4 erst ab 6 Tieren, schwächere Krone, auf Stufe 8 keine Besucherwünsche und keine Gold- und Kronenfelder. Das kostenlose Neuziehen bleibt auf allen Stufen.

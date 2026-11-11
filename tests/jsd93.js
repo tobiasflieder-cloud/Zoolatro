@@ -73,8 +73,8 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
     ev(`state.season=0;dayRoll()`);T(ev('state.fav')===null,'Besucherliebling erst ab Sommer');
     T(ev(`MOMW.foto===.5&&MOMW.storch===.5`),'Fotograf und Storch halb so oft');
     ev(`(()=>{const r=runOf();r.wishSeen=[];state.wish=null;wishRoll();const a=state.wish&&state.wish.id;state.zoo=1;state.wish=null;wishRoll();state.zoo=0})()`);T(ev(`runOf().wishSeen.length`)>=2&&new Set(ev(`JSON.stringify(runOf().wishSeen)`)&&JSON.parse(ev(`JSON.stringify(runOf().wishSeen)`))).size===ev(`runOf().wishSeen.length`),'Besucherwünsche wiederholen sich im Lauf nicht');
-    // Formen-Cache: Teil-Liste nimmt Formen der vollen Liste
-    T(ev(`(()=>{const bs=state.buildings,sub=bs.slice(0,-1);return shapesOf(sub,mkIndex(sub))===shapesOf(bs,mkIndex(bs))})()`),'Formen werden für Teil-Listen nicht neu berechnet');
+    // 0.77a: Formen gestrichen
+    T(ev(`typeof shapesOf==='undefined'`),'Formen gibt es nicht mehr');
     // Oberfläche
     T(/Danke fürs Spielen/.test(ev(`flivHtml()`)),'„Danke fürs Spielen!“');
     T(ev(`(()=>{zoomSp='ab';placeZoomBtn();return document.getElementById('btnZoom').parentNode.classList.contains('actions')})()`),'Lupe sitzt in der Knopfleiste');

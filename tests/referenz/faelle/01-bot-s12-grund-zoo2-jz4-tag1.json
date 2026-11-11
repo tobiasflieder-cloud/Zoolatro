@@ -1464,9 +1464,9 @@
  ]
 },
 "erwartet":{
- "A": 573,
- "S": 296,
- "total": 169608,
+ "A": 487,
+ "S": 257,
+ "total": 125159,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1496,8 +1496,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 18,
-   "s": 10,
+   "a": 16,
+   "s": 8,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1513,16 +1513,6 @@
      "🧊 Nordlage ×2",
      8,
      4
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -1546,7 +1536,7 @@
   {
    "id": 3,
    "a": 5,
-   "s": 8,
+   "s": 6,
    "parts": [
     [
      "Gebirge-Naturfläche",
@@ -1566,11 +1556,6 @@
     [
      "⛰️ Rand/Felsen (1) ×1,5",
      2,
-     2
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
      2
     ]
    ]
@@ -1628,8 +1613,8 @@
   },
   {
    "id": 7,
-   "a": 12,
-   "s": 8,
+   "a": 10,
+   "s": 6,
    "parts": [
     [
      "Winterkälte",
@@ -1645,16 +1630,6 @@
      "🏜️ Einzelgänger: allein ×2",
      5,
      3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -1666,22 +1641,12 @@
   },
   {
    "id": 9,
-   "a": 6,
-   "s": 7,
+   "a": 4,
+   "s": 5,
    "parts": [
     [
      "⛰️ Rand/Felsen (2) ×1,75",
      2,
-     2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
      2
     ]
    ]
@@ -1722,8 +1687,8 @@
   },
   {
    "id": 12,
-   "a": 25,
-   "s": 21,
+   "a": 21,
+   "s": 18,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1741,25 +1706,15 @@
      5
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
-    ],
-    [
      "Ausbau Stufe II: +75 % des eigenen Werts",
-     11,
-     9
+     9,
+     8
     ]
    ]
   },
   {
    "id": 13,
-   "a": 13,
+   "a": 10,
    "s": 8,
    "parts": [
     [
@@ -1783,13 +1738,8 @@
      3
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
+     2,
      2
     ]
    ]
@@ -1813,8 +1763,8 @@
   },
   {
    "id": 15,
-   "a": 185,
-   "s": 95,
+   "a": 153,
+   "s": 79,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1842,14 +1792,9 @@
      7
     ],
     [
-     "🏡 Innenhof ×1,2",
-     14,
-     7
-    ],
-    [
      "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
-     103,
-     53
+     85,
+     44
     ]
    ]
   },
@@ -1872,8 +1817,8 @@
   },
   {
    "id": 17,
-   "a": 6,
-   "s": 8,
+   "a": 4,
+   "s": 6,
    "parts": [
     [
      "Winterkälte",
@@ -1884,16 +1829,6 @@
      "🏜️ Einzelgänger: allein ×2",
      2,
      3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "🔺 Dreiländereck",
-     0,
-     2
     ]
    ]
   },
@@ -1980,7 +1915,7 @@
   },
   {
    "id": 24,
-   "a": 16,
+   "a": 12,
    "s": 8,
    "parts": [
     [
@@ -1994,13 +1929,8 @@
      2
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ Besucherliebling des Tages ×2,0",
-     8,
+     6,
      4
     ]
    ]
@@ -2083,8 +2013,8 @@
   },
   {
    "id": 28,
-   "a": 11,
-   "s": 6,
+   "a": 9,
+   "s": 5,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2110,28 +2040,18 @@
      "🤝 Freundschaft mit Yakweide ×1,25",
      2,
      1
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     2,
-     1
     ]
    ]
   },
   {
    "id": 29,
-   "a": 8,
-   "s": 8,
+   "a": 6,
+   "s": 6,
    "parts": [
     [
      "🧊 Nordlage ×2",
      4,
      4
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     2,
-     2
     ],
     [
      "2. Moschusochsen: zählt 75 % des eigenen Werts",

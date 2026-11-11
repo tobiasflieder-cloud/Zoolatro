@@ -140,14 +140,14 @@ function addRocks(t,set,n,rnd){const cells=[...set];let placed=0;
   for(let tries=0;placed<n&&tries<300;tries++){const k=cells[Math.floor(rnd()*cells.length)];if(t.has(k))continue;
     const[q,r]=k.split(',').map(Number);if(DIRS.some(([dq,dr])=>t.get(hk(q+dq,r+dr))==='block'))continue;t.set(k,'block');placed++}}
 // 0.91: Gelände etwa 80 %: die äußersten Felder (mit etwas Zufall) fallen weg, das Gelände bleibt zusammenhängend
-const MAPSHRINK=GELAENDE_DATEN.schrumpfen;
-function shrinkMap(m,rnd){const n0=m.cells.length,keep=Math.round(n0*MAPSHRINK);if(keep>=n0)return m;let cx=0,cy=0;for(const c of m.cells){const[x,y]=axXY(...c);cx+=x;cy+=y}cx/=n0;cy/=n0;
+const MAPSHRINK=GELAENDE_DATEN.schrumpfen,d4Now=()=>{try{return isD4(runOf())}catch(e){return false}};
+function shrinkMap(m,rnd){const n0=m.cells.length,keep=Math.round(n0*MAPSHRINK*(d4Now()?.8:1));if(keep>=n0)return m;let cx=0,cy=0;for(const c of m.cells){const[x,y]=axXY(...c);cx+=x;cy+=y}cx/=n0;cy/=n0;
   const sc=m.cells.map(c=>{const[x,y]=axXY(...c);return[c,Math.hypot(x-cx,y-cy)+rnd()*1.8]}).sort((a,b)=>a[1]-b[1]),cells=connectedPart(sc.slice(0,keep).map(e=>e[0])),set=new Set(cells.map(c=>hk(...c)));
   for(const k of[...m.terr.keys()])if(!set.has(k))m.terr.delete(k);return{...m,cells}}
 // 0.71a: Naturfelder fest verteilen – 18 je Zoo, nur gewählte Lebensräume, Flecken zu 2–4 (Flusstal: Wasser als Fluss-Strang)
 // Schwerpunkt je Gelände: die erste Variante, deren Lebensräume alle gewählt sind, sonst die letzte
 const NATN=GELAENDE_DATEN.naturfelder,NATFOCUS=Object.fromEntries(Object.entries(GELAENDE_DATEN.natur_fokus).map(([k,V])=>[k,H=>({...(V.find(v=>Object.keys(v).every(h=>H.includes(h)))||V[V.length-1])})]));
-const natNow=()=>{try{return stW('natur',NATN)}catch(e){return NATN}}; // 0.76a: Naturfelder je Stufe (18/15/12/9)
+const natNow=()=>{let n;try{n=stW('natur',NATN)}catch(e){n=NATN}return d4Now()?Math.round(n*.8):n}; // 0.76a: Naturfelder je Stufe (18/15/12/9)
 function natQuota(key,H,n=NATN){const F=(NATFOCUS[key]||(()=>({})))(H),q={};let left=n;for(const h of H)if(F[h]){q[h]=Math.round(F[h]*n/NATN);left-=q[h]} // 0.76a: Schwerpunkt anteilig zur Zahl der Naturfelder
   const rest=H.filter(h=>!F[h]);if(!rest.length){const fs=H.filter(h=>F[h]);let i=0;while(left>0){q[fs[i%fs.length]]++;left--;i++}return q}
   const b=Math.floor(left/rest.length);let r=left-b*rest.length;rest.forEach(h=>{q[h]=b+(r>0?1:0);if(r>0)r--});return q}

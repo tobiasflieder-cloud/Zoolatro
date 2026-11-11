@@ -14,7 +14,7 @@ Tagespunkte. Eine Jahreszeit hat 5 Tage und ein Punkteziel. Vier Jahreszeiten si
 
 ### 1.1 Gelände (`01:setBoard`, `01:hexDisc`, `04:genMap`)
 - **Hexfelder** in Achsen-Koordinaten `(q,r)`, Schlüssel `"q,r"` (`01:hk`). Nachbarn über `DIRS=[[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]]`.
-  Die Reihenfolge der Richtungen ist wichtig (Dreiländereck, Drehung).
+  Die Reihenfolge der Richtungen ist wichtig (Drehung).
 - `BOARD` = Liste der Felder, `ONBOARD` = Menge. `TERR` = Map Feld → Geländeart:
   - `'block'` = Felsen (nicht bebaubar, außer mit Spezialist Sprengmeister `spreng`),
   - ein Lebensraum (`wasser`, `savanne`, `wald` = Dschungel, `wueste`, `arktis`, `gebirge`) = **Naturfläche**,
@@ -109,7 +109,7 @@ Betrag, das sind die Zeilen in den Referenzfällen.
     1. **Lebensraum-Regel** `09:habRule` (wenn `habRulesOn`; im Tutorial nur Savanne, Abschnitt 4),
     2. Jäger-Beute fest `+ea,+es`,
     3. **Freundschaft** ×1,25 je verschiedenes Freundespaar daneben (`09:FRIENDS`, z. B. Zebras–Giraffen),
-    4. **Formen** `09:shapes92`: Innenhof ×1,2 · Allee +2 B · Dreiländereck +2 N (Abschnitt 5),
+    4. ~~Formen~~ (Innenhof, Allee, Dreiländereck) seit 0.77a gestrichen,
     5. Storchennest daneben +2 N je Nest,
     6. Besucherliebling des Tages ×2, Nachbar des Lieblings ×1,25,
     7. Lebensraum-Lotto ×2 · Tagesfeld ×3 · Vermesser-Linie ×2 · Panorama ×(1+Randfelder/Felder) · Fotograf ×3 ·
@@ -158,12 +158,8 @@ Gilt im Zoolatro-Lauf (`habRulesOn`). Im Tutorial nur Savanne, und erst ab dem S
 **Gruppenbruch** (`habViol`, nur Wasser/Gebirge/Arktis): Verletzt **ein** Gehege der Gruppe die Regel (Wasser > 3 Seiten, Gebirge n=0,
 Arktis südlich), dann zählt **die ganze Gruppe** ×0,5.
 
-### 4.2 Formen `09:shapes92` (nur Gehege; je Gebäude jede Form höchstens einmal)
-- **Innenhof**: Ein freies Feld (kein Gebäude, kein Felsen, Naturfläche erlaubt), dessen **alle 6 Nachbarn** Gehege sind
-  (Randfelder also nie). Alle angrenzenden Gehege ×1,2.
-- **Allee**: In einer der 3 Achsen `[1,0]`, `[0,1]`, `[1,−1]` eine ununterbrochene Reihe von Gehege-Feldern, die zu **mindestens 4 verschiedenen** Gehegen gehört. Jedes davon +2 B.
-- **Dreiländereck**: Drei Felder, die sich an einer Ecke treffen (Feld + zwei aufeinanderfolgende Richtungen `DIRS[i]`, `DIRS[i+1]`),
-  gehören zu drei verschiedenen Gehegen aus **drei verschiedenen Lebensräumen**. Alle drei +2 N.
+### 4.2 ~~Formen~~
+Innenhof, Allee und Dreiländereck gibt es seit 0.77a nicht mehr (`shapes92`/`shapesOf` entfernt).
 
 ### 4.3 Reinheit und Vielfalt (`04:zlPurity`, `04:vielfalt`, nur Zoolatro)
 - **Reinheit**: größte zusammenhängende Gruppe von Gehegen eines Lebensraums. n = Anzahl **verschiedener Arten** (`spK`) + Jäger-Beute
@@ -246,7 +242,7 @@ mindestens 1. Dazu Extra-Baupunkte (`bpWish`), z. B. „früh geschafft“: je �
 ---
 
 ## 8. Jahreszeiten und Ziele (`01:SEASONS`, `05:seTarget`, `05:seOf`)
-- 4 Jahreszeiten mit je `DAYS=5` Tagen: Frühling 9.500 · Sommer 51.000 · Herbst 118.000 · Winter 267.000 (Grundziele).
+- 4 Jahreszeiten mit je `DAYS=5` Tagen (`DAYS0`; Testlauf „4 Tage“ `run.d4`: 4 Tage, gesetzt in `05:syncCtx`): Frühling 9.500 · Sommer 51.000 · Herbst 118.000 · Winter 267.000 (Grundziele).
 - **Zoolatro**: `Ziel = Grund · ZLUP[i] · ZLSEAS[i]^zoo · deckTF · deckSF(i) · stTF · (Winter ab Zoo 5: 1,1)`.
   - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,46, 1,68, 1,55]` (Steigerung je Zoo, zoo = 0 … 4),
   - `deckSF`: Profil Polar Sommer ×1,15, Winter ×0,85,
@@ -318,7 +314,7 @@ Die Sorten bestimmen auch den Schneekönig.
 
 ## 11. Gelände erzeugen (`daten/gelaende.json`; `04:genMap` = `genMap0` → `shrinkMap` → `natPlace`)
 - `genMap0`: Form je Gelände (Wiese Sechseck Radius 5, Flusstal 13×7, Bucht/Zerklüftet Sternform, Zwei Hügel zwei Scheiben mit Brücke)
-  und Felsen (`addRocks`). `shrinkMap` behält 80 % (`MAPSHRINK`) der Felder um die Mitte, zusammenhängend.
+  und Felsen (`addRocks`). `shrinkMap` behält 80 % (`MAPSHRINK`) der Felder um die Mitte, zusammenhängend (Testlauf `run.d4`: nochmals ×0,8, Naturfelder ×0,8 in `natNow`).
 - `natPlace` (0.71a): alle Naturflächen werden neu gelegt, **18** (`NATN`), nur in den gewählten Lebensräumen (`GENHABS`), Mengen nach
   `natQuota`: Wiese gleich verteilt · Flusstal Wasser 8 · Bucht Wasser 7 + Wüste 7 · Zwei Hügel Wald 8 (sonst Savanne 8) · Zerklüftet Wüste 8.
   Der Rest wird gleichmäßig auf die übrigen gewählten Lebensräume verteilt, ungerade Reste reihum.
@@ -363,8 +359,6 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 12. ~~Prozent-Boni nicht verkettet~~ → seit 0.76a sind alle Boni Faktoren und werden nacheinander multipliziert (Schritt 5 und 14). Die Reihenfolge in `extra92` ändert das Ergebnis nur durch die Rundung. Für den Nachbau genau übernehmen.
 13. **Rundung**: Jeder Zuschlag wird einzeln gerundet (`Math.round`, .5 → aufwärts, bei negativen Zahlen Richtung +∞). GDScript `round()`
     rundet .5 von null weg, also anders bei −x,5. Im Nachbau `floor(x+0.5)` nehmen.
-14. **Teil-Listen bei Formen**: `shapesOf` nimmt für Teilmengen der Bau-Liste (Vorschau, Schneekönig, TÜV-Zweitwertung) die Formen
-    der **vollen** Liste. Eine Zweitwertung ohne Attraktion behält also z. B. einen Innenhof, den es ohne sie nicht gäbe. Für die
-    Referenzfälle egal, für exakte Gleichheit im Nachbau aber nötig.
+14. ~~Teil-Listen bei Formen~~ → entfällt, Formen gibt es seit 0.77a nicht mehr.
 15. **Abhängigkeit vom globalen Zustand**: `evalB` liest außer `CTX` auch `state` (Liebling, Nester, Chaos, Tagesfeld …) und `TERR`/`BOARD`.
     Im Nachbau alles als Eingabe der Wertung übergeben.

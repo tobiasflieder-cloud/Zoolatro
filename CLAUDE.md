@@ -95,7 +95,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
   (`pruefen.sh` blendet sie aus).
 - Im freien Teil des Tutorials ist der Spielverlauf zufällig; der Durchlauf kann an verschiedenen Tagen enden.
 
-## 6. Liste fürs nächste Bauen (wird 0.77a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.78a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -113,6 +113,14 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.77a** ([Auftrag](docs/auftraege/0.77a-zoobuch-testmodus-aufraeumen.md)): Zoo-Buch `buchHtml` (Modul 11, Bildschirm `buch`, Reiter `screenArg.tab`:
+  `cards`/`friends`/`spec`/`progs`/`free`/`zl`; alte Bildschirme `gloss`/`lex`/`prog` leiten über `BUCHALT` um). Kartenzustand `buchInfo` (entdeckt = `sl.lex` oder
+  `statOf(sl).built`), Sperrgrund `buchLock` (Signatur → Profil, Verstärker, Lebensraum Arktis/Gebirge, `fsLocked`, Bonus) unabhängig vom laufenden Lauf; Filter `screenArg.bs`.
+  `lexHtml`/`glossHtml`/`glossCards` weg, `friendsHtml(sl)`, `progHtml(1)` ohne Kopf. Testlauf „4 Tage“: `META.d4` → `run.d4` (+`run.test`), `DAYS0`/`isD4`,
+  `syncCtx` setzt `DAYS`, `shrinkMap` und `natNow` ×0,8; `fsCheck`, `tallyUnlock` (Zustand wird zurückgesetzt), `z2After`, Pokal überspringen Testläufe. Formen (`shapes92`,
+  `shapesOf`, `SHAPEN`, Brett-Markierungen) gestrichen, Referenzfälle mit `aktualisiere` (50 von 51 geändert). Shop-Bereich `foerd` (prog + ad), Leiste mit 📣.
+  Neuer Test `jsd77a.js`, `jsd93` (Formen-Prüfung ersetzt), `jsddaten` (Gesamtwertung des 0.73a-Spielstands weicht ohne Formen ab), `quer.js` prüft das Zoo-Buch.
+  Nebenbei: 4 Freischalt-Ziele „Sehr selten · …“ → „Legendär · …“; Tutorial überall 🎓. Abweichung: 6. Reiter „📜 Regeln“ (Glossar-Regeln und Hinweise-Schalter).
 - **0.76a** ([Auftrag](docs/auftraege/0.76a-schliff-stufen-faktoren.md)): Glanz-Takt 4 s / 2,7 s (`glanz1`/`glanz2`, `--glzA`); `deckRows(keys,btn,extra)`
   mit Futterplätzen in der Infospalte, `.dval` ohne Umbruch, Knopf 90 px; Glanz und „Selten“/„Legendär“ in `offerCard` und Lauf-Deck (`cardRow`, `.kcard`, `rgName`).
   Stufen: `stufen.json` mit `wirkungen`, `stAb`/`stW` nehmen die höchste erreichte Stufe, `stTF` multipliziert `ziel`; `natNow` (Schwerpunkt anteilig in `natQuota`),

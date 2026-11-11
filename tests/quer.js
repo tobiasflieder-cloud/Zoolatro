@@ -82,5 +82,12 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
      await p.evaluate(S=>{const i=state.hand.indexOf(S.only);selectCard(i);const rot=tutRotFor(S.only,S.at);state.rot=rot;for(const[q,r]of BOARD){const c=placeCells(S.only,rot,q,r);if(c&&tutCellsEq(c,S.at)){state.preview=previewAt({q,r});render();break}}},S);
      await pruefe(p,`${wo} Tutorial-Vorschau ${st}`,seen);for(let k=0;k<6&&await klick(p,'#tutMore');k++);if(!await klick(p,'#btnBuild')){T(false,`${wo}: Tutorial 🔨 nicht klickbar (${st})`);break}n++}
    const jetzt=await p.evaluate(()=>state.tut&&state.tut.ch+':'+state.tut.i);T(jetzt==='zl:5',`${wo}: Tutorial-Knöpfe reagieren bis zum ersten Tagesende (${n} Klicks, Schritt ${jetzt})`)}
-  if(p._errs.length)T(false,`${wo}: Seitenfehler: ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler: ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 6) 0.77a Zoo-Buch: vom Startbildschirm öffnen, alle Reiter antippen, keine Querverschiebung, Zurück
+  p=await seite(b,vp);await p.evaluate(()=>{META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;screen='title';screenArg={};modal=null;renderAll()});
+  if(!await klick(p,'[data-go="buch"]'))T(false,`${wo}: Zoo-Buch-Knopf fehlt`);else{const tabs=await p.evaluate(()=>[...document.querySelectorAll('.bktabs [data-tab]')].map(b=>b.dataset.tab));let n=0;
+   for(const t of tabs){if(await klick(p,`.bktabs [data-tab="${t}"]`)&&await p.evaluate(t=>{const b=document.querySelector(`.bktabs [data-tab="${t}"]`);return!!b&&b.classList.contains('on')},t))n++;
+     const qx=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(qx>2)T(false,`${wo}: Zoo-Buch Reiter ${t} breiter als der Bildschirm (${qx} px)`)}
+   T(n===tabs.length&&n>=5,`${wo}: Zoo-Buch: alle ${tabs.length} Reiter antippbar`);await klick(p,'.bar2 [data-go="title"]');T((await zu(p)).startsWith('title/'),`${wo}: Zoo-Buch „Zurück“ führt zum Startbildschirm`)}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (Zoo-Buch): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

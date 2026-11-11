@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 186,
+ "A": 174,
  "S": 105,
- "total": 19530,
+ "total": 18270,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2314,7 +2314,7 @@
   },
   {
    "id": 26,
-   "a": 2,
+   "a": 0,
    "s": 0,
    "parts": [
     [
@@ -2331,21 +2331,6 @@
      "❄️ Platzprüfung: zählt nicht",
      -3,
      -3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "❤️ neben dem Besucherliebling ×1,25",
-     1,
-     0
-    ],
-    [
-     "2. Lemminge: zählt 75 % des eigenen Werts",
-     -1,
-     0
     ]
    ]
   },
@@ -2363,7 +2348,7 @@
   },
   {
    "id": 28,
-   "a": 55,
+   "a": 53,
    "s": 12,
    "parts": [
     [
@@ -2390,17 +2375,12 @@
      "💧 Fluss: Kette aus 4 ×1,75",
      23,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 29,
-   "a": 4,
+   "a": 0,
    "s": 0,
    "parts": [
     [
@@ -2412,16 +2392,6 @@
      "❄️ Platzprüfung: zählt nicht",
      -4,
      -2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
-     "❤️ Besucherliebling des Tages ×2,0",
-     2,
-     0
     ]
    ]
   },
@@ -2459,18 +2429,13 @@
   },
   {
    "id": 31,
-   "a": 2,
+   "a": 0,
    "s": 0,
    "parts": [
     [
      "❄️ Platzprüfung: zählt nicht",
      -3,
      -2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },

@@ -1563,9 +1563,9 @@
  ]
 },
 "erwartet":{
- "A": 349,
- "S": 344,
- "total": 120056,
+ "A": 300,
+ "S": 329,
+ "total": 98700,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1639,7 +1639,7 @@
   },
   {
    "id": 4,
-   "a": 26,
+   "a": 24,
    "s": 14,
    "parts": [
     [
@@ -1658,11 +1658,6 @@
      5
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "2. Rote Pandas: zählt 75 % des eigenen Werts · Ausbau Stufe II: +75 % des eigenen Werts",
      6,
      4
@@ -1671,7 +1666,7 @@
   },
   {
    "id": 5,
-   "a": 24,
+   "a": 20,
    "s": 10,
    "parts": [
     [
@@ -1695,20 +1690,15 @@
      2
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ Besucherliebling des Tages ×2,0",
-     12,
+     10,
      5
     ]
    ]
   },
   {
    "id": 6,
-   "a": 38,
+   "a": 35,
    "s": 20,
    "parts": [
     [
@@ -1747,13 +1737,8 @@
      3
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     8,
+     7,
      4
     ]
    ]
@@ -1772,7 +1757,7 @@
   },
   {
    "id": 8,
-   "a": 9,
+   "a": 7,
    "s": 5,
    "parts": [
     [
@@ -1784,11 +1769,6 @@
      "⛰️ Rand/Felsen (2) ×1,75",
      3,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -1834,7 +1814,7 @@
   },
   {
    "id": 12,
-   "a": 23,
+   "a": 20,
    "s": 13,
    "parts": [
     [
@@ -1873,13 +1853,8 @@
      2
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     5,
+     4,
      3
     ]
    ]
@@ -1898,7 +1873,7 @@
   },
   {
    "id": 14,
-   "a": 13,
+   "a": 11,
    "s": 8,
    "parts": [
     [
@@ -1920,17 +1895,12 @@
      "💧 Fluss: Kette aus 2 ×1,5",
      4,
      3
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 15,
-   "a": 9,
+   "a": 6,
    "s": 14,
    "parts": [
     [
@@ -1954,20 +1924,15 @@
      4
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
-     2,
+     1,
      3
     ]
    ]
   },
   {
    "id": 16,
-   "a": 13,
+   "a": 11,
    "s": 11,
    "parts": [
     [
@@ -1979,11 +1944,6 @@
      "⛰️ Rand/Felsen (2) ×1,75",
      5,
      5
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -2001,7 +1961,7 @@
   },
   {
    "id": 18,
-   "a": 7,
+   "a": 5,
    "s": 5,
    "parts": [
     [
@@ -2013,11 +1973,6 @@
      "💧 Fluss: Kette aus 3 ×1,75",
      2,
      2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
@@ -2029,7 +1984,7 @@
   },
   {
    "id": 20,
-   "a": 15,
+   "a": 13,
    "s": 6,
    "parts": [
     [
@@ -2053,11 +2008,6 @@
      2
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "🧲 Publikumsmagnet",
      7,
      1
@@ -2066,8 +2016,8 @@
   },
   {
    "id": 21,
-   "a": 35,
-   "s": 19,
+   "a": 26,
+   "s": 16,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2085,19 +2035,9 @@
      2
     ],
     [
-     "🏡 Innenhof ×1,2",
-     3,
-     2
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "Ausbau Stufe II: +75 % des eigenen Werts",
-     15,
-     8
+     11,
+     7
     ]
    ]
   },
@@ -2115,8 +2055,8 @@
   },
   {
    "id": 23,
-   "a": 14,
-   "s": 8,
+   "a": 12,
+   "s": 7,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2127,18 +2067,13 @@
      "💧 Fluss: Kette aus 3 ×1,75",
      5,
      3
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     2,
-     1
     ]
    ]
   },
   {
    "id": 24,
-   "a": 15,
-   "s": 8,
+   "a": 11,
+   "s": 7,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2149,23 +2084,13 @@
      "⛰️ Rand/Felsen (2) ×1,75",
      5,
      3
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     2,
-     1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 25,
-   "a": 14,
-   "s": 7,
+   "a": 10,
+   "s": 6,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2186,23 +2111,13 @@
      "🤝 Freundschaft mit Yakweide ×1,25",
      2,
      1
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     2,
-     1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 26,
-   "a": 3,
-   "s": 6,
+   "a": 1,
+   "s": 5,
    "parts": [
     [
      "Savanne-Naturfläche",
@@ -2218,22 +2133,12 @@
      "🌾 Herde: allein ×0,5",
      -1,
      -4
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     0,
-     1
-    ],
-    [
-     "🌳 Allee",
-     2,
-     0
     ]
    ]
   },
   {
    "id": 27,
-   "a": 11,
+   "a": 10,
    "s": 5,
    "parts": [
     [
@@ -2257,26 +2162,21 @@
      2
     ],
     [
-     "🌳 Allee",
-     2,
-     0
-    ],
-    [
      "❤️ neben dem Besucherliebling ×1,25",
      3,
      1
     ],
     [
      "2. Zebrasteppe: zählt 75 % des eigenen Werts",
-     -4,
+     -3,
      -1
     ]
    ]
   },
   {
    "id": 28,
-   "a": 8,
-   "s": 14,
+   "a": 7,
+   "s": 12,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2292,11 +2192,6 @@
      "💧 Fluss: Kette aus 3 ×1,75",
      2,
      4
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     1,
-     2
     ],
     [
      "2. Flamingoteich: zählt 75 % des eigenen Werts · Ausbau Stufe II: +75 % des eigenen Werts",
@@ -2331,8 +2226,8 @@
   },
   {
    "id": 31,
-   "a": 5,
-   "s": 5,
+   "a": 4,
+   "s": 4,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2343,11 +2238,6 @@
      "⛰️ Rand/Felsen (1) ×1,5",
      2,
      2
-    ],
-    [
-     "🏡 Innenhof ×1,2",
-     1,
-     1
     ],
     [
      "2. Murmeltiere: zählt 75 % des eigenen Werts",
