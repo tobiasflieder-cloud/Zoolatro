@@ -1,0 +1,325 @@
+{
+ "hinweis": "Freischaltungen (0.79a). „zaehler“: Fleiß-Zähler je Spielstand über alle Läufe (nicht Tutorial, nicht Testlauf „4 Tage“, nicht Seed-Läufe), Name = Anzeige. „fleiss“: Freischaltung (Kennung wie im Spiel) → Zähler und Zielzahl. „kunststueck“: Ziele innerhalb eines Zoos/Laufs, Text und Zielzahl (wie geprüft wird, steht im Code: FSG in 09-speichern-lauf.js).",
+ "zaehler": {
+  "wasserGeh": {
+   "name": "Wasser-Gehege gebaut"
+  },
+  "savGeh": {
+   "name": "Savannen-Gehege gebaut"
+  },
+  "waldGeh": {
+   "name": "Dschungel-Gehege gebaut"
+  },
+  "wuesteGeh": {
+   "name": "Wüsten-Gehege gebaut"
+  },
+  "gebirgeGeh": {
+   "name": "Gebirgs-Gehege gebaut"
+  },
+  "arktisGeh": {
+   "name": "Arktis-Gehege gebaut"
+  },
+  "raubtier": {
+   "name": "Raubtiere gebaut"
+  },
+  "showGeh": {
+   "name": "Showtiere gebaut"
+  },
+  "scheuGeh": {
+   "name": "scheue Tiere gebaut"
+  },
+  "attrB": {
+   "name": "Attraktionen gebaut"
+  },
+  "essenB": {
+   "name": "Gastro-Gebäude gebaut"
+  },
+  "felsGeb": {
+   "name": "Gebirgs-Gehege an Felsen gebaut"
+  },
+  "dschB": {
+   "name": "Besucher mit Dschungel-Gehegen"
+  },
+  "schutzN": {
+   "name": "Natur mit Naturschutz-Gebäuden"
+  },
+  "gastroB": {
+   "name": "Besucher mit Gastro-Gebäuden"
+  },
+  "gastroT": {
+   "name": "Taler durch Gastro-Gebäude"
+  },
+  "winterFail": {
+   "name": "Läufe im Winter gescheitert"
+  },
+  "zoos": {
+   "name": "Zoos geschafft"
+  },
+  "spent": {
+   "name": "Taler ausgegeben"
+  },
+  "futter": {
+   "name": "Futtersäcke gekauft"
+  },
+  "runs": {
+   "name": "Läufe beendet"
+  },
+  "rare": {
+   "name": "seltene oder legendäre Karten bekommen"
+  },
+  "specs": {
+   "name": "Spezialisten eingestellt"
+  }
+ },
+ "fleiss": [
+  {
+   "id": "d:kueste",
+   "z": "wasserGeh",
+   "n": 250
+  },
+  {
+   "id": "d:dschungel",
+   "z": "dschB",
+   "n": 10000
+  },
+  {
+   "id": "d:oase",
+   "z": "wuesteGeh",
+   "n": 500
+  },
+  {
+   "id": "d:forscher",
+   "z": "schutzN",
+   "n": 5000
+  },
+  {
+   "id": "c:krokodile",
+   "z": "wasserGeh",
+   "n": 150
+  },
+  {
+   "id": "c:antilopen",
+   "z": "savGeh",
+   "n": 150
+  },
+  {
+   "id": "c:nashoerner",
+   "z": "savGeh",
+   "n": 500
+  },
+  {
+   "id": "c:koalas",
+   "z": "waldGeh",
+   "n": 150
+  },
+  {
+   "id": "c:tiger",
+   "z": "raubtier",
+   "n": 100
+  },
+  {
+   "id": "c:addax",
+   "z": "wuesteGeh",
+   "n": 150
+  },
+  {
+   "id": "c:schneeleoparden",
+   "z": "gebirgeGeh",
+   "n": 150
+  },
+  {
+   "id": "c:aquarium",
+   "z": "wasserGeh",
+   "n": 500
+  },
+  {
+   "id": "c:seilbahn",
+   "z": "attrB",
+   "n": 150
+  },
+  {
+   "id": "c:kuerbisfest",
+   "z": "gastroT",
+   "n": 1000
+  },
+  {
+   "id": "c:pizzeria",
+   "z": "gastroB",
+   "n": 2500
+  },
+  {
+   "id": "c:bistro",
+   "z": "essenB",
+   "n": 150
+  },
+  {
+   "id": "c:weihnachtsmarkt",
+   "z": "winterFail",
+   "n": 5
+  },
+  {
+   "id": "c:bergwacht",
+   "z": "felsGeb",
+   "n": 100
+  },
+  {
+   "id": "c:polarstation",
+   "z": "arktisGeh",
+   "n": 150
+  },
+  {
+   "id": "c:tropenhaus",
+   "z": "zoos",
+   "n": 50
+  },
+  {
+   "id": "c:stiftung",
+   "z": "spent",
+   "n": 1000
+  },
+  {
+   "id": "v:futterkueche",
+   "z": "futter",
+   "n": 50
+  },
+  {
+   "id": "v:buehne",
+   "z": "showGeh",
+   "n": 100
+  },
+  {
+   "id": "v:ruhezone",
+   "z": "scheuGeh",
+   "n": 100
+  },
+  {
+   "id": "s:direktor",
+   "z": "runs",
+   "n": 10
+  },
+  {
+   "id": "s:glueckspilz",
+   "z": "rare",
+   "n": 200
+  },
+  {
+   "id": "s:doppel",
+   "z": "specs",
+   "n": 50
+  }
+ ],
+ "kunststueck": {
+  "d:steppe": {
+   "how": "Einstiegspfad: deinen 1. Lauf beenden",
+   "n": 1
+  },
+  "d:freizeit": {
+   "how": "Meilenstein 🎡 Attraktionen erreichen",
+   "n": 1
+  },
+  "d:geniesser": {
+   "how": "Eine Jahreszeit mit 150 Talern in der Kasse beenden",
+   "n": 150
+  },
+  "g:polar": {
+   "how": "Zoo 3 schaffen",
+   "n": 3
+  },
+  "g:alpen": {
+   "how": "Zoo 5 schaffen",
+   "n": 5
+  },
+  "v:besucherlotse": {
+   "how": "100.000 Punkte an einem Tag",
+   "n": 100000
+  },
+  "v:winterquartier": {
+   "how": "Einen Winter bis Tag 3 schaffen",
+   "n": 1
+  },
+  "v:scheinwerfer": {
+   "how": "Reinheit mit 8 Arten in einem Zoo",
+   "n": 8
+  },
+  "s:zwilling": {
+   "how": "3 gleiche Gehege in einem Zoo",
+   "n": 3
+  },
+  "s:polier": {
+   "how": "An einem Tag 5 Karten bauen",
+   "n": 5
+  },
+  "s:spekulant": {
+   "how": "Einen Zoo mit 200 Talern in der Kasse schaffen",
+   "n": 200
+  },
+  "s:z_rekord": {
+   "how": "Ein Saisonziel mindestens 2 Tage früher schaffen",
+   "n": 2
+  },
+  "c:kraken": {
+   "how": "6 Wasser-Gehege in einem Zoo",
+   "n": 6
+  },
+  "c:nilpferde": {
+   "how": "Meilenstein 💧 Wasser erreichen",
+   "n": 1
+  },
+  "c:bueffel": {
+   "how": "7 zusammenhängende Savannen-Gehege in einem Zoo",
+   "n": 7
+  },
+  "c:gorillas": {
+   "how": "Meilenstein 🌿 Dschungel erreichen",
+   "n": 1
+  },
+  "c:dingos": {
+   "how": "6 Wüsten-Gehege in einem Zoo",
+   "n": 6
+  },
+  "c:kaengurus": {
+   "how": "Meilenstein 🏜️ Wüste erreichen",
+   "n": 1
+  },
+  "c:belugas": {
+   "how": "Einen Zoo auf Stufe 2 oder höher schaffen",
+   "n": 1
+  },
+  "c:eisbaeren": {
+   "how": "Meilenstein ❄️ Arktis erreichen",
+   "n": 1
+  },
+  "c:rentiere": {
+   "how": "6 Arktis-Gehege in einem Zoo",
+   "n": 6
+  },
+  "c:braunbaeren": {
+   "how": "Meilenstein ⛰️ Gebirge erreichen",
+   "n": 1
+  },
+  "c:rotepandas": {
+   "how": "3 Läufe beenden",
+   "n": 3
+  },
+  "c:nachtfuehrung": {
+   "how": "Legendär · 💥 Millionen-Tag: 1 Million Punkte an einem Tag",
+   "n": 1000000
+  },
+  "c:biergarten": {
+   "how": "Meilenstein 🍿 Gastro erreichen",
+   "n": 1
+  },
+  "c:vielfalt": {
+   "how": "10 verschiedene Tierarten in einem Zoo",
+   "n": 10
+  },
+  "c:schmetterling": {
+   "how": "12 Gehege auf passender Naturfläche in einem Zoo",
+   "n": 12
+  },
+  "c:zucht": {
+   "how": "Zwei gleiche Gehege nebeneinander, eines auf Stufe II",
+   "n": 1
+  }
+ }
+}

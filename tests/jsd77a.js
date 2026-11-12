@@ -23,18 +23,19 @@ const start=(w,d4)=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx
  // Karte aus einem nicht gewählten Lebensraum (Dschungel) ist nicht gesperrt
  const wk=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&CARDS[k].hab==='wald'&&!CARDS[k].gone&&!CARDS[k].sig&&!CARDS[k].ms&&!fsLocked(k,activeSlot()))`);
  T(!!wk&&ev(`isLocked('${wk}')`)&&ev(`buchInfo('${wk}',activeSlot()).st`)==='neu','Dschungel-Karte '+wk+' (Lebensraum nicht im Lauf): im Buch „noch nie gebaut“, nicht gesperrt');
- const wc=d.querySelector(`#glist [data-bk="${wk}"]`);T(!!wc&&/nicht in diesem Lauf/.test(wc.textContent)&&!/gesperrt/.test(wc.textContent),'… mit Hinweis „nicht in diesem Lauf“');
+ const op=k=>{ev(`screenArg.bkOpen=${JSON.stringify(k)};renderAll()`);return d.querySelector(`#glist [data-bk="${k}"]`)}; // 0.79a: Details erst aufgeklappt
+ const wc=op(wk);T(!!wc&&/nicht in diesem Lauf/.test(wc.textContent)&&!/gesperrt/.test(wc.textContent),'… mit Hinweis „nicht in diesem Lauf“');
  // echte Sperrgründe
  const lk=ev(`LOCK91.find(k=>CARDS[k]&&!['arktis','gebirge'].includes(CARDS[k].hab))`),lc=d.querySelector(`#glist [data-bk="${lk}"]`);
  T(!!lc&&lc.classList.contains('locked')&&lc.textContent.includes(ev(`fsHowTxt('c:${lk}')`))&&!/Bonus-Karte/.test(lc.textContent),'gesperrte Karte '+lk+' zeigt ihr Freischalt-Ziel');
- const ak=ev(`Object.keys(CARDS).find(k=>CARDS[k].hab==='arktis'&&!CARDS[k].gone&&!CARDS[k].sig&&!CARDS[k].ms)`),ac=d.querySelector(`#glist [data-bk="${ak}"]`);
+ const ak=ev(`Object.keys(CARDS).find(k=>CARDS[k].hab==='arktis'&&!CARDS[k].gone&&!CARDS[k].sig&&!CARDS[k].ms)`),ac=op(ak);
  T(!!ac&&/Lebensraum .*Arktis ist noch gesperrt/.test(ac.textContent),'Arktis-Karte: „Lebensraum Arktis ist noch gesperrt“');
- const vk=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='verst'&&!CARDS[k].gone)`),vc=d.querySelector(`#glist [data-bk="${vk}"]`);
+ const vk=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='verst'&&!CARDS[k].gone)`),vc=op(vk);
  T(!!vc&&/Verstärker · Freischalten/.test(vc.textContent),'Verstärker: eigener Grund');
  const sk=ev(`Object.keys(CARDS).find(k=>CARDS[k].sig&&DECKS[CARDS[k].sig]&&DECKS[CARDS[k].sig].type&&!DECKS[CARDS[k].sig].free&&!deckOpen(activeSlot(),CARDS[k].sig))`);
- if(sk){const sc=d.querySelector(`#glist [data-bk="${sk}"]`);T(!!sc&&/Signatur-Karte des Profils/.test(sc.textContent),'Signatur-Karte: nennt das Profil')}
+ if(sk){const sc=op(sk);T(!!sc&&/Signatur-Karte des Profils/.test(sc.textContent),'Signatur-Karte: nennt das Profil')}
  // gebaute Karte = entdeckt mit Lexikon-Zeile
- ev(`activeSlot().lex={zebras:{n:4,z:3,l3:1}};screenArg.bs='ok';renderAll()`);
+ ev(`activeSlot().lex={zebras:{n:4,z:3,l3:1}};screenArg.bs='ok';screenArg.bkOpen='zebras';renderAll()`);
  const ok=[...d.querySelectorAll('#glist [data-bk]')];T(ok.length===1&&ok[0].dataset.bk==='zebras'&&/4× gebaut · bis Zoo 3/.test(ok[0].textContent)&&ok[0].querySelectorAll('.lb .on').length===2,'Filter „✓ Entdeckt“: Zebras mit Lexikon-Zeile und 2 Abzeichen');
  ev(`screenArg.bs='lock';renderAll()`);T([...d.querySelectorAll('#glist [data-bk]')].every(e=>e.classList.contains('locked')),'Filter „🔒 Gesperrt“ zeigt nur gesperrte');
  const hh=[...d.querySelectorAll('.sh.bkh small')].map(e=>e.textContent);ev(`screenArg.bs='all';renderAll()`);

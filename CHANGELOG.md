@@ -5,6 +5,15 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.79a · 12.11.2026 · Fleiß-Weg, Zoo-Buch schöner
+- 🔓 Freischalten neu: Vor dem Lauf werden keine 3 Ziele mehr gezogen, alle Ziele zählen in jedem Lauf.
+- 💪 Fleiß-Weg: Viele Freischaltungen sammeln sich jetzt über alle Läufe, auch verlorene, z. B. 250 Wasser-Gehege für die Kapitänin, 150 für den Krokodilsumpf, 500 für das Aquarium, 10 beendete Läufe für die Zoodirektorin oder 5 im Winter gescheiterte Läufe für den Weihnachtsmarkt. Deine bisherigen Läufe zählen schon mit (aus der Statistik). Testläufe und das Tutorial zählen nicht.
+- 🎯 Geänderte Kunststücke: Arktis schon ab Zoo 3, Zirkusdirektor über den Attraktionen-Meilenstein, Sterneköchin mit 150 Talern am Ende einer Jahreszeit, Belugas mit einem geschafften Zoo auf Stufe 2, Eisbären und Braunbären über den Arktis- bzw. Gebirgs-Meilenstein, Rote Pandas nach 3 beendeten Läufen, Schmetterlingshaus mit 12 Gehegen auf passender Naturfläche.
+- ✅ Was schon freigeschaltet ist, bleibt freigeschaltet.
+- 📖 Zoo-Buch: Karten stehen kompakt untereinander (Symbol, Name, Werte, Abzeichen), Antippen klappt alle Details auf. Gesperrte zeigen ihren Weg mit Balken, z. B. „137/250 Wasser-Gehege gebaut“. Unter „Freischalten“ steht „Als Nächstes“ mit den drei Zielen, die am nächsten dran sind.
+- 🤝 Freundschaften als Kacheln mit beiden Tieren, unentdeckte als „❔ 💚 ❔“.
+- 👥 Team: Noch nicht freigeschaltete Spezialisten sind grau und stehen unten in einer eigenen Gruppe; der Spielstand lässt sich auch hier wählen.
+
 ## 0.78a · 11.11.2026 · Feedback nach dem Lauf
 - 💬 Nach jedem Lauf, gewonnen oder verloren, fragt das Spiel einmal nach deiner Meinung: Spaß (1–5 ⭐), Schwierigkeit (zu leicht · passt · zu schwer) und ein freier Kommentar. Auf Wunsch wird der Lauf mitgeschickt.
 - 📤 „Feedback senden“ öffnet das Teilen-Menü des Handys (z. B. WhatsApp). Wo es das nicht gibt, wird der Text kopiert. Es wird nichts automatisch verschickt.

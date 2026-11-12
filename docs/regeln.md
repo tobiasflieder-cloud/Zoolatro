@@ -288,7 +288,14 @@ Dschungel (Trubel-Stress nur direkt daneben, Attraktion +1 BP) · Oase (+40 Tale
 Freizeit (Attraktion −1 BP, +1 Team-Platz, Spezialisten +25 %) · Genießer (Eintritt +20 %, Shop −20 %, Pflege +25 %) ·
 Forscher (Meilensteine 1 Art weniger, 1 Karte weniger zur Auswahl) · Polar (Winterziel −15 %, Arktis ohne Winter-Bedingung, Sommerziel +15 %) ·
 Alpen (+1 B je Felsen daneben, höchstens 2, 3 Felsen mehr).
-Freischalten über Ziele (`fsCheck`, `UNLOCK_DECK`).
+Freischalten über Ziele (`09:FSG`, `fsCheck`; Texte und Zahlen in `daten/freischaltungen.json`, seit 0.79a):
+- Alle Ziele zählen in jedem Lauf (keine 3 gezogenen Ziele mehr, keine Gruppen „leichteste zuerst“). Nicht im Tutorial, Testlauf „4 Tage“ und Seed-Lauf.
+- **Kunststück** (`kunststueck`): innerhalb eines Zoos/Laufs, geprüft je nach `ev` (Ende jeder Jahreszeit, Zoo geschafft, Lauf beendet, Tagesende …); Bestwert in `sl.fsb`.
+- **Fleiß** (`fleiss`): Zähler je Spielstand `sl.fl` über alle Läufe (auch verlorene), mehrere Freischaltungen können einen Zähler teilen.
+  Gezählt wird: Bauen (`flBuilt`, Rückgängig zieht ab; Gehege je Lebensraum, Raubtiere/Show/scheu, Attraktionen, Gastro, Gebirgs-Gehege an Felsen),
+  Tagesauswertung (`flDay`: B der Dschungel-Gehege, N der Naturschutz-Gebäude, B und Taler der Gastro-Gebäude selbst), Shop/Kartenwahl
+  (seltene/legendäre Karten, Futtersäcke, Spezialisten eingestellt), Zoo-Ende (Zoos geschafft, Taler ausgegeben, im Winter gescheitert), Lauf-Ende (Läufe).
+  Startwerte einmalig aus `statOf(sl)` und `cuOf(sl)` (`flOf`). Erreicht = sofort frei (ev `any`), was frei ist, bleibt frei.
 
 ### 10.3 Stufen (Zoolatro 2.0, `daten/stufen.json` → `08:STAGES`, Wirkungen über `stAb`/`stW`, `stOf`, `stMax`)
 Je Profil Stufe 1–8. Die nächste wird frei, wenn man mit der höchsten freien Stufe Zoo 3 schafft. Jede Stufe enthält alle davor.

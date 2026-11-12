@@ -39,7 +39,7 @@ const HW=new Set();const klick=async(p,sel)=>{if(!/wishPop/.test(sel))await wuns
 const klickText=async(p,re)=>{await wunschWeg(p);for(const e of await p.$$('button:not([disabled])')){if(re.test((await e.textContent()).trim())&&await e.isVisible()){try{await e.click({timeout:3000})}catch(x){T(false,`Klick auf „${(await e.textContent()).trim().slice(0,20)}“ blockiert: ${(/<[^>]*> intercepts/.exec(x.message)||['?'])[0]}`);return false}await p.waitForTimeout(250);return true}}return false};
 // neuer Lauf über die echten Menüs bis zur Zoo-Übersicht
 async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/^Anlegen/,/^Lauf starten/,/Zufällig/,/^Weiter zum/,/^Stufe 1$/])if(!await klickText(p,re)){T(false,`${wo}: Menü-Knopf ${re} fehlt (${await zu(p)})`);return false}
-  if(await zu(p)!=='null/fsIntro/play:0:0'){T(false,`${wo}: Einführung fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Einführung',seen);await klick(p,'#mFsIntroOk');
+  // 0.79a: keine Einführung mit 3 Freischalt-Zielen mehr
   if(await zu(p)!=='null/zoo/play:0:0'){T(false,`${wo}: Zoo-Übersicht fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Zoo-Übersicht',seen);return true}
 (async()=>{const b=await chromium.launch();try{
  for(const vp of[{width:1280,height:800},{width:1600,height:900},{dev:'Pixel 7'}]){const wo=vp.dev?'Handy '+vp.dev:vp.width+'×'+vp.height,seen=new Set();

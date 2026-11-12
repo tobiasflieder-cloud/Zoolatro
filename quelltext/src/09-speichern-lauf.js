@@ -84,7 +84,9 @@ function statHtml(){const{sl,sel}=slotPick(),back='<div class="bar2"><h2>📊 St
     <h3 class="sh">❄️ Winter je Bedingung</h3>${Object.keys(S.win).length?`<div style="display:flex;flex-direction:column;gap:5px">${Object.entries(S.win).filter(([id])=>INSP[id]).sort((a,b)=>b[1][1]-a[1][1]).map(([id,w])=>`<div class="prow ok"><span class="pic">${INSP[id].icon||'❄️'}</span><div class="pin"><b>${INSP[id].name}: ${w[0]} von ${w[1]} geschafft</b><div class="dprog"><i style="width:${Math.round(w[0]/Math.max(1,w[1])*100)}%"></i></div></div></div>`).join('')}</div>`:'<p style="margin:0;color:var(--muted)">Noch keinen Winter erlebt.</p>'}
     <h3 class="sh">🏗️ Meistgebaut</h3>${tb.length?`<div class="toplist">${tb.map(([k,n],i)=>`<div><span class="rk">${i+1}.</span><span class="nm">${CARDS[k].icon} ${CARDS[k].name}</span><b>${n}×</b></div>`).join('')}</div>`:'<p style="margin:0;color:var(--muted)">Noch nichts gebaut.</p>'}
     <h3 class="sh">❤️ Lieblinge</h3><div class="slotrow"><span>Spezialist: ${fs&&SPEC[fs[0]]?SPEC[fs[0]].icon+' '+SPEC[fs[0]].name+' ('+fs[1]+'×)':'–'}</span><span>Regelbrecher gesehen: ${Object.keys(S.rb).filter(id=>SPEC[id]).map(id=>SPEC[id].icon).join(' ')||'–'}</span></div>`}
-function friendsHtml(sl){const F=sl.friends||{},n=FRIENDS.filter(p=>F[p.join('+')]).length;return`<h3 class="sh lexh">🤝 Geheime Freundschaften · ${n} von ${FRIENDS.length}</h3><p style="margin:0;color:var(--muted);font-size:12.5px">Manche Tiere vertragen sich nebeneinander besonders gut (beide ×1,25). Welche, findest du beim Bauen heraus.</p><div class="chips">${FRIENDS.map(p=>F[p.join('+')]?`<span class="chip2 on">${CARDS[p[0]].icon} ${CARDS[p[0]].name} + ${CARDS[p[1]].icon} ${CARDS[p[1]].name}</span>`:'<span class="chip2">❔ + ❔</span>').join('')}</div>`}
+function friendsHtml(sl){const F=sl.friends||{},n=FRIENDS.filter(p=>F[p.join('+')]).length; // 0.79a: Kacheln
+  return`<h3 class="sh lexh">🤝 Geheime Freundschaften · ${n} von ${FRIENDS.length}</h3><div class="dprog frbar"><i style="width:${Math.round(n/FRIENDS.length*100)}%"></i></div><p style="margin:0;color:var(--muted);font-size:12.5px">Manche Tiere vertragen sich nebeneinander besonders gut (beide ×1,25). Welche, findest du beim Bauen heraus.</p>
+    <div class="frgrid">${FRIENDS.map(p=>F[p.join('+')]?`<div class="frt on"><div class="fri"><span>${CARDS[p[0]].icon}</span><b>💚</b><span>${CARDS[p[1]].icon}</span></div><div class="frn">${CARDS[p[0]].name}<br>${CARDS[p[1]].name}</div><small>beide ×1,25</small></div>`:'<div class="frt"><div class="fri"><span>❔</span><b>💚</b><span>❔</span></div><div class="frn">noch nicht entdeckt</div></div>').join('')}</div>`}
 // Fortschritt: alles Freischaltbare des Spielstands an einem Ort (0.77a: Reiter 🔓 Freischalten im Zoo-Buch, progHtml(1) ohne Kopf)
 function progHtml(emb){const ids=META.slots.map((x,i)=>x?i:null).filter(i=>i!=null),pick=screenArg.ps!=null&&META.slots[screenArg.ps]?screenArg.ps:META.lastSlot,id=pick!=null&&pick!=='tut'&&META.slots[pick]?pick:ids.length?ids[0]:null,sl=id!=null?META.slots[id]:null;
   const tst=META.testVerst?`<div class="rulebox ptest"><b>🧪 Test-Modus ist an</b><small>Alle Verstärker sind im Spiel verfügbar, auch wenn sie hier noch 🔒 sind. Läufe im Test-Modus zählen nicht für die Bestwerte.</small><button class="chip2" data-vtest="1" style="align-self:flex-start">Test-Modus ausschalten</button></div>`:'';
@@ -99,8 +101,8 @@ function progHtml(emb){const ids=META.slots.map((x,i)=>x?i:null).filter(i=>i!=nu
   const all=G.reduce((t,g)=>t+g.R.length,0),got=G.reduce((t,g)=>t+g.got,0);
   const near=FSG.filter(g=>!fsOf(sl)['g!'+g.id]&&!g.un.every(u=>unOpen(sl,u))&&(sl.fsb[g.id]||0)>0&&g.n>1).map(g=>({g,r:Math.min(.99,(sl.fsb[g.id]||0)/g.n)})).sort((a,b)=>b.r-a.r).slice(0,3);
   return back+`<p style="margin:0;color:var(--muted)">Spielstand <b style="color:var(--text)">${esc(sl.name)}</b> · <b style="color:var(--gold)">${got} von ${all}</b> freigeschaltet</p>${bar(got,all)}
-    <p style="margin:0;color:var(--muted);font-size:13px">Jedes Ziel schaltet sofort frei, sobald du es in einem Lauf schaffst. Geprüft wird am Ende jeder Jahreszeit und jedes Zoos. Der Balken zeigt deinen bisher besten Stand.${isNew91(sl)?'':' Dieser Spielstand ist von vor 0.91: Karten, Lebensräume und Spezialisten, die schon offen waren, bleiben offen.'}</p>
-    ${near.length?`<h3 class="psec">🔜 Am nächsten dran</h3>${near.map(({g})=>row(false,'',g.un.map(unName).join(' + '),g.how,fsBar(g.un[0],sl))).join('')}`:''}
+    <p style="margin:0;color:var(--muted);font-size:13px">Alle Ziele zählen in jedem Lauf. <b>Fleiß-Ziele</b> („über alle Läufe“) sammeln sich über alle deine Läufe, auch verlorene. <b>Kunststücke</b> musst du in einem Zoo oder Lauf schaffen, der Balken zeigt deinen Bestwert. Testläufe und das Tutorial zählen nicht.${isNew91(sl)?'':' Dieser Spielstand ist von vor 0.91: Karten, Lebensräume und Spezialisten, die schon offen waren, bleiben offen.'}</p>
+    ${fsNextHtml(sl,'🔜 Als Nächstes')}
     ${G.map(g=>`<h3 class="psec">${g.t} · ${g.got} von ${g.R.length}</h3>${g.R.map(x=>x.html).join('')}`).join('')}
     <h3 class="psec">🏆 Bestwerte</h3><div class="prow ok"><span class="pic">🏆</span><div class="pin"><b>Bester Lauf: ${bestZ} Zoo${bestZ===1?'':'s'} · ${fmt(bestP)} Punkte</b><small>Bester Tag: ${fmt(cu.day||0)} Punkte · ${sl.runs||0} Läufe beendet</small></div></div>${z2ProgHtml(sl,row,bar)}`}
 // Fortschritt in Zoolatro 2.0: Stufen je Deck, Regelbrecher, Herausforderungen
@@ -134,7 +136,7 @@ function wonAnim(){const e=$('wonTot');if(!e||reduced)return;const v=+e.dataset.
 function endRun(won){const sl=activeSlot(),run=sl.run,date=Date.now();if(run.tut){guideEnd(false);return}try{META.lastRunTxt=runText(run);(META.runHist=META.runHist||[]).unshift(META.lastRunTxt);META.runHist=META.runHist.slice(0,10)}catch(e){}META.cscores=META.cscores||[];
   META.cscores.push({name:sl.name,slot:META.active,zoos:run.zoo,pts:run.total||0,won:run.zoo>=CAMP_GOAL,date,zl:run.zl?1:undefined,z2:run.z2?1:undefined,stage:run.z2?run.stage||1:undefined,test:run.test||(META.testVerst?1:undefined)});META.cscores.sort((a,b)=>b.zoos-a.zoos||b.pts-a.pts);META.cscores=META.cscores.slice(0,100);
   const newDecks=run.newDecks||[];
-  const sum=summaryOf(run.stats||newStats(),{total:run.total||0,camp:true,zoos:run.zoo,won:run.zoo>=CAMP_GOAL,newDecks,newNow:run.reward&&run.reward.deckAck?[]:(run.newNow||[]),z2news:run.z2?z2NewsHtml(run):'',look:runLook(sl,run)});const n=1+run.zoo;statRun(sl,run);sl.runs=(sl.runs||0)+1;try{if(!run.seed)fsCheck('run')}catch(e){console.warn(e)}sum.fsNow=(run.fsAll||[]).slice();if(fbAsk(run)){run.fbAsked=1;sum.fb={v:VERSION,stage:run.z2?run.stage||1:null,deck:(DECKS[run.deckId]||{}).name||run.deckId,zoos:run.zoo||0,won:run.zoo>=CAMP_GOAL,txt:META.lastRunTxt||''}}try{const fs=fsOf(sl),L=FSG.filter(g=>!fs['g!'+g.id]&&g.n>1&&(((run.fsPick||[]).includes(g.id))||g.un.some(u=>u.startsWith('d:')))).map(g=>({g,v:Math.min(g.n,(run.fsr||{})[g.id]||0)})).filter(x=>x.v>0).sort((a,b)=>b.v/b.g.n-a.v/a.g.n).slice(0,3);sum.fsNear=L.map(x=>`${unName(x.g.un[0])} ${fmt(x.v)}/${fmt(x.g.n)}`)}catch(e){sum.fsNear=[]}sl.run=null;sl.cperks=sl.cperks||{};applyPerks(sl.cperks);UNLOCK=new Set();state=null;modal=null;
+  const sum=summaryOf(run.stats||newStats(),{total:run.total||0,camp:true,zoos:run.zoo,won:run.zoo>=CAMP_GOAL,newDecks,newNow:run.reward&&run.reward.deckAck?[]:(run.newNow||[]),z2news:run.z2?z2NewsHtml(run):'',look:runLook(sl,run)});const n=1+run.zoo;statRun(sl,run);sl.runs=(sl.runs||0)+1;try{flAdd('runs',1,1)}catch(e){}try{if(!run.seed)fsCheck('run')}catch(e){console.warn(e)}sum.fsNow=(run.fsAll||[]).slice();if(fbAsk(run)){run.fbAsked=1;sum.fb={v:VERSION,stage:run.z2?run.stage||1:null,deck:(DECKS[run.deckId]||{}).name||run.deckId,zoos:run.zoo||0,won:run.zoo>=CAMP_GOAL,txt:META.lastRunTxt||''}}try{const fs=fsOf(sl),L=FSG.filter(g=>!fs['g!'+g.id]&&g.n>1&&(((run.fsPick||[]).includes(g.id))||g.un.some(u=>u.startsWith('d:')))).map(g=>({g,v:Math.min(g.n,(run.fsr||{})[g.id]||0)})).filter(x=>x.v>0).sort((a,b)=>b.v/b.g.n-a.v/a.g.n).slice(0,3);sum.fsNear=L.map(x=>`${unName(x.g.un[0])} ${fmt(x.v)}/${fmt(x.g.n)}`)}catch(e){sum.fsNear=[]}sl.run=null;sl.cperks=sl.cperks||{};applyPerks(sl.cperks);UNLOCK=new Set();state=null;modal=null;
   screen='summary';screenArg={sum,next:{screen:'scores',arg:{f:run.z2?'z2':'zl',hl:date,back:'title'}}};saveMeta();if(sum.won)Sfx.win();else Sfx.lose();renderAll()}
 // Verstärker freischalten: Bedingungen am Ende eines geschafften Zoos; neu freigeschaltete kommen sofort einmal ins Deck
 function verstUnlock(sl,run){run.vNow=[];run.newNow=[];fsMig(sl);return;sl.vu=sl.vu||{};if(run&&run.seed)return;const bs=state.buildings,n=t=>cnt(bs,b=>CARDS[b.key].cat==='gehege'&&CARDS[b.key].tags.includes(t)),z=state.zoo||0,pu=state.zl?zlPurity(bs,mkIndex(bs)).n:0;
@@ -170,68 +172,72 @@ const fsAttrWater=()=>{const bs=state.buildings,idx=mkIndex(bs);return cnt(bs,b=
 const fsNat=()=>cnt(state.buildings,b=>{const c=CARDS[b.key];return c.cat==='gehege'&&c.hab&&natCells(b.cells,c.hab)>0});
 // Ziele: ev = wann geprüft wird (season = Ende jeder Jahreszeit, zoo = Zoo geschafft, run = Lauf beendet, day = Tagesende); n/v = Zahl für den Fortschrittsbalken
 const FSG=[
- {id:'d:steppe',ev:'run',how:'Einstiegspfad: deinen 1. Lauf beenden',n:1,v:x=>x.sl.runs||0},
- {id:'s:direktor',ev:'run',how:'Einstiegspfad: deinen 2. Lauf beenden',n:2,v:x=>x.sl.runs||0},
- {id:'v:futterkueche',ev:'run',how:'Einstiegspfad: deinen 3. Lauf beenden',n:3,v:x=>x.sl.runs||0},
- {id:'d:kueste',grp:'wasser',how:'8 Wasser-Gehege in einem Zoo',n:8,v:()=>fsG(c=>c.hab==='wasser')},
- {id:'d:dschungel',how:'6 verschiedene Dschungel-Gehege in einem Zoo',n:6,v:()=>fsK(c=>c.cat==='gehege'&&c.hab==='wald')},
- {id:'d:oase',grp:'geld',how:'Eine Jahreszeit mit 150 Talern in der Kasse beenden',n:150,v:()=>Math.max(0,state.money)},
- {id:'d:freizeit',how:'7 verschiedene Attraktionen in einem Zoo',n:7,v:()=>fsK(c=>c.cat==='attr')},
- {id:'d:geniesser',grp:'gastroK',how:'7 verschiedene Gastro-Gebäude in einem Zoo',n:7,v:()=>fsK(c=>c.cat==='essen')},
- {id:'d:forscher',how:'6 Meilensteine in einem Lauf',n:6,v:x=>(x.run.miles||0)+Object.keys(state.miles||{}).length},
- {id:'g:polar',grp:'zoo',un:['h:arktis','d:polar'],ev:'zoo',how:'Zoo 4 schaffen',n:4,v:x=>x.z+1},
- {id:'g:alpen',grp:'zoo',un:['h:gebirge','d:alpen'],ev:'zoo',how:'Zoo 5 schaffen',n:5,v:x=>x.z+1},
- {id:'v:besucherlotse',grp:'tag',how:'100.000 Punkte an einem Tag',n:1e5,v:()=>(state.stats.best&&state.stats.best.pts)||0},
- {id:'v:winterquartier',ev:'winter',how:'Einen Winter bis Tag 3 schaffen',n:1,v:x=>+((x.left||0)>=DAYS-3)},
- {id:'v:scheinwerfer',grp:'rein',how:'Reinheit mit 8 Arten in einem Zoo',n:8,v:()=>state.zl?zlPurity(state.buildings,mkIndex(state.buildings)).n:0},
- {id:'v:buehne',grp:'show',how:'5 Showtiere mit vollem Show-Bonus in einem Zoo',n:5,v:fsShowFull},
- {id:'v:ruhezone',grp:'calm',how:'6 scheue Tiere ganz ohne Stress in einem Zoo',n:6,v:()=>fsCalm()},
- {id:'s:zwilling',how:'3 gleiche Gehege in einem Zoo',n:3,v:fsSame},
- {id:'s:polier',ev:'day',how:'An einem Tag 5 Karten bauen',n:5,v:()=>state.builtToday||0},
- {id:'s:spekulant',grp:'geld',ev:'zoo',how:'Einen Zoo mit 200 Talern in der Kasse schaffen',n:200,v:()=>Math.max(0,state.money)},
- {id:'s:glueckspilz',how:'10 Glückstreffer in einem Lauf (🎲 Glück, 🔂 Zugabe, Glücks-Spezialisten, Zirkus-Zelt)',n:10,v:x=>x.run.luckHits||0},
- {id:'s:doppel',how:'Ein volles Team mit 5 Spezialisten',n:5,v:()=>(state.spec||[]).length},
- {id:'s:z_rekord',ev:'won',how:'Ein Saisonziel mindestens 2 Tage früher schaffen',n:2,v:x=>x.left||0},
- {id:'c:kraken',grp:'wasser',how:'6 Wasser-Gehege in einem Zoo',n:6,v:()=>fsG(c=>c.hab==='wasser')},
- {id:'c:krokodile',grp:'raub',ev:'zoo',how:'Einen Zoo mit 3 Raubtieren schaffen',n:3,v:()=>fsG(c=>c.tags.includes('raubtier'))},
- {id:'c:nilpferde',how:'Meilenstein 💧 Wasser erreichen',n:1,v:()=>+fsMile('wasser')},
- {id:'c:antilopen',how:'6 Savannen-Gehege in einem Zoo',n:6,v:()=>fsG(c=>c.hab==='savanne')},
- {id:'c:bueffel',how:'7 zusammenhängende Savannen-Gehege in einem Zoo',n:7,v:fsSavGroup},
- {id:'c:nashoerner',grp:'rein',how:'Legendär · 🧬 Reinzucht: Reinheit ×1,5 (10 Arten eines Lebensraums zusammen)',n:10,v:()=>state.zl?zlPurity(state.buildings,mkIndex(state.buildings)).n:0},
- {id:'c:gorillas',how:'Meilenstein 🌿 Dschungel erreichen',n:1,v:()=>+fsMile('wald')},
- {id:'c:koalas',grp:'calm',how:'3 scheue Tiere ohne Stress in einem Zoo',n:3,v:()=>fsCalm()},
- {id:'c:tiger',grp:'raub',ev:'zoo',how:'Einen Zoo mit 2 Raubtieren schaffen',n:2,v:()=>fsG(c=>c.tags.includes('raubtier'))},
- {id:'c:dingos',how:'6 Wüsten-Gehege in einem Zoo',n:6,v:()=>fsG(c=>c.hab==='wueste')},
- {id:'c:kaengurus',how:'Meilenstein 🏜️ Wüste erreichen',n:1,v:()=>+fsMile('wueste')},
- {id:'c:addax',how:'4 Gehege mit bedrohten Arten in einem Zoo',n:4,v:()=>fsG(c=>c.tags.includes('bedroht'))},
- {id:'c:belugas',grp:'show',how:'3 Showtiere mit vollem Show-Bonus in einem Zoo',n:3,v:fsShowFull},
- {id:'c:eisbaeren',grp:'arktis',how:'7 Arktis-Gehege in einem Zoo',n:7,v:()=>fsG(c=>c.hab==='arktis')},
- {id:'c:rentiere',grp:'arktis',how:'6 Arktis-Gehege in einem Zoo',n:6,v:()=>fsG(c=>c.hab==='arktis')},
- {id:'c:braunbaeren',how:'Je 3 Wald- und Gebirgs-Gehege in einem Zoo',n:3,v:()=>Math.min(fsG(c=>c.hab==='wald'),fsG(c=>c.hab==='gebirge'))},
- {id:'c:rotepandas',how:'2 scheue Tiere neben Naturschutz-Gebäuden, ohne Stress',n:2,v:()=>fsCalm((b,idx)=>nbrs(b,idx).some(n=>isCat(n,'schutz')))},
- {id:'c:schneeleoparden',how:'Meilenstein ⛰️ Gebirge erreichen',n:1,v:()=>+fsMile('gebirge')},
- {id:'c:aquarium',how:'3 Attraktionen neben Wasser-Gehegen in einem Zoo',n:3,v:fsAttrWater},
- {id:'c:nachtfuehrung',grp:'tag',how:'Legendär · 💥 Millionen-Tag: 1 Million Punkte an einem Tag',n:1e6,v:()=>(state.stats.best&&state.stats.best.pts)||0},
- {id:'c:seilbahn',grp:'gebirge',how:'6 Gebirgs-Gehege in einem Zoo',n:6,v:()=>fsG(c=>c.hab==='gebirge')},
- {id:'c:biergarten',how:'Meilenstein 🍿 Gastro erreichen',n:1,v:()=>+fsMile('essen')},
- {id:'c:kuerbisfest',ev:'herbst',how:'Einen Herbst mit 5 Gastro-Gebäuden beenden',n:5,v:()=>fsB(c=>c.cat==='essen')},
- {id:'c:pizzeria',grp:'gastroK',how:'5 verschiedene Gastro-Gebäude in einem Zoo',n:5,v:()=>fsK(c=>c.cat==='essen')},
- {id:'c:bistro',how:'4 Savannen-Gehege und ein Gastro-Gebäude neben einem davon',n:4,v:()=>fsAdjSav()?fsG(c=>c.hab==='savanne'):Math.min(3,fsG(c=>c.hab==='savanne'))},
- {id:'c:weihnachtsmarkt',ev:'winter',how:'Einen Winter mit der Bedingung 🎄 Wintermarkt schaffen',n:1,v:()=>+!!(state.zl&&state.zl.insp==='markt')},
- {id:'c:vielfalt',how:'10 verschiedene Tierarten in einem Zoo',n:10,v:()=>fsK(c=>c.cat==='gehege')},
- {id:'c:bergwacht',grp:'gebirge',how:'3 Gebirgs-Gehege in einem Zoo',n:3,v:()=>fsG(c=>c.hab==='gebirge')},
- {id:'c:polarstation',grp:'arktis',how:'3 Arktis-Gehege in einem Zoo',n:3,v:()=>fsG(c=>c.hab==='arktis')},
- {id:'c:schmetterling',how:'10 Gehege auf passender Naturfläche in einem Zoo',n:10,v:fsNat},
- {id:'c:tropenhaus',grp:'zoo',ev:'zoo',how:'Legendär · 🏆 Zoodirektion: alle 5 Zoos in einem Lauf schaffen',n:5,v:x=>x.z+1},
- {id:'c:stiftung',grp:'geld',ev:'zoo',how:'Legendär · 💰 Sparfuchs: einen Zoo mit 300 Talern in der Kasse schaffen',n:300,v:()=>Math.max(0,state.money)},
- {id:'c:zucht',how:'Zwei gleiche Gehege nebeneinander, eines auf Stufe II',n:1,v:()=>+fsPair()}];
+ {id:'d:steppe',ev:'run',v:x=>x.sl.runs||0},
+ {id:'s:direktor',ev:'run',v:x=>x.sl.runs||0},
+ {id:'v:futterkueche',ev:'run',v:x=>x.sl.runs||0},
+ {id:'d:kueste',grp:'wasser',v:()=>fsG(c=>c.hab==='wasser')},
+ {id:'d:dschungel',v:()=>fsK(c=>c.cat==='gehege'&&c.hab==='wald')},
+ {id:'d:oase',grp:'geld',v:()=>Math.max(0,state.money)},
+ {id:'d:freizeit',v:()=>+fsMile('attr')},
+ {id:'d:geniesser',v:()=>Math.max(0,state.money)},
+ {id:'d:forscher',v:x=>(x.run.miles||0)+Object.keys(state.miles||{}).length},
+ {id:'g:polar',grp:'zoo',un:['h:arktis','d:polar'],ev:'zoo',v:x=>x.z+1},
+ {id:'g:alpen',grp:'zoo',un:['h:gebirge','d:alpen'],ev:'zoo',v:x=>x.z+1},
+ {id:'v:besucherlotse',grp:'tag',v:()=>(state.stats.best&&state.stats.best.pts)||0},
+ {id:'v:winterquartier',ev:'winter',v:x=>+((x.left||0)>=DAYS-3)},
+ {id:'v:scheinwerfer',grp:'rein',v:()=>state.zl?zlPurity(state.buildings,mkIndex(state.buildings)).n:0},
+ {id:'v:buehne',grp:'show',v:fsShowFull},
+ {id:'v:ruhezone',grp:'calm',v:()=>fsCalm()},
+ {id:'s:zwilling',v:fsSame},
+ {id:'s:polier',ev:'day',v:()=>state.builtToday||0},
+ {id:'s:spekulant',grp:'geld',ev:'zoo',v:()=>Math.max(0,state.money)},
+ {id:'s:glueckspilz',v:x=>x.run.luckHits||0},
+ {id:'s:doppel',v:()=>(state.spec||[]).length},
+ {id:'s:z_rekord',ev:'won',v:x=>x.left||0},
+ {id:'c:kraken',grp:'wasser',v:()=>fsG(c=>c.hab==='wasser')},
+ {id:'c:krokodile',grp:'raub',ev:'zoo',v:()=>fsG(c=>c.tags.includes('raubtier'))},
+ {id:'c:nilpferde',v:()=>+fsMile('wasser')},
+ {id:'c:antilopen',v:()=>fsG(c=>c.hab==='savanne')},
+ {id:'c:bueffel',v:fsSavGroup},
+ {id:'c:nashoerner',grp:'rein',v:()=>state.zl?zlPurity(state.buildings,mkIndex(state.buildings)).n:0},
+ {id:'c:gorillas',v:()=>+fsMile('wald')},
+ {id:'c:koalas',grp:'calm',v:()=>fsCalm()},
+ {id:'c:tiger',grp:'raub',ev:'zoo',v:()=>fsG(c=>c.tags.includes('raubtier'))},
+ {id:'c:dingos',v:()=>fsG(c=>c.hab==='wueste')},
+ {id:'c:kaengurus',v:()=>+fsMile('wueste')},
+ {id:'c:addax',v:()=>fsG(c=>c.tags.includes('bedroht'))},
+ {id:'c:belugas',ev:'zoo',v:x=>(x.run.stage||1)>=2?1:0},
+ {id:'c:eisbaeren',v:()=>+fsMile('arktis')},
+ {id:'c:rentiere',grp:'arktis',v:()=>fsG(c=>c.hab==='arktis')},
+ {id:'c:braunbaeren',v:()=>+fsMile('gebirge')},
+ {id:'c:rotepandas',ev:'run',v:x=>x.sl.runs||0},
+ {id:'c:schneeleoparden',v:()=>+fsMile('gebirge')},
+ {id:'c:aquarium',v:fsAttrWater},
+ {id:'c:nachtfuehrung',grp:'tag',v:()=>(state.stats.best&&state.stats.best.pts)||0},
+ {id:'c:seilbahn',grp:'gebirge',v:()=>fsG(c=>c.hab==='gebirge')},
+ {id:'c:biergarten',v:()=>+fsMile('essen')},
+ {id:'c:kuerbisfest',ev:'herbst',v:()=>fsB(c=>c.cat==='essen')},
+ {id:'c:pizzeria',grp:'gastroK',v:()=>fsK(c=>c.cat==='essen')},
+ {id:'c:bistro',v:()=>fsAdjSav()?fsG(c=>c.hab==='savanne'):Math.min(3,fsG(c=>c.hab==='savanne'))},
+ {id:'c:weihnachtsmarkt',ev:'winter',v:()=>+!!(state.zl&&state.zl.insp==='markt')},
+ {id:'c:vielfalt',v:()=>fsK(c=>c.cat==='gehege')},
+ {id:'c:bergwacht',grp:'gebirge',v:()=>fsG(c=>c.hab==='gebirge')},
+ {id:'c:polarstation',grp:'arktis',v:()=>fsG(c=>c.hab==='arktis')},
+ {id:'c:schmetterling',v:fsNat},
+ {id:'c:tropenhaus',grp:'zoo',ev:'zoo',v:x=>x.z+1},
+ {id:'c:stiftung',grp:'geld',ev:'zoo',v:()=>Math.max(0,state.money)},
+ {id:'c:zucht',v:()=>+fsPair()}];
 FSG.forEach(g=>{g.un=g.un||[g.id]});
+// 0.79a: Texte/Zahlen aus daten/freischaltungen.json; Fleiß-Ziele (über alle Läufe) ersetzen das Kunststück und werden bei jeder Zähler-Änderung geprüft (ev 'any')
+const FREI_DATEN=/*@@DATEN:freischaltungen@@*/null,FLZ=FREI_DATEN.zaehler,FLG=Object.fromEntries(FREI_DATEN.fleiss.map(e=>[e.id,e]));
+FSG.forEach(g=>{const F=FLG[g.id],K=FREI_DATEN.kunststueck[g.id];if(F){g.fl=F.z;g.n=F.n;g.ev='any';g.how=`${fmt(F.n)} ${FLZ[F.z].name} (über alle Läufe)`;g.v=x=>flOf(x.sl)[F.z]||0;delete g.grp}else if(K){g.how=K.how;g.n=K.n}});
 // 0.93: je Lauf 3 Freischalt-Ziele (vor dem Lauf gezeigt); gleiche Bedingung in mehreren Stufen: erst die leichteste
 const fsDone=(sl,g)=>{const fs=fsOf(sl);return!!fs['g!'+g.id]||g.un.every(u=>unOpen(sl,u))};
 const FSHAB={'d:kueste':['wasser'],'d:dschungel':['wald'],'c:kraken':['wasser'],'c:nilpferde':['wasser'],'c:antilopen':['savanne'],'c:bueffel':['savanne'],'c:gorillas':['wald'],'c:dingos':['wueste'],'c:kaengurus':['wueste'],'c:eisbaeren':['arktis'],'c:rentiere':['arktis'],'c:polarstation':['arktis'],'c:braunbaeren':['wald','gebirge'],'c:schneeleoparden':['gebirge'],'c:seilbahn':['gebirge'],'c:bergwacht':['gebirge'],'c:aquarium':['wasser'],'c:bistro':['savanne']};
 const fsEligible=(sl,habs)=>FSG.filter(g=>g.ev!=='run'&&(!habs||!FSHAB[g.id]||FSHAB[g.id].every(h=>habs.includes(h)))&&!fsDone(sl,g)&&(!g.grp||FSG.filter(h=>h.grp===g.grp&&h.n<g.n).every(h=>fsDone(sl,h))));
-function fsPickRun(sl,run,intro){if(!sl||!run||run.fsPick||run.tut||!isNew91(sl))return;const L=shuffle(fsEligible(sl,run.habs||(typeof state!=='undefined'&&state&&state.habs)||null));run.fsPick=L.slice(0,3).map(g=>g.id);run.fsIntro=intro&&run.fsPick.length?1:0}
-function fsRunHtml(run,sl,title){const h0=fsRunHtml0(run,sl,title);return h0?h0+'<p class="hint" style="margin:4px 0 0">🎴 Ziele für Profile zählen in jedem Lauf zusätzlich.</p>':h0}
+function fsPickRun(sl,run,intro){return; // 0.79a: keine 3 Ziele je Lauf mehr, alles zählt
+  if(!sl||!run||run.fsPick||run.tut||!isNew91(sl))return;const L=shuffle(fsEligible(sl,run.habs||(typeof state!=='undefined'&&state&&state.habs)||null));run.fsPick=L.slice(0,3).map(g=>g.id);run.fsIntro=intro&&run.fsPick.length?1:0}
+function fsRunHtml(run,sl,title){return fsNextHtml(sl,title?'🔜 Als Nächstes':'')} // 0.79a: statt 3 gezogener Ziele die 3 nächsten Fleiß-Ziele
 function fsRunHtml0(run,sl,title){if(!run||!run.fsPick||!run.fsPick.length)return'';const fs=fsOf(sl);return`<div class="fsrun">${title?`<h3 class="sh">${title}</h3>`:''}${run.fsPick.map(id=>{const g=FSG.find(x=>x.id===id);if(!g)return'';const done=!!fs['g!'+g.id],v=Math.min(g.n,(run.fsr||{})[g.id]||0);
   return`<div class="fsr ${done?'ok':''}"><div class="fsu">${g.un.map(u=>`<b>${unName(u)}</b> <small>${unKind(u)}</small>`).join('<br>')}</div><div class="fsh">${done?'✓ Freigeschaltet!':g.how}</div>${done?'':g.n>1?`<div class="dprog"><i style="width:${Math.round(v/g.n*100)}%"></i></div><small class="fsbn">${fmt(Math.floor(v))} von ${fmt(g.n)} in diesem Lauf</small>`:''}</div>`}).join('')}</div>`}
 const fsGoal=u=>FSG.find(g=>g.un.includes(u));
@@ -242,11 +248,37 @@ const unKind=u=>({d:'Profil',h:'Lebensraum',s:'Spezialist (legendär)',v:'Verst�
 function unOpen(sl,u){const[t,k]=u.split(':');if(t==='d')return deckOpen(sl,k);if(t==='v')return(sl.vu||{})[k]===1;if(!isNew91(sl))return true;return!!fsOf(sl)[u]}
 function fsMig(sl){if(!sl||sl.fsMig91)return;sl.fsMig91=1;sl.vu=sl.vu||{};for(const k in sl.vu)if(sl.vu[k]==='pending')sl.vu[k]=1;for(const g of sl.ulq||[]){const[t,k]=g.split(':');if(t==='v')sl.vu[k]=1;else if(t==='d'&&DECKS[k])cuOf(sl).open.push(k)}sl.ulq=[];fsOf(sl)}
 // Fortschrittsbalken (bester Stand) für ein freischaltbares Ding
-function fsBar(u,sl){const g=fsGoal(u);if(!g||!sl)return'';const b=Math.min(g.n,(fsOf(sl),sl.fsb[g.id]||0));return g.n>1?`<div class="dprog"><i style="width:${Math.round(b/g.n*100)}%"></i></div><small class="fsbn">${fmt(Math.floor(b))} von ${fmt(g.n)}</small>`:''}
+function fsBar(u,sl){const g=fsGoal(u);if(!g||!sl)return'';const p=fsProg(g,sl);return g.fl||g.n>1?`<div class="dprog"><i style="width:${Math.round(p.v/p.n*100)}%"></i></div><small class="fsbn">${g.fl?fmt(Math.floor(p.v))+' von '+fmt(p.n):'Bestwert '+fmt(Math.floor(p.v))+' von '+fmt(p.n)}</small>`:''}
+// ===== 0.79a: Fleiß-Zähler je Spielstand (sl.fl), über alle Läufe; nicht im Tutorial, Testlauf „4 Tage“ oder Seed-Lauf =====
+// Startwerte einmalig aus der Statistik (statOf(sl).built je Karte, Läufe, Zoos, Spezialisten) und cuOf(sl) (wB, eB, arB, sN)
+function flOf(sl){if(!sl)return{};if(!sl.fl){const fl=sl.fl={},S=statOf(sl),cu=sl.cu||{},B=S.built||{},sum=f=>Object.keys(B).reduce((t,k)=>t+(CARDS[k]&&f(CARDS[k])?B[k]:0),0),G=c=>c.cat==='gehege'&&!c.ms;
+  const H={wasserGeh:'wasser',savGeh:'savanne',waldGeh:'wald',wuesteGeh:'wueste',gebirgeGeh:'gebirge',arktisGeh:'arktis'};for(const z in H)fl[z]=sum(c=>G(c)&&c.hab===H[z]);
+  fl.wasserGeh=Math.max(fl.wasserGeh,cu.wB||0);fl.arktisGeh=Math.max(fl.arktisGeh,cu.arB||0);
+  fl.raubtier=sum(c=>G(c)&&c.tags.includes('raubtier'));fl.showGeh=sum(c=>G(c)&&c.tags.includes('show'));fl.scheuGeh=sum(c=>G(c)&&c.tags.includes('scheu'));
+  fl.attrB=sum(c=>c.cat==='attr');fl.essenB=Math.max(sum(c=>c.cat==='essen'),cu.eB||0);fl.schutzN=Math.round(cu.sN||0);
+  fl.runs=Math.max(S.runs||0,sl.runs||0);fl.zoos=S.zoos||0;fl.specs=Object.values(S.spec||{}).reduce((t,n)=>t+(+n||0),0)}return sl.fl}
+const flSl=()=>{try{const sl=activeSlot(),r=sl&&sl.run;return sl&&r&&!r.tut&&!r.d4&&!r.seed?sl:null}catch(e){return null}};
+function flAdd(z,n=1,noCheck){const sl=flSl();if(!sl||!n||!FLZ[z])return;const fl=flOf(sl);fl[z]=Math.max(0,(fl[z]||0)+n);if(!noCheck&&n>0)try{fsCheck('fl')}catch(e){}}
+// gebautes Gebäude zählen (+1) bzw. beim Rückgängig wieder abziehen (−1)
+function flBuilt(b,d){const c=CARDS[b.key];if(!c||!flSl())return;const G=c.cat==='gehege'&&!c.ms&&!c.jt,H={wasser:'wasserGeh',savanne:'savGeh',wald:'waldGeh',wueste:'wuesteGeh',gebirge:'gebirgeGeh',arktis:'arktisGeh'};
+  if(G&&H[c.hab])flAdd(H[c.hab],d,1);if(G&&c.tags.includes('raubtier'))flAdd('raubtier',d,1);if(G&&c.tags.includes('show'))flAdd('showGeh',d,1);if(G&&c.tags.includes('scheu'))flAdd('scheuGeh',d,1);
+  if(c.cat==='attr')flAdd('attrB',d,1);if(c.cat==='essen')flAdd('essenB',d,1);if(b.fels)flAdd('felsGeb',d,1);if(d>0)try{fsCheck('fl')}catch(e){}}
+// Tagesauswertung: B/N/Taler, die Gebäude selbst liefern (r.steps)
+function flDay(r){if(!flSl()||!r)return;const byId=Object.fromEntries(state.buildings.map(b=>[b.id,b]));let dB=0,sN=0,gB=0,gT=0;
+  for(const st of r.steps||[]){const b=byId[st.id];if(!b)continue;const c=CARDS[b.key];if(c.cat==='gehege'&&c.hab==='wald')dB+=Math.max(0,st.a);if(c.cat==='schutz')sN+=Math.max(0,st.s);if(c.cat==='essen')gB+=Math.max(0,st.a)}
+  try{const ix=mkIndex(state.buildings);for(const b of state.buildings){const c=K(b);if(c&&c.cat==='essen'&&c.tal)gT+=Math.max(0,c.tal(nbrs(b,ix),state.buildings,b)||0)}}catch(e){}
+  flAdd('dschB',Math.round(dB),1);flAdd('schutzN',Math.round(sN),1);flAdd('gastroB',Math.round(gB),1);flAdd('gastroT',Math.round(gT),1);try{fsCheck('fl')}catch(e){}}
+const flRare=k=>{const c=CARDS[k];if(c&&['selten','sehr selten'].includes(c.rar))flAdd('rare')};
+// Anzeige: Fortschritt eines Fleiß- oder Kunststück-Ziels
+function fsProg(g,sl){if(!g||!sl)return{v:0,n:1,txt:''};fsOf(sl);if(g.fl){const v=Math.min(g.n,flOf(sl)[g.fl]||0);return{v,n:g.n,txt:`${fmt(Math.floor(v))}/${fmt(g.n)} ${FLZ[g.fl].name} (über alle Läufe)`}}
+  const b=Math.min(g.n,sl.fsb[g.id]||0);return{v:b,n:g.n,txt:`${g.how}${g.n>1?' · Bestwert '+fmt(Math.floor(b)):''}`}}
+// die 3 Fleiß-Ziele, die am nächsten dran sind
+const fsNext=(sl,k=3)=>!sl?[]:FSG.filter(g=>g.fl&&!fsDone(sl,g)).map(g=>({g,r:(flOf(sl)[g.fl]||0)/g.n})).sort((a,b)=>b.r-a.r).slice(0,k).map(x=>x.g);
+function fsNextHtml(sl,title){const L=fsNext(sl);if(!L.length)return'';return`<div class="fsrun">${title?`<h3 class="sh">${title}</h3>`:''}${L.map(g=>{const p=fsProg(g,sl);return`<div class="fsr"><div class="fsu">${g.un.map(u=>`<b>${unName(u)}</b> <small>${unKind(u)}</small>`).join('<br>')}</div><div class="fsh">${p.txt}</div><div class="dprog"><i style="width:${Math.round(p.v/p.n*100)}%"></i></div></div>`}).join('')}</div>`}
 // Prüfen: ev = 'season' | 'won' | 'winter' | 'herbst' | 'zoo' | 'run' | 'day'
 function fsCheck(ev,o={}){const sl=fsSl();if(!sl||(ev!=='run'&&(!state||state.mode!=='camp')))return[];const run=sl.run;if(!run||run.d4)return[];fsMig(sl);const fs=fsOf(sl),x={sl,run,z:state?state.zoo||0:run.zoo||0,left:o.left||0},got=[];
-  const when=g=>{const e=g.ev||'season';if(e==='run')return ev==='run';if(e==='day')return ev==='day'||ev==='season';if(e==='zoo')return ev==='zoo';if(e==='won')return ev==='won';if(e==='winter')return ev==='won'&&state.season===3;if(e==='herbst')return(ev==='won'||ev==='season')&&state.season===2;return ev==='season'||ev==='won'};
-  fsPickRun(sl,run,false);for(const g of FSG){if(fs['g!'+g.id]||g.un.every(u=>unOpen(sl,u)))continue;if(run.fsPick&&g.ev!=='run'&&!run.fsPick.includes(g.id)&&!g.un.some(u=>u.startsWith('d:')))continue;if(!when(g))continue;let v=0;try{v=g.v(x)||0}catch(e){v=0}sl.fsb[g.id]=Math.max(sl.fsb[g.id]||0,v);run.fsr=run.fsr||{};run.fsr[g.id]=Math.max(run.fsr[g.id]||0,v);if(v<g.n)continue;fs['g!'+g.id]=1;
+  const when=g=>{const e=g.ev||'season';if(e==='any')return true;if(ev==='fl')return false;if(e==='run')return ev==='run';if(e==='day')return ev==='day'||ev==='season';if(e==='zoo')return ev==='zoo';if(e==='won')return ev==='won';if(e==='winter')return ev==='won'&&state.season===3;if(e==='herbst')return(ev==='won'||ev==='season')&&state.season===2;return ev==='season'||ev==='won'};
+  fsPickRun(sl,run,false);for(const g of FSG){if(fs['g!'+g.id]||g.un.every(u=>unOpen(sl,u)))continue;if(!when(g))continue;let v=0;try{v=g.v(x)||0}catch(e){v=0}sl.fsb[g.id]=Math.max(sl.fsb[g.id]||0,v);run.fsr=run.fsr||{};run.fsr[g.id]=Math.max(run.fsr[g.id]||0,v);if(v<g.n)continue;fs['g!'+g.id]=1;
     for(const u of g.un){if(unOpen(sl,u))continue;const[t,k]=u.split(':');fs[u]=1;if(t==='d'){const cu=cuOf(sl);if(!cu.open.includes(k))cu.open.push(k)}else if(t==='v'){sl.vu=sl.vu||{};sl.vu[k]=1;if(ev!=='run'){state.discard.push(k);run.deck.push(k)}}else if(t==='c'&&ev!=='run'&&habOkRun(run,k)){state.discard.push(k);run.deck.push(k)}got.push(u)}}
   if(got.length){if(state)state.fsNew=(state.fsNew||[]).concat(got);run.fsAll=(run.fsAll||[]).concat(got);try{Sfx.sparkle()}catch(e){}}return got}
 const habOkRun=(run,k)=>{const c=CARDS[k],h=c.hab||c.rq;return!h||(run.habs||DEFHABS).includes(h)};
@@ -410,7 +442,7 @@ function dayMarks(idx){let o='';const mark=(k,cls,t)=>{const[q,r]=k.split(',').m
 
 const ulWait=sl=>(sl.ulq||[]).map(g=>{const[t,k]=g.split(':');return t==='v'?CARDS[k].icon+' '+CARDS[k].name:DECKS[k].icon+' '+DECKS[k].name});
 function verstWinHtml(ks,btn){return`<div class="deckwin"><div class="dwi">🔆</div><h2>${ks.length>1?'Neue Verstärker':'Neuer Verstärker'} freigeschaltet!</h2>${ks.map(k=>{const c=CARDS[k];return`<div class="dwbox"><div class="dwh"><span>${c.icon}</span><div><b>${c.name}</b><small>${fxHtml(c)}</small></div></div><p class="dwg">✓ Geschafft: ${VCOND[k]}</p></div>`}).join('')}<p style="margin:0;color:var(--muted);font-size:13.5px">Verstärker zählen selbst nicht, sie verstärken nur ihre Nachbarn. Ein Exemplar liegt schon in deinem Deck, ab jetzt tauchen sie auch in Kartenauswahl und Laden auf.</p>${btn}</div>`}
-function finishGame(){const sl=activeSlot(),won=state.phase==='win',date=Date.now();logZoo(won);tallyZoo();
+function finishGame(){const sl=activeSlot(),won=state.phase==='win',date=Date.now();logZoo(won);tallyZoo();try{if(state.mode==='camp'&&sl&&sl.run){const r=sl.run,sp=(state.stats&&state.stats.spent)||0;flAdd('spent',sp-(r.flSpent||0),1);r.flSpent=sp;if(won)flAdd('zoos',1,1);else if(state.season===3)flAdd('winterFail',1,1)}}catch(e){}
   if(state.mode==='camp'&&sl&&sl.run){const run=sl.run;if(won)try{fsCheck('zoo')}catch(e){console.warn(e)}run.total=(run.total||0)+state.totalScore;run.stats=state.stats;run.game=null;if(state.zl)run.grow=state.zl.grow;{const keep=run.d4?JSON.stringify({cu:sl.cu||null,vu:sl.vu||null}):null;tallyUnlock(sl,run);if(keep){const o=JSON.parse(keep);sl.cu=o.cu||undefined;sl.vu=o.vu||undefined;run.newNow=[]}}statZoo(sl,run,won);
     if(run.z2)z2After(sl,run,won);
     if(!won){endRun(false);return}

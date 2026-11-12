@@ -335,7 +335,7 @@ $('info').addEventListener('click',e=>{{const aw=e.target.closest('[data-ausw]')
   startMove(b);Sfx.select();render()});
 function undo(){if(state.phase==='play'&&state.moving!=null){state.moving=null;state.preview=null;Sfx.select();render();return}
   if(state.phase!=='play'||!state.undo.length){Sfx.deny();return}const u=state.undo.pop(),put=(k,i)=>state.hand.splice(Math.min(i,state.hand.length),0,k);
-  if(u.kd)state.kuUsed=0;if(u.t==='build'){zlBuilt(u.key,-1);state.buildings=state.buildings.filter(b=>b.id!==u.id);put(u.key,u.hi);state.bp+=u.cost!=null?u.cost:costOf(u.key);if(u.cost===0)state.free1=Math.max(0,(state.free1||0)-1);state.builtToday--}
+  if(u.kd)state.kuUsed=0;if(u.t==='build'){zlBuilt(u.key,-1);try{const ub=state.buildings.find(b=>b.id===u.id);if(ub)flBuilt(ub,-1)}catch(e){}state.buildings=state.buildings.filter(b=>b.id!==u.id);put(u.key,u.hi);state.bp+=u.cost!=null?u.cost:costOf(u.key);if(u.cost===0)state.free1=Math.max(0,(state.free1||0)-1);state.builtToday--}
   else if(u.t==='up'){const b=state.buildings.find(b=>b.id===u.id);if(b){b.lvl=Math.max(1,(b.lvl||1)-1);if(u.ne){b.ed=(b.ed||'').slice(0,-1);if(!b.ed)delete b.ed}if(u.np)delete b.pr;}put(u.key,u.hi);state.bp+=u.cost!=null?u.cost:costOf(u.key);if(u.cost===0)state.free1=Math.max(0,(state.free1||0)-1);state.builtToday--}
   else if(u.t==='mv'){const b=state.buildings.find(b=>b.id===u.id);if(b)b.cells=u.cells;state.bp+=u.mc==null?1:u.mc;if(u.fm)state.freeMv=null}
   else if(u.t==='move'){state.buildings.splice(Math.min(u.i,state.buildings.length),0,u.b);for(let i=0;i<u.n;i++){const j=state.discard.lastIndexOf(u.b.key);if(j>=0)state.discard.splice(j,1)}state.bp+=1}
@@ -461,7 +461,7 @@ function demolish(id){const b=state.buildings.find(x=>x.id===id);if(!b||state.ph
 function build(){const h=hypo();if(!h||!h.ok||state.phase!=='play')return;if(typeof tutPvLock==='function'&&tutPvLock()){Sfx.deny();return}const bon0=state.zl?{v:vielfalt(state.buildings).f,p:zlPurity(state.buildings,mkIndex(state.buildings)).n}:null;
   if(h.move){const mc=moveCost(),fm=mc===0&&!hasSpec('umzug');if(state.bp<mc){Sfx.deny();return}if(fm)state.freeMv=dayKeyNow();state.undo.push({t:'mv',id:h.move.id,cells:h.move.cells,mc,fm});h.move.cells=h.cells;state.bp-=mc;state.moving=null;state.preview=null;state.info=null;Sfx.build();render();return}const key=state.hand[state.selected],hi=state.selected,cst=costOf(key),kd=kuDisc(key)?1:0;
   let fxId=null;if(h.up){fxId=h.up.id;h.up.lvl=(h.up.lvl||1)+1;const ne=CARDS[key].ed||null;if(ne)h.up.ed=(h.up.ed||'')+ne;const np=CARDS[key].pr&&!h.up.pr?CARDS[key].pr:null;if(np)h.up.pr=np;state.undo.push({t:'up',id:h.up.id,key,hi,ne,np,cost:cst,kd})}
-  else{const id=state.nextId++;fxId=id;const ed=CARDS[key].ed,pr=CARDS[key].pr,nb0={id,key:baseK(key),cells:h.cells,lvl:1};if(ed)nb0.ed=ed;if(pr)nb0.pr=pr;state.buildings.push(nb0);zlBuilt(key,1);try{grwBuilt(baseK(key))}catch(e){}state.undo.push({t:'build',id,key,hi,cost:cst,kd})}
+  else{const id=state.nextId++;fxId=id;const ed=CARDS[key].ed,pr=CARDS[key].pr,nb0={id,key:baseK(key),cells:h.cells,lvl:1};if(ed)nb0.ed=ed;if(pr)nb0.pr=pr;if(CARDS[key].cat==='gehege'&&CARDS[key].hab==='gebirge'&&h.cells.some(([q,r])=>TERR.get(hk(q,r))==='block'||DIRS.some(([a,c])=>TERR.get(hk(q+a,r+c))==='block')))nb0.fels=1;state.buildings.push(nb0);zlBuilt(key,1);try{flBuilt(nb0,1)}catch(e){}try{grwBuilt(baseK(key))}catch(e){}state.undo.push({t:'build',id,key,hi,cost:cst,kd})}
   state.bp-=cst;if(kd)state.kuUsed=1;if(!cst)state.free1=(state.free1||0)+1;state.hand.splice(hi,1);state.builtToday++;{let rk=0;for(const[q,r]of h.cells)if(TERR.get(hk(q,r))==='block'){TERR.delete(hk(q,r));rk++}if(rk){state.terr=[...TERR];state.undo=[];if(Math.random()<chance(.25)){state.money+=20;state.stats.earned+=20;state.bannerQ=(state.bannerQ||[]).concat([['🦴 Fossil gefunden!','Unter dem Felsen lag ein Fossil: +20 Taler.']])}}}try{discover92()}catch(e){} // gebaute Karten sind verbraucht
   state.mileSeen=state.mileSeen||{};for(const t in MILE){const M=MILE[t];if((state.miles||{})[t]||state.mileSeen[t]||mileCount(state.buildings,t)<M.n)continue;state.mileSeen[t]=1;
     const bn=document.createElement('div');bn.className='mbanner';bn.innerHTML=`<b>🏅 Meilenstein!</b><span>${M.n} verschiedene ${M.label} · morgen früh bekommst du eine besondere Karte</span>`;document.querySelector('.boardarea').appendChild(bn);setTimeout(()=>bn.remove(),2800);Sfx.combo();setTimeout(()=>sparks(boardCenter(),14),60)}
@@ -535,7 +535,7 @@ async function startScoring0(retry){state.phase='scoring';fast=!!retry;if(!retry
     await new Promise(res=>{const tick=now=>{const f=Math.min(1,(now-t0)/(dur*1000));$('vT').textContent=fmt(r.total*(1-(1-f)**2));if(f<1&&!fast)requestAnimationFrame(tick);else res()};requestAnimationFrame(tick)})}
   $('vT').textContent=fmt(r.total);bump('cT');if(!quick()&&r.total>0){const big=r.total>((state.yday&&state.yday.total)||0),tg=seOf(state.season).target,reach=state.seasonScore<tg&&state.seasonScore+r.total>=tg;fxSlam('cT');if(reach){fxFlash();fxPunch(boardCenter(),1.05)}if(big||reach)fxShake(reach&&fxStrong()?2:1)}if(r.total>0)Sfx.total(r.total>((state.yday&&state.yday.total)||0));await wait(quick()?0:300);
   // money
-  const inc=dayIncome(r.A,r.S,state.money);state.money+=inc.total;state._scM=1;state.lastIncome=inc;strikeNote(state.money-inc.total);
+  try{flDay(r)}catch(e){}const inc=dayIncome(r.A,r.S,state.money);state.money+=inc.total;state._scM=1;state.lastIncome=inc;strikeNote(state.money-inc.total);
   {const L=state.ledger=state.ledger||{entry:0,care:0,interest:0,early:0};L.entry+=inc.entry;L.care+=inc.care;L.interest+=inc.interest;L.spec=(L.spec||0)+(inc.spec||0)}
   {const t=state.stats;t.days++;if(inc.total>0)t.earned+=inc.total;if(!t.best||r.total>t.best.pts)t.best={pts:r.total,season:state.season,day:state.day,zoo:state.zoo}}
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);mo.classList.remove('pop');void mo.offsetWidth;mo.classList.add('pop');
@@ -558,7 +558,7 @@ function draftRoll(){if(tutDraft()){Sfx.deny();return}const p=draftPrice();if(st
 const deckTotal=()=>state.hand.length+state.deck.length+state.discard.length,skipOk=()=>deckTotal()>MINSKIP;
 const tutDraft=()=>!!(tutGuided()&&state.phase==='draft');
 const vNew=k=>{const sl=activeSlot();return CARDS[k].cat==='verst'&&!((sl&&sl.vseen)||{})[baseK(k)]};
-function pick(i){if(i==null)return;if(tutDraft()&&i!==0){Sfx.deny();return}{const k=state.offer[i],sl=activeSlot();if(k&&sl&&CARDS[k]&&CARDS[k].cat==='verst'){sl.vseen=sl.vseen||{};sl.vseen[baseK(k)]=1}}state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.cardpick();
+function pick(i){if(i==null)return;if(tutDraft()&&i!==0){Sfx.deny();return}{const k=state.offer[i],sl=activeSlot();if(k&&sl&&CARDS[k]&&CARDS[k].cat==='verst'){sl.vseen=sl.vseen||{};sl.vseen[baseK(k)]=1}}try{flRare(state.offer[i])}catch(e){}state.discard.push(state.offer[i]);state.offer=[];state.picks--;Sfx.cardpick();
   if(state.picks>0){newOffer();render()}else advance()}
 function advance(){
   if(state.pendingSeason){openShop();return}
@@ -591,7 +591,7 @@ function rollSpecs(n,excl=[],WT,guar){WT=WT||[0,8,2,1];const run=runOf(),have=ru
   // 0.64a Profi-Mappe: mindestens eine seltene oder legendäre Bewerbung
   if(guar&&out.length&&!out.some(id=>SPEC[id].tier>=2)){const hi=pool.filter(id=>SPEC[id].tier>=2);if(hi.length){const w=hi.map(id=>WT[SPEC[id].tier]),tot=w.reduce((a,b)=>a+b,0);let r=Math.random()*tot,i=0;for(;i<hi.length-1;i++){r-=w[i];if(r<=0)break}out[out.length-1]=hi[i]}}
   return out}
-function hireSpec(id){const run=runOf();if(!run||!SPEC[id])return false;run.spec=run.spec||[];if(run.spec.length>=maxSpec()||run.spec.includes(id))return false;run.spec.push(id);if(id==='floss'&&!run.flossGot){run.flossGot=1;for(let i=0;i<6;i++)run.deck.push('flossteil');try{if(state&&state.mode==='camp'&&Array.isArray(state.deck)){for(let i=0;i<6;i++)state.deck.push('flossteil');state.deck=shuffle(state.deck)}}catch(e){}}
+function hireSpec(id){const run=runOf();if(!run||!SPEC[id])return false;run.spec=run.spec||[];if(run.spec.length>=maxSpec()||run.spec.includes(id))return false;run.spec.push(id);try{flAdd('specs')}catch(e){}if(id==='floss'&&!run.flossGot){run.flossGot=1;for(let i=0;i<6;i++)run.deck.push('flossteil');try{if(state&&state.mode==='camp'&&Array.isArray(state.deck)){for(let i=0;i<6;i++)state.deck.push('flossteil');state.deck=shuffle(state.deck)}}catch(e){}}
   if(state&&state.mode==='camp'){state.spec=run.spec.slice();if(id==='polier'){state.bpMax++;state.bp++}syncCtx()}return true}
 function fireSpec(id,refund){const run=runOf();if(!run||!(run.spec||[]).includes(id))return;run.spec=run.spec.filter(x=>x!==id);
   if(state&&state.mode==='camp'){state.spec=run.spec.slice();if(id==='polier'){state.bpMax--;state.bp=Math.max(0,state.bp-1)}if(refund)state.money+=Math.floor(SPECPRICE[SPEC[id].tier]/2);syncCtx()}}
@@ -642,7 +642,7 @@ function buy(it){if(it.sold||!canPay(it.price)){Sfx.deny();return}
   if(it.kind==='umbau'){state.money-=it.price;state.stats.spent+=it.price;state.umbOpts=TUTNOW?['x2','krone','x4']:rollUmb(3);state.umbRep=null;state.shopSub='umbau';state.shop.note=null;Sfx.till();Sfx.shop();render();return}
   if(EARLYG[it.kind]){const r=runOf();if(!r)return;r.gifts=(r.gifts||[]).filter((g,i)=>i!==it.gi);Sfx.till();Sfx.shop();state.shop.note=null;
     if(it.kind==='gsack'){state.sack={opts:rollFood(2)};state.shopSub='sack'}else if(it.kind==='gumb'){state.umbOpts=rollUmb(3);state.umbRep=null;state.shopSub='umbau'}else{state.mappe={opts:rollSpecs(runAus('mappe')?4:3,[],PROFIW,1),pick:null,pro:1};state.shopSub='mappe'}render();return}
-  if(it.kind==='sack'){state.money-=it.price;state.stats.spent+=it.price;state.sackN=(state.sackN||0)+1;state.sack={opts:rollFood(2)};{const ts=gRun()&&tutStep0();if(ts&&ts.food){const o=rollFood(4).filter(x=>x!==ts.food&&!String(x).startsWith('h:'));state.sack.opts=[ts.food,...o].slice(0,2)}}state.shopSub='sack';state.shop.note=null;Sfx.till();Sfx.shop();render();return}
+  if(it.kind==='sack'){state.money-=it.price;state.stats.spent+=it.price;state.sackN=(state.sackN||0)+1;try{flAdd('futter')}catch(e){}state.sack={opts:rollFood(2)};{const ts=gRun()&&tutStep0();if(ts&&ts.food){const o=rollFood(4).filter(x=>x!==ts.food&&!String(x).startsWith('h:'));state.sack.opts=[ts.food,...o].slice(0,2)}}state.shopSub='sack';state.shop.note=null;Sfx.till();Sfx.shop();render();return}
   if(it.kind==='profi'){state.money-=it.price;state.stats.spent+=it.price;state.profiN=(state.profiN||0)+1;state.mappe={opts:rollSpecs(runAus('mappe')?4:3,[],PROFIW,1),pick:null,pro:1};state.shopSub='mappe';state.shop.note=null;Sfx.till();Sfx.shop();render();return}
   if(it.kind==='mappe'){state.money-=it.price;state.stats.spent+=it.price;state.mappeN=(state.mappeN||0)+1;state.mappe={opts:rollSpecs(runAus('mappe')?4:3),pick:null};{const ts=gRun()&&tutStep0();if(ts&&ts.spec){state.mappe.opts=[ts.spec,...rollSpecs(4,[ts.spec]).filter(x=>x!==ts.spec)].slice(0,3)}}state.shopSub='mappe';state.shop.note=null;Sfx.till();Sfx.shop();render();return}
   if(it.kind==='spec'&&(state.spec||[]).length>=maxSpec()){Sfx.deny();state.shop.note=`Alle ${maxSpec()} Plätze für Spezialisten sind belegt. Entlasse unten zuerst jemanden.`;render();return}
@@ -650,7 +650,7 @@ function buy(it){if(it.sold||!canPay(it.price)){Sfx.deny();return}
   if(isMultItem(it.kind,it.key))state.multBought=(state.multBought||0)+1;
   if(it.kind==='prog'){state.progs.push(it.key);it.sold=true}
   else if(it.kind==='ad'){state.adsNext.push(it.key);it.sold=true}
-  else if(it.kind==='card'){state.discard.push(it.key);it.sold=true}
+  else if(it.kind==='card'){state.discard.push(it.key);it.sold=true;try{flRare(it.key)}catch(e){}}
   else if(it.kind==='spec'){hireSpec(it.key);it.sold=true;Sfx.win()}
   else if(it.kind==='tv'){state.zl.tvNext=true;state.shop.note='Fernsehteam gebucht: Baue am ersten Tag der nächsten Jahreszeit mindestens 3 Gehege/Gebäude.'}
   else if(it.kind==='bp'){state.bpNext=1;state.shop.note='Saison-Bautrupp gebucht: nächste Jahreszeit +1 Baupunkt pro Tag.'}

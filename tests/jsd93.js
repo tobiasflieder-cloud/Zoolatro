@@ -6,16 +6,17 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(/^0\.9[3-9]$/.test(ev('VERSION')),'Version '+ev('VERSION'));
  // neuer Spielstand (0.91-Regeln: Freischalten über Ziele)
  ev(`META.slots[0]={name:'Neu',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.active=0;enterCamp(0,true,'grund',true,['wasser','savanne','wald','wueste'],NOPROF)`);
- T(ev(`runOf().fsPick.length`)===3&&ev(`runOf().fsIntro`)===1,'Lauf startet mit 3 Freischalt-Zielen: '+ev(`runOf().fsPick.join(', ')`));
- ev(`render()`);L('DBG',ev('modal'),ev('state.phase'),ev('screen'),d.getElementById('modalRoot').textContent.slice(0,120));T(/Freischalt-Ziele für diesen Lauf/.test(d.getElementById('modalRoot').textContent),'Fenster mit den 3 Zielen vor dem Lauf');
- ev(`document.getElementById('mFsIntroOk').click()`);T(ev(`modal!=='fsIntro'&&!runOf().fsIntro`),'Fenster wegklickbar, danach Zoo-Fenster');ev('modal=null');
- T(ev(`(()=>{const E=fsEligible(activeSlot()).map(g=>g.id);return !E.includes('c:seilbahn')&&!E.includes('c:rentiere')&&!E.includes('c:eisbaeren')&&!E.includes('d:kueste')&&!E.includes('g:alpen')&&E.includes('c:kraken')&&E.includes('g:polar')})()`),'Gleiche Bedingung: erst die leichteste Stufe (Kraken vor Küste, Polar vor Alpen …)');
- T(ev(`(()=>{const g=id=>FSG.find(x=>x.id===id);return g('d:freizeit').n===7&&g('d:geniesser').n===7&&g('d:forscher').n===6&&g('g:polar').n===4&&g('g:alpen').n===5&&g('v:besucherlotse').n===1e5&&g('v:scheinwerfer').n===8&&g('c:kraken').n===6&&g('c:bueffel').n===7&&g('c:addax').n===4&&g('c:eisbaeren').n===7&&g('c:rentiere').n===6&&g('c:seilbahn').n===6&&g('c:pizzeria').n===5&&g('c:schmetterling').n===10})()`),'Neue Ziel-Zahlen laut Tabelle');
- // nur die gewählten Ziele werden geprüft
- ev(`(()=>{const r=runOf();r.fsPick=['c:kraken'];modal=null;state.wishIntro=0;const F=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));const W=Object.keys(CARDS).filter(k=>CARDS[k].cat==='gehege'&&CARDS[k].hab==='wasser'&&SHAPES[CARDS[k].shape].cells.length===1&&!CARDS[k].ms).slice(0,1);state.buildings=F.slice(0,8).map((c,i)=>({id:900+i,key:W[0],cells:[c],lvl:1}));fsCheck('season')})()`);
- T(ev(`!!fsOf(activeSlot())['g!c:kraken']&&!!fsOf(activeSlot())['g!d:kueste']`),'Gewähltes Ziel schaltet frei; Profil-Ziel (Küste mit 8 Wasser) zählt immer');
+ // 0.79a: keine 3 Ziele je Lauf mehr
+ T(!ev(`runOf().fsPick`)&&!ev(`runOf().fsIntro`),'Lauf startet ohne gezogene Freischalt-Ziele (seit 0.79a)');
+ ev(`render()`);T(!/Freischalt-Ziele für diesen Lauf/.test(d.getElementById('modalRoot').textContent),'kein Fenster mit 3 Zielen vor dem Lauf');
+ ev('modal=null');
+ // (Gruppen „leichteste zuerst“ entfallen seit 0.79a)
+ T(ev(`(()=>{const g=id=>FSG.find(x=>x.id===id);return g('d:freizeit').n===1&&g('d:geniesser').n===150&&g('g:polar').n===3&&g('g:alpen').n===5&&g('v:besucherlotse').n===1e5&&g('v:scheinwerfer').n===8&&g('c:kraken').n===6&&g('c:bueffel').n===7&&g('d:kueste').n===250&&g('d:kueste').fl==='wasserGeh'&&g('c:rentiere').n===6&&g('c:schmetterling').n===12})()`),'Ziel-Zahlen laut Tabelle 0.79a');
+ // alle Kunststück-Ziele zählen in jedem Lauf
+ ev(`(()=>{const r=runOf();modal=null;state.wishIntro=0;const F=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));const W=Object.keys(CARDS).filter(k=>CARDS[k].cat==='gehege'&&CARDS[k].hab==='wasser'&&SHAPES[CARDS[k].shape].cells.length===1&&!CARDS[k].ms).slice(0,1);state.buildings=F.slice(0,8).map((c,i)=>({id:900+i,key:W[0],cells:[c],lvl:1}));fsCheck('season')})()`);
+ T(ev(`!!fsOf(activeSlot())['g!c:kraken']`)&&!ev(`fsOf(activeSlot())['g!d:kueste']`),'Kunststück (Kraken, 6 Wasser) schaltet frei; Küste ist jetzt Fleiß (250 über alle Läufe)');
  T(ev(`(runOf().fsr||{})['c:kraken']`)>=6,'Fortschritt je Lauf gemerkt');
- T(/Freischalt-Ziele dieses Laufs/.test(ev(`(()=>{const sl=activeSlot();return fsRunHtml(sl.run,sl,'🔓 Freischalt-Ziele dieses Laufs')})()`)),'Übersicht für die Zusammenfassung nach dem Zoo');
+ T(/Als Nächstes/.test(ev(`(()=>{const sl=activeSlot();return fsRunHtml(sl.run,sl,'🔓 x')})()`)),'Übersicht „Als Nächstes“ für die Zusammenfassung nach dem Zoo');
  // Meilensteine, Reinheit, Kosten
  T(ev(`MILE.wasser.n===6&&MILE.attr.n===7&&MILE.essen.n===7&&MILE.schutz.n===7&&MILE.bunt.n===4&&PURN===4`),'Meilensteine 6 (Attraktion, Gastro, Naturschutz 7), Vielfalt-Meilenstein 4, Reinheit ab 4');
  T(/Ab 6 <b>verschiedenen/.test(ev(`mileInfoHtml()`)),'Meilenstein-Text nennt 6');

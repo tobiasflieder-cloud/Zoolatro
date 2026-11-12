@@ -834,6 +834,23 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
 .pcard .meta3{font-size:11.5px;color:#5d6b60;font-weight:600}
 .pcard .bigvals .shape{width:38px;height:24px}
 .gcard.locked{opacity:.6}.gcard.locked .ic{filter:grayscale(1) brightness(.4)}
+/* 0.79a Zoo-Buch kompakt, Freundschaften, Team */
+.bkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:6px}
+.gcard.bkc{padding:0 0 0 6px;gap:0}.gcard.bkc.open{grid-column:1/-1}
+.bkh{display:flex;align-items:center;gap:8px;width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;padding:7px 10px 7px 8px;cursor:pointer;min-height:48px}
+.bkh .ic{font-size:24px;flex:none}.bkn{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.bkn .nm{font-family:var(--f-display);font-weight:400;font-size:15px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bksub{font-size:11.5px;color:#4a5a4f;display:flex;align-items:center;gap:4px;flex-wrap:wrap}.bksub .a{color:#b86500;font-weight:700}.bksub .s{color:#00857a;font-weight:700}
+.bkdots{display:inline-flex;gap:3px;margin-left:4px}.bkdots i{width:7px;height:7px;border-radius:50%;background:#1d2a2122}.bkdots i.on{background:#e0a400}
+.bkbar,.pcard .bkbar{display:block;height:5px;border-radius:5px;background:#0002;overflow:hidden;max-width:180px}.bkbar i{display:block;height:100%;background:#7a8a7e}
+.bkar{color:#7a867d;font-size:12px;flex:none}
+.bkbody{padding:0 12px 10px 10px;display:flex;flex-direction:column;gap:5px}
+.gcard.bkc.locked .bksub{color:#555}
+.pcard.locked{background:#ffffff0d;filter:saturate(.35);opacity:.8;cursor:pointer}.pcard.locked .ic{filter:grayscale(1);opacity:.6}.pcard.locked .lkh{color:var(--muted);font-weight:600}.pcard.locked .bkbar{background:#ffffff22}.pcard.locked .bkbar i{background:var(--gold)}.pcard .spmore{align-self:flex-start;border:0;background:none;color:var(--muted);font:inherit;font-size:12.5px;padding:4px 0;cursor:pointer;text-decoration:underline}
+.frbar{height:7px}
+.frgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.frt{background:#0003;border-radius:14px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;opacity:.55}
+.frt.on{background:var(--paper);color:var(--ink);opacity:1}.fri{display:flex;align-items:center;gap:6px;font-size:30px;line-height:1}.fri b{font-size:16px}
+.frn{font-size:12.5px;font-weight:600;line-height:1.2}.frt small{font-size:11.5px;color:#1e6b33;font-weight:700}.frt:not(.on) .frn{color:var(--muted);font-weight:500}
 /* 0.78a Feedback-Kasten */
 .fbbox{display:flex;flex-direction:column;gap:10px;background:#0003;border-radius:16px;padding:14px}
 .fbbox h2{margin:0}.fbsub{margin:0;color:var(--muted);font-size:13px}

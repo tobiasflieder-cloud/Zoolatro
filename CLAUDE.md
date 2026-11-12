@@ -97,18 +97,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.79a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.80a) – erst bauen, wenn Tobi „bauen“ sagt
 
-Zoo-Buch schöner (Tobi, 12.11.):
-1. **Karten kompakter, Details erst beim Antippen.** Heute zeigt `buchCard` (Modul 11) jede Karte voll (Werte, Merkmale, Wirkungstext, Lexikon-Zeile).
-   Vorschlag: kompakte Zeile je Karte (Symbol, Name, Zustand ✓/neu/🔒, kleine Werte „6 B · 4 N“, bei entdeckten die 4 Abzeichen als Punkte);
-   Antippen klappt die heutige volle Ansicht darunter auf (`screenArg.bkOpen` = Kartenschlüssel, nochmal antippen schließt). Gesperrte: Zeile grau mit 🔒, aufgeklappt Grund + Balken.
-   Am Handy evtl. 2 Spalten Kacheln statt Zeilen; im Querformat mehr Spalten.
-2. **Freundschaften schöner.** Heute `friendsHtml` (Modul 09): Text-Chips „❔ + ❔“. Vorschlag: Kacheln (2 je Zeile), entdeckt = beide Tier-Symbole groß mit 💚 dazwischen,
-   Namen darunter, „beide ×1,25“; unentdeckt = „❔ 💚 ❔“ blass. Oben Zähler mit Balken (x von 15). Kein Hinweis, welche Tiere es sind (Knobeln bleibt).
-3. **Team: freizuschaltende Spezialisten nicht grau.** Ursache: `glossSpec` setzt `.pcard.locked`, dafür gibt es kein CSS (nur `.gcard.locked`). Außerdem nimmt der Reiter
-   immer `META.lastSlot` statt den gewählten Spielstand (`slotPick`). Vorschlag: `.pcard.locked` grau (Symbol entsättigt, 🔒), Wirkung eingeklappt wie bei Karten,
-   Freischalt-Weg sichtbar; gesperrte unten in eigener Gruppe „🔒 noch freizuschalten“, Spielstand-Auswahl auch in diesem Reiter.
+(leer)
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -124,6 +115,14 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.79a** ([Auftrag](docs/auftraege/0.79a-zoobuch-schliff-fleiss.md)): Freischaltungen: `daten/freischaltungen.json` (`zaehler`, `fleiss`, `kunststueck`) →
+  `FREI_DATEN`/`FLZ`/`FLG`, setzt `how`/`n` in `FSG`; Fleiß-Ziele `g.fl`, `ev:'any'`. `fsPickRun` ist leer (kein `run.fsPick`, kein `fsIntro`), `fsCheck('fl')` prüft nur Fleiß.
+  Zähler `sl.fl` (`flOf` mit Startwerten aus `statOf`/`cuOf`), `flAdd`, `flBuilt` (in `build`/`undo`, Gebirge an Felsen = `b.fels`), `flDay` (in `startScoring`),
+  `flRare` (Shop, Kartenwahl `pick`, zwischen den Zoos), Futtersack, `hireSpec`, `finishGame` (spent über `run.flSpent`, zoos, winterFail), `endRun` (runs); `flSl()` nicht Tutorial/d4/Seed.
+  Anzeige `fsProg`/`fsBar` („137/250 … (über alle Läufe)“ bzw. „Bestwert“), `fsNext`/`fsNextHtml` („Als Nächstes“ in Zoo-Übersicht, Sieg-Bildschirm, Freischalten).
+  Zoo-Buch: `buchCard` kompakt (`.bkc`, `data-bko` → `screenArg.bkOpen`), Vollansicht `buchFull`; `buchLock` mit Kurztext `s`; Freundschaften `.frgrid/.frt`;
+  `glossSpec(sl)` mit Gruppe „🔒 Noch freizuschalten“, `.pcard.locked` grau, Wirkung über `data-spo`. Tests: neu `jsd79a.js`, angepasst `jsd77a` (aufklappen), `jsd93` (keine 3 Ziele), `quer.js` (keine Einführung).
+  Auslegung: Belugas = „Einen Zoo auf Stufe 2 oder höher schaffen“ (Tabelle: Zielwert 3).
 - **0.78a** ([Auftrag](docs/auftraege/0.78a-feedback-kasten.md)): Feedback-Kasten nach dem Lauf (Modul 09): `endRun` setzt `run.fbAsked` und `sum.fb`, wenn `fbAsk(run)`
   (nicht Tutorial, nicht `run.d4`, nicht `META.fbOff`); `summaryHtml` zeigt vorher `fbHtml()` (Sterne `screenArg.fbS`, Schwierigkeit `fbD`, Text `fbC`, Häkchen `fbInc`).
   `fbText()` wie im Auftrag, `fbSend()`: `navigator.share` → `Capacitor.Plugins.Share` → `copyTxt` + „Kopiert ✓“; Abbrechen lässt den Kasten offen. `fbSave()` → `META.fbHist` (5).
