@@ -43,7 +43,7 @@
 {"bau":"turm","at":["-2,3"],"t":["Und hier kommt der Aussichtsturm hin. Von dort hat man einen tollen Blick über die großen Gehege."]},
 {"tag_ende":2},
 {"t":[{"t":"Wir haben ja schon über Geld gesprochen: Auch die Besucher bringen uns Taler.","glow":["money"]},"Natur kostet dagegen Pflege. Rutschen wir in die roten Zahlen, können wir unsere Spezialisten nicht bezahlen, und sie geben keine Boni mehr."],"btn":"Weiter","only":"-","hand":["giraffen"]},
-{"bau":"giraffen","at":["-2,4","-1,3","0,3"],"t":["Weiter mit unserem Zoo! Eine zweite Giraffenweide bringt nur noch 75 % ihrer Punkte.","Wir könnten auch die bestehende Weide ausbauen, das bringt +75 %.",{"t":"Hier bekommt die neue Weide aber den Bonus vom Aussichtsturm und vom ×2-Feld. Das lohnt sich!","mark":["0,3","-2,3"]}],"done":{"steht":["giraffen","0,3"]}},
+{"bau":"giraffen","at":["-2,4","-1,3","0,3"],"t":["Weiter mit unserem Zoo! Eine zweite Giraffenweide bringt nur noch ×0,75 ihrer Punkte.","Wir könnten auch die bestehende Weide ausbauen, das bringt ×1,75.",{"t":"Hier bekommt die neue Weide aber den Bonus vom Aussichtsturm und vom ×2-Feld. Das lohnt sich!","mark":["0,3","-2,3"]}],"done":{"steht":["giraffen","0,3"]}},
 {"tag_ende":3},
 {"bau":"delfinshow","at":["-2,-1","-3,-1"],"t":["Lassen Sie uns noch eine Delfinshow bauen.",{"t":"Auf der Karte sehen Sie ein kleines Symbol: Es zeigt, für welchen Lebensraum oder welche Gebäude-Art es Boni gibt.","glow":["#hand .card .mk-hb","#hand .card .mk-cd"]},"Die Delfinshow bekommt einen Bonus für Wasser-Gehege. Also kommt sie direkt neben den Otterbach und das Korallenriff."],"hand":["delfinshow","fennek"]},
 {"bau":"fennek","at":["-1,-4","0,-4"],"t":["Wir haben noch 2 BP übrig. Damit bauen wir einen Fennek-Bau."]},

@@ -47,7 +47,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev(`state.zl.insp='team';state.zl.hard=true;state.spec=['gaertner','tierarzt','gastro'];syncCtx()`);T(ev(`teamAct().length`)===2,'Teamsitzung verschärft: nur 2 Spezialisten');
  try{ev(`state.spec=[];state.zl.insp='futter';state.zl.hard=false;syncCtx()`)}catch(e){L('ERRF',e.stack.split('\n').slice(0,4).join(' | '))}T(ev(`(()=>{const F=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));const bs=F.slice(0,14).map((c,i)=>({id:700+i,key:'flamingos',cells:[c],lvl:1}));return topSet(bs,'top10').size})()`)===10,'Futterknappheit: nur 10 zählen');
  ev(`state.zl.insp='chaos';state.season=3;syncCtx();dayRoll()`);T(ev(`state.chaosB!=null`),'Schneechaos: ein Gebäude eingeschneit');
- T(ev(`seTarget(3,true,4)`)>ev(`seTarget(3,true,4)/1.1-1`)&&Math.abs(ev(`seTarget(3,true,4)/(SEASONS[3].target*Math.pow(ZLSEAS[3],4)*deckTF()*deckSF(3)*stTF()*ZLUP[3])`)-1.1)<.02,'Zoo 5: Winterziel +10 %');
+ T(ev(`seTarget(3,true,4)`)>ev(`seTarget(3,true,4)/1.1-1`)&&Math.abs(ev(`seTarget(3,true,4)/(SEASONS[3].target*Math.pow(ZLSEAS[3],4)*deckTF()*deckSF(3)*stTF()*ZLUP[3]*einTF(3))`)-1.1)<.02,'Zoo 5: Winterziel ×1,1 (0.80a: Einstieg Zoogründer herausgerechnet)');
  // Tauschen
  ev(`state.season=2;state.zl.insp='essen';state.zl.swapped=0;state.money=50;syncCtx()`);const i0=ev('state.zl.insp');ev(`wSwap()`);
  T(ev('state.zl.insp')!==i0&&ev('state.money')===20&&!ev('canWSwap()'),'Winter-Bedingung einmal für 30 Taler tauschen');
@@ -72,7 +72,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
     T(d.querySelectorAll('.popwin').length===1&&!d.querySelector('.popwin .wph'),'Beim zweiten Mal Fenster ohne Erklärung');{const b=d.querySelector('.popwin button');if(b)b.click()}
     // Wünsche je Lauf, Momente, Liebling
     ev(`state.season=0;dayRoll()`);T(ev('state.fav')===null,'Besucherliebling erst ab Sommer');
-    T(ev(`MOMW.foto===.5&&MOMW.storch===.5`),'Fotograf und Storch halb so oft');
+    T(ev(`MOMW.foto===.5&&MOMW.storch===0`),'Fotograf halb so oft, Storch gestrichen (0.80a)');
     ev(`(()=>{const r=runOf();r.wishSeen=[];state.wish=null;wishRoll();const a=state.wish&&state.wish.id;state.zoo=1;state.wish=null;wishRoll();state.zoo=0})()`);T(ev(`runOf().wishSeen.length`)>=2&&new Set(ev(`JSON.stringify(runOf().wishSeen)`)&&JSON.parse(ev(`JSON.stringify(runOf().wishSeen)`))).size===ev(`runOf().wishSeen.length`),'Besucherwünsche wiederholen sich im Lauf nicht');
     // 0.77a: Formen gestrichen
     T(ev(`typeof shapesOf==='undefined'`),'Formen gibt es nicht mehr');

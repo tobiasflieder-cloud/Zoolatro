@@ -8,7 +8,7 @@ const icSvg=(c,x,y,big)=>{const u=ART.card[c.key],r=big?7:5;return u?`<image cla
 const mxs=v=>{const t=String(+(+v).toFixed(2));return(t.includes('.')?t:t+'.0').replace('.',',')};
 const cSize=c=>SHAPES[c.shape].cells.length;
 const NOPROF='keins'; // 0.91: Profile gestrichen
-// 0.93: eine Bedingung je Zoo; ab Zoo 3 verschärft (ht = Text der verschärften Fassung), ab Zoo 5 zusätzlich Winterziel +10 %
+// 0.93: eine Bedingung je Zoo; ab Zoo 3 verschärft (ht = Text der verschärften Fassung), ab Zoo 5 zusätzlich Winterziel ×1,1
 // Godot-Vorbereitung 2b: Winter-Bedingungen stehen in daten/winter.json; Wirkungen hier in WINTER_WIRKUNG (Kennung = Schlüssel, keine = wirkt anderswo, z. B. Teamsitzung in syncCtx)
 const WINTER_DATEN=/*@@DATEN:winter@@*/null;
 const WINTER_WIRKUNG={fx:{keine:()=>null,
@@ -44,7 +44,7 @@ let TOPS=null;const topSet=(bs,kind)=>{if(TOPS&&TOPS.bs===bs&&TOPS.n===bs.length
 const habTop=bs=>{const n={};for(const b of bs){const c=CARDS[b.key];if(c&&c.cat==='gehege'&&c.hab)n[c.hab]=(n[c.hab]||0)+1}const m=Math.max(0,...Object.values(n));return m?Object.keys(n).filter(h=>n[h]===m):[]};
 // Winter-Bedingung erst ab Herbst sichtbar (Frühling/Sommer verborgen, nicht im Tutorial)
 const inspHid=()=>{try{if(!state||!state.zl||state.mode!=='camp'||state.season>=2)return false;return true}catch(e){return false}};
-const inspText=Z=>{const I=INSP[Z.insp],t=HARD(Z)?I.ht:I.text;return(typeof t==='function'?t(Z):t)+(HARD(Z)?' <b class="hardtag">verschärft ab Zoo 3</b>':'')+(Z&&Z.wplus?' <b class="hardtag">Winterziel +10 %</b>':'')},inspIcon=Z=>INSP[Z.insp].icon||'❄️';
+const inspText=Z=>{const I=INSP[Z.insp],t=HARD(Z)?I.ht:I.text;return(typeof t==='function'?t(Z):t)+(HARD(Z)?' <b class="hardtag">verschärft ab Zoo 3</b>':'')+(Z&&Z.wplus?' <b class="hardtag">Winterziel ×1,1</b>':'')},inspIcon=Z=>INSP[Z.insp].icon||'❄️';
 // Schneekönig: je Sorte das Gehege/Gebäude mit dem höchsten eigenen Wert (B + N, ohne Winter-Bedingung)
 let KING=null;
 function kingSet0(bs){const idx=mkIndex(bs),best={},keep=CTX.ni;CTX.ni=true;for(const b of bs){const c=CARDS[b.key],t=Object.keys(MILE).find(t=>MILE[t].f(c));if(!t)continue;const v=evalB(b,bs,idx),sc=(v.a+v.s)*(1+(LVLW[b.lvl||1]||0));if(!best[t]||sc>best[t].sc)best[t]={b,sc}}CTX.ni=keep;return new Set(Object.values(best).map(x=>x.b))}

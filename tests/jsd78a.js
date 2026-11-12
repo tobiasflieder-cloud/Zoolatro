@@ -21,7 +21,7 @@ const lose=w=>w.eval(`(()=>{const sl=activeSlot();state.phase='lost';sl.run.game
  T(z4.every((t,i)=>Math.abs(t-z5[i]*.6)<=Math.max(100,z5[i]*.6*.01)),`Testlauf: Ziele ×0,6 (${z4.join(', ')} statt ${z5.join(', ')})`);
  T(ev('seOf(0).target')===z4[0],'Frühlingsziel im Spiel '+ev('seOf(0).target'));
  // kein Kasten im Testlauf
- lose(w);T(ev(`screen`)==='summary'&&!d.querySelector('.fbbox'),'Testlauf: kein Feedback-Kasten');dom.window.close();
+ lose(w);T(ev(`screen`)==='summary'&&!!d.querySelector('.fbbox')&&/^🧪 Testlauf 4 Tage/.test(ev('fbText()')),'Testlauf: Feedback-Kasten, Text beginnt mit „🧪 Testlauf 4 Tage“ (seit 0.80a)');dom.window.close();
  // 3. Feedback nach verlorenem Lauf
  dom=neu();w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);start(w,{st:3});lose(w);
  T(!!d.querySelector('.fbbox')&&d.querySelectorAll('[data-fbs]').length===5&&d.querySelectorAll('[data-fbd]').length===3&&!!d.getElementById('fbTxt')&&d.getElementById('fbInc').checked,'verlorener Lauf: Kasten mit Sternen, Schwierigkeit, Freitext, Häkchen (an)');
@@ -53,6 +53,6 @@ const lose=w=>w.eval(`(()=>{const sl=activeSlot();state.phase='lost';sl.run.game
  d.querySelector('[data-fbskip]').click();await wait(20);T(!d.querySelector('.fbbox')&&ev('screen')==='summary','Überspringen: weiter zur Zusammenfassung');
  // Tutorial
  dom.window.close();dom=neu();w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);
- T(ev(`fbAsk({tut:true})`)===false&&ev(`fbAsk({d4:1})`)===false&&ev(`fbAsk({})`)===true,'nicht im Tutorial und nicht im Testlauf');
+ T(ev(`fbAsk({tut:true})`)===false&&ev(`fbAsk({d4:1})`)===true&&ev(`fbAsk({})`)===true,'nicht im Tutorial, aber im Testlauf (seit 0.80a)');
  dom.window.close();
 }catch(e){L('EXC',e.stack)}process.exit(0)})();

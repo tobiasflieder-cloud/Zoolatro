@@ -97,7 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.80a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.81a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -108,13 +108,25 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 **Godot-Vorbereitung (Stand):** 2a–2c fertig und mit 0.74a in main. Nächster Schritt laut `docs/godot-plan.md`: Wertung in Godot gegen die Referenzfälle.
   Werkzeuge: Textvergleich alt/neu `bash tests/textvergleich.sh`, Querformat-Test `node tests/quer.js` (auch in `pruefen.sh`).
 
+**Für später (aus dem Chat 12.11.):** Förderung: Nutzen im aktuellen Zoo anzeigen („heute etwa +X B“), im Tutorial Zoo 2 zeigen · Winter-Ziele ab Zoo 3 nach weiteren Läufen prüfen
+(evtl. Herbst ×1,6 statt ×1,68 je Zoo) · Winter-Bedingung „Mindestgröße“ zur Gruppe „schwer“ · Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
+Schalter für Ereignisse und Glück in der Auswahl.
+
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Grafikstil · Futter-Balance · neue Meilensteine
-(Freundschaften, Ausbaustufen) · Verschmelzen · „Alles zurücksetzen“ · Weiterspielen nach dem Ziel beobachten.
+(Freundschaften, Ausbaustufen) · Verschmelzen · Weiterspielen nach dem Ziel beobachten.
 · **Stufen:** schwere Winter-Bedingung ab Stufe 5 (Rest, nicht in 0.76a) · **Winter-Bedingungen** in leicht und schwer teilen · neue Winter-Ideen:
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
 
+- **0.80a** ([Auftrag](docs/auftraege/0.80a-schliff-einstieg-shop.md)): Gesperrtes geheim: `buchCard` (❔/„???“, Farbe bleibt), `glossSpec` (nur Weg), `progHtml` und `fsNextHtml` über `unNameL`
+  (Lebensräume sichtbar); Enthüllung `fsRevHtml` als `bigPop('fsRevPop')` bei `fsCheck('fl')` (`state.fsRev`), sonst `fsNewHtml` „✨ Neu entdeckt!“ mit `fsCardHtml` (`offerCard`/`specCard`).
+  „Alles zurücksetzen“: `resetAsk(1|2)` (Fenster `#resetPop`, „LÖSCHEN“ `data-rs="go"`), `resetAll` löscht `SAVE_KEY` + `zoodeck-*`, `RESETTING` sperrt `saveMeta`, dann `location.reload()`.
+  Werte ohne Prozente (Stress „×0,95“, Wiederholung „×0,75“, Ausbau „×1,75/×2,25“, Winter-/Profil-/Stufen-Texte), Wahrscheinlichkeiten bleiben. `priced` im Testlauf ×0,8 (aufgerundet).
+  `.pcard.rg1/.rg2` kräftiger Glanz. Zoo-Übersicht ohne Freischalt-Kasten. `einTF(i)` aus `profile.json` `einstieg` (Zoogründer Stufe 1, Hinweis in der Stufenwahl).
+  Eingang ≥ 2 bebaubare Nachbarn (`initRule`). Brett-Klick ohne `[data-q]` → `hexAt` (Felsen mit Sprengmeisterin). `runText`/`fbText` mit „🧪 Testlauf 4 Tage“, `fbAsk` auch im Testlauf.
+  Shop-Leuchtpunkt `shopDot`/`shopMarkSeen` (Signatur je Reiter in `state.shopSeen`, `shopShelf`/`shopTabOf` jetzt global), Hinweis `foerd` (darf im Shop-Fenster erscheinen).
+  Storch `MOMW.storch=0` und aus der Auswahl gefiltert. Tests: neu `jsd80a.js`, angepasst `jsd78a` (Feedback im Testlauf), `jsd79a` (Team geheim), `jsd93` (×1,1 mit Einstieg, Storch), `quer.js` (Schritt 8).
 - **0.79a** ([Auftrag](docs/auftraege/0.79a-zoobuch-schliff-fleiss.md)): Freischaltungen: `daten/freischaltungen.json` (`zaehler`, `fleiss`, `kunststueck`) →
   `FREI_DATEN`/`FLZ`/`FLG`, setzt `how`/`n` in `FSG`; Fleiß-Ziele `g.fl`, `ev:'any'`. `fsPickRun` ist leer (kein `run.fsPick`, kein `fsIntro`), `fsCheck('fl')` prüft nur Fleiß.
   Zähler `sl.fl` (`flOf` mit Startwerten aus `statOf`/`cuOf`), `flAdd`, `flBuilt` (in `build`/`undo`, Gebirge an Felsen = `b.fels`), `flDay` (in `startScoring`),

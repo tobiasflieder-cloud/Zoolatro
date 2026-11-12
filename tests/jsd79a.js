@@ -55,7 +55,6 @@ const start=(w,o={})=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')S
  ev(`screenArg.tab='spec';renderAll()`);const lp=[...d.querySelectorAll('#screenRoot .pcard.locked')];
  T(lp.length>0&&/Noch freizuschalten/.test(d.getElementById('screenRoot').textContent),'Team: gesperrte Spezialisten in eigener Gruppe ('+lp.length+')');
  const css=[...d.querySelectorAll('style')].map(s=>s.textContent).join('');T(/\.pcard\.locked\{[^}]*grayscale|\.pcard\.locked \.ic\{[^}]*grayscale/.test(css),'CSS: gesperrte Spezialisten grau');
- const sid=lp[0].dataset.sp0;T(/Wirkung ansehen/.test(lp[0].textContent),'Wirkung erst beim Antippen');lp[0].querySelector('[data-spo]').click();await wait(20);
- T(/Wirkung zuklappen/.test(d.querySelector(`#screenRoot .pcard.locked[data-sp0="${sid}"]`).textContent),'Antippen zeigt die Wirkung');
+ T(/\?\?\?/.test(lp[0].textContent)&&!lp[0].querySelector('.fxl,.fx,[data-spo]'),'gesperrter Spezialist geheim: „???“, keine Wirkung (seit 0.80a)');
  dom.window.close();
 }catch(e){L('EXC',e.stack)}process.exit(0)})();

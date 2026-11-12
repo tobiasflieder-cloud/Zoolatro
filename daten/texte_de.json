@@ -176,8 +176,8 @@
 "einmal":{"name":"Artenzählung","text":"Im Winter zählt von jeder Art nur das erste Gehege/Gebäude."},
 "nachbar":{"name":"Wegekontrolle","text":"Im Winter zählt nur, was an mindestens 3 andere Gehege/Gebäude grenzt."},
 "klein":{"name":"Platzprüfung","text":"Im Winter zählen Gehege/Gebäude mit nur 1 Feld nur zur Hälfte."},
-"markt":{"name":"Wintermarkt","text":"Im Winter zählen Gastro-Gebäude 1,5-fach. Attraktionen zählen selbst nicht. Gehege ohne Gastro-Gebäude daneben verlieren 15 %."},
-"zucht":{"name":"Zuchtprogramm","text":"Im Winter zählen bedrohte Arten (Rote Liste) doppelt. Alle anderen Gehege zählen nur zu 70 % (Besucher und Natur)."},
+"markt":{"name":"Wintermarkt","text":"Im Winter zählen Gastro-Gebäude 1,5-fach. Attraktionen zählen selbst nicht. Gehege ohne Gastro-Gebäude daneben zählen ×0,85."},
+"zucht":{"name":"Zuchtprogramm","text":"Im Winter zählen bedrohte Arten (Rote Liste) doppelt. Alle anderen Gehege zählen nur ×0,7 (Besucher und Natur)."},
 "koenig":{"name":"Schneekönig","text":"Im Winter zählt von jeder Sorte (Wasser, Savanne, Dschungel, Wüste, Attraktionen, Gastro-Gebäude, Naturschutz) nur das beste Gehege/Gebäude, dafür 2,5-fach. Alle anderen zählen selbst nicht, wirken aber weiter als Nachbarn."},
 "hab":{"name":"Lebensraum-Prüfung"},
 "schutzp":{"name":"Artenschutz-Prüfung","text":"Im Winter zählen Gehege ohne Naturschutz-Gebäude daneben nur zur Hälfte."},
@@ -186,9 +186,9 @@
 "team":{"name":"Teamsitzung","text":"Im Winter zählen nur die ersten 3 Spezialisten deiner Team-Reihe. Die Reihenfolge änderst du per Ziehen."}
 },
 "tagfx":{
-"beute":"🐇 Beute|gestresst, wenn ein Raubtier im Umkreis von 2 Feldern steht: Zoo −5 % Natur",
+"beute":"🐇 Beute|gestresst, wenn ein Raubtier im Umkreis von 2 Feldern steht: Zoo ×0,95 Natur",
 "raubtier":"🦷 Raubtier|stresst Beutetiere im Umkreis von 2 Feldern",
-"scheu":"🙈 Scheu|gestresst, wenn ein Gastro-Gebäude oder eine Attraktion im Umkreis von 2 Feldern steht (ruhige ausgenommen): Zoo −5 % Natur",
+"scheu":"🙈 Scheu|gestresst, wenn ein Gastro-Gebäude oder eine Attraktion im Umkreis von 2 Feldern steht (ruhige ausgenommen): Zoo ×0,95 Natur",
 "show":"🎭 Showtier|×1,25 B und N mit einem benachbarten Gastro-Gebäude oder einer Attraktion, ×1,5 mit zweien. 🎉 Trubel-Nachbarn und Tribünen zählen doppelt, zusammen bis ×1,95"
 },
 "event":{

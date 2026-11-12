@@ -834,6 +834,12 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
 .pcard .meta3{font-size:11.5px;color:#5d6b60;font-weight:600}
 .pcard .bigvals .shape{width:38px;height:24px}
 .gcard.locked{opacity:.6}.gcard.locked .ic{filter:grayscale(1) brightness(.4)}
+/* 0.80a Shop-Leuchtpunkt */
+.shdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ffd166;margin-left:5px;vertical-align:middle;box-shadow:0 0 0 0 #ffd16699;animation:shdot 2.4s ease-in-out infinite}
+@keyframes shdot{0%,100%{box-shadow:0 0 0 0 #ffd16699;opacity:.75}50%{box-shadow:0 0 0 5px #ffd16600;opacity:1}}
+@media (prefers-reduced-motion:reduce){.shdot{animation:none}}
+/* 0.80a Zurücksetzen */
+.btn.rsdel{background:#c0392b;color:#fff}
 /* 0.79a Zoo-Buch kompakt, Freundschaften, Team */
 .bkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:6px}
 .gcard.bkc{padding:0 0 0 6px;gap:0}.gcard.bkc.open{grid-column:1/-1}
@@ -1095,8 +1101,9 @@ small.fsbn{font-size:11.5px;color:var(--muted)}
 @keyframes glanz2{0%{background-position:150% 0}74%,100%{background-position:-100% 0}}
 .rg1{--glzT:4s;--glzA:glanz1}.rg2{--glzT:2.7s;--glzA:glanz2}
 .rg1 .glz::before{background-image:linear-gradient(110deg,transparent 38%,#ffffffcc 50%,transparent 62%)}
-.card.rg1 .glz::before,.ocard.rg1 .glz::before,.pcard.kcard.rg1 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#b9d4ff40 44%,#ffffff 50%,#b9d4ff40 56%,transparent 66%)}
+.card.rg1 .glz::before,.ocard.rg1 .glz::before,.pcard.kcard.rg1 .glz::before,.pcard.rg1 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#b9d4ff40 44%,#ffffff 50%,#b9d4ff40 56%,transparent 66%)}
 .rg2 .glz::before{background-image:linear-gradient(110deg,transparent 34%,#ff9be655 44%,#fff6d8ee 50%,#9cc8ff55 56%,transparent 66%)}
+.pcard.rg2 .glz::before{background-image:linear-gradient(110deg,transparent 30%,#ff7fd988 42%,#fff2c0 50%,#7fb6ff88 58%,transparent 70%)} /* 0.80a: auf hellen Spezialisten-Kärtchen kräftiger */
 @media (prefers-reduced-motion:reduce){.glz::before{animation:none}}
 /* Spezialisten Stufe 3: Rahmen und leichtes Leuchten bleiben (Glanz jetzt über .glz) */
 .pcard.t3{position:relative;box-shadow:0 0 0 2px #ffd166,0 0 10px #ffd16699}

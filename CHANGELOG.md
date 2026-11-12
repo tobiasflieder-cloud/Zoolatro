@@ -5,6 +5,20 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.80a · 12.11.2026 · Geheimnisse, leichter Einstieg, Shop-Hinweise
+- ❔ Im Zoo-Buch bleibt Gesperrtes geheim (Karten, Spezialisten, Verstärker, Profile): „???“ statt Name, Werte und Wirkung. Sichtbar bleiben die Farbe des Lebensraums und der Weg zum Freischalten mit Balken. Arktis und Gebirge bleiben erkennbar.
+- ✨ Beim Freischalten erscheint „Neu entdeckt: …!“ mit der Karte bzw. dem Spezialisten.
+- 🗑️ Im Menü gibt es „Alles zurücksetzen“: löscht nach zwei Sicherheitsfragen alle Spielstände, Highscores, Statistik, Freischaltungen und Einstellungen.
+- ✖️ Keine Prozente mehr bei Werten: Stress zum Beispiel „×0,95 N“, die zweite gleiche Anlage „×0,75“, Ausbau „×1,75“. Wahrscheinlichkeiten bleiben in Prozent.
+- 🧪 Testlauf „4 Tage“: alle Preise ×0,8. Lauftext und Feedback beginnen mit „🧪 Testlauf 4 Tage“, und nach dem Testlauf gibt es jetzt auch den Feedback-Kasten.
+- 🧑‍💼 Der Zoogründer auf Stufe 1 ist leichter: Ziele im Frühling ×0,8, im Sommer, Herbst und Winter ×0,9.
+- ✨ Seltene und legendäre Spezialisten glänzen auf den hellen Kärtchen (Bewerbermappe, Profi-Mappe) deutlicher.
+- 🗺️ In der Zoo-Übersicht steht kein Freischalt-Kasten mehr (er bleibt nach dem Zoo und im Zoo-Buch).
+- 🚪 Der Eingang hat immer mindestens 2 freie Nachbarfelder, notfalls verschwindet ein Felsen.
+- 🧨 Mit der Sprengmeisterin kannst du Felsen jetzt direkt antippen.
+- 🛒 Ein sanfter Leuchtpunkt am Shop-Reiter zeigt, wo du dir noch etwas leisten kannst. Einmal gibt es einen Hinweis auf die Förderung.
+- 🪺 Der Zoo-Moment „Ein Storch nistet“ entfällt.
+
 ## 0.79a · 12.11.2026 · Fleiß-Weg, Zoo-Buch schöner
 - 🔓 Freischalten neu: Vor dem Lauf werden keine 3 Ziele mehr gezogen, alle Ziele zählen in jedem Lauf.
 - 💪 Fleiß-Weg: Viele Freischaltungen sammeln sich jetzt über alle Läufe, auch verlorene, z. B. 250 Wasser-Gehege für die Kapitänin, 150 für den Krokodilsumpf, 500 für das Aquarium, 10 beendete Läufe für die Zoodirektorin oder 5 im Winter gescheiterte Läufe für den Weihnachtsmarkt. Deine bisherigen Läufe zählen schon mit (aus der Statistik). Testläufe und das Tutorial zählen nicht.

@@ -110,7 +110,7 @@ Betrag, das sind die Zeilen in den Referenzfällen.
     2. Jäger-Beute fest `+ea,+es`,
     3. **Freundschaft** ×1,25 je verschiedenes Freundespaar daneben (`09:FRIENDS`, z. B. Zebras–Giraffen),
     4. ~~Formen~~ (Innenhof, Allee, Dreiländereck) seit 0.77a gestrichen,
-    5. Storchennest daneben +2 N je Nest,
+    5. Storchennest daneben +2 N je Nest (seit 0.80a wird der Storch nicht mehr ausgelost; alte Nester wirken bis Zoo-Ende),
     6. Besucherliebling des Tages ×2, Nachbar des Lieblings ×1,25,
     7. Lebensraum-Lotto ×2 · Tagesfeld ×3 · Vermesser-Linie ×2 · Panorama ×(1+Randfelder/Felder) · Fotograf ×3 ·
        Zeitungsartikel ×1,5 (Showtiere) · Prägung Wackelig ×2 · Glück ×3 · Zugabe ×2 · Zirkus-Zelt ×2 (Showtiere).
@@ -243,7 +243,9 @@ mindestens 1. Dazu Extra-Baupunkte (`bpWish`), z. B. „früh geschafft“: je �
 
 ## 8. Jahreszeiten und Ziele (`01:SEASONS`, `05:seTarget`, `05:seOf`)
 - 4 Jahreszeiten mit je `DAYS=5` Tagen (`DAYS0`; Testlauf „4 Tage“ `run.d4`: 4 Tage, gesetzt in `05:syncCtx`): Frühling 9.500 · Sommer 51.000 · Herbst 118.000 · Winter 267.000 (Grundziele).
-- **Zoolatro**: `Ziel = Grund · ZLUP[i] · ZLSEAS[i]^zoo · deckTF · deckSF(i) · stTF · (Winter ab Zoo 5: 1,1)`.
+- **Zoolatro**: `Ziel = Grund · ZLUP[i] · ZLSEAS[i]^zoo · deckTF · deckSF(i) · stTF · (Winter ab Zoo 5: 1,1) · d4TF · einTF(i)`.
+  - `d4TF` (0.78a): Testlauf „4 Tage“ ×0,6. `einTF(i)` (0.80a): Profil mit `einstieg` in `daten/profile.json` (Zoogründer) nur auf Stufe 1: ×0,8 / 0,9 / 0,9 / 0,9.
+  - Preise im Testlauf (0.80a): `priced` ×0,8, aufgerundet.
   - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,46, 1,68, 1,55]` (Steigerung je Zoo, zoo = 0 … 4),
   - `deckSF`: Profil Polar Sommer ×1,15, Winter ×0,85,
   - `stTF` (Stufen): ×1,1 ab Stufe 2, nochmals ab Stufe 5, nochmals ab Stufe 8.
@@ -275,7 +277,7 @@ Nach jeder gewonnenen Jahreszeit (außer Winter). Reiter: 👥 Team · 🧰 Umba
 - **5 Zoos** (`CAMP_GOAL = CAMP.length = 5`), je 4 Jahreszeiten. Jeder Zoo startet mit dem **Lauf-Deck**, mit Spezialisten und Lebensraum-Futter des Laufs.
 - Gelände je Zoo gewürfelt (`mapRoll`, ohne Wiederholung, Zerklüftet erst ab Zoo 3). Felsen: Zoo 1 keine, sonst `max(MAPROCKS, 2·zoo−2)`,
   Zerklüftet 3, Profil Alpen +3. Naturfelder: 18 (Abschnitt 11).
-- Auflagen (`06:RULES`, z. B. Eingang, halbes Gelände, Achse) je Zoo.
+- Auflagen (`06:RULES`, z. B. Eingang, halbes Gelände, Achse) je Zoo. Eingang (0.80a): nur Randfelder mit mindestens 2 bebaubaren Nachbarn (Naturflächen zählen, Felsen nicht); gibt es keins, werden Felsen daneben entfernt.
 - Zwischen den Zoos (`newReward`, Bildschirm `creward`): Vorschau des nächsten Zoos → Verbesserung/Prägung (`perk`) → neue Karten
   (die erste gratis, weitere aus der Zoo-Kasse = übrige Taler) → Aussortieren → Spezialist → Start.
 - Verlieren einer Jahreszeit beendet den Lauf.
@@ -306,7 +308,7 @@ Seit 0.76a kann eine Stufe mehrere Wirkungen haben; kommt eine Kennung mehrfach 
 | 2 | Saisonziele +10 % · nur 15 Naturfelder | `ziel` → `stTF` · `natur` → `natNow`/`natQuota` (Schwerpunkt anteilig) |
 | 3 | nur 1 goldenes Feld | `gold` → `initZl` |
 | 4 | Saisonziele +10 % · Reinheit erst ab 6 | `ziel` · `reinheit` → `PURN` (in `syncCtx`) |
-| 5 | Shop und Stellenmarkt +25 % | `teurer` → `priced`, `mappePrice`, `profiPrice` |
+| 5 | Shop und Stellenmarkt ×1,25 | `teurer` → `priced`, `mappePrice`, `profiPrice` |
 | 6 | Krone ×1,15 · Tag 1 jeder Jahreszeit 1 BP weniger | `krone` → `CROWNF` (in `syncCtx`) · `bp_erster_tag` → `startDay` |
 | 7 | Saisonziele +10 % · nur 12 Naturfelder | `ziel` · `natur` |
 | 8 | keine Besucherwünsche (keine 🎈 Wunscherfüllerin) · keine Gold- und Kronenfelder · nur 9 Naturfelder | `keine_wuensche` → `wishOn`, `rollSpecs` · `gold` 0, `keine_krone` → `initZl` · `natur` |

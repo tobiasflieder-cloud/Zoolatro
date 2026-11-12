@@ -97,5 +97,23 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
      const frei=await e.evaluate(b=>{const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,el=document.elementFromPoint(x,y);return x>=0&&x<=innerWidth&&!!el&&(el===b||b.contains(el))});if(frei)ok++;else T(false,`${wo}: Feedback-Kasten: ${sel} verdeckt`)}
    T(ok===7,`${wo}: Feedback-Kasten: alle 7 Bedienelemente erreichbar`);const qx=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(qx>2)T(false,`${wo}: Feedback-Kasten breiter als der Bildschirm (${qx} px)`);
    await klick(p,'[data-fbskip]');T(!await p.$('.fbbox')&&(await zu(p)).startsWith('summary/'),`${wo}: Feedback „Überspringen“ führt zur Zusammenfassung`)}
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (Feedback): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (Feedback): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 8) 0.80a: Enthüllung, „Alles zurücksetzen“-Fenster, Felsen antippen mit Sprengmeisterin
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;
+    flOf(activeSlot()).wasserGeh=149;flBuilt({key:Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&CARDS[k].hab==='wasser'&&!CARDS[k].ms&&!fsLocked(k)),cells:[]},1);render()});await p.waitForTimeout(300);
+  {const ok=await p.$('#fsRevPop [data-bpok]');if(!ok)T(false,`${wo}: Enthüllung fehlt`);else{await ok.scrollIntoViewIfNeeded();const fr=await ok.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});
+    T(fr,`${wo}: Enthüllung „Neu entdeckt“: Weiter erreichbar`);await ok.click();await p.waitForTimeout(200);T(!await p.$('#fsRevPop'),`${wo}: Enthüllung lässt sich schließen`)}}
+  await p.evaluate(()=>{modal='help';render()});await p.waitForTimeout(250);
+  if(!await klick(p,'#mReset'))T(false,`${wo}: „Alles zurücksetzen“ fehlt im Menü`);else{
+    for(const[sel,nx]of[['[data-rs="2"]',1],['[data-rs="0"]',0]]){const e=await p.$('#resetPop '+sel);if(!e){T(false,`${wo}: Zurücksetzen-Fenster: ${sel} fehlt`);break}
+      const fr=await e.evaluate(b=>{const r=b.getBoundingClientRect(),el=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return r.top>=0&&r.bottom<=innerHeight&&!!el&&(el===b||b.contains(el))});if(!fr)T(false,`${wo}: Zurücksetzen-Fenster: ${sel} verdeckt`);
+      if(nx){const g=await p.$('#resetPop [data-rs="go"]');T(!g,`${wo}: „LÖSCHEN“ erst in der 2. Abfrage`)}await e.click();await p.waitForTimeout(200);if(nx)T(!!await p.$('#resetPop [data-rs="go"]'),`${wo}: Zurücksetzen: 2. Abfrage mit LÖSCHEN`)}
+    T(!await p.$('#resetPop')&&await p.evaluate(()=>!!localStorage.getItem(SAVE_KEY)),`${wo}: Zurücksetzen abbrechen löscht nichts`)}
+  await p.evaluate(()=>{modal=null;state.phase='play';state.spec=['spreng'];runOf().spec=['spreng'];syncCtx();const free=BOARD.filter(([q,r])=>!TERR.get(hk(q,r))&&!state.buildings.some(b=>b.cells.some(c=>c[0]===q&&c[1]===r)));
+    let rk=BOARD.find(([q,r])=>TERR.get(hk(q,r))==='block');if(!rk){rk=free[5];TERR.set(hk(...rk),'block')}window._rk=rk;const k=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1&&!fsLocked(x)&&(CARDS[x].hab==='wasser'||CARDS[x].hab==='savanne'));
+    state.hand=[k];state.selected=0;state.preview=null;state.rot=0;render()});await p.waitForTimeout(250);
+  {const rk=await p.evaluate(()=>window._rk),el=await p.$(`#board polygon.block`);if(!el)T(false,`${wo}: kein Felsen auf dem Feld`);else{const bb=await p.evaluate(rk=>{const pts=[...document.querySelectorAll('#board polygon.block')];const[x,y]=px(...rk);const svg=document.getElementById('board');const pt=svg.createSVGPoint();pt.x=ROT?-y:x;pt.y=ROT?x:y;const m=svg.getScreenCTM();const s=pt.matrixTransform(m);return{x:s.x,y:s.y}},rk);
+    await p.mouse.click(bb.x,bb.y);await p.waitForTimeout(250);const pv=await p.evaluate(()=>state.preview&&[state.preview.q,state.preview.r]);T(!!pv&&pv[0]===rk[0]&&pv[1]===rk[1],`${wo}: Felsen antippen (Sprengmeisterin) setzt die Vorschau (${JSON.stringify(pv)} / ${JSON.stringify(rk)})`)}}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.80a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();
