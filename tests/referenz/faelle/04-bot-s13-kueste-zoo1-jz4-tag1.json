@@ -1417,7 +1417,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      10,
      8
     ]
@@ -1434,7 +1434,7 @@
      3
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      5,
      5
     ]
@@ -1559,7 +1559,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      4,
      6
     ]
@@ -1596,7 +1596,7 @@
      4
     ],
     [
-     "2. Seelöwenbucht: zählt 75 % des eigenen Werts",
+     "2. Seelöwenbucht: zählt ×0,75 des eigenen Werts",
      -5,
      -2
     ]
@@ -1655,7 +1655,7 @@
      6
     ],
     [
-     "2. Schwanensee: zählt 75 % des eigenen Werts",
+     "2. Schwanensee: zählt ×0,75 des eigenen Werts",
      -2,
      -3
     ]
@@ -1755,7 +1755,7 @@
      3
     ],
     [
-     "2. Schildkröten: zählt 75 % des eigenen Werts",
+     "2. Schildkröten: zählt ×0,75 des eigenen Werts",
      0,
      -1
     ]

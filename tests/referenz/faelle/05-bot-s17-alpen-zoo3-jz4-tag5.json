@@ -1900,7 +1900,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      1,
      6
     ]
@@ -2017,7 +2017,7 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2081,7 +2081,7 @@
      1
     ],
     [
-     "2. Warzenschweine: zählt 75 % des eigenen Werts",
+     "2. Warzenschweine: zählt ×0,75 des eigenen Werts",
      -2,
      -1
     ]
@@ -2128,7 +2128,7 @@
      12
     ],
     [
-     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     "Ausbau Stufe III: ×2,25 des eigenen Werts",
      58,
      30
     ]
@@ -2204,7 +2204,7 @@
      0
     ],
     [
-     "2. Biergarten: zählt 75 % des eigenen Werts",
+     "2. Biergarten: zählt ×0,75 des eigenen Werts",
      -1,
      0
     ]
@@ -2265,7 +2265,7 @@
      16
     ],
     [
-     "2. Artenvielfalt-Institut: zählt 75 % des eigenen Werts",
+     "2. Artenvielfalt-Institut: zählt ×0,75 des eigenen Werts",
      0,
      -8
     ]
@@ -2287,7 +2287,7 @@
      0
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2384,7 +2384,7 @@
      0
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2404,7 +2404,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      18,
      8
     ]
@@ -2473,7 +2473,7 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2483,7 +2483,7 @@
      3
     ],
     [
-     "3. Steinböcke: zählt 25 % des eigenen Werts",
+     "3. Steinböcke: zählt ×0,25 des eigenen Werts",
      -7,
      -4
     ]

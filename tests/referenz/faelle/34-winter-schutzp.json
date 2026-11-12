@@ -1782,7 +1782,7 @@
      4
     ],
     [
-     "2. Schneegänse: zählt 75 % des eigenen Werts",
+     "2. Schneegänse: zählt ×0,75 des eigenen Werts",
      -2,
      -2
     ]
@@ -1809,7 +1809,7 @@
      1
     ],
     [
-     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     "Ausbau Stufe III: ×2,25 des eigenen Werts",
      1,
      10
     ]
@@ -1831,7 +1831,7 @@
      2
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1936,7 +1936,7 @@
      2
     ],
     [
-     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     "Ausbau Stufe III: ×2,25 des eigenen Werts",
      10,
      5
     ]
@@ -1978,7 +1978,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      4,
      4
     ]
@@ -2022,7 +2022,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      1,
      6
     ]
@@ -2181,7 +2181,7 @@
      15
     ],
     [
-     "2. Korallenriff: zählt 75 % des eigenen Werts",
+     "2. Korallenriff: zählt ×0,75 des eigenen Werts",
      -10,
      -7
     ]
@@ -2203,7 +2203,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2213,7 +2213,7 @@
      2
     ],
     [
-     "2. Schwanensee: zählt 75 % des eigenen Werts",
+     "2. Schwanensee: zählt ×0,75 des eigenen Werts",
      -1,
      -1
     ]
@@ -2255,7 +2255,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      2,
      2
     ]
@@ -2321,7 +2321,7 @@
      12
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      8,
      21
     ]
@@ -2445,7 +2445,7 @@
      2
     ],
     [
-     "3. Schwanensee: zählt 25 % des eigenen Werts",
+     "3. Schwanensee: zählt ×0,25 des eigenen Werts",
      -3,
      -3
     ]

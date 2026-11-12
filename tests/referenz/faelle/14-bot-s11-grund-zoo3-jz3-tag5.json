@@ -1424,7 +1424,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      17,
      8
     ]
@@ -1468,7 +1468,7 @@
      3
     ],
     [
-     "2. Rote Pandas: zählt 75 % des eigenen Werts · Ausbau Stufe II: +75 % des eigenen Werts",
+     "2. Rote Pandas: zählt ×0,75 des eigenen Werts · Ausbau Stufe II: ×1,75 des eigenen Werts",
      7,
      4
     ]
@@ -1517,7 +1517,7 @@
      4
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1628,7 +1628,7 @@
      1
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],

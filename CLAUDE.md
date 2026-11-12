@@ -126,7 +126,7 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
   `.pcard.rg1/.rg2` kräftiger Glanz. Zoo-Übersicht ohne Freischalt-Kasten. `einTF(i)` aus `profile.json` `einstieg` (Zoogründer Stufe 1, Hinweis in der Stufenwahl).
   Eingang ≥ 2 bebaubare Nachbarn (`initRule`). Brett-Klick ohne `[data-q]` → `hexAt` (Felsen mit Sprengmeisterin). `runText`/`fbText` mit „🧪 Testlauf 4 Tage“, `fbAsk` auch im Testlauf.
   Shop-Leuchtpunkt `shopDot`/`shopMarkSeen` (Signatur je Reiter in `state.shopSeen`, `shopShelf`/`shopTabOf` jetzt global), Hinweis `foerd` (darf im Shop-Fenster erscheinen).
-  Storch `MOMW.storch=0` und aus der Auswahl gefiltert. Tests: neu `jsd80a.js`, angepasst `jsd78a` (Feedback im Testlauf), `jsd79a` (Team geheim), `jsd93` (×1,1 mit Einstieg, Storch), `quer.js` (Schritt 8).
+  Storch `MOMW.storch=0` und aus der Auswahl gefiltert. Referenzfälle mit `aktualisiere` (50 Fälle, nur Beschriftungen, alle Zahlen gleich). Tests: neu `jsd80a.js`, `jsd65a` (Leuchtpunkt ohne Leerzeichen), angepasst `jsd78a` (Feedback im Testlauf), `jsd79a` (Team geheim), `jsd93` (×1,1 mit Einstieg, Storch), `quer.js` (Schritt 8).
 - **0.79a** ([Auftrag](docs/auftraege/0.79a-zoobuch-schliff-fleiss.md)): Freischaltungen: `daten/freischaltungen.json` (`zaehler`, `fleiss`, `kunststueck`) →
   `FREI_DATEN`/`FLZ`/`FLG`, setzt `how`/`n` in `FSG`; Fleiß-Ziele `g.fl`, `ev:'any'`. `fsPickRun` ist leer (kein `run.fsPick`, kein `fsIntro`), `fsCheck('fl')` prüft nur Fleiß.
   Zähler `sl.fl` (`flOf` mit Startwerten aus `statOf`/`cuOf`), `flAdd`, `flBuilt` (in `build`/`undo`, Gebirge an Felsen = `b.fels`), `flDay` (in `startScoring`),

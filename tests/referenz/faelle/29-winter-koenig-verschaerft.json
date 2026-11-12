@@ -1836,7 +1836,7 @@
      -4
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ]
@@ -2181,7 +2181,7 @@
      30
     ],
     [
-     "2. Korallenriff: zählt 75 % des eigenen Werts",
+     "2. Korallenriff: zählt ×0,75 des eigenen Werts",
      -20,
      -15
     ]
@@ -2203,7 +2203,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2213,7 +2213,7 @@
      2
     ],
     [
-     "2. Schwanensee: zählt 75 % des eigenen Werts",
+     "2. Schwanensee: zählt ×0,75 des eigenen Werts",
      -1,
      -1
     ]

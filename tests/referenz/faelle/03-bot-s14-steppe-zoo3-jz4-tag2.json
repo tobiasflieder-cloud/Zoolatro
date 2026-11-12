@@ -1627,7 +1627,7 @@
      -2
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1669,7 +1669,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      6,
      5
     ]
@@ -1755,7 +1755,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      1,
      2
     ]
@@ -1792,7 +1792,7 @@
      10
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      12,
      15
     ]
@@ -1819,7 +1819,7 @@
      2
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1856,7 +1856,7 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1963,7 +1963,7 @@
      5
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      0,
      6
     ]
@@ -2055,7 +2055,7 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2082,7 +2082,7 @@
      3
     ],
     [
-     "2. Schlangengrube: zählt 75 % des eigenen Werts",
+     "2. Schlangengrube: zählt ×0,75 des eigenen Werts",
      -1,
      -1
     ]
@@ -2164,7 +2164,7 @@
      4
     ],
     [
-     "2. Giraffenweide: zählt 75 % des eigenen Werts",
+     "2. Giraffenweide: zählt ×0,75 des eigenen Werts",
      -4,
      -4
     ]

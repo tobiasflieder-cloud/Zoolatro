@@ -1345,7 +1345,7 @@
      3
     ],
     [
-     "2. Grünfläche: zählt 75 % des eigenen Werts",
+     "2. Grünfläche: zählt ×0,75 des eigenen Werts",
      0,
      -1
     ]
@@ -1524,7 +1524,7 @@
      0
     ],
     [
-     "2. Popcornstand: zählt 75 % des eigenen Werts",
+     "2. Popcornstand: zählt ×0,75 des eigenen Werts",
      -1,
      0
     ]

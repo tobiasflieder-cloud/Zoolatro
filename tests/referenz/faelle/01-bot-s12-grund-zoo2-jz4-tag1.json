@@ -1549,7 +1549,7 @@
      0
     ],
     [
-     "❄️ Wintermarkt: kein Gastro daneben, −15 %",
+     "❄️ Wintermarkt: kein Gastro daneben, ×0,85",
      -1,
      -1
     ],
@@ -1706,7 +1706,7 @@
      5
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      9,
      8
     ]
@@ -1728,7 +1728,7 @@
      1
     ],
     [
-     "❄️ Wintermarkt: kein Gastro daneben, −15 %",
+     "❄️ Wintermarkt: kein Gastro daneben, ×0,85",
      -1,
      -1
     ],
@@ -1792,7 +1792,7 @@
      7
     ],
     [
-     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     "Ausbau Stufe III: ×2,25 des eigenen Werts",
      85,
      44
     ]
@@ -1951,7 +1951,7 @@
      0
     ],
     [
-     "2. Popcornstand: zählt 75 % des eigenen Werts",
+     "2. Popcornstand: zählt ×0,75 des eigenen Werts",
      -3,
      0
     ]
@@ -1973,7 +1973,7 @@
      0
     ],
     [
-     "❄️ Wintermarkt: kein Gastro daneben, −15 %",
+     "❄️ Wintermarkt: kein Gastro daneben, ×0,85",
      0,
      -1
     ],
@@ -1995,7 +1995,7 @@
      0
     ],
     [
-     "❄️ Wintermarkt: kein Gastro daneben, −15 %",
+     "❄️ Wintermarkt: kein Gastro daneben, ×0,85",
      -1,
      0
     ],
@@ -2005,7 +2005,7 @@
      3
     ],
     [
-     "2. Steinböcke: zählt 75 % des eigenen Werts",
+     "2. Steinböcke: zählt ×0,75 des eigenen Werts",
      -1,
      -1
     ]
@@ -2022,12 +2022,12 @@
      0
     ],
     [
-     "❄️ Wintermarkt: kein Gastro daneben, −15 %",
+     "❄️ Wintermarkt: kein Gastro daneben, ×0,85",
      -1,
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2054,7 +2054,7 @@
      4
     ],
     [
-     "2. Moschusochsen: zählt 75 % des eigenen Werts",
+     "2. Moschusochsen: zählt ×0,75 des eigenen Werts",
      -2,
      -2
     ]

@@ -1781,7 +1781,7 @@
      4
     ],
     [
-     "2. Schneegänse: zählt 75 % des eigenen Werts",
+     "2. Schneegänse: zählt ×0,75 des eigenen Werts",
      -2,
      -2
     ]
@@ -1803,7 +1803,7 @@
      2
     ],
     [
-     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     "Ausbau Stufe III: ×2,25 des eigenen Werts",
      1,
      9
     ]
@@ -1825,7 +1825,7 @@
      2
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1925,7 +1925,7 @@
      2
     ],
     [
-     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     "Ausbau Stufe III: ×2,25 des eigenen Werts",
      8,
      5
     ]
@@ -1957,7 +1957,7 @@
      4
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      7,
      7
     ]
@@ -1996,7 +1996,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      1,
      5
     ]
@@ -2145,7 +2145,7 @@
      15
     ],
     [
-     "2. Korallenriff: zählt 75 % des eigenen Werts",
+     "2. Korallenriff: zählt ×0,75 des eigenen Werts",
      -10,
      -7
     ]
@@ -2167,7 +2167,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2177,7 +2177,7 @@
      2
     ],
     [
-     "2. Schwanensee: zählt 75 % des eigenen Werts",
+     "2. Schwanensee: zählt ×0,75 des eigenen Werts",
      -1,
      -1
     ]
@@ -2214,7 +2214,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      3,
      3
     ]
@@ -2275,7 +2275,7 @@
      11
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      8,
      19
     ]
@@ -2307,7 +2307,7 @@
      1
     ],
     [
-     "2. Lemminge: zählt 75 % des eigenen Werts",
+     "2. Lemminge: zählt ×0,75 des eigenen Werts",
      -1,
      -1
     ]
@@ -2394,7 +2394,7 @@
      2
     ],
     [
-     "3. Schwanensee: zählt 25 % des eigenen Werts",
+     "3. Schwanensee: zählt ×0,25 des eigenen Werts",
      -5,
      -4
     ]

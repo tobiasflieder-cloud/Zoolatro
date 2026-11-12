@@ -1488,7 +1488,7 @@
      4
     ],
     [
-     "Ausbau Stufe III: +75 % und +50 % des eigenen Werts",
+     "Ausbau Stufe III: ×2,25 des eigenen Werts",
      38,
      25
     ]
@@ -1578,7 +1578,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      11,
      5
     ]
@@ -1610,7 +1610,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      3,
      3
     ]
@@ -1795,7 +1795,7 @@
      1
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1972,7 +1972,7 @@
      1
     ],
     [
-     "2. Warzenschweine: zählt 75 % des eigenen Werts",
+     "2. Warzenschweine: zählt ×0,75 des eigenen Werts",
      -2,
      -1
     ]
@@ -2014,7 +2014,7 @@
      3
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      11,
      10
     ]
@@ -2112,7 +2112,7 @@
      2
     ],
     [
-     "2. Skorpionhaus: zählt 75 % des eigenen Werts",
+     "2. Skorpionhaus: zählt ×0,75 des eigenen Werts",
      -4,
      -2
     ]

@@ -1613,7 +1613,7 @@
      3
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      14,
      6
     ]
@@ -1658,7 +1658,7 @@
      5
     ],
     [
-     "2. Rote Pandas: zählt 75 % des eigenen Werts · Ausbau Stufe II: +75 % des eigenen Werts",
+     "2. Rote Pandas: zählt ×0,75 des eigenen Werts · Ausbau Stufe II: ×1,75 des eigenen Werts",
      6,
      4
     ]
@@ -1722,7 +1722,7 @@
      4
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -1838,7 +1838,7 @@
      1
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2035,7 +2035,7 @@
      2
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      11,
      7
     ]
@@ -2152,7 +2152,7 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo −5 % Natur",
+     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2167,7 +2167,7 @@
      1
     ],
     [
-     "2. Zebrasteppe: zählt 75 % des eigenen Werts",
+     "2. Zebrasteppe: zählt ×0,75 des eigenen Werts",
      -3,
      -1
     ]
@@ -2194,7 +2194,7 @@
      4
     ],
     [
-     "2. Flamingoteich: zählt 75 % des eigenen Werts · Ausbau Stufe II: +75 % des eigenen Werts",
+     "2. Flamingoteich: zählt ×0,75 des eigenen Werts · Ausbau Stufe II: ×1,75 des eigenen Werts",
      2,
      3
     ]
@@ -2240,7 +2240,7 @@
      2
     ],
     [
-     "2. Murmeltiere: zählt 75 % des eigenen Werts",
+     "2. Murmeltiere: zählt ×0,75 des eigenen Werts",
      -1,
      -1
     ]
@@ -2257,7 +2257,7 @@
      2
     ],
     [
-     "2. Wasserloch: zählt 75 % des eigenen Werts",
+     "2. Wasserloch: zählt ×0,75 des eigenen Werts",
      0,
      -1
     ]

@@ -1565,7 +1565,7 @@
      1
     ],
     [
-     "Ausbau Stufe II: +75 % des eigenen Werts",
+     "Ausbau Stufe II: ×1,75 des eigenen Werts",
      1,
      5
     ]
@@ -1932,7 +1932,7 @@
      0
     ],
     [
-     "2. Biergarten: zählt 75 % des eigenen Werts",
+     "2. Biergarten: zählt ×0,75 des eigenen Werts",
      -2,
      0
     ]
