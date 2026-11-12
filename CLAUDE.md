@@ -99,7 +99,16 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.79a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+Zoo-Buch schöner (Tobi, 12.11.):
+1. **Karten kompakter, Details erst beim Antippen.** Heute zeigt `buchCard` (Modul 11) jede Karte voll (Werte, Merkmale, Wirkungstext, Lexikon-Zeile).
+   Vorschlag: kompakte Zeile je Karte (Symbol, Name, Zustand ✓/neu/🔒, kleine Werte „6 B · 4 N“, bei entdeckten die 4 Abzeichen als Punkte);
+   Antippen klappt die heutige volle Ansicht darunter auf (`screenArg.bkOpen` = Kartenschlüssel, nochmal antippen schließt). Gesperrte: Zeile grau mit 🔒, aufgeklappt Grund + Balken.
+   Am Handy evtl. 2 Spalten Kacheln statt Zeilen; im Querformat mehr Spalten.
+2. **Freundschaften schöner.** Heute `friendsHtml` (Modul 09): Text-Chips „❔ + ❔“. Vorschlag: Kacheln (2 je Zeile), entdeckt = beide Tier-Symbole groß mit 💚 dazwischen,
+   Namen darunter, „beide ×1,25“; unentdeckt = „❔ 💚 ❔“ blass. Oben Zähler mit Balken (x von 15). Kein Hinweis, welche Tiere es sind (Knobeln bleibt).
+3. **Team: freizuschaltende Spezialisten nicht grau.** Ursache: `glossSpec` setzt `.pcard.locked`, dafür gibt es kein CSS (nur `.gcard.locked`). Außerdem nimmt der Reiter
+   immer `META.lastSlot` statt den gewählten Spielstand (`slotPick`). Vorschlag: `.pcard.locked` grau (Symbol entsättigt, 🔒), Wirkung eingeklappt wie bei Karten,
+   Freischalt-Weg sichtbar; gesperrte unten in eigener Gruppe „🔒 noch freizuschalten“, Spielstand-Auswahl auch in diesem Reiter.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
