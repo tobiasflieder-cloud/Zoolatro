@@ -1626,9 +1626,9 @@
  ]
 },
 "erwartet":{
- "A": 468,
- "S": 391,
- "total": 182988,
+ "A": 470,
+ "S": 395,
+ "total": 185650,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1717,7 +1717,7 @@
   {
    "id": 3,
    "a": 2,
-   "s": 18,
+   "s": 20,
    "parts": [
     [
      "Kartenbonus",
@@ -1730,14 +1730,14 @@
      2
     ],
     [
-     "Bauleiterin ×1,21 (2×)",
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
      0,
-     1
+     2
     ],
     [
      "Ausbau Stufe III: ×2,25 des eigenen Werts",
      1,
-     10
+     11
     ]
    ]
   },
@@ -1867,7 +1867,7 @@
      2
     ],
     [
-     "Bauleiterin ×1,21 (2×)",
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
      1,
      1
     ],
@@ -2142,8 +2142,8 @@
   },
   {
    "id": 22,
-   "a": 7,
-   "s": 7,
+   "a": 9,
+   "s": 9,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2161,19 +2161,24 @@
      1
     ],
     [
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     4,
-     4
+     5,
+     5
     ],
     [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
-     -4,
-     -4
+     -5,
+     -5
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     3,
-     3
+     4,
+     4
     ]
    ]
   },

@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.81a';
+const VERSION='0.82a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.82a',d:'13.11.2026',t:'Gruppen-Bonus, Einstieg, Reparatur',i:['🐞 Die Liste beim Futter verteilen ist wieder sauber lesbar.','👥 Spezialisten mit „für jedes …“ werden stärker, je mehr solche Gehege du hast: z. B. Wasser-Pflegerin bei 5 Wasser-Gehegen je ×1,5 B und N. „Aktuell pro Tag“ zeigt jetzt den echten Gewinn.','🧑‍💼 Zoogründer auf Stufe 1: alle Ziele ×0,8. Herbst-Ziele steigen je Zoo etwas langsamer.','🔥 Heizkosten ×1,25 (verschärft ×1,5). 🪙 Die Kasse im Minus wird rot. Im Testlauf keine „Lockere Bebauung“.']},
  {v:'0.81a',d:'13.11.2026',t:'Winter sichtbar, Details, Aufstellung',i:['❄️ Ab dem Herbst zeigen Schilder auf dem Spielfeld, was die Winter-Bedingung trifft, z. B. „❄️×0,75“. Die Winter-Ansage nennt, wie viele Gehege betroffen sind.','📏 Mindestgröße entschärft: ×0,75 (verschärft ×0,5) und erst ab Zoo 3.','🔎 „Details“ öffnet ein Fenster mit der ganzen Rechnung: Grundwert, Plus, Faktoren und das Ergebnis.','👥 Antippen der B- oder N-Anzeige zeigt die Aufstellung mit allen Zoo-Faktoren.','🎰 Das Lebensraum-Lotto greift nur noch an manchen Tagen (1 zu 4). Testläufe zählen jetzt für Freischaltungen. Die Sommer-Ziele steigen je Zoo etwas langsamer.']},
- {v:'0.80a',d:'12.11.2026',t:'Geheimnisse, leichter Einstieg, Shop-Hinweise',i:['❔ Im Zoo-Buch bleibt Gesperrtes geheim: „???“ statt Name und Werte, nur der Weg dorthin ist zu sehen. Beim Freischalten: „✨ Neu entdeckt!“','🧑‍💼 Der Zoogründer auf Stufe 1 ist leichter: Ziele im Frühling ×0,8, danach ×0,9.','🛒 Ein Leuchtpunkt am Shop-Reiter zeigt, wo du dir noch etwas leisten kannst.','✖️ Auch Abzüge als Faktor: Stress ×0,95 N statt −5 %.','🗑️ Im Menü: „Alles zurücksetzen“ (mit doppelter Sicherheitsfrage).','🧨 Mit der Sprengmeisterin kannst du Felsen jetzt direkt antippen. Der Eingang hat immer mindestens 2 freie Nachbarfelder. Der Storch nistet nicht mehr.']},
- {v:'0.79a',d:'12.11.2026',t:'Fleiß-Weg, Zoo-Buch schöner',i:['🔓 Freischalten neu: Es gibt keine 3 Ziele je Lauf mehr, alles zählt immer. Viele Freischaltungen gehen jetzt über Fleiß, der sich über alle Läufe sammelt, z. B. „250 Wasser-Gehege gebaut“. Was schon frei ist, bleibt frei, und deine bisherigen Läufe zählen schon mit.','📖 Zoo-Buch: Karten stehen kompakt untereinander, Antippen zeigt alle Details. Gesperrte zeigen ihren Weg mit Balken.','🤝 Freundschaften als Kacheln, 👥 noch nicht freigeschaltete Spezialisten grau in einer eigenen Gruppe.']}];
+ {v:'0.80a',d:'12.11.2026',t:'Geheimnisse, leichter Einstieg, Shop-Hinweise',i:['❔ Im Zoo-Buch bleibt Gesperrtes geheim: „???“ statt Name und Werte, nur der Weg dorthin ist zu sehen. Beim Freischalten: „✨ Neu entdeckt!“','🧑‍💼 Der Zoogründer auf Stufe 1 ist leichter: Ziele im Frühling ×0,8, danach ×0,9.','🛒 Ein Leuchtpunkt am Shop-Reiter zeigt, wo du dir noch etwas leisten kannst.','✖️ Auch Abzüge als Faktor: Stress ×0,95 N statt −5 %.','🗑️ Im Menü: „Alles zurücksetzen“ (mit doppelter Sicherheitsfrage).','🧨 Mit der Sprengmeisterin kannst du Felsen jetzt direkt antippen. Der Eingang hat immer mindestens 2 freie Nachbarfelder. Der Storch nistet nicht mehr.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -300,20 +300,31 @@ const MAPS={};for(const d of GELAENDE_DATEN.gelaende){const m={};for(const p in 
 const SPEZ_DATEN=/*@@DATEN:spezialisten@@*/null;
 const MAXSPEC=SPEZ_DATEN.max_team,SPECPRICE=SPEZ_DATEN.preis.slice(),SPECTIER=SPEZ_DATEN.stufen_name.slice();
 const halfHab=(bs,h)=>{const g=bs.filter(n=>isCat(n,'gehege'));return g.length>=4&&cnt(g,n=>isHab(n,h))*2>=g.length};
+// 0.82a: Gruppen-Bonus für Spezialisten: jedes betroffene Gebäude ×(1 + schritt × Anzahl solcher Gebäude im Zoo); Schrittweite in daten/spezialisten.json (schritt)
+const SPGRP={kleintier:{t:(b,c)=>c.cat==='gehege'&&b.cells.length===1,b:1,s:1,w:'Gehege mit 1 Feld',w1:'Gehege mit 1 Feld',je:'Gehege mit 1 Feld',st:.1},
+  architekt:{t:(b,c)=>c.cat==='gehege'&&b.cells.length>=3,b:1,s:0,w:'große Gehege',w1:'große Gehege (ab 3 Feldern)',je:'großes Gehege',st:.1},
+  dompteur:{t:(b,c)=>c.cat==='gehege'&&c.tags.includes('raubtier'),b:1,s:0,w:'Raubtiere',w1:'Raubtier',je:'Raubtier',st:.15},
+  artenschuetzer:{t:(b,c)=>c.tags.includes('bedroht'),b:0,s:1,w:'bedrohte Tiere',w1:'bedrohte Tier',je:'bedrohtes Tier',st:.15},
+  bauleiterin:{t:b=>(b.lvl||1)>1,n:bs=>bs.reduce((t,b)=>t+Math.max(0,(b.lvl||1)-1),0),b:1,s:1,w:'Ausbaustufen',w1:'ausgebaute Gehege/Gebäude',je:'Ausbaustufe',st:.05},
+  sammler:{t:(b,c)=>c.cat==='gehege',ok:bs=>vielfalt(bs).lvl>=2,b:0,s:1,w:'Gehege',w1:'Gehege',je:'Gehege',st:.05,wenn:', wenn dein Zoo von jedem deiner Lebensräume mindestens 2 Arten hat'}};
+for(const h in HAB){const L=HAB[h].label+'-Gehege';SPGRP['pfleger_'+h]={t:(b,c)=>c.cat==='gehege'&&c.hab===h,b:1,s:1,w:L,w1:L,je:L,st:.1}}
+const spGrpStep=id=>{const S=typeof SPEC!=='undefined'&&SPEC[id];return S&&S.schritt!=null?S.schritt:SPGRP[id].st};
+const spGrpN=(id,bs)=>{const G=SPGRP[id];if(!G||!bs||(G.ok&&!G.ok(bs)))return 0;return G.n?G.n(bs):cnt(bs,b=>{const c=CARDS[b.key];return!!c&&G.t(b,c)})};
+const spGrpF=(id,bs)=>+(1+spGrpStep(id)*spGrpN(id,bs)).toFixed(4);
+const spGrpPer=id=>(b,c,nb,all)=>{const G=SPGRP[id];if(!G.t(b,c))return null;const bs=all||(typeof state!=='undefined'&&state?state.buildings:[]);if(G.ok&&!G.ok(bs))return null;const n=spGrpN(id,bs),f=+(1+spGrpStep(id)*n).toFixed(4);return f>1?{fa:G.b?f:1,fs:G.s?f:1,l:`${n} ${G.w}`}:null};
+function spGrpFx(){for(const id in SPGRP){const S=SPEC[id],G=SPGRP[id];if(!S)continue;const st=spGrpStep(id),u=G.b&&G.s?'B und N':G.b?'B':'N',ex=Math.round(.5/st)||5;
+  S.fx=[`×${mxs(1+st)} ${u}|für jedes ${G.w1}, je ${G.je} im Zoo (${ex} im Zoo: je ×${mxs(1+st*ex)})${G.wenn||''}`].concat(id==='dompteur'?['kein|Abzug mehr für Beute neben Raubtieren']:[])}}
 const SPEZ_WIRKUNG=(()=>{const per={},mult={};
   // Wirkung je Gehege/Gebäude
-  for(const h in HAB)per['pfleger_'+h]=(b,c)=>c.hab===h?{pa:.15,ps:.15}:null;
+  for(const h in HAB)per['pfleger_'+h]=spGrpPer('pfleger_'+h); // 0.82a: Gruppen-Bonus
   Object.assign(per,{
   gastro:(b,c,nb)=>c.cat==='essen'?{a:2*others(nb,b,n=>isCat(n,'essen'))}:null,
   gaertner:(b,c,nb)=>c.cat==='schutz'?{s:2*others(nb,b,n=>isCat(n,'schutz'))}:null,
   animateur:(b,c,nb)=>c.cat==='attr'?{a:2*others(nb,b,n=>isCat(n,'attr'))}:null,
-  kleintier:(b,c)=>c.cat==='gehege'&&b.cells.length===1?{pa:.2,ps:.2}:null,
-  architekt:(b,c)=>c.cat==='gehege'&&c.tags.includes('gross')?{pa:.15}:null,
-  dompteur:(b,c)=>c.tags.includes('raubtier')?{pa:.3}:null,
-  artenschuetzer:(b,c)=>c.tags.includes('bedroht')?{ps:.25}:null,
+  kleintier:spGrpPer('kleintier'),architekt:spGrpPer('architekt'),dompteur:spGrpPer('dompteur'),artenschuetzer:spGrpPer('artenschuetzer'),
   tierpfleger:(b,c,nb)=>c.cat==='schutz'?{s:2*cnt(nb,n=>has(n,'scheu'))}:null,
-  bauleiterin:b=>(b.lvl||1)>1?{pa:.15,ps:.15,n:(b.lvl||1)-1}:null,
-  sammler:(b,c,nb,all)=>{if(c.cat!=='gehege')return null;const h=vielfalt(all).lvl;return h>=2?{ps:.1}:null}});
+  bauleiterin:spGrpPer('bauleiterin'),
+  sammler:spGrpPer('sammler')});
   // Faktor für den ganzen Zoo
   Object.assign(mult,{
   kurator:bs=>{const n=new Set(bs.filter(b=>isCat(b,'gehege')).map(b=>spK(b.key))).size,f=Math.min(1.6,1+.05*n);return f>1?{ma:+f.toFixed(2)}:null},

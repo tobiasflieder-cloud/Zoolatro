@@ -37,8 +37,8 @@ const GS=(()=>{const s=fs.readFileSync(require('path').join(__dirname,'referenz'
    const neg=ev(`(()=>{const b=state.buildings.find(b=>breakdown(b,state.buildings).parts.some(p=>(p.fa!=null&&p.fa<1)||(p.a||0)<0));return b?b.id:null})()`);
    const bid=neg!=null?neg:ev('state.buildings[0].id');ev(`state.infoProg=null;state.info=${bid};render()`);const db=d.querySelector('#info [data-det]');if(db)db.click();await wait(20);const sh=d.getElementById('detSheet');
    const bk=JSON.parse(ev(`JSON.stringify(breakdown(state.buildings.find(b=>b.id===${bid}),state.buildings))`));
-   T(!!sh&&sh.querySelector('.drb b').textContent==String(bk.a)&&sh.querySelector('.drn b').textContent==String(bk.s)&&new RegExp('= '+bk.a+'$').test(sh.querySelectorAll('.dcalc span')[1].textContent),`${fn.slice(0,12)}: Detail-Fenster zeigt ${bk.a} B · ${bk.s} N, Rechnung endet so`);
-   if(neg!=null)T(!!sh.querySelector('.drw.neg .dv.neg'),`${fn.slice(0,12)}: Abzug rot`);
+   T(!!sh&&sh.querySelector('.dtrb b').textContent==String(bk.a)&&sh.querySelector('.dtrn b').textContent==String(bk.s)&&new RegExp('= '+bk.a+'$').test(sh.querySelectorAll('.dtcalc span')[1].textContent),`${fn.slice(0,12)}: Detail-Fenster zeigt ${bk.a} B · ${bk.s} N, Rechnung endet so`);
+   if(neg!=null)T(!!sh.querySelector('.dtrw.neg .dtv.neg'),`${fn.slice(0,12)}: Abzug rot`);
    if(sh)sh.querySelector('[data-dsx]').click();await wait(10);T(!d.getElementById('detSheet'),'Detail-Fenster schließt');ev('state.info=null')}
  dom.window.close();
  // 5. Lotto

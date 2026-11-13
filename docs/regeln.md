@@ -245,9 +245,9 @@ mindestens 1. Dazu Extra-Baupunkte (`bpWish`), z. B. „früh geschafft“: je �
 ## 8. Jahreszeiten und Ziele (`01:SEASONS`, `05:seTarget`, `05:seOf`)
 - 4 Jahreszeiten mit je `DAYS=5` Tagen (`DAYS0`; Testlauf „4 Tage“ `run.d4`: 4 Tage, gesetzt in `05:syncCtx`): Frühling 9.500 · Sommer 51.000 · Herbst 118.000 · Winter 267.000 (Grundziele).
 - **Zoolatro**: `Ziel = Grund · ZLUP[i] · ZLSEAS[i]^zoo · deckTF · deckSF(i) · stTF · (Winter ab Zoo 5: 1,1) · d4TF · einTF(i)`.
-  - `d4TF` (0.78a): Testlauf „4 Tage“ ×0,6. `einTF(i)` (0.80a): Profil mit `einstieg` in `daten/profile.json` (Zoogründer) nur auf Stufe 1: ×0,8 / 0,9 / 0,9 / 0,9.
+  - `d4TF` (0.78a): Testlauf „4 Tage“ ×0,6. `einTF(i)` (0.80a): Profil mit `einstieg` in `daten/profile.json` (Zoogründer) nur auf Stufe 1: seit 0.82a alle ×0,8.
   - Preise im Testlauf (0.80a): `priced` ×0,8, aufgerundet.
-  - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,35, 1,68, 1,55]` (0.81a: Sommer 1,46 → 1,35) (Steigerung je Zoo, zoo = 0 … 4),
+  - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,35, 1,6, 1,55]` (0.81a: Sommer 1,46 → 1,35; 0.82a: Herbst 1,68 → 1,6) (Steigerung je Zoo, zoo = 0 … 4),
   - `deckSF`: Profil Polar Sommer ×1,15, Winter ×0,85,
   - `stTF` (Stufen): ×1,1 ab Stufe 2, nochmals ab Stufe 5, nochmals ab Stufe 8.
   - Rundung: ab 100.000 auf Tausender, sonst auf Hunderter.
@@ -378,3 +378,10 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - `07:detCalc(a0,parts,k,fin)` baut die Rechnung aus denselben Schritten: Plus-Werte in Klammern, dann je Faktor „× f → Zwischenwert“ (gerundet wie die Wertung, nach jedem Schritt).
   Geprüft für alle 1.689 Gebäude der Referenzfälle: Ergebnis = Wertung.
 - Aufstellung am Zähler (`aufOf`, `aufBlock`): Summe der Gebäude (`r.steps`), dann `r.mults` in Reihenfolge; gerundet wird erst am Ende (`scoreZoo0`). `state.yday.auf` speichert sie zum Zählerwert.
+
+## 15. Gruppen-Bonus der Spezialisten (0.82a)
+- `01:SPGRP`: Pflegerinnen (Gehege des Lebensraums), Kleintier-Expertin (1-Feld-Gehege), Architektin (Gehege ab 3 Feldern, nur B), Raubtier-Dompteur (Raubtiere, nur B),
+  Artenschützerin (bedroht, nur N), Bauleiterin (ausgebaute, Zahl = Summe der Ausbaustufen `lvl−1`), Sammlerin (Gehege, nur N, nur bei Vielfalt-Stufe ≥ 2).
+- Jedes betroffene Gebäude ×(1 + `schritt` × Anzahl im Zoo), `schritt` in `daten/spezialisten.json` (0,1 / 0,15 / 0,05). Als Faktor-Schritt in `evalB` (`pctAdd` mit `fa/fs`).
+- „Aktuell pro Tag“: `07:yieldCmp` = `scoreZoo` (A und S nach Zoo-Faktoren) mit minus ohne die Wirkung.
+- Heizkosten (`dayIncome`): Pflege ×1,25, verschärft ×1,5.

@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 174,
- "S": 105,
- "total": 18270,
+ "A": 178,
+ "S": 108,
+ "total": 19224,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1814,14 +1814,14 @@
      2
     ],
     [
-     "Bauleiterin ×1,21 (2×)",
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
      0,
-     1
+     3
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
      -1,
-     -8
+     -10
     ]
    ]
   },
@@ -1941,21 +1941,21 @@
    "s": 0,
    "parts": [
     [
-     "Bauleiterin ×1,21 (2×)",
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
      1,
-     0
+     1
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
      -4,
-     -2
+     -3
     ]
    ]
   },
   {
    "id": 10,
-   "a": 9,
-   "s": 9,
+   "a": 12,
+   "s": 12,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1968,29 +1968,29 @@
      2
     ],
     [
-     "Bauleiterin ×1,1",
-     0,
-     1
-    ],
-    [
-     "🪧 Besucherlotse ×1,25",
-     1,
-     0
-    ],
-    [
-     "❄️ Platzprüfung: nur die Hälfte",
-     -2,
-     -3
-    ],
-    [
-     "💧 Fluss: Kette aus 4 ×1,75",
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
      2,
      2
     ],
     [
+     "🪧 Besucherlotse ×1,25",
+     2,
+     0
+    ],
+    [
+     "❄️ Platzprüfung: nur die Hälfte",
+     -4,
+     -3
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     3,
+     3
+    ],
+    [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     4,
-     4
+     5,
+     5
     ]
    ]
   },
@@ -2032,14 +2032,14 @@
      2
     ],
     [
-     "Bauleiterin ×1,1",
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
      0,
-     1
+     3
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
      -1,
-     -8
+     -10
     ]
    ]
   },
@@ -2240,14 +2240,19 @@
      1
     ],
     [
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     3,
-     3
+     4,
+     4
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
-     -6,
-     -6
+     -8,
+     -8
     ]
    ]
   },
@@ -2296,19 +2301,19 @@
      2
     ],
     [
-     "Bauleiterin ×1,1",
-     0,
-     1
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
+     1,
+     3
     ],
     [
      "★ Goldenes Feld: zählt doppelt",
-     3,
-     8
+     4,
+     10
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
-     -6,
-     -16
+     -8,
+     -20
     ]
    ]
   },

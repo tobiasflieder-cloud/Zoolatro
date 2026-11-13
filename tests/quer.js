@@ -123,8 +123,16 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     state.buildings=[{id:901,key:k,cells:[fr[3]],lvl:1},{id:902,key:k,cells:[fr[4]],lvl:2}];const r=scoreZoo(state.buildings);state.yday={A:r.A,S:r.S,total:r.total,auf:aufOf(r)};state.phase='review';state.info=902;render()});await p.waitForTimeout(300);
   for(const c of['#cA','#cS']){if(!await klick(p,c)){T(false,`${wo}: Zähler ${c} nicht antippbar`);continue}const pop=await p.$('#aufPop');T(!!pop,`${wo}: Aufstellung an ${c} öffnet`);
     if(pop){const bb=await pop.boundingBox(),vw=await p.evaluate(()=>innerWidth);T(bb.x>=0&&bb.x+bb.width<=vw+1,`${wo}: Aufstellung ${c} im Bildschirm`)}await p.mouse.click(5,5);await p.waitForTimeout(150);T(!await p.$('#aufPop'),`${wo}: Aufstellung schließt beim Tippen daneben`)}
-  if(!await klick(p,'#info [data-det]'))T(false,`${wo}: Details-Knopf fehlt`);else{const x=await p.$('#detSheet [data-dsx]');T(!!x&&!!await p.$('#detSheet .dcalc'),`${wo}: Detail-Fenster mit Rechnung`);
+  if(!await klick(p,'#info [data-det]'))T(false,`${wo}: Details-Knopf fehlt`);else{const x=await p.$('#detSheet [data-dsx]');T(!!x&&!!await p.$('#detSheet .dtcalc'),`${wo}: Detail-Fenster mit Rechnung`);
     if(x){const fr=await x.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});T(fr,`${wo}: ✕ im Detail-Fenster erreichbar`);
       const qx=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(qx>2)T(false,`${wo}: Detail-Fenster breiter als der Bildschirm (${qx} px)`);await x.click();await p.waitForTimeout(150);T(!await p.$('#detSheet'),`${wo}: Detail-Fenster schließt`)}}
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.81a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.81a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 10) 0.82a: Futter verteilen: Zeilen überlappen nicht, Gruppen-Überschrift lesbar (Hintergrund nicht cremefarben)
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.phase='shop';openShop();state.shopSub='feed';state.feedF='kf';modal='shop';render()});await p.waitForTimeout(400);
+  {const r=await p.evaluate(()=>{const rows=[...document.querySelectorAll('#modalRoot .drows .drow')].map(e=>e.getBoundingClientRect()),hs=[...document.querySelectorAll('#modalRoot .drows .drh')];let ov=0;for(let i=1;i<rows.length;i++)if(rows[i].top<rows[i-1].bottom-1)ov++;
+      const L=c=>{const m=c.match(/[\d.]+/g).map(Number);return(.2126*m[0]+.7152*m[1]+.0722*m[2])/255},bg=e=>{for(let x=e;x;x=x.parentElement){const c=getComputedStyle(x).backgroundColor;if(c&&!/rgba\(0, 0, 0, 0\)|transparent/.test(c))return c}return'rgb(0,0,0)'};
+      const h=hs[0],con=h?Math.abs(L(getComputedStyle(h).color)-L(bg(h))):1;return{n:rows.length,ov,con,h:!!h}});
+    T(r.n>0&&r.ov===0,`${wo}: Futter verteilen: ${r.n} Zeilen ohne Überlappung`);if(r.h)T(r.con>.35,`${wo}: Gruppen-Überschrift lesbar (Kontrast ${r.con.toFixed(2)})`)}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.82a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

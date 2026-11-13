@@ -1406,9 +1406,9 @@
  ]
 },
 "erwartet":{
- "A": 514,
- "S": 241,
- "total": 123874,
+ "A": 528,
+ "S": 252,
+ "total": 133056,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1468,7 +1468,7 @@
      0
     ],
     [
-     "Bauleiterin ×1,21 (2×)",
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
      1,
      1
     ],
@@ -1550,7 +1550,7 @@
   {
    "id": 7,
    "a": 25,
-   "s": 11,
+   "s": 16,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1563,31 +1563,31 @@
      0
     ],
     [
-     "Bauleiterin ×1,1",
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
      1,
-     0
+     1
     ],
     [
      "⛰️ Rand/Felsen (2) ×1,75",
      5,
-     2
+     3
     ],
     [
      "🤝 Freundschaft mit Steinböcke ×1,25",
      3,
-     1
+     2
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
      11,
-     5
+     7
     ]
    ]
   },
   {
    "id": 8,
-   "a": 7,
-   "s": 7,
+   "a": 9,
+   "s": 9,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1598,6 +1598,11 @@
      "Winterkälte",
      -1,
      0
+    ],
+    [
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
+     1,
+     1
     ],
     [
      "🎭 Showtier: ×1,25",
@@ -1611,8 +1616,8 @@
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     3,
-     3
+     4,
+     4
     ]
    ]
   },
@@ -1980,8 +1985,8 @@
   },
   {
    "id": 23,
-   "a": 26,
-   "s": 23,
+   "a": 35,
+   "s": 26,
    "parts": [
     [
      "Wüste-Naturfläche",
@@ -1999,24 +2004,29 @@
      0
     ],
     [
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
+     1,
+     1
+    ],
+    [
      "🔗 Kombo ×1,5: Beutetier in der Nähe",
-     2,
+     3,
      2
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     6,
-     5
+     8,
+     6
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
+     4,
      3
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     11,
-     10
+     15,
+     11
     ]
    ]
   },

@@ -5,6 +5,16 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.82a · 13.11.2026 · Gruppen-Bonus, Einstieg, Reparatur
+- 🐞 Die Liste beim Futter verteilen (und im Deck/Entfernen) ist wieder sauber: Zeilen kleben nicht mehr aneinander, die Gruppen-Überschriften sind gut lesbar. Das Detail-Fenster aus 0.81a hatte die Liste verstellt.
+- 👥 Gruppen-Bonus: Spezialisten mit „für jedes …“ geben jedem betroffenen Gehege einen Faktor, der mit der Zahl solcher Gehege wächst. Pflegerinnen und Kleintier-Expertin ×1,1 je Gehege (B und N), Architektin ×1,1 je großes Gehege (nur B), Raubtier-Dompteur ×1,15 je Raubtier (nur B), Artenschützerin ×1,15 je bedrohtes Tier (nur N), Bauleiterin ×1,05 je Ausbaustufe, Sammlerin ×1,05 je Gehege (nur N). Beispiel: 5 Wasser-Gehege mit Wasser-Pflegerin → jedes ×1,5. Die Team-Leiste zeigt den aktuellen Faktor.
+- 📊 „Aktuell pro Tag“ bei Spezialisten und Förderung zeigt jetzt den echten Gewinn (Tagesertrag mit und ohne) und zählt alle betroffenen Gebäude.
+- 🧑‍💼 Zoogründer auf Stufe 1: alle Ziele ×0,8.
+- 📈 Herbst-Ziele steigen je Zoo etwas langsamer (×1,6 statt ×1,68).
+- 🔥 Winter-Bedingung „Heizkosten“: Pflege ×1,25 (verschärft ×1,5) statt ×1,5 bzw. doppelt.
+- 🪙 Steht die Kasse im Minus, wird sie rot angezeigt (z. B. „🪙 −29“), auch im Shop.
+- 🧪 Im Testlauf „4 Tage“ gibt es keine Auflage „Lockere Bebauung“ mehr.
+
 ## 0.81a · 13.11.2026 · Winter sichtbar, Details, Aufstellung
 - ❄️ Winter-Bedingung sichtbar: Ab dem Herbst zeigen kleine Schilder auf dem Spielfeld, welche Gehege und Gebäude die Bedingung im Winter trifft (z. B. „❄️×0,75“, „❄️×0“), im Herbst blau, im Winter rot. Wetterbericht und Winter-Ansage nennen, wie viele deiner Gehege betroffen sind.
 - 📏 „Mindestgröße“ entschärft: Gehege unter 3 Feldern zählen im Winter ×0,75 (verschärft ×0,5) statt der Hälfte bzw. gar nicht, außer sie haben Stufe II. Die Bedingung kommt erst ab Zoo 3.

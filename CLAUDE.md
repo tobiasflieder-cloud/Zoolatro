@@ -97,7 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.82a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.83a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -108,7 +108,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 **Godot-Vorbereitung (Stand):** 2a–2c fertig und mit 0.74a in main. Nächster Schritt laut `docs/godot-plan.md`: Wertung in Godot gegen die Referenzfälle.
   Werkzeuge: Textvergleich alt/neu `bash tests/textvergleich.sh`, Querformat-Test `node tests/quer.js` (auch in `pruefen.sh`).
 
-**Für später (aus dem Chat 13.11.):** Herbst-Kurve prüfen (evtl. ×1,6 statt ×1,68 je Zoo; Sprung Sommer → Herbst ab Zoo 3 ist seit 0.81a größer) · Förderung attraktiver: erst Nutzen
+**Für später (aus dem Chat 13.11.):** Gruppen-Bonus nach ein paar Läufen prüfen (evtl. Schritt 0,05 statt 0,1, in `daten/spezialisten.json` `schritt`) · Förderung attraktiver: erst Nutzen
 im aktuellen Zoo anzeigen („heute etwa +X B“), danach ggf. Preis/Wirkung; im Tutorial Zoo 2 zeigen · Winter-Bedingung „Mindestgröße“ zur Gruppe „schwer“ ·
 Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) · Schalter für Ereignisse und Glück in der Auswahl.
 
@@ -119,6 +119,10 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.82a** ([Auftrag](docs/auftraege/0.82a-reparatur-gruppenbonus-kurven.md)): Futter-/Deck-Liste repariert: Detail-Fenster-Klassen umbenannt (`.dtrows`, `.dtrw`, `.dtv` … statt `.drows` …),
+  `quer.js` Schritt 10 prüft Überlappung und Kontrast. `ruleRoll` ohne `locker` bei `run.d4`. Gruppen-Bonus `SPGRP`/`spGrpPer`/`spGrpF`/`spGrpFx` (Texte aus `schritt`), Label „💧 Name (n …) ×f“,
+  `specVal` zeigt den Faktor. „Aktuell pro Tag“ über `yieldCmp` (scoreZoo mit/ohne, auch für Förderung). `einstieg` alle 0,8, `ZLSEAS` Herbst 1,6, Heizkosten 1,25/1,5,
+  Kasse `monTxt`/`monHtml` (`.mneg`). Referenzfälle: 39 von 51 neu (Gruppen-Bonus, Gesamt meist ×1,0–1,2, höchstens ×1,97). Tests: neu `jsd82a.js`, angepasst `jsd80a` (Einstieg ×0,8).
 - **0.81a** ([Auftrag](docs/auftraege/0.81a-winter-details-lotto.md)): Winter sichtbar: `winterHit(b,bs,idx)` (Modul 02, Faktor wie `inspFx`), Schilder `winterMarks` in `zlMarks`
   (Herbst blau `.wnt.pre`, Winter rot), `winterHitTxt()` im Wetterbericht und im Winter-Fenster `modal==='insp'`. `gross` ×0,75 / verschärft ×0,5, erst ab Zoo 3 (Auswahl in `initZl` und `wSwap`).
   `mxs(0)` = „0“. Aufstellung am Zähler: `aufOf(r)`/`aufBlock`/`aufHtml`/`aufToggle` (`#aufPop`), `state.yday.auf`; bei Bauen „Stand jetzt“ dazu.

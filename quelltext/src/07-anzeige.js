@@ -17,7 +17,7 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
    $('evs').innerHTML=(state.mode==='camp'?`<button class="evb zoob" data-ev="zoo" aria-label="Dein Zoo: alle Regeln anzeigen"><span class="zt">${state.zl?'🃏':'🗺️'} Zoo ${state.zoo+1} ▾</span>${(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<span class="zev" data-ev="ev:${e.id}" title="${evName(e)}">${evIcon(e)}</span>`).join('')}</button>${wishBadge()}`:(state.rule&&RULES[state.rule.id]?`<button class="evb rl" data-ev="rule" title="Sonderregel" aria-label="Sonderregel: ${RULES[state.rule.id].name}">${RULES[state.rule.id].icon}</button>`:'')+(state.events||[]).filter(e=>EVENTS[e.id]).map(e=>`<button class="evb" data-ev="ev:${e.id}" title="${evName(e)}" aria-label="Ereignis: ${evName(e)}">${evIcon(e)}</button>`).join(''));renderTeam()}
   $('mkBar').classList.remove('on');
   placeZoomBtn();try{renderPts()}catch(e){}
-  const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);
+  const mo=$('money');mo.textContent=`🪙 ${monTxt(state.money)}`;mo.classList.toggle('neg',state.money<0);
   {const ub=$('btnUmb'),uw=$('umbWrap'),on=umbOn(),n=on?umbInv().length:0;ub.style.display=on?'':'none';ub.innerHTML=`🧰 <span class="un">Umbau</span>${n?`<b>${n}</b>`:''}`;ub.classList.toggle('on',!!state.umbOpen);const sh=on&&state.umbOpen&&state.phase==='play'&&!modal;uw.style.display=sh?'block':'none';uw.innerHTML=sh?umbTrayHtml(false):''}
 
   const cur=scoreZoo(state.buildings),h=state.phase==='play'?hypo():null;LASTH=h;void 0;
@@ -170,10 +170,13 @@ function calcHtml(h,cur){if(!h||!h.r||!h.ok)return'';const id=h.up?h.up.id:h.mov
   return`<table class="calc">${t}</table>`}
 function brkHtml(c,brk){return`<div class="brk"><span>Grundwert <b>${c.a} B · ${c.s} N</b></span>${brk.parts.map(p=>`<span class="${p.a+p.s<0?'m':'p'}">${p.label} ${vTxt(p.a,p.s)}</span>`).join('')}<span>= <b>${brk.a} B · ${brk.s} N</b></span></div>`}
 const habLine=c=>c.hab?` Lebensraum: +1 B je ${HAB[c.hab].label}-Nachbar, +1 N je Feld auf ${HAB[c.hab].label}-Naturfläche.${cold(c.hab)?' Im Winter −1 B (Kälte).':''}${hot(c.hab)?' Im Sommer −1 B (Hitze).':''}`:'';
-// was eine Wirkung im jetzigen Zoo bringt (vor Multiplikatoren)
-function yieldOf(fn){let a=0,s=0,n=0;const idx=mkIndex(state.buildings);for(const b of state.buildings){let e=fn(b,CARDS[b.key],nbrs(b,idx));if(e&&(e.pa||e.ps||e.fa||e.fs)){const v=evalB(b,state.buildings,idx);const n=e.n==null?1:e.n,fa=e.fa!=null?e.fa:pctF(e.pa||0),fs=e.fs!=null?e.fs:pctF(e.ps||0);e={a:Math.round(v.pa0*(fa**n-1)),s:Math.round(v.ps0*(fs**n-1))}}if(e&&(e.a||e.s)){a+=e.a||0;s+=e.s||0;n++}}return{a,s,n}}
+// was eine Wirkung im jetzigen Zoo bringt
+// 0.82a: ehrlicher Ertrag: Tagesertrag (B und N nach Zoo-Faktoren) mit und ohne diese Wirkung; gezählt werden alle Gebäude, auf die sie wirkt
+function yieldCmp(fn,withF,withoutF){const bs=state.buildings,keep={spec:CTX.spec,progs:CTX.progs,ads:CTX.ads};let r1,r0;try{withF();r1=scoreZoo(bs);Object.assign(CTX,keep);withoutF();r0=scoreZoo(bs)}finally{Object.assign(CTX,keep)}
+  const idx=mkIndex(bs);let n=0;for(const b of bs){try{if(fn(b,CARDS[b.key],nbrs(b,idx),bs))n++}catch(e){}}return{a:r1.A-r0.A,s:r1.S-r0.S,n}}
+function yieldOf(fn,id,kind){const L=kind||'spec';if(!id)return{a:0,s:0,n:0};return yieldCmp(fn,()=>{CTX[L]=[...(CTX[L]||[]).filter(x=>x!==id),id]},()=>{CTX[L]=(CTX[L]||[]).filter(x=>x!==id)})}
 const yieldTxt=y=>`<b>${vTxt(y.a,y.s)||'nichts'}</b>${y.n?` · ${y.n} Gehege/Gebäude`:''}`;
-function yieldHtml(P){if(P.per)return`<p class="hint">Aktuell pro Tag: ${yieldTxt(yieldOf(P.per))} (vor Multiplikatoren)</p>`;
+function yieldHtml(P){if(P.per){const id=Object.keys(PROGS).find(k=>PROGS[k]===P),ad=!id&&Object.keys(ADS).find(k=>ADS[k]===P);return`<p class="hint">Aktuell pro Tag: ${yieldTxt(yieldOf(P.per,id||ad,id?'progs':'ads'))}</p>`}
   if(P.mult){const m=P.mult(state.buildings);return`<p class="hint">Aktuell: <b>${m?'aktiv':'noch nicht aktiv'}</b></p>`}return''}
 const billHtml=inc=>inc&&inc.entry!=null?`<div class="bill"><span>🎟️ Eintritt ${sgn(inc.entry)}</span><span class="${inc.care<0?'neg':''}">🌿 Pflege ${sgn(inc.care)}</span>${inc.interest?`<span class="neg">🏦 Kredit ${sgn(inc.interest)}</span>`:''}${inc.spec?`<span class="${inc.spec<0?'neg':''}">👥 Spezialisten ${sgn(inc.spec)}</span>`:''}${inc.kar?`<span>🐪 Karawanen-Oase ${sgn(inc.kar)}</span>`:''}${inc.gas?`<span>🍿 Gastro ${sgn(inc.gas)}</span>`:''}<span class="sum ${inc.total<0?'neg':''}">Kasse ${sgn(inc.total)} 🪙</span></div>`:`<div class="bill"><span class="sum">Kasse ${sgn((inc||{}).total||0)} 🪙</span></div>`;
 // großes Ergebnis beim Platzieren: eigener Wert, Wirkung auf den ganzen Zoo und auf die Kasse
@@ -206,7 +209,7 @@ function moneyInfoHtml(cur){const inc=dayIncome(cur.A,cur.S,state.money),row=(l,
     <p class="hint">Erreichst du das Saisonziel früher, gibt es 5 Taler je übrigem Tag. Geld brauchst du nur für den Shop und fürs Neu-Würfeln der Kartenauswahl.${state.money<0?' <b style="color:#ffb3b5">Mit Schulden kannst du nichts kaufen.</b>':''}</p>`}
 // 0.89: Team-Reihe oben (bis 5 Spezialisten), antippen = Details, ziehen = umsortieren
 const TIERC=['','#7bc96f','#8a7cff','#ffd166'];
-function specVal(id){const S=SPEC[id];if(!S)return['','g'];if(S.grw)return[`×${mxs(grwF(S.grw))}`,S.grw==='nat'?'n':'b'];if(S.luck)return[chTxt(S.luck),'g'];if(id==='glueckspilz')return['×2 🎲','g'];if(id==='lotto'&&state&&state.lottoH)return[HAB[state.lottoH].icon+' ×2','b'];if(id==='lotto')return['–','g'];if(id==='doppel'){const L=state.spec||[],n=L[L.indexOf(id)+1];return[n&&SPEC[n]?'= '+SPEC[n].icon:'–','g']}if(S.mult){let m=null;try{m=S.mult(state.buildings)}catch(e){}const f=m?(m.ma||m.ms||1):1;return['×'+mxs(f),m&&m.ms&&!m.ma?'n':'b']}
+function specVal(id){const S=SPEC[id];if(!S)return['','g'];if(S.grw)return[`×${mxs(grwF(S.grw))}`,S.grw==='nat'?'n':'b'];if(S.luck)return[chTxt(S.luck),'g'];if(id==='glueckspilz')return['×2 🎲','g'];if(id==='lotto'&&state&&state.lottoH)return[HAB[state.lottoH].icon+' ×2','b'];if(id==='lotto')return['–','g'];if(SPGRP[id]&&state){const G=SPGRP[id];return['×'+mxs(spGrpF(id,state.buildings)),G.b&&G.s?'g':G.b?'b':'n']}if(id==='doppel'){const L=state.spec||[],n=L[L.indexOf(id)+1];return[n&&SPEC[n]?'= '+SPEC[n].icon:'–','g']}if(S.mult){let m=null;try{m=S.mult(state.buildings)}catch(e){}const f=m?(m.ma||m.ms||1):1;return['×'+mxs(f),m&&m.ms&&!m.ma?'n':'b']}
   const v=((S.fx||[])[0]||'').split('|')[0].replace(' und ','/').replace(/(\d) %/,'$1%').trim();return[v.length>9?v.slice(0,9):v,/N\b/.test(v)&&!/B/.test(v)?'n':/B/.test(v)?'b':'g']}
 let TDRAG=null;
 function renderTeam(){const el=$('team');if(!el)return;const on=state&&state.mode==='camp'&&!(state.zl==null&&!(state.spec||[]).length);el.classList.toggle('none',!on);if(!on){el.innerHTML='';return}
@@ -219,7 +222,7 @@ window.addEventListener('pointermove',e=>{if(TDRAG&&Math.abs(e.clientX-TDRAG.x)>
 window.addEventListener('pointerup',e=>{const d=TDRAG;if(!d)return;setTimeout(()=>{TDRAG=null},0);if(!d.moved||!state)return;const t=document.elementFromPoint(e.clientX,e.clientY),tb=t&&t.closest&&t.closest('#team [data-sp]');if(!tb||tb.dataset.sp===d.id){render();return}
   const mv=a=>{if(!a)return a;const L=a.filter(x=>x!==d.id),i=L.indexOf(tb.dataset.sp);if(i<0)return a;L.splice(e.clientX>tb.getBoundingClientRect().left+tb.offsetWidth/2?i+1:i,0,d.id);return L};
   state.spec=mv(state.spec);const run=runOf();if(run&&run.spec)run.spec=mv(run.spec);Sfx.select();render()});
-function specYield(id){const S=SPEC[id];if(!state)return'';if(S.per)return`<p class="hint">Aktuell pro Tag: ${yieldTxt(yieldOf((b,c,nb)=>S.per(b,c,nb,state.buildings)))}</p>`;if(S.mult){return`<p class="hint">Aktuell: <b>${S.mult(state.buildings)?'aktiv':'noch nicht aktiv'}</b></p>`}return''}
+function specYield(id){const S=SPEC[id];if(!state)return'';if(S.per)return`<p class="hint">Aktuell pro Tag: ${yieldTxt(yieldOf((b,c,nb)=>S.per(b,c,nb,state.buildings),id,'spec'))}</p>`;if(S.mult){return`<p class="hint">Aktuell: <b>${S.mult(state.buildings)?'aktiv':'noch nicht aktiv'}</b></p>`}return''}
 function infoHtml(h,cur){
   if(state.umbT)return umbHintHtml();
   if(state.msg)return`<h3>${state.msg.title}</h3><p class="hint">${state.msg.text}</p>`;
@@ -287,7 +290,7 @@ function detSheetHtml(b,bs,pre){const c=edCard(b),bk=breakdown(b,bs),P=bk.parts|
   const plus=P.filter(p=>p.fa==null&&p.fs==null&&(p.a||p.s)),fac=P.filter(p=>p.fa!=null||p.fs!=null),zoo=P.filter(p=>!p.a&&!p.s&&/😣/.test(p.label));
   const vB=(a,s)=>[a?`${a>0?'+':'−'}${Math.abs(a)} B`:'',s?`${s>0?'+':'−'}${Math.abs(s)} N`:''].filter(Boolean).join(' · ');
   const cls=(a,s)=>a&&s?'bn':a?'b':'n';
-  const row=(ic,t,sm,v,vc,neg,off)=>`<div class="drw${neg?' neg':''}${off?' off':''}"><span class="dri">${ic}</span><span class="drt"><b>${t}</b>${sm?`<small>${sm}</small>`:''}</span><span class="dv ${neg?'neg':vc}">${v}</span></div>`;
+  const row=(ic,t,sm,v,vc,neg,off)=>`<div class="dtrw${neg?' neg':''}${off?' off':''}"><span class="dtri">${ic}</span><span class="dtrt"><b>${t}</b>${sm?`<small>${sm}</small>`:''}</span><span class="dtv ${neg?'neg':vc}">${v}</span></div>`;
   const rP=plus.map(p=>{const[i,t]=detIc(p.label);return row(i||'➕',t,'',vB(p.a,p.s),cls(p.a,p.s),(p.a||0)+(p.s||0)<0)});
   const rF=fac.map(p=>{const[i,t]=detIc(p.label);const fa=p.fa==null?1:p.fa,fs=p.fs==null?1:p.fs,v=fa===fs?'×'+fF(fa):[fa!==1?'B ×'+fF(fa):'',fs!==1?'N ×'+fF(fs):''].filter(Boolean).join(' · ');return row(i||'✖️',t.replace(/:?\s*×\d+(,\d+)?\s*$/,''),'',v,fa!==1&&fs!==1?'bn':fa!==1?'b':'n',Math.min(fa,fs)<1)});
   const off=[];{const k=b.key;if(c.cat==='gehege'&&!c.ms&&foodOn()){const fr=fdMaxK(k)-fdOf(k).length;if(fr>0)off.push(row('🍽️',`Futterplatz frei${fr>1?' ('+fr+')':''}`,'Futter würde hier dauerhaft wirken','–','',false,true))}
@@ -297,14 +300,14 @@ function detSheetHtml(b,bs,pre){const c=edCard(b),bk=breakdown(b,bs),P=bk.parts|
   const zl=[...zoo.map(p=>`😣 Dieses Tier ist gestresst: ×${mxs(1-STRZ)} Natur für den <b>ganzen Zoo</b>. Siehe Aufstellung am N-Zähler.`),...cur.mults.filter(m=>m.id===b.id).map(m=>`${m.icon||c.icon} ${m.label}: ${m.ma?'×'+fF(m.ma)+' B':''}${m.ma&&m.ms?' · ':''}${m.ms?'×'+fF(m.ms)+' N':''} für den <b>ganzen Zoo</b>. Siehe Aufstellung am ${m.ma?'B':'N'}-Zähler.`)];
   const cA=detCalc(a0,P,'a',bk.a),cS=detCalc(s0,P,'s',bk.s),sh=SHAPES[c.shape]?SHAPES[c.shape].cells.length:b.cells.length,fdn=c.cat==='gehege'&&!c.ms&&foodOn()?` · 🍽️ ${fdOf(b.key).length}/${fdMaxK(b.key)}`:'';
   const sub=[c.hab?`${HAB[c.hab].icon} ${HAB[c.hab].label}`:CAT[c.cat].label,`${b.cells.length} ${b.cells.length===1?'Feld':'Felder'}`,`${costOf(b.key)} BP`,...traitsOf(c).map(t=>`${TRAITIC[t]} ${TRAITNAME[t]}`)].join(' · ')+fdn;
-  return`<div class="dsh" role="dialog" aria-label="Details ${esc(c.name)}"><div class="dgrip"></div><button class="dx" data-dsx="1" aria-label="Schließen">✕</button>
-    <div class="dhead"><div class="dic" style="background:color-mix(in srgb,${colOf(c)} 35%,#fff)">${ic(c)}</div><div><div class="dnm">${c.name}${(b.lvl||1)>1?' '+ROMAN[b.lvl]:''}${pre?' <small>(Vorschau)</small>':''}</div><div class="dsub">${sub}</div></div></div>
-    <div class="dres"><div class="drb"><b>${bk.a}</b><span>👥 Besucher</span></div><div class="drn"><b>${bk.s}</b><span>🌿 Natur</span></div></div>
-    <div class="dsec">➕ Grundwert und dazu</div><div class="drows">${row(ic(c),'Grundwert','von der Karte',`${a0} B · ${s0} N`,'bn',false)}${rP.join('')}</div>
-    ${rF.length?`<div class="dsec">✖️ Faktoren</div><div class="drows">${rF.join('')}</div>`:''}
-    ${off.length?`<div class="dsec">💤 Möglich, wirkt gerade nicht</div><div class="drows">${off.join('')}</div>`:''}
-    <div class="dcalc"><span class="dk kb">👥 B</span><span>${cA.t.replace(/= (-?\d+)$/,'= <span class="deq">$1</span>')}</span><span class="dk kn">🌿 N</span><span>${cS.t.replace(/= (-?\d+)$/,'= <span class="deq">$1</span>')}</span></div>
-    ${zl.map(z=>`<div class="dzoo">${z}</div>`).join('')}</div>`}
+  return`<div class="dsh" role="dialog" aria-label="Details ${esc(c.name)}"><div class="dtgrip"></div><button class="dtx" data-dsx="1" aria-label="Schließen">✕</button>
+    <div class="dthead"><div class="dtic" style="background:color-mix(in srgb,${colOf(c)} 35%,#fff)">${ic(c)}</div><div><div class="dtnm">${c.name}${(b.lvl||1)>1?' '+ROMAN[b.lvl]:''}${pre?' <small>(Vorschau)</small>':''}</div><div class="dtsub">${sub}</div></div></div>
+    <div class="dtres"><div class="dtrb"><b>${bk.a}</b><span>👥 Besucher</span></div><div class="dtrn"><b>${bk.s}</b><span>🌿 Natur</span></div></div>
+    <div class="dtsec">➕ Grundwert und dazu</div><div class="dtrows">${row(ic(c),'Grundwert','von der Karte',`${a0} B · ${s0} N`,'bn',false)}${rP.join('')}</div>
+    ${rF.length?`<div class="dtsec">✖️ Faktoren</div><div class="dtrows">${rF.join('')}</div>`:''}
+    ${off.length?`<div class="dtsec">💤 Möglich, wirkt gerade nicht</div><div class="dtrows">${off.join('')}</div>`:''}
+    <div class="dtcalc"><span class="dtk kb">👥 B</span><span>${cA.t.replace(/= (-?\d+)$/,'= <span class="dteq">$1</span>')}</span><span class="dtk kn">🌿 N</span><span>${cS.t.replace(/= (-?\d+)$/,'= <span class="dteq">$1</span>')}</span></div>
+    ${zl.map(z=>`<div class="dtzoo">${z}</div>`).join('')}</div>`}
 function detTarget(){if(!state)return null;if(state.info!=null){const b=state.buildings.find(x=>x.id===state.info);if(b)return{b,bs:state.buildings,pre:false}}
   if(state.selected!=null&&state.preview){const h=hypo();if(h&&h.ok&&h.b){const skip=new Set([h.up&&h.up.id,h.move&&h.move.id].filter(x=>x!=null)),bs=[...state.buildings.filter(x=>!skip.has(x.id)),h.b];return{b:h.b,bs,pre:true}}}return null}
 function detOpen(){const T=detTarget();if(!T)return false;detClose();const el=document.createElement('div');el.id='detSheet';el.className='detov';el.innerHTML=detSheetHtml(T.b,T.bs,T.pre);document.body.appendChild(el);
@@ -324,6 +327,7 @@ function aufToggle(k){let el=document.getElementById('aufPop');const was=el&&el.
   const r=c.getBoundingClientRect(),w=Math.min(300,window.innerWidth-16);el.style.width=w+'px';el.style.left=Math.max(8,Math.min(window.innerWidth-w-8,r.left+r.width/2-w/2))+'px';el.style.top=(r.bottom+6+window.scrollY)+'px'}
 $('cA').addEventListener('click',e=>{e.stopPropagation();try{Sfx.select()}catch(x){}aufToggle('a')});$('cS').addEventListener('click',e=>{e.stopPropagation();try{Sfx.select()}catch(x){}aufToggle('s')});
 document.addEventListener('click',e=>{const p=document.getElementById('aufPop');if(p&&!p.contains(e.target))p.remove()});
+const monTxt=v=>v<0?'−'+fmt(-v):fmt(v),monHtml=v=>`<span class="mon${v<0?' mneg':''}">🪙 ${monTxt(v)}</span>`; // 0.82a: Kasse im Minus rot
 function setCounters(a,s,t){$('vA').textContent=fmt(a);$('vS').textContent=fmt(s);if(t!=null)$('vT').textContent=fmt(t)}
 function bump(id){const e=$(id);if(e&&e.animate&&!reduced){e.animate([{transform:'scale(1)'},{transform:'scale(1.14)',offset:.5},{transform:'scale(1)'}],{duration:300,easing:'ease'});return}e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop');
   if(Sfx.heat>=2&&!reduced)for(let i=0;i<Sfx.heat+1;i++){const sp=document.createElement('span');sp.className='csp';sp.style.left=(8+Math.random()*84)+'%';sp.style.animationDelay=(Math.random()*.25).toFixed(2)+'s';sp.style.setProperty('--dx',Math.round(Math.random()*20-10)+'px');e.appendChild(sp);setTimeout(()=>sp.remove(),1400)}}
@@ -589,7 +593,7 @@ async function startScoring0(retry){state.phase='scoring';fast=!!retry;if(!retry
   try{flDay(r)}catch(e){}const inc=dayIncome(r.A,r.S,state.money);state.money+=inc.total;state._scM=1;state.lastIncome=inc;strikeNote(state.money-inc.total);
   {const L=state.ledger=state.ledger||{entry:0,care:0,interest:0,early:0};L.entry+=inc.entry;L.care+=inc.care;L.interest+=inc.interest;L.spec=(L.spec||0)+(inc.spec||0)}
   {const t=state.stats;t.days++;if(inc.total>0)t.earned+=inc.total;if(!t.best||r.total>t.best.pts)t.best={pts:r.total,season:state.season,day:state.day,zoo:state.zoo}}
-  const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);mo.classList.remove('pop');void mo.offsetWidth;mo.classList.add('pop');
+  const mo=$('money');mo.textContent=`🪙 ${monTxt(state.money)}`;mo.classList.toggle('neg',state.money<0);mo.classList.remove('pop');void mo.offsetWidth;mo.classList.add('pop');
   floatAt([VB[0]+VB[2]/2,VB[1]+VB[3]*.12],`🪙 ${sgn(inc.total)}`,inc.total>=0?'m':'m neg');if(!quick()&&inc.total)Sfx.till();
   state.prevY=state.day||state.season?state.yday:null;state.yday={A:r.A,S:r.S,total:r.total,auf:aufOf(r)};state.seasonScore+=r.total;state.totalScore+=r.total;state.lastDay=r.total;state.dayPts[state.day]=r.total;
   const se=seOf(state.season);$('sScore').textContent=fmt(state.seasonScore);

@@ -1374,8 +1374,8 @@
 },
 "erwartet":{
  "A": 462,
- "S": 284,
- "total": 131208,
+ "S": 283,
+ "total": 130746,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1552,17 +1552,12 @@
   {
    "id": 5,
    "a": 2,
-   "s": 12,
+   "s": 11,
    "parts": [
     [
      "Kartenbonus",
      0,
      5
-    ],
-    [
-     "Bauleiterin ×1,1",
-     0,
-     1
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",

@@ -1727,9 +1727,9 @@
  ]
 },
 "erwartet":{
- "A": 389,
- "S": 202,
- "total": 78578,
+ "A": 412,
+ "S": 207,
+ "total": 85284,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1890,7 +1890,7 @@
      4
     ],
     [
-     "Bauleiterin ×1,1",
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
      0,
      1
     ],
@@ -2089,7 +2089,7 @@
   },
   {
    "id": 15,
-   "a": 104,
+   "a": 122,
    "s": 54,
    "parts": [
     [
@@ -2108,28 +2108,28 @@
      0
     ],
     [
-     "Bauleiterin ×1,21 (2×)",
-     1,
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
+     2,
      1
     ],
     [
      "🔦 Scheinwerfer: ×1,5",
-     4,
+     5,
      2
     ],
     [
      "🎭 Showtier: ×1,95",
-     11,
+     13,
      6
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     23,
+     27,
      12
     ],
     [
      "Ausbau Stufe III: ×2,25 des eigenen Werts",
-     58,
+     68,
      30
     ]
    ]
@@ -2187,9 +2187,14 @@
      0
     ],
     [
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
+     1,
+     1
+    ],
+    [
      "❄️ Wegekontrolle: zählt nicht",
-     -4,
-     -3
+     -5,
+     -4
     ]
    ]
   },
@@ -2371,7 +2376,7 @@
   {
    "id": 31,
    "a": 42,
-   "s": 19,
+   "s": 25,
    "parts": [
     [
      "⛰️ Der Gipfelstürmer: Felsen",
@@ -2379,9 +2384,9 @@
      0
     ],
     [
-     "Bauleiterin ×1,1",
+     "📈 Bauleiterin (5 Ausbaustufen) ×1,25",
      1,
-     0
+     1
     ],
     [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
@@ -2391,7 +2396,7 @@
     [
      "⛰️ Rand/Felsen (1) ×1,5",
      3,
-     1
+     2
     ],
     [
      "🍖 Jäger: 1× Beute gefressen (zählt für die Reinheit als 1 Art mehr)",
@@ -2401,12 +2406,12 @@
     [
      "❤️ neben dem Besucherliebling ×1,25",
      5,
-     2
+     3
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
      18,
-     8
+     11
     ]
    ]
   },

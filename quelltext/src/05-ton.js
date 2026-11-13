@@ -146,7 +146,7 @@ let SCFAST=0;try{SCFAST=+localStorage.getItem('zoodeck-fast')||0}catch(e){}
 let state,fast=false,modal=null,tutIdx=0; // modal: 'help' | 'deck' | 'restart' …
 const newStats=()=>({cards:{},best:null,combo:0,earned:0,spent:0,progs:0,tally:{},lvl:1,days:0});
 const DEFAULTS=()=>({map:'wiese',board:null,undo:[],yday:{A:0,S:0,total:0},builtToday:0,picks:0,pickTotal:0,hover:null,hoverTerr:null,earlyBonus:0,dayPts:[],past:[],money:10,progs:[],ads:[],adsNext:[],bpMax:BP,bpBought:0,bpNext:0,bpSeason:0,shop:null,shopSub:null,infoProg:null,lastIncome:null,msg:null,prevY:null,miles:{},mileNew:[],spec:[],market:null,mileSeen:{},ledger:{entry:0,care:0,interest:0,early:0},draftRolls:0,moving:null,evRolled:false,mode:'free',zoo:0,tmult:1,events:[],eventsNext:[],boni:{},stats:newStats()});
-const ZLSEAS=[1.15,1.35,1.68,1.55]; // 0.81a: Sommer 1,46 → 1,35 je Zoo // 0.92 neu gemessen (Glück, Besucherliebling, Formen, Freundschaften) // Zoolatro: Frühling steigt pro Zoo langsamer als Winter
+const ZLSEAS=[1.15,1.35,1.6,1.55]; // 0.82a: Herbst 1,68 → 1,6 je Zoo // 0.81a: Sommer 1,46 → 1,35 je Zoo // 0.92 neu gemessen (Glück, Besucherliebling, Formen, Freundschaften) // Zoolatro: Frühling steigt pro Zoo langsamer als Winter
 // Spezial-Decks mit schnellerer Reinheit bekommen höhere Ziele (Zoolatro)
 const DECKTF={},deckSF=i=>{try{const sl=activeSlot();return sl&&sl.run&&sl.run.zl&&!sl.run.tut&&sl.run.deckId==='polar'?(i===3?.85:i===1?1.15:1):1}catch(e){return 1}},deckTF=()=>{try{const sl=activeSlot();return sl&&sl.run&&sl.run.zl&&!sl.run.tut?(DECKTF[sl.run.deckId]||1):1}catch(e){return 1}};
 const ZLUP=[1,1.2,1.2,1.2]; // 0.70a: Zoolatro-Ziele Sommer/Herbst/Winter +20 %

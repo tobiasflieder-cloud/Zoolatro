@@ -50,7 +50,8 @@ function rollPlan(run){if(run.seed)return withSeed(run.seed+'|zoo'+run.zoo+'|'+(
 // schon angebotene Auflagen und Winter-Bedingungen dieses Laufs (nur aus früheren Zoos)
 let SEEN={r:new Set(),i:new Set()};
 function seenOf(run,z){const o={r:new Set(),i:new Set()};for(const k in run&&run.offered||{}){if(+k>=z)continue;const e=run.offered[k];if(e.r)o.r.add(e.r);for(const i of e.i||[])o.i.add(i)}return o}
-function ruleRoll(){const all=Object.keys(RULES).filter(k=>!RULES[k].gone),f=all.filter(k=>!SEEN.r.has(k)),pool=f.length?f:all;return pool[Math.floor(Math.random()*pool.length)]}
+function ruleRoll(){const d4=(()=>{try{return isD4(runOf())}catch(e){return false}})(),all=Object.keys(RULES).filter(k=>!RULES[k].gone&&!(d4&&k==='locker')), // 0.82a: keine „Lockere Bebauung“ im Testlauf
+ f=all.filter(k=>!SEEN.r.has(k)),pool=f.length?f:all;return pool[Math.floor(Math.random()*pool.length)]}
 function noteOffered(run){try{if(!run||!state||!state.zl)return;(run.offered=run.offered||{})[state.zoo||0]={r:state.rule&&state.rule.id||null,i:(state.zl.inspOpts||[state.zl.insp]).filter(Boolean)}}catch(e){}}
 function rollPlan0(run){SEEN=seenOf(run,run.zoo);try{return rollPlan1(run)}finally{SEEN={r:new Set(),i:new Set()}}}
 function rollPlan1(run){mapRoll(run);GENHABS=run.habs||null;const cf=cfOf(run),m=(()=>{const r=genMap(cf.map,Math.random,cf.rocks);GENHABS=null;return r})(),keep=state,kb=keep?BOARD.map(c=>c.slice()):null,kt=TERR;setBoard(m.cells);TERR=m.terr;

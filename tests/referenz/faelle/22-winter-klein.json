@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 324,
- "S": 224,
- "total": 72576,
+ "A": 338,
+ "S": 241,
+ "total": 81458,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1791,7 +1791,7 @@
   {
    "id": 3,
    "a": 2,
-   "s": 9,
+   "s": 11,
    "parts": [
     [
      "Kartenbonus",
@@ -1804,19 +1804,19 @@
      2
     ],
     [
-     "Bauleiterin ×1,21 (2×)",
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
      0,
-     1
+     3
     ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
      0,
-     -4
+     -5
     ],
     [
      "Ausbau Stufe III: ×2,25 des eigenen Werts",
      1,
-     5
+     6
     ]
    ]
   },
@@ -1938,12 +1938,12 @@
   {
    "id": 9,
    "a": 9,
-   "s": 5,
+   "s": 9,
    "parts": [
     [
-     "Bauleiterin ×1,21 (2×)",
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
      1,
-     0
+     1
     ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
@@ -1953,19 +1953,19 @@
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
      2,
-     1
+     2
     ],
     [
      "Ausbau Stufe III: ×2,25 des eigenen Werts",
      5,
-     3
+     5
     ]
    ]
   },
   {
    "id": 10,
-   "a": 16,
-   "s": 19,
+   "a": 25,
+   "s": 21,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1978,24 +1978,24 @@
      2
     ],
     [
-     "Bauleiterin ×1,1",
-     0,
-     1
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
+     2,
+     2
     ],
     [
      "🪧 Besucherlotse ×1,25",
-     1,
+     2,
      0
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     4,
+     6,
      5
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     7,
-     8
+     11,
+     9
     ]
    ]
   },
@@ -2024,7 +2024,7 @@
   {
    "id": 12,
    "a": 2,
-   "s": 7,
+   "s": 9,
    "parts": [
     [
      "Kartenbonus",
@@ -2037,19 +2037,19 @@
      2
     ],
     [
-     "Bauleiterin ×1,1",
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
      0,
-     1
+     3
     ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
      0,
-     -4
+     -5
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
      1,
-     3
+     4
     ]
    ]
   },
@@ -2260,19 +2260,24 @@
      1
     ],
     [
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     3,
-     3
+     4,
+     4
     ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
-     -3,
-     -3
+     -4,
+     -4
     ],
     [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
-     -1,
-     -1
+     -2,
+     -2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
@@ -2312,8 +2317,8 @@
   },
   {
    "id": 25,
-   "a": 9,
-   "s": 25,
+   "a": 12,
+   "s": 32,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2331,29 +2336,29 @@
      2
     ],
     [
-     "Bauleiterin ×1,1",
-     0,
-     1
+     "📈 Bauleiterin (8 Ausbaustufen) ×1,4",
+     1,
+     3
     ],
     [
      "★ Goldenes Feld: zählt doppelt",
+     4,
+     10
+    ],
+    [
+     "❄️ Platzprüfung: nur die Hälfte",
+     -4,
+     -10
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
      3,
      8
     ],
     [
-     "❄️ Platzprüfung: nur die Hälfte",
-     -3,
-     -8
-    ],
-    [
-     "💧 Fluss: Kette aus 4 ×1,75",
-     2,
-     6
-    ],
-    [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     4,
-     11
+     5,
+     14
     ]
    ]
   },
