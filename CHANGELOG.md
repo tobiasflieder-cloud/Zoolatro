@@ -5,6 +5,15 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.81a · 13.11.2026 · Winter sichtbar, Details, Aufstellung
+- ❄️ Winter-Bedingung sichtbar: Ab dem Herbst zeigen kleine Schilder auf dem Spielfeld, welche Gehege und Gebäude die Bedingung im Winter trifft (z. B. „❄️×0,75“, „❄️×0“), im Herbst blau, im Winter rot. Wetterbericht und Winter-Ansage nennen, wie viele deiner Gehege betroffen sind.
+- 📏 „Mindestgröße“ entschärft: Gehege unter 3 Feldern zählen im Winter ×0,75 (verschärft ×0,5) statt der Hälfte bzw. gar nicht, außer sie haben Stufe II. Die Bedingung kommt erst ab Zoo 3.
+- 🔎 Detail-Fenster: „Details“ bei einem Gehege oder Gebäude öffnet ein Fenster mit Grundwert, allem, was dazukommt, allen Faktoren (Abzüge rot), dem, was gerade nicht wirkt, und der Rechnung bis zum Ergebnis. Auch für die Vorschau beim Bauen.
+- 👥 Aufstellung: Antippen der Besucher- oder Natur-Anzeige zeigt „Gebäude zusammen“ und alle Zoo-Faktoren (Kronenfeld, Reinheit, Vielfalt, Stress …) bis zur Summe. Nach dem Bauen zusätzlich „Stand jetzt“.
+- 🎰 Lebensraum-Lotto greift nur noch an manchen Tagen (1 zu 4, mit Glückspilz 1 zu 2).
+- 🧪 Der Testlauf „4 Tage“ zählt jetzt für Freischaltungen und Fleiß. Bestwerte, Highscores und Statistik bleiben getrennt.
+- 📈 Sommer-Ziele steigen je Zoo etwas langsamer (×1,35 statt ×1,46).
+
 ## 0.80a · 12.11.2026 · Geheimnisse, leichter Einstieg, Shop-Hinweise
 - ❔ Im Zoo-Buch bleibt Gesperrtes geheim (Karten, Spezialisten, Verstärker, Profile): „???“ statt Name, Werte und Wirkung. Sichtbar bleiben die Farbe des Lebensraums und der Weg zum Freischalten mit Balken. Arktis und Gebirge bleiben erkennbar.
 - ✨ Beim Freischalten erscheint „Neu entdeckt: …!“ mit der Karte bzw. dem Spezialisten.

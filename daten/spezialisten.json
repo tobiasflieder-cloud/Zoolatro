@@ -33,7 +33,7 @@
 {"key":"gluecksspielerin","name":"Glücksspielerin","icon":"🃏","tier":2,"luck":0.3333333333333333,"fx":["×1,5 B|mit 1 zu 3 Chance an jedem Tag"],"mult":"gluecksspielerin"},
 {"key":"wettbuero","name":"Wettbüro-Chef","icon":"🏇","tier":2,"luck":0.5,"fx":["×2 Eintritt|mit 1 zu 2 Chance an jedem Tag, sonst nichts"]},
 {"key":"glueckspilz","name":"Glückspilz","icon":"🍀","tier":3,"fx":["×2|alle Chancen im Zoo (1 zu 4 wird 1 zu 2)"]},
-{"key":"lotto","name":"Lebensraum-Lotto","icon":"🎰","tier":2,"fx":["×2|jeden Morgen für die Gehege eines ausgelosten Lebensraums"]},
+{"key":"lotto","name":"Lebensraum-Lotto","icon":"🎰","tier":2,"fx":["×2|an manchen Tagen (1 zu 4) für die Gehege eines ausgelosten Lebensraums"]},
 {"key":"mischer","name":"Kartenmischer","icon":"🔄","tier":1,"fx":["1×|jeden Tag gratis neue Handkarten ziehen"]},
 {"key":"spreng","name":"Sprengmeisterin","icon":"🧨","tier":2,"fx":["Felsen|können überbaut werden","🦴|manchmal liegt darunter ein Fossil (+20 Taler)"]},
 {"key":"vermesser","name":"Vermesser","icon":"📏","tier":2,"fx":["×2|jeden Tag für alles auf einer ausgelosten geraden Linie aus 5 Feldern"]},

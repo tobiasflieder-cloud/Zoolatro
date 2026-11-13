@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 224,
- "S": 207,
- "total": 46368,
+ "A": 318,
+ "S": 260,
+ "total": 82680,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1736,8 +1736,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 0,
-   "s": 0,
+   "a": 6,
+   "s": 6,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1755,16 +1755,21 @@
      0
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -5,
-     -5
+     "❄️ Mindestgröße: nur die Hälfte",
+     -2,
+     -2
+    ],
+    [
+     "🧊 Nordlage ×2",
+     3,
+     3
     ]
    ]
   },
   {
    "id": 2,
-   "a": 0,
-   "s": 0,
+   "a": 3,
+   "s": 3,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1777,9 +1782,19 @@
      1
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -4,
-     -4
+     "❄️ Mindestgröße: nur die Hälfte",
+     -2,
+     -2
+    ],
+    [
+     "🧊 Nordlage ×2",
+     2,
+     2
+    ],
+    [
+     "2. Schneegänse: zählt ×0,75 des eigenen Werts",
+     -1,
+     -1
     ]
    ]
   },
@@ -1812,8 +1827,8 @@
   },
   {
    "id": 4,
-   "a": 0,
-   "s": 0,
+   "a": 5,
+   "s": 4,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1826,14 +1841,19 @@
      2
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -5,
-     -4
+     "❄️ Mindestgröße: nur die Hälfte",
+     -2,
+     -2
     ],
     [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     2,
+     2
     ]
    ]
   },
@@ -1878,8 +1898,8 @@
   },
   {
    "id": 7,
-   "a": 0,
-   "s": 0,
+   "a": 12,
+   "s": 4,
    "parts": [
     [
      "Dschungel-Naturfläche",
@@ -1887,9 +1907,24 @@
      1
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -4,
-     -2
+     "❄️ Mindestgröße: nur die Hälfte",
+     -2,
+     -1
+    ],
+    [
+     "🎭 Showtier: ×1,25",
+     1,
+     0
+    ],
+    [
+     "🌿 Schutzgebiet: Naturschutz daneben ×2",
+     3,
+     1
+    ],
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     6,
+     2
     ]
    ]
   },
@@ -2028,8 +2063,8 @@
   },
   {
    "id": 15,
-   "a": 0,
-   "s": 0,
+   "a": 22,
+   "s": 8,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2047,9 +2082,24 @@
      0
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -8,
-     -2
+     "❄️ Mindestgröße: nur die Hälfte",
+     -4,
+     -1
+    ],
+    [
+     "🎭 Showtier: ×1,5",
+     2,
+     1
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     5,
+     2
+    ],
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     11,
+     4
     ]
    ]
   },
@@ -2067,13 +2117,18 @@
   },
   {
    "id": 17,
-   "a": 0,
-   "s": 0,
+   "a": 4,
+   "s": 2,
    "parts": [
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -3,
-     -2
+     "❄️ Mindestgröße: nur die Hälfte",
+     -1,
+     -1
+    ],
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     2,
+     1
     ]
    ]
   },
@@ -2107,8 +2162,8 @@
   },
   {
    "id": 20,
-   "a": 0,
-   "s": 0,
+   "a": 17,
+   "s": 12,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2126,9 +2181,29 @@
      3
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -8,
-     -6
+     "❄️ Mindestgröße: nur die Hälfte",
+     -4,
+     -3
+    ],
+    [
+     "🎭 Showtier: ×1,7",
+     3,
+     2
+    ],
+    [
+     "💧 Fluss: Kette aus 2 ×1,5",
+     4,
+     3
+    ],
+    [
+     "🎪 Zirkus-Zelt ×2,0",
+     11,
+     8
+    ],
+    [
+     "2. Korallenriff: zählt ×0,75 des eigenen Werts",
+     -5,
+     -4
     ]
    ]
   },
@@ -2269,8 +2344,8 @@
   },
   {
    "id": 26,
-   "a": 0,
-   "s": 0,
+   "a": 1,
+   "s": 1,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2283,9 +2358,14 @@
      1
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -3,
-     -3
+     "❄️ Mindestgröße: nur die Hälfte",
+     -1,
+     -1
+    ],
+    [
+     "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
+     -1,
+     -1
     ]
    ]
   },
@@ -2329,8 +2409,8 @@
   },
   {
    "id": 29,
-   "a": 0,
-   "s": 0,
+   "a": 2,
+   "s": 2,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2338,16 +2418,26 @@
      0
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -4,
-     -2
+     "❄️ Mindestgröße: nur die Hälfte",
+     -2,
+     -1
+    ],
+    [
+     "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
+     -1,
+     0
+    ],
+    [
+     "❤️ Besucherliebling des Tages ×2,0",
+     1,
+     1
     ]
    ]
   },
   {
    "id": 30,
-   "a": 0,
-   "s": 0,
+   "a": 1,
+   "s": 1,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2360,21 +2450,36 @@
      1
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -4,
+     "❄️ Mindestgröße: nur die Hälfte",
+     -2,
+     -1
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     2,
+     2
+    ],
+    [
+     "3. Schwanensee: zählt ×0,25 des eigenen Werts",
+     -3,
      -3
     ]
    ]
   },
   {
    "id": 31,
-   "a": 0,
-   "s": 0,
+   "a": 1,
+   "s": 1,
    "parts": [
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -3,
-     -2
+     "❄️ Mindestgröße: nur die Hälfte",
+     -1,
+     -1
+    ],
+    [
+     "Nordlage gebrochen: ×0,5",
+     -1,
+     0
     ]
    ]
   },
@@ -2431,8 +2536,8 @@
   },
   {
    "id": 35,
-   "a": 0,
-   "s": 0,
+   "a": 4,
+   "s": 7,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2455,9 +2560,14 @@
      2
     ],
     [
-     "❄️ Mindestgröße: zählt nicht",
-     -3,
-     -8
+     "❄️ Mindestgröße: nur die Hälfte",
+     -1,
+     -4
+    ],
+    [
+     "💧 Fluss: Kette aus 4 ×1,75",
+     2,
+     3
     ]
    ]
   },

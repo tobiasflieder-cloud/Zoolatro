@@ -97,7 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.81a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.82a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -108,9 +108,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 **Godot-Vorbereitung (Stand):** 2a–2c fertig und mit 0.74a in main. Nächster Schritt laut `docs/godot-plan.md`: Wertung in Godot gegen die Referenzfälle.
   Werkzeuge: Textvergleich alt/neu `bash tests/textvergleich.sh`, Querformat-Test `node tests/quer.js` (auch in `pruefen.sh`).
 
-**Für später (aus dem Chat 12.11.):** Förderung: Nutzen im aktuellen Zoo anzeigen („heute etwa +X B“), im Tutorial Zoo 2 zeigen · Winter-Ziele ab Zoo 3 nach weiteren Läufen prüfen
-(evtl. Herbst ×1,6 statt ×1,68 je Zoo) · Winter-Bedingung „Mindestgröße“ zur Gruppe „schwer“ · Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
-Schalter für Ereignisse und Glück in der Auswahl.
+**Für später (aus dem Chat 13.11.):** Herbst-Kurve prüfen (evtl. ×1,6 statt ×1,68 je Zoo; Sprung Sommer → Herbst ab Zoo 3 ist seit 0.81a größer) · Förderung attraktiver: erst Nutzen
+im aktuellen Zoo anzeigen („heute etwa +X B“), danach ggf. Preis/Wirkung; im Tutorial Zoo 2 zeigen · Winter-Bedingung „Mindestgröße“ zur Gruppe „schwer“ ·
+Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) · Schalter für Ereignisse und Glück in der Auswahl.
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · Weiterspielen nach dem Ziel beobachten.
@@ -119,6 +119,12 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.81a** ([Auftrag](docs/auftraege/0.81a-winter-details-lotto.md)): Winter sichtbar: `winterHit(b,bs,idx)` (Modul 02, Faktor wie `inspFx`), Schilder `winterMarks` in `zlMarks`
+  (Herbst blau `.wnt.pre`, Winter rot), `winterHitTxt()` im Wetterbericht und im Winter-Fenster `modal==='insp'`. `gross` ×0,75 / verschärft ×0,5, erst ab Zoo 3 (Auswahl in `initZl` und `wSwap`).
+  `mxs(0)` = „0“. Aufstellung am Zähler: `aufOf(r)`/`aufBlock`/`aufHtml`/`aufToggle` (`#aufPop`), `state.yday.auf`; bei Bauen „Stand jetzt“ dazu.
+  Detail-Fenster: `evalB`-`add` mit `{fa,fs}` je Faktor-Schritt, `breakdown` mit `a0/s0` und Faktor für Wiederholung/Ausbau; `detCalc`, `detSheetHtml`, `detTarget` (Gebäude oder Vorschau),
+  `detOpen` über `data-det` im Info-Feld (`#detSheet`, Querformat rechts). Lotto `chance(.25)`, `specVal` „–“. `flSl`/`fsCheck` schließen `run.d4` nicht mehr aus (Bestwerte `cu` bleiben getrennt).
+  `ZLSEAS` Sommer 1,35. Referenzfälle: nur 38/39 (Mindestgröße) mit neuen Zahlen. Tests: neu `jsd81a.js`, `quer.js` (Schritt 9).
 - **0.80a** ([Auftrag](docs/auftraege/0.80a-schliff-einstieg-shop.md)): Gesperrtes geheim: `buchCard` (❔/„???“, Farbe bleibt), `glossSpec` (nur Weg), `progHtml` und `fsNextHtml` über `unNameL`
   (Lebensräume sichtbar); Enthüllung `fsRevHtml` als `bigPop('fsRevPop')` bei `fsCheck('fl')` (`state.fsRev`), sonst `fsNewHtml` „✨ Neu entdeckt!“ mit `fsCardHtml` (`offerCard`/`specCard`).
   „Alles zurücksetzen“: `resetAsk(1|2)` (Fenster `#resetPop`, „LÖSCHEN“ `data-rs="go"`), `resetAll` löscht `SAVE_KEY` + `zoodeck-*`, `RESETTING` sperrt `saveMeta`, dann `location.reload()`.

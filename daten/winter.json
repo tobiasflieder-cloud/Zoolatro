@@ -13,7 +13,7 @@
 {"key":"hab","ht":"Im Winter zählen die Gehege des Lebensraums, von dem du die meisten hast, gar nicht. Es gilt der Stand zu Winterbeginn.","text_wirkung":"hab","fx":"hab"},
 {"key":"schutzp","pos":1,"ht":"Im Winter zählen Gehege ohne Naturschutz-Gebäude daneben nur ×0,25.","fx":"schutzp"},
 {"key":"laerm","pos":1,"ht":"Im Winter bringen Gehege neben einer Attraktion gar keine Natur.","fx":"laerm"},
-{"key":"gross","ht":"Im Winter zählen Gehege unter 3 Feldern gar nicht, außer sie haben Stufe II.","fx":"gross"},
+{"key":"gross","ht":"Im Winter zählen Gehege ×0,5, außer sie haben mindestens 3 Felder oder Stufe II.","fx":"gross"},
 {"key":"heiz","icon":"🔥","name":"Heizkosten","text":"Im Winter kostet die Pflege 1,5-mal so viel Taler.","ht":"Im Winter kostet die Pflege doppelt so viel Taler.","fx":"keine"},
 {"key":"ruhe","icon":"😴","name":"Winterruhe","text":"Im Winter zählen Attraktionen und Gastro-Gebäude selbst nicht. Ihre Boni für Nachbarn bleiben.","fx":"ruhe"},
 {"key":"inventur","icon":"📋","name":"Inventur","pos":1,"text":"Im Winter zählen von jedem Lebensraum nur die 3 besten Gehege. Die anderen zählen selbst nicht, wirken aber weiter als Nachbarn.","fx":"inventur"},

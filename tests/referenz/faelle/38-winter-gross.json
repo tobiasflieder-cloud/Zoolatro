@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 318,
- "S": 260,
- "total": 82680,
+ "A": 352,
+ "S": 291,
+ "total": 102432,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1736,8 +1736,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 6,
-   "s": 6,
+   "a": 8,
+   "s": 8,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1755,21 +1755,21 @@
      0
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -2,
-     -2
+     "❄️ Mindestgröße: ×0,75",
+     -1,
+     -1
     ],
     [
      "🧊 Nordlage ×2",
-     3,
-     3
+     4,
+     4
     ]
    ]
   },
   {
    "id": 2,
-   "a": 3,
-   "s": 3,
+   "a": 5,
+   "s": 5,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1782,14 +1782,14 @@
      1
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -2,
-     -2
+     "❄️ Mindestgröße: ×0,75",
+     -1,
+     -1
     ],
     [
      "🧊 Nordlage ×2",
-     2,
-     2
+     3,
+     3
     ],
     [
      "2. Schneegänse: zählt ×0,75 des eigenen Werts",
@@ -1827,8 +1827,8 @@
   },
   {
    "id": 4,
-   "a": 5,
-   "s": 4,
+   "a": 7,
+   "s": 5,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1841,9 +1841,9 @@
      2
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -2,
-     -2
+     "❄️ Mindestgröße: ×0,75",
+     -1,
+     -1
     ],
     [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
@@ -1852,7 +1852,7 @@
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     2,
+     3,
      2
     ]
    ]
@@ -1898,8 +1898,8 @@
   },
   {
    "id": 7,
-   "a": 12,
-   "s": 4,
+   "a": 16,
+   "s": 12,
    "parts": [
     [
      "Dschungel-Naturfläche",
@@ -1907,24 +1907,24 @@
      1
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -2,
-     -1
+     "❄️ Mindestgröße: ×0,75",
+     -1,
+     0
     ],
     [
      "🎭 Showtier: ×1,25",
      1,
-     0
-    ],
-    [
-     "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     3,
      1
     ],
     [
+     "🌿 Schutzgebiet: Naturschutz daneben ×2",
+     4,
+     3
+    ],
+    [
      "🎪 Zirkus-Zelt ×2,0",
-     6,
-     2
+     8,
+     6
     ]
    ]
   },
@@ -2063,8 +2063,8 @@
   },
   {
    "id": 15,
-   "a": 22,
-   "s": 8,
+   "a": 32,
+   "s": 10,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2082,24 +2082,24 @@
      0
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -4,
-     -1
+     "❄️ Mindestgröße: ×0,75",
+     -2,
+     0
     ],
     [
      "🎭 Showtier: ×1,5",
-     2,
+     3,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     5,
+     7,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     11,
-     4
+     16,
+     5
     ]
    ]
   },
@@ -2118,17 +2118,17 @@
   {
    "id": 17,
    "a": 4,
-   "s": 2,
+   "s": 4,
    "parts": [
     [
-     "❄️ Mindestgröße: nur die Hälfte",
+     "❄️ Mindestgröße: ×0,75",
      -1,
-     -1
+     0
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
      2,
-     1
+     2
     ]
    ]
   },
@@ -2162,8 +2162,8 @@
   },
   {
    "id": 20,
-   "a": 17,
-   "s": 12,
+   "a": 23,
+   "s": 21,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2181,29 +2181,29 @@
      3
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -4,
-     -3
+     "❄️ Mindestgröße: ×0,75",
+     -2,
+     -1
     ],
     [
      "🎭 Showtier: ×1,7",
-     3,
-     2
+     4,
+     4
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     4,
-     3
+     5,
+     5
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     11,
-     8
+     15,
+     14
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -5,
-     -4
+     -7,
+     -7
     ]
    ]
   },
@@ -2358,7 +2358,7 @@
      1
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
+     "❄️ Mindestgröße: ×0,75",
      -1,
      -1
     ],
@@ -2409,7 +2409,7 @@
   },
   {
    "id": 29,
-   "a": 2,
+   "a": 4,
    "s": 2,
    "parts": [
     [
@@ -2418,18 +2418,18 @@
      0
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -2,
-     -1
-    ],
-    [
-     "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
+     "❄️ Mindestgröße: ×0,75",
      -1,
      0
     ],
     [
+     "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
+     -1,
+     -1
+    ],
+    [
      "❤️ Besucherliebling des Tages ×2,0",
-     1,
+     2,
      1
     ]
    ]
@@ -2450,8 +2450,8 @@
      1
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
-     -2,
+     "❄️ Mindestgröße: ×0,75",
+     -1,
      -1
     ],
     [
@@ -2461,7 +2461,7 @@
     ],
     [
      "3. Schwanensee: zählt ×0,25 des eigenen Werts",
-     -3,
+     -4,
      -3
     ]
    ]
@@ -2472,14 +2472,14 @@
    "s": 1,
    "parts": [
     [
-     "❄️ Mindestgröße: nur die Hälfte",
+     "❄️ Mindestgröße: ×0,75",
      -1,
-     -1
+     0
     ],
     [
      "Nordlage gebrochen: ×0,5",
      -1,
-     0
+     -1
     ]
    ]
   },
@@ -2537,7 +2537,7 @@
   {
    "id": 35,
    "a": 4,
-   "s": 7,
+   "s": 11,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2560,14 +2560,14 @@
      2
     ],
     [
-     "❄️ Mindestgröße: nur die Hälfte",
+     "❄️ Mindestgröße: ×0,75",
      -1,
-     -4
+     -2
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
      2,
-     3
+     5
     ]
    ]
   },

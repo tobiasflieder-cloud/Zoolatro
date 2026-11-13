@@ -115,5 +115,16 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     state.hand=[k];state.selected=0;state.preview=null;state.rot=0;render()});await p.waitForTimeout(250);
   {const rk=await p.evaluate(()=>window._rk),el=await p.$(`#board polygon.block`);if(!el)T(false,`${wo}: kein Felsen auf dem Feld`);else{const bb=await p.evaluate(rk=>{const pts=[...document.querySelectorAll('#board polygon.block')];const[x,y]=px(...rk);const svg=document.getElementById('board');const pt=svg.createSVGPoint();pt.x=ROT?-y:x;pt.y=ROT?x:y;const m=svg.getScreenCTM();const s=pt.matrixTransform(m);return{x:s.x,y:s.y}},rk);
     await p.mouse.click(bb.x,bb.y);await p.waitForTimeout(250);const pv=await p.evaluate(()=>state.preview&&[state.preview.q,state.preview.r]);T(!!pv&&pv[0]===rk[0]&&pv[1]===rk[1],`${wo}: Felsen antippen (Sprengmeisterin) setzt die Vorschau (${JSON.stringify(pv)} / ${JSON.stringify(rk)})`)}}
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.80a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.80a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 9) 0.81a: Aufstellung am Zähler und Detail-Fenster
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.infoProg=null;
+    const k=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1&&!fsLocked(x)&&CARDS[x].hab==='wasser');const fr=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));
+    state.buildings=[{id:901,key:k,cells:[fr[3]],lvl:1},{id:902,key:k,cells:[fr[4]],lvl:2}];const r=scoreZoo(state.buildings);state.yday={A:r.A,S:r.S,total:r.total,auf:aufOf(r)};state.phase='review';state.info=902;render()});await p.waitForTimeout(300);
+  for(const c of['#cA','#cS']){if(!await klick(p,c)){T(false,`${wo}: Zähler ${c} nicht antippbar`);continue}const pop=await p.$('#aufPop');T(!!pop,`${wo}: Aufstellung an ${c} öffnet`);
+    if(pop){const bb=await pop.boundingBox(),vw=await p.evaluate(()=>innerWidth);T(bb.x>=0&&bb.x+bb.width<=vw+1,`${wo}: Aufstellung ${c} im Bildschirm`)}await p.mouse.click(5,5);await p.waitForTimeout(150);T(!await p.$('#aufPop'),`${wo}: Aufstellung schließt beim Tippen daneben`)}
+  if(!await klick(p,'#info [data-det]'))T(false,`${wo}: Details-Knopf fehlt`);else{const x=await p.$('#detSheet [data-dsx]');T(!!x&&!!await p.$('#detSheet .dcalc'),`${wo}: Detail-Fenster mit Rechnung`);
+    if(x){const fr=await x.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});T(fr,`${wo}: ✕ im Detail-Fenster erreichbar`);
+      const qx=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(qx>2)T(false,`${wo}: Detail-Fenster breiter als der Bildschirm (${qx} px)`);await x.click();await p.waitForTimeout(150);T(!await p.$('#detSheet'),`${wo}: Detail-Fenster schließt`)}}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.81a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

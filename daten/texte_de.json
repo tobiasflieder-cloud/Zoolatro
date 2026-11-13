@@ -182,7 +182,7 @@
 "hab":{"name":"Lebensraum-Prüfung"},
 "schutzp":{"name":"Artenschutz-Prüfung","text":"Im Winter zählen Gehege ohne Naturschutz-Gebäude daneben nur zur Hälfte."},
 "laerm":{"name":"Lärmschutz","text":"Im Winter bringen Gehege neben einer Attraktion nur die halbe Natur."},
-"gross":{"name":"Mindestgröße","text":"Im Winter zählen Gehege nur zur Hälfte, außer sie haben mindestens 3 Felder oder Stufe II."},
+"gross":{"name":"Mindestgröße","text":"Im Winter zählen Gehege ×0,75, außer sie haben mindestens 3 Felder oder Stufe II."},
 "team":{"name":"Teamsitzung","text":"Im Winter zählen nur die ersten 3 Spezialisten deiner Team-Reihe. Die Reihenfolge änderst du per Ziehen."}
 },
 "tagfx":{

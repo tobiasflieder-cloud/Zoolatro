@@ -668,6 +668,8 @@ body.tutmode .card.tutno{opacity:.45}body.tutmode .tutglow{animation:tutglow 1.2
 #board .trl rect{fill:#c0392b;stroke:#fff;stroke-width:.3}#board .trl.pos rect{fill:#2e8b57}.trl.nul rect{fill:#4a5a50}#board .trl.mix rect{fill:#c98a00}
 #board .trl .ts{font-size:5.2px}#board .trl text{fill:#fff;font:700 4.4px var(--f-body);text-anchor:middle;dominant-baseline:central}
 #board .trl{pointer-events:none}
+#board .trl.wnt.pre rect{fill:#2f6fa8}#board .trl.wnt.pos rect{fill:#2e8b57}#board .trl.wnt.neg rect{fill:#c0392b} /* 0.81a Winter-Schilder */
+.winhit{margin:0;padding:7px 10px;border-radius:10px;background:#c0392b22;color:var(--text);font-size:13.5px}.winhit.ok{background:#2e8b5722}
 .redrawbtn{border:0;background:var(--panel2);color:var(--text);border-radius:8px;padding:4px 7px;font-size:12px;font-weight:700;flex:none;white-space:nowrap}
 .redrawbtn.free{background:#24563d;color:#c9ffd9;box-shadow:0 0 0 1.5px #7be3a0}
 .redrawbtn.arm{background:var(--gold);color:#3a2a00}
@@ -834,6 +836,32 @@ body.fxp .card[data-ed]::before{content:'';position:absolute;inset:0;border-radi
 .pcard .meta3{font-size:11.5px;color:#5d6b60;font-weight:600}
 .pcard .bigvals .shape{width:38px;height:24px}
 .gcard.locked{opacity:.6}.gcard.locked .ic{filter:grayscale(1) brightness(.4)}
+/* 0.81a Detail-Fenster */
+.detov{position:fixed;inset:0;z-index:70;background:#0009;display:flex;align-items:flex-end;justify-content:center}
+.dsh{background:#fffaf0;color:#1d2a21;border-radius:20px 20px 0 0;width:100%;max-width:520px;max-height:88vh;overflow:auto;position:relative;padding:8px 14px 18px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+body.land .detov{align-items:stretch;justify-content:flex-end}body.land .dsh{border-radius:20px 0 0 20px;max-height:none;height:100%;max-width:440px}
+.dgrip{width:44px;height:5px;border-radius:9px;background:#d8cfbb;margin:0 auto 2px}
+.dx{position:absolute;right:12px;top:10px;width:32px;height:32px;border-radius:50%;border:0;background:#f3ead6;font-size:16px;color:#1d2a21;cursor:pointer}
+.dhead{display:flex;gap:12px;align-items:center;padding-right:36px}.dic{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:32px;flex:none}
+.dnm{font-family:var(--f-display);font-size:21px;line-height:1.05}.dnm small{font-family:var(--f-body);font-size:12px;color:#6b7a6f}.dsub{font-size:12.5px;color:#6b7a6f}
+.dres{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dres div{border-radius:12px;padding:8px 10px;display:flex;align-items:baseline;gap:6px}
+.drb{background:#ffe7c4}.drn{background:#c9f1ec}.dres b{font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1}.drb b{color:#a85d00}.drn b{color:#00756b}.dres span{font-size:12px;color:#6b7a6f}
+.dsec{font-family:var(--f-display);font-size:14.5px;color:#3b4a3f;margin:2px 0 -4px}
+.drows{display:flex;flex-direction:column;border-radius:12px;overflow:hidden;background:#f3ead6}
+.drw{display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid #e7dcc4}.drw:last-child{border-bottom:0}
+.dri{font-size:20px;width:26px;text-align:center;flex:none}.drt{flex:1;min-width:0}.drt b{font-weight:600;display:block;font-size:13.5px}.drt small{color:#6b7a6f;font-size:12px}
+.dv{font-family:var(--f-display);font-size:15px;white-space:nowrap;padding:3px 8px;border-radius:8px}
+.dv.b{background:#ffe7c4;color:#a85d00}.dv.n{background:#c9f1ec;color:#00756b}.dv.bn{background:linear-gradient(90deg,#ffe7c4 50%,#c9f1ec 50%);color:#3b4a3f}.dv.neg{background:#fbd5d5;color:#d64545}
+.drw.neg .drt b{color:#d64545}.drw.off{opacity:.5}.drw.off .dv{background:#e7dcc4;color:#6b7a6f}
+.dcalc{background:#fff3d6;border:1.5px solid #f0d58f;border-radius:12px;padding:9px 11px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13.5px;align-items:baseline}
+.dk{font-weight:600}.dk.kb{color:#a85d00}.dk.kn{color:#00756b}.deq{font-family:var(--f-display);font-size:15px}
+.dzoo{font-size:12.5px;background:#ece6ff;color:#4b3a8f;border-radius:10px;padding:7px 10px}
+/* 0.81a Aufstellung am Zähler */
+#cA,#cS{cursor:pointer}
+.aufpop{position:absolute;z-index:60;background:var(--paper,#fffaf0);color:var(--ink,#1d2a21);border-radius:14px;padding:10px 12px;box-shadow:0 8px 28px #0008;display:flex;flex-direction:column;gap:8px;font-size:13.5px}
+.aufh{font-family:var(--f-display);font-size:15px}.auft{font-size:11.5px;color:#6b7a6f;font-weight:600;margin-bottom:2px}
+.aufb{background:#f3ead6;border-radius:10px;padding:4px 8px}.aufr{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px solid #e7dcc4}.aufr:last-child{border-bottom:0}
+.aufr b{font-family:var(--f-display);font-weight:400;white-space:nowrap}.aufr.neg b{color:#d64545}.aufr.sum{font-weight:700}.aufr.sum b{font-size:16px}
 /* 0.80a Shop-Leuchtpunkt */
 .shdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ffd166;margin-left:5px;vertical-align:middle;box-shadow:0 0 0 0 #ffd16699;animation:shdot 2.4s ease-in-out infinite}
 @keyframes shdot{0%,100%{box-shadow:0 0 0 0 #ffd16699;opacity:.75}50%{box-shadow:0 0 0 5px #ffd16600;opacity:1}}

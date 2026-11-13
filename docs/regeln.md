@@ -112,7 +112,7 @@ Betrag, das sind die Zeilen in den Referenzfällen.
     4. ~~Formen~~ (Innenhof, Allee, Dreiländereck) seit 0.77a gestrichen,
     5. Storchennest daneben +2 N je Nest (seit 0.80a wird der Storch nicht mehr ausgelost; alte Nester wirken bis Zoo-Ende),
     6. Besucherliebling des Tages ×2, Nachbar des Lieblings ×1,25,
-    7. Lebensraum-Lotto ×2 · Tagesfeld ×3 · Vermesser-Linie ×2 · Panorama ×(1+Randfelder/Felder) · Fotograf ×3 ·
+    7. Lebensraum-Lotto ×2 (0.81a: nur an manchen Tagen, `chance(.25)` in `dayRoll`) · Tagesfeld ×3 · Vermesser-Linie ×2 · Panorama ×(1+Randfelder/Felder) · Fotograf ×3 ·
        Zeitungsartikel ×1,5 (Showtiere) · Prägung Wackelig ×2 · Glück ×3 · Zugabe ×2 · Zirkus-Zelt ×2 (Showtiere).
 15. **TÜV / Lebensmittelaufsicht** (Winter mit Bedingung `attr` bzw. verschärftem `essen`): Was benachbarte Attraktionen (bzw. Gastro)
     diesem Gebäude bringen, wird zur Hälfte abgezogen (Winterfest: ein Viertel). Gerechnet wird mit einer zweiten Wertung ohne diese Nachbarn.
@@ -179,6 +179,7 @@ Innenhof, Allee und Dreiländereck gibt es seit 0.77a nicht mehr (`shapes92`/`sh
 ---
 
 ## 6. Winter-Bedingungen (`daten/winter.json` → `02:INSP`, Wirkungen in `02:WINTER_WIRKUNG`, Auswahl in `06:initZl`)
+- Ab dem Herbst sichtbar (0.81a): `02:winterHit(b,bs,idx)` liefert den Faktor je Gebäude (gleiche Regeln wie `inspFx` in der Wertung), Schilder `06:winterMarks`, Ansage `winterHitTxt`.
 - Je Zoo wird **eine** Bedingung gelost (bevorzugt noch nicht gesehene, `SEEN.i`). `zucht` erst ab Zoo 2, `futter` erst ab Zoo 3.
   Sichtbar ab Herbst (`inspHid`). Einmal je Zoo für 30 Taler tauschbar (`wSwap`).
 - **Verschärft** (`Z.hard`) ab Zoo 3. `HARD(Z)` gilt nur für Bedingungen mit verschärfter Fassung (`ht`).
@@ -199,7 +200,7 @@ Innenhof, Allee und Dreiländereck gibt es seit 0.77a nicht mehr (`shapes92`/`sh
 | `hab` | Gehege des häufigsten Lebensraums (Stand Winterbeginn, `habTop`) ×0,5 / f=0 |
 | `schutzp` | Gehege ohne Naturschutz daneben ×0,5 / ×0,25 |
 | `laerm` | Gehege neben Attraktion (außer Lehrpfad): N ×0,5 / N=0 |
-| `gross` | Gehege < 3 Felder und Stufe I ×0,5 / f=0 |
+| `gross` | Gehege < 3 Felder und Stufe I ×0,75 / verschärft ×0,5 (0.81a; erst ab Zoo 3 auslosbar) |
 | `heiz` | Pflege-Taler ×1,5 / ×2 (keine Punkte-Wirkung, `dayIncome`) |
 | `ruhe` | Attraktionen und Gastro f=0 |
 | `inventur` | je Lebensraum nur die 3 besten Gehege zählen (`topSet 'inv'`) |
@@ -246,7 +247,7 @@ mindestens 1. Dazu Extra-Baupunkte (`bpWish`), z. B. „früh geschafft“: je �
 - **Zoolatro**: `Ziel = Grund · ZLUP[i] · ZLSEAS[i]^zoo · deckTF · deckSF(i) · stTF · (Winter ab Zoo 5: 1,1) · d4TF · einTF(i)`.
   - `d4TF` (0.78a): Testlauf „4 Tage“ ×0,6. `einTF(i)` (0.80a): Profil mit `einstieg` in `daten/profile.json` (Zoogründer) nur auf Stufe 1: ×0,8 / 0,9 / 0,9 / 0,9.
   - Preise im Testlauf (0.80a): `priced` ×0,8, aufgerundet.
-  - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,46, 1,68, 1,55]` (Steigerung je Zoo, zoo = 0 … 4),
+  - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,35, 1,68, 1,55]` (0.81a: Sommer 1,46 → 1,35) (Steigerung je Zoo, zoo = 0 … 4),
   - `deckSF`: Profil Polar Sommer ×1,15, Winter ×0,85,
   - `stTF` (Stufen): ×1,1 ab Stufe 2, nochmals ab Stufe 5, nochmals ab Stufe 8.
   - Rundung: ab 100.000 auf Tausender, sonst auf Hunderter.
@@ -371,3 +372,9 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 14. ~~Teil-Listen bei Formen~~ → entfällt, Formen gibt es seit 0.77a nicht mehr.
 15. **Abhängigkeit vom globalen Zustand**: `evalB` liest außer `CTX` auch `state` (Liebling, Nester, Chaos, Tagesfeld …) und `TERR`/`BOARD`.
     Im Nachbau alles als Eingabe der Wertung übergeben.
+
+## 14. Detail-Fenster und Aufstellung (0.81a)
+- `evalB` gibt bei Faktor-Schritten `fa`/`fs` mit (`add(label,da,ds,{fa,fs})`), die Werte selbst bleiben gleich. `breakdown` ergänzt Wiederholung/Ausbau als Faktor-Zeile (`own:1`).
+- `07:detCalc(a0,parts,k,fin)` baut die Rechnung aus denselben Schritten: Plus-Werte in Klammern, dann je Faktor „× f → Zwischenwert“ (gerundet wie die Wertung, nach jedem Schritt).
+  Geprüft für alle 1.689 Gebäude der Referenzfälle: Ergebnis = Wertung.
+- Aufstellung am Zähler (`aufOf`, `aufBlock`): Summe der Gebäude (`r.steps`), dann `r.mults` in Reihenfolge; gerundet wird erst am Ende (`scoreZoo0`). `state.yday.auf` speichert sie zum Zählerwert.

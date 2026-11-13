@@ -5,7 +5,7 @@ const ART={card:{},ui:{}};
 const icOf=c=>ic(c);
 const ic=c=>c&&ART.card[c.key]?`<img class="art" src="${ART.card[c.key]}" alt="">`:(c?c.icon:'');
 const icSvg=(c,x,y,big)=>{const u=ART.card[c.key],r=big?7:5;return u?`<image class="art" href="${u}" x="${x-r}" y="${y-r}" width="${2*r}" height="${2*r}" pointer-events="none"/>`:`<text class="ic ${big?'big':''}" x="${x}" y="${y}">${c.icon}</text>`};
-const mxs=v=>{const t=String(+(+v).toFixed(2));return(t.includes('.')?t:t+'.0').replace('.',',')};
+const mxs=v=>{if(+v===0)return'0';const t=String(+(+v).toFixed(2));return(t.includes('.')?t:t+'.0').replace('.',',')};
 const cSize=c=>SHAPES[c.shape].cells.length;
 const NOPROF='keins'; // 0.91: Profile gestrichen
 // 0.93: eine Bedingung je Zoo; ab Zoo 3 verschärft (ht = Text der verschärften Fassung), ab Zoo 5 zusätzlich Winterziel ×1,1
@@ -22,7 +22,7 @@ const WINTER_WIRKUNG={fx:{keine:()=>null,
   hab:(b,c,nb,bs,Z)=>c.cat==='gehege'&&(Z.inspHabs||habTop(bs)).includes(c.hab)?{f:HARD(Z)?0:.5}:null,
   schutzp:(b,c,nb,bs,Z)=>c.cat==='gehege'&&!nb.some(n=>isCat(n,'schutz'))?{f:HARD(Z)?.25:.5}:null,
   laerm:(b,c,nb,bs,Z)=>c.cat==='gehege'&&nb.some(n=>isCat(n,'attr')&&n.key!=='lehrpfad')?{fs:HARD(Z)?0:.5}:null,
-  gross:(b,c,nb,bs,Z)=>c.cat==='gehege'&&b.cells.length<3&&(b.lvl||1)<2?{f:HARD(Z)?0:.5}:null,
+  gross:(b,c,nb,bs,Z)=>c.cat==='gehege'&&b.cells.length<3&&(b.lvl||1)<2?{f:HARD(Z)?.5:.75}:null, // 0.81a: entschärft (×0,75, verschärft ×0,5), erst ab Zoo 3
   ruhe:(b,c)=>c.cat==='attr'||c.cat==='essen'?{f:0}:null,
   inventur:(b,c,nb,bs)=>c.cat!=='gehege'?null:topSet(bs,'inv').has(b)?null:{f:0},
   wenig:()=>({fa:.7,fs:1.2,l:'B ×0,7, N ×1,2'}),
@@ -33,7 +33,7 @@ const INSP={};for(const d of WINTER_DATEN.bedingungen){const I={};for(const p in
 // 0.93: Winter-Bedingung einmal je Zoo gegen 30 Taler tauschen (bis zum Winterbeginn)
 const WSWAP=WINTER_DATEN.tausch_preis,canWSwap=()=>!!(state&&state.zl&&state.mode==='camp'&&!state.zl.inspOpts&&!state.zl.swapped&&(state.season<3||(state.season===3&&state.day===0&&!state.builtToday))&&state.phase!=='scoring'&&!inspHid()&&!(runOf()&&runOf().tut));
 const wSwapBtn=()=>{try{if(!(state&&state.zl&&state.mode==='camp'&&!state.zl.inspOpts&&state.season>=2&&state.phase!=='scoring'&&!inspHid()&&!(runOf()&&runOf().tut)))return''}catch(e){return''}if(canWSwap()&&state.money>=WSWAP)return`<button class="btn sub" data-iswap="1" style="margin-top:8px">🔄 Andere Winter-Bedingung · 🪙 ${WSWAP} <small>(einmal je Zoo)</small></button>`;const why=state.zl.swapped?'schon getauscht (einmal je Zoo)':!canWSwap()?'nur bis zum ersten Bauen im Winter':`zu wenig Taler (${Math.max(0,state.money)}/${WSWAP})`;return`<button class="btn sub" disabled style="margin-top:8px">🔄 Andere Winter-Bedingung · ${why}</button>`};
-function wSwap(){if(!canWSwap()||state.money<WSWAP){Sfx.deny();return}const Z=state.zl,L=shuffle(Object.keys(INSP).filter(k=>k!==Z.insp&&!(k==='zucht'&&!(state.zoo>0)||k==='futter'&&!((state.zoo||0)>=2))));Z.insp=L[0];Z.swapped=1;if(Z.insp==='hab')Z.inspHab=shuffle(habsNow().slice())[0];state.money-=WSWAP;syncCtx();Sfx.till&&Sfx.till();render()}
+function wSwap(){if(!canWSwap()||state.money<WSWAP){Sfx.deny();return}const Z=state.zl,L=shuffle(Object.keys(INSP).filter(k=>k!==Z.insp&&!(k==='zucht'&&!(state.zoo>0)||k==='futter'&&!((state.zoo||0)>=2)||k==='gross'&&(state.zoo||0)<2)));Z.insp=L[0];Z.swapped=1;if(Z.insp==='hab')Z.inspHab=shuffle(habsNow().slice())[0];state.money-=WSWAP;syncCtx();Sfx.till&&Sfx.till();render()}
 const HARD=Z=>!!(Z&&Z.hard&&INSP[Z.insp]&&INSP[Z.insp].ht);
 // Inventur/Futterknappheit: beste Gehege/Gebäude nach eigenem Wert (ohne Winter-Bedingung), je Liste zwischengespeichert
 let TOPS=null;const topSet=(bs,kind)=>{if(TOPS&&TOPS.bs===bs&&TOPS.n===bs.length&&TOPS[kind])return TOPS[kind];if(!TOPS||TOPS.bs!==bs||TOPS.n!==bs.length)TOPS={bs,n:bs.length};
@@ -43,6 +43,16 @@ let TOPS=null;const topSet=(bs,kind)=>{if(TOPS&&TOPS.bs===bs&&TOPS.n===bs.length
 // Lebensraum mit den meisten Gehegen (bei Gleichstand alle gleichauf)
 const habTop=bs=>{const n={};for(const b of bs){const c=CARDS[b.key];if(c&&c.cat==='gehege'&&c.hab)n[c.hab]=(n[c.hab]||0)+1}const m=Math.max(0,...Object.values(n));return m?Object.keys(n).filter(h=>n[h]===m):[]};
 // Winter-Bedingung erst ab Herbst sichtbar (Frühling/Sommer verborgen, nicht im Tutorial)
+// 0.81a: Winter-Bedingung je Gebäude ab dem Herbst sichtbar: Faktor (fa/fs) oder null
+function winterHit(b,bs,idx){try{const Z=state&&state.zl;if(!Z||!Z.insp||!INSP[Z.insp]||Z.insp==='frei'||state.mode!=='camp'||(state.season||0)<2||inspHid())return null;
+  const c=K(b),nb=nbrs(b,idx||mkIndex(bs));if(nb.some(n=>n.key==='winterquartier'))return null;if(CTX.dk==='polar'&&c.cat==='gehege'&&c.hab==='arktis')return null;
+  const e=inspFx(b,c,nb,bs,Z);if(!e)return null;const fa=e.f!=null?e.f:e.fa!=null?e.fa:1,fs=e.f!=null?e.f:e.fs!=null?e.fs:1;if(fa===1&&fs===1)return null;
+  return{fa,fs,t:fa===fs?'×'+mxs(fa):[fa!==1?'B ×'+mxs(fa):'',fs!==1?'N ×'+mxs(fs):''].filter(Boolean).join(' '),neg:Math.min(fa,fs)<1}}catch(e){return null}}
+// Winter-Ansage: wie viele Gehege/Gebäude die Bedingung trifft
+function winterHitTxt(){try{const bs=state.buildings,idx=mkIndex(bs),G={};for(const b of bs){const h=winterHit(b,bs,idx);if(!h)continue;(G[h.t]=G[h.t]||{h,L:[]}).L.push(b)}
+  const L=Object.values(G).map(({h,L})=>{const n=L.length,w=L.every(b=>isCat(b,'gehege'))?'Gehege':'Gebäude',v=n===1?'zählt':'zählen',f=h.fa===h.fs?h.fa:null;
+    return`${n} deiner ${w} ${v} ${f===0?'gar nicht':f!=null&&f<1?'nur '+h.t:h.t}`});
+  return L.length?`<p class="winhit">❄️ ${INSP[state.zl.insp].name}: ${L.join(' · ')}.</p>`:`<p class="winhit ok">❄️ ${INSP[state.zl.insp].name}: Stand jetzt trifft es keins deiner Gebäude.</p>`}catch(e){return''}}
 const inspHid=()=>{try{if(!state||!state.zl||state.mode!=='camp'||state.season>=2)return false;return true}catch(e){return false}};
 const inspText=Z=>{const I=INSP[Z.insp],t=HARD(Z)?I.ht:I.text;return(typeof t==='function'?t(Z):t)+(HARD(Z)?' <b class="hardtag">verschärft ab Zoo 3</b>':'')+(Z&&Z.wplus?' <b class="hardtag">Winterziel ×1,1</b>':'')},inspIcon=Z=>INSP[Z.insp].icon||'❄️';
 // Schneekönig: je Sorte das Gehege/Gebäude mit dem höchsten eigenen Wert (B + N, ohne Winter-Bedingung)

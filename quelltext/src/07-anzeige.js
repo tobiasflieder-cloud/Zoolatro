@@ -206,7 +206,7 @@ function moneyInfoHtml(cur){const inc=dayIncome(cur.A,cur.S,state.money),row=(l,
     <p class="hint">Erreichst du das Saisonziel früher, gibt es 5 Taler je übrigem Tag. Geld brauchst du nur für den Shop und fürs Neu-Würfeln der Kartenauswahl.${state.money<0?' <b style="color:#ffb3b5">Mit Schulden kannst du nichts kaufen.</b>':''}</p>`}
 // 0.89: Team-Reihe oben (bis 5 Spezialisten), antippen = Details, ziehen = umsortieren
 const TIERC=['','#7bc96f','#8a7cff','#ffd166'];
-function specVal(id){const S=SPEC[id];if(!S)return['','g'];if(S.grw)return[`×${mxs(grwF(S.grw))}`,S.grw==='nat'?'n':'b'];if(S.luck)return[chTxt(S.luck),'g'];if(id==='glueckspilz')return['×2 🎲','g'];if(id==='lotto'&&state&&state.lottoH)return[HAB[state.lottoH].icon+' ×2','b'];if(id==='doppel'){const L=state.spec||[],n=L[L.indexOf(id)+1];return[n&&SPEC[n]?'= '+SPEC[n].icon:'–','g']}if(S.mult){let m=null;try{m=S.mult(state.buildings)}catch(e){}const f=m?(m.ma||m.ms||1):1;return['×'+mxs(f),m&&m.ms&&!m.ma?'n':'b']}
+function specVal(id){const S=SPEC[id];if(!S)return['','g'];if(S.grw)return[`×${mxs(grwF(S.grw))}`,S.grw==='nat'?'n':'b'];if(S.luck)return[chTxt(S.luck),'g'];if(id==='glueckspilz')return['×2 🎲','g'];if(id==='lotto'&&state&&state.lottoH)return[HAB[state.lottoH].icon+' ×2','b'];if(id==='lotto')return['–','g'];if(id==='doppel'){const L=state.spec||[],n=L[L.indexOf(id)+1];return[n&&SPEC[n]?'= '+SPEC[n].icon:'–','g']}if(S.mult){let m=null;try{m=S.mult(state.buildings)}catch(e){}const f=m?(m.ma||m.ms||1):1;return['×'+mxs(f),m&&m.ms&&!m.ma?'n':'b']}
   const v=((S.fx||[])[0]||'').split('|')[0].replace(' und ','/').replace(/(\d) %/,'$1%').trim();return[v.length>9?v.slice(0,9):v,/N\b/.test(v)&&!/B/.test(v)?'n':/B/.test(v)?'b':'g']}
 let TDRAG=null;
 function renderTeam(){const el=$('team');if(!el)return;const on=state&&state.mode==='camp'&&!(state.zl==null&&!(state.spec||[]).length);el.classList.toggle('none',!on);if(!on){el.innerHTML='';return}
@@ -276,6 +276,54 @@ function renderLog(){const se=seOf(state.season),vals=Array.from({length:DAYS},(
   const past=state.past.map(p=>`<span>${p.name} <b>${fmt(p.pts)}</b> ✓</span>`).join('');
   const inc=state.lastIncome?`<span>Letzte Bilanz: Eintritt ${sgn(state.lastIncome.base)}, Zinsen ${sgn(state.lastIncome.interest)}</span>`:'';
   $('log').innerHTML=`<h4><span>${MAPS[state.map].icon} ${MAPS[state.map].name} · ${se.name}</span><span>noch ${fmt(Math.max(0,se.target-state.seasonScore))} bis zum Ziel</span></h4><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Punkte pro Tag">${g}</svg><div class="past">${inc}${past}</div>`}
+// ===== 0.81a: Detail-Fenster für Gehege und Gebäude (von unten, im Querformat rechts) =====
+// Alle Zeilen und die Rechnung kommen aus derselben Wertung (breakdown → evalB mit Faktor-Angabe fa/fs je Schritt), gerundet wird wie dort: nach jedem Faktor-Schritt.
+const fF=f=>String(+(+f).toFixed(2)).replace('.',',');
+const detIc=l=>{const m=String(l).match(/^(\p{Extended_Pictographic}(?:️|‍\p{Extended_Pictographic})*)\s*/u);return m?[m[1],String(l).slice(m[0].length)]:['',String(l)]};
+function detCalc(a0,parts,k,fin){const F=k==='a'?'fa':'fs';let v=a0,grp=[String(a0)],out='';const flush=()=>{if(grp.length>1)out+=(out?' ':'')+'('+grp.join(' ')+')';else out+=(out?' ':'')+grp[0];grp=null};
+  for(const p of parts){const d=p[k]||0;if(p[F]!=null&&p[F]!==1&&(p.fa!=null||p.fs!=null)){if(grp)flush();v+=d;out+=` × ${fF(p[F])} → ${v}`}else if(p.fa==null&&p.fs==null&&d){v+=d;if(grp)grp.push((d<0?'− ':'+ ')+Math.abs(d));else out+=` ${d<0?'−':'+'} ${Math.abs(d)} → ${v}`}else if((p.fa!=null||p.fs!=null)&&d){v+=d;out+=` ${d<0?'−':'+'} ${Math.abs(d)} → ${v}`}}
+  if(grp)flush();return{t:out.replace(/ → (-?\d+)$/,'')+` = ${fin}`,ok:v===fin,v}}
+function detSheetHtml(b,bs,pre){const c=edCard(b),bk=breakdown(b,bs),P=bk.parts||[],a0=bk.a0!=null?bk.a0:c.a,s0=bk.s0!=null?bk.s0:c.s,idx=mkIndex(bs),cur=scoreZoo(bs);
+  const plus=P.filter(p=>p.fa==null&&p.fs==null&&(p.a||p.s)),fac=P.filter(p=>p.fa!=null||p.fs!=null),zoo=P.filter(p=>!p.a&&!p.s&&/😣/.test(p.label));
+  const vB=(a,s)=>[a?`${a>0?'+':'−'}${Math.abs(a)} B`:'',s?`${s>0?'+':'−'}${Math.abs(s)} N`:''].filter(Boolean).join(' · ');
+  const cls=(a,s)=>a&&s?'bn':a?'b':'n';
+  const row=(ic,t,sm,v,vc,neg,off)=>`<div class="drw${neg?' neg':''}${off?' off':''}"><span class="dri">${ic}</span><span class="drt"><b>${t}</b>${sm?`<small>${sm}</small>`:''}</span><span class="dv ${neg?'neg':vc}">${v}</span></div>`;
+  const rP=plus.map(p=>{const[i,t]=detIc(p.label);return row(i||'➕',t,'',vB(p.a,p.s),cls(p.a,p.s),(p.a||0)+(p.s||0)<0)});
+  const rF=fac.map(p=>{const[i,t]=detIc(p.label);const fa=p.fa==null?1:p.fa,fs=p.fs==null?1:p.fs,v=fa===fs?'×'+fF(fa):[fa!==1?'B ×'+fF(fa):'',fs!==1?'N ×'+fF(fs):''].filter(Boolean).join(' · ');return row(i||'✖️',t.replace(/:?\s*×\d+(,\d+)?\s*$/,''),'',v,fa!==1&&fs!==1?'bn':fa!==1?'b':'n',Math.min(fa,fs)<1)});
+  const off=[];{const k=b.key;if(c.cat==='gehege'&&!c.ms&&foodOn()){const fr=fdMaxK(k)-fdOf(k).length;if(fr>0)off.push(row('🍽️',`Futterplatz frei${fr>1?' ('+fr+')':''}`,'Futter würde hier dauerhaft wirken','–','',false,true))}
+    const has=t=>(c.tags||[]).includes(t);if((has('beute')||has('scheu'))&&!zoo.length&&!(TUTNOW&&!TUTTR))off.push(row('😣','Stress',has('beute')?'Beute: gerade kein Raubtier in der Nähe':'Scheu: gerade kein Trubel in der Nähe','–','',false,true));
+    if(has('show')&&!P.some(p=>/🎭/.test(p.label))&&!(TUTNOW&&!TUTTR))off.push(row('🎭','Showtier','gerade kein Gastro-Gebäude und keine Attraktion daneben','–','',false,true));
+    if(state.season===2){const h=winterHit(b,bs,idx);if(h)off.push(row('❄️',`Im Winter: ${INSP[state.zl.insp].name}`,'gilt ab dem Winter',h.t,'',false,true))}}
+  const zl=[...zoo.map(p=>`😣 Dieses Tier ist gestresst: ×${mxs(1-STRZ)} Natur für den <b>ganzen Zoo</b>. Siehe Aufstellung am N-Zähler.`),...cur.mults.filter(m=>m.id===b.id).map(m=>`${m.icon||c.icon} ${m.label}: ${m.ma?'×'+fF(m.ma)+' B':''}${m.ma&&m.ms?' · ':''}${m.ms?'×'+fF(m.ms)+' N':''} für den <b>ganzen Zoo</b>. Siehe Aufstellung am ${m.ma?'B':'N'}-Zähler.`)];
+  const cA=detCalc(a0,P,'a',bk.a),cS=detCalc(s0,P,'s',bk.s),sh=SHAPES[c.shape]?SHAPES[c.shape].cells.length:b.cells.length,fdn=c.cat==='gehege'&&!c.ms&&foodOn()?` · 🍽️ ${fdOf(b.key).length}/${fdMaxK(b.key)}`:'';
+  const sub=[c.hab?`${HAB[c.hab].icon} ${HAB[c.hab].label}`:CAT[c.cat].label,`${b.cells.length} ${b.cells.length===1?'Feld':'Felder'}`,`${costOf(b.key)} BP`,...traitsOf(c).map(t=>`${TRAITIC[t]} ${TRAITNAME[t]}`)].join(' · ')+fdn;
+  return`<div class="dsh" role="dialog" aria-label="Details ${esc(c.name)}"><div class="dgrip"></div><button class="dx" data-dsx="1" aria-label="Schließen">✕</button>
+    <div class="dhead"><div class="dic" style="background:color-mix(in srgb,${colOf(c)} 35%,#fff)">${ic(c)}</div><div><div class="dnm">${c.name}${(b.lvl||1)>1?' '+ROMAN[b.lvl]:''}${pre?' <small>(Vorschau)</small>':''}</div><div class="dsub">${sub}</div></div></div>
+    <div class="dres"><div class="drb"><b>${bk.a}</b><span>👥 Besucher</span></div><div class="drn"><b>${bk.s}</b><span>🌿 Natur</span></div></div>
+    <div class="dsec">➕ Grundwert und dazu</div><div class="drows">${row(ic(c),'Grundwert','von der Karte',`${a0} B · ${s0} N`,'bn',false)}${rP.join('')}</div>
+    ${rF.length?`<div class="dsec">✖️ Faktoren</div><div class="drows">${rF.join('')}</div>`:''}
+    ${off.length?`<div class="dsec">💤 Möglich, wirkt gerade nicht</div><div class="drows">${off.join('')}</div>`:''}
+    <div class="dcalc"><span class="dk kb">👥 B</span><span>${cA.t.replace(/= (-?\d+)$/,'= <span class="deq">$1</span>')}</span><span class="dk kn">🌿 N</span><span>${cS.t.replace(/= (-?\d+)$/,'= <span class="deq">$1</span>')}</span></div>
+    ${zl.map(z=>`<div class="dzoo">${z}</div>`).join('')}</div>`}
+function detTarget(){if(!state)return null;if(state.info!=null){const b=state.buildings.find(x=>x.id===state.info);if(b)return{b,bs:state.buildings,pre:false}}
+  if(state.selected!=null&&state.preview){const h=hypo();if(h&&h.ok&&h.b){const skip=new Set([h.up&&h.up.id,h.move&&h.move.id].filter(x=>x!=null)),bs=[...state.buildings.filter(x=>!skip.has(x.id)),h.b];return{b:h.b,bs,pre:true}}}return null}
+function detOpen(){const T=detTarget();if(!T)return false;detClose();const el=document.createElement('div');el.id='detSheet';el.className='detov';el.innerHTML=detSheetHtml(T.b,T.bs,T.pre);document.body.appendChild(el);
+  el.addEventListener('click',e=>{if(e.target===el||e.target.closest('[data-dsx]')){try{Sfx.select()}catch(x){}detClose()}});return true}
+function detClose(){const el=document.getElementById('detSheet');if(el)el.remove()}
+// 0.81a: Aufstellung am Zähler: Gebäude zusammen, dann die Zoo-Faktoren in der Reihenfolge der Wertung (scoreZoo0: mults), gerundet wird erst am Ende
+function aufOf(r){const by=Object.fromEntries((state.buildings||[]).map(b=>[b.id,b]));let ra=0,rs=0;for(const st of r.steps||[]){ra+=st.a;rs+=st.s}
+  return{ra,rs,A:r.A,S:r.S,m:(r.mults||[]).map(m=>({ic:m.icon||(m.id!=null&&by[m.id]?CARDS[by[m.id].key].icon:'✖️'),l:m.label,ma:m.ma||0,ms:m.ms||0}))}}
+function aufBlock(au,k,title){const B=k==='a',L=au.m.filter(m=>B?m.ma:m.ms),u=B?'B':'N',raw=B?au.ra:au.rs,fin=B?au.A:au.S;
+  return`<div class="aufb">${title?`<div class="auft">${title}</div>`:''}<div class="aufr"><span>Gebäude zusammen</span><b>${fmt(raw)} ${u}</b></div>${L.map(m=>`<div class="aufr ${(B?m.ma:m.ms)<1?'neg':''}"><span>${m.ic} ${m.l}</span><b>×${mxs(B?m.ma:m.ms)}</b></div>`).join('')}<div class="aufr sum"><span>=</span><b>${fmt(fin)} ${u}</b></div></div>`}
+function aufHtml(k){const y=state.yday||{},cur=aufOf(scoreZoo(state.buildings)),B=k==='a',now=B?cur.A:cur.S,was=B?y.A:y.S,t=state.phase==='review'?`Tag ${state.day+1}`:state.day||state.season?'Gestern':'';
+  const head=`<div class="aufh">${B?'👥 Besucher':'🌿 Natur'}</div>`;
+  if(!y.auf||(state.phase==='play'&&state.builtToday&&now!==was))return head+(y.auf?aufBlock(y.auf,k,t)+aufBlock(cur,k,'Stand jetzt (wenn du den Tag beendest)'):aufBlock(cur,k,'Stand jetzt'));
+  return head+aufBlock(y.auf,k,t)}
+function aufToggle(k){let el=document.getElementById('aufPop');const was=el&&el.dataset.k;if(el)el.remove();if(!k||was===k||!state||state.phase==='scoring')return;
+  const c=$(k==='a'?'cA':'cS');el=document.createElement('div');el.id='aufPop';el.dataset.k=k;el.className='aufpop';el.innerHTML=aufHtml(k);document.body.appendChild(el);
+  const r=c.getBoundingClientRect(),w=Math.min(300,window.innerWidth-16);el.style.width=w+'px';el.style.left=Math.max(8,Math.min(window.innerWidth-w-8,r.left+r.width/2-w/2))+'px';el.style.top=(r.bottom+6+window.scrollY)+'px'}
+$('cA').addEventListener('click',e=>{e.stopPropagation();try{Sfx.select()}catch(x){}aufToggle('a')});$('cS').addEventListener('click',e=>{e.stopPropagation();try{Sfx.select()}catch(x){}aufToggle('s')});
+document.addEventListener('click',e=>{const p=document.getElementById('aufPop');if(p&&!p.contains(e.target))p.remove()});
 function setCounters(a,s,t){$('vA').textContent=fmt(a);$('vS').textContent=fmt(s);if(t!=null)$('vT').textContent=fmt(t)}
 function bump(id){const e=$(id);if(e&&e.animate&&!reduced){e.animate([{transform:'scale(1)'},{transform:'scale(1.14)',offset:.5},{transform:'scale(1)'}],{duration:300,easing:'ease'});return}e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop');
   if(Sfx.heat>=2&&!reduced)for(let i=0;i<Sfx.heat+1;i++){const sp=document.createElement('span');sp.className='csp';sp.style.left=(8+Math.random()*84)+'%';sp.style.animationDelay=(Math.random()*.25).toFixed(2)+'s';sp.style.setProperty('--dx',Math.round(Math.random()*20-10)+'px');e.appendChild(sp);setTimeout(()=>sp.remove(),1400)}}
@@ -324,7 +372,7 @@ function redraw(){if(state.phase!=='play'||winIs('glatteis')||umbBm()||(state.bp
 $('btnRedraw').addEventListener('click',redraw);
 $('money').addEventListener('click',()=>{if(!state||state.phase==='scoring')return;state.infoProg=state.infoProg==='money'?null:'money';state.selected=null;state.preview=null;state.info=null;state.moving=null;Sfx.select();render()});
 $('mkBar').addEventListener('click',()=>{if(!state||state.phase!=='play')return;ensureMarket();state.market.seen=true;modal='market';Sfx.shop();render()});
-$('info').addEventListener('click',e=>{if(e.target.closest('[data-rexp]')&&state){REXP=!REXP;Sfx.select();render();return}if(!e.target.closest('[data-det]')||!state)return;DET=!DET;try{localStorage.setItem('zoodeck-det',DET?'1':'0')}catch(x){}Sfx.select();render()});
+$('info').addEventListener('click',e=>{if(e.target.closest('[data-rexp]')&&state){REXP=!REXP;Sfx.select();render();return}if(!e.target.closest('[data-det]')||!state)return;if(detOpen()){try{Sfx.select()}catch(x){}return}DET=!DET;try{localStorage.setItem('zoodeck-det',DET?'1':'0')}catch(x){}Sfx.select();render()});
 $('evs').addEventListener('click',e=>{const b=e.target.closest('[data-ev]');if(!b||!state)return;const id=b.dataset.ev;
   if(id==='zl'||id==='zoo'){modal='zoo';Sfx.select();render();return}
   if(id==='peek'){zlPeek();return}
@@ -543,7 +591,7 @@ async function startScoring0(retry){state.phase='scoring';fast=!!retry;if(!retry
   {const t=state.stats;t.days++;if(inc.total>0)t.earned+=inc.total;if(!t.best||r.total>t.best.pts)t.best={pts:r.total,season:state.season,day:state.day,zoo:state.zoo}}
   const mo=$('money');mo.textContent=`🪙 ${fmt(state.money)}`;mo.classList.toggle('neg',state.money<0);mo.classList.remove('pop');void mo.offsetWidth;mo.classList.add('pop');
   floatAt([VB[0]+VB[2]/2,VB[1]+VB[3]*.12],`🪙 ${sgn(inc.total)}`,inc.total>=0?'m':'m neg');if(!quick()&&inc.total)Sfx.till();
-  state.prevY=state.day||state.season?state.yday:null;state.yday={A:r.A,S:r.S,total:r.total};state.seasonScore+=r.total;state.totalScore+=r.total;state.lastDay=r.total;state.dayPts[state.day]=r.total;
+  state.prevY=state.day||state.season?state.yday:null;state.yday={A:r.A,S:r.S,total:r.total,auf:aufOf(r)};state.seasonScore+=r.total;state.totalScore+=r.total;state.lastDay=r.total;state.dayPts[state.day]=r.total;
   const se=seOf(state.season);$('sScore').textContent=fmt(state.seasonScore);
   $('bar').firstElementChild.style.width=Math.min(100,state.seasonScore/se.target*100)+'%';renderLog();
   await wait(quick()?0:400);
