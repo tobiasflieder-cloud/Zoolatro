@@ -42,7 +42,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev(`state.zl.insp='wenig';syncCtx()`);const wn=ev(`(()=>{const b={id:990,key:'zebras',cells:[[0,0],[1,0]],lvl:1},bs=[b],v=evalB(b,bs,mkIndex(bs));state.season=1;syncCtx();const v0=evalB(b,bs,mkIndex(bs));state.season=3;syncCtx();return [v.a,v0.a,v.s,v0.s].join()})()`).split(',').map(Number);
  T(Math.abs(wn[0]-Math.round(wn[1]*.7))<=1&&Math.abs(wn[2]-Math.round(wn[3]*1.2))<=1,'Wenig Besuch: B ×0,7, N ×1,2 ('+wn.join(',')+')');
  ev(`state.zl.insp='heiz';state.zl.hard=false;syncCtx()`);const h1=ev(`dayIncome(0,800,0).care`);ev(`state.zl.hard=true;syncCtx()`);const h2=ev(`dayIncome(0,800,0).care`);ev(`state.zl.insp='essen';syncCtx()`);const h0=ev(`dayIncome(0,800,0).care`);
- T(Math.abs(h1-h0*1.5)<=1&&Math.abs(h2-h0*2)<=1,`Heizkosten: Pflege ×1,5 / verschärft ×2 (${h0} → ${h1} / ${h2})`);
+ T(Math.abs(h1-h0*1.25)<=1&&Math.abs(h2-h0*1.5)<=1,`Heizkosten: Pflege ×1,25 / verschärft ×1,5 (seit 0.82a; ${h0} → ${h1} / ${h2})`);
  ev(`state.zl.insp='glatteis';syncCtx()`);T(ev(`moveCost()`)===99,'Glatteis: kein Umziehen im Winter');
  ev(`state.zl.insp='team';state.zl.hard=true;state.spec=['gaertner','tierarzt','gastro'];syncCtx()`);T(ev(`teamAct().length`)===2,'Teamsitzung verschärft: nur 2 Spezialisten');
  try{ev(`state.spec=[];state.zl.insp='futter';state.zl.hard=false;syncCtx()`)}catch(e){L('ERRF',e.stack.split('\n').slice(0,4).join(' | '))}T(ev(`(()=>{const F=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));const bs=F.slice(0,14).map((c,i)=>({id:700+i,key:'flamingos',cells:[c],lvl:1}));return topSet(bs,'top10').size})()`)===10,'Futterknappheit: nur 10 zählen');
