@@ -97,7 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.83a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.84a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
@@ -119,6 +119,9 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.83a** (Chat 13.11.): Testlauf „4 Tage“ schaltet Stufen und Herausforderungen frei (`z2After` schließt nur noch `run.seed` aus); Highscores/Bestwerte bleiben getrennt.
+  Einmalig nachträglich in `loadMeta`: laufender Testlauf (`sl.run`/`runAlt`, `d4`, `zoo>=3`) → nächste Stufe, Merker `run.d4st`. Abgeschlossene Läufe sind nicht gespeichert (`sl.run=null`, Highscores ohne Profil),
+  dafür gibt es keine Nachholung. Hinweistext am Schalter angepasst. Test neu `jsd83a.js`.
 - **0.82a** ([Auftrag](docs/auftraege/0.82a-reparatur-gruppenbonus-kurven.md)): Futter-/Deck-Liste repariert: Detail-Fenster-Klassen umbenannt (`.dtrows`, `.dtrw`, `.dtv` … statt `.drows` …),
   `quer.js` Schritt 10 prüft Überlappung und Kontrast. `ruleRoll` ohne `locker` bei `run.d4`. Gruppen-Bonus `SPGRP`/`spGrpPer`/`spGrpF`/`spGrpFx` (Texte aus `schritt`), Label „💧 Name (n …) ×f“,
   `specVal` zeigt den Faktor. „Aktuell pro Tag“ über `yieldCmp` (scoreZoo mit/ohne, auch für Förderung). `einstieg` alle 0,8, `ZLSEAS` Herbst 1,6, Heizkosten 1,25/1,5,

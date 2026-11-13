@@ -5,6 +5,10 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.83a · 13.11.2026 · Testlauf schaltet Stufen frei
+- 🧪 Ein Testlauf „4 Tage“, in dem du Zoo 3 schaffst, schaltet jetzt die nächste Stufe des Profils frei. Auch Herausforderungen zählen im Testlauf. Highscores und Bestwerte bleiben für Testläufe getrennt.
+- Läuft gerade ein Testlauf, der Zoo 3 schon geschafft hat, wird die Stufe beim nächsten Start einmalig nachträglich freigeschaltet.
+
 ## 0.82a · 13.11.2026 · Gruppen-Bonus, Einstieg, Reparatur
 - 🐞 Die Liste beim Futter verteilen (und im Deck/Entfernen) ist wieder sauber: Zeilen kleben nicht mehr aneinander, die Gruppen-Überschriften sind gut lesbar. Das Detail-Fenster aus 0.81a hatte die Liste verstellt.
 - 👥 Gruppen-Bonus: Spezialisten mit „für jedes …“ geben jedem betroffenen Gehege einen Faktor, der mit der Zahl solcher Gehege wächst. Pflegerinnen und Kleintier-Expertin ×1,1 je Gehege (B und N), Architektin ×1,1 je großes Gehege (nur B), Raubtier-Dompteur ×1,15 je Raubtier (nur B), Artenschützerin ×1,15 je bedrohtes Tier (nur N), Bauleiterin ×1,05 je Ausbaustufe, Sammlerin ×1,05 je Gehege (nur N). Beispiel: 5 Wasser-Gehege mit Wasser-Pflegerin → jedes ×1,5. Die Team-Leiste zeigt den aktuellen Faktor.

@@ -387,7 +387,9 @@ let META={slots:[null,null,null],active:null,lastSlot:null,scores:[]},screen=nul
 function loadMeta(){try{const raw=localStorage.getItem(SAVE_KEY);if(raw){const m=JSON.parse(raw);if(m&&Array.isArray(m.slots)&&m.slots.length===3)META=Object.assign({scores:[],cscores:[]},m)}}catch(e){}
   // 0.73a: nur noch Zoolatro (2.0): alte Kampagnen-, Zoolatro-1- und Freies-Spiel-Stände verwerfen, Verbesserungen und Freischaltungen bleiben
   for(const sl of META.slots){if(!sl)continue;const rs=[sl.run,sl.runAlt].filter(r=>r&&r.z2);sl.run=rs[0]||null;sl.runAlt=rs[1]||null;sl.game=null}
-  if(META.lastMode&&META.lastMode!=='camp')META.lastMode=null}
+  if(META.lastMode&&META.lastMode!=='camp')META.lastMode=null;
+  // 0.83a: einmalig nachträglich: ein laufender Testlauf „4 Tage“, der Zoo 3 schon geschafft hat, schaltet die nächste Stufe frei (abgeschlossene Läufe sind nicht mehr gespeichert)
+  for(const sl of META.slots){if(!sl)continue;for(const r of[sl.run,sl.runAlt]){if(!r||!r.z2||!r.d4||r.seed||r.d4st||(r.zoo||0)<3)continue;r.d4st=1;const Z2=z2Of(sl),d=r.deckId||'grund',st=r.stage||1;if(st<8&&(Z2.st[d]||1)<=st)Z2.st[d]=st+1}}}
 function saveMeta(){if(RESETTING)return;try{const sl=activeSlot();if(sl&&state&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}localStorage.setItem(SAVE_KEY,JSON.stringify(META))}catch(e){}}
 // 0.80a: „Alles zurücksetzen“ mit doppelter Abfrage (eigenes Fenster), danach nichts mehr speichern und neu laden
 var RESETTING=false;
@@ -530,7 +532,7 @@ function zlInspPick(id){const Z=state.zl;if(!Z||!(Z.inspOpts||[]).includes(id))r
 const winterBox=(Z,box,peek,hid)=>{if(hid||inspHid())return box('zi2','❄️','Winter-Bedingung: noch unbekannt','Wird zu Beginn des Herbstes bekannt gegeben (❄️ Wetterbericht).');if(Z.inspOpts&&!Z.inspPicked)return box('zi2','❄️','Winter: '+Z.inspOpts.map(i=>INSP[i].name).join(' oder '),Z.inspOpts.map(i=>`<b>${inspIcon({insp:i})} ${INSP[i].name}:</b> ${inspText({...Z,insp:i})}`).join('<br>')+'<br><i class="g">Du wählst eine davon, wenn der Winter beginnt.</i>',Z.inspOpts.map(i=>INSP[i].name).join(' oder '));
   return box('zi2',inspIcon(Z),'Winter: '+INSP[Z.insp].name,inspText(Z)+(peek||''))};
 // am Ende jedes Zoos: Stufe freischalten (Zoo 3 geschafft) und Herausforderungen prüfen
-function z2After(sl,run,won){const z=state.zoo||0,Z2=z2Of(sl),d=run.deckId||'grund',st=run.stage||1;run.stNew=0;run.chNow=[];if(run.seed||run.d4)return;
+function z2After(sl,run,won){const z=state.zoo||0,Z2=z2Of(sl),d=run.deckId||'grund',st=run.stage||1;run.stNew=0;run.chNow=[];if(run.seed)return; // 0.83a: Testlauf „4 Tage“ schaltet Stufen und Herausforderungen frei
   if(won&&z>=2&&st<8&&(Z2.st[d]||1)<=st){Z2.st[d]=st+1;run.stNew=st+1}
   const x={won,z,run,sl};for(const id in CHAL){if(Z2.ch[id])continue;let ok=false;try{ok=CHAL[id].ok(x)}catch(e){}if(ok){Z2.ch[id]=1;run.chNow.push(id)}}}
 const z2NewsHtml=run=>(run.stNew?`<p style="margin:0;color:var(--gold);font-weight:700">🏔️ Stufe ${run.stNew} für ${DECKS[run.deckId||'grund'].icon} ${DECKS[run.deckId||'grund'].name} freigeschaltet!</p>`:'')+(run.chNow||[]).map(id=>{const C=CHAL[id];return`<p style="margin:0;color:var(--gold);font-weight:700">🎯 Herausforderung geschafft: ${C.icon} ${C.name}${C.rb?` · ⚡ Regelbrecher ${SPEC[C.rb].icon} ${SPEC[C.rb].name} freigeschaltet`:` · Titel „${C.title}“`}</p>`}).join('');
