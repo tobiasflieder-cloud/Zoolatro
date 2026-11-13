@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Details Entwurf</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#12301f;--paper:#fffaf0;--paper2:#f3ead6;--ink:#1d2a21;--muted:#6b7a6f;--b:#ff9f1c;--bInk:#a85d00;--n:#2ec4b6;--nInk:#00756b;--neg:#d64545;--gold:#ffd166;--f-display:"Lilita One","Trebuchet MS",sans-serif;--f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#0b2015;color:#eaf2e3;font-family:var(--f-body);font-size:14px;line-height:1.35;padding:16px}
+.wrap{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.col{width:380px;max-width:100%;display:flex;flex-direction:column;gap:8px}
+.lbl{font-family:var(--f-display);color:var(--gold);font-size:18px}
+.note{color:#9fbba5;font-size:12.5px}
+.phone{background:var(--bg);border-radius:22px;border:2px solid #2b5a3b;overflow:hidden;position:relative}
+.board{height:120px;background:radial-gradient(circle at 50% 40%,#2f6a3f,#173a26 70%);opacity:.55;position:relative}
+.board::after{content:"Spielfeld (abgedunkelt)";position:absolute;left:0;right:0;top:46px;text-align:center;color:#cfe3d3;font-size:12px}
+.sheet{background:var(--paper);color:var(--ink);border-radius:20px 20px 0 0;margin-top:-14px;position:relative;padding:8px 14px 16px;display:flex;flex-direction:column;gap:10px}
+.grip{width:44px;height:5px;border-radius:9px;background:#d8cfbb;margin:0 auto 2px}
+.x{position:absolute;right:12px;top:10px;width:30px;height:30px;border-radius:50%;border:0;background:var(--paper2);font-size:16px;color:var(--ink)}
+.head{display:flex;gap:12px;align-items:center}
+.ic{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:32px;flex:none}
+.nm{font-family:var(--f-display);font-size:21px;line-height:1.05}
+.sub{font-size:12.5px;color:var(--muted)}
+.rule{font-size:13px;background:var(--paper2);border-radius:10px;padding:7px 10px}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.res div{border-radius:12px;padding:8px 10px;display:flex;align-items:baseline;gap:6px}
+.res .rb{background:#ffe7c4}.res .rn{background:#c9f1ec}
+.res b{font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1}
+.res .rb b{color:var(--bInk)}.res .rn b{color:var(--nInk)}
+.res span{font-size:12px;color:var(--muted)}
+.sec{font-family:var(--f-display);font-size:14.5px;letter-spacing:.3px;color:#3b4a3f;margin:2px 0 -4px}
+.rows{display:flex;flex-direction:column;border-radius:12px;overflow:hidden;background:var(--paper2)}
+.row{display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid #e7dcc4}
+.row:last-child{border-bottom:0}
+.ri{font-size:20px;width:26px;text-align:center;flex:none}
+.rt{flex:1;min-width:0}.rt b{font-weight:600;display:block;font-size:13.5px}.rt small{color:var(--muted);font-size:12px}
+.v{font-family:var(--f-display);font-size:16px;white-space:nowrap;padding:3px 8px;border-radius:8px}
+.v.b{background:#ffe7c4;color:var(--bInk)}.v.n{background:#c9f1ec;color:var(--nInk)}
+.v.bn{background:linear-gradient(90deg,#ffe7c4 50%,#c9f1ec 50%);color:#3b4a3f}
+.v.neg{background:#fbd5d5;color:var(--neg)}
+.row.neg .rt b{color:var(--neg)}
+.row.off{opacity:.45}.row.off .v{background:#e7dcc4;color:#6b7a6f}
+.calc{background:#fff3d6;border:1.5px solid #f0d58f;border-radius:12px;padding:9px 11px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13.5px;align-items:baseline}
+.calc .k{font-weight:600}.calc .kb{color:var(--bInk)}.calc .kn{color:var(--nInk)}
+.calc .eq{font-family:var(--f-display);font-size:15px}
+.zoo{font-size:12.5px;background:#ece6ff;color:#4b3a8f;border-radius:10px;padding:7px 10px}
+</style></head><body>
+<div class="wrap">
+
+<div class="col">
+  <div class="lbl">Beispiel 1 · dein Kamelpfad</div>
+  <div class="phone"><div class="board"></div>
+  <div class="sheet">
+    <div class="grip"></div><button class="x" aria-label="Schließen">✕</button>
+    <div class="head"><div class="ic" style="background:#f6dcc0">🐫</div><div><div class="nm">Kamelpfad</div><div class="sub">🏜️ Wüste · 4er-Reihe · 2 BP · 🐇 Beute · 🍽️ 0/1</div></div></div>
+    <div class="res"><div class="rb"><b>10</b><span>👥 Besucher</span></div><div class="rn"><b>6</b><span>🌿 Natur</span></div></div>
+
+    <div class="sec">➕ Grundwert und dazu</div>
+    <div class="rows">
+      <div class="row"><span class="ri">🐫</span><span class="rt"><b>Grundwert</b><small>von der Karte</small></span><span class="v bn">5 B · 3 N</span></div>
+    </div>
+
+    <div class="sec">✖️ Faktoren</div>
+    <div class="rows">
+      <div class="row"><span class="ri">🏜️</span><span class="rt"><b>Einzelgänger</b><small>Wüste: kein anderes Wüsten-Gehege daneben</small></span><span class="v bn">×2</span></div>
+    </div>
+
+    <div class="sec">💤 Möglich, wirkt gerade nicht</div>
+    <div class="rows">
+      <div class="row off"><span class="ri">🍽️</span><span class="rt"><b>Futterplatz frei</b><small>Futter würde hier dauerhaft wirken</small></span><span class="v">–</span></div>
+    </div>
+
+    <div class="calc">
+      <span class="k kb">👥 B</span><span>5 × 2 = <span class="eq">10</span></span>
+      <span class="k kn">🌿 N</span><span>3 × 2 = <span class="eq">6</span></span>
+    </div>
+    <div class="zoo">👑 Steht auf dem Kronenfeld: ×1,3 B für den <b>ganzen Zoo</b>. Siehe Aufstellung am B-Zähler.</div>
+  </div></div>
+  <div class="note">Echte Werte aus deinem Screenshot (Grund 5 B · 3 N, Einzelgänger ×2, Krone).</div>
+</div>
+
+<div class="col">
+  <div class="lbl">Beispiel 2 · mehr los (Beispielwerte)</div>
+  <div class="phone"><div class="board"></div>
+  <div class="sheet">
+    <div class="grip"></div><button class="x" aria-label="Schließen">✕</button>
+    <div class="head"><div class="ic" style="background:#cfe9c2">🦉</div><div><div class="nm">Eulenwald II</div><div class="sub">🌿 Dschungel · 2 Felder · 2 BP · 🙈 Scheu · Winter</div></div></div>
+    <div class="res"><div class="rb"><b>7</b><span>👥 Besucher</span></div><div class="rn"><b>13</b><span>🌿 Natur</span></div></div>
+
+    <div class="sec">➕ Grundwert und dazu</div>
+    <div class="rows">
+      <div class="row"><span class="ri">🦉</span><span class="rt"><b>Grundwert</b><small>von der Karte</small></span><span class="v bn">3 B · 4 N</span></div>
+      <div class="row"><span class="ri">🐺</span><span class="rt"><b>Wolfsrevier daneben</b><small>Nachbar</small></span><span class="v b">+2 B</span></div>
+      <div class="row"><span class="ri">🌳</span><span class="rt"><b>Grünfläche daneben</b><small>+1 N je benachbartes Gehege</small></span><span class="v n">+1 N</span></div>
+    </div>
+
+    <div class="sec">✖️ Faktoren</div>
+    <div class="rows">
+      <div class="row"><span class="ri">⭐</span><span class="rt"><b>Stufe II</b><small>ausgebaut</small></span><span class="v bn">×1,75</span></div>
+      <div class="row"><span class="ri">🌿</span><span class="rt"><b>Dschungel-Gruppe</b><small>Lebensraum-Regel erfüllt</small></span><span class="v n">×2</span></div>
+      <div class="row neg"><span class="ri">❄️</span><span class="rt"><b>Mindestgröße</b><small>Winter: unter 3 Feldern</small></span><span class="v neg">×0,75</span></div>
+    </div>
+
+    <div class="sec">💤 Möglich, wirkt gerade nicht</div>
+    <div class="rows">
+      <div class="row off"><span class="ri">😰</span><span class="rt"><b>Stress</b><small>Scheu: kein Trubel in der Nähe – gut so</small></span><span class="v">–</span></div>
+    </div>
+
+    <div class="calc">
+      <span class="k kb">👥 B</span><span>(3 + 2) × 1,75 × 0,75 = 6,6 → <span class="eq">7</span></span>
+      <span class="k kn">🌿 N</span><span>(4 + 1) × 1,75 × 2 × 0,75 = 13,1 → <span class="eq">13</span></span>
+    </div>
+    
+  </div></div>
+  <div class="note">Erfundene Werte, nur um Plus, Faktoren und einen Abzug zu zeigen.</div>
+</div>
+
+</div>
+</body></html>
