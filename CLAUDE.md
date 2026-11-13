@@ -124,7 +124,7 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
   `mxs(0)` = „0“. Aufstellung am Zähler: `aufOf(r)`/`aufBlock`/`aufHtml`/`aufToggle` (`#aufPop`), `state.yday.auf`; bei Bauen „Stand jetzt“ dazu.
   Detail-Fenster: `evalB`-`add` mit `{fa,fs}` je Faktor-Schritt, `breakdown` mit `a0/s0` und Faktor für Wiederholung/Ausbau; `detCalc`, `detSheetHtml`, `detTarget` (Gebäude oder Vorschau),
   `detOpen` über `data-det` im Info-Feld (`#detSheet`, Querformat rechts). Lotto `chance(.25)`, `specVal` „–“. `flSl`/`fsCheck` schließen `run.d4` nicht mehr aus (Bestwerte `cu` bleiben getrennt).
-  `ZLSEAS` Sommer 1,35. Referenzfälle: nur 38/39 (Mindestgröße) mit neuen Zahlen. Tests: neu `jsd81a.js`, `quer.js` (Schritt 9).
+  `ZLSEAS` Sommer 1,35. Referenzfälle: nur 38/39 (Mindestgröße) mit neuen Zahlen. Tests: neu `jsd81a.js`, `quer.js` (Schritt 9), angepasst `jsd77a`/`jsd79a` (Testlauf zählt für Freischaltungen).
 - **0.80a** ([Auftrag](docs/auftraege/0.80a-schliff-einstieg-shop.md)): Gesperrtes geheim: `buchCard` (❔/„???“, Farbe bleibt), `glossSpec` (nur Weg), `progHtml` und `fsNextHtml` über `unNameL`
   (Lebensräume sichtbar); Enthüllung `fsRevHtml` als `bigPop('fsRevPop')` bei `fsCheck('fl')` (`state.fsRev`), sonst `fsNewHtml` „✨ Neu entdeckt!“ mit `fsCardHtml` (`offerCard`/`specCard`).
   „Alles zurücksetzen“: `resetAsk(1|2)` (Fenster `#resetPop`, „LÖSCHEN“ `data-rs="go"`), `resetAll` löscht `SAVE_KEY` + `zoodeck-*`, `RESETTING` sperrt `saveMeta`, dann `location.reload()`.

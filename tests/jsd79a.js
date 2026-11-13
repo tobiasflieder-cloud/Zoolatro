@@ -30,7 +30,7 @@ const start=(w,o={})=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')S
  T(ev(`flOf(activeSlot()).runs`)===r0+1,'Laufende: Läufe-Zähler +1');
  // nicht im Testlauf
  start(w,{d4:1});const f0=ev(`JSON.stringify(flOf(activeSlot()))`);ev(`flBuilt({key:'${wk}',cells:[]},1);flAdd('runs');flDay({steps:[]})`);
- T(ev(`JSON.stringify(flOf(activeSlot()))`)===f0,'Testlauf „4 Tage“: Zähler bleiben');
+ T(ev(`JSON.stringify(flOf(activeSlot()))`)!==f0,'Testlauf „4 Tage“: Zähler zählen (seit 0.81a)');
  T(ev(`(()=>{const s={run:{tut:true}};return flSl()===null||true})()`)&&ev(`(()=>{const sl=activeSlot(),r=sl.run;r.d4=0;r.tut=true;const ok=flSl()===null;r.tut=undefined;return ok})()`),'Tutorial: Zähler zählen nicht');
  dom.window.close();
  // alter Spielstand: Startwerte aus der Statistik, Freigeschaltetes bleibt

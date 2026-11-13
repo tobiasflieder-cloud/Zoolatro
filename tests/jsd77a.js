@@ -58,9 +58,9 @@ const start=(w,d4)=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx
  T(/🧪/.test(d.getElementById('seasonName').textContent)&&/\/4/.test(d.getElementById('seasonName').textContent),'Kennzeichnung in der Kopfzeile: '+d.getElementById('seasonName').textContent);
  const b4=ev('BOARD.length'),nat=ev(`[...TERR.values()].filter(v=>HAB[v]).length`);T(b4<nrm*.9&&b4>nrm*.7,`Spielfeld kleiner: ${b4} statt ${nrm} Felder`);T(nat===14,'Naturfelder anteilig: '+nat);
  ev(`state.day=3;state.seasonScore=1;state.phase='review';render()`);
- const sl0=ev(`JSON.stringify([activeSlot().fsb||{},activeSlot().cu||null,statOf(activeSlot())])`);
+ ev('cuOf(activeSlot())');const sl0=ev(`JSON.stringify([(({open,...c})=>c)(activeSlot().cu||{}),statOf(activeSlot())])`); // 0.81a: Freischaltungen (fsb) zählen im Testlauf mit
  ev(`state.zoo=2;try{fsCheck('season')}catch(e){};state.phase='win';finishGame()`);
- T(ev(`JSON.stringify([activeSlot().fsb||{},activeSlot().cu||null,statOf(activeSlot())])`)===sl0,'Testlauf: Bestwerte, Fortschritt und Statistik unverändert');
+ T(ev(`JSON.stringify([(({open,...c})=>c)(activeSlot().cu||{}),statOf(activeSlot())])`)===sl0,'Testlauf: Bestwerte und Statistik unverändert (Freischaltungen zählen seit 0.81a)');
  ev(`(()=>{const sl=activeSlot();if(!state){sl.run.reward=null;sl.run.game=null}endRun(false)})()`);
  T(ev(`META.cscores.slice(-1)[0].test`)===1||ev(`META.cscores.every(x=>x.test)`),'Testlauf: Highscore-Eintrag als Test markiert');
  dom.window.close();
