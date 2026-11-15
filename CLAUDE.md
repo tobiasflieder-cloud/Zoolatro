@@ -99,7 +99,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.84a) – erst bauen, wenn Tobi „bauen“ sagt
 
-**0.84a (klein):**
+**0.84a (klein)** – Auftrag [`docs/auftraege/0.84a-flusstal-kartenwahl.md`](docs/auftraege/0.84a-flusstal-kartenwahl.md), dazu Wunsch ⏱️ „2 Tage früher“ streichen:
 1. **Flusstal oben abgeschnitten** (nur dieses Gelände, nicht Zoom): nachstellen im Hochformat (~412×915), mehrere Tage, Info-Feld abwechselnd groß/klein.
    Verdacht: `computeView` (`05-ton.js` ~Z. 60) entscheidet die Drehung abhängig von der Info-Feld-Höhe → `VB`, `setRot` und `--ar` passen nicht zusammen.
    Lösung: Drehung einmal pro Zoo beim Start festlegen, danach `VB`/`--ar` immer passend zur aktuellen Drehung. Test in `quer.js` (alle Felder im sichtbaren Spielfeld).
@@ -107,7 +107,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 3. Kartenwahl zwischen den Zoos (`crewardStep('card')`, `11-bildschirme.js` ~Z. 60): nur 1–2 seltene/legendäre Karten (Platz 1 immer, Platz 2 zu 50 %), Rest gewöhnlich;
    auch beim Neuziehen und beim Forscher (2 Karten: Platz 1 immer, Platz 2 zu 50 %). Bonus-Karten zählen wie seltene.
 
-**0.85a (groß): 🌍 Weltreise-Modus** – vollständige Beschreibung in **`docs/plan/weltreise.md`**.
+**0.85a (groß): 🌍 Weltreise-Modus** – Auftrag [`docs/auftraege/0.85a-weltreise.md`](docs/auftraege/0.85a-weltreise.md), vollständige Beschreibung in **`docs/plan/weltreise.md`**.
    Erst mit der Kontinent-Wahl als **Liste** (Entwurf `docs/stil/weltreise-entwurf.html`, Vorschaubild = echtes Gelände des Ziels).
    Die gezeichnete Weltkarte (`docs/stil/weltkarte-entwurf.html`) kommt als eigener Schritt danach.
 

@@ -102,9 +102,9 @@ Ein Thema je Jahreszeit: Frühling Auflage · **Sommer Besucherwunsch (nur noch 
 | 🌳 | 3 Naturschutz zusammenhängend (`schutz3`) | zufällige Karte ⭐ Star | Karte **nach Wahl** ⭐ Star |
 | ⭐ | Stufe III (`lvl3`) | zufällige Karte 🪙 Gold | Karte **nach Wahl** 🪙 Gold |
 | 😌 | Ruhige Tiere ohne Stress (`calm`) | +1 BP nächster Tag | 1 Bewerbermappe |
-| ⏱️ | 2 Tage früher (`early`) | +25 Taler | **gestrichen** (bei 4 Tagen kaum machbar, Glückssache) |
+| ⏱️ | 2 Tage früher (`early`) | +25 Taler | **gestrichen**, auch im normalen Modus (kommt mit 0.84a) |
 
-Im normalen Modus bleiben Wünsche und Belohnungen wie heute.
+Im normalen Modus bleiben Wünsche und Belohnungen wie heute (nur ⏱️ fällt weg).
 
 ## Für später
 - Gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`), echtes Gelände als Vorschau.
