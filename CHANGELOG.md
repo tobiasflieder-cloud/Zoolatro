@@ -5,13 +5,14 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
-## 0.86a · 15.11.2026 · Regionen, Zoo-Menü, Savanne
+## 0.86a · 15.11.2026 · Regionen, Zoo-Menü, Savanne, Krone
 - 🌍 Weltreise: Die Ziele sind jetzt **Regionen** mit eigenem Schwerpunkt, z. B. Serengeti (Savanne), Sahara (Wüste), Okavango-Delta (Wasser oder Savanne), Amazonas, Everglades, Borneo, Great Barrier Reef, Spitzbergen – 25 Regionen auf 6 Kontinenten, dazu Europa als Ruhe-Zoo mit Stadtnamen (Berlin, Wien …).
 - 🌎 Neu: **Nordamerika** (Arizona, Everglades, Prärie, Rocky Mountains, Alaska) und **Polargebiete** (Antarktis, Spitzbergen, nach Freischaltung der Arktis).
 - 🧭 Jeder Kontinent kommt nur **einmal pro Reise**, auch Europa. Die Ziele einer Wahl liegen auf verschiedenen Kontinenten, gegen Ende der Reise werden es weniger. Eine Region kommt nur, wenn einer ihrer Schwerpunkte zu deinen Lebensräumen gehört.
 - 🃏 **Zoo-Menü aufgeräumt:** Oben steht in fester Reihenfolge, was diesen Zoo ausmacht (Reiseziel, Auflage mit Stand, Besucherwunsch, Winter), darunter Boni und Kleinigkeiten als kleine Schilder. „Dein Stand“ zeigt Reinheit, Vielfalt, Zucht, wachsende Spezialisten, Futter und Lebensraum-Regeln mit aktuellem Wert, antippen zeigt die Erklärung. Stufe, Profil-Regel, lange Erklärungen und Gelände stehen unter „📖 Regeln“.
 - 🌾 **Savanne schwächer:** Die Herde zählt erst ab 3 zusammenhängenden Gehegen (×1,15), je weiteres +0,1, höchstens ×1,75. Zu zweit ×1, allein weiter ×0,5. Beim Safari-Ranger je weiteres +0,15; seine Gehege mit 4 Feldern kosten jetzt wie überall 3 Baupunkte.
 - 🔓 **Freischaltbare Gehege stärker** (+1 auf den Hauptwert): Nilpferde und Tiger 7 B, Mendesantilopen 6 B, Nashörner 7 N, Koalas 5 B, Eisbären 8 B, Krokodile 6 B, Schneeleoparden 6 B, Kängurus 6 B, Antilopen 6 B, Kraken 5 N, Dingos 5 B, Rentiere 6 B, Braunbären 7 B, Rote Pandas 5 B.
+- 👑 **Kronenfeld erreichbar:** Es liegt nur noch auf Feldern, auf die ein Gehege mit 4 Feldern in mehreren Lagen passt (nicht mehr eingeklemmt zwischen Rand, Felsen und fremden Naturflächen). Gilt in beiden Modi.
 
 ## 0.85a · 15.11.2026 · 🌍 Weltreise
 - 🌍 Neuer Modus **Weltreise**: Schalter „🌍 Weltreise“ bei der Wahl der Lebensräume (lässt sich mit „🧪 4 Tage“ kombinieren). Die Reise hat 4 Zoos, mit freigeschalteter Arktis und freigeschaltetem Gebirge je einen mehr.

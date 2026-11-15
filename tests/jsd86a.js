@@ -46,6 +46,11 @@ const start=(w,wr,habs,deck)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'$
  d.getElementById('mZooRules').click();m=d.getElementById('modalRoot');T(/Regeln für diesen Lauf/.test(m.textContent)&&/Stufe/.test(m.textContent)&&/Zucht/.test(m.textContent)&&/Gelände/.test(m.textContent),'Regeln-Ansicht mit Stufe, Zucht, Gelände');
  d.getElementById('mZooBack').click();T(/Dieser Zoo/.test(d.getElementById('modalRoot').textContent),'◂ Zurück führt ins Zoo-Menü');
  T(ev(`(()=>{const ids={};document.querySelectorAll('[id]').forEach(e=>ids[e.id]=(ids[e.id]||0)+1);return Object.values(ids).every(n=>n===1)})()`),'keine doppelten ids');
+ // 5. Kronenfeld erreichbar (normale Läufe und Weltreise mit halber Natur)
+ const kr=J(`(()=>{const r=runOf(),kb=BOARD.map(c=>c.slice()),kt=TERR,out=[];const chk=p=>{if(!p.crown)return;setBoard(p.cells);TERR=new Map(p.terr);const ek=p.rule&&p.rule.entry?hk(...p.rule.entry):null,ax=p.rule&&p.rule.ax,bad=k=>!!ax&&ax.includes(k);out.push(crownFits(p.crown,ek,bad))};
+   for(let i=0;i<20;i++){r.zoo=i%5;r.wrOpts=null;wrRollOpts0(r).forEach(o=>chk(o.plan))}const wr=r.wr;r.wr=0;for(let i=0;i<40;i++){r.zoo=i%5;r.maps={};chk(rollPlan0(r))}r.wr=wr;r.zoo=0;r.maps={};setBoard(kb);TERR=kt;return out})()`);
+ L(`  Kronenfeld: ${kr.length} Gelände, Lagen min ${Math.min(...kr)}, ≥3 bei ${kr.filter(n=>n>=3).length}`);
+ T(kr.length>50&&kr.every(n=>n>=1),'Kronenfeld: immer mindestens 1 passende Lage für ein 4-Felder-Gehege');T(kr.filter(n=>n>=3).length>=kr.length*.9,'Kronenfeld: meist mindestens 3 Lagen');
  // 2. Savannen-Herde
  start(w,0);
  const herde=(g,dk)=>J(`(()=>{const k=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&CARDS[x].hab==='savanne'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1);state.buildings=[];for(let i=0;i<${g};i++)state.buildings.push({id:700+i,key:k,cells:[[i-3,0]],lvl:1});const idx=mkIndex(state.buildings),b=state.buildings[0],dk0=CTX.dk;CTX.dk='${dk||'grund'}';const r=habRule(b,CARDS[b.key],nbrs(b,idx),idx);CTX.dk=dk0;return r})()`);

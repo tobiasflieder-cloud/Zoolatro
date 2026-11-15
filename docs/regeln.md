@@ -174,6 +174,7 @@ Innenhof, Allee und Dreiländereck gibt es seit 0.77a nicht mehr (`shapes92`/`sh
 ## 5. Kronenfeld, Goldfelder (`06:initZl`)
 - Zu Beginn jedes Zoos wird gelost: **Kronenfeld** = ein zufälliges normales Baufeld (keine Naturfläche, kein Felsen, nicht der Eingang
   der Auflage). **Goldene Felder**: 3 (ab Stufe 3: 2) Felder mit Abstand ≥2 zueinander und zur Krone (notfalls ≥1).
+- **Kronenfeld (0.86a, `06:crownPick`/`crownFits`):** unter den freien Feldern ohne Naturfläche (zufällige Reihenfolge, Baugrube zuletzt) das erste ohne Randlage mit mindestens 3 verschiedenen Lagen eines 4-Felder-Geheges (alle Formen der Gehege-Karten, 6 Drehungen; Lage nur auf dem Feld, ohne Felsen, Eingang, Baugrube, Naturflächen höchstens eines Lebensraums), dann dasselbe mit Randfeldern, sonst das Feld mit den meisten Lagen.
 - Krone: ×1,3 B für den Zoo, solange ein Gehege mit ≥4 Feldern darauf steht. Gold: Abschnitt 2, Schritt 7.
 
 ---
