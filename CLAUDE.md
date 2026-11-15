@@ -101,6 +101,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 **0.86a** – Auftrag [`docs/auftraege/0.86a-regionen-zoomenue-savanne.md`](docs/auftraege/0.86a-regionen-zoomenue-savanne.md) (Werte und Regionen dort schon eingetragen):
 
+**Kronenfeld erreichbar:** nur auf Feldern mit ≥ 3 passenden Lagen eines 4-Felder-Geheges (Tobi: lag eingeklemmt am Rand), siehe Auftrag Punkt 5.
+
 **Savanne schwächer:** Herde erst ab 3 (2 Gehege ×1), je weiteres +0,1 (Steppe +0,15), höchstens ×1,75; Steppe-Profil: 4-Felder-Gehege kosten 3 BP wie überall.
 
 **Zoo-Menü aufräumen** (Entwurf `docs/stil/zoomenue-entwurf.html`, Menge war das Problem): `zooBoxHtml` (`06-spiel.js` ~Z. 355) neu gliedern:
