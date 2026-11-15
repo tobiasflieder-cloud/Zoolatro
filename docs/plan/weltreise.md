@@ -16,6 +16,8 @@ und eine Auflage mit passender Belohnung. Abwägung: „passt zu meinem Deck“ 
 - Stufen: die Naturfelder-Stufen (2, 7, 8) sind im Weltreise-Modus aus. **Ab Stufe 2 nur 2 Ziele zur Wahl.** Ersatz für 7/8 kommt später.
 
 ## Ziele (Kontinente)
+
+> **Neu (15.11.):** Ziele werden **Regionen** mit eigenen 1–2 Schwerpunkten (25 Regionen, Liste im Sheet „Weltreise-Plan“, Blatt „Regionen“), Nordamerika und Polargebiete kommen dazu, **jeder Kontinent höchstens einmal pro Lauf** (Europa als Ruhe-Zoo darf öfter). Die Tabelle unten ist der Stand von 0.85a.
 Ziele sind Orte auf einem Kontinent (z. B. „Afrika · Kalahari“), damit sich ein Kontinent wiederholen darf.
 
 | Kontinent | Schwerpunkt (einer wird ausgelost) | verfügbar |

@@ -107,6 +107,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 **Freischaltbare Gehege stärker** (Meta-Fortschritt, Variante A): +1 auf den Hauptwert, außer Gorillas, Büffel, Belugas. Werte aus Tobis Tabelle „Freischalt-Karten Werte“
    (Claude-Sheet) – vor dem Bauen im Chat abholen und in `daten/karten.json` eintragen; Referenzfälle prüfen.
 
+**Weltreise: Regionen statt Kontinente** (Chat 15.11., Liste im Claude-Sheet „Weltreise-Plan“, Blatt „Regionen“ – vor dem Bauen abholen):
+   Ziele sind 25 Regionen (z. B. Afrika · Sahara nur Wüste, Afrika · Okavango Wasser oder Savanne) auf 6 Kontinenten (Afrika, Südamerika, **Nordamerika neu**, Asien, Australien, Polargebiete) + Europa (Ruhe-Zoo).
+   **Jeder Kontinent höchstens einmal pro Lauf** (Europa darf öfter), Ziele einer Wahl von verschiedenen Kontinenten; Notfall: < 2 Ziele → besuchter Kontinent mit neuer Region.
+   `daten/kontinente.json` umbauen (Regionen mit eigenen `foki`), `wrRollOpts` anpassen.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße, ob Europa oft genug/zu oft kommt.
 
