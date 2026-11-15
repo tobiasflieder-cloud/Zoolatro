@@ -1369,9 +1369,9 @@
  ]
 },
 "erwartet":{
- "A": 277,
- "S": 311,
- "total": 86147,
+ "A": 286,
+ "S": 308,
+ "total": 88088,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1395,7 +1395,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 40,
+   "a": 46,
    "s": 18,
    "parts": [
     [
@@ -1410,12 +1410,12 @@
     ],
     [
      "🔗 Kombo ×1,5: nicht gestresst",
-     4,
+     5,
      2
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     6,
+     7,
      3
     ],
     [
@@ -1425,7 +1425,7 @@
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     17,
+     20,
      8
     ]
    ]
@@ -1444,7 +1444,7 @@
   },
   {
    "id": 4,
-   "a": 30,
+   "a": 37,
    "s": 17,
    "parts": [
     [
@@ -1454,29 +1454,29 @@
     ],
     [
      "🔗 Kombo ×1,5: nicht gestresst",
-     3,
+     4,
      2
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     9,
+     11,
      5
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     5,
+     6,
      3
     ],
     [
      "2. Rote Pandas: zählt ×0,75 des eigenen Werts · Ausbau Stufe II: ×1,75 des eigenen Werts",
-     7,
+     9,
      4
     ]
    ]
   },
   {
    "id": 5,
-   "a": 9,
+   "a": 8,
    "s": 4,
    "parts": [
     [
@@ -1490,16 +1490,16 @@
      1
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     3,
+     "🌾 Herde aus 4 ×1,25",
+     2,
      1
     ]
    ]
   },
   {
    "id": 6,
-   "a": 25,
-   "s": 15,
+   "a": 23,
+   "s": 13,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1522,9 +1522,9 @@
      0
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     6,
-     4
+     "🌾 Herde aus 4 ×1,25",
+     4,
+     2
     ],
     [
      "🤝 Freundschaft mit Giraffenweide ×1,25",
@@ -1609,8 +1609,8 @@
   },
   {
    "id": 12,
-   "a": 16,
-   "s": 9,
+   "a": 14,
+   "s": 8,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1633,9 +1633,9 @@
      0
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     4,
-     2
+     "🌾 Herde aus 4 ×1,25",
+     2,
+     1
     ],
     [
      "🤝 Freundschaft mit Zebrasteppe ×1,25",
@@ -1686,7 +1686,7 @@
   {
    "id": 15,
    "a": 6,
-   "s": 14,
+   "s": 15,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1784,7 +1784,7 @@
   },
   {
    "id": 20,
-   "a": 9,
+   "a": 8,
    "s": 5,
    "parts": [
     [
@@ -1798,8 +1798,8 @@
      1
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     2,
+     "🌾 Herde aus 4 ×1,25",
+     1,
      1
     ],
     [
@@ -1862,12 +1862,12 @@
   },
   {
    "id": 24,
-   "a": 9,
+   "a": 11,
    "s": 7,
    "parts": [
     [
      "⛰️ Rand/Felsen (2) ×1,75",
-     4,
+     5,
      3
     ]
    ]
@@ -1912,7 +1912,7 @@
     [
      "🌾 Herde: allein ×0,5",
      -1,
-     -4
+     -5
     ],
     [
      "📏 Vermesser-Linie ×2,0",

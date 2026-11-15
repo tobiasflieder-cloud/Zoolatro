@@ -377,6 +377,7 @@ function renderModal0(){const root=$('modalRoot'),se=state?seOf(state.season):nu
   {const zb=root.querySelector('#zlBack');if(zb)zb.onclick=()=>{zlBack()}}
   {const zm=$('zlMap'),bd=$b();if(zm&&bd){mapCss();const sv=bd.cloneNode(true);sv.removeAttribute('id');sv.setAttribute('viewBox',VB.join(' '));sv.querySelectorAll('[id]').forEach(e=>{if(e.tagName!=='pattern')e.removeAttribute('id')});zm.appendChild(sv)}}
   {const pk=$('mPeek');if(pk)pk.onclick=()=>zlPeek()}
+  {const zr=$('mZooRules');if(zr)zr.onclick=()=>{ZRULES=1;Sfx.select();renderModal()};const zb2=$('mZooBack');if(zb2)zb2.onclick=()=>{ZRULES=0;Sfx.select();renderModal()}} // 0.86a: Regeln-Ansicht im Zoo-Menü
   {const fl=$('mFliv');if(fl)fl.onclick=()=>{state.fliv=true;Sfx.select();render()}}
   {const a=$('mTraits');if(a)a.onclick=()=>{modal='traits';Sfx.select();render()};{const nw=$('mNews');if(nw)nw.onclick=()=>{Sfx.select();showNews()}}document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{META.view=b.dataset.view;saveMeta();Sfx.select();applyView();render();setTimeout(()=>{try{railRender()}catch(e){}},0)});const z=$('mTrBack');if(z)z.onclick=()=>{modal='help';Sfx.select();render()}}const mt=$('mTut');if(mt)mt.onclick=()=>{tutIdx=0;modal='tut';render()};
   const tp=$('tPrev');if(tp)tp.onclick=()=>{tutIdx--;renderAll()};

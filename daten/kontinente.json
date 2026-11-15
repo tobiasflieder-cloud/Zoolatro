@@ -1,44 +1,408 @@
 {
-"hinweis":"Weltreise-Modus (0.85a, docs/plan/weltreise.md). Wird von quelltext/mache.py ins Spiel eingebaut (WR_DATEN in quelltext/src/06-spiel.js). kontinente: Ziele mit möglichen Schwerpunkten (einer wird ausgelost, nur gewählte Lebensräume), Orten und Freischaltung (Lebensraum, der freigeschaltet sein muss). Europa (ruhe) = Ruhe-Zoo ohne Schwerpunkt, Auflage und Belohnung. auflagen: Schwierigkeit je Auflage (Kennung wie RULES im Code). belohnungen: sofort (mittel) und dauerhaft (schwer, je einmal pro Lauf). Reihenfolge nicht ändern, der Zufall hängt daran.",
-"lauf":{"zoos":4,"plus":["arktis","gebirge"],"ziele":3,"ziele_ab_stufe2":2,"natur_anteil":0.5,"schwerpunkt_anteil":0.6667,"fleck_min":4,"fleck_max":7,"europa_naturfelder":18},
-"kontinente":[
- {"id":"afrika","name":"Afrika","icon":"🌍","foki":["savanne","wueste"],"orte":["Serengeti","Kalahari","Okavango","Sahara","Masai Mara","Namib"]},
- {"id":"australien","name":"Australien","icon":"🌏","foki":["wasser","wueste"],"orte":["Great Barrier Reef","Outback","Kakadu","Uluru","Tasmanien","Kimberley"]},
- {"id":"suedamerika","name":"Südamerika","icon":"🌎","foki":["wald","wasser"],"orte":["Amazonas","Pantanal","Galápagos","Orinoco","Atlantischer Regenwald","Patagonien"]},
- {"id":"asien","name":"Asien","icon":"🌏","foki":["wald","savanne"],"orte":["Borneo","Sumatra","Mongolei","Sundarbans","Yunnan","Kasachische Steppe"]},
- {"id":"europa","name":"Europa","icon":"🏰","foki":[],"ruhe":1,"orte":["Schwarzwald","Camargue","Lappland","Toskana","Highlands","Donaudelta"]},
- {"id":"antarktis","name":"Antarktis","icon":"🧊","foki":["arktis","wasser"],"frei":"arktis","orte":["Rossmeer","Weddellmeer","Südgeorgien","Grahamland"]},
- {"id":"himalaya","name":"Himalaya","icon":"🏔️","foki":["gebirge","savanne"],"frei":"gebirge","orte":["Everest","Annapurna","Ladakh","Tibet","Bhutan"]}
-],
-"auflagen":{
- "gastro":"leicht","wege":"leicht","schutzn":"leicht","viertel":"leicht","halb":"leicht","einzel":"leicht",
- "anschl":"mittel","achse":"mittel","eingang":"mittel","raub":"mittel","locker":"mittel","gross2":"mittel",
- "z_ausbau":"mittel","z_vielfalt":"mittel","z_schlemmer":"mittel","z_rummel":"mittel","z_arten":"mittel",
- "max3":"schwer","insel":"schwer","grundl":"schwer","baum":"schwer","auswild":"schwer","z_vorzeige":"schwer","z_nachwuchs":"schwer"
-},
-"ziel_auflagen":{
- "z_ausbau":{"icon":"⭐","name":"Ausbau-Ziel","n":3,"text":"Bis Ende Winter mindestens 3 Gehege auf Stufe II oder höher."},
- "z_vielfalt":{"icon":"🎨","name":"Vielfalt","n":2,"text":"Bis Ende Winter in jedem deiner Lebensräume mindestens 2 Gehege."},
- "z_schlemmer":{"icon":"🍽️","name":"Schlemmermeile","n":5,"text":"Bis Ende Winter mindestens 5 Gastro-Gebäude im Zoo."},
- "z_rummel":{"icon":"🎡","name":"Rummelplatz","n":5,"text":"Bis Ende Winter mindestens 5 Attraktionen im Zoo."},
- "z_arten":{"icon":"🐾","name":"Artenschutz-Ziel","n":2,"text":"Bis Ende Winter mindestens 2 Gehege mit bedrohten Tieren."},
- "z_vorzeige":{"icon":"⭐","name":"Vorzeigegehege","n":2,"text":"Bis Ende Winter mindestens 2 Gehege auf Stufe III."},
- "z_nachwuchs":{"icon":"🍼","name":"Nachwuchs","n":1,"text":"Bis Ende Winter mindestens 1 Jungtier im Zoo."}
-},
-"belohnungen":{
- "sofort":{
-  "mitbringsel":{"icon":"🎁","name":"Mitbringsel","text":"Eine seltene oder legendäre Karte zur Wahl."},
-  "speisekammer":{"icon":"🥕","name":"Volle Speisekammer","text":"2 Futtersäcke gratis im Shop."},
-  "partner":{"icon":"📣","name":"Partnerschaft","text":"Ein zufälliges Förderprogramm gratis, nur in diesem Zoo."},
-  "praegung":{"icon":"✨","name":"Prägung nach Wahl","text":"Eine Prägung für eine Karte deines Decks."},
-  "bewerber":{"icon":"📁","name":"Bewerberflut","text":"1 Profi-Bewerbermappe gratis im Shop."},
-  "bau":{"icon":"🧰","name":"Bauoffensive","text":"2 Umbau-Kisten gratis im Shop."}
+ "hinweis": "Weltreise-Modus (0.85a, Regionen ab 0.86a; docs/plan/weltreise.md). Wird von quelltext/mache.py ins Spiel eingebaut (WR_DATEN in quelltext/src/06-spiel.js). kontinente: jeder höchstens einmal pro Lauf (auch Europa = Ruhe-Zoo mit zufälligem Stadtnamen aus staedte, springt ein, wenn sonst Ziele fehlen). regionen: Ziele mit 1–2 möglichen Schwerpunkten; eine Region kommt nur, wenn einer davon im Lauf gewählt ist (ausgelost wird unter diesen); frei = zusätzlich muss einer dieser Lebensräume freigeschaltet sein. alt: Kontinent-Kennungen aus 0.85a-Spielständen. auflagen: Schwierigkeit je Auflage (Kennung wie RULES im Code). belohnungen: sofort (mittel) und dauerhaft (schwer, je einmal pro Lauf). Reihenfolge nicht ändern, der Zufall hängt daran.",
+ "lauf": {
+  "zoos": 4,
+  "plus": [
+   "arktis",
+   "gebirge"
+  ],
+  "ziele": 3,
+  "ziele_ab_stufe2": 2,
+  "natur_anteil": 0.5,
+  "schwerpunkt_anteil": 0.6667,
+  "fleck_min": 4,
+  "fleck_max": 7,
+  "europa_naturfelder": 18
  },
- "dauerhaft":{
-  "gold":{"icon":"🪙","name":"Goldader","text":"+1 Goldfeld in diesem und jedem weiteren Zoo."},
-  "helfer":{"icon":"🔨","name":"Fleißige Helfer","text":"+1 Baupunkt am 1. Tag im Frühling und im Sommer, in diesem und jedem weiteren Zoo."},
-  "forscher":{"icon":"🧑‍🔬","name":"Gastforscher","text":"+1 Bewerber im Stellenmarkt, in diesem und jedem weiteren Zoo."},
-  "boden":{"icon":"🪨","name":"Leichter Boden","text":"3 Felsen weniger in diesem und jedem weiteren Zoo."}
+ "kontinente": [
+  {
+   "id": "afrika",
+   "name": "Afrika",
+   "icon": "🌍"
+  },
+  {
+   "id": "suedamerika",
+   "name": "Südamerika",
+   "icon": "🌎"
+  },
+  {
+   "id": "nordamerika",
+   "name": "Nordamerika",
+   "icon": "🌎"
+  },
+  {
+   "id": "asien",
+   "name": "Asien",
+   "icon": "🌏"
+  },
+  {
+   "id": "australien",
+   "name": "Australien",
+   "icon": "🌏"
+  },
+  {
+   "id": "polar",
+   "name": "Polargebiete",
+   "icon": "🧊"
+  },
+  {
+   "id": "europa",
+   "name": "Europa",
+   "icon": "🏰",
+   "ruhe": 1,
+   "staedte": [
+    "Berlin",
+    "Wien",
+    "Kopenhagen",
+    "Zürich",
+    "Amsterdam"
+   ]
+  }
+ ],
+ "regionen": [
+  {
+   "id": "serengeti",
+   "name": "Serengeti",
+   "k": "afrika",
+   "foki": [
+    "savanne"
+   ]
+  },
+  {
+   "id": "sahara",
+   "name": "Sahara",
+   "k": "afrika",
+   "foki": [
+    "wueste"
+   ]
+  },
+  {
+   "id": "okavango",
+   "name": "Okavango-Delta",
+   "k": "afrika",
+   "foki": [
+    "wasser",
+    "savanne"
+   ]
+  },
+  {
+   "id": "kongo",
+   "name": "Kongo-Becken",
+   "k": "afrika",
+   "foki": [
+    "wald"
+   ]
+  },
+  {
+   "id": "kilimandscharo",
+   "name": "Kilimandscharo",
+   "k": "afrika",
+   "foki": [
+    "gebirge",
+    "savanne"
+   ]
+  },
+  {
+   "id": "amazonas",
+   "name": "Amazonas",
+   "k": "suedamerika",
+   "foki": [
+    "wald"
+   ]
+  },
+  {
+   "id": "pantanal",
+   "name": "Pantanal",
+   "k": "suedamerika",
+   "foki": [
+    "wasser",
+    "savanne"
+   ]
+  },
+  {
+   "id": "galapagos",
+   "name": "Galápagos",
+   "k": "suedamerika",
+   "foki": [
+    "wasser",
+    "wueste"
+   ]
+  },
+  {
+   "id": "atacama",
+   "name": "Atacama",
+   "k": "suedamerika",
+   "foki": [
+    "wueste"
+   ]
+  },
+  {
+   "id": "anden",
+   "name": "Anden",
+   "k": "suedamerika",
+   "foki": [
+    "gebirge"
+   ]
+  },
+  {
+   "id": "arizona",
+   "name": "Arizona",
+   "k": "nordamerika",
+   "foki": [
+    "wueste"
+   ]
+  },
+  {
+   "id": "everglades",
+   "name": "Everglades",
+   "k": "nordamerika",
+   "foki": [
+    "wasser",
+    "wald"
+   ]
+  },
+  {
+   "id": "praerie",
+   "name": "Prärie",
+   "k": "nordamerika",
+   "foki": [
+    "savanne"
+   ]
+  },
+  {
+   "id": "rockies",
+   "name": "Rocky Mountains",
+   "k": "nordamerika",
+   "foki": [
+    "gebirge"
+   ]
+  },
+  {
+   "id": "alaska",
+   "name": "Alaska",
+   "k": "nordamerika",
+   "foki": [
+    "arktis",
+    "gebirge"
+   ]
+  },
+  {
+   "id": "borneo",
+   "name": "Borneo",
+   "k": "asien",
+   "foki": [
+    "wald"
+   ]
+  },
+  {
+   "id": "sundarbans",
+   "name": "Sundarbans",
+   "k": "asien",
+   "foki": [
+    "wasser",
+    "wald"
+   ]
+  },
+  {
+   "id": "mongolei",
+   "name": "Mongolei",
+   "k": "asien",
+   "foki": [
+    "savanne",
+    "wueste"
+   ]
+  },
+  {
+   "id": "himalaya",
+   "name": "Himalaya",
+   "k": "asien",
+   "foki": [
+    "gebirge"
+   ]
+  },
+  {
+   "id": "sibirien",
+   "name": "Sibirien",
+   "k": "asien",
+   "foki": [
+    "arktis"
+   ]
+  },
+  {
+   "id": "reef",
+   "name": "Great Barrier Reef",
+   "k": "australien",
+   "foki": [
+    "wasser"
+   ]
+  },
+  {
+   "id": "outback",
+   "name": "Outback",
+   "k": "australien",
+   "foki": [
+    "wueste",
+    "savanne"
+   ]
+  },
+  {
+   "id": "tasmanien",
+   "name": "Tasmanien",
+   "k": "australien",
+   "foki": [
+    "wald",
+    "gebirge"
+   ]
+  },
+  {
+   "id": "antarktis",
+   "name": "Antarktis",
+   "k": "polar",
+   "foki": [
+    "arktis",
+    "wasser"
+   ],
+   "frei": [
+    "arktis"
+   ]
+  },
+  {
+   "id": "spitzbergen",
+   "name": "Spitzbergen",
+   "k": "polar",
+   "foki": [
+    "arktis"
+   ]
+  }
+ ],
+ "alt": {
+  "antarktis": "polar",
+  "himalaya": "asien"
+ },
+ "auflagen": {
+  "gastro": "leicht",
+  "wege": "leicht",
+  "schutzn": "leicht",
+  "viertel": "leicht",
+  "halb": "leicht",
+  "einzel": "leicht",
+  "anschl": "mittel",
+  "achse": "mittel",
+  "eingang": "mittel",
+  "raub": "mittel",
+  "locker": "mittel",
+  "gross2": "mittel",
+  "z_ausbau": "mittel",
+  "z_vielfalt": "mittel",
+  "z_schlemmer": "mittel",
+  "z_rummel": "mittel",
+  "z_arten": "mittel",
+  "max3": "schwer",
+  "insel": "schwer",
+  "grundl": "schwer",
+  "baum": "schwer",
+  "auswild": "schwer",
+  "z_vorzeige": "schwer",
+  "z_nachwuchs": "schwer"
+ },
+ "ziel_auflagen": {
+  "z_ausbau": {
+   "icon": "⭐",
+   "name": "Ausbau-Ziel",
+   "n": 3,
+   "text": "Bis Ende Winter mindestens 3 Gehege auf Stufe II oder höher."
+  },
+  "z_vielfalt": {
+   "icon": "🎨",
+   "name": "Vielfalt",
+   "n": 2,
+   "text": "Bis Ende Winter in jedem deiner Lebensräume mindestens 2 Gehege."
+  },
+  "z_schlemmer": {
+   "icon": "🍽️",
+   "name": "Schlemmermeile",
+   "n": 5,
+   "text": "Bis Ende Winter mindestens 5 Gastro-Gebäude im Zoo."
+  },
+  "z_rummel": {
+   "icon": "🎡",
+   "name": "Rummelplatz",
+   "n": 5,
+   "text": "Bis Ende Winter mindestens 5 Attraktionen im Zoo."
+  },
+  "z_arten": {
+   "icon": "🐾",
+   "name": "Artenschutz-Ziel",
+   "n": 2,
+   "text": "Bis Ende Winter mindestens 2 Gehege mit bedrohten Tieren."
+  },
+  "z_vorzeige": {
+   "icon": "⭐",
+   "name": "Vorzeigegehege",
+   "n": 2,
+   "text": "Bis Ende Winter mindestens 2 Gehege auf Stufe III."
+  },
+  "z_nachwuchs": {
+   "icon": "🍼",
+   "name": "Nachwuchs",
+   "n": 1,
+   "text": "Bis Ende Winter mindestens 1 Jungtier im Zoo."
+  }
+ },
+ "belohnungen": {
+  "sofort": {
+   "mitbringsel": {
+    "icon": "🎁",
+    "name": "Mitbringsel",
+    "text": "Eine seltene oder legendäre Karte zur Wahl."
+   },
+   "speisekammer": {
+    "icon": "🥕",
+    "name": "Volle Speisekammer",
+    "text": "2 Futtersäcke gratis im Shop."
+   },
+   "partner": {
+    "icon": "📣",
+    "name": "Partnerschaft",
+    "text": "Ein zufälliges Förderprogramm gratis, nur in diesem Zoo."
+   },
+   "praegung": {
+    "icon": "✨",
+    "name": "Prägung nach Wahl",
+    "text": "Eine Prägung für eine Karte deines Decks."
+   },
+   "bewerber": {
+    "icon": "📁",
+    "name": "Bewerberflut",
+    "text": "1 Profi-Bewerbermappe gratis im Shop."
+   },
+   "bau": {
+    "icon": "🧰",
+    "name": "Bauoffensive",
+    "text": "2 Umbau-Kisten gratis im Shop."
+   }
+  },
+  "dauerhaft": {
+   "gold": {
+    "icon": "🪙",
+    "name": "Goldader",
+    "text": "+1 Goldfeld in diesem und jedem weiteren Zoo."
+   },
+   "helfer": {
+    "icon": "🔨",
+    "name": "Fleißige Helfer",
+    "text": "+1 Baupunkt am 1. Tag im Frühling und im Sommer, in diesem und jedem weiteren Zoo."
+   },
+   "forscher": {
+    "icon": "🧑‍🔬",
+    "name": "Gastforscher",
+    "text": "+1 Bewerber im Stellenmarkt, in diesem und jedem weiteren Zoo."
+   },
+   "boden": {
+    "icon": "🪨",
+    "name": "Leichter Boden",
+    "text": "3 Felsen weniger in diesem und jedem weiteren Zoo."
+   }
+  }
  }
-}
 }

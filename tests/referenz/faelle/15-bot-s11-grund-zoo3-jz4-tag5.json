@@ -1563,9 +1563,9 @@
  ]
 },
 "erwartet":{
- "A": 300,
- "S": 329,
- "total": 98700,
+ "A": 294,
+ "S": 318,
+ "total": 93492,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1589,7 +1589,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 32,
+   "a": 37,
    "s": 14,
    "parts": [
     [
@@ -1604,17 +1604,17 @@
     ],
     [
      "🔗 Kombo ×1,5: nicht gestresst",
-     4,
+     5,
      2
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     6,
+     7,
      3
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     14,
+     16,
      6
     ]
    ]
@@ -1639,7 +1639,7 @@
   },
   {
    "id": 4,
-   "a": 24,
+   "a": 29,
    "s": 14,
    "parts": [
     [
@@ -1649,25 +1649,25 @@
     ],
     [
      "🔗 Kombo ×1,5: nicht gestresst",
-     3,
+     4,
      2
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     9,
+     11,
      5
     ],
     [
      "2. Rote Pandas: zählt ×0,75 des eigenen Werts · Ausbau Stufe II: ×1,75 des eigenen Werts",
-     6,
+     7,
      4
     ]
    ]
   },
   {
    "id": 5,
-   "a": 20,
-   "s": 10,
+   "a": 16,
+   "s": 8,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1685,21 +1685,21 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,6",
-     4,
-     2
+     "🌾 Herde aus 5 ×1,35",
+     2,
+     1
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     10,
-     5
+     8,
+     4
     ]
    ]
   },
   {
    "id": 6,
-   "a": 35,
-   "s": 20,
+   "a": 30,
+   "s": 18,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1727,18 +1727,18 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,6",
-     8,
-     5
+     "🌾 Herde aus 5 ×1,35",
+     5,
+     3
     ],
     [
      "🤝 Freundschaft mit Giraffenweide ×1,25",
-     6,
+     5,
      3
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     7,
+     6,
      4
     ]
    ]
@@ -1814,8 +1814,8 @@
   },
   {
    "id": 12,
-   "a": 20,
-   "s": 13,
+   "a": 18,
+   "s": 11,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1843,9 +1843,9 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,6",
-     5,
-     3
+     "🌾 Herde aus 5 ×1,35",
+     3,
+     2
     ],
     [
      "🤝 Freundschaft mit Zebrasteppe ×1,25",
@@ -1855,7 +1855,7 @@
     [
      "❤️ neben dem Besucherliebling ×1,25",
      4,
-     3
+     2
     ]
    ]
   },
@@ -1901,7 +1901,7 @@
   {
    "id": 15,
    "a": 6,
-   "s": 14,
+   "s": 15,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1984,8 +1984,8 @@
   },
   {
    "id": 20,
-   "a": 13,
-   "s": 6,
+   "a": 9,
+   "s": 5,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -2003,13 +2003,13 @@
      1
     ],
     [
-     "🌾 Herde aus 5 ×1,6",
-     2,
-     2
+     "🌾 Herde aus 5 ×1,35",
+     1,
+     1
     ],
     [
      "🧲 Publikumsmagnet",
-     7,
+     4,
      1
     ]
    ]
@@ -2072,7 +2072,7 @@
   },
   {
    "id": 24,
-   "a": 11,
+   "a": 12,
    "s": 7,
    "parts": [
     [
@@ -2132,14 +2132,14 @@
     [
      "🌾 Herde: allein ×0,5",
      -1,
-     -4
+     -5
     ]
    ]
   },
   {
    "id": 27,
-   "a": 10,
-   "s": 5,
+   "a": 8,
+   "s": 4,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -2157,18 +2157,18 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,6",
-     4,
-     2
+     "🌾 Herde aus 5 ×1,35",
+     2,
+     1
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
+     2,
      1
     ],
     [
      "2. Zebrasteppe: zählt ×0,75 des eigenen Werts",
-     -3,
+     -2,
      -1
     ]
    ]

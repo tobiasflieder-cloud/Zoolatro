@@ -1711,8 +1711,8 @@
 },
 "erwartet":{
  "A": 372,
- "S": 322,
- "total": 119784,
+ "S": 323,
+ "total": 120156,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2542,7 +2542,7 @@
   {
    "id": 35,
    "a": 4,
-   "s": 11,
+   "s": 12,
    "parts": [
     [
      "Wasser-Nachbarn",

@@ -6,9 +6,16 @@ function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;ZAUTO=false;SHIFT=0
   if(state.rule&&!opt.plan){initRule();state.terr=[...TERR]}
   if(state.zl&&!opt.plan)initZl();
   state.events=opt.events||rollSeason(0);syncCtx();state.bpMax=bpBase();const sl=activeSlot();if(sl&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}startDay()}
+// 0.86a: Kronenfeld nur dort, wo ein 4-Felder-Gehege hinpasst: Zahl der verschiedenen Lagen aller 4-Felder-Formen (alle Drehungen) über dem Feld,
+// ohne Rand, Felsen, Eingang, Baugrube und mit Naturflächen höchstens eines Lebensraums. Bevorzugt ≥ 3 Lagen und kein Randfeld, sonst das Feld mit den meisten Lagen.
+let SHAPES4L=null;const SHAPES4=()=>SHAPES4L||(SHAPES4L=[...new Set(Object.keys(CARDS).filter(k=>CARDS[k].cat==='gehege'&&!CARDS[k].gone).map(k=>CARDS[k].shape))].filter(s=>SHAPES[s]&&SHAPES[s].cells.length===4));
+function crownFits(k,ek,bad){const[q0,r0]=k.split(',').map(Number),seen=new Set();for(const s of SHAPES4())for(let rot=0;rot<6;rot++){const C=rotCells(SHAPES[s].cells,rot);for(const[aq,ar]of C){const P=C.map(([q,r])=>[q-aq+q0,r-ar+r0]),key=P.map(c=>hk(...c)).sort().join(';');if(seen.has(key))continue;
+    const ok=P.every(([q,r])=>{const h=hk(q,r);return ONBOARD.has(h)&&TERR.get(h)!=='block'&&h!==ek&&!(bad&&bad(h))})&&new Set(P.map(c=>TERR.get(hk(...c))).filter(Boolean)).size<=1;if(ok)seen.add(key)}}return seen.size}
+function crownPick(L,ek,bad){if(!L.length)return null;let best=null,bn=-1;const edge=k=>{const[q,r]=k.split(',').map(Number);return isEdge(q,r)};
+  for(const pass of[0,1])for(const k of L){if(pass===0&&edge(k))continue;const n=crownFits(k,ek,bad);if(n>=3)return k;if(n>bn){bn=n;best=k}}return best||L[0]}
 function initZl(){const Z=state.zl,ek=state.rule&&state.rule.entry?hk(...state.rule.entry):null,all=BOARD.map(([q,r])=>hk(q,r)).filter(k=>TERR.get(k)!=='block'&&k!==ek),plain=shuffle(all.filter(k=>!TERR.get(k))),rest=shuffle(all);
   const R0=state.rule,bad=k=>!!R0&&R0.id==='achse'&&(R0.ax?R0.ax.includes(k):+k.split(',')[1]===R0.row),hd=(a,b)=>{const[q1,r1]=a.split(',').map(Number),[q2,r2]=b.split(',').map(Number),dq=q1-q2,dr=r1-r2;return(Math.abs(dq)+Math.abs(dr)+Math.abs(dq+dr))/2};
-  Z.crown=stAb('keine_krone')?null:(plain.find(k=>!bad(k))||plain[0]||null);{const ng=stW('gold',3)+(wrBon('gold')?1:0),g=[];for(const minD of[2,1])for(const k of rest){if(g.length>=ng)break;if(k===Z.crown||g.includes(k)||bad(k))continue;if([...g,Z.crown].filter(Boolean).every(x=>hd(x,k)>=minD))g.push(k)}Z.gold=g}{const io0=Object.keys(INSP).filter(k=>k!=='frei'&&!(k==='zucht'&&!(state.zoo>0)||k==='futter'&&!((state.zoo||0)>=2)||k==='gross'&&(state.zoo||0)<2)),io1=io0.filter(k=>!SEEN.i.has(k)),io=shuffle(io1.length>=(isZ2()?2:1)?io1:io0);Z.insp=io[0];Z.inspOpts=undefined;Z.hard=state.mode==='camp'&&(state.zoo||0)>=2;Z.wplus=state.mode==='camp'&&(state.zoo||0)>=4}const hasI=i=>(Z.inspOpts||[Z.insp]).includes(i);if(hasI('hab'))Z.inspHab=shuffle(habsNow().slice())[0];
+  Z.crown=stAb('keine_krone')?null:crownPick(plain.filter(k=>!bad(k)).concat(plain.filter(bad)),ek,bad);{const ng=stW('gold',3)+(wrBon('gold')?1:0),g=[];for(const minD of[2,1])for(const k of rest){if(g.length>=ng)break;if(k===Z.crown||g.includes(k)||bad(k))continue;if([...g,Z.crown].filter(Boolean).every(x=>hd(x,k)>=minD))g.push(k)}Z.gold=g}{const io0=Object.keys(INSP).filter(k=>k!=='frei'&&!(k==='zucht'&&!(state.zoo>0)||k==='futter'&&!((state.zoo||0)>=2)||k==='gross'&&(state.zoo||0)<2)),io1=io0.filter(k=>!SEEN.i.has(k)),io=shuffle(io1.length>=(isZ2()?2:1)?io1:io0);Z.insp=io[0];Z.inspOpts=undefined;Z.hard=state.mode==='camp'&&(state.zoo||0)>=2;Z.wplus=state.mode==='camp'&&(state.zoo||0)>=4}const hasI=i=>(Z.inspOpts||[Z.insp]).includes(i);if(hasI('hab'))Z.inspHab=shuffle(habsNow().slice())[0];
   Z.opts=[]}
 // Der nächste Zoo wird schon vor den Belohnungen ausgewürfelt und im Lauf gespeichert
 // Seeds: gleicher Seed = gleiche Zoos (Spielfeld, Regel, Winter-Bedingungen, Goldfelder), unabhängig von Entscheidungen
@@ -29,7 +36,7 @@ function logErr(where,e){try{console.warn('Zoolatro-Fehler',where,e);const st=St
 function showErr(t){try{let d=document.getElementById('errNote');if(!d){d=document.createElement('div');d.id='errNote';d.style.cssText='position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:9999;max-width:min(92vw,460px);background:#5a1f22;color:#fff;border:2px solid #ff5a5f;border-radius:12px;padding:9px 13px;font:600 13.5px/1.35 var(--f-body,sans-serif);box-shadow:0 8px 24px #0009';d.onclick=()=>d.remove();document.body.appendChild(d)}d.textContent=t;clearTimeout(d._t);d._t=setTimeout(()=>{try{d.remove()}catch(e){}},9000)}catch(e){}}
 const errTxt=run=>{const E=META.lastErr;if(!E)return'';if(run&&(run.t0?E.t<run.t0:E.v!==VERSION))return'';return`Letzter Fehler (${new Date(E.t).toLocaleString('de-DE')}, ${E.v}): ${E.w} – ${E.m} · ${E.sz} · ${E.s}`};
 window.addEventListener('error',ev=>{logErr('Unbekannt',ev.error||ev.message)});window.addEventListener('unhandledrejection',ev=>{logErr('Unbekannt (async)',ev.reason)});
-function runText(run){const L=[],nm=k=>CARDS[k]?CARDS[k].name:k,sn=i=>SEASONS[i]?SEASONS[i].name:i;if(run&&run.d4)L.push('🧪 Testlauf 4 Tage');if(run&&run.wr)L.push(`🌍 Weltreise (${runGoal(run)} Zoos) · Route: ${(run.wrRoute||[]).map(x=>`Zoo ${x.z+1} ${wrK(x.k).name} · ${x.ort}`).join(' → ')||'-'} · Boni: ${(run.boni||[]).map(k=>WRB[k]?WRB[k].name:k).join(', ')||'-'}${(run.wrGone||[]).length?' · Ausgewildert: '+run.wrGone.map(k=>CARDS[k]?CARDS[k].name:k).join(', '):''}`);
+function runText(run){const L=[],nm=k=>CARDS[k]?CARDS[k].name:k,sn=i=>SEASONS[i]?SEASONS[i].name:i;if(run&&run.d4)L.push('🧪 Testlauf 4 Tage');if(run&&run.wr)L.push(`🌍 Weltreise (${runGoal(run)} Zoos) · Route: ${(run.wrRoute||[]).map(x=>`Zoo ${x.z+1} ${x.ort} (${wrK(x.k).name})`).join(' → ')||'-'} · Boni: ${(run.boni||[]).map(k=>WRB[k]?WRB[k].name:k).join(', ')||'-'}${(run.wrGone||[]).length?' · Ausgewildert: '+run.wrGone.map(k=>CARDS[k]?CARDS[k].name:k).join(', '):''}`);
   L.push(`Zoolatro ${VERSION} · Lauf ${run.zl?(run.z2?'2.0 Stufe '+(run.stage||1):'Zoolatro'):'klassisch'}${run.seed?' · Seed '+run.seed:''}`);
   L.push(`Lebensräume: ${(run.habs||[]).map(h=>HAB[h]?HAB[h].label:h).join(', ')} · Deck: ${(DECKS[run.deckId]||{}).name||run.deckId}`);
   L.push(foodOnRun(run)?`Futter: an · Stufen ${Object.keys(run.fdl||{}).filter(h=>run.fdl[h]>0).map(h=>(HAB[h]?HAB[h].label:h)+' '+run.fdl[h]).join(', ')||'-'}${(run.fdlog||[]).length?' · '+run.fdlog.join(' · '):''}`:`Futter: ${run.tut?'-':'aus (Test)'}`);
@@ -154,7 +161,9 @@ RULES.auswild={icon:'🦓',name:'Auswilderung',wr:1,text:()=>'Am 1. Sommertag un
 let WRCTX=null; // nur beim Vorab-Erzeugen eines Ziels: {foc, rule, rw, eu}
 const wrRun=()=>{try{const r=runOf();return r&&r.wr&&!r.tut?r:null}catch(e){return null}},wrOn=()=>!!wrRun();
 const wrBon=k=>{if(WRCTX&&WRCTX.rw===k)return true;const r=wrRun();return!!(r&&(r.boni||[]).includes(k))};
-const wrK=k=>WRK.find(x=>x.id===k)||{id:k,icon:'🌍',name:k,foki:[],orte:[]};
+const WRREG=WR_DATEN.regionen,WRALT=WR_DATEN.alt||{};
+const wrK=k=>WRK.find(x=>x.id===(WRALT[k]||k))||{id:k,icon:'🌍',name:k}; // 0.86a: alte Kontinent-Kennungen aus 0.85a (antarktis, himalaya) zeigen auf den neuen Kontinent
+const wrKOf=x=>WRALT[x.k]||x.k; // Kontinent eines Routen-Eintrags/Ziels
 // Lauflänge: 4 Zoos, +1 je freigeschaltetem Lebensraum aus lauf.plus (beim Laufstart festgelegt)
 const wrGoalN=sl=>WRL.zoos+WRL.plus.filter(h=>{try{return habOpen(sl,h)}catch(e){return false}}).length;
 const runGoal=run=>run&&run.wr?(run.wrN||WRL.zoos):CAMP_GOAL;
@@ -167,17 +176,19 @@ const wrNatOf=terr=>{const o={};for(const[,v]of terr||[])if(HAB[v])o[v]=(o[v]||0
 // Auslosung der Ziele: möglichst 3 (ab Stufe 2: 2), nie nur schwere, vor Zoo 1 nur leicht/mittel; Kontinent nur mit gewähltem Schwerpunkt; Europa füllt auf
 function wrRollOpts(run){const f=()=>wrRollOpts0(run);run.wrOpts=run.seed?withSeed(run.seed+'|wr|'+run.zoo+'|'+(run.stage||1),f):f();return run.wrOpts}
 function wrRollOpts0(run){const sl=activeSlot(),H=run.habs||DEFHABS,n=(run.stage||1)>=2?WRL.ziele_ab_stufe2:WRL.ziele,first=(run.zoo||0)===0,d4=isD4(run),pick=a=>a[Math.floor(Math.random()*a.length)];
-  const C=shuffle(WRK.filter(K=>!K.ruhe&&(!K.frei||habOpen(sl,K.frei))&&K.foki.some(h=>H.includes(h)))).slice(0,n),EU=WRK.find(K=>K.ruhe);
-  const opts=C.map(K=>({k:K.id,foc:pick(K.foki.filter(h=>H.includes(h)))}));if(opts.length<n&&EU)opts.push({k:EU.id,foc:null,eu:1});
+  // 0.86a: Ziele sind Regionen; jeder Kontinent höchstens einmal pro Lauf (auch Europa), Ziele einer Wahl von verschiedenen Kontinenten
+  const done=new Set((run.wrRoute||[]).filter(x=>x.z<run.zoo).map(wrKOf)),okH=h=>H.includes(h)&&(()=>{try{return habOpen(sl,h)}catch(e){return true}})(),regs=K=>WRREG.filter(r=>r.k===K.id&&r.foki.some(okH)&&(!r.frei||r.frei.some(h=>{try{return habOpen(sl,h)}catch(e){return true}})));
+  const C=shuffle(WRK.filter(K=>!K.ruhe&&!done.has(K.id)&&regs(K).length)).slice(0,n),EU=WRK.find(K=>K.ruhe);
+  const opts=C.map(K=>{const r=pick(regs(K));return{k:K.id,r:r.id,ort:r.name,foc:pick(r.foki.filter(okH))}});
+  if(EU&&(opts.length<n&&!done.has(EU.id)||!opts.length))opts.push({k:EU.id,foc:null,eu:1,ort:pick(EU.staedte||[EU.name])});
   const R=opts.filter(o=>!o.eu),lvs=first?['leicht','mittel']:['leicht','mittel','schwer'];R.forEach(o=>{o.lv=pick(lvs)});if(R.length&&R.every(o=>o.lv==='schwer'))pick(R).lv=pick(['leicht','mittel']);
   const S=seenOf(run,run.zoo),used=new Set();for(const o of R){const all=Object.keys(WRLV).filter(id=>WRLV[id]===o.lv&&RULES[id]&&!RULES[id].gone&&!(d4&&id==='locker')&&!used.has(id)),fr=all.filter(id=>!S.r.has(id));o.rule=pick(fr.length?fr:all)||null;used.add(o.rule)}
   const uR=new Set(),food=foodOnRun(run);for(const o of R){if(o.lv==='leicht'){o.rw=null;continue}let L=o.lv==='schwer'?WRPERM.filter(k=>!(run.boni||[]).includes(k)&&!uR.has(k)):[];if(!L.length)L=WRNOW.filter(k=>!uR.has(k)&&!(k==='speisekammer'&&!food));o.rw=pick(L)||null;if(o.rw)uR.add(o.rw)}
-  const seenP=new Set((run.wrRoute||[]).map(x=>x.ort));for(const o of opts){const K=wrK(o.k),L=K.orte.filter(x=>!seenP.has(x));o.ort=pick(L.length?L:K.orte)||K.name;seenP.add(o.ort)}
   run.maps=run.maps||{};for(const o of opts){delete run.maps[run.zoo];WRCTX={foc:o.foc,rule:o.rule||null,rw:o.rw||null,eu:!!o.eu};try{o.plan=rollPlan0(run)}finally{WRCTX=null}o.plan.map=run.maps[run.zoo];o.nat=wrNatOf(o.plan.terr)}delete run.maps[run.zoo];
   return opts}
 // Ziel wählen: Plan übernehmen, Belohnung geben (dauerhaft in run.boni, sofort über Geschenke/Auswahl/Förderprogramm), dann Zoo starten
 function wrGo(run,a,i){const o=(run.wrOpts||[])[i];if(!o||!o.plan)return;run.plan=o.plan;run.maps=run.maps||{};run.maps[run.zoo]=o.plan.map;
-  run.wrDest={k:o.k,ort:o.ort,foc:o.foc||null,rule:o.rule||null,lv:o.lv||null,rw:o.rw||null,nat:o.nat||{},eu:o.eu?1:undefined,z:run.zoo};(run.wrRoute=run.wrRoute||[]).push({k:o.k,ort:o.ort,z:run.zoo});run.wrOpts=null;
+  run.wrDest={k:o.k,r:o.r,ort:o.ort,foc:o.foc||null,rule:o.rule||null,lv:o.lv||null,rw:o.rw||null,nat:o.nat||{},eu:o.eu?1:undefined,z:run.zoo};(run.wrRoute=run.wrRoute||[]).push({k:o.k,ort:o.ort,z:run.zoo});run.wrOpts=null;
   if(o.rw&&WRPERM.includes(o.rw)){run.boni=run.boni||[];if(!run.boni.includes(o.rw))run.boni.push(o.rw)}
   const G={speisekammer:['gsack','gsack'],bewerber:['gprofi'],bau:['gumb','gumb']}[o.rw];if(G)run.gifts=(run.gifts||[]).concat(G);
   if(o.rw==='mitbringsel'){a.step='wrgift';a.wrCards=wrGiftCards(run);saveMeta();renderScreen();window.scrollTo(0,0);return}
@@ -205,27 +216,24 @@ function wrAuswild(){const R=state&&state.rule;if(!R||R.id!=='auswild'||!wrOn()|
 const wrAusHtml=A=>{const c=CARDS[A.key];return`<div class="wpi">🦓</div><h3>Auswilderung</h3><p class="wpw">${ic(c)} ${c.name}${A.lvl>1?' '+ROMAN[A.lvl]:''}</p><p class="wpr">Dieses Gehege wurde in die Wildnis entlassen. Das Feld ist wieder frei${A.out?', die Karte hat dein Lauf-Deck verlassen':''}.</p><p class="wph">🌍 Auflage Auswilderung: das passiert am 1. Sommertag und am 1. Wintertag.</p><button class="btn main" data-bpok>Weiter ▸</button>`};
 // Einblendung beim Zoo-Start (ersetzt die Auflage-Einblendung)
 function wrWelcomeHtml(){const D=state.wrDest;if(!D)return'';const K=wrK(D.k),R=state.rule&&RULES[state.rule.id],B=D.rw&&WRB[D.rw],perm=B&&WRPERM.includes(D.rw),nat=D.nat||{},tot=Object.values(nat).reduce((a,b)=>a+b,0);
-  return`<div class="wpi">${K.icon}</div><h3>Willkommen in ${K.name}!</h3><p class="wph"><b>${esc(D.ort||'')}</b> · ${D.foc&&HAB[D.foc]?`Viel ${HAB[D.foc].icon} ${HAB[D.foc].label} im Gelände: ${nat[D.foc]||0} von ${tot} Naturflächen`:`Ruhe-Zoo: ${tot} Naturflächen, gleich verteilt`}</p>
+  return`<div class="wpi">${K.icon}</div><h3>${esc(D.ort||K.name)}</h3><p class="wph"><b>Willkommen!</b> ${K.icon} ${K.name} · ${D.foc&&HAB[D.foc]?`Viel ${HAB[D.foc].icon} ${HAB[D.foc].label} im Gelände: ${nat[D.foc]||0} von ${tot} Naturflächen`:`Ruhe-Zoo: ${tot} Naturflächen, gleich verteilt`}</p>
     ${R?`<div class="wrrule"><b>${D.lv?`<span class="wrlv ${WRLVN[D.lv]}">${D.lv}</span> `:''}${R.icon} ${R.name}</b><br>${R.text(state.rule)}</div>`:'<div class="wrrule">Keine Auflage: Hier darfst du frei bauen.</div>'}
     ${B?`<div class="wrrule rw"><b><span class="wrbt ${perm?'p':'i'}">${perm?'dauerhaft':'sofort'}</span> ${B.icon} ${B.name}</b><br>${B.text}${D.prog&&PROGS[D.prog]?` Diesmal: ${PROGS[D.prog].icon} <b>${PROGS[D.prog].name}</b>.`:''}</div>`:''}
     <button class="btn main" data-bpok>Los geht’s</button>`}
-// Zoo-Menü: Reiseziel und gesammelte Boni
-function wrZooBox(box){const run=wrRun();if(!run)return'';const D=state.wrDest,K=D?wrK(D.k):null,B=run.boni||[];
-  return box('zwr',K?K.icon:'🌍','Weltreise'+(K?': '+K.name+' · '+esc(D.ort||''):''),`${D&&D.foc&&HAB[D.foc]?'Schwerpunkt '+HAB[D.foc].icon+' '+HAB[D.foc].label+'. ':D?'Ruhe-Zoo. ':''}Zoo ${(state.zoo||0)+1} von ${runGoal(run)}.<br><b>Deine Boni:</b> ${B.length?B.map(k=>`${WRB[k].icon} ${WRB[k].name} (${WRB[k].text})`).join(' · '):'noch keine'}`,`Zoo ${(state.zoo||0)+1}/${runGoal(run)} · Boni: ${B.length?B.map(k=>WRB[k].icon).join(' '):'keine'}`)}
 // Kontinent-Wahl (zwischen den Zoos und vor Zoo 1)
 function wrPickHtml(run,a,head){if(!run.wrOpts)wrRollOpts(run);const opts=run.wrOpts||[],z=run.zoo||0,N=Math.max(runGoal(run),z+1),sel=a.wrSel!=null&&opts[a.wrSel]?a.wrSel:null,RT=run.wrRoute||[];
-  let route='';for(let i=0;i<N;i++){const r=RT.find(x=>x.z===i),cls=i<z?'done':i===z?'now':'';route+=(i?`<i class="wrln${i<=z?' done':''}"></i>`:'')+`<div class="wrst ${cls}"><b>${i<z&&r?wrK(r.k).icon:i===z?i+1:i===N-1?'🏁':i+1}</b><span>${i<z&&r?wrK(r.k).name:i===z?'?':'Zoo '+(i+1)}</span></div>`}
+  let route='';for(let i=0;i<N;i++){const r=RT.find(x=>x.z===i),cls=i<z?'done':i===z?'now':'';route+=(i?`<i class="wrln${i<=z?' done':''}"></i>`:'')+`<div class="wrst ${cls}"><b>${i<z&&r?wrK(r.k).icon:i===z?i+1:i===N-1?'🏁':i+1}</b><span>${i<z&&r?esc(r.ort||wrK(r.k).name):i===z?'?':'Zoo '+(i+1)}</span></div>`}
   const hc={};for(const k of run.deck){const c=CARDS[k];if(c&&c.cat==='gehege'&&c.hab)hc[c.hab]=(hc[c.hab]||0)+1}
   const B=run.boni||[];
   const card=(o,i)=>{const K=wrK(o.k),pr=o.plan||{},R=o.rule&&RULES[o.rule],Bw=o.rw&&WRB[o.rw],perm=Bw&&WRPERM.includes(o.rw),nat=o.nat||{},hs=Object.keys(nat).sort((x,y)=>(y===o.foc)-(x===o.foc)||nat[y]-nat[x]),tot=hs.reduce((t,h)=>t+nat[h],0);
     const m={cells:pr.cells||[],terr:new Map(pr.terr||[])};
     return`<button class="wrc${sel===i?' sel':''}" data-wrsel="${i}" aria-pressed="${sel===i}"><div class="wrmap">${mapPreviewSvg(m,{gold:pr.gold,crown:pr.crown,entry:pr.rule&&pr.rule.entry,half:pr.rule&&pr.rule.id==='halb'?pr.rule.side:0})}</div>
-      <div class="wrnm">${K.icon} ${K.name}<small>${esc(o.ort||'')}</small></div>
+      <div class="wrnm">${esc(o.ort||K.name)}<small>${K.icon} ${K.name}</small></div>
       <div class="wrnat"><div class="wrbar">${hs.map(h=>`<span style="width:${(nat[h]/Math.max(1,tot)*100).toFixed(1)}%;background:var(--h-${h})"></span>`).join('')}</div><div class="wrnt">Naturflächen ${tot}: ${hs.map(h=>h===o.foc?`<b>${HAB[h].icon} ${nat[h]}</b>`:`${HAB[h].icon} ${nat[h]}`).join(' · ')}</div></div>
       <div class="wrnt">${o.foc&&HAB[o.foc]?`Schwerpunkt <b>${HAB[o.foc].icon} ${HAB[o.foc].label}</b>`:'<b>Ruhe-Zoo</b>: kein Schwerpunkt'}</div>
       <div class="wrrow"><div class="wrbox"><span class="k">Auflage${R&&o.lv?` <span class="wrlv ${WRLVN[o.lv]}">${o.lv}</span>`:''}</span><span class="v">${R?R.icon+' '+R.name:'keine'}</span><span class="t">${R?withRot(false,()=>R.text(pr.rule||{id:o.rule})):'Hier darfst du frei bauen.'}</span></div>
         <div class="wrbox rw${Bw?'':' none'}"><span class="k">Belohnung${Bw?` <span class="wrbt ${perm?'p':'i'}">${perm?'dauerhaft':'sofort'}</span>`:''}</span><span class="v">${Bw?Bw.icon+' '+Bw.name:'keine'}</span><span class="t">${Bw?Bw.text:o.eu?'Ruhe-Zoo ohne Auflage.':'Dafür eine leichte Auflage.'}</span></div></div></button>`};
-  const so=sel!=null?wrK(opts[sel].k):null;
+  const so=sel!=null?{icon:wrK(opts[sel].k).icon,name:opts[sel].ort||wrK(opts[sel].k).name}:null;
   return`${head||''}<h2 class="wrh">🌍 Wohin geht die Reise?</h2><p class="wrsub">Zoo ${z+1} von ${N} · tippen zum Auswählen</p>
     <div class="wrroute" aria-label="Reiseroute">${route}</div>
     <div class="wrstrip"><b>Deine Gehege-Karten</b>${Object.keys(HAB).filter(h=>hc[h]).sort((x,y)=>hc[y]-hc[x]).map(h=>`<span class="wrchip">${HAB[h].icon} ${hc[h]}</span>`).join('')||'<span class="wrchip">keine</span>'}</div>
@@ -352,28 +360,54 @@ function zlMarks(){const Z=state.zl;if(!Z)return'';let o='';const idx=mkIndex(st
     if(full){const g=giveOf(b,state.buildings);if(g.a>0||g.s>0)o+=`<circle class="zgive" cx="${(cx-4.6).toFixed(2)}" cy="${(cy+4.8).toFixed(2)}" r="2.6"/><text class="tic zgt" x="${(cx-4.6).toFixed(2)}" y="${(cy+4.8).toFixed(2)}">＋</text>`}}
   for(const b of state.buildings)if(b.ed){const[cx,cy]=centroid(b.cells);[...b.ed].forEach((e,i)=>{if(!EDS[e])return;const x=(cx+4.8-i*5.4).toFixed(2),y=(cy-4.6).toFixed(2);o+=`<circle class="zedb ${e}" cx="${x}" cy="${y}" r="3.3"/><text class="tic zed" x="${x}" y="${y}">${EDS[e].icon}</text>`})}
   return o}
-function zooBoxHtml(){const Z=state.zl,box=ZBOX,R=state.rule&&RULES[state.rule.id],rocks=[...TERR.values()].filter(v=>v==='block').length;
-  let h=`<h2>${Z?'🃏':'🗺️'} Zoo ${(state.zoo||0)+1}: Dein Zoo</h2><div class="zboxes">`;
-  if(Z&&wrOn())h+=wrZooBox(box);
-  if(R){const G=wrOn()&&wrGoal();h+=box('zr',R.icon,'Auflage: '+R.name,R.text(state.rule)+(G?` <b>Stand: ${G.n} von ${G.need}${G.unit}${G.ok?' ✓':''}</b>`:''))}
-  if(Z&&habRulesOn())h+=box('zhr','🧭','Lebensraum-Regeln',habsNow().map(x=>HABRULE[x]).join('<br>'),habsNow().map(x=>HAB[x].icon).join(' ')+' Regeln');
-  if(Z&&Z.ban)h+=box('zb','💸','Teuerung',`${zlTypeName(Z.ban)} kosten dieses Jahr <b>+1 Baupunkt</b> je Karte.`,`${zlTypeName(Z.ban)} +1 BP`);
-  if(Z)h+=wSwapBtn();
-  if(Z)h+=winterBox(Z,box,CTX.winter?'':' <button class="btn sub" id="mPeek" style="margin-top:6px;display:block">Betroffene Gehege/Gebäude zeigen</button>');
-  if(Z&&isZ2()){const S=stOf();{const dk=dkNow();if(dk&&dk!=='grund')h+=box('zdk',DECKS[dk].icon,'Profil-Regel: '+DECKS[dk].name,DECKRULE[dk])}h+=box('zt','🏔️','Stufe '+S,S>1?STAGES.slice(2,S+1).join(' · '):'Grundstufe ohne Verschärfung',S>1?(S-1)+' Verschärfung'+(S>2?'en':'')+' dazu':'Grundstufe');
-    h+=box('zm','🍼','Zucht','Stehen zwei gleiche Gehege nebeneinander und ist eines davon mindestens Stufe II, kommt am Ende der Jahreszeit ein <b>Jungtier</b> ins Lauf-Deck: 1 Feld, halber Grundwert, gleiche Eigenschaften. Neben einem Gehege seiner Elternart zählt es doppelt. Eins pro Art und Zoo, höchstens 3 im Deck.','2 gleiche nebeneinander, eines Stufe II')}
-  if(Z){const pu=zlPurity(state.buildings,mkIndex(state.buildings)),m3=state.rule&&state.rule.id==='max3',x=n=>'×'+String(+purF(n).toFixed(2)).replace('.',',');
-    h+=box('zpu','🧬','Reinheit','Ab '+PURN+' <b>verschiedenen</b> Gehege-Arten eines Lebensraums, die zusammenhängen (Wüste: irgendwo im Zoo): <b>×1,15 Natur</b> für den ganzen Zoo, je weiterer Art +0,15 (höchstens ×1,6). Gleiche Arten halten die Gruppe zusammen, zählen aber nicht mit.<br>'+(m3?'<i class="b">Mit der Auflage in diesem Zoo nicht erreichbar.</i>':pu.n>=PURN?`<i class="g">Aktuell: ${pu.n} ${HAB[pu.hab].label}-Gehege · ${x(pu.n)} Natur</i>`:`Größte Gruppe: ${pu.n||0}${pu.hab?' '+HAB[pu.hab].label+'-Gehege':''} · noch ${PURN-(pu.n||0)} bis ×1,15 Natur`),m3?'hier nicht erreichbar':pu.n>=PURN?`${pu.n} ${HAB[pu.hab].label} · ${x(pu.n)} N`:`${pu.n||0} von ${PURN}${pu.hab?' '+HAB[pu.hab].label:''}`);
-    // 0.80a: kein Freischalt-Kasten mehr in der Zoo-Übersicht (steht auf dem Sieg-Bildschirm und im Zoo-Buch)
-    {const v=vielfalt(state.buildings),fx=f=>'×'+String(+f.toFixed(2)).replace('.',',');h+=box('zvf','🎨','Vielfalt','Stehen von <b>allen Lebensräumen</b> mindestens 2 verschiedene Gehege-Arten im Zoo: je 2 Arten ×1,1 Natur, je 3 ×1,15, je 4 ×1,2, je 5 ×1,25. Der Lebensraum mit den wenigsten Arten zählt. Es gilt Vielfalt oder Reinheit, das Bessere.<br>'+`<i class="${v.f>1?'g':''}">Aktuell: ${vfTxt(v)}${v.f>1?' · '+fx(v.f)+' Natur':''}</i>`,v.f>1?`${vfTxt(v)} · ${fx(v.f)} N`:vfTxt(v))}
-    if(foodOn())h+=box('zfd','🧺','Futter',foodBoxHtml());
-    const gs=(state.spec||[]).filter(id=>SPEC[id]&&SPEC[id].zl);if(gs.length)h+=box('zg','📈','Wachsende Spezialisten',gs.map(id=>{if(SPEC[id].grw){const f=grwF(SPEC[id].grw);return`${SPEC[id].icon} ${SPEC[id].name}: <b>×${mxs(f)} ${SPEC[id].grw==='nat'?'N':'B'}</b> · ${grwN(SPEC[id].grw)} ${SPEC[id].grw==='nat'?'Naturschutz-Gebäude':'Gastro/Attraktionen'} im Lauf gebaut${f>=GRWMAX?' · Obergrenze erreicht':''}`}if(typeof SPEC[id].mult!=='function')return`${SPEC[id].icon} ${SPEC[id].name}`;const m=SPEC[id].mult()||{};return`${SPEC[id].icon} ${SPEC[id].name}: <b>×${mxs(m.ma||m.ms||1)} ${m.ms?'N':'B'}</b> · ${id==='z_bank'?fmt(Math.max(0,state.money))+' Taler':id==='z_rekord'?(Z.grow[id]||0)+' frühe Ziele':(Z.grow[id]||0)+' Gehege gebaut'}${(m.ma||m.ms||1)>=(id==='z_bank'?2:SPEC[id].hg?HGMAX:GROWMAX)?' · Obergrenze erreicht':''}`}).join('<br>'));
-    if(Z.gift&&CARDS[Z.gift])h+=box('zp','🎁','Geschenk vom Raubtierhaus',`${CARDS[Z.gift].icon} ${CARDS[Z.gift].name} ist in dein Deck gemischt und bleibt für den ganzen Lauf.`)}
-  for(const e of state.events||[])if(EVENTS[e.id])h+=box('ze',evIcon(e),`Ereignis im ${seOf(state.season).name}: ${evName(e)}`,evFx(e).map(l=>l.replace('|',' ')).join(' · ')+'<br>Gilt die ganze Jahreszeit, auch für bereits Gebautes.',evFx(e).map(l=>l.replace('|',' ')).join(' · '));
-  if(state.wish&&WISH[state.wish.id]){const W=state.wish,D=WISH[W.id];h+=box('ze',D.ic(W),'Besucherwunsch im '+seOf(state.season).name,`${D.t(W)}<br>Belohnung: <b>${wRwTxt(wRw(W))}</b>${W.ok?'<br><i class="g">✓ Erfüllt</i>':''}`,W.ok?'✓ erfüllt':D.t(W))}
-  else if(!(state.events||[]).length&&state.season!==3)h+=box('ze',SEAS_ICON[state.season],seOf(state.season).name,state.zl?'Im Frühling, Sommer und Herbst gibt es einen Besucherwunsch, im Winter gilt die Winter-Bedingung.':'Kein Ereignis in dieser Jahreszeit.');
-  h+=zlTerrTile(box);
-  return h+`</div><p class="zhint">Tippe auf eine Kachel für den vollen Text.</p>${zlBackOk()?`<div class="tnav" style="justify-content:space-between"><button class="btn sub" id="zlBack">◂ Zurück</button><button class="btn main" id="mClose">Los geht's</button></div>`:`<button class="btn main" id="mClose">Los geht's</button>`}`}
+// ===== 0.86a: Zoo-Menü aufgeräumt (Entwurf docs/stil/zoomenue-entwurf.html) =====
+// „Dieser Zoo“ (feste Reihenfolge: Weltreise-Ziel, Auflage, Thema der Jahreszeit, Winter) · Chips · „Dein Stand“ (aufklappbar, aktueller Wert) · Knopf „📖 Regeln“ (ZRULES)
+let ZRULES=0;
+const ZT=(cls,ic,t,txt,st,stc,extra)=>`<div class="ztl ${cls}"><span class="zti">${ic}</span><div class="ztx"><b>${t}</b><span>${txt}</span>${extra||''}</div>${st!=null&&st!==''?`<span class="zst ${stc||''}">${st}</span>`:''}</div>`;
+const ZD=(ic,k,sm,v,vc,x)=>`<details class="zdt"><summary><span class="zdi">${ic}</span><span class="zdk">${k}${sm?`<small>${sm}</small>`:''}</span><span class="zdv ${vc||''}">${v}</span></summary><div class="zdx">${x}</div></details>`;
+const ZTXT={zucht:'Stehen zwei gleiche Gehege nebeneinander und ist eines davon mindestens Stufe II, kommt am Ende der Jahreszeit ein <b>Jungtier</b> ins Lauf-Deck: 1 Feld, halber Grundwert, gleiche Eigenschaften. Neben einem Gehege seiner Elternart zählt es doppelt. Eins pro Art und Zoo, höchstens 3 im Deck.',
+  rein:()=>'Ab '+PURN+' <b>verschiedenen</b> Gehege-Arten eines Lebensraums, die zusammenhängen (Wüste: irgendwo im Zoo): <b>×1,15 Natur</b> für den ganzen Zoo, je weiterer Art +0,15 (höchstens ×1,6). Gleiche Arten halten die Gruppe zusammen, zählen aber nicht mit.',
+  viel:'Stehen von <b>allen Lebensräumen</b> mindestens 2 verschiedene Gehege-Arten im Zoo: je 2 Arten ×1,1 Natur, je 3 ×1,15, je 4 ×1,2, je 5 ×1,25. Der Lebensraum mit den wenigsten Arten zählt. Es gilt Vielfalt oder Reinheit, das Bessere.'};
+// Zuchtpaare, die am Ende der Jahreszeit Nachwuchs bekämen (wie z2Breed, ohne Wirkung)
+function zuchtNow(){try{const run=runOf();if(!run||!run.z2||run.tut||state.mode!=='camp')return[];const idx=mkIndex(state.buildings),L=[],jt=state.z2jt||[];let room=3-cnt(run.deck,k=>CARDS[k]&&CARDS[k].jt);
+  for(const b of state.buildings){const c=CARDS[b.key];if(room<=0)break;if(c.cat!=='gehege'||c.jt||c.ms||jt.includes(b.key)||L.includes(b.key))continue;const m=nbrs(b,idx).find(n=>n.key===b.key);if(!m||Math.max(b.lvl||1,m.lvl||1)<2||!CARDS[b.key+'~j'])continue;L.push(b.key);room--}return L}catch(e){return[]}}
+function zooBoxHtml(rail){if(ZRULES&&!rail)return zooRulesHtml();const Z=state.zl,R=state.rule&&RULES[state.rule.id],run=wrRun(),D=run&&state.wrDest&&state.wrDest.z===state.zoo?state.wrDest:null,K=D?wrK(D.k):null,se=seOf(state.season);
+  let h=`<h2>${Z?'🃏':'🗺️'} Zoo ${(state.zoo||0)+1}${D?' · '+esc(D.ort||K.name):''}</h2><p class="zwhen">${SEAS_ICON[state.season]} ${se.name}, Tag ${Math.min((state.day||0)+1,DAYS)} von ${DAYS}${K?' · '+K.icon+' '+K.name:''}</p><h3 class="zsec">Dieser Zoo</h3><div class="zbig">`;
+  // 1) Weltreise-Ziel
+  if(Z&&run){const nat=D&&D.nat||{},tot=Object.values(nat).reduce((a,b)=>a+b,0);h+=ZT('zwr',K?K.icon:'🌍',D&&D.foc&&HAB[D.foc]?`Schwerpunkt ${HAB[D.foc].icon} ${HAB[D.foc].label}`:D?'Ruhe-Zoo':'Weltreise',`🌍 Weltreise · Zoo ${(state.zoo||0)+1} von ${runGoal(run)}${D?' · '+(D.foc&&HAB[D.foc]?`${nat[D.foc]||0} von ${tot} Naturflächen sind ${HAB[D.foc].label}`:`${tot} Naturflächen, gleich verteilt`):''}`)}
+  // 2) Auflage (Ziel-Auflagen mit Stand, rot solange offen)
+  if(R){const G=wrOn()&&wrGoal();h+=ZT('zau',R.icon,`Auflage: ${R.name}${D&&D.lv&&D.rule===state.rule.id?` <span class="wrlv ${WRLVN[D.lv]}">${D.lv}</span>`:''}`,R.text(state.rule),G?(G.ok?'✓ ':'')+G.n+'/'+G.need:'',G?(G.ok?'ok':'open'):'')}
+  // 3) Thema der Jahreszeit: Besucherwunsch, sonst Ereignisse, sonst ein kurzer Hinweis
+  if(state.wish&&WISH[state.wish.id]){const W=state.wish,Dw=WISH[W.id],n=Math.min(Dw.need,Dw.n(W));h+=ZT('zwi',Dw.ic(W),'Besucherwunsch',`${Dw.t(W)} · Belohnung ${wRwTxt(wRw(W))}`,W.ok?'✓':Dw.end?'…':n+'/'+Dw.need,W.ok?'ok':'')}
+  else if((state.events||[]).some(e=>EVENTS[e.id])){for(const e of state.events)if(EVENTS[e.id])h+=ZT('zev',evIcon(e),`Ereignis im ${se.name}: ${evName(e)}`,evFx(e).map(l=>l.replace('|',' ')).join(' · ')+' · gilt die ganze Jahreszeit, auch für Gebautes.')}
+  else h+=ZT('zwi',SEAS_ICON[state.season],se.name,!Z?'Kein Ereignis in dieser Jahreszeit.':state.season===3?'Im Winter gilt die Winter-Bedingung.':run?(state.season===0?'Im Frühling zählt die Auflage. Der Besucherwunsch kommt im Sommer.':'Im Herbst wird der Winter angekündigt.'):'In dieser Jahreszeit gibt es keinen Besucherwunsch.');
+  // 4) Winter
+  if(Z){const peek=CTX.winter?'':'<button class="btn sub" id="mPeek">Betroffene Gehege/Gebäude zeigen</button>';
+    if(inspHid())h+=ZT('zwt','❄️','Winter','Die Winter-Bedingung wird zu Beginn des Herbstes angekündigt (❄️ Wetterbericht).','Herbst','mu');
+    else if(Z.inspOpts&&!Z.inspPicked)h+=ZT('zwt','❄️','Winter: '+Z.inspOpts.map(i=>INSP[i].name).join(' oder '),Z.inspOpts.map(i=>`<b>${inspIcon({insp:i})} ${INSP[i].name}:</b> ${inspText({...Z,insp:i})}`).join('<br>')+'<br>Du wählst eine davon, wenn der Winter beginnt.','Wahl','mu');
+    else if(Z.insp&&INSP[Z.insp])h+=ZT('zwt',inspIcon(Z),'Winter: '+INSP[Z.insp].name,inspText(Z),CTX.winter?'jetzt':'','mu',peek+wSwapBtn())}
+  h+='</div>';
+  // Chips: dauerhafte Boni, Teuerung, Geschenk
+  {const C=[];if(run)for(const k of run.boni||[])if(WRB[k])C.push(`<span class="zch p" title="${WRB[k].text}">${WRB[k].icon} ${WRB[k].name}</span>`);if(Z&&Z.ban)C.push(`<span class="zch">💸 ${zlTypeName(Z.ban)} +1 BP</span>`);if(Z&&Z.gift&&CARDS[Z.gift])C.push(`<span class="zch">🎁 Geschenk: ${CARDS[Z.gift].icon} ${CARDS[Z.gift].name}</span>`);if(C.length)h+=`<div class="zchips">${C.join('')}</div>`}
+  // Dein Stand
+  if(Z){const idx=mkIndex(state.buildings),pu=zlPurity(state.buildings,idx),m3=state.rule&&state.rule.id==='max3',x=n=>'×'+String(+purF(n).toFixed(2)).replace('.',','),v=vielfalt(state.buildings),fx=f=>'×'+String(+f.toFixed(2)).replace('.',',');
+    h+=`<h3 class="zsec">Dein Stand <small>antippen für Erklärung</small></h3><div class="zstand">`;
+    h+=ZD('🧬','Reinheit',m3?'mit dieser Auflage nicht erreichbar':pu.hab?`${HAB[pu.hab].icon} ${pu.n} Arten`:'noch keine Gruppe',!m3&&pu.n>=PURN?x(pu.n)+' N':'–',!m3&&pu.n>=PURN?'n':'o',ZTXT.rein()+'<br>'+(m3?'<i class="b">Mit der Auflage in diesem Zoo nicht erreichbar.</i>':pu.n>=PURN?`Bei dir: ${pu.n} ${HAB[pu.hab].label}-Gehege · ${x(pu.n)} Natur.`:`Größte Gruppe: ${pu.n||0}${pu.hab?' '+HAB[pu.hab].label+'-Gehege':''} · noch ${PURN-(pu.n||0)} bis ×1,15 Natur.`));
+    h+=ZD('🎨','Vielfalt',vfTxt(v)||'noch keine Gehege',v.f>1?fx(v.f)+' N':'–',v.f>1?'n':'o',ZTXT.viel+`<br>Bei dir: ${vfTxt(v)||'–'}${v.f>1?' · '+fx(v.f)+' Natur':''}.`);
+    if(isZ2()){const zu=zuchtNow();h+=ZD('🍼','Zucht',zu.length?zu.map(k=>CARDS[k].name).join(', '):'kein Paar',zu.length?zu.length+' möglich':'–',zu.length?'n':'o',ZTXT.zucht)}
+    const gs=(state.spec||[]).filter(id=>SPEC[id]&&SPEC[id].zl);if(gs.length)h+=ZD('📈','Wachsende Spezialisten',gs.map(id=>SPEC[id].icon).join(' '),gs.length,'b',gs.map(id=>{if(SPEC[id].grw){const f=grwF(SPEC[id].grw);return`${SPEC[id].icon} ${SPEC[id].name}: <b>×${mxs(f)} ${SPEC[id].grw==='nat'?'N':'B'}</b> · ${grwN(SPEC[id].grw)} ${SPEC[id].grw==='nat'?'Naturschutz-Gebäude':'Gastro/Attraktionen'} im Lauf gebaut${f>=GRWMAX?' · Obergrenze erreicht':''}`}if(typeof SPEC[id].mult!=='function')return`${SPEC[id].icon} ${SPEC[id].name}`;const m=SPEC[id].mult()||{};return`${SPEC[id].icon} ${SPEC[id].name}: <b>×${mxs(m.ma||m.ms||1)} ${m.ms?'N':'B'}</b> · ${id==='z_bank'?fmt(Math.max(0,state.money))+' Taler':id==='z_rekord'?(Z.grow[id]||0)+' frühe Ziele':(Z.grow[id]||0)+' Gehege gebaut'}${(m.ma||m.ms||1)>=(id==='z_bank'?2:SPEC[id].hg?HGMAX:GROWMAX)?' · Obergrenze erreicht':''}`}).join('<br>'));
+    if(foodOn()){const r2=runOf(),L=(r2&&r2.fdl)||{},hs=Object.keys(L).filter(k=>L[k]>0);h+=ZD('🧺','Futter',hs.length?'Lebensraum-Futter':'noch keins',hs.length?hs.map(k=>HAB[k].icon+' '+L[k]).join(' '):'–',hs.length?'n':'o',foodBoxHtml())}
+    if(habRulesOn())h+=ZD('🧭','Lebensraum-Regeln',habsNow().map(k=>HAB[k].icon).join(' '),habsNow().length,'o',habsNow().map(k=>HABRULE[k]).join('<br>'));
+    h+='</div>'}
+  return h+(rail?'':`<button class="btn sub zrulesb" id="mZooRules">📖 Regeln</button>`)+(zlBackOk()?`<div class="tnav" style="justify-content:space-between"><button class="btn sub" id="zlBack">◂ Zurück</button><button class="btn main" id="mClose">Los geht's</button></div>`:`<button class="btn main" id="mClose">Los geht's</button>`)}
+// „📖 Regeln“: feste Regeln dieses Laufs (Stufe, Profil-Regel, Boni, lange Erklärtexte, Gelände)
+function zooRulesHtml(){const Z=state.zl,run=wrRun(),rb=(c,ic,t,b)=>`<div class="zrl"><b>${ic} ${t}</b><br>${b}</div>`;let h=`<h2>📖 Regeln für diesen Lauf</h2><div class="zrules">`;
+  if(Z&&isZ2()){const S=stOf();h+=rb('','🏔️','Stufe '+S,S>1?STAGES.slice(2,S+1).join(' · '):'Grundstufe ohne Verschärfung');const dk=dkNow();if(dk&&dk!=='grund'&&DECKS[dk])h+=rb('',DECKS[dk].icon,'Profil-Regel: '+DECKS[dk].name,DECKRULE[dk])}
+  if(run&&(run.boni||[]).length)h+=rb('','🌍','Deine Boni der Weltreise',run.boni.filter(k=>WRB[k]).map(k=>`${WRB[k].icon} <b>${WRB[k].name}:</b> ${WRB[k].text}`).join('<br>'));
+  if(Z&&isZ2())h+=rb('','🍼','Zucht',ZTXT.zucht);
+  if(Z)h+=rb('','🧬','Reinheit',ZTXT.rein())+rb('','🎨','Vielfalt',ZTXT.viel);
+  h+=zlTerrTile(rb);
+  return h+`</div><button class="btn main" id="mZooBack">◂ Zurück</button>`}
 const flivHtml=()=>{let conf='';if(!reduced)for(let i=0;i<40;i++){const d=(2.4+Math.random()*2.4).toFixed(2);conf+=`<i style="left:${(Math.random()*100).toFixed(1)}%;background:${['#ff6b9d','#ffd166','#ff9ec4','#fff','#ff4d6d'][i%5]};animation-duration:${d}s;animation-delay:${(Math.random()*2).toFixed(2)}s;--dx:${Math.round(Math.random()*120-60)}px"></i>`}
   return`<div class="fliv"><div class="wconf" aria-hidden="true">${conf}</div><div class="fheart">🎉</div><h2>Danke fürs Spielen!</h2><button class="btn main" id="mFliv">Weiter</button></div>`};
 function whyNot(cells,key,bs=state.buildings){const idx=mkIndex(bs),c=CARDS[key];if(builtUnique(bs,key))return`${c.name} gibt es nur einmal im Zoo. Du kannst die Karte abwerfen, indem du den Tag beendest.`;

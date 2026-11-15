@@ -157,7 +157,20 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   await p.evaluate(()=>{modal=null;render()});await p.waitForTimeout(400);
   {const r=await p.evaluate(()=>{const P=document.getElementById('rulePop');if(!P)return null;const c=P.querySelector('.wpc').getBoundingClientRect(),k=[...P.querySelectorAll('.wpc>*')].map(e=>e.getBoundingClientRect());let ov=0;for(let i=1;i<k.length;i++)if(k[i].top<k[i-1].bottom-1)ov++;
       const b=P.querySelector('[data-bpok]').getBoundingClientRect(),e=document.elementFromPoint(b.left+b.width/2,b.top+b.height/2);return{t:P.textContent.slice(0,40),ov,in:c.left>=0&&c.right<=innerWidth+1&&c.top>=-1&&c.bottom<=innerHeight+1,btn:!!e&&!!e.closest('[data-bpok]')}});
-    T(!!r&&/Willkommen in/.test(r.t),`${wo}: Willkommen-Einblendung beim Zoo-Start`);if(r){T(r.ov===0&&r.in,`${wo}: Willkommen-Einblendung im Bildschirm, ohne Überlappung`);T(r.btn,`${wo}: „Los geht’s“ erreichbar`)}}
+    T(!!r&&/Willkommen/.test(r.t),`${wo}: Willkommen-Einblendung beim Zoo-Start`);if(r){T(r.ov===0&&r.in,`${wo}: Willkommen-Einblendung im Bildschirm, ohne Überlappung`);T(r.btn,`${wo}: „Los geht’s“ erreichbar`)}}
   await wunschWeg(p);T(await p.evaluate(()=>!document.getElementById('rulePop')&&!state.ruleIntro),`${wo}: Willkommen-Einblendung schließt`);
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.85a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.85a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()
+  // 13) 0.86a: Zoo-Menü (Dieser Zoo, Chips, Dein Stand) und „📖 Regeln“: nichts breiter als der Bildschirm, Kacheln ohne Überlappung, Knöpfe wirken, keine doppelten ids (auch mit Seitenleiste)
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);screenArg.wrSel=0;wrGo(runOf(),screenArg,0);state.ruleIntro=0;state.wishIntro=0;modal='zoo';ZRULES=0;render()});await p.waitForTimeout(400);
+  {const r=await p.evaluate(()=>{const M=document.querySelector('#modalRoot .modal');if(!M)return null;const t=[...M.querySelectorAll('.ztl,.zdt')].map(e=>e.getBoundingClientRect());let ov=0;for(let i=1;i<t.length;i++)if(t[i].top<t[i-1].bottom-1)ov++;
+      const mr=M.getBoundingClientRect();let out=0;for(const e of M.querySelectorAll('.ztl,.zdt,.zch,.zst,.zdv')){const q=e.getBoundingClientRect();if(q.right>mr.right+1||q.left<mr.left-1)out++}
+      return{n:t.length,ov,out,qx:document.documentElement.scrollWidth-innerWidth,sec:/Dieser Zoo/.test(M.textContent)&&/Dein Stand/.test(M.textContent)}});
+    T(!!r&&r.sec&&r.n>=6,`${wo}: Zoo-Menü mit „Dieser Zoo“ und „Dein Stand“ (${r&&r.n} Zeilen)`);if(r){T(r.ov===0&&r.out===0,`${wo}: Zoo-Menü ohne Überlappung (${r.ov}/${r.out})`);if(r.qx>2)T(false,`${wo}: Zoo-Menü breiter als der Bildschirm (${r.qx} px)`)}}
+  await pruefe(p,wo+' Zoo-Menü',seen);
+  if(!await klick(p,'#modalRoot .zdt summary'))T(false,`${wo}: Stand-Zeile nicht aufklappbar`);else T(await p.evaluate(()=>!!document.querySelector('#modalRoot .zdt[open] .zdx')),`${wo}: Stand-Zeile klappt auf`);
+  if(!await klick(p,'#mZooRules'))T(false,`${wo}: Knopf „📖 Regeln“ fehlt/verdeckt`);else{T(await p.evaluate(()=>/Regeln für diesen Lauf/.test(document.getElementById('modalRoot').textContent)),`${wo}: Regeln-Ansicht öffnet`);await pruefe(p,wo+' Regeln-Ansicht',seen);
+    T(await klick(p,'#mZooBack')&&await p.evaluate(()=>/Dieser Zoo/.test(document.getElementById('modalRoot').textContent)),`${wo}: Regeln-Ansicht ◂ Zurück`)}
+  T(await klick(p,'#mClose')&&await p.evaluate(()=>!modal),`${wo}: Zoo-Menü schließt`);
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.86a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

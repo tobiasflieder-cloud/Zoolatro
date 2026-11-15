@@ -15,7 +15,7 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run;if((run.vNow
     if(!a.shown){a.shown=1;setTimeout(wonAnim,40)}
     return`<div class="won"><div class="wconf" aria-hidden="true">${conf}</div><div class="wtrophy">🏆</div><h2>${run.wr?'Weltreise geschafft!':'Zoolatro geschafft!'}</h2><p class="wsub">Alle ${NG} Zoos gemeistert. Super, du hast es geschafft!</p>
       ${rec?'<span class="wrec">⭐ Neuer Rekord</span>':''}
-      <div class="wzoos">${Array.from({length:NG},(_,i)=>{const c=CAMP[i]||CAMP[CAMP.length-1],mk=(run.maps&&run.maps[i])||c.map,wt=run.wr&&(run.wrRoute||[]).find(x=>x.z===i);return`<div style="animation-delay:${(.3+i*.25).toFixed(2)}s"><span>${wt?wrK(wt.k).icon:MAPS[mk].icon}</span><b>Zoo ${i+1}</b><small>${wt?wrK(wt.k).name:MAPS[mk].name}</small><em>${zp[i-off]!=null?fmt(zp[i-off]):'–'}</em></div>`}).join('')}</div>
+      <div class="wzoos">${Array.from({length:NG},(_,i)=>{const c=CAMP[i]||CAMP[CAMP.length-1],mk=(run.maps&&run.maps[i])||c.map,wt=run.wr&&(run.wrRoute||[]).find(x=>x.z===i);return`<div style="animation-delay:${(.3+i*.25).toFixed(2)}s"><span>${wt?wrK(wt.k).icon:MAPS[mk].icon}</span><b>Zoo ${i+1}</b><small>${wt?esc(wt.ort||wrK(wt.k).name):MAPS[mk].name}</small><em>${zp[i-off]!=null?fmt(zp[i-off]):'–'}</em></div>`}).join('')}</div>
       <div class="wtot"><small>Gesamtpunkte</small><div class="bigscore" id="wonTot" data-v="${run.total||0}">${fmt(run.total||0)}</div></div>
       ${(run.newDecks||[]).map(id=>`<p style="margin:0;color:var(--gold);font-weight:700">🎴 Neues Profil freigeschaltet: ${DECKS[id].icon} ${DECKS[id].name}</p>`).join('')}
       <h3 class="sh">Dein Team</h3><div class="slotrow"><span>${D.icon} ${D.name} 🏆</span>${(run.spec||[]).filter(id=>SPEC[id]).map(id=>`<span>${SPEC[id].icon} ${SPEC[id].name}</span>`).join('')}</div>
@@ -26,7 +26,7 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run;if((run.vNow
   let head=`<h2>Zoo ${run.zoo} geschafft!</h2>${run.z2?z2NewsHtml(run):''}${ulWait(sl).length?`<p style="margin:0;color:var(--muted);font-size:13px">📦 Wartet noch auf den nächsten geschafften Zoo: ${ulWait(sl).join(', ')}</p>`:''}${(run.newNow||[]).map(id=>`<p style="margin:0;color:var(--gold);font-weight:700">🎴 Neues Profil freigeschaltet: ${DECKS[id].icon} ${DECKS[id].name}</p>`).join('')}${steps}${guideHtml()}${a.peek||a.step==='prev'?'':pk}${a.peek||a.step==='prev'?'':runOverviewHtml(run,a.step==='next')}`;
   if(run.wr&&a.first)head=''; // 0.85a: Wahl vor Zoo 1
   if(run.wr&&a.step==='wr')return wrPickHtml(run,a,head);
-  if(run.wr&&a.step==='wrgift')return`${head}<h3 class="sh">🎁 Mitbringsel: eine Karte zur Wahl</h3><p style="margin:0">Aus ${wrK((run.wrDest||{}).k).name} bringst du eine besondere Karte mit. Sie kommt gratis in dein Lauf-Deck.</p>
+  if(run.wr&&a.step==='wrgift')return`${head}<h3 class="sh">🎁 Mitbringsel: eine Karte zur Wahl</h3><p style="margin:0">Aus ${esc((run.wrDest||{}).ort||wrK((run.wrDest||{}).k).name)} bringst du eine besondere Karte mit. Sie kommt gratis in dein Lauf-Deck.</p>
     <div style="display:flex;flex-direction:column;gap:8px">${(a.wrCards||[]).map(k=>cardRow(k,`<button class="btn main" data-wrgk="${k}">Nehmen<br><b>gratis</b></button>`)).join('')}</div><button class="btn sub" data-wrgk="-">Keine nehmen, Zoo starten</button>`;
   if(run.plan&&(a.step==='prev'||a.peek))return head+planHtml(run,a);
   if(a.step==='perk'){const opts=a.pro||(a.pro=rollPraeg());

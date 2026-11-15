@@ -1406,9 +1406,9 @@
  ]
 },
 "erwartet":{
- "A": 528,
- "S": 252,
- "total": 133056,
+ "A": 537,
+ "S": 248,
+ "total": 133176,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1610,7 +1610,7 @@
      1
     ],
     [
-     "🌾 Herde aus 3 ×1,3",
+     "🌾 Herde aus 3 ×1,15",
      1,
      1
     ],
@@ -1661,8 +1661,8 @@
   },
   {
    "id": 11,
-   "a": 9,
-   "s": 9,
+   "a": 8,
+   "s": 8,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1680,9 +1680,9 @@
      0
     ],
     [
-     "🌾 Herde aus 3 ×1,3",
-     2,
-     2
+     "🌾 Herde aus 3 ×1,15",
+     1,
+     1
     ],
     [
      "🤝 Freundschaft mit Giraffenweide ×1,25",
@@ -1776,8 +1776,8 @@
   },
   {
    "id": 16,
-   "a": 10,
-   "s": 9,
+   "a": 9,
+   "s": 8,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1805,9 +1805,9 @@
      0
     ],
     [
-     "🌾 Herde aus 3 ×1,3",
-     2,
-     2
+     "🌾 Herde aus 3 ×1,15",
+     1,
+     1
     ],
     [
      "🤝 Freundschaft mit Zebrasteppe ×1,25",
@@ -1830,7 +1830,7 @@
   },
   {
    "id": 18,
-   "a": 12,
+   "a": 14,
    "s": 12,
    "parts": [
     [
@@ -1845,14 +1845,14 @@
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     6,
+     7,
      6
     ]
    ]
   },
   {
    "id": 19,
-   "a": 16,
+   "a": 18,
    "s": 10,
    "parts": [
     [
@@ -1867,7 +1867,7 @@
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     8,
+     9,
      5
     ]
    ]
@@ -1906,8 +1906,8 @@
   },
   {
    "id": 21,
-   "a": 13,
-   "s": 8,
+   "a": 11,
+   "s": 6,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1925,25 +1925,20 @@
      0
     ],
     [
-     "🌾 Herde aus 2 ×1,15",
-     1,
-     1
-    ],
-    [
      "🤝 Freundschaft mit Warzenschweine ×1,25",
      2,
      1
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
-     2
+     2,
+     1
     ]
    ]
   },
   {
    "id": 22,
-   "a": 6,
+   "a": 5,
    "s": 3,
    "parts": [
     [
@@ -1967,25 +1962,20 @@
      1
     ],
     [
-     "🌾 Herde aus 2 ×1,15",
-     1,
-     0
-    ],
-    [
      "🤝 Freundschaft mit Elefantenpark ×1,25",
-     2,
+     1,
      1
     ],
     [
      "2. Warzenschweine: zählt ×0,75 des eigenen Werts",
-     -2,
+     -1,
      -1
     ]
    ]
   },
   {
    "id": 23,
-   "a": 35,
+   "a": 40,
    "s": 26,
    "parts": [
     [
@@ -2015,17 +2005,17 @@
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     8,
+     9,
      6
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     4,
+     5,
      3
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     15,
+     17,
      11
     ]
    ]
@@ -2054,7 +2044,7 @@
   },
   {
    "id": 25,
-   "a": 15,
+   "a": 18,
    "s": 8,
    "parts": [
     [
@@ -2069,12 +2059,12 @@
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     4,
+     5,
      2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
+     4,
      2
     ]
    ]

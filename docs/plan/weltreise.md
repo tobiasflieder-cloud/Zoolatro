@@ -5,7 +5,7 @@ Entwürfe: `docs/stil/weltreise-entwurf.html` (Kontinent-Wahl als Liste + Ankunf
 `docs/stil/weltkarte-entwurf.html` (gezeichnete Weltkarte, kommt in einem späteren Schritt).
 
 ## Idee
-Zwischen den Zoos wählt man das nächste Ziel aus 2–3 Kontinenten. Jedes Ziel hat einen Lebensraum-Schwerpunkt im Gelände
+Zwischen den Zoos wählt man das nächste Ziel aus 2–3 Regionen (von verschiedenen Kontinenten). Jedes Ziel hat einen Lebensraum-Schwerpunkt im Gelände
 und eine Auflage mit passender Belohnung. Abwägung: „passt zu meinem Deck“ gegen „was bringt mir die Belohnung“.
 
 ## Modus
@@ -15,25 +15,25 @@ und eine Auflage mit passender Belohnung. Abwägung: „passt zu meinem Deck“ 
 - Highscores: Vergleich bis zum letzten gemeinsamen Zoo. Freischaltungen dürfen an 5 Zoos gebunden bleiben.
 - Stufen: die Naturfelder-Stufen (2, 7, 8) sind im Weltreise-Modus aus. **Ab Stufe 2 nur 2 Ziele zur Wahl.** Ersatz für 7/8 kommt später.
 
-## Ziele (Kontinente)
+## Ziele (Regionen, seit 0.86a)
+Ziele sind **Regionen** mit 1–2 möglichen Schwerpunkten, gruppiert nach Kontinent (Daten `daten/kontinente.json`, `regionen`).
 
-> **Neu (15.11.):** Ziele werden **Regionen** mit eigenen 1–2 Schwerpunkten (25 Regionen, Liste im Sheet „Weltreise-Plan“, Blatt „Regionen“), Nordamerika und Polargebiete kommen dazu, **jeder Kontinent höchstens einmal pro Lauf, auch Europa** (7 Kontinente, jeder Zoo auf einem anderen). Die Tabelle unten ist der Stand von 0.85a.
-Ziele sind Orte auf einem Kontinent (z. B. „Afrika · Kalahari“), damit sich ein Kontinent wiederholen darf.
+| Kontinent | Regionen (Schwerpunkt) |
+|---|---|
+| Afrika 🌍 | Serengeti (Savanne) · Sahara (Wüste) · Okavango-Delta (Wasser/Savanne) · Kongo-Becken (Dschungel) · Kilimandscharo (Gebirge/Savanne) |
+| Südamerika 🌎 | Amazonas (Dschungel) · Pantanal (Wasser/Savanne) · Galápagos (Wasser/Wüste) · Atacama (Wüste) · Anden (Gebirge) |
+| Nordamerika 🌎 | Arizona (Wüste) · Everglades (Wasser/Dschungel) · Prärie (Savanne) · Rocky Mountains (Gebirge) · Alaska (Arktis/Gebirge) |
+| Asien 🌏 | Borneo (Dschungel) · Sundarbans (Wasser/Dschungel) · Mongolei (Savanne/Wüste) · Himalaya (Gebirge) · Sibirien (Arktis) |
+| Australien 🌏 | Great Barrier Reef (Wasser) · Outback (Wüste/Savanne) · Tasmanien (Dschungel/Gebirge) |
+| Polargebiete 🧊 | Antarktis (Arktis/Wasser, erst nach Freischaltung Arktis) · Spitzbergen (Arktis) |
+| Europa 🏰 | Ruhe-Zoo mit Stadtnamen (Berlin, Wien, Kopenhagen, Zürich, Amsterdam), kein Schwerpunkt |
 
-| Kontinent | Schwerpunkt (einer wird ausgelost) | verfügbar |
-|---|---|---|
-| Afrika | Savanne oder Wüste | von Anfang an |
-| Australien | Wasser oder Wüste | von Anfang an |
-| Südamerika | Dschungel oder Wasser | von Anfang an |
-| Asien | Dschungel oder Savanne | von Anfang an |
-| Europa | keiner (Ruhe-Zoo) | von Anfang an |
-| Antarktis | Arktis oder Wasser | nach Freischaltung Arktis |
-| Himalaya | Gebirge oder Savanne | nach Freischaltung Gebirge |
-
-- Auswahl zufällig; **wenn möglich immer 3 Ziele, nie nur schwere**. Vor Zoo 1 auch eine Wahl, dann nur leichte und mittlere Auflagen.
-- Ein Kontinent wird nicht angeboten, wenn keiner seiner beiden möglichen Schwerpunkte im Lauf gewählt ist; ist nur einer gewählt, wird dieser genommen.
-- **Europa** = Ruhe-Zoo: kein Schwerpunkt, keine Auflage, keine Belohnung, Naturflächen wie heute (gleich verteilt). Springt ein, wenn sonst keine 3 Ziele zusammenkommen.
+- Eine Region kommt nur, wenn mindestens einer ihrer Schwerpunkte im Lauf gewählt (und damit freigeschaltet) ist; ausgelost wird nur unter diesen.
+- **Jeder Kontinent höchstens einmal pro Lauf, auch Europa.** Die Ziele einer Wahl kommen von verschiedenen Kontinenten; gegen Ende werden es weniger (bei 6 Zoos im letzten 1–2).
+- Auswahl zufällig; **möglichst 3 Ziele (ab Stufe 2: 2), nie nur schwere**. Vor Zoo 1 auch eine Wahl, dann nur leichte und mittlere Auflagen.
+- **Europa** = Ruhe-Zoo: kein Schwerpunkt, keine Auflage, keine Belohnung, Naturflächen wie heute (gleich verteilt). Springt ein, wenn sonst keine 3 Ziele zusammenkommen; wäre gar kein Ziel übrig, kommt Europa auch ein zweites Mal.
 - Kein Ausgleich der Ziele danach, wie gut ein Kontinent passt.
+- Spielstände aus 0.85a (Ziele Antarktis/Himalaya als eigene Kontinente) zählen als Polargebiete/Asien weiter.
 
 ## Gelände
 - Etwa **die Hälfte** des Feldes sind Naturflächen (Testlauf 4 Tage anteilig wie heute).
