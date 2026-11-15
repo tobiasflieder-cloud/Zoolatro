@@ -97,27 +97,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.86a) – erst bauen, wenn Tobi „bauen“ sagt
-
-**0.86a** – Auftrag [`docs/auftraege/0.86a-regionen-zoomenue-savanne.md`](docs/auftraege/0.86a-regionen-zoomenue-savanne.md) (Werte und Regionen dort schon eingetragen):
-
-**Savanne schwächer:** Herde erst ab 3 (2 Gehege ×1), je weiteres +0,1 (Steppe +0,15), höchstens ×1,75; Steppe-Profil: 4-Felder-Gehege kosten 3 BP wie überall.
-
-**Zoo-Menü aufräumen** (Entwurf `docs/stil/zoomenue-entwurf.html`, Menge war das Problem): `zooBoxHtml` (`06-spiel.js` ~Z. 355) neu gliedern:
-   „Dieser Zoo“ (feste Reihenfolge: Weltreise-Ziel/Schwerpunkt, Auflage mit Stand, Besucherwunsch, Winter) · Chips (dauerhafte Boni, Teuerung, Geschenk) ·
-   „Dein Stand“ als aufklappbare Zeilen mit aktuellem Wert (Reinheit, Vielfalt, Zucht, Wachsende Spezialisten, Futter, Lebensraum-Regeln) ·
-   Knopf „📖 Regeln“ mit Stufe, Profil-Regel, langen Erklärtexten und Gelände. Querformat-Seitenleiste (`railRender`) mitprüfen.
-
-**Freischaltbare Gehege stärker** (Meta-Fortschritt, Variante A): +1 auf den Hauptwert, außer Gorillas, Büffel, Belugas. Werte aus Tobis Tabelle „Freischalt-Karten Werte“
-   (Claude-Sheet) – Werte stehen im Auftrag 0.86a.
-
-**Weltreise: Regionen statt Kontinente** (Chat 15.11., Liste steht im Auftrag 0.86a):
-   Ziele sind 25 Regionen (z. B. Afrika · Sahara nur Wüste, Afrika · Okavango Wasser oder Savanne) auf 6 Kontinenten (Afrika, Südamerika, **Nordamerika neu**, Asien, Australien, Polargebiete) + Europa (Ruhe-Zoo) = 7 Kontinente.
-   **Jeder Kontinent höchstens einmal pro Lauf, auch Europa** (jeder Zoo auf einem anderen Kontinent), Ziele einer Wahl von verschiedenen Kontinenten; gegen Ende weniger Ziele (bei 6 Zoos im letzten 2).
-   `daten/kontinente.json` umbauen (Regionen mit eigenen `foki`), `wrRollOpts` anpassen.
+## 6. Liste fürs nächste Bauen (wird 0.87a) – erst bauen, wenn Tobi „bauen“ sagt
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
-   Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße, ob Europa oft genug/zu oft kommt.
+   Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -136,6 +119,11 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.86a** ([Auftrag](docs/auftraege/0.86a-regionen-zoomenue-savanne.md), Regeln `docs/regeln.md` 16/17): Weltreise-Regionen: `kontinente.json` mit `kontinente` (7, Europa `staedte`), `regionen` (25, `foki`, Antarktis `frei`), `alt` (0.85a-Kennungen);
+  `wrRollOpts0` schließt besuchte Kontinente aus (`wrKOf`, auch Europa), ein Ziel je Kontinent, Europa Auffüller bzw. Ersatz; Anzeige Region (`o.ort`) mit Kontinent darunter. Zoo-Menü neu: `zooBoxHtml(rail)` mit `ZT`/`ZD`,
+  `zuchtNow`, `ZRULES`/`zooRulesHtml` (`#mZooRules`, `#mZooBack`), Rail ohne Knöpfe. Herde `HERD3`/`HERDMAX` in `habRule` (2 → ×1, ab 3 ×1,15, +0,1/Steppe +0,15, max ×1,75), Steppe-4er-Rabatt aus `costParts` entfernt.
+  15 Freischalt-Gehege +1 Hauptwert (`karten.json`). Referenzfälle mit `aktualisiere`: 46 von 51 neu (39 mit anderer Gesamtzahl, ×0,91–×1,02). Tests: neu `jsd86a.js`, angepasst `jsd85a` (Regionen), `quer.js` Schritt 13 (Zoo-Menü).
 
 - **0.85a** ([Auftrag](docs/auftraege/0.85a-weltreise.md), Regeln `docs/regeln.md` Abschnitt 16): 🌍 Weltreise-Modus `run.wr` (Schalter `META.wr`/`data-zswr`), Daten `daten/kontinente.json` → `WR_DATEN` (Modul 06, Abschnitt „Weltreise“).
   Lauflänge `runGoal(run)`/`wrGoalN` (statt `CAMP_GOAL`), Auslosung `wrRollOpts` (Pläne je Ziel vorab, `WRCTX` steuert Auflage, `wrQuota`/Fleckgrößen in `natPlace`, Leichter Boden in `genMap`), Wahl `wrPickHtml`/`wrGo`

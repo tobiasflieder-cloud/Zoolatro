@@ -1501,9 +1501,9 @@
  ]
 },
 "erwartet":{
- "A": 317,
- "S": 266,
- "total": 84322,
+ "A": 304,
+ "S": 252,
+ "total": 76608,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1603,8 +1603,8 @@
   },
   {
    "id": 4,
-   "a": 10,
-   "s": 10,
+   "a": 8,
+   "s": 8,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1632,14 +1632,14 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,8",
-     2,
-     2
+     "🌾 Herde aus 5 ×1,45",
+     1,
+     1
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     5,
-     5
+     4,
+     4
     ]
    ]
   },
@@ -1677,7 +1677,7 @@
   },
   {
    "id": 6,
-   "a": 13,
+   "a": 15,
    "s": 8,
    "parts": [
     [
@@ -1692,7 +1692,7 @@
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     5,
+     6,
      3
     ],
     [
@@ -1704,8 +1704,8 @@
   },
   {
    "id": 7,
-   "a": 16,
-   "s": 11,
+   "a": 13,
+   "s": 9,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1728,9 +1728,9 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,8",
-     7,
-     5
+     "🌾 Herde aus 5 ×1,45",
+     4,
+     3
     ]
    ]
   },
@@ -1800,8 +1800,8 @@
   },
   {
    "id": 10,
-   "a": 20,
-   "s": 11,
+   "a": 16,
+   "s": 9,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1824,20 +1824,20 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,8",
-     7,
-     4
+     "🌾 Herde aus 5 ×1,45",
+     4,
+     2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     4,
+     3,
      2
     ]
    ]
   },
   {
    "id": 11,
-   "a": 10,
+   "a": 12,
    "s": 10,
    "parts": [
     [
@@ -1862,7 +1862,7 @@
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     5,
+     6,
      5
     ]
    ]
@@ -1904,8 +1904,8 @@
   },
   {
    "id": 15,
-   "a": 11,
-   "s": 11,
+   "a": 9,
+   "s": 9,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1923,9 +1923,9 @@
      0
     ],
     [
-     "🌾 Herde aus 5 ×1,8",
-     4,
-     4
+     "🌾 Herde aus 5 ×1,45",
+     2,
+     2
     ],
     [
      "🤝 Freundschaft mit Giraffenweide ×1,25",
@@ -2130,8 +2130,8 @@
   },
   {
    "id": 29,
-   "a": 14,
-   "s": 14,
+   "a": 11,
+   "s": 11,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -2154,14 +2154,14 @@
      3
     ],
     [
-     "🌾 Herde aus 5 ×1,8",
-     6,
-     6
+     "🌾 Herde aus 5 ×1,45",
+     4,
+     4
     ],
     [
      "🤝 Freundschaft mit Zebrasteppe ×1,25",
-     4,
-     4
+     3,
+     3
     ],
     [
      "2. Giraffenweide: zählt ×0,75 des eigenen Werts",

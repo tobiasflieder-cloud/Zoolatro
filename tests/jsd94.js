@@ -14,7 +14,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  // Lebensraum-Regeln
  const lab=(bs,i)=>ev(`(()=>{const bs=${bs};state.buildings=bs;syncCtx();const p=[];evalB(bs[${i}],bs,mkIndex(bs),p);return p.map(x=>x.label).join(' | ')})()`);
  T(/Herde: allein ×0,5/.test(lab(`[{id:1,key:'zebras',cells:[[0,0]],lvl:1}]`,0)),'Savanne allein ×0,5');
- T(/Herde aus 2 ×1,15/.test(lab(`[{id:1,key:'zebras',cells:[[0,0]],lvl:1},{id:2,key:'warzenschweine',cells:[[1,0]],lvl:1}]`,0)),'Savanne Herde aus 2 ×1,15');
+ T(!/Herde/.test(lab(`[{id:1,key:'zebras',cells:[[0,0]],lvl:1},{id:2,key:'warzenschweine',cells:[[1,0]],lvl:1}]`,0)),'Savanne Herde aus 2: kein Faktor (0.86a, ×1)');
  T(/Einzelgänger: allein ×2/.test(lab(`[{id:1,key:'fennek',cells:[[0,0]],lvl:1}]`,0))&&/Wüsten-Nachbar ×0,5/.test(lab(`[{id:1,key:'fennek',cells:[[0,0]],lvl:1},{id:2,key:'skorpione',cells:[[1,0]],lvl:1}]`,0)),'Wüste: allein ×2, mit Wüsten-Nachbar ×0,5');
  T(/Fluss: Kette aus 3/.test(lab(`[{id:1,key:'flamingos',cells:[[0,0]],lvl:1},{id:2,key:'korallenriff',cells:[[1,0]],lvl:1},{id:3,key:'schildkroeten',cells:[[2,0]],lvl:1}]`,1)),'Wasser: Kette aus 3 ×1,75');
  ev(`enterCamp(0,true,'grund',true,['wald','arktis','gebirge'],NOPROF);modal=null;state.wishIntro=0;runOf().fsIntro=0`);

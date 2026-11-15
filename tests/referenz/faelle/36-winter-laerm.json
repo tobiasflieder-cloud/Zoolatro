@@ -1711,8 +1711,8 @@
 },
 "erwartet":{
  "A": 413,
- "S": 294,
- "total": 121422,
+ "S": 296,
+ "total": 122248,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2532,7 +2532,7 @@
   {
    "id": 35,
    "a": 5,
-   "s": 7,
+   "s": 9,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2562,7 +2562,7 @@
     [
      "💧 Fluss: Kette aus 4 ×1,75",
      2,
-     3
+     4
     ]
    ]
   },

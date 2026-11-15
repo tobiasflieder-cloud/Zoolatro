@@ -797,8 +797,8 @@
 },
 "erwartet":{
  "A": 107,
- "S": 114,
- "total": 12198,
+ "S": 110,
+ "total": 11770,
  "mults": [
   {
    "label": "Beute-Kennerin",
@@ -878,8 +878,8 @@
   },
   {
    "id": 4,
-   "a": 8,
-   "s": 7,
+   "a": 7,
+   "s": 6,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -892,9 +892,9 @@
      3
     ],
     [
-     "🌾 Herde aus 3 ×1,4",
-     2,
-     2
+     "🌾 Herde aus 3 ×1,15",
+     1,
+     1
     ]
    ]
   },
@@ -927,25 +927,25 @@
   },
   {
    "id": 6,
-   "a": 12,
+   "a": 16,
    "s": 6,
    "parts": [
     [
      "🔗 Kombo ×1,5: Beutetier in der Nähe",
-     2,
+     3,
      1
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     6,
+     8,
      3
     ]
    ]
   },
   {
    "id": 7,
-   "a": 8,
-   "s": 7,
+   "a": 7,
+   "s": 6,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -958,9 +958,9 @@
      1
     ],
     [
-     "🌾 Herde aus 3 ×1,4",
-     2,
-     2
+     "🌾 Herde aus 3 ×1,15",
+     1,
+     1
     ]
    ]
   },
@@ -1005,8 +1005,8 @@
   },
   {
    "id": 10,
-   "a": 10,
-   "s": 4,
+   "a": 8,
+   "s": 3,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1014,9 +1014,9 @@
      0
     ],
     [
-     "🌾 Herde aus 3 ×1,4",
-     3,
-     1
+     "🌾 Herde aus 3 ×1,15",
+     1,
+     0
     ]
    ]
   }

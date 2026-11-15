@@ -38,13 +38,13 @@ const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'
  // Kontinent ohne passenden Schwerpunkt fehlt, Europa füllt auf (ohne Auflage/Belohnung)
  start(w,1,['wueste','wald','gebirge']);
  const R2=J(`(()=>{const r=runOf(),o=[];r.zoo=2;for(let i=0;i<25;i++)o.push(wrRollOpts0(r).map(q=>({k:q.k,rule:q.rule||null,rw:q.rw||null,eu:!!q.eu,foc:q.foc})));r.zoo=0;return o})()`);
- T(R2.every(o=>!o.some(x=>x.k==='antarktis')),'Antarktis fehlt ohne Arktis');
+ T(R2.every(o=>!o.some(x=>x.k==='polar')),'Polargebiete fehlen ohne Arktis');
  start(w,1,['wueste','arktis','gebirge']);
- const R3=J(`(()=>{const sl=META.slots[0];const r=runOf(),o=[];r.zoo=2;for(let i=0;i<25;i++)o.push(wrRollOpts0(r).map(q=>({k:q.k,rule:q.rule||null,rw:q.rw||null,eu:!!q.eu,foc:q.foc})));r.zoo=0;return o})()`);
- T(R3.every(o=>!o.some(x=>x.k==='suedamerika'||x.k==='asien')),'Südamerika/Asien fehlen ohne Dschungel/Wasser/Savanne');
+ const R3=J(`(()=>{const r=runOf(),o=[];fsOf(META.slots[0])['h:arktis']=1;fsOf(META.slots[0])['h:gebirge']=1;r.wrRoute=['afrika','suedamerika','nordamerika','asien'].map((k,z)=>({k,ort:k,z}));r.zoo=4;for(let i=0;i<25;i++)o.push(wrRollOpts0(r).map(q=>({k:q.k,rule:q.rule||null,rw:q.rw||null,eu:!!q.eu,foc:q.foc})));r.zoo=0;r.wrRoute=[];return o})()`);
+ T(R3.every(o=>!o.some(x=>['afrika','suedamerika','nordamerika','asien'].includes(x.k))),'schon besuchte Kontinente kommen nicht wieder');
  T(R3.every(o=>o.length===3&&o.some(x=>x.k==='europa')),'Europa füllt auf 3 auf');
  T(R3.every(o=>o.filter(x=>x.k==='europa').every(x=>!x.rule&&!x.rw&&!x.foc)),'Europa ohne Schwerpunkt, Auflage und Belohnung');
- T(R3.every(o=>o.filter(x=>x.k==='afrika'||x.k==='australien').every(x=>x.foc==='wueste')),'nur ein gewählter Schwerpunkt → dieser wird genommen');
+ T(R3.every(o=>o.filter(x=>x.k==='polar').every(x=>x.foc==='arktis')),'nur ein gewählter Schwerpunkt → dieser wird genommen');
  // Stufe 2 → 2 Ziele
  start(w,1,['wasser','savanne','wueste'],2);T(ev('runOf().wrOpts.length')===2,'ab Stufe 2 nur 2 Ziele');
  // 7. Ablauf: Ziel wählen, Boni
@@ -53,7 +53,7 @@ const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'
  T(ev(`screen===null&&!!state&&state.zoo===0`),'Zoo 1 startet nach der Wahl');
  T(J('runOf().boni').join()==='gold','dauerhafte Belohnung in run.boni');
  T(ev(`state.wrDest&&state.wrDest.k===runOf().wrRoute[0].k`),'Reiseziel im Zoo gespeichert');
- ev(`modal=null;render()`);T(/Willkommen in/.test((d.getElementById('rulePop')||{}).textContent||''),'Einblendung „Willkommen in …“');
+ ev(`modal=null;render()`);T(/Willkommen/.test((d.getElementById('rulePop')||{}).textContent||''),'Einblendung „Willkommen“');
  const zb=ev(`zooBoxHtml()`);T(/Weltreise/.test(zb)&&/Goldader/.test(zb),'Zoo-Menü zeigt Reiseziel und Boni');
  // nächster Zoo: Goldader wirkt, wird nicht noch einmal angeboten
  ev(`(()=>{const r=runOf();r.zoo=1;r.wrOpts=null;wrRollOpts(r)})()`);

@@ -149,7 +149,7 @@ Gilt im Zoolatro-Lauf (`habRulesOn`). Im Tutorial nur Savanne, und erst ab dem S
 | Lebensraum | Regel | Faktor |
 |---|---|---|
 | 💧 Wasser „Fluss“ | Gruppe = zusammenhängende Wasser-Gehege. Jedes Gehege darf **höchstens 3 Seiten** (Feldkanten) an anderen Wasser-Gehegen haben (`wSides`). | ohne Wasser-Nachbar: kein Faktor; sonst ×(1,5 + 0,25·⌊Gruppengröße/3⌋), höchstens ×2 |
-| 🌾 Savanne „Herde“ | Gruppe zusammenhängender Savannen-Gehege (`grpN`) | allein ×0,5; sonst ×(1 + 0,15·(g−1)), Profil Steppe 0,2, höchstens ×2 |
+| 🌾 Savanne „Herde“ | Gruppe zusammenhängender Savannen-Gehege (`grpN`) | allein ×0,5; zu zweit ×1; ab 3 ×(1,15 + 0,1·(g−3)), Profil Steppe 0,15, höchstens ×1,75 (0.86a, `HERD3`/`HERDMAX`) |
 | 🌿 Dschungel „Schutzgebiet“ | Naturschutz-Gebäude daneben | ×2, sonst ×0,5 |
 | 🏜️ Wüste „Einzelgänger“ | Wüsten-Gehege daneben | ×0,5, sonst ×2 |
 | 🧊 Arktis „Nordlage“ | Schwerpunkt (mittleres r) nördlich der Gelände-Mitte (`isNorth`) | ×2 |
@@ -286,7 +286,7 @@ Nach jeder gewonnenen Jahreszeit (außer Winter). Reiter: 👥 Team · 🧰 Umba
 ### 10.2 Profile (Decks) `daten/profile.json` → `04:DECKS`, `04:DECKRULE`
 Startdeck mit 16 Karten (`deckCards`, `grundDeck`: Gehege passend zu den 3 gewählten Lebensräumen + Grundgebäude). Themen-Profile
 bringen Themen- und Signatur-Karten und eine Regel mit Vorteil und Kehrseite:
-Grund (2× gratis neu ziehen) · Küste (Schwarm, Wüste −1 N) · Steppe (Herde stärker, 4-Feld −1 BP, 1-Feld +1 BP) ·
+Grund (2× gratis neu ziehen) · Küste (Schwarm, Wüste −1 N) · Steppe (Herde stärker, 1-Feld +1 BP; seit 0.86a kein 4-Feld-Rabatt mehr) ·
 Dschungel (Trubel-Stress nur direkt daneben, Attraktion +1 BP) · Oase (+40 Taler je Zoo, Pflege −25 %, Eintritt −10 %) ·
 Freizeit (Attraktion −1 BP, +1 Team-Platz, Spezialisten +25 %) · Genießer (Eintritt +20 %, Shop −20 %, Pflege +25 %) ·
 Forscher (Meilensteine 1 Art weniger, 1 Karte weniger zur Auswahl) · Polar (Winterziel −15 %, Arktis ohne Winter-Bedingung, Sommerziel +15 %) ·
@@ -389,11 +389,13 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 ## 16. 🌍 Weltreise-Modus (0.85a, `run.wr`; Plan `docs/plan/weltreise.md`, Daten `daten/kontinente.json` → `06:WR_DATEN`)
 - **Start:** Schalter `META.wr` bei der Lebensraum-Wahl → `09:enterCamp` setzt `run.wr`, `run.wrN` (Lauflänge `06:wrGoalN` = 4 + je 1 für freigeschaltete Arktis/Gebirge, `habOpen`) und `run.boni=[]`.
   Ohne Plan für den aktuellen Zoo zeigt `enterCamp` die Kontinent-Wahl (`run.reward={step:'wr',first:1}`). `06:runGoal(run)` ersetzt `CAMP_GOAL` überall, wo der Lauf endet.
-- **Auslosung** `06:wrRollOpts` (mit Seed: `seed|wr|zoo|stufe`): Kontinente mit mindestens einem gewählten Schwerpunkt (Schwerpunkt zufällig unter den gewählten), freigeschaltet über `frei`;
-  Anzahl `lauf.ziele` (3), ab Stufe 2 `ziele_ab_stufe2` (2); fehlt eins, kommt **Europa** (`ruhe`) dazu (kein Schwerpunkt, keine Auflage, keine Belohnung). Schwierigkeit je Ziel zufällig
+- **Auslosung** `06:wrRollOpts` (mit Seed: `seed|wr|zoo|stufe`), seit 0.86a über **Regionen** (`regionen`, `06:WRREG`): eine Region zählt, wenn einer ihrer `foki` im Lauf gewählt und freigeschaltet ist
+  (und, falls `frei` gesetzt, einer dieser Lebensräume freigeschaltet ist, z. B. Antarktis → Arktis); ein Kontinent zählt, wenn er eine solche Region hat und in `run.wrRoute` noch nicht vorkommt (alte Kennungen über `alt`, `wrKOf`).
+  Bis zu `lauf.ziele` (3, ab Stufe 2 `ziele_ab_stufe2` = 2) Kontinente zufällig, je eine zufällige Region und darin ein zufälliger passender Schwerpunkt. Fehlen Ziele und war Europa noch nicht dran, kommt **Europa** dazu
+  (Stadtname aus `staedte`, kein Schwerpunkt, keine Auflage, keine Belohnung); wäre gar kein Ziel übrig, kommt Europa immer. Schwierigkeit je Ziel zufällig
   (vor Zoo 1 nur leicht/mittel), nie nur schwere; Auflage aus `auflagen` mit dieser Schwierigkeit, keine doppelt in einer Wahl, bevorzugt noch nicht gesehene (`seenOf`), im Testlauf ohne `locker`.
   Belohnung: leicht keine, mittel eine aus `belohnungen.sofort` (Speisekammer nur mit Futter), schwer eine noch nicht erhaltene aus `belohnungen.dauerhaft` (sonst sofort).
-  Ort je Ziel aus `orte` (bevorzugt noch nicht besucht). Je Ziel wird der Plan vorab erzeugt (`rollPlan0` mit `WRCTX={foc,rule,rw,eu}`, eigenes Gelände `run.maps[zoo]` je Ziel), die Vorschau zeigt dieses echte Gelände.
+  Je Ziel wird der Plan vorab erzeugt (`rollPlan0` mit `WRCTX={foc,rule,rw,eu}`, eigenes Gelände `run.maps[zoo]` je Ziel), die Vorschau zeigt dieses echte Gelände. Anzeige: Region als Name, Kontinent darunter.
 - **Gelände** (`04:natPlace` mit `WRCTX` → `06:wrQuota`): Naturflächen = runde(bebaubare Felder × `natur_anteil` 0,5), davon runde(× `schwerpunkt_anteil` ⅔) im Schwerpunkt, der Rest gleichmäßig auf die übrigen gewählten
   Lebensräume; Flecken `fleck_min`–`fleck_max` (4–7). Europa: `europa_naturfelder` (18, im Testlauf ×0,8) gleich verteilt. Stufen-Naturfelder (`stW('natur')`) gelten nicht. Im Testlauf „4 Tage“ ist das Feld ×0,8, die Hälfte davon ergibt sich anteilig.
 - **Wahl** `06:wrGo`: Plan übernehmen, `run.wrDest`/`run.wrRoute` merken; dauerhafte Belohnung → `run.boni`; sofort: Speisekammer 2× `gsack`, Bewerberflut `gprofi`, Bauoffensive 2× `gumb` (Geschenke im Shop, `run.gifts`),
@@ -407,3 +409,9 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Besucherwunsch** (`08:wishOn`): nur im Sommer; Belohnungen `08:WRWISH` (über `wRw`), `arten5` braucht 6 Arten und darf im Sommer kommen. „Karte nach Wahl“ (Star/Gold) öffnet das Fenster `state.wpick` (`08:wpickDo`).
 - **Highscores:** Einträge mit `wr`, `goal`, `zp` (Punkte je Zoo); Sortierung `09:csCmp`: erst erreichte Zoos bis zum kürzeren Ziel, dann Punkte bis dahin.
 - **Baugrube** (`achse`, auch im normalen Modus): `06:initRule` wählt 5 zusammenhängende Felder (möglichst mittig, erst ohne Naturflächen), `R.ax`.
+
+## 17. Zoo-Menü (0.86a, `06:zooBoxHtml`, Entwurf `docs/stil/zoomenue-entwurf.html`)
+- **„Dieser Zoo“** (`ZT`, feste Reihenfolge): Weltreise-Ziel/Schwerpunkt (nur `run.wr`) · Auflage (Stand aus `wrGoal`, rot solange offen) · Besucherwunsch, sonst Ereignisse, sonst kurzer Hinweis · Winter (`inspHid` → „Herbst“, Wahl, Bedingung mit `#mPeek` und `wSwapBtn`).
+- **Chips:** dauerhafte Boni (`run.boni`), Teuerung (`Z.ban`), Geschenk vom Raubtierhaus (`Z.gift`).
+- **„Dein Stand“** (`ZD`, `<details>`): Reinheit (`zlPurity`/`purF`), Vielfalt (`vielfalt`), Zucht (`zuchtNow`, gleiche Prüfung wie `z2Breed` ohne Wirkung), wachsende Spezialisten, Futter (`foodBoxHtml`), Lebensraum-Regeln.
+- **„📖 Regeln“** (`ZRULES`, `zooRulesHtml`): Stufe, Profil-Regel, Weltreise-Boni, Zucht/Reinheit/Vielfalt ausführlich, Gelände (`zlTerrTile`). Die Seitenleiste im Querformat (`railRender`) zeigt immer die Hauptansicht (`zooBoxHtml(1)`) ohne Knöpfe.

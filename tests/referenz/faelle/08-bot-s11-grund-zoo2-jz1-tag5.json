@@ -840,9 +840,9 @@
  ]
 },
 "erwartet":{
- "A": 77,
- "S": 57,
- "total": 4389,
+ "A": 76,
+ "S": 59,
+ "total": 4484,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -914,7 +914,7 @@
   {
    "id": 5,
    "a": 6,
-   "s": 6,
+   "s": 8,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -929,7 +929,7 @@
     [
      "💧 Fluss: Kette aus 2 ×1,5",
      2,
-     2
+     3
     ]
    ]
   },
@@ -941,7 +941,7 @@
   },
   {
    "id": 7,
-   "a": 12,
+   "a": 14,
    "s": 12,
    "parts": [
     [
@@ -961,15 +961,15 @@
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     4,
+     5,
      4
     ]
    ]
   },
   {
    "id": 8,
-   "a": 14,
-   "s": 11,
+   "a": 12,
+   "s": 10,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -995,17 +995,12 @@
      "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
-    ],
-    [
-     "🌾 Herde aus 2 ×1,15",
-     2,
-     1
     ]
    ]
   },
   {
    "id": 9,
-   "a": 7,
+   "a": 6,
    "s": 3,
    "parts": [
     [
@@ -1020,11 +1015,6 @@
     ],
     [
      "🪧 Besucherlotse ×1,25",
-     1,
-     0
-    ],
-    [
-     "🌾 Herde aus 2 ×1,15",
      1,
      0
     ]

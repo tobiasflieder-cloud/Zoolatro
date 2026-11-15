@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.85a';
+const VERSION='0.86a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.86a',d:'15.11.2026',t:'Regionen, Zoo-Menü, Savanne',i:['🌍 Weltreise: Ziele sind jetzt Regionen wie Sahara, Amazonas oder Alaska, jede mit eigenem Schwerpunkt. Neu sind Nordamerika und die Polargebiete. Jeder Kontinent kommt nur einmal pro Reise, auch Europa.','🃏 Zoo-Menü aufgeräumt: oben, was diesen Zoo ausmacht (Ziel, Auflage, Wunsch, Winter), darunter dein Stand zum Aufklappen und ein Knopf 📖 Regeln.','🌾 Savanne: Die Herde zählt erst ab 3 Gehegen (×1,15), je weiteres +0,1, höchstens ×1,75. Zu zweit ×1.','🔓 Freischaltbare Gehege sind stärker, z. B. Tiger und Nilpferde 7 B, Eisbären 8 B.']},
  {v:'0.85a',d:'15.11.2026',t:'🌍 Weltreise',i:['🌍 Neuer Modus Weltreise (Schalter bei den Lebensräumen, auch mit „4 Tage“): Vor jedem Zoo wählst du ein Reiseziel. Jedes hat einen Lebensraum-Schwerpunkt im Gelände, eine Auflage und eine Belohnung. 4 Zoos, mit Arktis und Gebirge je einer mehr.','🎯 Neue Ziel-Auflagen (bis Ende Winter erfüllen) und 🦓 Auswilderung. Belohnungen: mittlere Auflagen sofort, schwere dauerhaft für den Rest der Reise.','🌟 In der Weltreise gibt es den Besucherwunsch nur im Sommer, dafür mit stärkerer Belohnung.','🚧 Die Sichtachse heißt jetzt Baugrube: 5 zusammenhängende Felder bleiben frei.']},
- {v:'0.84a',d:'15.11.2026',t:'Flusstal, Kartenwahl',i:['🏞️ Flusstal: Das Spielfeld wird beim Verschieben nicht mehr oben oder unten abgeschnitten.','🃏 Kartenwahl zwischen den Zoos: eine Karte ist immer selten oder legendär, die zweite manchmal, die dritte gewöhnlich.','⏱️ Der Besucherwunsch „2 Tage früher“ kommt nicht mehr.']},
- {v:'0.83a',d:'13.11.2026',t:'Testlauf schaltet Stufen frei',i:['🧪 Ein Testlauf „4 Tage“, in dem du Zoo 3 schaffst, schaltet jetzt die nächste Stufe des Profils frei, und Herausforderungen zählen. Highscores und Bestwerte bleiben getrennt.']}];
+ {v:'0.84a',d:'15.11.2026',t:'Flusstal, Kartenwahl',i:['🏞️ Flusstal: Das Spielfeld wird beim Verschieben nicht mehr oben oder unten abgeschnitten.','🃏 Kartenwahl zwischen den Zoos: eine Karte ist immer selten oder legendär, die zweite manchmal, die dritte gewöhnlich.','⏱️ Der Besucherwunsch „2 Tage früher“ kommt nicht mehr.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -38,7 +38,7 @@ const SHAPES={
 };
 function rotCells(cells,rot){let c=cells.map(x=>x.slice());for(let i=0;i<((rot%6)+6)%6;i++)c=c.map(([q,r])=>[-r,q+r]);return c}
 function placeCells(key,rot,q,r){return rotCells(SHAPES[CARDS[key].shape].cells,rot).map(([a,b])=>[a+q,b+r])}
-const costParts=key=>{const cl=SHAPES[CARDS[key].shape].cells.length,C=CARDS[key],dk=typeof dkNow==='function'?dkNow():'',n=Math.max(1,cl-(C.cat==='gehege'&&cl>=4?1:0)-(dk==='freizeit'&&C.cat==='attr'?1:0)-(dk==='steppe'&&C.cat==='gehege'&&cl===4?1:0)+(dk==='steppe'&&C.cat==='gehege'&&cl===1?1:0)+(dk==='dschungel'&&C.cat==='attr'?1:0)),x=[];if(cl===1&&hasSpec('polier')&&typeof state!=='undefined'&&state&&state.day===0)x.push(['🧱','Polier']);if(taxed(key))x.push(['💸','Teuerung']);return{n,x}};
+const costParts=key=>{const cl=SHAPES[CARDS[key].shape].cells.length,C=CARDS[key],dk=typeof dkNow==='function'?dkNow():'',n=Math.max(1,cl-(C.cat==='gehege'&&cl>=4?1:0)-(dk==='freizeit'&&C.cat==='attr'?1:0)+(dk==='steppe'&&C.cat==='gehege'&&cl===1?1:0)+(dk==='dschungel'&&C.cat==='attr'?1:0)),x=[];if(cl===1&&hasSpec('polier')&&typeof state!=='undefined'&&state&&state.day===0)x.push(['🧱','Polier']);if(taxed(key))x.push(['💸','Teuerung']);return{n,x}};
 const costOf=key=>{if(typeof umbBm==='function'&&umbBm()&&CARDS[key]&&CARDS[key].cat!=='verst')return 0;const p=costParts(key);if(p.n===1&&hasSpec('rb_leicht')&&CARDS[key].cat!=='verst'&&typeof state!=='undefined'&&state&&(state.free1||0)<2)return 0;return Math.max(1,p.n+p.x.length-(CARDS[key].pr==='leicht'?1:0))};
 const costTxt=key=>{const p=costParts(key);return`${costOf(key)} BP${CARDS[key].pr==='leicht'?' (🪶 −1)':''}${p.x.length?` <b class="cx">(${p.x.map(e=>e[0]+' '+e[1]+': +1').join(' · ')})</b>`:''}`};
 const costDots=key=>{const p=costParts(key);return'<i></i>'.repeat(p.n)+'<i class="x"></i>'.repeat(p.x.length)+(p.x.length?`<em>${p.x.map(e=>e[0]).join('')}</em>`:'')};

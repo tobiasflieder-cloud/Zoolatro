@@ -1178,9 +1178,9 @@
  ]
 },
 "erwartet":{
- "A": 203,
- "S": 234,
- "total": 47502,
+ "A": 202,
+ "S": 231,
+ "total": 46662,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1204,7 +1204,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 14,
+   "a": 18,
    "s": 8,
    "parts": [
     [
@@ -1219,17 +1219,17 @@
     ],
     [
      "🪧 Besucherlotse ×1,25",
-     1,
+     2,
      0
     ],
     [
      "🔗 Kombo ×1,5: nicht gestresst",
-     3,
+     4,
      2
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     5,
+     6,
      3
     ]
    ]
@@ -1254,7 +1254,7 @@
   },
   {
    "id": 4,
-   "a": 12,
+   "a": 14,
    "s": 8,
    "parts": [
     [
@@ -1274,7 +1274,7 @@
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     8,
+     9,
      5
     ],
     [
@@ -1286,7 +1286,7 @@
   },
   {
    "id": 5,
-   "a": 18,
+   "a": 16,
    "s": 8,
    "parts": [
     [
@@ -1300,21 +1300,21 @@
      1
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     3,
+     "🌾 Herde aus 4 ×1,25",
+     2,
      1
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     9,
+     8,
      4
     ]
    ]
   },
   {
    "id": 6,
-   "a": 31,
-   "s": 19,
+   "a": 29,
+   "s": 16,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1337,9 +1337,9 @@
      0
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     6,
-     4
+     "🌾 Herde aus 4 ×1,25",
+     4,
+     2
     ],
     [
      "🤝 Freundschaft mit Giraffenweide ×1,25",
@@ -1349,7 +1349,7 @@
     [
      "❤️ neben dem Besucherliebling ×1,25",
      6,
-     4
+     3
     ]
    ]
   },
@@ -1434,8 +1434,8 @@
   },
   {
    "id": 12,
-   "a": 20,
-   "s": 11,
+   "a": 18,
+   "s": 10,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1458,9 +1458,9 @@
      0
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     4,
-     2
+     "🌾 Herde aus 4 ×1,25",
+     2,
+     1
     ],
     [
      "🤝 Freundschaft mit Zebrasteppe ×1,25",
@@ -1516,7 +1516,7 @@
   {
    "id": 15,
    "a": 18,
-   "s": 42,
+   "s": 45,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1546,7 +1546,7 @@
     [
      "⭐ Tagesfeld ×3,0",
      12,
-     28
+     30
     ]
    ]
   },
@@ -1603,8 +1603,8 @@
   },
   {
    "id": 20,
-   "a": 9,
-   "s": 6,
+   "a": 8,
+   "s": 5,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1617,14 +1617,14 @@
      1
     ],
     [
-     "🌾 Herde aus 4 ×1,45",
-     2,
+     "🌾 Herde aus 4 ×1,25",
+     1,
      1
     ],
     [
      "🧲 Publikumsmagnet",
      3,
-     2
+     1
     ]
    ]
   },
