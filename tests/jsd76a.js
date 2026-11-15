@@ -19,7 +19,7 @@ const start=(w,st)=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx
  T(/class="glz"/.test(oc[2])&&/ · Legendär/.test(oc[2])&&/ocard[^"]* rg2/.test(oc[2]),'legendäre Karte im Angebot: Glanz und „Legendär“ in der Infozeile');
  ev(`(()=>{const r=runOf();r.reward={};r.vNow=[];r.newNow=[];crewardStep('card');state=null;modal=null;screen='creward';screenArg=r.reward;renderAll()})()`);
  const kc=[...d.querySelectorAll('.pcard.kcard')];
- T(kc.length>0&&kc.every(e=>!!e.querySelector('.glz')&&/Selten|Legendär/.test(e.querySelector('.meta3').textContent)),'Lauf-Deck zwischen den Zoos: Glanz und „Selten“/„Legendär“ ('+kc.length+' Karten)');
+ {const rs=kc.filter(e=>/Selten|Legendär/.test(e.querySelector('.meta3').textContent));T(kc.length>0&&rs.length>=1&&kc.every(e=>!!e.querySelector('.glz')===/Selten|Legendär/.test(e.querySelector('.meta3').textContent)),'Lauf-Deck zwischen den Zoos: seltene mit Glanz und „Selten“/„Legendär“, gewöhnliche ohne ('+rs.length+' von '+kc.length+', seit 0.84a 1–2 seltene)')}
  dom.window.close();
  // 4. Stufen 1–8
  const soll={1:[18,3,1.3,4],2:[15,3,1.3,4],3:[15,1,1.3,4],4:[15,1,1.3,6],5:[15,1,1.3,6],6:[15,1,1.15,6],7:[12,1,1.15,6],8:[9,0,0,6]};

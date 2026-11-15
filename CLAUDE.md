@@ -124,7 +124,7 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 - **0.84a** ([Auftrag](docs/auftraege/0.84a-flusstal-kartenwahl.md)): Flusstal: Ursache war nicht die Drehung (Flusstal hat `norot`), sondern das senkrechte Verschieben
   ohne Zoom (`SHIFT` durch Wischen oder `fitUnderInfo`): Das SVG ist beim flachen Gelände nur so hoch wie das Gelände (`--ar`), verschobene Felder wurden an seiner Kante abgeschnitten.
   Lösung CSS `.boardwrap:not(.zoomed) #board{overflow:visible}`; `quer.js` Schritt 11 (Gegenprobe ohne Korrektur: 9–13 Felder verdeckt). Kartenwahl `crewardStep('card')`:
-  Pools `rare`/`comm`, Platz 1 selten, Platz 2 zu 50 %, Platz 3 gewöhnlich (Forscher 2). `WISH.early.gone`, Filter in `wishRoll` und Glossar. `regeln.md` 1.3 korrigiert. Test neu `jsd84a.js`.
+  Pools `rare`/`comm`, Platz 1 selten, Platz 2 zu 50 %, Platz 3 gewöhnlich (Forscher 2). `WISH.early.gone`, Filter in `wishRoll` und Glossar. `regeln.md` 1.3 korrigiert. Test neu `jsd84a.js`, angepasst `jsd76a` (Kartenwahl: nur seltene glänzen).
 - **0.83a** (Chat 13.11.): Testlauf „4 Tage“ schaltet Stufen und Herausforderungen frei (`z2After` schließt nur noch `run.seed` aus); Highscores/Bestwerte bleiben getrennt.
   Einmalig nachträglich in `loadMeta`: laufender Testlauf (`sl.run`/`runAlt`, `d4`, `zoo>=3`) → nächste Stufe, Merker `run.d4st`. Abgeschlossene Läufe sind nicht gespeichert (`sl.run=null`, Highscores ohne Profil),
   dafür gibt es keine Nachholung. Hinweistext am Schalter angepasst. Test neu `jsd83a.js`.
