@@ -105,7 +105,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 2. **Früh geschafft im Testlauf 4 Tage** (Chat 15.11.): `earlyReward(left)` (`01-regeln-karten.js` ~Z. 20) gibt Geschenke ab 2 Tagen früher (2 → Futtersack, 3 → Umbaukiste, 4 → Profi-Mappe).
    Bei 4 Tagen ist höchstens 3 früher möglich, die Profi-Mappe also nie. Neu bei `run.d4`: **1 → Futtersack, 2 → Umbaukiste, 3 → Profi-Mappe** (Baupunkte wie bisher +1 je Tag). Text im Sieg-Fenster entsprechend.
 
-3. **Detail-Fenster: Zoo-Wert aufschlüsseln** (Chat 15.11., Screenshot Korallenriff: Karte +18 B +12 N, Zoo +40 B +16 N – woher der Rest kommt, sieht man im Fenster nicht).
+3. **Detail-Fenster: Zoo-Wert aufschlüsseln** (Entwurf `docs/stil/details-zoo-entwurf.html`; Chat 15.11., Screenshot Korallenriff: Karte +18 B +12 N, Zoo +40 B +16 N – woher der Rest kommt, sieht man im Fenster nicht).
    Im Detail-Fenster (`detSheetHtml`, `07-anzeige.js`) unter der Rechnung einen Abschnitt **„🏞️ Wirkung auf den Zoo“** mit der Aufstellung, die es im Info-Feld schon gibt
    (Tabelle `calc` ~Z. 160–172: Diese Karte · Nachbarn und andere mit Liste · Mehrfach gebaut · Zwischensumme · Zoo-Multiplikatoren wie 👑 Krone, Reinheit, Vielfalt, Gruppen-Bonus bei anderen · **= Zoo**).
    Die Summe muss genau den Zoo-Wert ergeben. Nur bei Vorschau/Bauen/Ausbau, bei gebauten Gebäuden „Anteil am Zoo“ weglassen oder ebenso rechnen.
