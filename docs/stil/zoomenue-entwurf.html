@@ -1,0 +1,133 @@
+<title>Zoo-Menü Entwurf</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* Layout: Handy-Bildschirm. Oben "Dieser Zoo" (3–4 große Kacheln, feste Reihenfolge), darunter "Dein Stand" (kleine Werte-Kacheln zum Aufklappen), unten Regeln-Knopf und Los-Knopf. */
+:root{
+  color-scheme:dark;
+  --bg:#12301f;--panel:#1a3f2a;--panel2:#224d33;--paper:#f4efe1;--paper2:#ebe3d1;--ink:#1d2a21;--muted:#6b7a6f;
+  --text:#eaf2e3;--tmuted:#9fbba5;--gold:#ffd166;--bad:#d64545;--good:#2f8f4e;
+  --b:#a85d00;--bbg:#ffe7c4;--n:#00756b;--nbg:#c9f1ec;
+  --hard:#ff5a5f;--mid:#ffd166;--perm:#7b5fd0;
+  --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
+  --f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#0b2015;color:var(--text);font-family:var(--f-body);font-size:14px;line-height:1.35;
+  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.col{width:390px;max-width:100%;display:flex;flex-direction:column;gap:10px;min-width:0}
+.lbl{font-family:var(--f-display);color:var(--gold);font-size:18px}
+.note{color:var(--tmuted);font-size:12.5px}
+.note ul{margin:4px 0 0;padding-left:18px}
+.phone{background:var(--bg);border-radius:24px;border:2px solid #2b5a3b;padding:14px 12px 12px}
+.sheet{background:var(--paper);color:var(--ink);border-radius:18px;padding:12px 12px 12px;display:flex;flex-direction:column;gap:10px}
+h1{font-family:var(--f-display);font-weight:400;font-size:22px;margin:0;line-height:1.1}
+.when{font-size:12.5px;color:var(--muted);margin-top:-6px}
+.sec{font-family:var(--f-display);font-size:14px;letter-spacing:.4px;color:#3b4a3f;margin:2px 0 -4px;display:flex;justify-content:space-between;align-items:baseline}
+.sec small{font-family:var(--f-body);font-size:11.5px;color:var(--muted)}
+
+/* Dieser Zoo: große Kacheln */
+.big{display:flex;flex-direction:column;gap:6px}
+.tile{display:grid;grid-template-columns:34px 1fr auto;gap:2px 10px;align-items:center;background:var(--paper2);border-radius:12px;padding:8px 10px;border-left:5px solid transparent}
+.tile .i{font-size:22px;grid-row:1 / span 2;text-align:center}
+.tile b{font-weight:600;font-size:14px;line-height:1.2}
+.tile span.t{grid-column:2;font-size:12px;color:var(--muted);line-height:1.25}
+.tile .st{grid-row:1 / span 2;grid-column:3;font-family:var(--f-display);font-size:15px;padding:3px 8px;border-radius:8px;background:#fff;white-space:nowrap}
+.tile.wr{border-left-color:#5cbfe3}
+.tile.auf{border-left-color:var(--hard)}
+.tile.wish{border-left-color:var(--gold)}
+.tile.win{border-left-color:#8fb8d8}
+.st.open{color:var(--bad)}.st.ok{color:var(--good)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--paper2);border-radius:99px;padding:3px 9px;font-size:12px;white-space:nowrap}
+.chip.p{background:#e6e0f7;color:#3b2c7a}
+
+/* Dein Stand: kleine Werte zum Aufklappen */
+.grid{display:flex;flex-direction:column;gap:5px}
+details{background:var(--paper2);border-radius:10px;padding:0}
+
+summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:10px}
+summary::-webkit-details-marker{display:none}
+summary:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+summary .i{font-size:18px}
+summary .k{flex:1;min-width:0;font-size:13px;line-height:1.15}
+summary .k small{color:var(--muted);font-size:11.5px;margin-left:4px}
+summary .v{font-family:var(--f-display);font-size:15px;white-space:nowrap}
+.v.n{color:var(--n)}.v.b{color:var(--b)}.v.o{color:var(--muted)}
+details .x{padding:0 10px 9px 36px;font-size:12px;color:#3b4a3f}
+details .x b{font-weight:600}
+
+.btns{display:flex;gap:8px}
+.btn{font-family:var(--f-display);font-size:16px;border:0;border-radius:12px;padding:10px 12px;cursor:pointer}
+.btn.sub{background:var(--paper2);color:var(--ink);flex:1}
+.btn.main{background:var(--gold);color:var(--ink);flex:1.3}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+/* Regeln-Ansicht */
+.rule{background:var(--paper2);border-radius:10px;padding:8px 10px;font-size:12.5px}
+.rule b{font-weight:600;font-size:13.5px}
+</style>
+
+<div class="wrap">
+
+<div class="col">
+  <div class="lbl">Neu: Zoo-Menü, aufgeräumt</div>
+  <div class="phone"><div class="sheet">
+    <div><h1>Zoo 3 · Australien</h1></div>
+    <div class="when">☀️ Sommer, Tag 2 von 5 · Great Barrier Reef</div>
+
+    <div class="sec">Dieser Zoo</div>
+    <div class="big">
+      <div class="tile wr"><span class="i">🌏</span><b>Schwerpunkt 💧 Wasser</b><span class="t">Zoo 3 von 4 · 18 von 28 Naturflächen sind Wasser</span></div>
+      <div class="tile auf"><span class="i">⭐</span><b>Auflage: Vorzeigegehege</b><span class="t">2 Gehege auf Stufe III bis Ende Winter, sonst gescheitert</span><span class="st open">1/2</span></div>
+      <div class="tile wish"><span class="i">🔴</span><b>Besucherwunsch</b><span class="t">2 verschiedene bedrohte Arten · Belohnung +40 Taler</span><span class="st">1/2</span></div>
+      <div class="tile win"><span class="i">❄️</span><b>Winter</b><span class="t">Die Winter-Bedingung wird im Herbst angekündigt</span><span class="st" style="color:var(--muted)">Herbst</span></div>
+    </div>
+    <div class="chips">
+      <span class="chip p">🔨 Fleißige Helfer</span><span class="chip p">🪙 Goldader</span><span class="chip">💸 Gastro +1 BP</span><span class="chip">🎁 Geschenk: 🦁 Löwen</span>
+    </div>
+
+    <div class="sec">Dein Stand <small>antippen für Erklärung</small></div>
+    <div class="grid">
+      <details><summary><span class="i">🧬</span><span class="k">Reinheit<small>🌾 5 Arten</small></span><span class="v n">×1,3 N</span></summary>
+        <div class="x">Ab 4 <b>verschiedenen</b> Gehege-Arten eines Lebensraums, die zusammenhängen: ×1,15 Natur für den ganzen Zoo, je weitere Art +0,15 (höchstens ×1,6). Bei dir: 🌾 Savanne mit 5 Arten.</div></details>
+      <details><summary><span class="i">🎨</span><span class="k">Vielfalt<small>💧 hat nur 1 Art</small></span><span class="v o">–</span></summary>
+        <div class="x">Haben <b>alle</b> Lebensräume mindestens 2 verschiedene Gehege-Arten: je 2 Arten ×1,1 Natur, je 3 ×1,15 … Bei dir fehlt noch eine 2. Wasser-Art.</div></details>
+      <details><summary><span class="i">🍼</span><span class="k">Zucht<small>Zebras + Zebras II</small></span><span class="v n">1 möglich</span></summary>
+        <div class="x">Zwei gleiche Gehege nebeneinander, eines mindestens Stufe II: Am Ende der Jahreszeit kommt ein Jungtier ins Deck.</div></details>
+      <details><summary><span class="i">📈</span><span class="k">Spezialisten<small>🌊 Wasser-Pflegerin</small></span><span class="v b">×1,2 B</span></summary>
+        <div class="x">🌊 Wasser-Pflegerin: ×1,2 B, wächst mit jedem Wasser-Gehege (3 im Zoo).</div></details>
+      <details><summary><span class="i">🧺</span><span class="k">Futter<small>Futterplätze</small></span><span class="v o">3 frei</span></summary>
+        <div class="x">Im Futtersack: 🐟 Fisch, 🥕 Karotten. Freie Plätze bei Pinguinen, Otter und Seelöwen.</div></details>
+      <details><summary><span class="i">🧭</span><span class="k">Lebensraum-Regeln<small>💧 🌾 🏜️</small></span><span class="v o">3</span></summary>
+        <div class="x">💧 Wasser: Gruppen zählen nur zusammenhängend. 🌾 Savanne: … 🏜️ Wüste: Einzelgänger ×2. (Volltext wie heute)</div></details>
+    </div>
+
+    <div class="btns"><button class="btn sub">📖 Regeln</button><button class="btn main">Weiter</button></div>
+  </div></div>
+  <div class="note">Oben steht nur, was <b>diesen Zoo</b> ausmacht, immer in derselben Reihenfolge: Ziel, Auflage, Thema der Jahreszeit, Winter. Kleinigkeiten (Boni, Teuerung, Geschenk) als Chips. Darunter <b>Dein Stand</b> mit dem aktuellen Wert statt Erklärtext; Antippen klappt die Erklärung auf.</div>
+</div>
+
+<div class="col">
+  <div class="lbl">„📖 Regeln“ (feste Regeln, selten gebraucht)</div>
+  <div class="phone"><div class="sheet">
+    <h1>📖 Regeln für diesen Lauf</h1>
+    <div class="rule"><b>🏔️ Stufe 3</b><br>Saisonziele ×1,1 · nur 1 Goldfeld</div>
+    <div class="rule"><b>🦁 Profil-Regel: Safari-Ranger</b><br>(Text der Profil-Regel)</div>
+    <div class="rule"><b>🍼 Zucht</b><br>Stehen zwei gleiche Gehege nebeneinander und ist eines mindestens Stufe II, kommt am Ende der Jahreszeit ein Jungtier ins Lauf-Deck: 1 Feld, halber Grundwert … höchstens 3 im Deck.</div>
+    <div class="rule"><b>🧬 Reinheit · 🎨 Vielfalt</b><br>(volle Erklärung)</div>
+    <div class="rule"><b>🗺️ Gelände</b><br>Felsen, Naturflächen, Gold- und Kronenfeld</div>
+    <div class="btns"><button class="btn main">◂ Zurück</button></div>
+  </div></div>
+  <div class="note">Was heute im Menü steht und wohin es wandert:
+    <ul>
+      <li><b>Bleibt oben:</b> Weltreise-Ziel, Auflage, Besucherwunsch, Winter-Bedingung</li>
+      <li><b>Wird Chip:</b> dauerhafte Boni, Teuerung, Geschenk vom Raubtierhaus</li>
+      <li><b>Wird „Dein Stand“:</b> Reinheit, Vielfalt, Zucht, Wachsende Spezialisten, Futter, Lebensraum-Regeln</li>
+      <li><b>Wandert zu „📖 Regeln“:</b> Stufe, Profil-Regel, lange Erklärtexte, Gelände</li>
+    </ul>
+    Aus bis zu 15 Kacheln werden 4 große, ein paar Chips und 6 kleine Werte.</div>
+</div>
+
+</div>

@@ -99,6 +99,14 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.86a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**Zoo-Menü aufräumen** (Entwurf `docs/stil/zoomenue-entwurf.html`, Menge war das Problem): `zooBoxHtml` (`06-spiel.js` ~Z. 355) neu gliedern:
+   „Dieser Zoo“ (feste Reihenfolge: Weltreise-Ziel/Schwerpunkt, Auflage mit Stand, Besucherwunsch, Winter) · Chips (dauerhafte Boni, Teuerung, Geschenk) ·
+   „Dein Stand“ als aufklappbare Zeilen mit aktuellem Wert (Reinheit, Vielfalt, Zucht, Wachsende Spezialisten, Futter, Lebensraum-Regeln) ·
+   Knopf „📖 Regeln“ mit Stufe, Profil-Regel, langen Erklärtexten und Gelände. Querformat-Seitenleiste (`railRender`) mitprüfen.
+
+**Freischaltbare Gehege stärker** (Meta-Fortschritt, Variante A): +1 auf den Hauptwert, außer Gorillas, Büffel, Belugas. Werte aus Tobis Tabelle „Freischalt-Karten Werte“
+   (Claude-Sheet) – vor dem Bauen im Chat abholen und in `daten/karten.json` eintragen; Referenzfälle prüfen.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße, ob Europa oft genug/zu oft kommt.
 
