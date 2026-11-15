@@ -71,6 +71,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .boardarea{flex:1;min-height:0;container-type:size;display:flex;align-items:center;justify-content:center}
 .boardwrap{position:relative;aspect-ratio:var(--ar,1);width:min(100cqw,calc(100cqh * var(--ar,1)))}
 .boardwrap.zoomed{overflow:hidden;border-radius:12px;box-shadow:inset 0 0 0 2px #ffd16655}
+.boardwrap:not(.zoomed) #board{overflow:visible} /* 0.84a: ohne Zoom (z. B. flaches Flusstal) verschobene Felder nicht an der Bildkante abschneiden */
 .boardwrap.zoomed #board{cursor:grab}
 .zoombtn{position:absolute;bottom:4px;left:4px;z-index:7;width:34px;height:34px;border-radius:50%;border:0;background:#0f2518d9;color:var(--text);font-size:16px;box-shadow:0 2px 8px #0006}
 .zoomed .zoombtn{background:var(--gold)}

@@ -97,15 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.84a) – erst bauen, wenn Tobi „bauen“ sagt
-
-**0.84a (klein)** – Auftrag [`docs/auftraege/0.84a-flusstal-kartenwahl.md`](docs/auftraege/0.84a-flusstal-kartenwahl.md), dazu Wunsch ⏱️ „2 Tage früher“ streichen:
-1. **Flusstal oben abgeschnitten** (nur dieses Gelände, nicht Zoom): nachstellen im Hochformat (~412×915), mehrere Tage, Info-Feld abwechselnd groß/klein.
-   Verdacht: `computeView` (`05-ton.js` ~Z. 60) entscheidet die Drehung abhängig von der Info-Feld-Höhe → `VB`, `setRot` und `--ar` passen nicht zusammen.
-   Lösung: Drehung einmal pro Zoo beim Start festlegen, danach `VB`/`--ar` immer passend zur aktuellen Drehung. Test in `quer.js` (alle Felder im sichtbaren Spielfeld).
-2. `docs/regeln.md` 1.3 korrigieren: Auf Naturflächen sind nur Gehege **anderer** Lebensräume gesperrt; Gastro, Attraktionen, Naturschutz dürfen dort stehen (`fits`).
-3. Kartenwahl zwischen den Zoos (`crewardStep('card')`, `11-bildschirme.js` ~Z. 60): nur 1–2 seltene/legendäre Karten (Platz 1 immer, Platz 2 zu 50 %), Rest gewöhnlich;
-   auch beim Neuziehen und beim Forscher (2 Karten: Platz 1 immer, Platz 2 zu 50 %). Bonus-Karten zählen wie seltene.
+## 6. Liste fürs nächste Bauen (wird 0.85a) – erst bauen, wenn Tobi „bauen“ sagt
 
 **0.85a (groß): 🌍 Weltreise-Modus** – Auftrag [`docs/auftraege/0.85a-weltreise.md`](docs/auftraege/0.85a-weltreise.md), vollständige Beschreibung in **`docs/plan/weltreise.md`**.
    Erst mit der Kontinent-Wahl als **Liste** (Entwurf `docs/stil/weltreise-entwurf.html`, Vorschaubild = echtes Gelände des Ziels).
@@ -129,6 +121,10 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.84a** ([Auftrag](docs/auftraege/0.84a-flusstal-kartenwahl.md)): Flusstal: Ursache war nicht die Drehung (Flusstal hat `norot`), sondern das senkrechte Verschieben
+  ohne Zoom (`SHIFT` durch Wischen oder `fitUnderInfo`): Das SVG ist beim flachen Gelände nur so hoch wie das Gelände (`--ar`), verschobene Felder wurden an seiner Kante abgeschnitten.
+  Lösung CSS `.boardwrap:not(.zoomed) #board{overflow:visible}`; `quer.js` Schritt 11 (Gegenprobe ohne Korrektur: 9–13 Felder verdeckt). Kartenwahl `crewardStep('card')`:
+  Pools `rare`/`comm`, Platz 1 selten, Platz 2 zu 50 %, Platz 3 gewöhnlich (Forscher 2). `WISH.early.gone`, Filter in `wishRoll` und Glossar. `regeln.md` 1.3 korrigiert. Test neu `jsd84a.js`.
 - **0.83a** (Chat 13.11.): Testlauf „4 Tage“ schaltet Stufen und Herausforderungen frei (`z2After` schließt nur noch `run.seed` aus); Highscores/Bestwerte bleiben getrennt.
   Einmalig nachträglich in `loadMeta`: laufender Testlauf (`sl.run`/`runAlt`, `d4`, `zoo>=3`) → nächste Stufe, Merker `run.d4st`. Abgeschlossene Läufe sind nicht gespeichert (`sl.run=null`, Highscores ohne Profil),
   dafür gibt es keine Nachholung. Hinweistext am Schalter angepasst. Test neu `jsd83a.js`.

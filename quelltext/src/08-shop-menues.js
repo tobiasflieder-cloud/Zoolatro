@@ -470,11 +470,12 @@ const WISH={
   arten5:{se:[0],ic:()=>'🦓',t:()=>'5 verschiedene Tierarten im Zoo',need:5,n:()=>new Set(state.buildings.filter(wGeh).map(b=>spK(baseK(b.key)))).size,rw:['rd',1]},
   day4:{se:[1,2],ic:()=>'🏗️',t:()=>'Baue an einem Tag 4 Karten',need:4,n:W=>Math.max(W.best||0,state.builtToday||0),rw:['rd',1]},
   calm:{se:[1,2],end:1,ic:()=>'😌',t:()=>'Beende die Jahreszeit mit mindestens 3 Beute- oder scheuen Tieren, keins davon gestresst',need:1,n:()=>wCalmN()>=3&&!zooStress(state.buildings)?1:0,rw:['bp',1]},
-  early:{se:[1,2],end:1,ic:()=>'⏱️',t:()=>'Schaffe das Saisonziel mindestens 2 Tage früher',need:1,n:W=>W.early?1:0,rw:['tal',25]}};
+  early:{gone:1,se:[1,2],end:1, // 0.84a: wird nicht mehr ausgelost (laufende Spielstände spielen ihn zu Ende)
+   ic:()=>'⏱️',t:()=>'Schaffe das Saisonziel mindestens 2 Tage früher',need:1,n:W=>W.early?1:0,rw:['tal',25]}};
 const wRwTxt=r=>r[0]==='tal'?`+${r[1]} Taler`:r[0]==='rd'?'1 Gratis-Neuziehen':r[0]==='bp'?'+1 Baupunkt am nächsten Spieltag':r[0]==='gold'?'eine Karte deines Decks wird 🪙 Gold (×1,2 B)':'eine Karte deines Decks wird ⭐ Star (×1,25)';
 const wishOn=()=>{try{const r=runOf();return!!(state&&state.zl&&state.mode==='camp'&&r&&r.zl&&!r.tut&&state.season<3&&!stAb('keine_wuensche'))}catch(e){return false}};
 function wishRoll(){if(!wishOn()){state.wish=null;return}if(state.wish&&state.wish.s===state.season&&state.wish.z===(state.zoo||0))return;const run=runOf(),seen=run?(run.wishSeen=run.wishSeen||[]):(state.wishSeen=state.wishSeen||[]);
-  const f=()=>{const H=habsNow(),ids=Object.keys(WISH).filter(id=>{const D=WISH[id];if(D.se&&!D.se.includes(state.season))return false;if(seen.includes(id))return false;return true});const sh=shuffle(ids);
+  const f=()=>{const H=habsNow(),ids=Object.keys(WISH).filter(id=>{const D=WISH[id];if(D.gone)return false;if(D.se&&!D.se.includes(state.season))return false;if(seen.includes(id))return false;return true});const sh=shuffle(ids);
     for(const id of sh){const D=WISH[id],W={id,s:state.season,z:state.zoo||0,ids0:state.buildings.map(b=>b.id)};if(D.hab)W.h=H[Math.floor(Math.random()*H.length)];if(!D.end&&D.n(W)>=D.need)continue;return W}return null};
   let W=run&&run.seed?withSeed(run.seed+'|w|'+(state.zoo||0)+'|'+state.season+'|'+(run.stage||1),f):f();if(!W&&seen.length){seen.length=0;W=f()}state.wish=W;if(W){seen.push(W.id);if(!(run&&run.tut))state.wishIntro=1}}
 function wishGive(r){if(r[0]==='tal'){state.money+=r[1];state.stats.earned+=r[1]}else if(r[0]==='rd')state.rdBonus=(state.rdBonus||0)+r[1];else if(r[0]==='bp'){state.bpWish=(state.bpWish||0)+r[1];state.bpWhy=(state.bpWhy||[]).concat('🌟 Besucherwunsch')}

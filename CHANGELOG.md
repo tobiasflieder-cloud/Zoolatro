@@ -5,6 +5,11 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.84a · 15.11.2026 · Flusstal, Kartenwahl
+- 🏞️ Flusstal: Das Spielfeld wurde oben (oder unten) mit gerader Kante abgeschnitten, wenn die Ansicht verschoben war – durch Wischen oder automatisch, wenn die Vorschau unter dem Info-Feld lag. Jetzt bleibt alles sichtbar.
+- 🃏 Neue Karten zwischen den Zoos: Platz 1 ist immer selten oder legendär, Platz 2 zur Hälfte, Platz 3 gewöhnlich (Profil Forscher: Platz 1 immer, Platz 2 zur Hälfte). Gilt auch beim Neuziehen.
+- ⏱️ Der Besucherwunsch „Schaffe das Saisonziel mindestens 2 Tage früher“ wird nicht mehr ausgelost.
+
 ## 0.83a · 13.11.2026 · Testlauf schaltet Stufen frei
 - 🧪 Ein Testlauf „4 Tage“, in dem du Zoo 3 schaffst, schaltet jetzt die nächste Stufe des Profils frei. Auch Herausforderungen zählen im Testlauf. Highscores und Bestwerte bleiben für Testläufe getrennt.
 - Läuft gerade ein Testlauf, der Zoo 3 schon geschafft hat, wird die Stufe beim nächsten Start einmalig nachträglich freigeschaltet.

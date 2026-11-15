@@ -134,5 +134,14 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
       const L=c=>{const m=c.match(/[\d.]+/g).map(Number);return(.2126*m[0]+.7152*m[1]+.0722*m[2])/255},bg=e=>{for(let x=e;x;x=x.parentElement){const c=getComputedStyle(x).backgroundColor;if(c&&!/rgba\(0, 0, 0, 0\)|transparent/.test(c))return c}return'rgb(0,0,0)'};
       const h=hs[0],con=h?Math.abs(L(getComputedStyle(h).color)-L(bg(h))):1;return{n:rows.length,ov,con,h:!!h}});
     T(r.n>0&&r.ov===0,`${wo}: Futter verteilen: ${r.n} Zeilen ohne Überlappung`);if(r.h)T(r.con>.35,`${wo}: Gruppen-Überschrift lesbar (Kontrast ${r.con.toFixed(2)})`)}
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.82a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.82a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 11) 0.84a: Flusstal ohne Zoom: auch mit verschobener Ansicht und großem/kleinem Info-Feld bleiben alle Felder sichtbar (nicht an der Bildkante abgeschnitten)
+  if(vp.dev){p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);const r=runOf();r.maps={0:'flusstal'};r.plan=null;r.game=null;state=null;startZoo();modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.rule=null;ZOOM=null;
+    const k=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1);const fr=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));state.buildings=[{id:1,key:k,cells:[fr[0]],lvl:1}];render()});
+   let bad=0,tot=0;for(const info of[null,1])for(const sh of[0,-25,25]){await p.evaluate(([i,s])=>{state.info=i;render();SHIFT=s;panView()},[info,sh]);await p.waitForTimeout(250);
+     const r=await p.evaluate(()=>{const inf=document.getElementById('info').getBoundingClientRect(),act=document.querySelector('.actions').getBoundingClientRect(),area=document.querySelector('.boardarea').getBoundingClientRect();let n=0,h=0;
+       for(const c of document.querySelectorAll('#board polygon[data-q]')){const r=c.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;if(y<inf.bottom||y>act.top||y<area.top||y>area.bottom)continue;n++;const e=document.elementFromPoint(x,y);if(!(e&&e.closest('#board')))h++}return{n,h}});tot+=r.n;bad+=r.h}
+   T(bad===0&&tot>0,`${wo}: Flusstal (Hochformat, Info klein/groß, verschoben): alle ${tot} Felder sichtbar`);
+   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.84a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

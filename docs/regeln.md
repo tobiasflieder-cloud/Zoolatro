@@ -36,9 +36,9 @@ Jede Karte hat: `cat` (Kategorie), `a` (Grund-Besucher B), `s` (Grund-Natur N), 
 
 ### 1.3 Bauen (`04:fits`, `01:costOf`)
 - Alle Felder müssen auf dem Gelände liegen und frei sein, es darf kein Storchennest darauf sein.
-- **Felsen** sind gesperrt (außer mit Sprengmeister). **Naturflächen** sind nur für **Gehege des gleichen Lebensraums** baubar.
-  Andere Kategorien dürfen auf Naturflächen gar nicht stehen. Ausnahme: Wildhüterin `rb_wild` gibt alle Naturflächen frei, der
-  Natur-Bonus gilt aber nur auf der passenden.
+- **Felsen** sind gesperrt (außer mit Sprengmeister). Auf **Naturflächen** sind nur **Gehege anderer Lebensräume** gesperrt
+  (`fits`: `c.cat!=='gehege'||c.hab===t`). Attraktionen, Gastro und Naturschutz dürfen auf Naturflächen stehen (außer mit der Auflage 🌳 Baumschutz).
+  Ausnahme: Wildhüterin `rb_wild` gibt alle Naturflächen auch für fremde Gehege frei, der Natur-Bonus gilt aber nur auf der passenden.
 - `einmalig`-Karten nur einmal je Zoo.
 - **Baupunkte-Kosten** (`costParts`/`costOf`): Anzahl Felder, Gehege mit ≥4 Feldern 1 weniger, mindestens 1.
   Dazu Profil-Regeln (Freizeit: Attraktion −1, Steppe: 4-Feld-Gehege −1 und 1-Feld-Gehege +1, Dschungel: Attraktion +1),

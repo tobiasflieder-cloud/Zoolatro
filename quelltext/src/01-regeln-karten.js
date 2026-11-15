@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.83a';
+const VERSION='0.84a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.84a',d:'15.11.2026',t:'Flusstal, Kartenwahl',i:['🏞️ Flusstal: Das Spielfeld wird beim Verschieben nicht mehr oben oder unten abgeschnitten.','🃏 Kartenwahl zwischen den Zoos: eine Karte ist immer selten oder legendär, die zweite manchmal, die dritte gewöhnlich.','⏱️ Der Besucherwunsch „2 Tage früher“ kommt nicht mehr.']},
  {v:'0.83a',d:'13.11.2026',t:'Testlauf schaltet Stufen frei',i:['🧪 Ein Testlauf „4 Tage“, in dem du Zoo 3 schaffst, schaltet jetzt die nächste Stufe des Profils frei, und Herausforderungen zählen. Highscores und Bestwerte bleiben getrennt.']},
- {v:'0.82a',d:'13.11.2026',t:'Gruppen-Bonus, Einstieg, Reparatur',i:['🐞 Die Liste beim Futter verteilen ist wieder sauber lesbar.','👥 Spezialisten mit „für jedes …“ werden stärker, je mehr solche Gehege du hast: z. B. Wasser-Pflegerin bei 5 Wasser-Gehegen je ×1,5 B und N. „Aktuell pro Tag“ zeigt jetzt den echten Gewinn.','🧑‍💼 Zoogründer auf Stufe 1: alle Ziele ×0,8. Herbst-Ziele steigen je Zoo etwas langsamer.','🔥 Heizkosten ×1,25 (verschärft ×1,5). 🪙 Die Kasse im Minus wird rot. Im Testlauf keine „Lockere Bebauung“.']},
- {v:'0.81a',d:'13.11.2026',t:'Winter sichtbar, Details, Aufstellung',i:['❄️ Ab dem Herbst zeigen Schilder auf dem Spielfeld, was die Winter-Bedingung trifft, z. B. „❄️×0,75“. Die Winter-Ansage nennt, wie viele Gehege betroffen sind.','📏 Mindestgröße entschärft: ×0,75 (verschärft ×0,5) und erst ab Zoo 3.','🔎 „Details“ öffnet ein Fenster mit der ganzen Rechnung: Grundwert, Plus, Faktoren und das Ergebnis.','👥 Antippen der B- oder N-Anzeige zeigt die Aufstellung mit allen Zoo-Faktoren.','🎰 Das Lebensraum-Lotto greift nur noch an manchen Tagen (1 zu 4). Testläufe zählen jetzt für Freischaltungen. Die Sommer-Ziele steigen je Zoo etwas langsamer.']}];
+ {v:'0.82a',d:'13.11.2026',t:'Gruppen-Bonus, Einstieg, Reparatur',i:['🐞 Die Liste beim Futter verteilen ist wieder sauber lesbar.','👥 Spezialisten mit „für jedes …“ werden stärker, je mehr solche Gehege du hast: z. B. Wasser-Pflegerin bei 5 Wasser-Gehegen je ×1,5 B und N. „Aktuell pro Tag“ zeigt jetzt den echten Gewinn.','🧑‍💼 Zoogründer auf Stufe 1: alle Ziele ×0,8. Herbst-Ziele steigen je Zoo etwas langsamer.','🔥 Heizkosten ×1,25 (verschärft ×1,5). 🪙 Die Kasse im Minus wird rot. Im Testlauf keine „Lockere Bebauung“.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
