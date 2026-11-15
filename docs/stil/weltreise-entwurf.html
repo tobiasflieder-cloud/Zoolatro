@@ -1,0 +1,171 @@
+<title>Weltreise Kontinentwahl</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* Layout: Handy-Bildschirm (Hochformat) mit Reiseroute oben, drei Kontinent-Karten untereinander, Knopf unten. Farben aus dem Spiel. */
+:root{
+  color-scheme:dark;
+  --bg:#12301f;--panel:#1a3f2a;--panel2:#224d33;--paper:#f4efe1;--ink:#1d2a21;
+  --text:#eaf2e3;--muted:#9fbba5;--gold:#ffd166;--bad:#ff5a5f;
+  --tile:#3b7447;--rock:#1c201b;
+  --h-wasser:#5cbfe3;--h-savanne:#e2c46e;--h-wald:#7cc860;--h-wueste:#e8a070;
+  --easy:#7cc860;--mid:#ffd166;--hard:#ff5a5f;
+  --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
+  --f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#0b2015;color:var(--text);font-family:var(--f-body);font-size:14px;line-height:1.35;
+  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.col{width:390px;max-width:100%;display:flex;flex-direction:column;gap:10px;min-width:0}
+.lbl{font-family:var(--f-display);color:var(--gold);font-size:18px}
+.note{color:var(--muted);font-size:12.5px}
+.phone{background:var(--bg);border-radius:24px;border:2px solid #2b5a3b;padding:14px 12px 12px;display:flex;flex-direction:column;gap:10px}
+h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0;color:var(--gold);text-align:center;text-wrap:balance}
+.sub{text-align:center;color:var(--muted);font-size:12.5px;margin-top:-6px}
+
+/* Reiseroute */
+.route{display:flex;align-items:center;gap:4px;justify-content:center;flex-wrap:wrap}
+.stop{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);width:58px}
+.stop .b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px;background:var(--panel2);border:2px solid #2f6243}
+.stop.done .b{border-color:var(--gold)}
+.stop.now .b{border-color:var(--gold);background:#2f5a3e;box-shadow:0 0 0 4px #ffd16633;font-family:var(--f-display);color:var(--gold)}
+.stop.now{color:var(--gold)}
+.line{width:14px;height:2px;background:#2f6243;margin-bottom:16px}
+.line.done{background:var(--gold)}
+
+.strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--panel);border-radius:12px;padding:7px 10px;font-size:12.5px}
+.strip b{font-weight:600;color:var(--muted);margin-right:2px}
+.chip{background:var(--panel2);border-radius:99px;padding:2px 8px;white-space:nowrap}
+
+/* Kontinent-Karte */
+.opts{display:flex;flex-direction:column;gap:10px}
+.cont{background:var(--paper);color:var(--ink);border-radius:16px;padding:10px 12px 11px;display:grid;grid-template-columns:96px 1fr;gap:4px 12px;
+  border:3px solid transparent;cursor:pointer;text-align:left;font:inherit;width:100%}
+.cont:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.cont.sel{border-color:var(--gold);box-shadow:0 0 0 4px #ffd16640}
+.map{grid-row:1 / span 3;align-self:start}
+.map svg{display:block;width:96px;height:auto}
+.nm{font-family:var(--f-display);font-size:20px;line-height:1.05;display:flex;align-items:center;gap:6px}
+.nat{display:flex;flex-direction:column;gap:3px}
+.bar{display:flex;height:9px;border-radius:9px;overflow:hidden;background:#e4dccb}
+.bar span{display:block;height:100%}
+.natt{font-size:12px;color:#55645a}
+.natt b{color:var(--ink);font-weight:600}
+.row2{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.box{border-radius:10px;padding:6px 8px;background:#ebe3d1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.box .k{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:#6b7a6f;display:flex;align-items:center;gap:5px}
+.box .v{font-weight:600;font-size:13.5px;line-height:1.2}
+.box .t{font-size:11.5px;color:#55645a;line-height:1.25}
+.lv{font-size:10px;font-weight:600;border-radius:99px;padding:1px 6px;color:var(--ink);text-transform:none;letter-spacing:0}
+.lv.e{background:var(--easy)}.lv.m{background:var(--mid)}.lv.h{background:var(--hard);color:#fff}
+.box.rw{background:#e6e0f7}
+.box.rw.none{background:#ebe3d1;opacity:.7}
+.perm{font-size:10px;font-weight:600;border-radius:99px;padding:1px 6px;background:#7b5fd0;color:#fff;text-transform:none;letter-spacing:0}
+.inst{font-size:10px;font-weight:600;border-radius:99px;padding:1px 6px;background:#c9bdf0;color:#3b2c7a;text-transform:none;letter-spacing:0}
+
+.go{font-family:var(--f-display);font-size:19px;border:0;border-radius:14px;padding:12px;background:var(--gold);color:var(--ink);cursor:pointer}
+.go:disabled{background:#3a5a45;color:#8fae98;cursor:default}
+.go:focus-visible{outline:3px solid #fff;outline-offset:2px}
+
+/* Variante Popup */
+.pop{background:var(--paper);color:var(--ink);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;text-align:center}
+.pop h2{font-family:var(--f-display);font-weight:400;margin:0;font-size:22px}
+.pop p{margin:0}
+.pop .big{font-size:46px;line-height:1}
+.pop .rule{background:#ebe3d1;border-radius:10px;padding:8px 10px;text-align:left;font-size:13px}
+@media (prefers-reduced-motion:no-preference){.cont{transition:border-color .15s,box-shadow .15s}}
+</style>
+
+<div class="wrap">
+
+<div class="col">
+  <div class="lbl">Kontinent-Wahl zwischen zwei Zoos</div>
+  <div class="phone">
+    <h1>Wohin geht die Reise?</h1>
+    <div class="sub">Zoo 3 von 4 · tippen zum Auswählen</div>
+
+    <div class="route" aria-label="Reiseroute">
+      <div class="stop done"><div class="b">🌍</div>Afrika</div><div class="line done"></div>
+      <div class="stop done"><div class="b">🌏</div>Asien</div><div class="line done"></div>
+      <div class="stop now"><div class="b">3</div>?</div><div class="line"></div>
+      <div class="stop"><div class="b">🏁</div>Zoo 4</div>
+    </div>
+
+    <div class="strip"><b>Deine Gehege-Karten</b><span class="chip">🌿 6</span><span class="chip">💧 4</span><span class="chip">🌾 2</span><span class="chip">🏜️ 1</span></div>
+    <div class="strip"><b>Deine Boni</b><span class="chip">🔨 Fleißige Helfer</span></div>
+
+    <div class="opts" id="opts"></div>
+    <button class="go" id="go" disabled>Kontinent wählen</button>
+  </div>
+  <div class="note">Beispiel mit einem Dschungel-lastigen Deck. Südamerika passt, ist aber ohne Belohnung. Australien passt kaum, gibt aber dauerhaft ein Goldfeld. Das kleine Gelände ist hier nur angedeutet. <b>Im Spiel zeigt es das echte Gelände</b> des Zoos (vorab erzeugt, mit Naturflächen und Felsen).</div>
+</div>
+
+<div class="col">
+  <div class="lbl">Danach: Ankunft beim Zoo-Start</div>
+  <div class="phone">
+    <div class="pop">
+      <div class="big">🌏</div>
+      <h2>Willkommen in Australien!</h2>
+      <p style="font-size:13px;color:#55645a">Viel Wasser im Gelände: 18 von 28 Naturflächen</p>
+      <div class="rule"><b><span class="lv h">schwer</span> ⭐ Vorzeigegehege</b><br>Bis Ende Winter mindestens 2 Gehege auf Stufe III. Sonst ist der Zoo gescheitert.</div>
+      <div class="rule" style="background:#e6e0f7"><b><span class="perm">dauerhaft</span> 🪙 Goldader</b><br>+1 Goldfeld in diesem und jedem weiteren Zoo.</div>
+      <button class="go">Los geht’s</button>
+    </div>
+    <div class="strip" style="justify-content:space-between"><span>⭐ Vorzeigegehege</span><span class="chip">0/2 · bis Winter</span></div>
+    <div class="note" style="color:var(--muted)">So sähe das Schild mit dem Stand in der Leiste aus. Im Winter wird es rot, solange es offen ist.</div>
+  </div>
+  <div class="note">Die Einblendung ersetzt die heutige Auflage-Einblendung beim Zoo-Start (gleicher Stil wie der Besucherwunsch).</div>
+</div>
+
+</div>
+
+<script>
+const HC={wald:'var(--h-wald)',wasser:'var(--h-wasser)',savanne:'var(--h-savanne)',wueste:'var(--h-wueste)'};
+const HI={wald:'🌿',wasser:'💧',savanne:'🌾',wueste:'🏜️'};
+const OPTS=[
+  {id:'sa',ic:'🌎',name:'Südamerika',seed:3,nat:{wald:18,wasser:4,savanne:3,wueste:3},
+   auf:{lv:'e',lvn:'leicht',ic:'👁️',n:'Sichtachse',t:'6 Felder in einer Linie bleiben frei.'},rw:null},
+  {id:'au',ic:'🌏',name:'Australien',seed:7,nat:{wasser:18,wueste:4,wald:3,savanne:3},
+   auf:{lv:'h',lvn:'schwer',ic:'⭐',n:'Vorzeigegehege',t:'2 Gehege auf Stufe III bis Ende Winter.'},rw:{p:1,ic:'🪙',n:'Goldader',t:'+1 Goldfeld in jedem Zoo.'}},
+  {id:'af',ic:'🌍',name:'Afrika',seed:11,nat:{savanne:18,wueste:4,wald:3,wasser:3},
+   auf:{lv:'m',lvn:'mittel',ic:'🚫',n:'Raubtier-Abstand',t:'Raubtiere nicht neben Beutetiere.'},rw:{p:0,ic:'🎁',n:'Mitbringsel',t:'Seltene oder legendäre Karte zur Wahl.'}}
+];
+function rnd(s){return()=>{s=(s*9301+49297)%233280;return s/233280}}
+function hexMap(o){
+  const R=4,cells=[];for(let q=-R;q<=R;q++)for(let r=-R;r<=R;r++){if(Math.abs(q+r)<=R)cells.push([q,r])}
+  const rr=rnd(o.seed);const pool=[];for(const h in o.nat)for(let i=0;i<Math.round(o.nat[h]*61/56);i++)pool.push(h);
+  // grobe Flecken: Felder nach Winkel und Zufall sortieren, Lebensräume blockweise vergeben
+  const ang=c=>Math.atan2(c[1]*1.5,(c[0]+c[1]/2)*1.732)+rr()*0.9;
+  const sorted=cells.map(c=>({c,a:ang(c)})).sort((a,b)=>a.a-b.a).map(x=>x.c);
+  const T=new Map();let i=0;const keys=Object.keys(o.nat);
+  for(const h of keys){let n=Math.round(o.nat[h]*61/56);while(n-->0&&i<sorted.length){const c=sorted[i++];if(rr()<.55||h===keys[0])T.set(c+'',h);else{T.set(c+'',null)}}}
+  sorted.slice(i).forEach(c=>T.set(c+'',null));
+  [[1,-3],[-2,2],[3,0]].forEach(c=>T.set(c+'','rock'));
+  const s=6,w=s*1.732;let svg='';
+  for(const [q,r] of cells){const x=48+w*(q+r/2),y=48+s*1.5*r,t=T.get([q,r]+'');
+    const col=t==='rock'?'var(--rock)':t?HC[t]:'var(--tile)';
+    const pts=[0,1,2,3,4,5].map(k=>{const a=Math.PI/180*(60*k-30);return(x+s*Math.cos(a)).toFixed(1)+','+(y+s*Math.sin(a)).toFixed(1)}).join(' ');
+    svg+=`<polygon points="${pts}" fill="${col}" stroke="#12301f" stroke-width="1"/>`}
+  return `<svg viewBox="0 0 96 96" role="img" aria-label="Gelände-Vorschau">${svg}</svg>`}
+function card(o){
+  const tot=Object.values(o.nat).reduce((a,b)=>a+b,0),main=Object.keys(o.nat)[0];
+  const bar=Object.entries(o.nat).map(([h,n])=>`<span style="width:${n/tot*100}%;background:${HC[h]}"></span>`).join('');
+  const lst=Object.entries(o.nat).map(([h,n],i)=>i?`${HI[h]} ${n}`:`<b>${HI[h]} ${n}</b>`).join(' · ');
+  const rw=o.rw?`<div class="box rw"><span class="k">Belohnung ${o.rw.p?'<span class="perm">dauerhaft</span>':'<span class="inst">sofort</span>'}</span><span class="v">${o.rw.ic} ${o.rw.n}</span><span class="t">${o.rw.t}</span></div>`
+    :`<div class="box rw none"><span class="k">Belohnung</span><span class="v">keine</span><span class="t">Dafür eine leichte Auflage.</span></div>`;
+  return `<button class="cont" data-id="${o.id}" aria-pressed="false">
+    <div class="map">${hexMap(o)}</div>
+    <div class="nm">${o.ic} ${o.name}</div>
+    <div class="nat"><div class="bar">${bar}</div><div class="natt">Naturflächen ${tot}: ${lst}</div></div>
+    <div class="natt">Schwerpunkt <b>${HI[main]} ${({wald:'Dschungel',wasser:'Wasser',savanne:'Savanne',wueste:'Wüste'})[main]}</b></div>
+    <div class="row2">
+      <div class="box"><span class="k">Auflage <span class="lv ${o.auf.lv}">${o.auf.lvn}</span></span><span class="v">${o.auf.ic} ${o.auf.n}</span><span class="t">${o.auf.t}</span></div>
+      ${rw}
+    </div></button>`}
+const box=document.getElementById('opts'),go=document.getElementById('go');
+box.innerHTML=OPTS.map(card).join('');
+box.addEventListener('click',e=>{const b=e.target.closest('.cont');if(!b)return;
+  box.querySelectorAll('.cont').forEach(x=>{x.classList.toggle('sel',x===b);x.setAttribute('aria-pressed',x===b)});
+  const o=OPTS.find(x=>x.id===b.dataset.id);go.disabled=false;go.textContent=`Nach ${o.name} reisen ${o.ic}`});
+</script>
