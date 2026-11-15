@@ -13,6 +13,7 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 - 🌾 **Savanne schwächer:** Die Herde zählt erst ab 3 zusammenhängenden Gehegen (×1,15), je weiteres +0,1, höchstens ×1,75. Zu zweit ×1, allein weiter ×0,5. Beim Safari-Ranger je weiteres +0,15; seine Gehege mit 4 Feldern kosten jetzt wie überall 3 Baupunkte.
 - 🔓 **Freischaltbare Gehege stärker** (+1 auf den Hauptwert): Nilpferde und Tiger 7 B, Mendesantilopen 6 B, Nashörner 7 N, Koalas 5 B, Eisbären 8 B, Krokodile 6 B, Schneeleoparden 6 B, Kängurus 6 B, Antilopen 6 B, Kraken 5 N, Dingos 5 B, Rentiere 6 B, Braunbären 7 B, Rote Pandas 5 B.
 - 👑 **Kronenfeld erreichbar:** Es liegt nur noch auf Feldern, auf die ein Gehege mit 4 Feldern in mehreren Lagen passt (nicht mehr eingeklemmt zwischen Rand, Felsen und fremden Naturflächen). Gilt in beiden Modi.
+- 🐞 Ganz selten konnte das Flusstal beim Erzeugen auf ein einziges Feld schrumpfen. Behoben.
 
 ## 0.85a · 15.11.2026 · 🌍 Weltreise
 - 🌍 Neuer Modus **Weltreise**: Schalter „🌍 Weltreise“ bei der Wahl der Lebensräume (lässt sich mit „🧪 4 Tage“ kombinieren). Die Reise hat 4 Zoos, mit freigeschalteter Arktis und freigeschaltetem Gebirge je einen mehr.

@@ -1874,8 +1874,8 @@ const MAPROCKS={...GELAENDE_DATEN.felsen};
 const cfOf=run=>{const c=campCfg(run.zoo),m=run.maps&&run.maps[run.zoo];if(!m)return run.deckId==='alpen'&&run.zl&&!run.tut?{...c,rocks:(c.rocks||0)+3}:c;const z=run.zoo||0,rk=(z===0?0:m==='zerkluftet'?3:Math.max(MAPROCKS[m]||0,2*z-2))+(run.deckId==='alpen'&&run.zl&&!run.tut?3:0);return{...c,map:m,rocks:rk}};
 function campCfg(z){if(z<CAMP.length)return CAMP[z];const ks=Object.keys(MAPS),e=z-CAMP.length+1;return{map:ks[z%ks.length],rocks:6+2*e,k:3,n:2,spring:true,hard:true,mult:2.2+.5*e}}
 const axXY=(q,r)=>[Math.sqrt(3)*(q+r/2),1.5*r];
-function connectedPart(cells){if(!cells.length)return cells;const set=new Set(cells.map(c=>hk(...c)));
-  let start=cells.reduce((b,c)=>Math.hypot(...axXY(...c))<Math.hypot(...axXY(...b))?c:b,cells[0]);
+function connectedPart(cells,ctr){if(!cells.length)return cells;const set=new Set(cells.map(c=>hk(...c))),[ox,oy]=ctr||[0,0],dd=c=>{const[x,y]=axXY(...c);return Math.hypot(x-ox,y-oy)};
+  let start=cells.reduce((b,c)=>dd(c)<dd(b)?c:b,cells[0]); // 0.86a: ctr = Mitte (shrinkMap), sonst Ursprung
   const seen=new Set([hk(...start)]),q=[start];while(q.length){const[a,b]=q.pop();for(const[dq,dr]of DIRS){const k=hk(a+dq,b+dr);if(set.has(k)&&!seen.has(k)){seen.add(k);q.push([a+dq,b+dr])}}}
   return cells.filter(c=>seen.has(hk(...c)))}
 // star-shaped outline around the centre: rim(angle) gives the radius
@@ -1895,7 +1895,8 @@ function addRocks(t,set,n,rnd){const cells=[...set];let placed=0;
 // 0.91: Gelände etwa 80 %: die äußersten Felder (mit etwas Zufall) fallen weg, das Gelände bleibt zusammenhängend
 const MAPSHRINK=GELAENDE_DATEN.schrumpfen,d4Now=()=>{try{return isD4(runOf())}catch(e){return false}};
 function shrinkMap(m,rnd){const n0=m.cells.length,keep=Math.round(n0*MAPSHRINK*(d4Now()?.8:1));if(keep>=n0)return m;let cx=0,cy=0;for(const c of m.cells){const[x,y]=axXY(...c);cx+=x;cy+=y}cx/=n0;cy/=n0;
-  const sc=m.cells.map(c=>{const[x,y]=axXY(...c);return[c,Math.hypot(x-cx,y-cy)+rnd()*1.8]}).sort((a,b)=>a[1]-b[1]),cells=connectedPart(sc.slice(0,keep).map(e=>e[0])),set=new Set(cells.map(c=>hk(...c)));
+  const sc=m.cells.map(c=>{const[x,y]=axXY(...c);return[c,Math.hypot(x-cx,y-cy)+rnd()*1.8]}).sort((a,b)=>a[1]-b[1]),cells=connectedPart(sc.slice(0,keep).map(e=>e[0]),[cx,cy]), // 0.86a: von der Mitte aus (vorher Ursprung: Flusstal konnte selten auf 1 Feld schrumpfen)
+  set=new Set(cells.map(c=>hk(...c)));
   for(const k of[...m.terr.keys()])if(!set.has(k))m.terr.delete(k);return{...m,cells}}
 // 0.71a: Naturfelder fest verteilen – 18 je Zoo, nur gewählte Lebensräume, Flecken zu 2–4 (Flusstal: Wasser als Fluss-Strang)
 // Schwerpunkt je Gelände: die erste Variante, deren Lebensräume alle gewählt sind, sonst die letzte
