@@ -156,13 +156,13 @@ function natPlace(m,key,H,rnd){const t=m.terr,set=new Set(m.cells.map(c=>hk(...c
   const free=k=>set.has(k)&&!t.has(k),nbs=k=>{const[q,r]=k.split(',').map(Number);return DIRS.map(([dq,dr])=>hk(q+dq,r+dr))};
   const touch=(k,own)=>nbs(k).some(n=>t.has(n)&&HAB[t.get(n)]&&!own.has(n));
   const edge=[...set].filter(k=>nbs(k).some(n=>!set.has(n)));
-  const Q=natQuota(key,H,natNow());let placed=0;
+  const Q=WRCTX?wrQuota(m,H):natQuota(key,H,natNow());let placed=0; // 0.85a: Weltreise eigene Verteilung (ohne Stufen-Naturfelder)
   // Flusstal: Wasser als zusammenhängender Strang von links nach rechts
   if(key==='flusstal'&&Q.wasser){const X=k=>axXY(...k.split(',').map(Number))[0];const xs=[...set].map(X),xmin=Math.min(...xs);
     for(let tries=0;tries<60;tries++){const st=pick([...set].filter(k=>free(k)&&X(k)<xmin+3));if(!st)break;const path=[st],own=new Set([st]);
       while(path.length<Q.wasser){const cur=path[path.length-1],c=nbs(cur).filter(n=>free(n)&&!own.has(n)&&X(n)>=X(cur)-.1&&!nbs(n).some(z=>own.has(z)&&z!==cur));if(!c.length)break;const e=c.filter(n=>X(n)>X(cur)+.5),nx=e.length&&rnd()<.75?pick(e):pick(c);path.push(nx);own.add(nx)}
       if(path.length===Q.wasser){path.forEach(k=>t.set(k,'wasser'));placed+=path.length;Q.wasser=0;break}}}
-  const sizes=n=>{const o=[];while(n>0){const s=n<=4?n:2+Math.floor(rnd()*Math.min(3,n-3));o.push(s);n-=s}return o};
+  const sizes=n=>{const o=[];if(WRCTX){const a=WRL.fleck_min,b=WRL.fleck_max;while(n>0){let s=n<=b?n:a+Math.floor(rnd()*(b-a+1));if(n-s>0&&n-s<a)s=Math.max(a,n-a);o.push(s);n-=s}return o}while(n>0){const s=n<=4?n:2+Math.floor(rnd()*Math.min(3,n-3));o.push(s);n-=s}return o};
   const patch=(h,size,strict)=>{const seeds=(key==='bucht'&&(h==='wasser'||h==='wueste')?edge:[...set]).filter(k=>free(k)&&(!strict||!touch(k,new Set())));
     for(let tries=0;tries<40&&seeds.length;tries++){const sd=pick(seeds),p=[sd],own=new Set([sd]);
       for(let g=0;g<60&&p.length<size;g++){const c=nbs(pick(p)).filter(n=>free(n)&&!own.has(n)&&(!strict||!touch(n,own)));if(c.length){const n=pick(c);p.push(n);own.add(n)}}
@@ -170,7 +170,8 @@ function natPlace(m,key,H,rnd){const t=m.terr,set=new Set(m.cells.map(c=>hk(...c
   const order=Object.keys(Q).filter(h=>Q[h]>0).sort((a,b)=>Q[b]-Q[a]);
   for(const h of order)for(const sz of sizes(Q[h])){let got=patch(h,sz,true)||patch(h,sz,false);if(!got){for(let s2=sz-1;s2>=1&&!got;s2--)got=patch(h,s2,false)}placed+=got}
   return m}
-function genMap(key,rnd=Math.random,extra=0){const m=shrinkMap(genMap0(key,rnd,extra),rnd);const H=(GENHABS&&GENHABS.length?GENHABS:DEFHABS).filter(h=>HAB[h]);return natPlace(m,key,H,rnd)}
+function genMap(key,rnd=Math.random,extra=0){const m=shrinkMap(genMap0(key,rnd,extra),rnd);if(WRCTX&&wrBon('boden')){const R=shuffle([...m.terr].filter(e=>e[1]==='block').map(e=>e[0]),rnd).slice(0,3);for(const k of R)m.terr.delete(k)} // 0.85a: 🪨 Leichter Boden = 3 Felsen weniger
+  const H=(GENHABS&&GENHABS.length?GENHABS:DEFHABS).filter(h=>HAB[h]);return natPlace(m,key,H,rnd)}
 function genMap0(key,rnd=Math.random,extra=0){const t=new Map(),pick=a=>a[Math.floor(rnd()*a.length)],habs=DEFHABS.slice();let cells;
   if(key==='flusstal'){cells=[];for(let row=0;row<7;row++)for(let c=0;c<13;c++)cells.push([c-Math.floor(row/2),row]);
     let row=2+Math.floor(rnd()*3);const at=(c,rw)=>hk(c-Math.floor(rw/2),rw);

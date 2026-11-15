@@ -6,7 +6,7 @@
   python3 quelltext/mache.py --app    -> zusätzlich build/app-index.html (für zoolatro-app/www/index.html)
 
 Quelle der Wahrheit sind die Module in quelltext/src und die Daten in daten/ (karten, merkmale, spezialisten, futter,
-winter, gelaende, stufen, profile, texte_de, tutorial, foerderprogramme, werbung, ereignisse, praegungen, herausforderungen – je eine .json).
+winter, gelaende, stufen, profile, texte_de, tutorial, foerderprogramme, werbung, ereignisse, praegungen, herausforderungen, kontinente – je eine .json).
 Die Daten werden an den Platzhaltern /*@@DATEN:name@@*/null eingesetzt, es bleibt eine einzige HTML-Datei.
 index.html nie von Hand ändern.
 """

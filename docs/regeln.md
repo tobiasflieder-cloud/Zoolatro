@@ -385,3 +385,25 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - Jedes betroffene Gebäude ×(1 + `schritt` × Anzahl im Zoo), `schritt` in `daten/spezialisten.json` (0,1 / 0,15 / 0,05). Als Faktor-Schritt in `evalB` (`pctAdd` mit `fa/fs`).
 - „Aktuell pro Tag“: `07:yieldCmp` = `scoreZoo` (A und S nach Zoo-Faktoren) mit minus ohne die Wirkung.
 - Heizkosten (`dayIncome`): Pflege ×1,25, verschärft ×1,5.
+
+## 16. 🌍 Weltreise-Modus (0.85a, `run.wr`; Plan `docs/plan/weltreise.md`, Daten `daten/kontinente.json` → `06:WR_DATEN`)
+- **Start:** Schalter `META.wr` bei der Lebensraum-Wahl → `09:enterCamp` setzt `run.wr`, `run.wrN` (Lauflänge `06:wrGoalN` = 4 + je 1 für freigeschaltete Arktis/Gebirge, `habOpen`) und `run.boni=[]`.
+  Ohne Plan für den aktuellen Zoo zeigt `enterCamp` die Kontinent-Wahl (`run.reward={step:'wr',first:1}`). `06:runGoal(run)` ersetzt `CAMP_GOAL` überall, wo der Lauf endet.
+- **Auslosung** `06:wrRollOpts` (mit Seed: `seed|wr|zoo|stufe`): Kontinente mit mindestens einem gewählten Schwerpunkt (Schwerpunkt zufällig unter den gewählten), freigeschaltet über `frei`;
+  Anzahl `lauf.ziele` (3), ab Stufe 2 `ziele_ab_stufe2` (2); fehlt eins, kommt **Europa** (`ruhe`) dazu (kein Schwerpunkt, keine Auflage, keine Belohnung). Schwierigkeit je Ziel zufällig
+  (vor Zoo 1 nur leicht/mittel), nie nur schwere; Auflage aus `auflagen` mit dieser Schwierigkeit, keine doppelt in einer Wahl, bevorzugt noch nicht gesehene (`seenOf`), im Testlauf ohne `locker`.
+  Belohnung: leicht keine, mittel eine aus `belohnungen.sofort` (Speisekammer nur mit Futter), schwer eine noch nicht erhaltene aus `belohnungen.dauerhaft` (sonst sofort).
+  Ort je Ziel aus `orte` (bevorzugt noch nicht besucht). Je Ziel wird der Plan vorab erzeugt (`rollPlan0` mit `WRCTX={foc,rule,rw,eu}`, eigenes Gelände `run.maps[zoo]` je Ziel), die Vorschau zeigt dieses echte Gelände.
+- **Gelände** (`04:natPlace` mit `WRCTX` → `06:wrQuota`): Naturflächen = runde(bebaubare Felder × `natur_anteil` 0,5), davon runde(× `schwerpunkt_anteil` ⅔) im Schwerpunkt, der Rest gleichmäßig auf die übrigen gewählten
+  Lebensräume; Flecken `fleck_min`–`fleck_max` (4–7). Europa: `europa_naturfelder` (18, im Testlauf ×0,8) gleich verteilt. Stufen-Naturfelder (`stW('natur')`) gelten nicht. Im Testlauf „4 Tage“ ist das Feld ×0,8, die Hälfte davon ergibt sich anteilig.
+- **Wahl** `06:wrGo`: Plan übernehmen, `run.wrDest`/`run.wrRoute` merken; dauerhafte Belohnung → `run.boni`; sofort: Speisekammer 2× `gsack`, Bewerberflut `gprofi`, Bauoffensive 2× `gumb` (Geschenke im Shop, `run.gifts`),
+  Mitbringsel = Schritt `wrgift` (3 Karten aus dem seltenen Kartenwahl-Los `11:zkPools`), Prägung = Schritt `perk` mit `a.wrPerk` (danach Start), Partnerschaft = beim Start ein zufälliges Förderprogramm (`06:wrArrive`).
+- **Dauerhafte Boni** (`06:wrBon`, wirken ab dem Zoo, in dem man sie bekommt): Goldader `initZl` +1 Goldfeld · Fleißige Helfer `startDay` +1 BP am 1. Tag von Frühling und Sommer · Gastforscher `07:rollMarket` +1 Bewerber ·
+  Leichter Boden `04:genMap` entfernt 3 Felsen des fertigen Geländes.
+- **Ziel-Auflagen** (`ziel_auflagen`, `RULES[..].ziel`, Stand `06:wrGoal`): Prüfung in `07:endDay`, wenn das Winterziel erreicht ist: offen und noch Tage übrig → weiterspielen (Hinweis), offen am letzten Wintertag
+  → `state.wrFail`, Zoo gescheitert (eigener Text). Vielfalt zählt Lebensräume mit ≥ 2 Gehegen; Nachwuchs = Gehege mit `jt`. **Auswilderung** (`06:wrAuswild`, aus `startDay`): am 1. Tag von Sommer und Winter ein zufälliges
+  Gehege (ohne Meilenstein) weg, eine passende Karte aus `run.deck` (`run.wrGone`), Einblendung `#wrAusPop`. Weltreise-Auflagen (`RULES[..].wr`) kommen in `ruleRoll` nie vor.
+- **Zwischen den Zoos:** `06:newReward` mit `run.wr`: keine Vorschau, kein Prägungs-Schritt; Karten → Team → `data-cwr` → Schritt `wr` (Kontinent-Wahl `06:wrPickHtml`). Beim Start `rulePop` = „Willkommen in …“ (`06:wrWelcomeHtml`).
+- **Besucherwunsch** (`08:wishOn`): nur im Sommer; Belohnungen `08:WRWISH` (über `wRw`), `arten5` braucht 6 Arten und darf im Sommer kommen. „Karte nach Wahl“ (Star/Gold) öffnet das Fenster `state.wpick` (`08:wpickDo`).
+- **Highscores:** Einträge mit `wr`, `goal`, `zp` (Punkte je Zoo); Sortierung `09:csCmp`: erst erreichte Zoos bis zum kürzeren Ziel, dann Punkte bis dahin.
+- **Baugrube** (`achse`, auch im normalen Modus): `06:initRule` wählt 5 zusammenhängende Felder (möglichst mittig, erst ohne Naturflächen), `R.ax`.

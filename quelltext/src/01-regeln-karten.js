@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.84a';
+const VERSION='0.85a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.85a',d:'15.11.2026',t:'🌍 Weltreise',i:['🌍 Neuer Modus Weltreise (Schalter bei den Lebensräumen, auch mit „4 Tage“): Vor jedem Zoo wählst du ein Reiseziel. Jedes hat einen Lebensraum-Schwerpunkt im Gelände, eine Auflage und eine Belohnung. 4 Zoos, mit Arktis und Gebirge je einer mehr.','🎯 Neue Ziel-Auflagen (bis Ende Winter erfüllen) und 🦓 Auswilderung. Belohnungen: mittlere Auflagen sofort, schwere dauerhaft für den Rest der Reise.','🌟 In der Weltreise gibt es den Besucherwunsch nur im Sommer, dafür mit stärkerer Belohnung.','🚧 Die Sichtachse heißt jetzt Baugrube: 5 zusammenhängende Felder bleiben frei.']},
  {v:'0.84a',d:'15.11.2026',t:'Flusstal, Kartenwahl',i:['🏞️ Flusstal: Das Spielfeld wird beim Verschieben nicht mehr oben oder unten abgeschnitten.','🃏 Kartenwahl zwischen den Zoos: eine Karte ist immer selten oder legendär, die zweite manchmal, die dritte gewöhnlich.','⏱️ Der Besucherwunsch „2 Tage früher“ kommt nicht mehr.']},
- {v:'0.83a',d:'13.11.2026',t:'Testlauf schaltet Stufen frei',i:['🧪 Ein Testlauf „4 Tage“, in dem du Zoo 3 schaffst, schaltet jetzt die nächste Stufe des Profils frei, und Herausforderungen zählen. Highscores und Bestwerte bleiben getrennt.']},
- {v:'0.82a',d:'13.11.2026',t:'Gruppen-Bonus, Einstieg, Reparatur',i:['🐞 Die Liste beim Futter verteilen ist wieder sauber lesbar.','👥 Spezialisten mit „für jedes …“ werden stärker, je mehr solche Gehege du hast: z. B. Wasser-Pflegerin bei 5 Wasser-Gehegen je ×1,5 B und N. „Aktuell pro Tag“ zeigt jetzt den echten Gewinn.','🧑‍💼 Zoogründer auf Stufe 1: alle Ziele ×0,8. Herbst-Ziele steigen je Zoo etwas langsamer.','🔥 Heizkosten ×1,25 (verschärft ×1,5). 🪙 Die Kasse im Minus wird rot. Im Testlauf keine „Lockere Bebauung“.']}];
+ {v:'0.83a',d:'13.11.2026',t:'Testlauf schaltet Stufen frei',i:['🧪 Ein Testlauf „4 Tage“, in dem du Zoo 3 schaffst, schaltet jetzt die nächste Stufe des Profils frei, und Herausforderungen zählen. Highscores und Bestwerte bleiben getrennt.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -15,7 +15,7 @@ const DAYS0=5;let DAYS=DAYS0,TUTNOW=false;const isD4=r=>!!(r&&r.d4); // 0.77a: T
 const HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:9500},{name:'Sommer',target:51000},{name:'Herbst',target:118000},{name:'Winter',target:267000,winter:true}]; // 0.91: per Bot neu gemessen (5 Tage, kleineres Gelände, ohne Profile/Förderprogramme)
-const EARLY_BONUS=5,EARLYG={gsack:['🧺','Futtersack'],gumb:['🧰','Umbau-Kiste'],gprofi:['💼','Profi-Mappe']};
+const EARLY_BONUS=5,EARLYG={gsack:['🧺','Futtersack'],gumb:['🧰','Umbau-Kiste'],gprofi:['💼','Profi-Mappe'],gmappe:['📁','Bewerbermappe']}; // gmappe: 0.85a Besucherwunsch der Weltreise
 // 0.66a Früh geschafft: je übrigem Tag +1 Baupunkt in der nächsten Jahreszeit (run.bpCarry, je Tag 1) + Geschenk ab 2/3/4 Tagen (run.gifts, im nächsten Shop gratis)
 function earlyReward(left){const r=runOf();if(!r||left<=0)return'';r.bpCarry=(r.bpCarry||0)+left;const ER=state.earlyR={left,bp:left,gift:null,gtal:0};let g=r.tut?null:left>=4?'gprofi':left>=3?'gumb':left>=2?'gsack':null,t=` · ⚡ <b>+${left} Baupunkt${left>1?'e':''}</b> in der nächsten Jahreszeit (je Tag 1)`;
   if(g==='gsack'&&!foodOnRun(r)){state.money+=20;state.stats.earned+=20;ER.gtal=20;t+=' · 🎁 <b>+🪙 20</b>'}else if(g){ER.gift=g;r.gifts=(r.gifts||[]).concat(g);t+=` · 🎁 <b>Gratis ${EARLYG[g][0]} ${EARLYG[g][1]}</b> im nächsten Shop`}return t}

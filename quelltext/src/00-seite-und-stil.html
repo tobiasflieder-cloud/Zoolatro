@@ -1048,6 +1048,39 @@ body.land #coach{max-width:480px;font-size:15.5px}body.land #coach p{margin:0 0 
 .wishpop .wpw{margin:0;font-size:17px;font-weight:700}
 .wishpop .wpr{margin:0;font-size:14px}.wishpop .wpr b{color:#9a6b00}
 .wishpop .wph{margin:0;font-size:12.5px;color:#5d6b60}
+/* 0.85a: 🌍 Weltreise – Kontinent-Wahl (Liste) und Willkommen-Einblendung (Entwurf docs/stil/weltreise-entwurf.html) */
+.wrh{text-align:center;margin:0;color:var(--gold);text-wrap:balance}
+.wrsub{text-align:center;color:var(--muted);font-size:12.5px;margin:-4px 0 0}
+.wrroute{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px}
+.wrst{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);width:58px;min-width:0;text-align:center}
+.wrst span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wrst b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:400;background:var(--panel2);border:2px solid #2f6243}
+.wrst.done b{border-color:var(--gold)}.wrst.now{color:var(--gold)}
+.wrst.now b{border-color:var(--gold);background:#2f5a3e;box-shadow:0 0 0 4px #ffd16633;font-family:var(--f-display);color:var(--gold)}
+.wrln{width:12px;height:2px;background:#2f6243;margin-bottom:16px;flex:none}.wrln.done{background:var(--gold)}
+.wrstrip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--panel);border-radius:12px;padding:7px 10px;font-size:12.5px}
+.wrstrip>b{font-weight:600;color:var(--muted);margin-right:2px}
+.wrchip{background:var(--panel2);border-radius:99px;padding:2px 8px;white-space:nowrap}
+.wropts{display:flex;flex-direction:column;gap:10px}
+.wrc{background:#f4efe1;color:var(--ink);border-radius:16px;padding:10px 12px 11px;display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 12px;border:3px solid transparent;cursor:pointer;text-align:left;font:inherit;width:100%;align-items:start}
+.wrc:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrc.sel{border-color:var(--gold);box-shadow:0 0 0 4px #ffd16640}
+.wrmap{grid-row:1 / span 3;align-self:start}.wrmap svg{display:block;width:96px;height:auto;max-height:110px}
+.wrnm{font-family:var(--f-display);font-size:20px;line-height:1.05;min-width:0}.wrnm small{display:block;font-family:var(--f-body);font-size:12px;color:#55645a;margin-top:2px}
+.wrnat{display:flex;flex-direction:column;gap:3px;min-width:0}
+.wrbar{display:flex;height:9px;border-radius:9px;overflow:hidden;background:#e4dccb}.wrbar span{display:block;height:100%}
+.wrnt{font-size:12px;color:#55645a;min-width:0}.wrnt b{color:var(--ink);font-weight:600}
+.wrrow{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:6px}
+.wrbox{border-radius:10px;padding:6px 8px;background:#ebe3d1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.wrbox .k{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:#6b7a6f;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.wrbox .v{font-weight:600;font-size:13.5px;line-height:1.2}
+.wrbox .t{font-size:11.5px;color:#55645a;line-height:1.25}
+.wrbox.rw{background:#e6e0f7}.wrbox.rw.none{background:#ebe3d1;opacity:.7}
+.wrlv,.wrbt{font-size:10px;font-weight:600;border-radius:99px;padding:1px 6px;text-transform:none;letter-spacing:0;color:var(--ink);white-space:nowrap}
+.wrlv.e{background:#7cc860}.wrlv.m{background:#ffd166}.wrlv.h{background:#ff5a5f;color:#fff}
+.wrbt.p{background:#7b5fd0;color:#fff}.wrbt.i{background:#c9bdf0;color:#3b2c7a}
+.wishpop .wrrule{background:#ebe3d1;border-radius:10px;padding:8px 10px;text-align:left;font-size:13px}.wishpop .wrrule.rw{background:#e6e0f7}
+.evb.wbb.wrb.bad{background:#ff5a5f;color:#fff}
 .wishpop .btn{margin-top:4px;flex:none}
 /* 0.75a: große Einblendungen (Auflage, Überraschung) und große Karte im Tutorial */
 .bigpop .bpcard{display:flex;justify-content:center;pointer-events:none}.bigpop .bpcard .ocard{width:min(210px,70%);box-shadow:0 0 0 2px var(--gold),0 6px 18px #0005}

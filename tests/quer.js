@@ -143,5 +143,21 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
      const r=await p.evaluate(()=>{const inf=document.getElementById('info').getBoundingClientRect(),act=document.querySelector('.actions').getBoundingClientRect(),area=document.querySelector('.boardarea').getBoundingClientRect();let n=0,h=0;
        for(const c of document.querySelectorAll('#board polygon[data-q]')){const r=c.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;if(y<inf.bottom||y>act.top||y<area.top||y>area.bottom)continue;n++;const e=document.elementFromPoint(x,y);if(!(e&&e.closest('#board')))h++}return{n,h}});tot+=r.n;bad+=r.h}
    T(bad===0&&tot>0,`${wo}: Flusstal (Hochformat, Info klein/groß, verschoben): alle ${tot} Felder sichtbar`);
-   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.84a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}}
+   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.84a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  // 12) 0.85a: 🌍 Weltreise – Kontinent-Wahl vor Zoo 1 und Willkommen-Einblendung: nichts überlappt, nichts breiter als der Bildschirm, Knöpfe erreichbar
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1)});await p.waitForTimeout(400);
+  {const r=await p.evaluate(()=>{const cs=[...document.querySelectorAll('.wrc')].map(e=>e.getBoundingClientRect());let ov=0,out=0;for(let i=1;i<cs.length;i++)if(cs[i].top<cs[i-1].bottom-1)ov++;
+      for(const c of document.querySelectorAll('.wrc')){const R=c.getBoundingClientRect();for(const e of c.querySelectorAll('.wrmap svg,.wrnm,.wrnat,.wrnt,.wrbox,.wrlv,.wrbt')){const q=e.getBoundingClientRect();if(q.right>R.right+1||q.left<R.left-1)out++}
+        const m=c.querySelector('.wrmap').getBoundingClientRect();for(const e of c.querySelectorAll('.wrnm,.wrnat')){const q=e.getBoundingClientRect();if(q.left<m.right-1&&q.top<m.bottom-1&&q.bottom>m.top+1)out++}}
+      return{n:cs.length,ov,out,qx:document.documentElement.scrollWidth-innerWidth,scr:screen,step:screenArg&&screenArg.step}});
+    T(r.scr==='creward'&&r.step==='wr'&&r.n===3,`${wo}: Weltreise: Kontinent-Wahl vor Zoo 1 mit ${r.n} Zielen`);T(r.ov===0&&r.out===0,`${wo}: Kontinent-Karten ohne Überlappung (${r.ov}/${r.out})`);if(r.qx>2)T(false,`${wo}: Kontinent-Wahl breiter als der Bildschirm (${r.qx} px)`)}
+  if(!await klick(p,'.wrc[data-wrsel="1"]'))T(false,`${wo}: Kontinent nicht antippbar`);
+  {const g=await p.$('[data-wrgo]');T(!!g&&!await g.isDisabled(),`${wo}: Reise-Knopf nach Auswahl aktiv`);if(g){await g.scrollIntoViewIfNeeded();const fr=await g.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});T(fr,`${wo}: Reise-Knopf erreichbar`);await g.click();await p.waitForTimeout(300)}}
+  await p.evaluate(()=>{modal=null;render()});await p.waitForTimeout(400);
+  {const r=await p.evaluate(()=>{const P=document.getElementById('rulePop');if(!P)return null;const c=P.querySelector('.wpc').getBoundingClientRect(),k=[...P.querySelectorAll('.wpc>*')].map(e=>e.getBoundingClientRect());let ov=0;for(let i=1;i<k.length;i++)if(k[i].top<k[i-1].bottom-1)ov++;
+      const b=P.querySelector('[data-bpok]').getBoundingClientRect(),e=document.elementFromPoint(b.left+b.width/2,b.top+b.height/2);return{t:P.textContent.slice(0,40),ov,in:c.left>=0&&c.right<=innerWidth+1&&c.top>=-1&&c.bottom<=innerHeight+1,btn:!!e&&!!e.closest('[data-bpok]')}});
+    T(!!r&&/Willkommen in/.test(r.t),`${wo}: Willkommen-Einblendung beim Zoo-Start`);if(r){T(r.ov===0&&r.in,`${wo}: Willkommen-Einblendung im Bildschirm, ohne Überlappung`);T(r.btn,`${wo}: „Los geht’s“ erreichbar`)}}
+  await wunschWeg(p);T(await p.evaluate(()=>!document.getElementById('rulePop')&&!state.ruleIntro),`${wo}: Willkommen-Einblendung schließt`);
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.85a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

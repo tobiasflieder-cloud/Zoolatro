@@ -20,7 +20,7 @@ Es ist eine einzige HTML-Datei, die aus Modulen zusammengebaut und über GitHub 
 | Pfad | Inhalt |
 |---|---|
 | `quelltext/src/` | **Quelle der Wahrheit.** Module 00–11 + `00-seite-und-stil.html` (Kopf, CSS) + `99-ende.html` |
-| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a–2c): `karten.json`, `merkmale.json`, `spezialisten.json`, `futter.json`, `winter.json`, `gelaende.json`, `stufen.json`, `profile.json`, `texte_de.json` (alle Namen/Texte aus `TXT`), `tutorial.json`, `foerderprogramme.json`, `werbung.json`, `ereignisse.json`, `praegungen.json`, `herausforderungen.json`. Werden von `mache.py` ins Spiel eingebaut |
+| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a–2c): `karten.json`, `merkmale.json`, `spezialisten.json`, `futter.json`, `winter.json`, `gelaende.json`, `stufen.json`, `profile.json`, `texte_de.json` (alle Namen/Texte aus `TXT`), `tutorial.json`, `foerderprogramme.json`, `werbung.json`, `ereignisse.json`, `praegungen.json`, `herausforderungen.json`, `kontinente.json` (🌍 Weltreise). Werden von `mache.py` ins Spiel eingebaut |
 | `quelltext/mache.py` | baut `build/zoodeck.html` (Tests), `index.html` (GitHub Pages), setzt die Daten aus `daten/` ein und den Cache in `sw.js` |
 | `quelltext/huelle/` | Rahmen um das Spiel für Web (`web-*`, mit Service Worker) und App (`app-*`) |
 | `index.html`, `sw.js`, `manifest.webmanifest`, Icons | die veröffentlichte Seite. **`index.html` nie von Hand ändern.** |
@@ -97,11 +97,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.85a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.86a) – erst bauen, wenn Tobi „bauen“ sagt
 
-**0.85a (groß): 🌍 Weltreise-Modus** – Auftrag [`docs/auftraege/0.85a-weltreise.md`](docs/auftraege/0.85a-weltreise.md), vollständige Beschreibung in **`docs/plan/weltreise.md`**.
-   Erst mit der Kontinent-Wahl als **Liste** (Entwurf `docs/stil/weltreise-entwurf.html`, Vorschaubild = echtes Gelände des Ziels).
-   Die gezeichnete Weltkarte (`docs/stil/weltkarte-entwurf.html`) kommt als eigener Schritt danach.
+**Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
+   Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße, ob Europa oft genug/zu oft kommt.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -120,6 +119,13 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.85a** ([Auftrag](docs/auftraege/0.85a-weltreise.md), Regeln `docs/regeln.md` Abschnitt 16): 🌍 Weltreise-Modus `run.wr` (Schalter `META.wr`/`data-zswr`), Daten `daten/kontinente.json` → `WR_DATEN` (Modul 06, Abschnitt „Weltreise“).
+  Lauflänge `runGoal(run)`/`wrGoalN` (statt `CAMP_GOAL`), Auslosung `wrRollOpts` (Pläne je Ziel vorab, `WRCTX` steuert Auflage, `wrQuota`/Fleckgrößen in `natPlace`, Leichter Boden in `genMap`), Wahl `wrPickHtml`/`wrGo`
+  (Schritte `wr`, `wrgift`, `perk` mit `a.wrPerk`; vor Zoo 1 `reward.first`, ◂ Zurück über `zlBack`), Start `wrArrive` + `wrWelcomeHtml` im `rulePop`. Ziel-Auflagen `wrGoal`/`wrBadge`, Prüfung in `endDay` (`state.wrWait`, `state.wrFail`),
+  Auswilderung `wrAuswild` (`#wrAusPop`, `run.wrGone`). Boni `run.boni`/`wrBon` (Gold `initZl`, Helfer `startDay`, Forscher `rollMarket`). Wunsch nur Sommer (`wishOn`, `WRWISH`/`wRw`, Getter in `WISH.arten5`,
+  Geschenk `gmappe`, `state.wbp2`, Fenster `state.wpick`/`wpickDo`). Highscores `csCmp` mit `goal`/`zp`/`wr`. Kartenwahl-Lose `zkPools`/`zkDeal` (Modul 11) ausgelagert. Sichtachse → 🚧 Baugrube (5 zusammenhängende, `R.ax`).
+  Tests: neu `jsd85a.js`, `quer.js` Schritt 12, `sim94.js` mit `WR=1` (Bot spielt eine Reise, `LOG=1` zeigt Seiten-Ausgaben).
 
 - **0.84a** ([Auftrag](docs/auftraege/0.84a-flusstal-kartenwahl.md)): Flusstal: Ursache war nicht die Drehung (Flusstal hat `norot`), sondern das senkrechte Verschieben
   ohne Zoom (`SHIFT` durch Wischen oder `fitUnderInfo`): Das SVG ist beim flachen Gelände nur so hoch wie das Gelände (`--ar`), verschobene Felder wurden an seiner Kante abgeschnitten.

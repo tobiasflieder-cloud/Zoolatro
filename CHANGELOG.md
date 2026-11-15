@@ -5,6 +5,17 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.85a · 15.11.2026 · 🌍 Weltreise
+- 🌍 Neuer Modus **Weltreise**: Schalter „🌍 Weltreise“ bei der Wahl der Lebensräume (lässt sich mit „🧪 4 Tage“ kombinieren). Die Reise hat 4 Zoos, mit freigeschalteter Arktis und freigeschaltetem Gebirge je einen mehr.
+- 🗺️ Vor jedem Zoo (auch vor dem ersten) wählst du ein Reiseziel aus meist 3 Kontinenten (ab Stufe 2 aus 2): Afrika, Australien, Südamerika, Asien, später Antarktis und Himalaya. Jedes Ziel zeigt das echte Gelände als Vorschau, seinen Lebensraum-Schwerpunkt, eine Auflage und eine Belohnung. Europa ist der Ruhe-Zoo ohne Auflage und ohne Belohnung.
+- 🌿 Gelände auf der Reise: etwa die Hälfte Naturflächen, zwei Drittel davon im Schwerpunkt, in größeren Flecken (4–7 Felder). Die Naturfelder-Stufen gelten auf der Reise nicht.
+- 🎯 Neue Auflagen nur auf der Reise, bis Ende Winter zu erfüllen (sonst ist der Zoo gescheitert, das Schild in der Leiste wird im Winter rot): ⭐ Ausbau-Ziel, 🎨 Vielfalt, 🍽️ Schlemmermeile, 🎡 Rummelplatz, 🐾 Artenschutz-Ziel, ⭐ Vorzeigegehege, 🍼 Nachwuchs. Dazu 🦓 Auswilderung: am 1. Sommer- und 1. Wintertag verlässt ein zufälliges Gehege den Zoo und dein Deck.
+- 🎁 Belohnungen: leichte Auflage keine, mittlere sofort (Mitbringsel, Volle Speisekammer, Partnerschaft, Prägung nach Wahl, Bewerberflut, Bauoffensive), schwere dauerhaft für den Rest der Reise (Goldader, Fleißige Helfer, Gastforscher, Leichter Boden). Deine Boni siehst du bei der Zielwahl und in der Zoo-Übersicht.
+- ✨ Zwischen den Zoos entfällt auf der Reise der Prägungs-Schritt (Prägung gibt es jetzt als Belohnung). Beim Zoo-Start begrüßt dich „Willkommen in …“ mit Auflage und Belohnung.
+- 🌟 Besucherwünsche gibt es auf der Reise nur im Sommer, dafür mit stärkeren Belohnungen (z. B. +30 statt +15 Taler, 6 Tierarten für 2 Gratis-Neuziehen, Star oder Gold für eine Karte deiner Wahl).
+- 🏆 Highscores: Weltreisen zeigen „4/4 Zoos“ usw. und werden bis zum letzten gemeinsamen Zoo verglichen.
+- 🚧 Die Auflage Sichtachse heißt jetzt **Baugrube**: 5 zusammenhängende Felder bleiben frei (auch im normalen Lauf).
+
 ## 0.84a · 15.11.2026 · Flusstal, Kartenwahl
 - 🏞️ Flusstal: Das Spielfeld wurde oben (oder unten) mit gerader Kante abgeschnitten, wenn die Ansicht verschoben war – durch Wischen oder automatisch, wenn die Vorschau unter dem Info-Feld lag. Jetzt bleibt alles sichtbar.
 - 🃏 Neue Karten zwischen den Zoos: Platz 1 ist immer selten oder legendär, Platz 2 zur Hälfte, Platz 3 gewöhnlich (Profil Forscher: Platz 1 immer, Platz 2 zur Hälfte). Gilt auch beim Neuziehen.
