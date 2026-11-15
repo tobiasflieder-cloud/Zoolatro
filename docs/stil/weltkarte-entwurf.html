@@ -1,0 +1,188 @@
+<title>Weltreise Weltkarte</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* Layout: Handy-Bildschirm. Oben Titel, darunter eine gezeichnete Weltkarte (weiche Umrisse wie eine Abenteuerkarte), darunter die Karte des gewählten Ziels und der Knopf. */
+:root{
+  color-scheme:dark;
+  --bg:#12301f;--panel:#1a3f2a;--panel2:#224d33;--paper:#f4efe1;--ink:#1d2a21;
+  --text:#eaf2e3;--muted:#9fbba5;--gold:#ffd166;
+  --sea:#1d5b6e;--sea-deep:#164b5c;--coast:#0f3542;--land-off:#7f9a86;--ice:#e4f3f8;--rock:#a9a39b;
+  --h-wasser:#5cbfe3;--h-savanne:#e2c46e;--h-wald:#7cc860;--h-wueste:#e8a070;
+  --easy:#7cc860;--mid:#ffd166;--hard:#ff5a5f;
+  --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
+  --f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#0b2015;color:var(--text);font-family:var(--f-body);font-size:14px;line-height:1.35;
+  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.col{width:390px;max-width:100%;display:flex;flex-direction:column;gap:10px;min-width:0}
+.lbl{font-family:var(--f-display);color:var(--gold);font-size:18px}
+.note{color:var(--muted);font-size:12.5px}
+.phone{background:var(--bg);border-radius:24px;border:2px solid #2b5a3b;padding:14px 12px 12px;display:flex;flex-direction:column;gap:10px}
+h1{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0;color:var(--gold);text-align:center}
+.sub{text-align:center;color:var(--muted);font-size:12.5px;margin-top:-6px}
+
+.mapbox{border-radius:16px;overflow:hidden;border:3px solid #2b5a3b}
+.mapbox svg{display:block;width:100%;height:auto}
+.pin{cursor:pointer}
+.pin:focus-visible{outline:none}
+.pin:focus-visible circle.ring{stroke:#fff}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11.5px;color:var(--muted);padding:0 4px}
+.legend span{display:flex;align-items:center;gap:4px}
+.sw{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+.strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--panel);border-radius:12px;padding:7px 10px;font-size:12.5px}
+.strip b{font-weight:600;color:var(--muted);margin-right:2px}
+.chip{background:var(--panel2);border-radius:99px;padding:2px 8px;white-space:nowrap}
+
+.cont{background:var(--paper);color:var(--ink);border-radius:16px;padding:10px 12px 11px;display:grid;grid-template-columns:88px 1fr;gap:4px 12px;border:3px solid var(--gold)}
+.mini{grid-row:1 / span 3;align-self:start}
+.mini svg{display:block;width:88px;height:auto}
+.nm{font-family:var(--f-display);font-size:20px;line-height:1.05}
+.nm small{font-family:var(--f-body);font-size:12px;color:#6b7a6f;display:block;margin-top:2px}
+.bar{display:flex;height:9px;border-radius:9px;overflow:hidden;background:#e4dccb}
+.bar span{display:block;height:100%}
+.natt{font-size:12px;color:#55645a}
+.natt b{color:var(--ink);font-weight:600}
+.row2{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.box{border-radius:10px;padding:6px 8px;background:#ebe3d1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.box .k{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:#6b7a6f;display:flex;align-items:center;gap:5px}
+.box .v{font-weight:600;font-size:13.5px;line-height:1.2}
+.box .t{font-size:11.5px;color:#55645a;line-height:1.25}
+.lv{font-size:10px;font-weight:600;border-radius:99px;padding:1px 6px;color:var(--ink);text-transform:none;letter-spacing:0}
+.lv.e{background:var(--easy)}.lv.m{background:var(--mid)}.lv.h{background:var(--hard);color:#fff}
+.box.rw{background:#e6e0f7}.box.rw.none{background:#ebe3d1;opacity:.7}
+.perm{font-size:10px;font-weight:600;border-radius:99px;padding:1px 6px;background:#7b5fd0;color:#fff;text-transform:none;letter-spacing:0}
+.inst{font-size:10px;font-weight:600;border-radius:99px;padding:1px 6px;background:#c9bdf0;color:#3b2c7a;text-transform:none;letter-spacing:0}
+.go{font-family:var(--f-display);font-size:19px;border:0;border-radius:14px;padding:12px;background:var(--gold);color:var(--ink);cursor:pointer}
+.go:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}}
+@keyframes pulse{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:.2;transform:scale(1.5)}}
+</style>
+
+<div class="wrap">
+<div class="col">
+  <div class="lbl">Weltkarte zwischen zwei Zoos</div>
+  <div class="phone">
+    <h1>Wohin geht die Reise?</h1>
+    <div class="sub">Zoo 3 von 4 · tippe auf einen leuchtenden Ort</div>
+    <div class="mapbox"><svg id="world" viewBox="0 0 400 228" role="img" aria-label="Weltkarte mit Reiseroute"></svg></div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--gold)"></span>schon besucht</span>
+      <span><span class="sw" style="background:#fff"></span>zur Wahl</span>
+      <span>🔒 noch nicht freigeschaltet</span>
+    </div>
+    <div class="strip"><b>Deine Gehege-Karten</b><span class="chip">🌿 6</span><span class="chip">💧 4</span><span class="chip">🌾 2</span><span class="chip">🏜️ 1</span></div>
+    <div class="strip"><b>Deine Boni</b><span class="chip">🔨 Fleißige Helfer</span></div>
+    <div id="card"></div>
+    <button class="go" id="go">Reisen</button>
+  </div>
+  <div class="note">Gezeichnete Weltkarte mit weichen Umrissen. Die Farbe eines Kontinents zeigt seinen Lebensraum-Schwerpunkt. Besuchte Orte sind mit der goldenen Route verbunden, die 2 bis 3 Ziele leuchten. Antippen zeigt unten die Karte des Ziels. Europa und Nordamerika sind nur Kulisse. Antarktis und Himalaya bleiben gesperrt, bis Arktis bzw. Gebirge freigeschaltet sind.</div>
+</div>
+</div>
+
+<script>
+// Grobe Umrisse in Längen-/Breitengrad, umgerechnet auf die Karte (400 × 228)
+const X=lon=>(lon+180)*400/360, Y=lat=>(80-lat)*1.5;
+const P=a=>a.map(([lo,la])=>[X(lo),Y(la)]);
+const LAND={
+  na:{fill:'var(--land-off)',pts:P([[-165,64],[-150,70],[-125,71],[-100,72],[-82,67],[-62,57],[-56,48],[-70,43],[-76,36],[-81,27],[-97,26],[-90,16],[-84,10],[-95,16],[-106,22],[-117,32],[-124,42],[-125,50],[-138,59],[-155,59]])},
+  gl:{fill:'var(--ice)',pts:P([[-55,79],[-30,80],[-20,74],[-30,66],[-43,60],[-52,66],[-58,75]])},
+  sa:{fill:'var(--h-wald)',pts:P([[-79,9],[-62,10],[-50,0],[-35,-6],[-39,-20],[-48,-27],[-57,-35],[-65,-42],[-68,-54],[-74,-50],[-73,-38],[-71,-20],[-80,-5]])},
+  eu:{fill:'var(--land-off)',pts:P([[-9,38],[-9,44],[-4,48],[5,52],[8,57],[5,62],[15,69],[28,71],[42,67],[45,55],[40,46],[30,41],[24,37],[14,40],[9,44],[3,43],[-2,37]])},
+  af:{fill:'var(--h-savanne)',pts:P([[-16,15],[-17,22],[-9,31],[10,37],[22,32],[32,31],[37,20],[43,12],[51,11],[44,-2],[40,-16],[33,-26],[20,-35],[15,-25],[12,-12],[9,-1],[9,4],[-4,5],[-12,8]])},
+  as:{fill:'var(--h-wald)',pts:P([[45,55],[42,67],[60,71],[80,74],[110,76],[140,72],[170,68],[180,66],[163,60],[155,52],[141,47],[130,42],[126,36],[121,30],[121,23],[110,19],[107,11],[103,2],[99,8],[97,17],[92,22],[88,21],[80,15],[77,8],[72,20],[66,25],[57,25],[52,28],[48,30],[44,38],[38,41],[40,46]])},
+  ar:{fill:'var(--h-wueste)',pts:P([[35,31],[43,13],[52,15],[58,22],[56,26],[50,27],[48,30],[40,34]])},
+  bo:{fill:'var(--h-wald)',pts:P([[109,1],[113,6],[118,4],[119,-1],[116,-4],[110,-3]])},
+  su:{fill:'var(--h-wald)',pts:P([[95,5],[102,-1],[106,-6],[103,-5],[97,1]])},
+  au:{fill:'var(--h-wasser)',pts:P([[114,-22],[122,-17],[130,-12],[137,-12],[142,-11],[146,-19],[153,-26],[151,-34],[146,-39],[139,-35],[131,-32],[123,-34],[115,-34],[113,-26]])},
+  nz:{fill:'var(--land-off)',pts:P([[172,-35],[178,-38],[174,-42],[168,-46],[171,-41]])},
+  an:{fill:'var(--ice)',lock:1,pts:P([[-180,-66],[-120,-70],[-60,-64],[0,-69],[60,-66],[120,-66],[180,-68],[180,-74],[-180,-74]])}
+};
+// Himalaya als gesperrtes Gebirge innerhalb Asiens
+const HIMA=P([[70,36],[78,37],[90,34],[98,30],[96,27],[88,27],[80,29],[73,32]]);
+function smooth(p,closed=true){ // Catmull-Rom zu Bezier, weiche Kanten
+  const n=p.length,g=i=>p[(i+n)%n];let d=`M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+  for(let i=0;i<(closed?n:n-1);i++){const p0=g(i-1),p1=g(i),p2=g(i+1),p3=g(i+2),t=.5/3;
+    d+=`C${(p1[0]+(p2[0]-p0[0])*t).toFixed(1)},${(p1[1]+(p2[1]-p0[1])*t).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])*t).toFixed(1)},${(p2[1]-(p3[1]-p1[1])*t).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`}
+  return d+(closed?'Z':'')}
+const pt=(lo,la)=>[X(lo),Y(la)];
+const VISITED=[{p:pt(35,-3),n:1,name:'Serengeti'},{p:pt(101,15),n:2,name:'Thailand'}];
+const OPTS=[
+  {id:'sa',p:pt(-62,-6),ic:'🌎',name:'Südamerika',place:'Amazonas',nat:{wald:18,wasser:4,savanne:3,wueste:3},
+   auf:{lv:'e',lvn:'leicht',ic:'👁️',n:'Sichtachse',t:'6 Felder in einer Linie bleiben frei.'},rw:null},
+  {id:'au',p:pt(146,-19),ic:'🌏',name:'Australien',place:'Great Barrier Reef',nat:{wasser:18,wueste:4,wald:3,savanne:3},
+   auf:{lv:'h',lvn:'schwer',ic:'⭐',n:'Vorzeigegehege',t:'2 Gehege auf Stufe III bis Ende Winter.'},rw:{p:1,ic:'🪙',n:'Goldader',t:'+1 Goldfeld in jedem Zoo.'}},
+  {id:'af',p:pt(22,-23),ic:'🌍',name:'Afrika',place:'Kalahari',nat:{savanne:16,wueste:6,wald:3,wasser:3},
+   auf:{lv:'m',lvn:'mittel',ic:'🚫',n:'Raubtier-Abstand',t:'Raubtiere nicht neben Beutetiere.'},rw:{p:0,ic:'🎁',n:'Mitbringsel',t:'Seltene oder legendäre Karte zur Wahl.'}}
+];
+let sel='au';
+function curve(a,b,bend=.18){const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1];return`M${a[0]},${a[1]} Q${mx-dy*bend},${my+dx*bend} ${b[0]},${b[1]}`}
+function draw(){
+  let g=`<defs><radialGradient id="sea" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="var(--sea)"/><stop offset="1" stop-color="var(--sea-deep)"/></radialGradient></defs>
+  <rect width="400" height="228" fill="url(#sea)"/>`;
+  // feine Wellen im Meer
+  for(const [x,y] of [[20,120],[70,150],[260,195],[300,40],[160,180],[380,110],[60,95],[230,30]])
+    g+=`<path d="M${x},${y} q4,-3 8,0 t8,0" fill="none" stroke="#ffffff" stroke-opacity=".18" stroke-width="1.2" stroke-linecap="round"/>`;
+  // Schatten, dann Land
+  for(const k in LAND){const L=LAND[k],d=smooth(L.pts);g+=`<path d="${d}" transform="translate(1.6,2.2)" fill="#0b2c37" opacity=".55"/>`}
+  for(const k in LAND){const L=LAND[k],d=smooth(L.pts);g+=`<path d="${d}" fill="${L.fill}" stroke="var(--coast)" stroke-width="1.6" stroke-linejoin="round" opacity="${L.lock?.75:1}"/>`}
+  // Himalaya (gesperrt)
+  g+=`<path d="${smooth(HIMA)}" fill="var(--rock)" stroke="var(--coast)" stroke-width="1" opacity=".9"/>`;
+  for(const [lo,la] of [[78,33],[85,31],[92,30]]){const [x,y]=pt(lo,la);g+=`<path d="M${x-4},${y+3} L${x},${y-3} L${x+4},${y+3}Z" fill="#ffffff" opacity=".75"/>`}
+  const lockAt=(x,y,t,c)=>`<text x="${x}" y="${y}" font-size="10" text-anchor="middle">🔒</text><text x="${x}" y="${y+10}" font-size="7" text-anchor="middle" fill="${c}" font-family="Fredoka,sans-serif" font-weight="600">${t}</text>`;
+  g+=lockAt(...pt(74,45),'Himalaya','#1d2a21');
+  {const [x,y]=pt(-20,-62);g+=`<text x="${x}" y="${y}" font-size="10" text-anchor="middle">🔒</text><text x="${x+8}" y="${y-1}" font-size="7.5" fill="#ffffff" font-family="Fredoka,sans-serif" font-weight="600">Antarktis</text>`}
+  // Route
+  const V=VISITED.map(v=>v.p),last=V[V.length-1];
+  for(let i=1;i<V.length;i++)g+=`<path d="${curve(V[i-1],V[i],-.2)}" fill="none" stroke="var(--gold)" stroke-width="2.6" stroke-linecap="round"/>`;
+  for(const o of OPTS)g+=`<path d="${curve(last,o.p,.15)}" fill="none" stroke="#ffffff" stroke-opacity="${o.id===sel?.95:.4}" stroke-width="1.8" stroke-dasharray="4 4" stroke-linecap="round"/>`;
+  for(const v of VISITED){const [x,y]=v.p;g+=`<circle cx="${x}" cy="${y}" r="8" fill="var(--gold)" stroke="var(--coast)" stroke-width="1.6"/><text x="${x}" y="${y+3.7}" font-size="10" text-anchor="middle" font-family="Lilita One,sans-serif" fill="#1d2a21">${v.n}</text>`}
+  for(const o of OPTS){const [x,y]=o.p,on=o.id===sel;
+    g+=`<g class="pin" data-id="${o.id}" tabindex="0" role="button" aria-label="${o.name}, ${o.place}">
+      <circle class="pulse" cx="${x}" cy="${y}" r="13" fill="#ffffff" opacity=".6"/>
+      <circle class="ring" cx="${x}" cy="${y}" r="10" fill="#ffffff" stroke="${on?'var(--gold)':'var(--coast)'}" stroke-width="${on?3.2:1.6}"/>
+      <text x="${x}" y="${y+4.2}" font-size="12" text-anchor="middle">${o.ic}</text>
+      <text x="${x}" y="${y+23}" font-size="8.5" text-anchor="middle" fill="#fff" font-family="Fredoka,sans-serif" font-weight="600" stroke="var(--coast)" stroke-width="2.6" paint-order="stroke">${o.place}</text></g>`}
+  document.getElementById('world').innerHTML=g;
+  card()}
+const HC={wald:'var(--h-wald)',wasser:'var(--h-wasser)',savanne:'var(--h-savanne)',wueste:'var(--h-wueste)'};
+const HI={wald:'🌿',wasser:'💧',savanne:'🌾',wueste:'🏜️'},HN={wald:'Dschungel',wasser:'Wasser',savanne:'Savanne',wueste:'Wüste'};
+function hexPts(x,y,k){return[0,1,2,3,4,5].map(i=>{const a=Math.PI/180*(60*i-30);return(x+k*Math.cos(a)).toFixed(1)+','+(y+k*Math.sin(a)).toFixed(1)}).join(' ')}
+// Vorschau wie im Spiel: Naturflächen als zusammenhängende Flecken (4–7 Felder), etwa die Hälfte des Feldes, ein paar Felsen
+function mini(o){const R=5,k=4.3,ww=k*1.732,ord=Object.keys(o.nat);
+  let seed=o.id.charCodeAt(0)*31+o.id.charCodeAt(1)*7+3;const rr=()=>(seed=(seed*9301+49297)%233280)/233280;
+  const cells=[];for(let q=-R;q<=R;q++)for(let r=-R;r<=R;r++)if(Math.abs(q+r)<=R)cells.push([q,r]);
+  const key=c=>c[0]+','+c[1],T=new Map(),D=[[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]];
+  const nb=c=>D.map(d=>[c[0]+d[0],c[1]+d[1]]).filter(n=>Math.abs(n[0])<=R&&Math.abs(n[1])<=R&&Math.abs(n[0]+n[1])<=R);
+  // Felsen
+  for(let i=0;i<4;){const c=cells[Math.floor(rr()*cells.length)];if(!T.has(key(c))){T.set(key(c),'rock');i++}}
+  const tot=Object.values(o.nat).reduce((a,b)=>a+b,0),scale=Math.round(cells.length*.5)/tot;
+  for(const h of ord){let left=Math.round(o.nat[h]*scale),tries=0;
+    while(left>0&&tries++<200){const size=Math.min(left,4+Math.floor(rr()*4));
+      const free=cells.filter(c=>!T.has(key(c))&&nb(c).every(n=>{const t=T.get(key(n));return!t||t==='rock'||t===h}));
+      if(!free.length)break;let patch=[free[Math.floor(rr()*free.length)]];T.set(key(patch[0]),h);
+      while(patch.length<size){const cand=[];for(const c of patch)for(const n of nb(c))if(!T.has(key(n))&&nb(n).every(m=>{const t=T.get(key(m));return!t||t==='rock'||t===h}))cand.push(n);if(!cand.length)break;
+        const n=cand[Math.floor(rr()*cand.length)];T.set(key(n),h);patch.push(n)}
+      left-=patch.length}}
+  let svg='';for(const c of cells){const x=44+ww*(c[0]+c[1]/2),y=44+k*1.5*c[1],t=T.get(key(c));
+    const col=t==='rock'?'#1c201b':t?HC[t]:'#3b7447';svg+=`<polygon points="${hexPts(x,y,k)}" fill="${col}" stroke="#12301f" stroke-width=".9"/>`}
+  return `<svg viewBox="0 0 88 88" aria-label="Gelände-Vorschau">${svg}</svg>`}
+function card(){const o=OPTS.find(x=>x.id===sel),tot=Object.values(o.nat).reduce((a,b)=>a+b,0),main=Object.keys(o.nat)[0];
+  const bar=Object.entries(o.nat).map(([h,n])=>`<span style="width:${n/tot*100}%;background:${HC[h]}"></span>`).join('');
+  const lst=Object.entries(o.nat).map(([h,n],i)=>i?`${HI[h]} ${n}`:`<b>${HI[h]} ${n}</b>`).join(' · ');
+  const rw=o.rw?`<div class="box rw"><span class="k">Belohnung ${o.rw.p?'<span class="perm">dauerhaft</span>':'<span class="inst">sofort</span>'}</span><span class="v">${o.rw.ic} ${o.rw.n}</span><span class="t">${o.rw.t}</span></div>`
+    :`<div class="box rw none"><span class="k">Belohnung</span><span class="v">keine</span><span class="t">Dafür eine leichte Auflage.</span></div>`;
+  document.getElementById('card').innerHTML=`<div class="cont"><div class="mini">${mini(o)}</div>
+    <div class="nm">${o.ic} ${o.name}<small>${o.place}</small></div>
+    <div><div class="bar">${bar}</div><div class="natt">Naturflächen ${tot}: ${lst}</div></div>
+    <div class="natt">Schwerpunkt <b>${HI[main]} ${HN[main]}</b></div>
+    <div class="row2"><div class="box"><span class="k">Auflage <span class="lv ${o.auf.lv}">${o.auf.lvn}</span></span><span class="v">${o.auf.ic} ${o.auf.n}</span><span class="t">${o.auf.t}</span></div>${rw}</div></div>`;
+  document.getElementById('go').textContent=`Nach ${o.place} reisen ${o.ic}`}
+const svgEl=document.getElementById('world');
+svgEl.addEventListener('click',e=>{const p=e.target.closest('.pin');if(p){sel=p.dataset.id;draw()}});
+svgEl.addEventListener('keydown',e=>{const p=e.target.closest('.pin');if(p&&(e.key==='Enter'||e.key===' ')){e.preventDefault();sel=p.dataset.id;draw();svgEl.querySelector(`[data-id="${sel}"]`).focus()}});
+draw();
+</script>
