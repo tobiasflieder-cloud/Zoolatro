@@ -112,6 +112,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 4. **Lebensraum-Futter im Detail-Fenster klarer:** Zeile „🐟 Fischmix Stufe 1“ wirkt wie Futter auf dieser Karte. Neu: „🐟 Wasser-Futter Fischmix (Stufe 1)“ mit Unterzeile
    „gilt für alle Wasser-Gehege im Lauf“ (gleich für alle sechs Lebensraum-Futter, `evalB` ~Z. 226 `add(...)` Name/Text).
 
+5. **Weltreise: schwere Auflage → leichte Winter-Bedingung** (Chat 15.11., Zoo 4 mit Auswilderung + Mindestgröße war „heftig“): Winter-Bedingungen in **leicht** und **schwer** einteilen
+   (Feld `stufe` in `daten/winter.json`; Einstufung aus Tobis Sheet „Weltreise-Plan“, Blatt „Winter-Bedingungen“ – vor dem Bauen abholen). Hat das Ziel eine 🔴 schwere Auflage,
+   wird in diesem Zoo nur eine leichte Winter-Bedingung ausgelost (`initZl`, auch beim Tausch `wSwap`). Erledigt zugleich „Winter-Bedingungen in leicht und schwer teilen“ und „Mindestgröße zu schwer“.
+6. **Auswilderung entschärft:** statt am 1. Sommer- und 1. Wintertag am **1. Sommer- und 1. Herbsttag** (`wrAuswild`), damit vor dem Winter Zeit zum Auffüllen bleibt. Texte in `kontinente.json`/Auflagen, Plan und `regeln.md` 16.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
 
