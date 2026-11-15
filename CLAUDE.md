@@ -99,15 +99,19 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.86a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**0.86a** – Auftrag [`docs/auftraege/0.86a-regionen-zoomenue-savanne.md`](docs/auftraege/0.86a-regionen-zoomenue-savanne.md) (Werte und Regionen dort schon eingetragen):
+
+**Savanne schwächer:** Herde erst ab 3 (2 Gehege ×1), je weiteres +0,1 (Steppe +0,15), höchstens ×1,75; Steppe-Profil: 4-Felder-Gehege kosten 3 BP wie überall.
+
 **Zoo-Menü aufräumen** (Entwurf `docs/stil/zoomenue-entwurf.html`, Menge war das Problem): `zooBoxHtml` (`06-spiel.js` ~Z. 355) neu gliedern:
    „Dieser Zoo“ (feste Reihenfolge: Weltreise-Ziel/Schwerpunkt, Auflage mit Stand, Besucherwunsch, Winter) · Chips (dauerhafte Boni, Teuerung, Geschenk) ·
    „Dein Stand“ als aufklappbare Zeilen mit aktuellem Wert (Reinheit, Vielfalt, Zucht, Wachsende Spezialisten, Futter, Lebensraum-Regeln) ·
    Knopf „📖 Regeln“ mit Stufe, Profil-Regel, langen Erklärtexten und Gelände. Querformat-Seitenleiste (`railRender`) mitprüfen.
 
 **Freischaltbare Gehege stärker** (Meta-Fortschritt, Variante A): +1 auf den Hauptwert, außer Gorillas, Büffel, Belugas. Werte aus Tobis Tabelle „Freischalt-Karten Werte“
-   (Claude-Sheet) – vor dem Bauen im Chat abholen und in `daten/karten.json` eintragen; Referenzfälle prüfen.
+   (Claude-Sheet) – Werte stehen im Auftrag 0.86a.
 
-**Weltreise: Regionen statt Kontinente** (Chat 15.11., Liste im Claude-Sheet „Weltreise-Plan“, Blatt „Regionen“ – vor dem Bauen abholen):
+**Weltreise: Regionen statt Kontinente** (Chat 15.11., Liste steht im Auftrag 0.86a):
    Ziele sind 25 Regionen (z. B. Afrika · Sahara nur Wüste, Afrika · Okavango Wasser oder Savanne) auf 6 Kontinenten (Afrika, Südamerika, **Nordamerika neu**, Asien, Australien, Polargebiete) + Europa (Ruhe-Zoo) = 7 Kontinente.
    **Jeder Kontinent höchstens einmal pro Lauf, auch Europa** (jeder Zoo auf einem anderen Kontinent), Ziele einer Wahl von verschiedenen Kontinenten; gegen Ende weniger Ziele (bei 6 Zoos im letzten 2).
    `daten/kontinente.json` umbauen (Regionen mit eigenen `foki`), `wrRollOpts` anpassen.
