@@ -117,6 +117,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    wird in diesem Zoo nur eine leichte Winter-Bedingung ausgelost (`initZl`, auch beim Tausch `wSwap`). Erledigt zugleich „Winter-Bedingungen in leicht und schwer teilen“ und „Mindestgröße zu schwer“.
 6. **Auswilderung entschärft:** statt am 1. Sommer- und 1. Wintertag am **1. Sommer- und 1. Herbsttag** (`wrAuswild`), damit vor dem Winter Zeit zum Auffüllen bleibt. Texte in `kontinente.json`/Auflagen, Plan und `regeln.md` 16.
 
+7. **Weltreise: weniger Naturflächen** (Chat 15.11.: „teilweise große Schwierigkeiten, andere Tiere zu bauen“): `natur_anteil` in `daten/kontinente.json` (`lauf`) von **0,5 auf 0,4**,
+   Schwerpunkt-Anteil (⅔) und Fleckgröße bleiben. Europa (18 Naturfelder) unverändert. Danach beobachten.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
 
