@@ -99,6 +99,12 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.87a) – erst bauen, wenn Tobi „bauen“ sagt
 
+1. **Umbau „🌿 Naturfläche ändern“ für bis zu 3 Felder** (Chat 15.11.): heute 1 Feld (`UMB.natur`, `08-shop-menues.js` ~Z. 51, `umbHab` ~Z. 124).
+   Neu: nacheinander bis zu 3 freie Felder antippen (nochmal tippen = abwählen, Knopf „Fertig“ ab 1 Feld), danach **einen** Lebensraum für alle (oder „Naturfläche entfernen“).
+   Felder müssen nicht nebeneinander liegen. Ein Umbau = eine Kiste wie bisher. Text: „Bis zu 3 freie Felder werden Naturflächen eines deiner Lebensräume (oder die Naturflächen verschwinden).“
+2. **Früh geschafft im Testlauf 4 Tage** (Chat 15.11.): `earlyReward(left)` (`01-regeln-karten.js` ~Z. 20) gibt Geschenke ab 2 Tagen früher (2 → Futtersack, 3 → Umbaukiste, 4 → Profi-Mappe).
+   Bei 4 Tagen ist höchstens 3 früher möglich, die Profi-Mappe also nie. Neu bei `run.d4`: **1 → Futtersack, 2 → Umbaukiste, 3 → Profi-Mappe** (Baupunkte wie bisher +1 je Tag). Text im Sieg-Fenster entsprechend.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
 
