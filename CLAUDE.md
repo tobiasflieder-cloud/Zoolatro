@@ -108,8 +108,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    (Claude-Sheet) – vor dem Bauen im Chat abholen und in `daten/karten.json` eintragen; Referenzfälle prüfen.
 
 **Weltreise: Regionen statt Kontinente** (Chat 15.11., Liste im Claude-Sheet „Weltreise-Plan“, Blatt „Regionen“ – vor dem Bauen abholen):
-   Ziele sind 25 Regionen (z. B. Afrika · Sahara nur Wüste, Afrika · Okavango Wasser oder Savanne) auf 6 Kontinenten (Afrika, Südamerika, **Nordamerika neu**, Asien, Australien, Polargebiete) + Europa (Ruhe-Zoo).
-   **Jeder Kontinent höchstens einmal pro Lauf** (Europa darf öfter), Ziele einer Wahl von verschiedenen Kontinenten; Notfall: < 2 Ziele → besuchter Kontinent mit neuer Region.
+   Ziele sind 25 Regionen (z. B. Afrika · Sahara nur Wüste, Afrika · Okavango Wasser oder Savanne) auf 6 Kontinenten (Afrika, Südamerika, **Nordamerika neu**, Asien, Australien, Polargebiete) + Europa (Ruhe-Zoo) = 7 Kontinente.
+   **Jeder Kontinent höchstens einmal pro Lauf, auch Europa** (jeder Zoo auf einem anderen Kontinent), Ziele einer Wahl von verschiedenen Kontinenten; gegen Ende weniger Ziele (bei 6 Zoos im letzten 2).
    `daten/kontinente.json` umbauen (Regionen mit eigenen `foki`), `wrRollOpts` anpassen.
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.

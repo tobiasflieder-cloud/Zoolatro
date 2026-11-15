@@ -17,7 +17,7 @@ und eine Auflage mit passender Belohnung. Abwägung: „passt zu meinem Deck“ 
 
 ## Ziele (Kontinente)
 
-> **Neu (15.11.):** Ziele werden **Regionen** mit eigenen 1–2 Schwerpunkten (25 Regionen, Liste im Sheet „Weltreise-Plan“, Blatt „Regionen“), Nordamerika und Polargebiete kommen dazu, **jeder Kontinent höchstens einmal pro Lauf** (Europa als Ruhe-Zoo darf öfter). Die Tabelle unten ist der Stand von 0.85a.
+> **Neu (15.11.):** Ziele werden **Regionen** mit eigenen 1–2 Schwerpunkten (25 Regionen, Liste im Sheet „Weltreise-Plan“, Blatt „Regionen“), Nordamerika und Polargebiete kommen dazu, **jeder Kontinent höchstens einmal pro Lauf, auch Europa** (7 Kontinente, jeder Zoo auf einem anderen). Die Tabelle unten ist der Stand von 0.85a.
 Ziele sind Orte auf einem Kontinent (z. B. „Afrika · Kalahari“), damit sich ein Kontinent wiederholen darf.
 
 | Kontinent | Schwerpunkt (einer wird ausgelost) | verfügbar |
