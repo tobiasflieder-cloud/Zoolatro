@@ -172,5 +172,12 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   if(!await klick(p,'#mZooRules'))T(false,`${wo}: Knopf „📖 Regeln“ fehlt/verdeckt`);else{T(await p.evaluate(()=>/Regeln für diesen Lauf/.test(document.getElementById('modalRoot').textContent)),`${wo}: Regeln-Ansicht öffnet`);await pruefe(p,wo+' Regeln-Ansicht',seen);
     T(await klick(p,'#mZooBack')&&await p.evaluate(()=>/Dieser Zoo/.test(document.getElementById('modalRoot').textContent)),`${wo}: Regeln-Ansicht ◂ Zurück`)}
   T(await klick(p,'#mClose')&&await p.evaluate(()=>!modal),`${wo}: Zoo-Menü schließt`);
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.86a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.86a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()
+  // 14) 0.87a: Arktis-Zone liegt beim Start oben auf dem Bildschirm (auch gedreht) und bleibt beim Drehen des Geräts dieselbe
+  for(const mk of['huegel','bucht','zerkluftet']){p=await seite(b,vp);await p.evaluate(mk=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,fs:{'h:arktis':1}};META.lastSlot=0;META.active=0;screen=null;
+      enterCamp(0,true,'grund','z2',['arktis','wasser','savanne'],NOPROF,1);const r=runOf();r.maps={0:mk};r.plan=null;r.game=null;state=null;startZoo();modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;ZOOM=null;render()},mk);await p.waitForTimeout(300);
+    const z=await p.evaluate(()=>{const cy=e=>{const r=e.getBoundingClientRect();return r.top+r.height/2};const all=[...document.querySelectorAll('#board polygon[data-q]')].map(cy).sort((a,b)=>a-b),m=(all[(all.length-1)>>1]+all[all.length>>1])/2,zn=[...document.querySelectorAll('#board .znorth')].map(cy);return{rot:ROT,n:zn.length,bad:zn.filter(y=>y>m+2).length,N:JSON.stringify(state.north)}});
+    T(z.n>0&&z.bad===0,`${wo}: ${mk}${z.rot?' (gedreht)':''}: Arktis-Zone oben auf dem Bildschirm (${z.n} Felder, ${z.bad} unten)`);
+    const vs=p.viewportSize();if(vs){await p.setViewportSize({width:vs.height,height:vs.width});await p.waitForTimeout(500);T(await p.evaluate(()=>JSON.stringify(state.north))===z.N,`${wo}: ${mk}: Zone bleibt nach dem Drehen gleich`);await p.setViewportSize(vs)}
+    if(p._errs.length)T(false,`${wo}: Seitenfehler (0.87a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

@@ -57,14 +57,18 @@ const centroid=cells=>{let x=0,y=0;for(const[q,r]of cells){const p=px(q,r);x+=p[
 let VB=[0,0,1,1];
 function bbox(cells){let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;for(const[q,r]of cells){const[x,y]=px(q,r);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y)}return[x0,y0,x1,y1]}
 // Long maps are shown upright on portrait screens so they stay large
-function computeView(){const[x0,y0,x1,y1]=withRot(false,()=>bbox(BOARD)),bw=x1-x0+SZ*2,bh=y1-y0+SZ*2,ar=bw/bh;
+function computeView(){setRot(viewRotFor(BOARD,VIEWMAP||(state&&state.map)));const[a0,b0,a1,b1]=bbox(BOARD),pad=SZ+2;VB=[a0-pad,b0-pad,a1-a0+2*pad,b1-b0+2*pad];
+  document.getElementById('bwrap').style.setProperty('--ar',(VB[2]/VB[3]).toFixed(4))}
+// 0.87a: Drehung für ein Gelände (auch für Vorab-Pläne, damit die Arktis-Zone dieselbe ist wie später auf dem Bildschirm)
+function viewRotFor(cells,mk){const[x0,y0,x1,y1]=withRot(false,()=>bbox(cells)),bw=x1-x0+SZ*2,bh=y1-y0+SZ*2,ar=bw/bh;
   const area=document.querySelector('.boardarea'),W=area?area.clientWidth:0,H=area?area.clientHeight:0;let rot;
   // die Info-Leiste oben verdeckt einen Teil der Fläche: nur drehen, wenn das Gelände dann im freien Bereich größer wird
   if(W>0&&H>0){const inf=document.getElementById('info'),ar0=area.getBoundingClientRect(),ov=inf&&getComputedStyle(inf).position==='absolute'?Math.max(0,Math.min(H*.5,inf.getBoundingClientRect().bottom-ar0.top)):0,He=Math.max(1,H-ov),flat=Math.min(W/bw,He/bh),up=Math.min(W/bh,He/bw);rot=up>flat*1.08}
   else rot=!(innerWidth>=860&&innerWidth>=innerHeight)&&ar>1.3;
-  {const mk=VIEWMAP||(state&&state.map);if(MAPS[mk]&&MAPS[mk].norot)rot=false}if(TUTNOW)rot=false;
-  setRot(rot);const[a0,b0,a1,b1]=bbox(BOARD),pad=SZ+2;VB=[a0-pad,b0-pad,a1-a0+2*pad,b1-b0+2*pad];
-  document.getElementById('bwrap').style.setProperty('--ar',(VB[2]/VB[3]).toFixed(4))}
+  if(MAPS[mk]&&MAPS[mk].norot)rot=false;if(TUTNOW)rot=false;return!!rot}
+// Arktis-Zone („Nordlage“): obere Hälfte des Geländes, wie es auf dem Bildschirm steht (rot = gedreht); gespeichert als {rot,m,ks} in state.north
+const scrY=([q,r],rot)=>rot?SZ*SQ3*(q+r/2):SZ*1.5*r;
+function northOf(cells,rot){const v=cells.map(c=>scrY(c,rot)).sort((a,b)=>a-b),m=v.length?(v[(v.length-1)>>1]+v[v.length>>1])/2:0;return{rot:!!rot,m,ks:cells.filter(c=>scrY(c,rot)<m).map(c=>hk(...c))}}
 const boardCenter=()=>[VB[0]+VB[2]/2,VB[1]+VB[3]/2];
 // Zoom: eine Stufe, zeigt einen Ausschnitt des Geländes
 const ZF=1.5;let ZOOM=null,ZAUTO=false,ZPREV=null,ZSH=null;

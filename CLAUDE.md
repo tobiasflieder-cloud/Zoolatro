@@ -97,50 +97,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.87a) – erst bauen, wenn Tobi „bauen“ sagt
-
-**0.87a** – Auftrag [`docs/auftraege/0.87a-schliff-weltreise-arktis.md`](docs/auftraege/0.87a-schliff-weltreise-arktis.md) (Winter-Einstufung dort eingetragen):
-
-1. **Umbau „🌿 Naturfläche ändern“ für bis zu 3 Felder** (Chat 15.11.): heute 1 Feld (`UMB.natur`, `08-shop-menues.js` ~Z. 51, `umbHab` ~Z. 124).
-   Neu: nacheinander bis zu 3 freie Felder antippen (nochmal tippen = abwählen, Knopf „Fertig“ ab 1 Feld), danach **einen** Lebensraum für alle (oder „Naturfläche entfernen“).
-   Felder müssen nicht nebeneinander liegen. Ein Umbau = eine Kiste wie bisher. Text: „Bis zu 3 freie Felder werden Naturflächen eines deiner Lebensräume (oder die Naturflächen verschwinden).“
-2. **Früh geschafft im Testlauf 4 Tage** (Chat 15.11.): `earlyReward(left)` (`01-regeln-karten.js` ~Z. 20) gibt Geschenke ab 2 Tagen früher (2 → Futtersack, 3 → Umbaukiste, 4 → Profi-Mappe).
-   Bei 4 Tagen ist höchstens 3 früher möglich, die Profi-Mappe also nie. Neu bei `run.d4`: **1 → Futtersack, 2 → Umbaukiste, 3 → Profi-Mappe** (Baupunkte wie bisher +1 je Tag). Text im Sieg-Fenster entsprechend.
-
-3. **Detail-Fenster: Zoo-Wert aufschlüsseln** (Entwurf `docs/stil/details-zoo-entwurf.html`; Chat 15.11., Screenshot Korallenriff: Karte +18 B +12 N, Zoo +40 B +16 N – woher der Rest kommt, sieht man im Fenster nicht).
-   Im Detail-Fenster (`detSheetHtml`, `07-anzeige.js`) unter der Rechnung einen Abschnitt **„🏞️ Wirkung auf den Zoo“** mit der Aufstellung, die es im Info-Feld schon gibt
-   (Tabelle `calc` ~Z. 160–172: Diese Karte · Nachbarn und andere mit Liste · Mehrfach gebaut · Zwischensumme · Zoo-Multiplikatoren wie 👑 Krone, Reinheit, Vielfalt, Gruppen-Bonus bei anderen · **= Zoo**).
-   Die Summe muss genau den Zoo-Wert ergeben. Nur bei Vorschau/Bauen/Ausbau, bei gebauten Gebäuden „Anteil am Zoo“ weglassen oder ebenso rechnen.
-4. **Lebensraum-Futter im Detail-Fenster klarer:** Zeile „🐟 Fischmix Stufe 1“ wirkt wie Futter auf dieser Karte. Neu: „🐟 Wasser-Futter Fischmix (Stufe 1)“ mit Unterzeile
-   „gilt für alle Wasser-Gehege im Lauf“ (gleich für alle sechs Lebensraum-Futter, `evalB` ~Z. 226 `add(...)` Name/Text).
-
-5. **Weltreise: schwere Auflage → leichte Winter-Bedingung** (Chat 15.11., Zoo 4 mit Auswilderung + Mindestgröße war „heftig“): Winter-Bedingungen in **leicht** und **schwer** einteilen
-   (Feld `stufe` in `daten/winter.json`; Einstufung aus Tobis Sheet „Weltreise-Plan“, Blatt „Winter-Bedingungen“ – vor dem Bauen abholen). Hat das Ziel eine 🔴 schwere Auflage,
-   wird in diesem Zoo nur eine leichte Winter-Bedingung ausgelost (`initZl`, auch beim Tausch `wSwap`). Erledigt zugleich „Winter-Bedingungen in leicht und schwer teilen“ und „Mindestgröße zu schwer“.
-6. **Auswilderung entschärft:** statt am 1. Sommer- und 1. Wintertag am **1. Sommer- und 1. Herbsttag** (`wrAuswild`), damit vor dem Winter Zeit zum Auffüllen bleibt. Texte in `kontinente.json`/Auflagen, Plan und `regeln.md` 16.
-
-7. **Weltreise: weniger Naturflächen** (Chat 15.11.: „teilweise große Schwierigkeiten, andere Tiere zu bauen“): `natur_anteil` in `daten/kontinente.json` (`lauf`) von **0,5 auf 0,4**,
-   Schwerpunkt-Anteil (⅔) und Fleckgröße bleiben. Europa (18 Naturfelder) unverändert. Danach beobachten.
-
-8. **Arktis: Nordhälfte nicht mit fremder Natur zupflastern** (Chat 16.11.): Arktis-Gehege zählen nur in der Nordhälfte („Nordlage“, `habRule`/`isNorth`/`northMid`, `09-speichern-lauf.js` ~Z. 339).
-   Liegen dort viele fremde Naturflächen, kann man kaum Arktis bauen. Neu in `natPlace` (alle Modi, auch Weltreise-Pläne vorab): Wenn Arktis im Lauf gewählt ist und die Lebensraum-Regeln gelten,
-   müssen von den bebaubaren Feldern der Nordhälfte (ohne Felsen) **mindestens ⅔ neutral oder Arktis-Naturfläche** sein. Sonst fremde Natur-Flecken aus dem Norden in den Süden verlegen
-   (Anzahl der Naturflächen je Lebensraum bleibt gleich). Test: viele Zufallsgelände mit Arktis → Nordhälfte immer ≥ ⅔ neutral/Arktis.
-
-9. **Meilensteine dürfen auf jede Naturfläche** (Chat 16.11.: im Testlauf 4 Tage und mit viel Natur passen die großen Meilenstein-Karten kaum noch): Karten mit `ms` (`rar:'meilenstein'`)
-   ignorieren beim Bauen fremde Naturflächen **und Felsen** (`fits`, `04-regeln-wertung.js` ~Z. 287). Felsen unter dem Meilenstein verschwinden (wie bei der Sprengmeisterin, `TERR` löschen).
-   Nur Feldrand, Eingang und belegte Felder bleiben gesperrt. Kartentext/Hilfe: „Darf auch auf Felsen und Naturflächen anderer Lebensräume stehen.“ Danach weiter testen.
-
-10. **Arktis-Nordhälfte liegt „im Osten“** (Chat 16.11.): `isNorth`/`northMid` (`09-speichern-lauf.js` ~Z. 330) rechnen mit der Gelände-Zeile `r`. Wird ein langes Gelände im Hochformat
-   gedreht (`ROT`, `computeView`/`setRot` in `05-ton.js`), liegt diese Hälfte auf dem Bildschirm seitlich. Lösung: Die Arktis-Zone **beim Zoo-Start** nach der dann angezeigten Lage
-   bestimmen (obere Hälfte wie auf dem Bildschirm, `px` mit aktueller Drehung) und als Feldliste im Zoo speichern (`state.north`); `isNorth`, die Markierung `znorth`, Punkt 8 (⅔ neutral/Arktis)
-   und Weltreise-Pläne nutzen diese Liste. Ändert sich später die Drehung (Hoch-/Querformat), bleibt die Zone gleich. Alte Spielstände ohne Liste: wie bisher.
-
-11. **Weltreise: „🪨 Leichter Boden“ nicht bei Gebirge** (Chat 16.11.): Die dauerhafte Belohnung `boden` (3 Felsen weniger, `kontinente.json` ~Z. 403, Wirkung in `genMap` `04-regeln-wertung.js` ~Z. 174)
-   schadet Gebirgs-Gehegen (sie leben von Felsen). Sie wird nicht mehr angeboten, wenn **Gebirge zu den Lebensräumen des Laufs** gehört (Auslosung der Belohnungen in `wrRollOpts`). Ein schon erhaltener Bonus bleibt.
+## 6. Liste fürs nächste Bauen (wird 0.88a) – erst bauen, wenn Tobi „bauen“ sagt
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
-   Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
+   Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
@@ -159,6 +119,11 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.87a** ([Auftrag](docs/auftraege/0.87a-schliff-weltreise-arktis.md), Regeln `docs/regeln.md` 18): Naturfläche ändern 3 Felder (`UMB.natur.n`, `T.sel`, `data-umbfin`, `umbSelOverlay`); `earlyReward` im Testlauf +1 Stufe;
+  Detail-Fenster `calcData`/`zooFxHtml` (genau = Zoo, Zeile „Sonstiges“ für Faktor-Änderung/Rundung, nur Vorschau, `detTarget` liefert `h`); Futter-Label „Wasser-Futter … (Stufe n)“ + Unterzeile; `winter.json` `stufe`, `wrHardRule` in `initZl`/`wSwap`, `inspStufeTag`;
+  Auswilderung Sommer/Herbst; `natur_anteil` 0,4; Leichter Boden nicht mit Gebirge; Arktis-Zone `viewRotFor`/`northOf`/`state.north` (+ Plan `north`), ⅔-Regel in `natPlace`; Meilensteine `fits` (`c.ms`), `noRocks` für die Vorschau.
+  Referenzfälle mit `aktualisiere` (nur Futter-Beschriftung in 2 Fällen, alle Zahlen gleich). Tests: neu `jsd87a.js`, angepasst `jsd85a` (Natur 0,4), `quer.js` Schritt 14 (Arktis-Zone hoch/quer, Drehen).
 
 - **0.86a** ([Auftrag](docs/auftraege/0.86a-regionen-zoomenue-savanne.md), Regeln `docs/regeln.md` 16/17): Weltreise-Regionen: `kontinente.json` mit `kontinente` (7, Europa `staedte`), `regionen` (25, `foki`, Antarktis `frei`), `alt` (0.85a-Kennungen);
   `wrRollOpts0` schließt besuchte Kontinente aus (`wrKOf`, auch Europa), ein Ziel je Kontinent, Europa Auffüller bzw. Ersatz; Anzeige Region (`o.ort`) mit Kontinent darunter. Zoo-Menü neu: `zooBoxHtml(rail)` mit `ZT`/`ZD`,

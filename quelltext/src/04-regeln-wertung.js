@@ -154,7 +154,7 @@ function natQuota(key,H,n=NATN){const F=(NATFOCUS[key]||(()=>({})))(H),q={};let 
   const b=Math.floor(left/rest.length);let r=left-b*rest.length;rest.forEach(h=>{q[h]=b+(r>0?1:0);if(r>0)r--});return q}
 function natPlace(m,key,H,rnd){const t=m.terr,set=new Set(m.cells.map(c=>hk(...c))),pick=a=>a[Math.floor(rnd()*a.length)];
   for(const[k,v]of[...t])if(HAB[v])t.delete(k);
-  const free=k=>set.has(k)&&!t.has(k),nbs=k=>{const[q,r]=k.split(',').map(Number);return DIRS.map(([dq,dr])=>hk(q+dq,r+dr))};
+  let ALLOW=null;const free=k=>set.has(k)&&!t.has(k)&&(!ALLOW||ALLOW(k)),nbs=k=>{const[q,r]=k.split(',').map(Number);return DIRS.map(([dq,dr])=>hk(q+dq,r+dr))};
   const touch=(k,own)=>nbs(k).some(n=>t.has(n)&&HAB[t.get(n)]&&!own.has(n));
   const edge=[...set].filter(k=>nbs(k).some(n=>!set.has(n)));
   const Q=WRCTX?wrQuota(m,H):natQuota(key,H,natNow());let placed=0; // 0.85a: Weltreise eigene Verteilung (ohne Stufen-Naturfelder)
@@ -170,6 +170,13 @@ function natPlace(m,key,H,rnd){const t=m.terr,set=new Set(m.cells.map(c=>hk(...c
       if(p.length===size){p.forEach(k=>t.set(k,h));return size}}return 0};
   const order=Object.keys(Q).filter(h=>Q[h]>0).sort((a,b)=>Q[b]-Q[a]);
   for(const h of order)for(const sz of sizes(Q[h])){let got=patch(h,sz,true)||patch(h,sz,false);if(!got){for(let s2=sz-1;s2>=1&&!got;s2--)got=patch(h,s2,false)}placed+=got}
+  // 0.87a: Arktis gewählt → in der Arktis-Zone (obere Hälfte wie auf dem Bildschirm) mindestens ⅔ der bebaubaren Felder neutral oder Arktis; sonst fremde Flecken in den Süden verlegen
+  if(H.includes('arktis')&&!TUTNOW){const N=northOf(m.cells,viewRotFor(m.cells,key)),NS=new Set(N.ks),nk=N.ks.filter(k=>t.get(k)!=='block'),bad=()=>nk.filter(k=>{const v=t.get(k);return HAB[v]&&v!=='arktis'});
+    const ok=()=>bad().length*3<=nk.length;
+    for(let g=0;g<40&&!ok();g++){const B=bad(),seen=new Set();let best=null;for(const k0 of B){if(seen.has(k0))continue;const h=t.get(k0),C=[k0];seen.add(k0);for(let i=0;i<C.length;i++)for(const n of nbs(C[i]))if(!seen.has(n)&&t.get(n)===h){seen.add(n);C.push(n)}const nN=C.filter(k=>NS.has(k)).length;if(!best||nN>best.nN)best={h,C,nN}}
+      if(!best)break;for(const k of best.C)t.delete(k);ALLOW=k=>!NS.has(k);let left=best.C.length;
+      for(const sz of sizes(left)){let got=patch(best.h,sz,true)||patch(best.h,sz,false);if(!got){for(let s2=sz-1;s2>=1&&!got;s2--)got=patch(best.h,s2,false)}left-=got}
+      ALLOW=null;if(left>0){const back=best.C.filter(k=>!NS.has(k)&&!t.has(k));for(const k of back){if(left<=0)break;t.set(k,best.h);left--}if(left>0){for(const k of best.C){if(left<=0)break;if(!t.has(k)){t.set(k,best.h);left--}}break}}}}
   return m}
 function genMap(key,rnd=Math.random,extra=0){const m=shrinkMap(genMap0(key,rnd,extra),rnd);if(WRCTX&&wrBon('boden')){const R=shuffle([...m.terr].filter(e=>e[1]==='block').map(e=>e[0]),rnd).slice(0,3);for(const k of R)m.terr.delete(k)} // 0.85a: 🪨 Leichter Boden = 3 Felsen weniger
   const H=(GENHABS&&GENHABS.length?GENHABS:DEFHABS).filter(h=>HAB[h]);return natPlace(m,key,H,rnd)}
@@ -223,7 +230,7 @@ function evalB(b,bs,idx,parts){const c=K(b),nb=nbrs(b,idx);let a=c.a,s=c.s,stN=0
     if(CTX.winter&&cold(c.hab)&&!wq&&!hasSpec('rb_winter')&&!nb.some(n=>n.key==='tropenhaus'))add('Winterkälte',-1,0);if(CTX.season===1&&hot(c.hab)&&!(c.hab==='arktis'&&nb.some(n=>n.key==='polarstation')))add('Sommerhitze',-1,0)}
   if(c.bonus){const r=c.bonus(nb,bs,b);add('Kartenbonus',r.a,r.s)}
   {const F=fdOf(b.key);if(F.length){if(F.includes('kf'))add('🥩 Kraftfutter',2,2);if(F.includes('be'))add('🫐 Beeren',0,3);if(F.includes('mo'))add('🥕 Möhrchen',3,0);if(F.includes('mw'))add('🐛 Mehlwürmer',0,3);if(F.includes('gp'))add('📦 Großpackung',3,3);if(F.includes('ho')){const g=cnt(nbrs2(b,idx),n=>isCat(n,'essen'));if(g)add('🍯 Honig: Gastro in der Nähe',g,0)}}
-   if(c.cat==='gehege'&&c.hab&&CTX.fdl){const n=CTX.fdl[c.hab]||0;if(n){const v=fdLvB(n),H=HFOOD[c.hab];add(`${H.icon} ${H.name} Stufe ${n}`,v,v)}}}
+   if(c.cat==='gehege'&&c.hab&&CTX.fdl){const n=CTX.fdl[c.hab]||0;if(n){const v=fdLvB(n),H=HFOOD[c.hab];add(`${H.icon} ${HAB[c.hab].label}-Futter ${H.name} (Stufe ${n})`,v,v)}}}
   const pct=[],pctAdd=(name,e)=>{if(!e)return;const n=e.n==null?1:e.n;if(e.fa!=null||e.fs!=null){if(n>0)pct.push([name,e.fa||1,e.fs||1,n])}else if(e.pa!=null||e.ps!=null){if(n>0)pct.push([name,pctF(e.pa||0),pctF(e.ps||0),n])}else add(name,e.a,e.s)};
   for(const id of CTX.progs)pctAdd(PROGS[id].name,PROGS[id].per&&PROGS[id].per(b,c,nb));
   for(const id of CTX.ads)pctAdd(ADS[id].name,ADS[id].per&&ADS[id].per(b,c,nb));
@@ -287,7 +294,7 @@ function sourcesOf(b,bs){const idx=mkIndex(bs),full=evalB(b,bs,idx),out=[];
   for(const n of full.nb){const bs2=bs.filter(x=>x!==n),v=evalB(b,bs2,mkIndex(bs2));const da=full.a-v.a,ds=full.s-v.s;if(da||ds)out.push({id:n.id,da,ds})}return out}
 const builtUnique=(bs,key)=>CARDS[key].tags.includes('einmalig')&&cnt(bs,b=>b.key===baseK(key))>=(hasSpec('sammel')?2:1);
 function fits(bs,cells,key){const idx=mkIndex(bs),c=CARDS[key];if(builtUnique(bs,key))return false;
-  return cells.every(([q,r])=>{const k=hk(q,r);if(!ONBOARD.has(k)||idx.has(k))return false;if(typeof state!=='undefined'&&state&&(state.nests||[]).includes(k))return false;const t=TERR.get(k);return!t||(t==='block'?hasSpec('spreng'):(c.cat!=='gehege'||c.hab===t||hasSpec('rb_wild')))})}
+  return cells.every(([q,r])=>{const k=hk(q,r);if(!ONBOARD.has(k)||idx.has(k))return false;if(typeof state!=='undefined'&&state&&(state.nests||[]).includes(k))return false;const t=TERR.get(k);return!t||c.ms||(t==='block'?hasSpec('spreng'):(c.cat!=='gehege'||c.hab===t||hasSpec('rb_wild')))})}
 function weightOf(k){const c=CARDS[k];if(isLocked(k))return 0;return c.rar==='winter'?(CTX.winter?8:0):c.rar==='saison'?(sea(c.only)?8:0):RARW[c.rar]*((c.rar==='selten'||c.rar==='sehr selten')&&hasSpec('talent')?2.5:1)}
 function pickWeighted(keys,rnd=Math.random){const tot=keys.reduce((t,k)=>t+weightOf(k),0);let r=rnd()*tot;
   for(const k of keys){r-=weightOf(k);if(r<=0)return k}return keys[keys.length-1]}

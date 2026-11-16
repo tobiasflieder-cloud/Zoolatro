@@ -50,7 +50,7 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
     if(t==='block'){const pts=hexPts(x,y,SZ*.8);cellsSvg+=`<polygon class="block" data-terr="block" points="${pts}"/><polygon class="hatch" points="${pts}" pointer-events="none"/><text class="tic blk" x="${x}" y="${y}">🪨</text>`}
     else if(t){const ng=habSel&&habSel!==t&&!hasSpec('rb_wild'),go=habSel&&habSel===t;cellsSvg+=`<polygon class="cell t0" data-q="${q}" data-r="${r}" points="${hexPts(x,y,SZ*CK)}"/><polygon class="terr ${t} ${ng?'nogo':''} ${go?'go':''}" data-terr="${t}" data-q="${q}" data-r="${r}" points="${hexPts(x,y,SZ*CK)}"/><polygon class="tpat ${ng?'nogo':''}" fill="url(#pt-${t})" points="${hexPts(x,y,SZ*CK)}"/>${ng?`<text class="tic nogo" x="${x}" y="${y}">🚫</text>`:''}`}
     else cellsSvg+=`<polygon class="cell t${((q-r)%3+3)%3}" data-q="${q}" data-r="${r}" points="${hexPts(x,y,SZ*CK)}"/>`}
-  cellsSvg+=ruleOverlay();marks+=strzMarks(selC,idx)+zlMarks()+z2Marks()+twinMarks()+tutMarks();
+  cellsSvg+=ruleOverlay()+umbSelOverlay();marks+=strzMarks(selC,idx)+zlMarks()+z2Marks()+twinMarks()+tutMarks();
   const trm={};if(selC){const sc=selC,isFood=c=>c.cat==='essen'||c.cat==='attr',stressFood=c=>(c.cat==='essen'||c.cat==='attr')&&!ruhigC(c),stressedNow=b=>{try{return(evalB(b,state.buildings,idx).st||0)>=1}catch(e){return false}},has_=(c,t)=>(c.tags||[]).includes(t);
     // Wechselwirkungen: grün = gut, rot = schlecht, gelb = beides
     // dazu allgemein: was ein Gebäude als Nachbar der neuen Karte bringt (Symbol der neuen Karte) und was die neue Karte ihm bringt
@@ -156,12 +156,14 @@ const whyLab=l=>String(l).replace(/ \+\d+ %$/,'').replace(/ \(\d+ andere Arte?n?
 function chgWhy(b0,bs0,b1,bs1){const P=(b,bs)=>{const p=[];evalB(b,bs,mkIndex(bs),p);const m=new Map();for(const x of p){const k=whyLab(x.label),o=m.get(k)||{a:0,s:0};o.a+=x.a;o.s+=x.s;m.set(k,o)}return m};
   const m0=P(b0,bs0),m1=P(b1,bs1),d=[];for(const k of new Set([...m0.keys(),...m1.keys()])){const o=m0.get(k)||{a:0,s:0},n=m1.get(k)||{a:0,s:0},da=n.a-o.a,ds=n.s-o.s;if(da||ds)d.push([k,Math.abs(da)+Math.abs(ds)])}
   d.sort((x,y)=>y[1]-x[1]);return d.slice(0,2).map(x=>x[0]).join(', ')}
-function calcHtml(h,cur){if(!h||!h.r||!h.ok)return'';const id=h.up?h.up.id:h.move?h.move.id:-1,z={a:0,s:0},o0=cur.steps.find(x=>x.id===id)||z,o1=h.r.steps.find(x=>x.id===id)||z,adjD={a:(o1.adjA||0)-(o0.adjA||0),s:(o1.adjS||0)-(o0.adjS||0)},own={a:o1.a-o0.a-adjD.a,s:o1.s-o0.s-adjD.s};let upL='';if(h.up){own.a+=adjD.a;own.s+=adjD.s;upL=o1.adjL||'';adjD.a=0;adjD.s=0}
+function calcData(h,cur){if(!h||!h.r||!h.ok)return null;const id=h.up?h.up.id:h.move?h.move.id:-1,z={a:0,s:0},o0=cur.steps.find(x=>x.id===id)||z,o1=h.r.steps.find(x=>x.id===id)||z,adjD={a:(o1.adjA||0)-(o0.adjA||0),s:(o1.adjS||0)-(o0.adjS||0)},own={a:o1.a-o0.a-adjD.a,s:o1.s-o0.s-adjD.s};let upL='';if(h.up){own.a+=adjD.a;own.s+=adjD.s;upL=o1.adjL||'';adjD.a=0;adjD.s=0}
   const byId=Object.fromEntries(state.buildings.map(b=>[b.id,b])),nbs=[],all1=h.up||h.move?state.buildings.map(x=>x.id===(h.up||h.move).id?h.b:x):[...state.buildings,h.b],why1=b0=>{try{const b1=all1.find(x=>x.id===b0.id)||b0;return chgWhy(b0,state.buildings,b1,all1)}catch(e){return''}};let na=0,ns=0,adj=0,far=0;const near=new Set();for(const[q,r]of h.cells||[])for(const[dq,dr]of DIRS)near.add(hk(q+dq,r+dr));
   for(const st of h.r.steps){if(st.id===id)continue;const q=cur.steps.find(x=>x.id===st.id);if(!q||!byId[st.id])continue;const da=st.a-q.a,ds=st.s-q.s;if(da||ds){na+=da;ns+=ds;{const w=why1(byId[st.id])||((st.adjA||0)!==(q.adjA||0)||(st.adjS||0)!==(q.adjS||0)?((byId[st.id].lvl||1)>1?'Ausbau-Anteil':'Mehrfach-Anteil'):'');nbs.push(`${CARDS[byId[st.id].key].name} ${vTxt(da,ds)}${w?` <i class="cwhy">(${w})</i>`:''}`)}if(byId[st.id].cells.some(([q,r])=>near.has(hk(q,r))))adj++;else far++}}
   let why='';if(h.b&&!h.up&&!h.move&&CARDS[h.b.key].cat==='gehege'&&(CTX.spec||[]).includes('sammler')){const hs=bs=>new Set(bs.filter(n=>isCat(n,'gehege')).map(n=>K(n).hab)).size;if(hs(state.buildings)<4&&hs([...state.buildings,h.b])>=4)why='🧬 Sammlerin: Jetzt hat dein Zoo alle Lebensräume, jedes Gehege bekommt +1 N. '}
   const raw=r=>({a:r.steps.reduce((t,x)=>t+x.a,0),s:r.steps.reduce((t,x)=>t+x.s,0)}),r0=raw(cur),r1=raw(h.r),f=r=>({a:r.mults.reduce((t,m)=>t*(m.ma||1),1),s:r.mults.reduce((t,m)=>t*(m.ms||1),1)}),f0=f(cur),f1=f(h.r),x=v=>'×'+mxs(v),v=(a,b)=>vTxt(a,b)||'±0';
   const ml=multDiff(cur,h.r).L,chg=cur.steps.length>0&&(Math.abs(f0.a-f1.a)>.005||Math.abs(f0.s-f1.s)>.005),hasM=Math.abs(f1.a-1)>.005||Math.abs(f1.s-1)>.005||chg;
+  return{own,upL,nbs,why,na,ns,far,adj,adjD,o1,f0,f1,ml,chg,hasM,x,v}}
+function calcHtml(h,cur){const D=calcData(h,cur);if(!D)return'';const{own,upL,nbs,why,na,ns,far,adj,adjD,o1,f0,f1,ml,chg,hasM,x,v}=D;
   const row=(l,val,sub,cls)=>`<tr class="${cls||''}"><td>${l}${sub?`<small>${sub}</small>`:''}</td><td>${val}</td></tr>`;
   let t=row(h.up?'Ausbau':h.move?'Umzug':'Diese Karte',v(own.a,own.s),upL);
   if(nbs.length)t+=row(far?(adj?'Nachbarn und andere':'Andere Gehege/Gebäude'):'Nachbarn',v(na,ns),why+nbs.join(' · '));
@@ -170,6 +172,20 @@ function calcHtml(h,cur){if(!h||!h.r||!h.ok)return'';const id=h.up?h.up.id:h.mov
   if(hasM)t+=row('Multiplikatoren',chg?`${x(f0.a)} → ${x(f1.a)} B · ${x(f0.s)} → ${x(f1.s)} N`:`${x(f1.a)} B · ${x(f1.s)} N`,ml.join(' · ')+(chg?` · Der Bau ändert einen Multiplikator, deshalb ${f1.a*f1.s>=f0.a*f0.s?'wächst':'schrumpft'} der ganze Zoo.`:''));
   t+=row('Zoo',v(h.r.A-cur.A,h.r.S-cur.S),'','sum');
   return`<table class="calc">${t}</table>`}
+// 0.87a: Detail-Fenster „🏞️ Wirkung auf den Zoo“ (Entwurf docs/stil/details-zoo-entwurf.html): gleiche Aufteilung wie im Info-Feld, Zeilen addieren sich genau zum Zoo-Wert
+function zooFxHtml(h,cur){const D=calcData(h,cur);if(!D)return'';const{own,upL,nbs,why,na,ns,adjD,o1,f0,f1,ml,chg,x,far,adj}=D,dA=h.r.A-cur.A,dS=h.r.S-cur.S,sg=n=>n?(n>0?'+':'−')+Math.abs(n):'±0';
+  const R=[],add=(ic,l,sub,a,s,cls,va,vs)=>R.push(`<tr class="${cls||''}"><td>${ic?ic+' ':''}${l}${sub?`<small>${sub}</small>`:''}</td><td>${va!=null?va:sg(a)}</td><td>${vs!=null?vs:sg(s)}</td></tr>`);
+  add('',h.up?'Ausbau':h.move?'Umzug':'Diese Karte',upL||'siehe Rechnung oben',own.a,own.s);
+  if(nbs.length)add('🏘️',far?(adj?'Nachbarn und andere':'Andere Gehege/Gebäude'):'Nachbarn',why+nbs.join(' · '),na,ns);
+  if(adjD.a||adjD.s)add('🔁',h.up?'Ausbau-Anteil':'Mehrfach gebaut',o1.adjL||'',adjD.a,adjD.s);
+  const zA=own.a+na+adjD.a,zS=own.s+ns+adjD.s;
+  if(nbs.length||adjD.a||adjD.s)add('','Zwischensumme','',zA,zS,'sub');
+  const mA=Math.round(zA*f1.a),mS=Math.round(zS*f1.s),hasF=Math.abs(f1.a-1)>.005||Math.abs(f1.s-1)>.005;
+  if(hasF)add('✖️','Zoo-Faktoren',ml.join(' · ')+` · aus ${sg(zA)} B / ${sg(zS)} N werden ${sg(mA)} / ${sg(mS)}`,0,0,'fx',x(f1.a),x(f1.s));
+  const rA=dA-(hasF?mA:zA),rS=dS-(hasF?mS:zS);
+  if(rA||rS)add('➕','Sonstiges',chg?`Der Bau ändert einen Zoo-Faktor (${x(f0.a)} → ${x(f1.a)} B · ${x(f0.s)} → ${x(f1.s)} N), das trifft den ganzen Zoo. Dazu Rundung.`:'Rundung',rA,rS);
+  add('','= Zoo','',dA,dS,'sum');
+  return`<div class="dtsec">🏞️ Wirkung auf den Zoo</div><table class="dtzt"><tr><th></th><th>B</th><th>N</th></tr>${R.join('')}</table>`}
 function brkHtml(c,brk){return`<div class="brk"><span>Grundwert <b>${c.a} B · ${c.s} N</b></span>${brk.parts.map(p=>`<span class="${p.a+p.s<0?'m':'p'}">${p.label} ${vTxt(p.a,p.s)}</span>`).join('')}<span>= <b>${brk.a} B · ${brk.s} N</b></span></div>`}
 const habLine=c=>c.hab?` Lebensraum: +1 B je ${HAB[c.hab].label}-Nachbar, +1 N je Feld auf ${HAB[c.hab].label}-Naturfläche.${cold(c.hab)?' Im Winter −1 B (Kälte).':''}${hot(c.hab)?' Im Sommer −1 B (Hitze).':''}`:'';
 // was eine Wirkung im jetzigen Zoo bringt
@@ -293,7 +309,7 @@ function detSheetHtml(b,bs,pre){const c=edCard(b),bk=breakdown(b,bs),P=bk.parts|
   const vB=(a,s)=>[a?`${a>0?'+':'−'}${Math.abs(a)} B`:'',s?`${s>0?'+':'−'}${Math.abs(s)} N`:''].filter(Boolean).join(' · ');
   const cls=(a,s)=>a&&s?'bn':a?'b':'n';
   const row=(ic,t,sm,v,vc,neg,off)=>`<div class="dtrw${neg?' neg':''}${off?' off':''}"><span class="dtri">${ic}</span><span class="dtrt"><b>${t}</b>${sm?`<small>${sm}</small>`:''}</span><span class="dtv ${neg?'neg':vc}">${v}</span></div>`;
-  const rP=plus.map(p=>{const[i,t]=detIc(p.label);return row(i||'➕',t,'',vB(p.a,p.s),cls(p.a,p.s),(p.a||0)+(p.s||0)<0)});
+  const rP=plus.map(p=>{const[i,t]=detIc(p.label),fm=t.match(/^(\S+)-Futter /);return row(i||'➕',t,fm?`gilt für alle ${fm[1]}-Gehege im Lauf`:'',vB(p.a,p.s),cls(p.a,p.s),(p.a||0)+(p.s||0)<0)});
   const rF=fac.map(p=>{const[i,t]=detIc(p.label);const fa=p.fa==null?1:p.fa,fs=p.fs==null?1:p.fs,v=fa===fs?'×'+fF(fa):[fa!==1?'B ×'+fF(fa):'',fs!==1?'N ×'+fF(fs):''].filter(Boolean).join(' · ');return row(i||'✖️',t.replace(/:?\s*×\d+(,\d+)?\s*$/,''),'',v,fa!==1&&fs!==1?'bn':fa!==1?'b':'n',Math.min(fa,fs)<1)});
   const off=[];{const k=b.key;if(c.cat==='gehege'&&!c.ms&&foodOn()){const fr=fdMaxK(k)-fdOf(k).length;if(fr>0)off.push(row('🍽️',`Futterplatz frei${fr>1?' ('+fr+')':''}`,'Futter würde hier dauerhaft wirken','–','',false,true))}
     const has=t=>(c.tags||[]).includes(t);if((has('beute')||has('scheu'))&&!zoo.length&&!(TUTNOW&&!TUTTR))off.push(row('😣','Stress',has('beute')?'Beute: gerade kein Raubtier in der Nähe':'Scheu: gerade kein Trubel in der Nähe','–','',false,true));
@@ -311,8 +327,8 @@ function detSheetHtml(b,bs,pre){const c=edCard(b),bk=breakdown(b,bs),P=bk.parts|
     <div class="dtcalc"><span class="dtk kb">👥 B</span><span>${cA.t.replace(/= (-?\d+)$/,'= <span class="dteq">$1</span>')}</span><span class="dtk kn">🌿 N</span><span>${cS.t.replace(/= (-?\d+)$/,'= <span class="dteq">$1</span>')}</span></div>
     ${zl.map(z=>`<div class="dtzoo">${z}</div>`).join('')}</div>`}
 function detTarget(){if(!state)return null;if(state.info!=null){const b=state.buildings.find(x=>x.id===state.info);if(b)return{b,bs:state.buildings,pre:false}}
-  if(state.selected!=null&&state.preview){const h=hypo();if(h&&h.ok&&h.b){const skip=new Set([h.up&&h.up.id,h.move&&h.move.id].filter(x=>x!=null)),bs=[...state.buildings.filter(x=>!skip.has(x.id)),h.b];return{b:h.b,bs,pre:true}}}return null}
-function detOpen(){const T=detTarget();if(!T)return false;detClose();const el=document.createElement('div');el.id='detSheet';el.className='detov';el.innerHTML=detSheetHtml(T.b,T.bs,T.pre);document.body.appendChild(el);
+  if(state.selected!=null&&state.preview){const h=hypo();if(h&&h.ok&&h.b){const skip=new Set([h.up&&h.up.id,h.move&&h.move.id].filter(x=>x!=null)),bs=[...state.buildings.filter(x=>!skip.has(x.id)),h.b];return{b:h.b,bs,pre:true,h}}}return null}
+function detOpen(){const T=detTarget();if(!T)return false;detClose();const el=document.createElement('div');el.id='detSheet';el.className='detov';el.innerHTML=T.pre?noRocks(T.b.cells,()=>detSheetHtml(T.b,T.bs,T.pre).replace(/<\/div>$/,(()=>{try{return zooFxHtml(T.h,scoreZoo(state.buildings))}catch(e){return''}})()+'</div>')):detSheetHtml(T.b,T.bs,T.pre);document.body.appendChild(el);
   el.addEventListener('click',e=>{if(e.target===el||e.target.closest('[data-dsx]')){try{Sfx.select()}catch(x){}detClose()}});return true}
 function detClose(){const el=document.getElementById('detSheet');if(el)el.remove()}
 // 0.81a: Aufstellung am Zähler: Gebäude zusammen, dann die Zoo-Faktoren in der Reihenfolge der Wertung (scoreZoo0: mults), gerundet wird erst am Ende

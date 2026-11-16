@@ -397,14 +397,14 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
   (vor Zoo 1 nur leicht/mittel), nie nur schwere; Auflage aus `auflagen` mit dieser Schwierigkeit, keine doppelt in einer Wahl, bevorzugt noch nicht gesehene (`seenOf`), im Testlauf ohne `locker`.
   Belohnung: leicht keine, mittel eine aus `belohnungen.sofort` (Speisekammer nur mit Futter), schwer eine noch nicht erhaltene aus `belohnungen.dauerhaft` (sonst sofort).
   Je Ziel wird der Plan vorab erzeugt (`rollPlan0` mit `WRCTX={foc,rule,rw,eu}`, eigenes Gelände `run.maps[zoo]` je Ziel), die Vorschau zeigt dieses echte Gelände. Anzeige: Region als Name, Kontinent darunter.
-- **Gelände** (`04:natPlace` mit `WRCTX` → `06:wrQuota`): Naturflächen = runde(bebaubare Felder × `natur_anteil` 0,5), davon runde(× `schwerpunkt_anteil` ⅔) im Schwerpunkt, der Rest gleichmäßig auf die übrigen gewählten
+- **Gelände** (`04:natPlace` mit `WRCTX` → `06:wrQuota`): Naturflächen = runde(bebaubare Felder × `natur_anteil` 0,4 – seit 0.87a, vorher 0,5), davon runde(× `schwerpunkt_anteil` ⅔) im Schwerpunkt, der Rest gleichmäßig auf die übrigen gewählten
   Lebensräume; Flecken `fleck_min`–`fleck_max` (4–7). Europa: `europa_naturfelder` (18, im Testlauf ×0,8) gleich verteilt. Stufen-Naturfelder (`stW('natur')`) gelten nicht. Im Testlauf „4 Tage“ ist das Feld ×0,8, die Hälfte davon ergibt sich anteilig.
 - **Wahl** `06:wrGo`: Plan übernehmen, `run.wrDest`/`run.wrRoute` merken; dauerhafte Belohnung → `run.boni`; sofort: Speisekammer 2× `gsack`, Bewerberflut `gprofi`, Bauoffensive 2× `gumb` (Geschenke im Shop, `run.gifts`),
   Mitbringsel = Schritt `wrgift` (3 Karten aus dem seltenen Kartenwahl-Los `11:zkPools`), Prägung = Schritt `perk` mit `a.wrPerk` (danach Start), Partnerschaft = beim Start ein zufälliges Förderprogramm (`06:wrArrive`).
 - **Dauerhafte Boni** (`06:wrBon`, wirken ab dem Zoo, in dem man sie bekommt): Goldader `initZl` +1 Goldfeld · Fleißige Helfer `startDay` +1 BP am 1. Tag von Frühling und Sommer · Gastforscher `07:rollMarket` +1 Bewerber ·
-  Leichter Boden `04:genMap` entfernt 3 Felsen des fertigen Geländes.
+  Leichter Boden `04:genMap` entfernt 3 Felsen des fertigen Geländes (wird seit 0.87a nicht angeboten, wenn Gebirge im Lauf ist).
 - **Ziel-Auflagen** (`ziel_auflagen`, `RULES[..].ziel`, Stand `06:wrGoal`): Prüfung in `07:endDay`, wenn das Winterziel erreicht ist: offen und noch Tage übrig → weiterspielen (Hinweis), offen am letzten Wintertag
-  → `state.wrFail`, Zoo gescheitert (eigener Text). Vielfalt zählt Lebensräume mit ≥ 2 Gehegen; Nachwuchs = Gehege mit `jt`. **Auswilderung** (`06:wrAuswild`, aus `startDay`): am 1. Tag von Sommer und Winter ein zufälliges
+  → `state.wrFail`, Zoo gescheitert (eigener Text). Vielfalt zählt Lebensräume mit ≥ 2 Gehegen; Nachwuchs = Gehege mit `jt`. **Auswilderung** (`06:wrAuswild`, aus `startDay`): am 1. Tag von Sommer und Herbst (seit 0.87a) ein zufälliges
   Gehege (ohne Meilenstein) weg, eine passende Karte aus `run.deck` (`run.wrGone`), Einblendung `#wrAusPop`. Weltreise-Auflagen (`RULES[..].wr`) kommen in `ruleRoll` nie vor.
 - **Zwischen den Zoos:** `06:newReward` mit `run.wr`: keine Vorschau, kein Prägungs-Schritt; Karten → Team → `data-cwr` → Schritt `wr` (Kontinent-Wahl `06:wrPickHtml`). Beim Start `rulePop` = „Willkommen in …“ (`06:wrWelcomeHtml`).
 - **Besucherwunsch** (`08:wishOn`): nur im Sommer; Belohnungen `08:WRWISH` (über `wRw`), `arten5` braucht 6 Arten und darf im Sommer kommen. „Karte nach Wahl“ (Star/Gold) öffnet das Fenster `state.wpick` (`08:wpickDo`).
@@ -416,3 +416,12 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Chips:** dauerhafte Boni (`run.boni`), Teuerung (`Z.ban`), Geschenk vom Raubtierhaus (`Z.gift`).
 - **„Dein Stand“** (`ZD`, `<details>`): Reinheit (`zlPurity`/`purF`), Vielfalt (`vielfalt`), Zucht (`zuchtNow`, gleiche Prüfung wie `z2Breed` ohne Wirkung), wachsende Spezialisten, Futter (`foodBoxHtml`), Lebensraum-Regeln.
 - **„📖 Regeln“** (`ZRULES`, `zooRulesHtml`): Stufe, Profil-Regel, Weltreise-Boni, Zucht/Reinheit/Vielfalt ausführlich, Gelände (`zlTerrTile`). Die Seitenleiste im Querformat (`railRender`) zeigt immer die Hauptansicht (`zooBoxHtml(1)`) ohne Knöpfe.
+
+## 18. Schliff 0.87a
+- **Winter-Stufe** (`daten/winter.json` `stufe`, `02:inspStufeTag`): Ziel mit schwerer Auflage (`06:wrHardRule`, Schwierigkeit aus `auflagen`) → `initZl` und `wSwap` losen nur `leicht`.
+- **Arktis-Zone** (`05:viewRotFor`, `05:northOf`, `05:scrY`): obere Hälfte nach Bildschirm-y (gedreht: `q+r/2`, sonst `r`), Median aller Felder; `state.north={rot,m,ks}` beim Zoo-Start (`newGame`, aus dem Plan `p.north`),
+  `09:isNorth` nutzt sie (alte Spielstände ohne `north` wie bisher). `04:natPlace`: mit Arktis im Lauf mindestens ⅔ der Zone (ohne Felsen) neutral/Arktis, sonst größte fremde Flecken in den Süden verlegen (`ALLOW`).
+- **Meilensteine** (`04:fits`): `c.ms` ignoriert Naturflächen und Felsen; Felsen unter Gebäuden fallen beim Bauen weg, die Vorschau rechnet über `06:noRocks` schon ohne sie.
+- **Naturfläche ändern** (`UMB.natur.n=3`, `umbClick` sammelt `T.sel`, `data-umbfin`, `umbHab` für alle Felder, Markierung `umbSelOverlay`).
+- **Früh geschafft im Testlauf** (`01:earlyReward`): Stufe = Tage + 1 (1 → Futtersack, 2 → Umbau-Kiste, 3 → Profi-Mappe).
+- **Detail-Fenster** (`07:calcData`, `07:zooFxHtml`): Diese Karte · Nachbarn · Mehrfach · Zwischensumme · Zoo-Faktoren (gerundet) · Sonstiges (Faktor-Änderung, Rundung) = Zoo, genau `ΔA`/`ΔS`.

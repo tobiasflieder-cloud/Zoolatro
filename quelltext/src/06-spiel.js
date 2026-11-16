@@ -3,6 +3,7 @@ let VIEWMAP=null;
 function newGame(key='wiese',m=genMap(key),opt={}){ZOOM=null;ZAUTO=false;SHIFT=0;SHX=0;screen=null;setBoard(m.cells);TERR=m.terr;VIEWMAP=key;computeView();
   state=Object.assign(DEFAULTS(),{map:key,board:m.cells,season:0,day:0,seasonScore:0,totalScore:0,buildings:[],nextId:1,deck:shuffle(opt.deck||START_DECK),discard:[],hand:[],bp:BP,
     selected:null,rot:0,preview:null,phase:'play',offer:[],pendingSeason:false,lastDay:0,info:null,terr:[...TERR]},opt.state||{});
+  if(!state.north)state.north=northOf(BOARD,ROT); // 0.87a: Arktis-Zone nach der Lage beim Zoo-Start (bleibt beim Drehen gleich)
   if(state.rule&&!opt.plan){initRule();state.terr=[...TERR]}
   if(state.zl&&!opt.plan)initZl();
   state.events=opt.events||rollSeason(0);syncCtx();state.bpMax=bpBase();const sl=activeSlot();if(sl&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}startDay()}
@@ -15,7 +16,7 @@ function crownPick(L,ek,bad){if(!L.length)return null;let best=null,bn=-1;const 
   for(const pass of[0,1])for(const k of L){if(pass===0&&edge(k))continue;const n=crownFits(k,ek,bad);if(n>=3)return k;if(n>bn){bn=n;best=k}}return best||L[0]}
 function initZl(){const Z=state.zl,ek=state.rule&&state.rule.entry?hk(...state.rule.entry):null,all=BOARD.map(([q,r])=>hk(q,r)).filter(k=>TERR.get(k)!=='block'&&k!==ek),plain=shuffle(all.filter(k=>!TERR.get(k))),rest=shuffle(all);
   const R0=state.rule,bad=k=>!!R0&&R0.id==='achse'&&(R0.ax?R0.ax.includes(k):+k.split(',')[1]===R0.row),hd=(a,b)=>{const[q1,r1]=a.split(',').map(Number),[q2,r2]=b.split(',').map(Number),dq=q1-q2,dr=r1-r2;return(Math.abs(dq)+Math.abs(dr)+Math.abs(dq+dr))/2};
-  Z.crown=stAb('keine_krone')?null:crownPick(plain.filter(k=>!bad(k)).concat(plain.filter(bad)),ek,bad);{const ng=stW('gold',3)+(wrBon('gold')?1:0),g=[];for(const minD of[2,1])for(const k of rest){if(g.length>=ng)break;if(k===Z.crown||g.includes(k)||bad(k))continue;if([...g,Z.crown].filter(Boolean).every(x=>hd(x,k)>=minD))g.push(k)}Z.gold=g}{const io0=Object.keys(INSP).filter(k=>k!=='frei'&&!(k==='zucht'&&!(state.zoo>0)||k==='futter'&&!((state.zoo||0)>=2)||k==='gross'&&(state.zoo||0)<2)),io1=io0.filter(k=>!SEEN.i.has(k)),io=shuffle(io1.length>=(isZ2()?2:1)?io1:io0);Z.insp=io[0];Z.inspOpts=undefined;Z.hard=state.mode==='camp'&&(state.zoo||0)>=2;Z.wplus=state.mode==='camp'&&(state.zoo||0)>=4}const hasI=i=>(Z.inspOpts||[Z.insp]).includes(i);if(hasI('hab'))Z.inspHab=shuffle(habsNow().slice())[0];
+  Z.crown=stAb('keine_krone')?null:crownPick(plain.filter(k=>!bad(k)).concat(plain.filter(bad)),ek,bad);{const ng=stW('gold',3)+(wrBon('gold')?1:0),g=[];for(const minD of[2,1])for(const k of rest){if(g.length>=ng)break;if(k===Z.crown||g.includes(k)||bad(k))continue;if([...g,Z.crown].filter(Boolean).every(x=>hd(x,k)>=minD))g.push(k)}Z.gold=g}{const io0=Object.keys(INSP).filter(k=>k!=='frei'&&!(k==='zucht'&&!(state.zoo>0)||k==='futter'&&!((state.zoo||0)>=2)||k==='gross'&&(state.zoo||0)<2)&&!(wrHardRule()&&INSP[k].stufe==='schwer')),io1=io0.filter(k=>!SEEN.i.has(k)),io=shuffle(io1.length>=(isZ2()?2:1)?io1:io0);Z.insp=io[0];Z.inspOpts=undefined;Z.hard=state.mode==='camp'&&(state.zoo||0)>=2;Z.wplus=state.mode==='camp'&&(state.zoo||0)>=4}const hasI=i=>(Z.inspOpts||[Z.insp]).includes(i);if(hasI('hab'))Z.inspHab=shuffle(habsNow().slice())[0];
   Z.opts=[]}
 // Der nächste Zoo wird schon vor den Belohnungen ausgewürfelt und im Lauf gespeichert
 // Seeds: gleicher Seed = gleiche Zoos (Spielfeld, Regel, Winter-Bedingungen, Goldfelder), unabhängig von Entscheidungen
@@ -62,7 +63,7 @@ function ruleRoll(){const d4=(()=>{try{return isD4(runOf())}catch(e){return fals
 function noteOffered(run){try{if(!run||!state||!state.zl)return;(run.offered=run.offered||{})[state.zoo||0]={r:state.rule&&state.rule.id||null,i:(state.zl.inspOpts||[state.zl.insp]).filter(Boolean)}}catch(e){}}
 function rollPlan0(run){SEEN=seenOf(run,run.zoo);try{return rollPlan1(run)}finally{SEEN={r:new Set(),i:new Set()}}}
 function rollPlan1(run){mapRoll(run);GENHABS=run.habs||null;const cf=cfOf(run),m=(()=>{const r=genMap(cf.map,Math.random,cf.rocks);GENHABS=null;return r})(),keep=state,kb=keep?BOARD.map(c=>c.slice()):null,kt=TERR;setBoard(m.cells);TERR=m.terr;
-  const p={zoo:run.zoo,cells:m.cells,terr:[...m.terr],ev:cf.spring&&!run.zl?rollEvents({...cf,s:0}):[],rule:null};
+  const p={zoo:run.zoo,cells:m.cells,terr:[...m.terr],north:northOf(m.cells,viewRotFor(m.cells,cf.map)),ev:cf.spring&&!run.zl?rollEvents({...cf,s:0}):[],rule:null};
   state={zoo:run.zoo,habs:run.habs||null};if(run.zl){if(!run.tut){const rid=WRCTX?WRCTX.rule:ruleRoll();if(rid)state.rule={id:rid}}state.zl={};if(state.rule)initRule();initZl();noteOffered(run);p.terr=[...TERR];Object.assign(p,{rule:state.rule||null,gold:state.zl.gold,crown:state.zl.crown,opts:state.zl.opts,insp:state.zl.insp,inspOpts:state.zl.inspOpts,inspHab:state.zl.inspHab,prof:run.prof||NOPROF,ban:null})}
   state=keep;if(keep){setBoard(kb);TERR=kt}return p}
 function rollPraeg(){const ids=praegLos(),out=[];while(out.length<3){const pool=ids.filter(i=>!out.includes(i)),t=pool.reduce((x,i)=>x+PRAEG[i].w,0);let r=Math.random()*t;for(const i of pool){r-=PRAEG[i].w;if(r<=0){out.push(i);break}}}return out}
@@ -129,8 +130,10 @@ function hypo(){const mb=movingB();
   {const tf=tutFix();if(tf&&tf.at&&!tutCellsEq(cells,tf.at))return{ok:false,cells,why:'👉 Auf die leuchtenden Felder legen'+(tf&&tf.rot?' (mit ↻ drehen)':'')}}
   if(!fits(state.buildings,cells,key))return{ok:false,cells,why:whyNot(cells,key)};
   {const rw=ruleWhy(state.buildings,cells,key);if(rw)return{ok:false,cells,why:rw}}
-  const b={id:-1,key:baseK(key),cells},all=[...state.buildings,b];if(CARDS[key].ed)b.ed=CARDS[key].ed;if(CARDS[key].pr)b.pr=CARDS[key].pr;const r=scoreZoo(all);
-  return{ok:true,cells,r,b,own:r.steps.find(s=>s.id===-1),src:sourcesOf(b,all),brk:breakdown(b,all)}}
+  const b={id:-1,key:baseK(key),cells},all=[...state.buildings,b];if(CARDS[key].ed)b.ed=CARDS[key].ed;if(CARDS[key].pr)b.pr=CARDS[key].pr;
+  return noRocks(cells,()=>{const r=scoreZoo(all);return{ok:true,cells,r,b,own:r.steps.find(s=>s.id===-1),src:sourcesOf(b,all),brk:breakdown(b,all)}})}
+// 0.87a: Vorschau rechnet mit dem Stand nach dem Bauen – Felsen unter dem neuen Gehege/Gebäude (Meilenstein, Sprengmeisterin) sind dann weg
+function noRocks(cells,fn){const ks=(cells||[]).map(c=>hk(...c)).filter(k=>TERR.get(k)==='block');if(!ks.length)return fn();for(const k of ks)TERR.delete(k);try{return fn()}finally{for(const k of ks)TERR.set(k,'block')}}
 // Test-Szenarien im freien Spiel: je eine Sonderregel fürs Bauen
 const RULES={eingang:{icon:'🚪',text:()=>'Am Rand liegt der Eingang 🚪. Das erste Gehege/Gebäude muss ihn berühren, jedes weitere ein schon gebautes oder den Eingang. Beim Umziehen muss alles mit dem Eingang verbunden bleiben. Der Eingang darf nicht ganz zugebaut werden: Mindestens ein Feld daneben bleibt frei.'},
   raub:{icon:'🚫',text:()=>'Raubtiere und Beutetiere dürfen nicht nebeneinander gebaut werden.'},
@@ -157,9 +160,11 @@ Object.assign(RULES,{
 const WR_DATEN=/*@@DATEN:kontinente@@*/null,WRL=WR_DATEN.lauf,WRK=WR_DATEN.kontinente,WRLV=WR_DATEN.auflagen,WRZ=WR_DATEN.ziel_auflagen,
   WRB=Object.assign({},WR_DATEN.belohnungen.sofort,WR_DATEN.belohnungen.dauerhaft),WRNOW=Object.keys(WR_DATEN.belohnungen.sofort),WRPERM=Object.keys(WR_DATEN.belohnungen.dauerhaft),WRLVN={leicht:'e',mittel:'m',schwer:'h'};
 for(const id in WRZ){const Z=WRZ[id];RULES[id]={icon:Z.icon,name:Z.name,wr:1,ziel:1,text:()=>Z.text+' Sonst ist der Zoo gescheitert.'}}
-RULES.auswild={icon:'🦓',name:'Auswilderung',wr:1,text:()=>'Am 1. Sommertag und am 1. Wintertag wird je ein zufälliges Gehege ausgewildert: Das Feld wird frei, die Karte verlässt dein Lauf-Deck.'};
+RULES.auswild={icon:'🦓',name:'Auswilderung',wr:1,text:()=>'Am 1. Sommertag und am 1. Herbsttag wird je ein zufälliges Gehege ausgewildert: Das Feld wird frei, die Karte verlässt dein Lauf-Deck.'};
 let WRCTX=null; // nur beim Vorab-Erzeugen eines Ziels: {foc, rule, rw, eu}
 const wrRun=()=>{try{const r=runOf();return r&&r.wr&&!r.tut?r:null}catch(e){return null}},wrOn=()=>!!wrRun();
+// 0.87a: Ziel mit schwerer Auflage → nur leichte Winter-Bedingungen (beim Vorab-Erzeugen über WRCTX, im Zoo über state.rule)
+const wrHardRule=()=>{const id=WRCTX?WRCTX.rule:(typeof state!=='undefined'&&state&&state.rule&&state.rule.id);return!!id&&WRLV[id]==='schwer'&&wrOn()};
 const wrBon=k=>{if(WRCTX&&WRCTX.rw===k)return true;const r=wrRun();return!!(r&&(r.boni||[]).includes(k))};
 const WRREG=WR_DATEN.regionen,WRALT=WR_DATEN.alt||{};
 const wrK=k=>WRK.find(x=>x.id===(WRALT[k]||k))||{id:k,icon:'🌍',name:k}; // 0.86a: alte Kontinent-Kennungen aus 0.85a (antarktis, himalaya) zeigen auf den neuen Kontinent
@@ -183,7 +188,7 @@ function wrRollOpts0(run){const sl=activeSlot(),H=run.habs||DEFHABS,n=(run.stage
   if(EU&&(opts.length<n&&!done.has(EU.id)||!opts.length))opts.push({k:EU.id,foc:null,eu:1,ort:pick(EU.staedte||[EU.name])});
   const R=opts.filter(o=>!o.eu),lvs=first?['leicht','mittel']:['leicht','mittel','schwer'];R.forEach(o=>{o.lv=pick(lvs)});if(R.length&&R.every(o=>o.lv==='schwer'))pick(R).lv=pick(['leicht','mittel']);
   const S=seenOf(run,run.zoo),used=new Set();for(const o of R){const all=Object.keys(WRLV).filter(id=>WRLV[id]===o.lv&&RULES[id]&&!RULES[id].gone&&!(d4&&id==='locker')&&!used.has(id)),fr=all.filter(id=>!S.r.has(id));o.rule=pick(fr.length?fr:all)||null;used.add(o.rule)}
-  const uR=new Set(),food=foodOnRun(run);for(const o of R){if(o.lv==='leicht'){o.rw=null;continue}let L=o.lv==='schwer'?WRPERM.filter(k=>!(run.boni||[]).includes(k)&&!uR.has(k)):[];if(!L.length)L=WRNOW.filter(k=>!uR.has(k)&&!(k==='speisekammer'&&!food));o.rw=pick(L)||null;if(o.rw)uR.add(o.rw)}
+  const uR=new Set(),food=foodOnRun(run);for(const o of R){if(o.lv==='leicht'){o.rw=null;continue}let L=o.lv==='schwer'?WRPERM.filter(k=>!(run.boni||[]).includes(k)&&!uR.has(k)&&!(k==='boden'&&H.includes('gebirge'))):[]; /* 0.87a: Leichter Boden nicht mit Gebirge */if(!L.length)L=WRNOW.filter(k=>!uR.has(k)&&!(k==='speisekammer'&&!food));o.rw=pick(L)||null;if(o.rw)uR.add(o.rw)}
   run.maps=run.maps||{};for(const o of opts){delete run.maps[run.zoo];WRCTX={foc:o.foc,rule:o.rule||null,rw:o.rw||null,eu:!!o.eu};try{o.plan=rollPlan0(run)}finally{WRCTX=null}o.plan.map=run.maps[run.zoo];o.nat=wrNatOf(o.plan.terr)}delete run.maps[run.zoo];
   return opts}
 // Ziel wählen: Plan übernehmen, Belohnung geben (dauerhaft in run.boni, sofort über Geschenke/Auswahl/Förderprogramm), dann Zoo starten
@@ -207,13 +212,13 @@ function wrGoal(bs){const R=state&&state.rule,Z=R&&WRZ[R.id];if(!Z)return null;b
   else if(R.id==='z_arten')n=cnt(G,b=>(CARDS[b.key].tags||[]).includes('bedroht'));else if(R.id==='z_nachwuchs')n=cnt(G,b=>!!CARDS[b.key].jt);
   return{id:R.id,Z,n:Math.min(n,need),need,ok:n>=need,unit:R.id==='z_vielfalt'?' Lebensräume':''}}
 const wrBadge=()=>{const G=state&&state.zl&&wrOn()&&wrGoal();if(!G)return'';const bad=state.season===3&&!G.ok;return`<button class="evb wbb wrb${G.ok?' ok':''}${bad?' bad':''}" data-ev="zoo" title="Ziel-Auflage ${G.Z.name}: bis Ende Winter" aria-label="Ziel-Auflage ${G.Z.name}: ${G.n} von ${G.need}">${G.Z.icon} ${G.ok?'✓':G.n+'/'+G.need}</button>`};
-// Auswilderung: am 1. Sommer- und 1. Wintertag ein zufälliges Gehege weg (Feld frei, Karte aus dem Lauf-Deck)
-function wrAuswild(){const R=state&&state.rule;if(!R||R.id!=='auswild'||!wrOn()||state.day!==0||!(state.season===1||state.season===3))return;const dn=state.wrAus=state.wrAus||{};if(dn[state.season])return;dn[state.season]=1;
+// Auswilderung: am 1. Sommer- und 1. Herbsttag (0.87a, vorher Winter) ein zufälliges Gehege weg (Feld frei, Karte aus dem Lauf-Deck)
+function wrAuswild(){const R=state&&state.rule;if(!R||R.id!=='auswild'||!wrOn()||state.day!==0||!(state.season===1||state.season===2))return;const dn=state.wrAus=state.wrAus||{};if(dn[state.season])return;dn[state.season]=1;
   const G=state.buildings.filter(b=>CARDS[b.key]&&CARDS[b.key].cat==='gehege'&&!CARDS[b.key].ms);if(!G.length)return;const b=G[Math.floor(Math.random()*G.length)],run=wrRun();
   state.buildings=state.buildings.filter(x=>x!==b);state.undo=[];let out=0;if(run){const L=run.deck.map((k,i)=>[k,i]).filter(([k])=>CARDS[k]&&baseK(k)===baseK(b.key)),hit=L.find(([k])=>(CARDS[k].pr||null)===(b.pr||null)&&!CARDS[k].ed===!b.ed)||L[0];
     if(hit){run.deck.splice(hit[1],1);out=1;(run.wrGone=run.wrGone||[]).push(hit[0])}}
   state.wrAusPop={key:b.key,lvl:b.lvl||1,out};try{syncCtx()}catch(e){}}
-const wrAusHtml=A=>{const c=CARDS[A.key];return`<div class="wpi">🦓</div><h3>Auswilderung</h3><p class="wpw">${ic(c)} ${c.name}${A.lvl>1?' '+ROMAN[A.lvl]:''}</p><p class="wpr">Dieses Gehege wurde in die Wildnis entlassen. Das Feld ist wieder frei${A.out?', die Karte hat dein Lauf-Deck verlassen':''}.</p><p class="wph">🌍 Auflage Auswilderung: das passiert am 1. Sommertag und am 1. Wintertag.</p><button class="btn main" data-bpok>Weiter ▸</button>`};
+const wrAusHtml=A=>{const c=CARDS[A.key];return`<div class="wpi">🦓</div><h3>Auswilderung</h3><p class="wpw">${ic(c)} ${c.name}${A.lvl>1?' '+ROMAN[A.lvl]:''}</p><p class="wpr">Dieses Gehege wurde in die Wildnis entlassen. Das Feld ist wieder frei${A.out?', die Karte hat dein Lauf-Deck verlassen':''}.</p><p class="wph">🌍 Auflage Auswilderung: das passiert am 1. Sommertag und am 1. Herbsttag.</p><button class="btn main" data-bpok>Weiter ▸</button>`};
 // Einblendung beim Zoo-Start (ersetzt die Auflage-Einblendung)
 function wrWelcomeHtml(){const D=state.wrDest;if(!D)return'';const K=wrK(D.k),R=state.rule&&RULES[state.rule.id],B=D.rw&&WRB[D.rw],perm=B&&WRPERM.includes(D.rw),nat=D.nat||{},tot=Object.values(nat).reduce((a,b)=>a+b,0);
   return`<div class="wpi">${K.icon}</div><h3>${esc(D.ort||K.name)}</h3><p class="wph"><b>Willkommen!</b> ${K.icon} ${K.name} · ${D.foc&&HAB[D.foc]?`Viel ${HAB[D.foc].icon} ${HAB[D.foc].label} im Gelände: ${nat[D.foc]||0} von ${tot} Naturflächen`:`Ruhe-Zoo: ${tot} Naturflächen, gleich verteilt`}</p>

@@ -5,6 +5,19 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.87a · 16.11.2026 · Schliff Weltreise, Arktis
+- 🌿 **Naturfläche ändern** (Umbau): bis zu 3 freie Felder antippen (nochmal tippen = abwählen), „Fertig“, dann ein Lebensraum für alle – oder die Naturflächen verschwinden. Eine Kiste wie bisher.
+- 🧪 **Testlauf 4 Tage:** Geschenke fürs frühe Schaffen gibt es schon ab 1 Tag früher (1 → Futtersack, 2 → Umbau-Kiste, 3 → Profi-Mappe).
+- 🔍 **Detail-Fenster:** neuer Abschnitt „🏞️ Wirkung auf den Zoo“ in der Vorschau – diese Karte, Nachbarn, Mehrfach gebaut, Zoo-Faktoren, = Zoo. Die Zeilen ergeben genau den Wert im Info-Feld.
+- 🐟 Lebensraum-Futter heißt im Detail-Fenster jetzt z. B. „Wasser-Futter Fischmix (Stufe 1)“ mit dem Hinweis, dass es für alle Wasser-Gehege im Lauf gilt.
+- ❄️ **Winter-Bedingungen** sind in leicht und schwer eingeteilt (im Zoo-Buch und im Winter-Fenster zu sehen). Mindestgröße gilt als schwer.
+- 🌍 Weltreise: Hat das Ziel eine schwere Auflage, kommt in diesem Zoo nur eine **leichte Winter-Bedingung** (auch beim Tauschen).
+- 🦓 Weltreise: Die **Auswilderung** kommt am 1. Sommer- und am 1. Herbsttag statt im Winter, damit vor dem Winter Zeit zum Auffüllen bleibt.
+- 🌿 Weltreise: etwas **weniger Naturflächen** (etwa 40 % statt der Hälfte), Schwerpunkt und Fleckgröße wie bisher.
+- 🧊 **Arktis:** Die Arktis-Zone ist die obere Hälfte des Geländes, so wie es beim Zoo-Start auf dem Bildschirm steht (auch wenn das Gelände am Handy gedreht ist), und bleibt so, wenn du das Handy drehst. Mindestens zwei Drittel der Zone sind frei oder Arktis-Naturfläche; fremde Natur-Flecken werden in den Süden verlegt.
+- 🏅 **Meilensteine** dürfen auch auf Felsen und auf Naturflächen anderer Lebensräume stehen. Felsen darunter verschwinden; die Vorschau rechnet schon ohne sie.
+- 🪨 Weltreise: „Leichter Boden“ wird nicht mehr angeboten, wenn Gebirge zu deinen Lebensräumen gehört (Gebirgs-Gehege leben von Felsen).
+
 ## 0.86a · 15.11.2026 · Regionen, Zoo-Menü, Savanne, Krone
 - 🌍 Weltreise: Die Ziele sind jetzt **Regionen** mit eigenem Schwerpunkt, z. B. Serengeti (Savanne), Sahara (Wüste), Okavango-Delta (Wasser oder Savanne), Amazonas, Everglades, Borneo, Great Barrier Reef, Spitzbergen – 25 Regionen auf 6 Kontinenten, dazu Europa als Ruhe-Zoo mit Stadtnamen (Berlin, Wien …).
 - 🌎 Neu: **Nordamerika** (Arizona, Everglades, Prärie, Rocky Mountains, Alaska) und **Polargebiete** (Antarktis, Spitzbergen, nach Freischaltung der Arktis).

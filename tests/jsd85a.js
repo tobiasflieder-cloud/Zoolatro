@@ -33,7 +33,7 @@ const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'
  // Gelände: etwa die Hälfte Natur, davon 2/3 Schwerpunkt
  const all=[].concat(...R).filter(x=>!x.eu),nat=x=>Object.values(x.nat).reduce((a,b)=>a+b,0),half=all.map(x=>nat(x)/x.n),fq=all.map(x=>(x.nat[x.foc]||0)/Math.max(1,nat(x)));
  const avg=a=>a.reduce((s,v)=>s+v,0)/a.length;L(`  Natur-Anteil ⌀ ${avg(half).toFixed(2)}, Schwerpunkt-Anteil ⌀ ${avg(fq).toFixed(2)}`);
- T(avg(half)>.42&&avg(half)<.55,'Gelände etwa zur Hälfte Naturflächen');T(avg(fq)>.58&&avg(fq)<.75,'Schwerpunkt etwa zwei Drittel der Naturflächen');
+ T(avg(half)>.33&&avg(half)<.47,'Gelände etwa zu 40 % Naturflächen (0.87a)');T(avg(fq)>.58&&avg(fq)<.75,'Schwerpunkt etwa zwei Drittel der Naturflächen');
  T(all.every(x=>Object.keys(x.nat).every(h=>['wasser','savanne','wueste'].includes(h))),'nur gewählte Lebensräume als Natur');
  // Kontinent ohne passenden Schwerpunkt fehlt, Europa füllt auf (ohne Auflage/Belohnung)
  start(w,1,['wueste','wald','gebirge']);

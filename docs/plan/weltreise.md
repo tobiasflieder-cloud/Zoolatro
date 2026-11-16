@@ -36,7 +36,7 @@ Ziele sind **Regionen** mit 1–2 möglichen Schwerpunkten, gruppiert nach Konti
 - Spielstände aus 0.85a (Ziele Antarktis/Himalaya als eigene Kontinente) zählen als Polargebiete/Asien weiter.
 
 ## Gelände
-- Etwa **die Hälfte** des Feldes sind Naturflächen (Testlauf 4 Tage anteilig wie heute).
+- Etwa **40 %** des Feldes sind Naturflächen (seit 0.87a, vorher die Hälfte) (Testlauf 4 Tage anteilig wie heute).
 - Rund **zwei Drittel** davon im ausgelosten Schwerpunkt; die übrigen **gewählten** Lebensräume teilen sich den Rest gleichmäßig.
 - Natur-Flecken 4–7 Felder (heute 2–4). Geländeform bleibt zufällig.
 - Hinweis: Auf Naturflächen sind nur Gehege **anderer** Lebensräume gesperrt; Gastro, Attraktionen, Naturschutz dürfen dort stehen (siehe `fits`).
@@ -67,7 +67,7 @@ Ziel-Auflagen: **Frist Ende Winter, sonst ist der Zoo gescheitert.** Schild mit 
 | 🏝️ | Inselzoo | schwer | Gehege verschiedener Lebensräume berühren sich nicht | bisher (`insel`) |
 | 🌿 | Lebensraum als Grundlage | schwer | Gebäude nur an Gehege eines Lebensraums | bisher (`grundl`) |
 | 🌳 | Baumschutz | schwer | Attraktion/Gastro/Naturschutz nicht auf Naturflächen | bisher (`baum`) |
-| 🦓 | Auswilderung | schwer | 1. Sommertag und 1. Wintertag: je ein zufälliges Gehege weg, Karte aus dem Deck | neu, Ereignis |
+| 🦓 | Auswilderung | schwer | 1. Sommertag und 1. Herbsttag (seit 0.87a, vorher Winter): je ein zufälliges Gehege weg, Karte aus dem Deck | neu, Ereignis |
 | ⭐ | Vorzeigegehege | schwer | Mindestens 2 Gehege auf Stufe III | neu, Ziel |
 | 🍼 | Nachwuchs | schwer | Mindestens 1 Jungtier im Zoo | neu, Ziel |
 
@@ -79,7 +79,7 @@ Ziel-Auflagen: **Frist Ende Winter, sonst ist der Zoo gescheitert.** Schild mit 
 
 **Dauerhaft** (Rest des Laufs, jeder höchstens einmal pro Lauf):
 🪙 Goldader – +1 Goldfeld in jedem weiteren Zoo · 🔨 Fleißige Helfer – +1 BP am 1. Tag im Frühling und im Sommer ·
-🧑‍🔬 Gastforscher – +1 Bewerber im Stellenmarkt · 🪨 Leichter Boden – 3 Felsen weniger in jedem weiteren Zoo.
+🧑‍🔬 Gastforscher – +1 Bewerber im Stellenmarkt · 🪨 Leichter Boden – 3 Felsen weniger in jedem weiteren Zoo (seit 0.87a nicht, wenn Gebirge im Lauf ist).
 Gesammelte dauerhafte Boni sieht man bei der Kontinent-Wahl („Deine Boni“) und im Zoo-Menü.
 
 ## Zwischen den Zoos
@@ -111,3 +111,7 @@ Im normalen Modus bleiben Wünsche und Belohnungen wie heute (nur ⏱️ fällt 
 ## Für später
 - Gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`), echtes Gelände als Vorschau.
 - Ersatz für die Stufen 7 und 8 im Weltreise-Modus.
+
+## Seit 0.87a
+- Ziel mit schwerer Auflage → in diesem Zoo nur eine leichte Winter-Bedingung (Einstufung in `daten/winter.json`, Feld `stufe`).
+- Arktis-Zone nach der Lage beim Zoo-Start; Pläne speichern sie vorab (`north`), mindestens ⅔ der Zone neutral oder Arktis.
