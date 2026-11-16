@@ -134,6 +134,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    bestimmen (obere Hälfte wie auf dem Bildschirm, `px` mit aktueller Drehung) und als Feldliste im Zoo speichern (`state.north`); `isNorth`, die Markierung `znorth`, Punkt 8 (⅔ neutral/Arktis)
    und Weltreise-Pläne nutzen diese Liste. Ändert sich später die Drehung (Hoch-/Querformat), bleibt die Zone gleich. Alte Spielstände ohne Liste: wie bisher.
 
+11. **Weltreise: „🪨 Leichter Boden“ nicht bei Gebirge** (Chat 16.11.): Die dauerhafte Belohnung `boden` (3 Felsen weniger, `kontinente.json` ~Z. 403, Wirkung in `genMap` `04-regeln-wertung.js` ~Z. 174)
+   schadet Gebirgs-Gehegen (sie leben von Felsen). Sie wird nicht mehr angeboten, wenn **Gebirge zu den Lebensräumen des Laufs** gehört (Auslosung der Belohnungen in `wrRollOpts`). Ein schon erhaltener Bonus bleibt.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
 
