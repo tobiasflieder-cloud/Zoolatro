@@ -99,6 +99,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.87a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**0.87a** – Auftrag [`docs/auftraege/0.87a-schliff-weltreise-arktis.md`](docs/auftraege/0.87a-schliff-weltreise-arktis.md) (Winter-Einstufung dort eingetragen):
+
 1. **Umbau „🌿 Naturfläche ändern“ für bis zu 3 Felder** (Chat 15.11.): heute 1 Feld (`UMB.natur`, `08-shop-menues.js` ~Z. 51, `umbHab` ~Z. 124).
    Neu: nacheinander bis zu 3 freie Felder antippen (nochmal tippen = abwählen, Knopf „Fertig“ ab 1 Feld), danach **einen** Lebensraum für alle (oder „Naturfläche entfernen“).
    Felder müssen nicht nebeneinander liegen. Ein Umbau = eine Kiste wie bisher. Text: „Bis zu 3 freie Felder werden Naturflächen eines deiner Lebensräume (oder die Naturflächen verschwinden).“
