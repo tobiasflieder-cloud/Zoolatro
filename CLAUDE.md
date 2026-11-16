@@ -126,7 +126,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    (Anzahl der Naturflächen je Lebensraum bleibt gleich). Test: viele Zufallsgelände mit Arktis → Nordhälfte immer ≥ ⅔ neutral/Arktis.
 
 9. **Meilensteine dürfen auf jede Naturfläche** (Chat 16.11.: im Testlauf 4 Tage und mit viel Natur passen die großen Meilenstein-Karten kaum noch): Karten mit `ms` (`rar:'meilenstein'`)
-   ignorieren beim Bauen fremde Naturflächen (`fits`, `04-regeln-wertung.js` ~Z. 287), Felsen bleiben gesperrt. Kartentext/Hilfe: „Darf auch auf Naturflächen anderer Lebensräume stehen.“ Danach weiter testen.
+   ignorieren beim Bauen fremde Naturflächen **und Felsen** (`fits`, `04-regeln-wertung.js` ~Z. 287). Felsen unter dem Meilenstein verschwinden (wie bei der Sprengmeisterin, `TERR` löschen).
+   Nur Feldrand, Eingang und belegte Felder bleiben gesperrt. Kartentext/Hilfe: „Darf auch auf Felsen und Naturflächen anderer Lebensräume stehen.“ Danach weiter testen.
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
