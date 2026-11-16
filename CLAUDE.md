@@ -129,6 +129,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    ignorieren beim Bauen fremde Naturflächen **und Felsen** (`fits`, `04-regeln-wertung.js` ~Z. 287). Felsen unter dem Meilenstein verschwinden (wie bei der Sprengmeisterin, `TERR` löschen).
    Nur Feldrand, Eingang und belegte Felder bleiben gesperrt. Kartentext/Hilfe: „Darf auch auf Felsen und Naturflächen anderer Lebensräume stehen.“ Danach weiter testen.
 
+10. **Arktis-Nordhälfte liegt „im Osten“** (Chat 16.11.): `isNorth`/`northMid` (`09-speichern-lauf.js` ~Z. 330) rechnen mit der Gelände-Zeile `r`. Wird ein langes Gelände im Hochformat
+   gedreht (`ROT`, `computeView`/`setRot` in `05-ton.js`), liegt diese Hälfte auf dem Bildschirm seitlich. Lösung: Die Arktis-Zone **beim Zoo-Start** nach der dann angezeigten Lage
+   bestimmen (obere Hälfte wie auf dem Bildschirm, `px` mit aktueller Drehung) und als Feldliste im Zoo speichern (`state.north`); `isNorth`, die Markierung `znorth`, Punkt 8 (⅔ neutral/Arktis)
+   und Weltreise-Pläne nutzen diese Liste. Ändert sich später die Drehung (Hoch-/Querformat), bleibt die Zone gleich. Alte Spielstände ohne Liste: wie bisher.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
 
