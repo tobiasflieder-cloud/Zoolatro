@@ -120,6 +120,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 7. **Weltreise: weniger Naturflächen** (Chat 15.11.: „teilweise große Schwierigkeiten, andere Tiere zu bauen“): `natur_anteil` in `daten/kontinente.json` (`lauf`) von **0,5 auf 0,4**,
    Schwerpunkt-Anteil (⅔) und Fleckgröße bleiben. Europa (18 Naturfelder) unverändert. Danach beobachten.
 
+8. **Arktis: Nordhälfte nicht mit fremder Natur zupflastern** (Chat 16.11.): Arktis-Gehege zählen nur in der Nordhälfte („Nordlage“, `habRule`/`isNorth`/`northMid`, `09-speichern-lauf.js` ~Z. 339).
+   Liegen dort viele fremde Naturflächen, kann man kaum Arktis bauen. Neu in `natPlace` (alle Modi, auch Weltreise-Pläne vorab): Wenn Arktis im Lauf gewählt ist und die Lebensraum-Regeln gelten,
+   müssen von den bebaubaren Feldern der Nordhälfte (ohne Felsen) **mindestens ⅔ neutral oder Arktis-Naturfläche** sein. Sonst fremde Natur-Flecken aus dem Norden in den Süden verlegen
+   (Anzahl der Naturflächen je Lebensraum bleibt gleich). Test: viele Zufallsgelände mit Arktis → Nordhälfte immer ≥ ⅔ neutral/Arktis.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil ½ und Fleckgröße; Savanne nach der Abschwächung beobachten.
 
