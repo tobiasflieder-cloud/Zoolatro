@@ -99,6 +99,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.88a) – erst bauen, wenn Tobi „bauen“ sagt
 
+1. **Meilenstein: fremde Naturflächen nicht als gesperrt markieren** (Chat 17.11.): Seit 0.87a darf ein Meilenstein überall hin, die Vorschau färbt fremde Naturflächen aber noch rot (`nogo`).
+   Ursache: `07-anzeige.js` ~Z. 46/51 setzt `habSel` aus jedem gewählten Gehege, ohne `c.ms` zu beachten. Lösung: `habSel=null` (keine `nogo`/`go`-Markierung), wenn die gewählte Karte ein Meilenstein ist;
+   Felsen dabei ebenfalls nicht als gesperrt zeigen, falls es dort eine Markierung gibt.
+
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
 
