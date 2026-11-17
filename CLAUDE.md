@@ -102,6 +102,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 1. **Meilenstein: fremde Naturflächen nicht als gesperrt markieren** (Chat 17.11.): Seit 0.87a darf ein Meilenstein überall hin, die Vorschau färbt fremde Naturflächen aber noch rot (`nogo`).
    Ursache: `07-anzeige.js` ~Z. 46/51 setzt `habSel` aus jedem gewählten Gehege, ohne `c.ms` zu beachten. Lösung: `habSel=null` (keine `nogo`/`go`-Markierung), wenn die gewählte Karte ein Meilenstein ist;
    Felsen dabei ebenfalls nicht als gesperrt zeigen, falls es dort eine Markierung gibt.
+2. **Weltreise: nicht nur leichte Ziele zur Wahl** (Chat 17.11.: „3 mal leicht“): Heute gilt bei der Auslosung (`wrRollOpts0`, Modul 06) nur „nie nur schwere“. Neu zusätzlich:
+   Bei 2 oder mehr Zielen ist **mindestens eines mittel oder schwer** (vor Zoo 1: mindestens eines mittel). Europa (Ruhe-Zoo, ohne Auflage) zählt wie leicht.
+   Notfalls die Auflage eines Ziels neu auslosen. Test: viele Auslosungen → nie nur leicht, nie nur schwer.
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
