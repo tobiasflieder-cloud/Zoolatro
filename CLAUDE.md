@@ -111,6 +111,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 4. **Testlauf „4 Tage“ zählt in der Statistik** (Chat 18.11.): Heute steigen `statZoo`/`statRun` (Modul 09 Z. 70/75) bei `run.test` aus, das bei `META.d4` mit gesetzt wird → Testläufe fehlen in Statistik,
    Bau-Zählern und im Zoo-Buch („entdeckt“ über `sl.lex`). Lösung: bei `run.d4` mitzählen (Seed-Läufe und „Test verstärkt“ bleiben draußen). Highscores zeigen Testläufe schon mit 🧪.
    Offen (Tobi fragen): Bestwerte (`bestZoo`, `bestRun`, `cu`) weiter getrennt lassen oder auch mitzählen.
+5. **Highscores: Lauf antippen → Endbild** (Chat 18.11.): Heute speichert `endRun` (Modul 09 ~Z. 141) in `META.cscores` nur Kennzahlen, das Endbild (`sum` aus `summaryOf`, Bildschirm `summary`) geht verloren.
+   Lösung: beim Eintrag eine schlanke Kopie von `sum` mitspeichern (ohne `fb`, `newNow`, `z2news`, `fsNow` u. Ä.; nur für die jüngsten ~20 Einträge, ältere ohne Kopie, damit der Speicher klein bleibt).
+   Zeilen in `scoresHtml` (Modul 11, Zoolatro-Liste) mit Kopie antippbar → `summary` mit `screenArg.sum` und Zurück zu den Highscores (kein Feedback-Kasten, keine Freischalt-Meldungen). Alte Einträge ohne Kopie: nicht antippbar.
+6. **Profil in Highscores und Endbild** (Chat 18.11.): `deckId` fehlt im `cscores`-Eintrag. Neu `deck:run.deckId` speichern; in der Highscore-Zeile Profil-Symbol + Name (bei alten Einträgen nichts),
+   im Endbild unter „n Zoos geschafft“ Profil, Stufe, ggf. 🌍 Weltreise und 🧪 Testlauf.
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
