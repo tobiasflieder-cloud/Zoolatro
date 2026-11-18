@@ -120,10 +120,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Wirkung nur auf die Auswahl: Stufenwahl (Modul 09 ~Z. 119) nimmt bei `META.stAll` 8 statt `stMax(sl,id)`; der gespeicherte Fortschritt `sl.z2.st` bleibt unverändert.
    Startet man eine Stufe über dem echten Fortschritt, bekommt der Lauf `run.stTest=1` und `run.test=1`: `z2After` schaltet dann keine Stufen und Herausforderungen frei, Highscore mit 🧪.
    Tooltip „Nur für Tests: alle Stufen wählbar, zählt nicht für den Fortschritt“. Test: Schalter an → Stufe 8 wählbar, Sieg in Zoo 3 ändert `sl.z2.st` nicht.
-8. **Stufe 2 nach Testlauf-Weltreise fehlte bei Tobi** (Chat 18.11.: Expeditionsleiterin, Stufe 1, 4 Tage, Weltreise 5 Zoos, über 2 Tage gespielt, eine Spielstand; Meldung nach Zoo 3 kam wohl nicht, Stufe 2 danach nicht wählbar; Spielstand inzwischen gelöscht).
-   Nicht nachstellbar: Bot-Läufe (`sim94.js` mit `WR=1 Z2=1 DECK=polar`, `META.d4=1`) und Speichern/Neuladen mitten im Lauf schalten Stufe 2 frei, Meldung erscheint auf „Zoo 3 geschafft!“.
-   Bitte beim Bauen noch einmal mit frischem Blick suchen (z. B. `finishGame` bei frühem Sieg, `zlBack`/`ZSTART`, Service-Worker-Stand). Absichern: `run.stNewAll` sammelt alle Freischaltungen des Laufs, das Endbild zeigt sie (heute nur `run.stNew` des letzten Zoos);
-   Test in `jsd88a.js`: Testlauf + Weltreise + Expeditionsleiterin, Sieg in Zoo 3 nach Neuladen → `stMax(sl,'polar')===2` und Meldung sichtbar.
+8. **Profilwahl: Profile ohne gewählten Lebensraum ausblenden** (Chat 18.11.): Tobi konnte Stufe 2 der Expeditionsleiterin nicht wählen, weil er Arktis nicht als Lebensraum gewählt hatte.
+   Die Profilwahl (`deckSelHtml`, Modul 09 ~Z. 116, `HD(id)`/`hid`) zeigt solche Profile heute unten mit „Nur mit Lebensraum …“ und ohne Stufen-Knöpfe → wirkt wie „Stufe gesperrt“.
+   Lösung (Tobi): Profile mit `hid` gar nicht anzeigen. Damit man sie nicht vergisst: in der Lebensraum-Wahl (Schritt 1 von 2) beim Lebensraum klein „+ Profil 🛷 Die Expeditionsleiterin“ o. Ä., nur wenn das Profil offen ist.
+   Nebenbei: `run.stNewAll` sammelt alle Stufen-Freischaltungen des Laufs, das Endbild zeigt sie (heute nur `run.stNew` des letzten Zoos, frühere gehen verloren).
+   Test in `jsd88a.js`: Profil ohne Lebensraum nicht in der Liste; Testlauf + Weltreise + Expeditionsleiterin, Sieg in Zoo 3 → `stMax(sl,'polar')===2`.
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
