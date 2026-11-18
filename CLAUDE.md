@@ -105,6 +105,12 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 2. **Weltreise: nicht nur leichte Ziele zur Wahl** (Chat 17.11.: „3 mal leicht“): Heute gilt bei der Auslosung (`wrRollOpts0`, Modul 06) nur „nie nur schwere“. Neu zusätzlich:
    Bei 2 oder mehr Zielen ist **mindestens eines mittel oder schwer** (vor Zoo 1: mindestens eines mittel). Europa (Ruhe-Zoo, ohne Auflage) zählt wie leicht.
    Notfalls die Auflage eines Ziels neu auslosen. Test: viele Auslosungen → nie nur leicht, nie nur schwer.
+3. **Lauf-Protokoll: falscher Lebensraum bei der Lebensraum-Prüfung** (Chat 18.11.: „Winter Lebensraum-Prüfung (wueste)“ bei Wasser/Dschungel/Arktis): Die Wertung ist richtig (`Z.inspHabs` = `habTop` bei der Wahl, `zlInspPick` Modul 08).
+   Das Protokoll (`06-spiel.js` Z. 33 `ih:state.zl.inspHab`) schreibt aber das alte Zufallsfeld `inspHab` (gesetzt in `initZl` Modul 06 Z. 19 und `wSwap` Modul 02 Z. 37 aus `habsNow()`), das nichts mehr bewirkt.
+   Lösung: `ih` aus `Z.inspHabs` (Namen, mehrere mit „/“), `inspHab` entfernen (Spielstand-Feld darf liegen bleiben).
+4. **Testlauf „4 Tage“ zählt in der Statistik** (Chat 18.11.): Heute steigen `statZoo`/`statRun` (Modul 09 Z. 70/75) bei `run.test` aus, das bei `META.d4` mit gesetzt wird → Testläufe fehlen in Statistik,
+   Bau-Zählern und im Zoo-Buch („entdeckt“ über `sl.lex`). Lösung: bei `run.d4` mitzählen (Seed-Läufe und „Test verstärkt“ bleiben draußen). Highscores zeigen Testläufe schon mit 🧪.
+   Offen (Tobi fragen): Bestwerte (`bestZoo`, `bestRun`, `cu`) weiter getrennt lassen oder auch mitzählen.
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
