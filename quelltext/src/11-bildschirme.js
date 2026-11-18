@@ -103,7 +103,7 @@ function scoresHtml(){const hlE=META.scores.find(x=>x.date===screenArg.hl),f=scr
   const chips=`<div class="chips">${[['z2','🃏 Zoolatro'],['zl','alter Zoolatro-Modus'],['all','alter Modus: freies Spiel']].map(([k,l])=>`<button class="chip2 ${f===k?'on':''}" data-f="${k}">${l}</button>`).join('')}</div>`;
   const rows=f==='camp'||f==='zl'||f==='z2'?'':list.map((x,i)=>`<tr class="${x.date===screenArg.hl?'hl':''}"><td class="rk">${i+1}.</td><td><b>${esc(x.name)}</b><span class="sub2">${fdate(x.date)}</span></td><td>${MAPS[x.map]?MAPS[x.map].icon+' '+MAPS[x.map].name:''}${x.rule&&RULES[x.rule]?' · '+RULES[x.rule].icon+' '+RULES[x.rule].name:''}<span class="sub2">${x.won?'🏆 ganzes Jahr geschafft':SEAS_ICON[x.season]+' im '+SEASONS[x.season].name+' gescheitert'}</span></td><td class="pts">${fmt(x.pts)}</td></tr>`).join('');
   if(f==='camp'||f==='zl'||f==='z2')return`<div class="bar2"><h2>🏆 Highscores</h2><button class="btn sub" data-go="title">Zurück</button></div>${chips}
-    <div class="tablewrap">${list.length?`<table class="hs"><thead><tr><th></th><th>Zoo</th><th>Geschafft</th><th class="pts">Punkte</th></tr></thead><tbody>${list.map((x,i)=>`<tr class="${x.date===screenArg.hl?'hl':''}"><td class="rk">${i+1}.</td><td><b>${x.test?'🧪 ':''}${esc(x.name)}</b><span class="sub2">${fdate(x.date)}${x.test?' · Testlauf':''}</span></td><td>${x.wr?'🌍 '+x.zoos+'/'+(x.goal||x.zoos)+' Zoos':x.zoos+' Zoo'+(x.zoos===1?'':'s')}${x.stage?' · Stufe '+x.stage:''}<span class="sub2">${x.won?'🏆 Geschafft':'in Zoo '+(x.zoos+1)+' gescheitert'}</span></td><td class="pts">${fmt(x.pts)}</td></tr>`).join('')}</tbody></table>`:`<div class="empty-note">Noch keine Zoolatro-Läufe. Starte einen Lauf über „Spielen“.</div>`}</div>`;
+    <div class="tablewrap">${list.length?`<table class="hs"><thead><tr><th></th><th>Zoo</th><th>Geschafft</th><th class="pts">Punkte</th></tr></thead><tbody>${list.map((x,i)=>`<tr class="${x.date===screenArg.hl?'hl':''}${x.sum?' hsum':''}"${x.sum?` data-hsum="${x.date}" tabindex="0" title="Endbild ansehen"`:''}><td class="rk">${i+1}.</td><td><b>${x.test?'🧪 ':''}${esc(x.name)}</b><span class="sub2">${fdate(x.date)}${x.test?' · Testlauf':''}${x.deck&&DECKS[x.deck]?' · '+DECKS[x.deck].icon+' '+DECKS[x.deck].name:''}${x.sum?' · 🔍':''}</span></td><td>${x.wr?'🌍 '+x.zoos+'/'+(x.goal||x.zoos)+' Zoos':x.zoos+' Zoo'+(x.zoos===1?'':'s')}${x.stage?' · Stufe '+x.stage:''}<span class="sub2">${x.won?'🏆 Geschafft':'in Zoo '+(x.zoos+1)+' gescheitert'}</span></td><td class="pts">${fmt(x.pts)}</td></tr>`).join('')}</tbody></table>`:`<div class="empty-note">Noch keine Zoolatro-Läufe. Starte einen Lauf über „Spielen“.</div>`}</div>`;
   return`<div class="bar2"><h2>🏆 Highscores</h2><button class="btn sub" data-go="${screenArg.back||'title'}">Zurück</button></div>${chips}
     <div class="tablewrap">${list.length?`<table class="hs"><thead><tr><th></th><th>Zoo</th><th>Gelände</th><th class="pts">Punkte</th></tr></thead><tbody>${rows}</tbody></table>`:`<div class="empty-note">Noch keine Einträge${f!=='all'?' für dieses Gelände':''}. Beende ein Spiel, um in die Liste zu kommen.</div>`}</div>`}
 // ===== 0.77a: 📖 Zoo-Buch (ersetzt Glossar, Tierlexikon und Fortschritt) =====
@@ -221,7 +221,7 @@ function renderScreen0(){if(screen)hintHide();if(BUCHALT[screen]){screenArg={...
   const ni=$('slotName');if(ni){ni.focus();ni.onkeydown=e=>{if(e.key==='Enter')root.querySelector('[data-sv]').click()}}
   {const ft=$('fbTxt');if(ft)ft.oninput=()=>{screenArg.fbC=ft.value};const fi=$('fbInc');if(fi)fi.onchange=()=>{screenArg.fbInc=fi.checked}}
   const gq=$('gq');if(gq)gq.oninput=()=>{screenArg.q=gq.value;$('glist').innerHTML=screenArg.tab==='progs'?buchFoerdList():buchCards(slotPick().sl)}}
-$('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;const d=t.dataset;Sfx.init();
+$('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button,[data-hsum],[data-wrsel]');if(!t)return;const d=t.dataset;Sfx.init();
   const sc=(n,arg={})=>{screen=n;screenArg=arg;Sfx.select();renderAll()};
   if(d.runcopy){try{const r=runOf();copyTxt(d.runcopy==='3'?(META.runHist||[]).join('\n\n==========\n\n'):d.runcopy==='2'||!r?META.lastRunTxt||'':runText(r),t)}catch(e){}return}
   if(d.vertap){const n=Date.now();VERTAP=(n-(VERTAP.t||0)<1500?VERTAP.n+1:1);VERTAP={n:VERTAP,t:n};if(VERTAP.n>=5){META.dev=META.dev?0:1;VERTAP={n:0,t:0};Sfx.select();saveMeta();renderAll()}return}
@@ -239,6 +239,8 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.zshab){const a=screenArg,h=d.zshab;if(!habOpen(META.slots[a.slot],h)){Sfx.deny();return}if(a.habs.includes(h))a.habs=a.habs.filter(x=>x!==h);else if(a.habs.length<3)a.habs.push(h);else{Sfx.deny();return}Sfx.select();renderScreen();return}
   if(d.zsd4){META.d4=META.d4?0:1;saveMeta();Sfx.select();renderScreen();return}
   if(d.zswr){META.wr=META.wr?0:1;saveMeta();Sfx.select();renderScreen();return}
+  if(d.zsstall){META.stAll=META.stAll?0:1;saveMeta();Sfx.select();renderScreen();return}
+  if(d.hdlock){screenArg.stHint=null;Sfx.deny();const e=document.querySelector('.hdhint');if(e){e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash');e.scrollIntoView({block:'nearest'})}return}
   if(d.zsfood){META.foodOff=META.foodOff?0:1;saveMeta();Sfx.select();renderScreen();return}
   if(d.zsrand){const a=screenArg;a.habs=shuffle(Object.keys(HAB).filter(h=>habOpen(META.slots[a.slot],h))).slice(0,3);Sfx.select();renderScreen();return}
   if(d.zsnext){const a=screenArg;if(a.habs.length!==3)return;sc('cdeck',{slot:a.slot,zl:a.z2?'z2':true,prof:a.prof,habs:Object.keys(HAB).filter(h=>a.habs.includes(h)),seed:a.seed||'',back:a});return}
@@ -253,6 +255,8 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button');
   if(d.fbskip){screenArg.fbDone=1;Sfx.select();renderScreen();return}
   if(d.fboff){META.fbOff=1;saveMeta();screenArg.fbDone=1;screenArg.fbMsg='Alles klar, wir fragen nicht mehr. Im Menü kannst du das Feedback wieder einschalten.';Sfx.select();renderScreen();return}
   if(d.sumnext){const n=screenArg.next;sc(n.screen,n.arg);return}
+  if(d.hsum){const x=(META.cscores||[]).find(e=>String(e.date)===d.hsum);if(x&&x.sum)sc('summary',{sum:x.sum,view:1,back:{f:screenArg.f||'z2',hl:x.date}});return} // 0.88a: Endbild aus den Highscores
+  if(d.sumback){const B=screenArg.back||{};sc('scores',{f:B.f||'z2',hl:B.hl,back:'title'});return}
   if(screen==='creward'){const sl=activeSlot(),run=sl&&sl.run,a=screenArg;if(!run)return;
     if(d.cend){endRun(true);return}
     // 0.85a: Weltreise – Kontinent-Wahl, Mitbringsel, Zurück vor Zoo 1

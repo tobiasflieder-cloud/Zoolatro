@@ -14,7 +14,7 @@ const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'
  T(ev('META.wr')===1&&/Weltreise: an/.test((d.querySelector('[data-zswr]')||{}).textContent||''),'Schalter schaltet an');
  start(w,1);T(ev('runOf().wr')===1,'Laufstart setzt run.wr');
  T(ev(`screen==='creward'&&screenArg.step==='wr'&&screenArg.first===1`),'vor Zoo 1: Kontinent-Wahl');
- T(!!d.querySelector('.wrc')&&!!d.querySelector('[data-wrgo]')&&/Wohin geht die Reise/.test(d.body.textContent),'Kontinent-Wahl wird angezeigt');
+ T(!!d.querySelector('.wpin')&&!!d.querySelector('[data-wrgo]')&&/Wohin geht die Reise/.test(d.body.textContent),'Kontinent-Wahl wird angezeigt');
  T(J(`runOf().wrOpts.map(o=>o.lv||'')`).every(l=>l!=='schwer'),'vor Zoo 1 keine schweren Auflagen');
  // 2. Lauflänge
  T(ev('runGoal(runOf())')===4,'Lauflänge 4 ohne Arktis/Gebirge');

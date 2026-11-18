@@ -109,9 +109,12 @@ Ein Thema je Jahreszeit: Frühling Auflage · **Sommer Besucherwunsch (nur noch 
 Im normalen Modus bleiben Wünsche und Belohnungen wie heute (nur ⏱️ fällt weg).
 
 ## Für später
-- Gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`), echtes Gelände als Vorschau.
 - Ersatz für die Stufen 7 und 8 im Weltreise-Modus.
 
 ## Seit 0.87a
 - Ziel mit schwerer Auflage → in diesem Zoo nur eine leichte Winter-Bedingung (Einstufung in `daten/winter.json`, Feld `stufe`).
 - Arktis-Zone nach der Lage beim Zoo-Start; Pläne speichern sie vorab (`north`), mindestens ⅔ der Zone neutral oder Arktis.
+
+## Seit 0.88a
+- Gezeichnete Weltkarte statt Liste: Ziele als leuchtende Punkte (Lage je Region in `daten/kontinente.json`, `lage`, Europa `staedte_lage`), besuchte Ziele golden mit Route, besuchte Kontinente abgedunkelt; darunter bzw. daneben das gewählte Ziel mit Gelände-Vorschau.
+- Nie nur leichte Ziele (vor Zoo 1 mindestens ein mittleres; Europa zählt wie leicht).

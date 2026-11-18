@@ -29,10 +29,10 @@ const start=(w,wr,habs,deck)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'$
  // Europa als Ersatz, wenn nichts mehr übrig ist (auch wenn schon besucht)
  T(J(`(()=>{const r=runOf();r.wrRoute=WRK.map((K,z)=>({k:K.id,ort:K.name,z}));r.zoo=7;const o=wrRollOpts0(r);r.wrRoute=[];r.zoo=0;return o.length===1&&o[0].eu})()`),'Europa als Ersatz, wenn kein Kontinent mehr übrig ist');
  // alter Spielstand aus 0.85a (Kontinent-Kennungen antarktis/himalaya, Orte als Namen)
- T(ev(`(()=>{const r=runOf();r.wrRoute=[{k:'antarktis',ort:'Rossmeer',z:0},{k:'himalaya',ort:'Ladakh',z:1}];r.zoo=2;const o=wrRollOpts0(r);const h=wrPickHtml(r,{});r.wrRoute=[];r.zoo=0;return o.length>0&&!o.some(q=>q.k==='polar'||q.k==='asien')&&/Rossmeer/.test(h)})()`),'alter Spielstand: Antarktis/Himalaya zählen als Polargebiete/Asien');
+ T(ev(`(()=>{const r=runOf();r.wrRoute=[{k:'antarktis',ort:'Rossmeer',z:0},{k:'himalaya',ort:'Ladakh',z:1}];r.zoo=2;const o=wrRollOpts0(r);const h=wrPickHtml(r,{});r.wrRoute=[];r.zoo=0;return o.length>0&&!o.some(q=>q.k==='polar'||q.k==='asien')&&/wrworld/.test(h)})()`),'alter Spielstand: Antarktis/Himalaya zählen als Polargebiete/Asien (Karte ohne Fehler)');
  // Anzeige: Region als Name, Kontinent darunter
  ev(`(()=>{const r=runOf();r.zoo=0;r.wrRoute=[];r.wrOpts=null;screen='creward';screenArg=r.reward={step:'wr',first:1};wrRollOpts(r);renderAll()})()`);
- const c0=d.querySelector('.wrc .wrnm');const o0=J(`runOf().wrOpts[0]`);T(!!c0&&c0.firstChild.textContent.trim()===o0.ort&&/[A-ZÄÖÜ]/.test(c0.querySelector('small').textContent),`Kontinent-Wahl: Region als Name, Kontinent darunter (${c0&&c0.textContent})`);
+ ev(`screenArg.wrSel=0;renderAll()`);const c0=d.querySelector('.wrc .wrnm');const o0=J(`runOf().wrOpts[0]`);T(!!c0&&c0.firstChild.textContent.trim()===o0.ort&&/[A-ZÄÖÜ]/.test(c0.querySelector('small').textContent),`Kontinent-Wahl: Region als Name, Kontinent darunter (${c0&&c0.textContent})`);
  ev(`screenArg.wrSel=0;wrGo(runOf(),screenArg,0)`);ev(`modal=null;state.ruleIntro=1;render()`);
  T(new RegExp(o0.ort).test((d.getElementById('rulePop')||{}).textContent||'')&&/Willkommen/.test(d.getElementById('rulePop').textContent),'Willkommen-Einblendung mit Region');
  T(new RegExp(o0.ort).test(ev('runText(runOf())')),'Lauf-Text nennt die Region');

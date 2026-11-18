@@ -43,7 +43,7 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
     bigBadge(bc,CARDS[b.key],st.a,st.s)}
 
   let cellsSvg='',base='',marks='';const idx=mkIndex(state.buildings);
-  const selC=selKey()&&state.phase==='play'?CARDS[selKey()]:null,habSel=selC&&selC.cat==='gehege'?selC.hab:null;
+  const selC=selKey()&&state.phase==='play'?CARDS[selKey()]:null,habSel=selC&&selC.cat==='gehege'&&!selC.ms?selC.hab:null; // 0.88a: Meilensteine dürfen überall hin, keine rot markierten Naturflächen
   const CK=META.oldBoard?.86:.955;
   let bshd='';for(const[q,r]of BOARD){const[x,y]=px(q,r),k=hk(q,r),t=TERR.get(k);if(t!=='block'){base+=`<polygon class="base" points="${hexPts(x,y,SZ+.6)}"/>`;bshd+=`<polygon class="bshd" points="${hexPts(x,y+2.2,SZ+1.4)}"/>`}
     if(idx.has(k)){if(t&&t!=='block')marks+=`<circle class="natdot" cx="${x+5.5}" cy="${y-4}" r="1.2"/>`;continue}

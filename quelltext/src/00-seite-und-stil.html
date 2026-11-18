@@ -537,6 +537,17 @@ b.cx{color:#ff8a8d;font-weight:700}.pcard b.cx,.ocard b.cx,.drow b.cx{color:#b31
 .dtzt td:nth-child(2),.dtzt td:nth-child(3){text-align:right;white-space:nowrap;font-weight:700;width:52px}.dtzt td:nth-child(2){color:#a85d00}.dtzt td:nth-child(3){color:#00756b}
 .dtzt small{display:block;color:#6b7a6f;font-size:11.5px;font-weight:400}.dtzt tr.sub td{background:#f3ead6}.dtzt tr.fx td{background:#f1ecff}.dtzt tr.sum td{background:#ece6ff;font-family:var(--f-display);font-size:16px;border-bottom:0}
 #board .umbsel{fill:#7cc86055;stroke:#ffd166;stroke-width:3}
+table.hs tr.hsum{cursor:pointer}table.hs tr.hsum:hover td,table.hs tr.hsum:focus-visible td{background:#ffffff14}
+.hdhint{background:#3a2a6b;color:#e3dafc;border-radius:10px;padding:6px 10px;margin:4px 0}.hdhint.flash{animation:tutglow 1s ease-in-out 2}
+/* 0.88a: Weltkarte */
+.wrlay{display:flex;flex-direction:column;gap:10px}.wrmapbox{display:flex;flex-direction:column;gap:4px;min-width:0}
+.wrworld{display:block;width:100%;height:auto;border-radius:16px;border:3px solid #2b5a3b;background:#164b5c}
+.wpin{cursor:pointer}.wpin:focus{outline:none}.wpin:focus-visible circle{stroke:#fff}
+@media (prefers-reduced-motion:no-preference){.wpulse{animation:wpuls 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}}
+@keyframes wpuls{0%,100%{transform:scale(.8);opacity:.55}50%{transform:scale(1.25);opacity:.15}}
+.wrleg{display:flex;gap:12px;font-size:11.5px;color:var(--muted);padding:0 4px}.wrleg i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:-1px}.wrleg i.lv{background:#ffd166}.wrleg i.lo{background:#fff;box-shadow:0 0 0 3px #ffffff55}
+.wrside{display:flex;flex-direction:column;gap:10px;min-width:0}.wrtap{margin:0;text-align:center;color:var(--muted);padding:12px;border:2px dashed #2f6243;border-radius:14px}
+body.land .wrlay{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start}
 .wst{display:inline-block;font-family:var(--f-body);font-size:11px;font-weight:700;border-radius:99px;padding:1px 7px;margin-left:6px;vertical-align:middle;color:#0e2417;background:#9ad8ff}.wst.h{background:#ffb3b5}
 .deckwin{display:flex;flex-direction:column;gap:12px;align-items:stretch;text-align:center}.deckwin .dwi{font-size:64px;line-height:1;animation:pop .5s ease}.deckwin h2{color:var(--gold);margin:0}
 .dwbox{background:var(--panel2);border:2px solid var(--gold);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;text-align:left}.dwh{display:flex;gap:12px;align-items:center}.dwh span{font-size:40px}.dwh b{display:block;font-family:var(--f-display);font-weight:400;font-size:22px}.dwh small{color:var(--muted);font-size:13.5px}.dwg{margin:0;color:#9be28a;font-weight:700;font-size:14px}

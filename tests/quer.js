@@ -147,12 +147,12 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   // 12) 0.85a: 🌍 Weltreise – Kontinent-Wahl vor Zoo 1 und Willkommen-Einblendung: nichts überlappt, nichts breiter als der Bildschirm, Knöpfe erreichbar
   p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1)});await p.waitForTimeout(400);
-  {const r=await p.evaluate(()=>{const cs=[...document.querySelectorAll('.wrc')].map(e=>e.getBoundingClientRect());let ov=0,out=0;for(let i=1;i<cs.length;i++)if(cs[i].top<cs[i-1].bottom-1)ov++;
-      for(const c of document.querySelectorAll('.wrc')){const R=c.getBoundingClientRect();for(const e of c.querySelectorAll('.wrmap svg,.wrnm,.wrnat,.wrnt,.wrbox,.wrlv,.wrbt')){const q=e.getBoundingClientRect();if(q.right>R.right+1||q.left<R.left-1)out++}
-        const m=c.querySelector('.wrmap').getBoundingClientRect();for(const e of c.querySelectorAll('.wrnm,.wrnat')){const q=e.getBoundingClientRect();if(q.left<m.right-1&&q.top<m.bottom-1&&q.bottom>m.top+1)out++}}
-      return{n:cs.length,ov,out,qx:document.documentElement.scrollWidth-innerWidth,scr:screen,step:screenArg&&screenArg.step}});
-    T(r.scr==='creward'&&r.step==='wr'&&r.n===3,`${wo}: Weltreise: Kontinent-Wahl vor Zoo 1 mit ${r.n} Zielen`);T(r.ov===0&&r.out===0,`${wo}: Kontinent-Karten ohne Überlappung (${r.ov}/${r.out})`);if(r.qx>2)T(false,`${wo}: Kontinent-Wahl breiter als der Bildschirm (${r.qx} px)`)}
-  if(!await klick(p,'.wrc[data-wrsel="1"]'))T(false,`${wo}: Kontinent nicht antippbar`);
+  {const r=await p.evaluate(()=>{const svg=document.querySelector('svg.wrworld'),sb=svg&&svg.getBoundingClientRect(),pins=[...document.querySelectorAll('.wpin')];let out=0;for(const e of pins){const q=e.getBoundingClientRect();if(!sb||q.left<sb.left-1||q.right>sb.right+1||q.top<sb.top-1||q.bottom>sb.bottom+1)out++}
+      return{n:pins.length,out,svg:!!sb&&sb.width>200,qx:document.documentElement.scrollWidth-innerWidth,scr:screen,step:screenArg&&screenArg.step}});
+    T(r.scr==='creward'&&r.step==='wr'&&r.n===3&&r.svg,`${wo}: Weltreise: Weltkarte vor Zoo 1 mit ${r.n} Zielen`);T(r.out===0,`${wo}: Punkte auf der Karte nicht abgeschnitten (${r.out})`);if(r.qx>2)T(false,`${wo}: Weltkarte breiter als der Bildschirm (${r.qx} px)`)}
+  if(!await klick(p,'.wpin[data-wrsel="1"]'))T(false,`${wo}: Punkt auf der Karte nicht antippbar`);
+  {const r=await p.evaluate(()=>{const c=document.querySelector('.wrc');if(!c)return null;const R=c.getBoundingClientRect();let out=0;for(const e of c.querySelectorAll('.wrmap svg,.wrnm,.wrnat,.wrnt,.wrbox,.wrlv,.wrbt')){const q=e.getBoundingClientRect();if(q.right>R.right+1||q.left<R.left-1)out++}return{out,sel:screenArg.wrSel}});
+    T(!!r&&r.sel===1&&r.out===0,`${wo}: gewähltes Ziel mit Vorschau unter/neben der Karte (${r&&r.out})`)}
   {const g=await p.$('[data-wrgo]');T(!!g&&!await g.isDisabled(),`${wo}: Reise-Knopf nach Auswahl aktiv`);if(g){await g.scrollIntoViewIfNeeded();const fr=await g.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});T(fr,`${wo}: Reise-Knopf erreichbar`);await g.click();await p.waitForTimeout(300)}}
   await p.evaluate(()=>{modal=null;render()});await p.waitForTimeout(400);
   {const r=await p.evaluate(()=>{const P=document.getElementById('rulePop');if(!P)return null;const c=P.querySelector('.wpc').getBoundingClientRect(),k=[...P.querySelectorAll('.wpc>*')].map(e=>e.getBoundingClientRect());let ov=0;for(let i=1;i<k.length;i++)if(k[i].top<k[i-1].bottom-1)ov++;

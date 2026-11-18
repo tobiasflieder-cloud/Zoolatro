@@ -425,3 +425,12 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Naturfläche ändern** (`UMB.natur.n=3`, `umbClick` sammelt `T.sel`, `data-umbfin`, `umbHab` für alle Felder, Markierung `umbSelOverlay`).
 - **Früh geschafft im Testlauf** (`01:earlyReward`): Stufe = Tage + 1 (1 → Futtersack, 2 → Umbau-Kiste, 3 → Profi-Mappe).
 - **Detail-Fenster** (`07:calcData`, `07:zooFxHtml`): Diese Karte · Nachbarn · Mehrfach · Zwischensumme · Zoo-Faktoren (gerundet) · Sonstiges (Faktor-Änderung, Rundung) = Zoo, genau `ΔA`/`ΔS`.
+
+## 19. 0.88a
+- **Weltkarte** (`06:wrWorldSvg`, Daten `lage`/`staedte_lage`): Projektion `X=(Länge+180)·400/360`, `Y=(80−Breite)·1,5`, Umrisse `WMLAND` (mit Kontinent für „besucht“), Lage je Ziel `wrLage` (Region `r`, sonst Name, Europa-Stadt). Punkte `.wpin[data-wrsel]`, Route aus `run.wrRoute` (seit 0.88a mit `r`).
+- **Auslosung** (`wrRollOpts0`): bei ≥ 2 Zielen, wenn alle leicht (Europa zählt leicht) → ein Ziel mittel (vor Zoo 1) bzw. mittel/schwer.
+- **Statistik** (`09:statOff`): zählt auch `run.d4`; nicht Tutorial, Seed, „Test verstärkt“ (`run.tv`), Stufen-Test (`run.stTest`). Bestwerte (`bestZoo`, `bestRun`) ohne Testlauf.
+- **Highscores:** Eintrag mit `deck` und Endbild-Kopie `sum` (`sumSlim`, nur die 20 jüngsten, `csPrune`); `scoresHtml` Zeile `data-hsum` → `summary` mit `view:1` (ohne Feedback/Freischalt-Meldungen, `data-sumback`). `sumTags` im Endbild.
+- **Alle Stufen** (`META.stAll`, `data-zsstall`): Stufenwahl bis 8; Lauf über `stMax` → `run.stTest=1`, `run.test=1`, `z2After` schaltet nichts frei. `run.stNewAll`, Endbild `z2NewsHtml(run,1)`.
+- **Profilwahl:** Profil ohne gewählten Lebensraum (offen, z2) zeigt Stufen-Knöpfe `data-hdlock` (gesperrt) und Hinweis `.hdhint`.
+- **Lebensraum-Prüfung im Protokoll:** `ih` aus `Z.inspHabs`; `inspHab` entfällt (Zufallszug bleibt für gleiche Seeds).

@@ -1,5 +1,5 @@
 {
- "hinweis": "Weltreise-Modus (0.85a, Regionen ab 0.86a; docs/plan/weltreise.md). Wird von quelltext/mache.py ins Spiel eingebaut (WR_DATEN in quelltext/src/06-spiel.js). kontinente: jeder höchstens einmal pro Lauf (auch Europa = Ruhe-Zoo mit zufälligem Stadtnamen aus staedte, springt ein, wenn sonst Ziele fehlen). regionen: Ziele mit 1–2 möglichen Schwerpunkten; eine Region kommt nur, wenn einer davon im Lauf gewählt ist (ausgelost wird unter diesen); frei = zusätzlich muss einer dieser Lebensräume freigeschaltet sein. alt: Kontinent-Kennungen aus 0.85a-Spielständen. auflagen: Schwierigkeit je Auflage (Kennung wie RULES im Code). belohnungen: sofort (mittel) und dauerhaft (schwer, je einmal pro Lauf). Reihenfolge nicht ändern, der Zufall hängt daran.",
+ "hinweis": "Weltreise-Modus (0.85a, Regionen ab 0.86a; docs/plan/weltreise.md). Wird von quelltext/mache.py ins Spiel eingebaut (WR_DATEN in quelltext/src/06-spiel.js). kontinente: jeder höchstens einmal pro Lauf (auch Europa = Ruhe-Zoo mit zufälligem Stadtnamen aus staedte, springt ein, wenn sonst Ziele fehlen). regionen: Ziele mit 1–2 möglichen Schwerpunkten; eine Region kommt nur, wenn einer davon im Lauf gewählt ist (ausgelost wird unter diesen); frei = zusätzlich muss einer dieser Lebensräume freigeschaltet sein. alt: Kontinent-Kennungen aus 0.85a-Spielständen. auflagen: Schwierigkeit je Auflage (Kennung wie RULES im Code). belohnungen: sofort (mittel) und dauerhaft (schwer, je einmal pro Lauf). Reihenfolge nicht ändern, der Zufall hängt daran. lage: [Länge, Breite] für die Weltkarte (0.88a), Europa staedte_lage in der Reihenfolge von staedte.",
  "lauf": {
   "zoos": 4,
   "plus": [
@@ -56,6 +56,28 @@
     "Kopenhagen",
     "Zürich",
     "Amsterdam"
+   ],
+   "staedte_lage": [
+    [
+     13.4,
+     52.5
+    ],
+    [
+     16.4,
+     48.2
+    ],
+    [
+     12.6,
+     55.7
+    ],
+    [
+     8.5,
+     47.4
+    ],
+    [
+     4.9,
+     52.4
+    ]
    ]
   }
  ],
@@ -66,6 +88,10 @@
    "k": "afrika",
    "foki": [
     "savanne"
+   ],
+   "lage": [
+    34.8,
+    -2.3
    ]
   },
   {
@@ -74,6 +100,10 @@
    "k": "afrika",
    "foki": [
     "wueste"
+   ],
+   "lage": [
+    12,
+    23
    ]
   },
   {
@@ -83,6 +113,10 @@
    "foki": [
     "wasser",
     "savanne"
+   ],
+   "lage": [
+    22.9,
+    -19.3
    ]
   },
   {
@@ -91,6 +125,10 @@
    "k": "afrika",
    "foki": [
     "wald"
+   ],
+   "lage": [
+    22,
+    -1
    ]
   },
   {
@@ -100,6 +138,10 @@
    "foki": [
     "gebirge",
     "savanne"
+   ],
+   "lage": [
+    37.4,
+    -3.1
    ]
   },
   {
@@ -108,6 +150,10 @@
    "k": "suedamerika",
    "foki": [
     "wald"
+   ],
+   "lage": [
+    -62,
+    -3.5
    ]
   },
   {
@@ -117,6 +163,10 @@
    "foki": [
     "wasser",
     "savanne"
+   ],
+   "lage": [
+    -57,
+    -17
    ]
   },
   {
@@ -126,6 +176,10 @@
    "foki": [
     "wasser",
     "wueste"
+   ],
+   "lage": [
+    -90.5,
+    -0.7
    ]
   },
   {
@@ -134,6 +188,10 @@
    "k": "suedamerika",
    "foki": [
     "wueste"
+   ],
+   "lage": [
+    -69.5,
+    -24
    ]
   },
   {
@@ -142,6 +200,10 @@
    "k": "suedamerika",
    "foki": [
     "gebirge"
+   ],
+   "lage": [
+    -72,
+    -13.5
    ]
   },
   {
@@ -150,6 +212,10 @@
    "k": "nordamerika",
    "foki": [
     "wueste"
+   ],
+   "lage": [
+    -111.5,
+    34
    ]
   },
   {
@@ -159,6 +225,10 @@
    "foki": [
     "wasser",
     "wald"
+   ],
+   "lage": [
+    -80.8,
+    25.6
    ]
   },
   {
@@ -167,6 +237,10 @@
    "k": "nordamerika",
    "foki": [
     "savanne"
+   ],
+   "lage": [
+    -100,
+    43
    ]
   },
   {
@@ -175,6 +249,10 @@
    "k": "nordamerika",
    "foki": [
     "gebirge"
+   ],
+   "lage": [
+    -108,
+    41
    ]
   },
   {
@@ -184,6 +262,10 @@
    "foki": [
     "arktis",
     "gebirge"
+   ],
+   "lage": [
+    -150,
+    63
    ]
   },
   {
@@ -192,6 +274,10 @@
    "k": "asien",
    "foki": [
     "wald"
+   ],
+   "lage": [
+    114,
+    0.9
    ]
   },
   {
@@ -201,6 +287,10 @@
    "foki": [
     "wasser",
     "wald"
+   ],
+   "lage": [
+    89.2,
+    22
    ]
   },
   {
@@ -210,6 +300,10 @@
    "foki": [
     "savanne",
     "wueste"
+   ],
+   "lage": [
+    103,
+    46.8
    ]
   },
   {
@@ -218,6 +312,10 @@
    "k": "asien",
    "foki": [
     "gebirge"
+   ],
+   "lage": [
+    86.9,
+    28
    ]
   },
   {
@@ -226,6 +324,10 @@
    "k": "asien",
    "foki": [
     "arktis"
+   ],
+   "lage": [
+    105,
+    64
    ]
   },
   {
@@ -234,6 +336,10 @@
    "k": "australien",
    "foki": [
     "wasser"
+   ],
+   "lage": [
+    147.7,
+    -18.3
    ]
   },
   {
@@ -243,6 +349,10 @@
    "foki": [
     "wueste",
     "savanne"
+   ],
+   "lage": [
+    133,
+    -25
    ]
   },
   {
@@ -252,6 +362,10 @@
    "foki": [
     "wald",
     "gebirge"
+   ],
+   "lage": [
+    146.5,
+    -42
    ]
   },
   {
@@ -264,6 +378,10 @@
    ],
    "frei": [
     "arktis"
+   ],
+   "lage": [
+    -60,
+    -68
    ]
   },
   {
@@ -272,6 +390,10 @@
    "k": "polar",
    "foki": [
     "arktis"
+   ],
+   "lage": [
+    16,
+    78.5
    ]
   }
  ],

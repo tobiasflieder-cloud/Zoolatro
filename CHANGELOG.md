@@ -5,6 +5,16 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.88a · 18.11.2026 · Weltkarte, Highscores, Stufen
+- 🗺️ **Weltreise auf der Weltkarte:** Die Reiseziele leuchten als Punkte auf einer gezeichneten Weltkarte (Farbe = Schwerpunkt). Antippen wählt, darunter (im Querformat daneben) stehen Region, Kontinent, Auflage, Belohnung und die Vorschau des echten Geländes. Besuchte Orte sind golden mit Route verbunden, besuchte Kontinente abgedunkelt.
+- ⚖️ Weltreise: Unter mehreren Zielen ist immer mindestens eines mittel oder schwer (vor Zoo 1 mindestens eines mittel). Europa zählt wie leicht.
+- 🏆 **Highscores:** Neue Einträge lassen sich antippen und zeigen das Endbild des Laufs (nur ansehen, ◂ Zurück). Jede Zeile zeigt das Profil; das Endbild zusätzlich Stufe, 🌍 Weltreise und 🧪 Testlauf. Das Endbild wird für die 20 jüngsten Läufe gespeichert.
+- 📊 **Testlauf 4 Tage zählt in der Statistik** und im Zoo-Buch („entdeckt“). Bestwerte bleiben getrennt.
+- 🏔️ Neuer Test-Schalter **„Alle Stufen“** bei der Lebensraum-Wahl: alle 8 Stufen wählbar. Läufe über dem eigenen Fortschritt gelten als 🧪 Stufen-Test und schalten nichts frei.
+- 🎴 **Profilwahl:** Profile, deren Lebensraum du nicht gewählt hast, zeigen jetzt ihre Stufen (ausgegraut) mit dem Hinweis, welchen Lebensraum du brauchst. Das Endbild nennt alle in diesem Lauf freigeschalteten Stufen.
+- 🏅 Meilenstein gewählt: Naturflächen anderer Lebensräume werden nicht mehr rot markiert (er darf dort stehen).
+- 📋 Lauf kopieren: Bei der Winter-Bedingung „Lebensraum-Prüfung“ steht jetzt der Lebensraum, der wirklich gewertet wurde.
+
 ## 0.87a · 16.11.2026 · Schliff Weltreise, Arktis
 - 🌿 **Naturfläche ändern** (Umbau): bis zu 3 freie Felder antippen (nochmal tippen = abwählen), „Fertig“, dann ein Lebensraum für alle – oder die Naturflächen verschwinden. Eine Kiste wie bisher.
 - 🧪 **Testlauf 4 Tage:** Geschenke fürs frühe Schaffen gibt es schon ab 1 Tag früher (1 → Futtersack, 2 → Umbau-Kiste, 3 → Profi-Mappe).

@@ -97,38 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.88a) – erst bauen, wenn Tobi „bauen“ sagt
-
-1. **Meilenstein: fremde Naturflächen nicht als gesperrt markieren** (Chat 17.11.): Seit 0.87a darf ein Meilenstein überall hin, die Vorschau färbt fremde Naturflächen aber noch rot (`nogo`).
-   Ursache: `07-anzeige.js` ~Z. 46/51 setzt `habSel` aus jedem gewählten Gehege, ohne `c.ms` zu beachten. Lösung: `habSel=null` (keine `nogo`/`go`-Markierung), wenn die gewählte Karte ein Meilenstein ist;
-   Felsen dabei ebenfalls nicht als gesperrt zeigen, falls es dort eine Markierung gibt.
-2. **Weltreise: nicht nur leichte Ziele zur Wahl** (Chat 17.11.: „3 mal leicht“): Heute gilt bei der Auslosung (`wrRollOpts0`, Modul 06) nur „nie nur schwere“. Neu zusätzlich:
-   Bei 2 oder mehr Zielen ist **mindestens eines mittel oder schwer** (vor Zoo 1: mindestens eines mittel). Europa (Ruhe-Zoo, ohne Auflage) zählt wie leicht.
-   Notfalls die Auflage eines Ziels neu auslosen. Test: viele Auslosungen → nie nur leicht, nie nur schwer.
-3. **Lauf-Protokoll: falscher Lebensraum bei der Lebensraum-Prüfung** (Chat 18.11.: „Winter Lebensraum-Prüfung (wueste)“ bei Wasser/Dschungel/Arktis): Die Wertung ist richtig (`Z.inspHabs` = `habTop` bei der Wahl, `zlInspPick` Modul 08).
-   Das Protokoll (`06-spiel.js` Z. 33 `ih:state.zl.inspHab`) schreibt aber das alte Zufallsfeld `inspHab` (gesetzt in `initZl` Modul 06 Z. 19 und `wSwap` Modul 02 Z. 37 aus `habsNow()`), das nichts mehr bewirkt.
-   Lösung: `ih` aus `Z.inspHabs` (Namen, mehrere mit „/“), `inspHab` entfernen (Spielstand-Feld darf liegen bleiben).
-4. **Testlauf „4 Tage“ zählt in der Statistik** (Chat 18.11.): Heute steigen `statZoo`/`statRun` (Modul 09 Z. 70/75) bei `run.test` aus, das bei `META.d4` mit gesetzt wird → Testläufe fehlen in Statistik,
-   Bau-Zählern und im Zoo-Buch („entdeckt“ über `sl.lex`). Lösung: bei `run.d4` mitzählen (Seed-Läufe und „Test verstärkt“ bleiben draußen). Highscores zeigen Testläufe schon mit 🧪.
-   Bestwerte (`bestZoo`, `bestRun`, `cu`) bleiben getrennt (Vorschlag aus dem Chat, wegen der niedrigeren Ziele nicht vergleichbar).
-5. **Highscores: Lauf antippen → Endbild** (Chat 18.11.): Heute speichert `endRun` (Modul 09 ~Z. 141) in `META.cscores` nur Kennzahlen, das Endbild (`sum` aus `summaryOf`, Bildschirm `summary`) geht verloren.
-   Lösung: beim Eintrag eine schlanke Kopie von `sum` mitspeichern (ohne `fb`, `newNow`, `z2news`, `fsNow` u. Ä.; nur für die jüngsten ~20 Einträge, ältere ohne Kopie, damit der Speicher klein bleibt).
-   Zeilen in `scoresHtml` (Modul 11, Zoolatro-Liste) mit Kopie antippbar → `summary` mit `screenArg.sum` und Zurück zu den Highscores (kein Feedback-Kasten, keine Freischalt-Meldungen). Alte Einträge ohne Kopie: nicht antippbar.
-6. **Profil in Highscores und Endbild** (Chat 18.11.): `deckId` fehlt im `cscores`-Eintrag. Neu `deck:run.deckId` speichern; in der Highscore-Zeile Profil-Symbol + Name (bei alten Einträgen nichts),
-   im Endbild unter „n Zoos geschafft“ Profil, Stufe, ggf. 🌍 Weltreise und 🧪 Testlauf.
-7. **Test-Schalter „🏔️ Alle Stufen: an/aus“** (Chat 18.11., Tobi hat seinen Spielstand gelöscht und will höhere Stufen testen): neben `data-zsfood`/`data-zsd4` in der `shopbar` (Modul 09 ~Z. 55), `META.stAll`, Klick wie `zsd4` (Modul 11 ~Z. 240).
-   Wirkung nur auf die Auswahl: Stufenwahl (Modul 09 ~Z. 119) nimmt bei `META.stAll` 8 statt `stMax(sl,id)`; der gespeicherte Fortschritt `sl.z2.st` bleibt unverändert.
-   Startet man eine Stufe über dem echten Fortschritt, bekommt der Lauf `run.stTest=1` und `run.test=1`: `z2After` schaltet dann keine Stufen und Herausforderungen frei, Highscore mit 🧪.
-   Tooltip „Nur für Tests: alle Stufen wählbar, zählt nicht für den Fortschritt“. Test: Schalter an → Stufe 8 wählbar, Sieg in Zoo 3 ändert `sl.z2.st` nicht.
-8. **Profilwahl: Profil ohne gewählten Lebensraum klarer zeigen** (Chat 18.11.): Tobi konnte Stufe 2 der Expeditionsleiterin nicht wählen, weil er Arktis nicht als Lebensraum gewählt hatte.
-   Die Profilwahl (`deckSelHtml`, Modul 09 ~Z. 116, `HD(id)`/`hid`) zeigt solche Profile heute unten mit „Nur mit Lebensraum …“ und **ohne Stufen-Anzeige** → wirkt wie „Stufe gesperrt“.
-   Lösung (Tobi): Profil weiter anzeigen, **mit der vollen Stufen-Anzeige** („🏔️ Stufe n von 8 freigeschaltet“ und alle 8 Stufen-Knöpfe wie bei wählbaren Profilen), aber **nichts anwählbar** (Profil und Stufen-Knöpfe ausgegraut/gesperrt).
-   Deutlicher Hinweis oben im Kasten: „🌍 Für dieses Profil brauchst du den Lebensraum ❄️ Arktis. Gehe zurück und wähle ihn bei den Lebensräumen.“ Tippen auf einen Knopf zeigt denselben Hinweis (wie `stlock`/`stHint`).
-   Nebenbei: `run.stNewAll` sammelt alle Stufen-Freischaltungen des Laufs, das Endbild zeigt sie (heute nur `run.stNew` des letzten Zoos, frühere gehen verloren).
-   Test in `jsd88a.js`: Profil ohne Lebensraum zeigt „Stufe 2 von 8“ und hat keinen wählbaren `data-cdeck`/`data-stage`; Testlauf + Weltreise + Expeditionsleiterin, Sieg in Zoo 3 → `stMax(sl,'polar')===2`.
-9. **Weltreise: gezeichnete Weltkarte statt Liste** (Chat 18.11.; Entwurf `docs/stil/weltkarte-entwurf.html`, Details im Auftrag 0.88a): Die Wahl `wrPickHtml` (Modul 06 ~Z. 229) bekommt oben eine gezeichnete Weltkarte (SVG, weiche Umrisse),
-   darauf die zur Wahl stehenden Regionen als leuchtende Punkte (antippen = wählen, wie `data-wrsel`), besuchte Regionen mit goldener Route, darunter die Karte des gewählten Ziels mit Vorschau des echten Geländes (`o.plan`) und dem Reisen-Knopf.
-   Positionen je Region in `daten/kontinente.json` (`lage:[Länge,Breite]`, Europa je Stadt). Die bisherige Liste fällt weg. Querformat: Karte links, Ziel rechts.
+## 6. Liste fürs nächste Bauen (wird 0.89a) – erst bauen, wenn Tobi „bauen“ sagt
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -150,6 +119,10 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.88a** ([Auftrag](docs/auftraege/0.88a-weltkarte-highscores-stufen.md), Regeln `docs/regeln.md` 19): Meilenstein `habSel` ohne `c.ms`; Auslosung nie nur leicht; Protokoll `ih` aus `inspHabs` (`inspHab` weg); `statOff` (Testlauf zählt, Bestwerte getrennt, `run.tv`);
+  Highscores `deck` + `sum` (`sumSlim`/`csPrune`/`sumTags`, `data-hsum`, `summary` mit `view`, `data-sumback`); `META.stAll`/`data-zsstall`, `run.stTest`, `run.stNewAll`; Profil ohne Lebensraum mit `data-hdlock`/`.hdhint`;
+  Weltkarte `wrWorldSvg`/`WMLAND`/`wrLage` (Daten `lage`, `staedte_lage`), Liste weg, `.wrlay` (Querformat zweispaltig), Klick über `[data-wrsel]` im Bildschirm-Handler. Tests: neu `jsd88a.js`, angepasst `jsd85a`/`jsd86a` (Karte statt Liste), `quer.js` Schritt 12 (Karte).
 
 - **0.87a** ([Auftrag](docs/auftraege/0.87a-schliff-weltreise-arktis.md), Regeln `docs/regeln.md` 18): Naturfläche ändern 3 Felder (`UMB.natur.n`, `T.sel`, `data-umbfin`, `umbSelOverlay`); `earlyReward` im Testlauf +1 Stufe;
   Detail-Fenster `calcData`/`zooFxHtml` (genau = Zoo, Zeile „Sonstiges“ für Faktor-Änderung/Rundung, nur Vorschau, `detTarget` liefert `h`); Futter-Label „Wasser-Futter … (Stufe n)“ + Unterzeile; `winter.json` `stufe`, `wrHardRule` in `initZl`/`wSwap`, `inspStufeTag`;
