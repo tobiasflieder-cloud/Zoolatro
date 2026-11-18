@@ -116,6 +116,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Zeilen in `scoresHtml` (Modul 11, Zoolatro-Liste) mit Kopie antippbar → `summary` mit `screenArg.sum` und Zurück zu den Highscores (kein Feedback-Kasten, keine Freischalt-Meldungen). Alte Einträge ohne Kopie: nicht antippbar.
 6. **Profil in Highscores und Endbild** (Chat 18.11.): `deckId` fehlt im `cscores`-Eintrag. Neu `deck:run.deckId` speichern; in der Highscore-Zeile Profil-Symbol + Name (bei alten Einträgen nichts),
    im Endbild unter „n Zoos geschafft“ Profil, Stufe, ggf. 🌍 Weltreise und 🧪 Testlauf.
+7. **Test-Schalter „🏔️ Alle Stufen: an/aus“** (Chat 18.11., Tobi hat seinen Spielstand gelöscht und will höhere Stufen testen): neben `data-zsfood`/`data-zsd4` in der `shopbar` (Modul 09 ~Z. 55), `META.stAll`, Klick wie `zsd4` (Modul 11 ~Z. 240).
+   Wirkung nur auf die Auswahl: Stufenwahl (Modul 09 ~Z. 119) nimmt bei `META.stAll` 8 statt `stMax(sl,id)`; der gespeicherte Fortschritt `sl.z2.st` bleibt unverändert.
+   Startet man eine Stufe über dem echten Fortschritt, bekommt der Lauf `run.stTest=1` und `run.test=1`: `z2After` schaltet dann keine Stufen und Herausforderungen frei, Highscore mit 🧪.
+   Tooltip „Nur für Tests: alle Stufen wählbar, zählt nicht für den Fortschritt“. Test: Schalter an → Stufe 8 wählbar, Sieg in Zoo 3 ändert `sl.z2.st` nicht.
 
 **Nächster Schritt Weltreise:** gezeichnete Weltkarte statt Liste (`docs/stil/weltkarte-entwurf.html`, Plan `docs/plan/weltreise.md` „Für später“), Ersatz für die Stufen 7/8 im Weltreise-Modus.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
