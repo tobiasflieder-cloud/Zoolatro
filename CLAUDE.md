@@ -99,6 +99,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.89a) – erst bauen, wenn Tobi „bauen“ sagt
 
+1. **Weltreise: höchstens 2 Ziele mit gleichem Schwerpunkt** (Chat 18.11.: „3 mal Dschungel“): In `wrRollOpts0` (Modul 06 ~Z. 187) wird je Kontinent Region und Schwerpunkt unabhängig ausgelost (`pick(regs(K))`, `pick(r.foki…)`),
+   so können z. B. Borneo, Amazonas und Kongo-Becken alle Dschungel sein. Neu: Ziele nacheinander auslosen; für jedes weitere Ziel nur Paare (Region, Schwerpunkt) zulassen, deren Schwerpunkt noch keine 2-mal vorkommt
+   (bei 2 Zielen also nicht 2-mal derselbe? → nein, nur „nie 3 gleiche“, Tobi: „maximal 2 mal den gleichen“). Hat ein Kontinent kein passendes Paar, einen anderen noch nicht besuchten Kontinent nehmen; erst wenn es gar keinen gibt, Gleichheit zulassen.
+   Europa (ohne Schwerpunkt) zählt nicht mit. Test: viele Auslosungen (auch mit nur 2–3 gewählten Lebensräumen) → nie 3-mal derselbe Schwerpunkt, sofern möglich.
+
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
 
