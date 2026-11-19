@@ -103,6 +103,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    so können z. B. Borneo, Amazonas und Kongo-Becken alle Dschungel sein. Neu: Ziele nacheinander auslosen; für jedes weitere Ziel nur Paare (Region, Schwerpunkt) zulassen, deren Schwerpunkt noch keine 2-mal vorkommt (Tobi: „maximal 2 mal den gleichen“).
    Hat ein Kontinent kein passendes Paar, einen anderen noch nicht besuchten Kontinent nehmen; erst wenn es gar keinen gibt, Gleichheit zulassen.
    Europa (ohne Schwerpunkt) zählt nicht mit. Test: viele Auslosungen (auch mit nur 2–3 gewählten Lebensräumen) → nie 3-mal derselbe Schwerpunkt, sofern möglich.
+2. **Umbauten aus der Ablage erst nach Bestätigung auslösen** (Chat 19.11.): Heute löst ein Tipp auf einen Umbau ohne Ziel (`!U.t`: Gelände erweitern, Umzugstag, Mehr Natur, Wo ist es hin?, Das Tier ist weg, ×2-Feld, Mehr Kronen, ×4?!, Good Luck, Bauplan, Baumeister)
+   in `umbUse` (Modul 08 ~Z. 103, Knopf `data-umbuse` aus `umbTrayHtml`) sofort aus – auch die zerstörerischen Zufalls-Umbauten. Neu: erster Tipp öffnet ein Detail-Fenster (`bigPop`-Stil) mit Symbol, Name, ganzem Text (`U.text`),
+   ggf. Hinweis „Kein Platz – trotzdem?“ (ersetzt `state.umbAsk`) bzw. „nur auf dem Spielfeld“, und den Knöpfen „✅ Einsetzen“ / „Abbrechen“. Erst „Einsetzen“ ruft den bisherigen Ablauf (`umbUse(i,force)`).
+   Gilt für **alle** Umbauten, auch die mit Ziel (danach wie heute Zielwahl mit Abbrechen). Im Tutorial (Sommer-Shop) prüfen, dass die Schritte noch passen. Test: Tipp ändert `umbInv()` nicht, erst „Einsetzen“.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
