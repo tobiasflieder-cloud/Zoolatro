@@ -107,6 +107,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    in `umbUse` (Modul 08 ~Z. 103, Knopf `data-umbuse` aus `umbTrayHtml`) sofort aus – auch die zerstörerischen Zufalls-Umbauten. Neu: erster Tipp öffnet ein Detail-Fenster (`bigPop`-Stil) mit Symbol, Name, ganzem Text (`U.text`),
    ggf. Hinweis „Kein Platz – trotzdem?“ (ersetzt `state.umbAsk`) bzw. „nur auf dem Spielfeld“, und den Knöpfen „✅ Einsetzen“ / „Abbrechen“. Erst „Einsetzen“ ruft den bisherigen Ablauf (`umbUse(i,force)`).
    Gilt für **alle** Umbauten, auch die mit Ziel (danach wie heute Zielwahl mit Abbrechen). Im Tutorial (Sommer-Shop) prüfen, dass die Schritte noch passen. Test: Tipp ändert `umbInv()` nicht, erst „Einsetzen“.
+3. **Raubtier-Kenner gibt Natur statt Besucher** (Chat 19.11., Variante A): Er ähnelte dem Raubtier-Dompteur zu sehr (beide B, beide je Raubtier). Neu wie die Scheu-Kennerin:
+   `KN('raubtier',.12,'ma')` → `'ms'` (Modul 01 ~Z. 344), Texte in `daten/spezialisten.json` (`fx`: „×1 N|+0,12 je Raubtier im Zoo (höchstens ×1,6)“) und ggf. `texte_de.json` anpassen. Dompteur bleibt unverändert.
+   Referenzfälle prüfen (betroffene Fälle mit `aktualisiere`, in der Zusammenfassung nennen); Bot nutzt ggf. eine Bewertung je Spezialist – mitziehen.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
