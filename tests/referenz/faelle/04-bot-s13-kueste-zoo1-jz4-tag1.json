@@ -1221,9 +1221,9 @@
  ]
 },
 "erwartet":{
- "A": 351,
+ "A": 365,
  "S": 293,
- "total": 102843,
+ "total": 106945,
  "mults": [
   {
    "label": "Nachtführung",
@@ -1292,15 +1292,20 @@
      0
     ],
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
+    [
      "❄️ Platzprüfung: nur die Hälfte",
-     -2,
+     -3,
      0
     ]
    ]
   },
   {
    "id": 3,
-   "a": 20,
+   "a": 22,
    "s": 10,
    "parts": [
     [
@@ -1314,13 +1319,13 @@
      3
     ],
     [
-     "🎭 Showtier: ×1,25",
-     2,
+     "🎭 Showtier: ×1,35",
+     3,
      1
     ],
     [
      "💧 Fluss: Kette aus 9 ×2",
-     10,
+     11,
      5
     ]
    ]
@@ -1567,7 +1572,7 @@
   },
   {
    "id": 14,
-   "a": 15,
+   "a": 17,
    "s": 6,
    "parts": [
     [
@@ -1586,13 +1591,13 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
-     2,
+     "🎭 Showtier: ×1,35",
+     3,
      1
     ],
     [
      "💧 Fluss: Kette aus 9 ×2",
-     10,
+     11,
      4
     ],
     [
@@ -1604,7 +1609,7 @@
   },
   {
    "id": 15,
-   "a": 23,
+   "a": 25,
    "s": 8,
    "parts": [
     [
@@ -1613,13 +1618,13 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
+     "🎭 Showtier: ×1,7",
+     4,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     9,
+     10,
      3
     ],
     [
@@ -1663,9 +1668,15 @@
   },
   {
    "id": 17,
-   "a": 6,
+   "a": 8,
    "s": 0,
-   "parts": []
+   "parts": [
+    [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     2,
+     0
+    ]
+   ]
   },
   {
    "id": 18,
@@ -1691,9 +1702,15 @@
   },
   {
    "id": 19,
-   "a": 3,
+   "a": 4,
    "s": 0,
-   "parts": []
+   "parts": [
+    [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ]
+   ]
   },
   {
    "id": 20,

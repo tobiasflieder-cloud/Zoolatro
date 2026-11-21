@@ -74,7 +74,17 @@
 {"key":"floss","name":"Flößerin","icon":"🛶","tier":2,"fx":["×1,1 B|je Teil der längsten zusammenhängenden Floß-Strecke (6 Teile: ×1,6); beim Einstellen kommen 6 Floß-Teile ins Deck"],"mult":"floss"},
 {"key":"jaeger","name":"Jäger","icon":"🏹","tier":2,"fx":["25 %|je Tag: ein Raubtier frisst ein benachbartes Beutetier (weg aus dem Zoo) und bekommt dauerhaft dessen doppelte Punkte","+1 Art|für die Reinheit je gefressenes Beutetier"]},
 {"key":"wgast","name":"Bauherrin","icon":"🏗️","tier":2,"zl":1,"grw":"ga","fx":["×1 B|für den ganzen Zoo, wächst um +0,02 mit jeder im Lauf gebauten Gastro/Attraktion (bleibt über alle Zoos, höchstens ×2)"],"mult":"wgast"},
-{"key":"wnat","name":"Naturstifterin","icon":"🌱","tier":2,"zl":1,"grw":"nat","fx":["×1 N|für den ganzen Zoo, wächst um +0,02 mit jedem im Lauf gebauten Naturschutz-Gebäude (bleibt über alle Zoos, höchstens ×2)"],"mult":"wnat"}
+{"key":"wnat","name":"Naturstifterin","icon":"🌱","tier":2,"zl":1,"grw":"nat","fx":["×1 N|für den ganzen Zoo, wächst um +0,02 mit jedem im Lauf gebauten Naturschutz-Gebäude (bleibt über alle Zoos, höchstens ×2)"],"mult":"wnat"},
+{"key":"zweiraum","schritt":0.1,"icon":"🏠","tier":2,"per":"zweiraum"},
+{"key":"wetterfrosch","icon":"🔭","tier":3},
+{"key":"naturpur","icon":"🌿","tier":2,"mult":"naturpur"},
+{"key":"kl_kueche","icon":"🍽️","tier":2,"mult":"kl_kueche"},
+{"key":"ruhlage","icon":"🏞️","tier":2,"mult":"ruhlage"},
+{"key":"hirtin","icon":"🐑","tier":2,"per":"hirtin"},
+{"key":"regie","icon":"🎬","tier":3},
+{"key":"frueh","icon":"🌅","tier":2,"mult":"frueh"},
+{"key":"spurt","icon":"🏁","tier":2,"mult":"spurt"},
+{"key":"grenz","icon":"🧭","tier":2,"per":"grenz"}
 ],
 "max_team":5,
 "preis":[0,20,35,50],

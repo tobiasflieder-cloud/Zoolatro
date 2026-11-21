@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 362,
- "S": 329,
- "total": 119098,
+ "A": 388,
+ "S": 342,
+ "total": 132696,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1736,7 +1736,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 10,
+   "a": 12,
    "s": 10,
    "parts": [
     [
@@ -1750,13 +1750,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "🧊 Nordlage ×2",
-     5,
+     6,
      5
     ]
    ]
@@ -1892,7 +1892,7 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],
@@ -1949,7 +1949,7 @@
   },
   {
    "id": 10,
-   "a": 25,
+   "a": 28,
    "s": 21,
    "parts": [
     [
@@ -1968,18 +1968,18 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     6,
+     7,
      5
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     11,
+     12,
      9
     ]
    ]
@@ -2042,18 +2042,23 @@
   {
    "id": 14,
    "a": 2,
-   "s": 4,
+   "s": 5,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
   {
    "id": 15,
-   "a": 35,
+   "a": 42,
    "s": 9,
    "parts": [
     [
@@ -2067,28 +2072,28 @@
      1
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     4,
+     "🎭 Showtier: ×1,7",
+     6,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     9,
+     11,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     21,
+     26,
      5
     ],
     [
      "❄️ TÜV-Prüfung: Attraktions-Boni nur halb",
-     -7,
+     -10,
      -1
     ]
    ]
@@ -2152,8 +2157,8 @@
   },
   {
    "id": 20,
-   "a": 27,
-   "s": 20,
+   "a": 31,
+   "s": 23,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2171,36 +2176,36 @@
      3
     ],
     [
-     "🎭 Showtier: ×1,7",
-     6,
-     4
+     "🎭 Showtier: ×2,05",
+     8,
+     6
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     7,
-     5
+     8,
+     6
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     21,
-     15
+     24,
+     18
     ],
     [
      "❄️ TÜV-Prüfung: Attraktions-Boni nur halb",
-     -6,
-     -3
+     -7,
+     -6
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -9,
+     -10,
      -7
     ]
    ]
   },
   {
    "id": 21,
-   "a": 5,
-   "s": 4,
+   "a": 6,
+   "s": 5,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2213,26 +2218,31 @@
      1
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     1,
+     1
+    ],
+    [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     2,
+     3,
      2
     ],
     [
      "2. Schwanensee: zählt ×0,75 des eigenen Werts",
-     -1,
+     -2,
      -1
     ]
    ]
   },
   {
    "id": 22,
-   "a": 9,
-   "s": 9,
+   "a": 11,
+   "s": 11,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2250,14 +2260,19 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     4,
-     4
+     5,
+     5
     ],
     [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
-     -4,
-     -4
+     -5,
+     -5
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
@@ -2266,8 +2281,8 @@
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     4,
-     4
+     5,
+     5
     ]
    ]
   },
@@ -2277,8 +2292,13 @@
    "s": 0,
    "parts": [
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
+    [
      "❄️ TÜV-Prüfung: zählt nicht",
-     -4,
+     -5,
      0
     ]
    ]
@@ -2286,12 +2306,17 @@
   {
    "id": 24,
    "a": 1,
-   "s": 3,
+   "s": 4,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
@@ -2353,9 +2378,14 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
-     -1,
-     -1
+     -2,
+     -2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
@@ -2375,8 +2405,13 @@
    "s": 0,
    "parts": [
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
+    [
      "❄️ TÜV-Prüfung: zählt nicht",
-     -4,
+     -5,
      -2
     ]
    ]
@@ -2415,12 +2450,17 @@
   },
   {
    "id": 29,
-   "a": 4,
+   "a": 6,
    "s": 2,
    "parts": [
     [
      "Arktis-Nachbarn",
      2,
+     0
+    ],
+    [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
      0
     ],
     [
@@ -2430,7 +2470,7 @@
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     2,
+     3,
      1
     ]
    ]
@@ -2511,7 +2551,7 @@
   {
    "id": 34,
    "a": 2,
-   "s": 22,
+   "s": 26,
    "parts": [
     [
      "Kartenbonus",
@@ -2522,6 +2562,11 @@
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     4
     ]
    ]
   },
@@ -2575,8 +2620,13 @@
    "s": 0,
    "parts": [
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     2,
+     0
+    ],
+    [
      "❄️ TÜV-Prüfung: zählt nicht",
-     -6,
+     -8,
      0
     ]
    ]

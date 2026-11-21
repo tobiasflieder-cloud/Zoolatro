@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 312,
- "S": 391,
- "total": 121992,
+ "A": 331,
+ "S": 408,
+ "total": 135048,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1750,13 +1750,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
-     -1,
+     -2,
      1
     ],
     [
@@ -1927,7 +1927,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],
@@ -2008,13 +2008,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
-     -2,
+     -3,
      1
     ],
     [
@@ -2092,18 +2092,23 @@
   {
    "id": 14,
    "a": 2,
-   "s": 4,
+   "s": 5,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
   {
    "id": 15,
-   "a": 32,
+   "a": 36,
    "s": 10,
    "parts": [
     [
@@ -2117,28 +2122,28 @@
      1
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
-     -2,
+     -3,
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
+     "🎭 Showtier: ×1,7",
+     4,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     7,
+     8,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     16,
+     18,
      5
     ]
    ]
@@ -2212,8 +2217,8 @@
   },
   {
    "id": 20,
-   "a": 23,
-   "s": 27,
+   "a": 27,
+   "s": 32,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2236,31 +2241,31 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,7",
-     4,
-     5
+     "🎭 Showtier: ×2,05",
+     6,
+     7
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     5,
-     6
+     6,
+     7
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     15,
-     18
+     18,
+     21
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -7,
-     -9
+     -9,
+     -10
     ]
    ]
   },
   {
    "id": 21,
-   "a": 5,
-   "s": 4,
+   "a": 6,
+   "s": 5,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2273,26 +2278,31 @@
      1
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     1,
+     1
+    ],
+    [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     2,
+     3,
      2
     ],
     [
      "2. Schwanensee: zählt ×0,75 des eigenen Werts",
-     -1,
+     -2,
      -1
     ]
    ]
   },
   {
    "id": 22,
-   "a": 7,
-   "s": 11,
+   "a": 9,
+   "s": 14,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2310,37 +2320,47 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     4,
-     4
+     5,
+     5
     ],
     [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
-     -2,
+     -3,
      2
     ],
     [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
      -3,
-     -5
+     -6
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
      1,
-     1
+     2
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     3,
-     5
+     4,
+     6
     ]
    ]
   },
   {
    "id": 23,
-   "a": 4,
+   "a": 5,
    "s": 0,
    "parts": [
+    [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
     [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
      -1,
@@ -2356,12 +2376,17 @@
   {
    "id": 24,
    "a": 1,
-   "s": 3,
+   "s": 4,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
@@ -2414,8 +2439,8 @@
   },
   {
    "id": 26,
-   "a": 1,
-   "s": 2,
+   "a": 2,
+   "s": 3,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2425,6 +2450,11 @@
     [
      "Arktis-Naturfläche",
      0,
+     1
+    ],
+    [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
      1
     ],
     [
@@ -2439,21 +2469,26 @@
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     0,
+     1,
      1
     ],
     [
      "2. Lemminge: zählt ×0,75 des eigenen Werts",
-     0,
+     -1,
      -1
     ]
    ]
   },
   {
    "id": 27,
-   "a": 3,
+   "a": 4,
    "s": 2,
    "parts": [
+    [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
     [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
      -1,
@@ -2509,13 +2544,18 @@
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     0
+    ],
+    [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
      -1,
      0
     ],
     [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
-     -1,
+     -2,
      -1
     ],
     [
@@ -2621,7 +2661,7 @@
   {
    "id": 34,
    "a": 2,
-   "s": 22,
+   "s": 26,
    "parts": [
     [
      "Kartenbonus",
@@ -2632,6 +2672,11 @@
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     4
     ]
    ]
   },
@@ -2691,9 +2736,14 @@
   },
   {
    "id": 37,
-   "a": 4,
+   "a": 6,
    "s": 0,
    "parts": [
+    [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     2,
+     0
+    ],
     [
      "❄️ Wenig Besuch: B ×0,7, N ×1,2",
      -2,

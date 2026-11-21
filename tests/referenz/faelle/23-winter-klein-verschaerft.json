@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 178,
- "S": 110,
- "total": 19580,
+ "A": 198,
+ "S": 117,
+ "total": 23166,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1750,13 +1750,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
-     -2,
+     -3,
      -2
     ],
     [
@@ -1954,7 +1954,7 @@
   },
   {
    "id": 10,
-   "a": 12,
+   "a": 16,
    "s": 12,
    "parts": [
     [
@@ -1973,8 +1973,8 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
@@ -1984,12 +1984,12 @@
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     3,
+     4,
      3
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     5,
+     7,
      5
     ]
    ]
@@ -2052,18 +2052,23 @@
   {
    "id": 14,
    "a": 2,
-   "s": 4,
+   "s": 5,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
   {
    "id": 15,
-   "a": 22,
+   "a": 32,
    "s": 8,
    "parts": [
     [
@@ -2077,8 +2082,8 @@
      1
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
@@ -2087,18 +2092,18 @@
      -1
     ],
     [
-     "🎭 Showtier: ×1,5",
-     2,
+     "🎭 Showtier: ×1,7",
+     4,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     5,
+     7,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     11,
+     16,
      4
     ]
    ]
@@ -2194,8 +2199,8 @@
   },
   {
    "id": 21,
-   "a": 5,
-   "s": 4,
+   "a": 6,
+   "s": 5,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2208,18 +2213,23 @@
      1
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     1,
+     1
+    ],
+    [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     2,
+     3,
      2
     ],
     [
      "2. Schwanensee: zählt ×0,75 des eigenen Werts",
-     -1,
+     -2,
      -1
     ]
    ]
@@ -2245,22 +2255,32 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     4,
-     4
+     5,
+     5
     ],
     [
      "❄️ Platzprüfung: zählt nicht",
-     -8,
-     -8
+     -10,
+     -10
     ]
    ]
   },
   {
    "id": 23,
-   "a": 5,
+   "a": 6,
    "s": 0,
    "parts": [
+    [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
      1,
@@ -2271,12 +2291,17 @@
   {
    "id": 24,
    "a": 1,
-   "s": 3,
+   "s": 4,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
@@ -2333,17 +2358,27 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "❄️ Platzprüfung: zählt nicht",
-     -3,
-     -3
+     -4,
+     -4
     ]
    ]
   },
   {
    "id": 27,
-   "a": 2,
+   "a": 3,
    "s": 1,
    "parts": [
+    [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
      -2,
@@ -2394,8 +2429,13 @@
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     0
+    ],
+    [
      "❄️ Platzprüfung: zählt nicht",
-     -4,
+     -5,
      -2
     ]
    ]
@@ -2491,7 +2531,7 @@
   {
    "id": 34,
    "a": 2,
-   "s": 22,
+   "s": 26,
    "parts": [
     [
      "Kartenbonus",
@@ -2502,6 +2542,11 @@
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     4
     ]
    ]
   },
@@ -2560,8 +2605,13 @@
    "s": 0,
    "parts": [
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     2,
+     0
+    ],
+    [
      "❄️ Platzprüfung: zählt nicht",
-     -6,
+     -8,
      0
     ]
    ]

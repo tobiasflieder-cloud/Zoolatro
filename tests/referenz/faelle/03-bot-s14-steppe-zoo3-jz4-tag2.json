@@ -1501,9 +1501,9 @@
  ]
 },
 "erwartet":{
- "A": 304,
- "S": 252,
- "total": 76608,
+ "A": 351,
+ "S": 280,
+ "total": 98280,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1528,7 +1528,7 @@
   {
    "id": 1,
    "a": 10,
-   "s": 19,
+   "s": 24,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1536,24 +1536,29 @@
      0
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
      2,
-     4
+     5
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
      2,
-     4
+     5
     ],
     [
      "🤝 Freundschaft mit Korallenriff ×1,25",
      2,
-     3
+     4
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
      2,
-     4
+     5
     ]
    ]
   },
@@ -1586,17 +1591,22 @@
   },
   {
    "id": 3,
-   "a": 10,
-   "s": 8,
+   "a": 13,
+   "s": 10,
    "parts": [
     [
+     "🧗 Sven Frost ×1,2",
+     1,
+     1
+    ],
+    [
      "🏜️ Einzelgänger: allein ×2",
-     4,
-     3
+     5,
+     4
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     2,
+     3,
      2
     ]
    ]
@@ -1645,8 +1655,8 @@
   },
   {
    "id": 5,
-   "a": 14,
-   "s": 11,
+   "a": 18,
+   "s": 14,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1659,19 +1669,24 @@
      1
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     1,
+     1
+    ],
+    [
      "💧 Fluss: Kette aus 2 ×1,5",
-     2,
+     3,
      2
     ],
     [
      "🤝 Freundschaft mit Schildkröten ×1,25",
      2,
-     1
+     2
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     6,
-     5
+     8,
+     6
     ]
    ]
   },
@@ -1704,8 +1719,8 @@
   },
   {
    "id": 7,
-   "a": 13,
-   "s": 9,
+   "a": 19,
+   "s": 10,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1723,13 +1738,18 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     4,
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     2,
+     1
+    ],
+    [
      "🌾 Herde aus 5 ×1,45",
-     4,
+     6,
      3
     ]
    ]
@@ -1763,7 +1783,7 @@
   },
   {
    "id": 9,
-   "a": 28,
+   "a": 35,
    "s": 35,
    "parts": [
     [
@@ -1777,30 +1797,30 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "★ Goldenes Feld: zählt doppelt",
-     4,
+     5,
      5
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     8,
+     10,
      10
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     12,
+     15,
      15
     ]
    ]
   },
   {
    "id": 10,
-   "a": 16,
+   "a": 19,
    "s": 9,
    "parts": [
     [
@@ -1814,8 +1834,8 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
+     "🎭 Showtier: ×1,7",
+     4,
      2
     ],
     [
@@ -1825,19 +1845,19 @@
     ],
     [
      "🌾 Herde aus 5 ×1,45",
-     4,
+     5,
      2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
+     4,
      2
     ]
    ]
   },
   {
    "id": 11,
-   "a": 12,
+   "a": 16,
    "s": 10,
    "parts": [
     [
@@ -1851,8 +1871,8 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
@@ -1862,7 +1882,7 @@
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     6,
+     8,
      5
     ]
    ]
@@ -1892,11 +1912,16 @@
   },
   {
    "id": 14,
-   "a": 4,
+   "a": 5,
    "s": 0,
    "parts": [
     [
      "Kartenbonus",
+     1,
+     0
+    ],
+    [
+     "🍔 Ensemble Food Corner ×1,25",
      1,
      0
     ]
@@ -1904,8 +1929,8 @@
   },
   {
    "id": 15,
-   "a": 9,
-   "s": 9,
+   "a": 11,
+   "s": 11,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1923,9 +1948,14 @@
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "🌾 Herde aus 5 ×1,45",
-     2,
-     2
+     3,
+     3
     ],
     [
      "🤝 Freundschaft mit Giraffenweide ×1,25",
@@ -1936,12 +1966,17 @@
   },
   {
    "id": 16,
-   "a": 3,
+   "a": 4,
    "s": 1,
    "parts": [
     [
      "Kartenbonus",
      2,
+     0
+    ],
+    [
+     "🍔 Ensemble Food Corner ×1,25",
+     1,
      0
     ]
    ]
@@ -1955,7 +1990,7 @@
   {
    "id": 18,
    "a": 0,
-   "s": 14,
+   "s": 18,
    "parts": [
     [
      "Kartenbonus",
@@ -1963,21 +1998,31 @@
      5
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     0,
+     2
+    ],
+    [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
      0,
-     6
+     8
     ]
    ]
   },
   {
    "id": 19,
    "a": 2,
-   "s": 4,
+   "s": 5,
    "parts": [
     [
      "Kartenbonus",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
@@ -2010,9 +2055,14 @@
   },
   {
    "id": 21,
-   "a": 1,
+   "a": 2,
    "s": 0,
    "parts": [
+    [
+     "🍔 Ensemble Food Corner ×1,25",
+     1,
+     0
+    ],
     [
      "❄️ Platzprüfung: nur die Hälfte",
      -1,
@@ -2023,23 +2073,33 @@
   {
    "id": 22,
    "a": 0,
-   "s": 6,
+   "s": 7,
    "parts": [
     [
      "Kartenbonus",
      0,
      4
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
   {
    "id": 23,
-   "a": 5,
+   "a": 6,
    "s": 0,
    "parts": [
     [
      "Kartenbonus",
      2,
+     0
+    ],
+    [
+     "🍔 Ensemble Food Corner ×1,25",
+     1,
      0
     ]
    ]
@@ -2130,8 +2190,8 @@
   },
   {
    "id": 29,
-   "a": 11,
-   "s": 11,
+   "a": 14,
+   "s": 14,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -2149,24 +2209,29 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
-     3
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
     ],
     [
-     "🌾 Herde aus 5 ×1,45",
+     "🎭 Showtier: ×1,7",
      4,
      4
     ],
     [
+     "🌾 Herde aus 5 ×1,45",
+     5,
+     5
+    ],
+    [
      "🤝 Freundschaft mit Zebrasteppe ×1,25",
-     3,
-     3
+     4,
+     4
     ],
     [
      "2. Giraffenweide: zählt ×0,75 des eigenen Werts",
-     -4,
-     -4
+     -5,
+     -5
     ]
    ]
   },

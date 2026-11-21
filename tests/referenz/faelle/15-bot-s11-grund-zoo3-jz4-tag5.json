@@ -1563,9 +1563,9 @@
  ]
 },
 "erwartet":{
- "A": 294,
- "S": 318,
- "total": 93492,
+ "A": 304,
+ "S": 329,
+ "total": 100016,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1589,8 +1589,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 37,
-   "s": 14,
+   "a": 46,
+   "s": 16,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1598,24 +1598,29 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     4,
      0
     ],
     [
+     "🍃 Ensemble Stilles Eck ×1,2",
+     0,
+     1
+    ],
+    [
      "🔗 Kombo ×1,5: nicht gestresst",
-     5,
+     6,
      2
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     7,
+     9,
      3
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     16,
-     6
+     20,
+     7
     ]
    ]
   },
@@ -1640,12 +1645,17 @@
   {
    "id": 4,
    "a": 29,
-   "s": 14,
+   "s": 16,
    "parts": [
     [
      "Gebirge-Nachbarn",
      2,
      0
+    ],
+    [
+     "🍃 Ensemble Stilles Eck ×1,2",
+     0,
+     1
     ],
     [
      "🔗 Kombo ×1,5: nicht gestresst",
@@ -1655,7 +1665,7 @@
     [
      "⛰️ Rand/Felsen (3) ×2",
      11,
-     5
+     6
     ],
     [
      "2. Rote Pandas: zählt ×0,75 des eigenen Werts · Ausbau Stufe II: ×1,75 des eigenen Werts",
@@ -1758,7 +1768,7 @@
   {
    "id": 8,
    "a": 7,
-   "s": 5,
+   "s": 7,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1766,9 +1776,14 @@
      0
     ],
     [
+     "🍃 Ensemble Stilles Eck ×1,2",
+     0,
+     1
+    ],
+    [
      "⛰️ Rand/Felsen (2) ×1,75",
      3,
-     2
+     3
     ]
    ]
   },
@@ -1833,7 +1848,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      2,
      1
     ],
@@ -1873,8 +1888,8 @@
   },
   {
    "id": 14,
-   "a": 11,
-   "s": 8,
+   "a": 12,
+   "s": 9,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1887,9 +1902,9 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,7",
-     3,
-     2
+     "🎭 Showtier: ×2,05",
+     4,
+     3
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
@@ -1998,7 +2013,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],

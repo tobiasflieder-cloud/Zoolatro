@@ -1406,9 +1406,9 @@
  ]
 },
 "erwartet":{
- "A": 537,
- "S": 248,
- "total": 133176,
+ "A": 556,
+ "S": 263,
+ "total": 146228,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1454,8 +1454,8 @@
   },
   {
    "id": 2,
-   "a": 68,
-   "s": 45,
+   "a": 79,
+   "s": 56,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1473,24 +1473,29 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     6,
-     4
+     7,
+     5
     ],
     [
      "⛰️ Rand/Felsen (3) ×2",
-     12,
-     8
+     14,
+     10
     ],
     [
      "🤝 Freundschaft mit Murmeltiere ×1,25",
-     6,
-     4
+     7,
+     5
     ],
     [
      "Ausbau Stufe III: ×2,25 des eigenen Werts",
-     38,
-     25
+     44,
+     31
     ]
    ]
   },
@@ -1586,8 +1591,8 @@
   },
   {
    "id": 8,
-   "a": 9,
-   "s": 9,
+   "a": 11,
+   "s": 11,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1605,7 +1610,12 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],
@@ -1616,8 +1626,8 @@
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     4,
-     4
+     5,
+     5
     ]
    ]
   },
@@ -1648,7 +1658,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
+     "🎭 Showtier: ×1,7",
      2,
      2
     ],
@@ -1661,8 +1671,8 @@
   },
   {
    "id": 11,
-   "a": 8,
-   "s": 8,
+   "a": 9,
+   "s": 9,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1678,6 +1688,11 @@
      "Winterkälte",
      -1,
      0
+    ],
+    [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
     ],
     [
      "🌾 Herde aus 3 ×1,15",
@@ -1751,7 +1766,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      2,
      1
     ],
@@ -1776,7 +1791,7 @@
   },
   {
    "id": 16,
-   "a": 9,
+   "a": 10,
    "s": 8,
    "parts": [
     [
@@ -1795,8 +1810,8 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
-     1,
+     "🎭 Showtier: ×1,35",
+     2,
      1
     ],
     [
@@ -1957,7 +1972,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
+     "🎭 Showtier: ×1,7",
      2,
      1
     ],

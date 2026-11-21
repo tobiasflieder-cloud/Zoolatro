@@ -1258,9 +1258,9 @@
  ]
 },
 "erwartet":{
- "A": 166,
- "S": 123,
- "total": 20418,
+ "A": 178,
+ "S": 126,
+ "total": 22428,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1284,7 +1284,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 8,
+   "a": 10,
    "s": 10,
    "parts": [
     [
@@ -1303,13 +1303,13 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "🧊 Nordlage ×2",
-     4,
+     5,
      5
     ]
    ]
@@ -1445,7 +1445,7 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],
@@ -1487,7 +1487,7 @@
   },
   {
    "id": 10,
-   "a": 9,
+   "a": 11,
    "s": 9,
    "parts": [
     [
@@ -1501,13 +1501,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     4,
+     5,
      4
     ]
    ]
@@ -1566,7 +1566,7 @@
   },
   {
    "id": 15,
-   "a": 21,
+   "a": 26,
    "s": 5,
    "parts": [
     [
@@ -1580,18 +1580,18 @@
      1
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     4,
+     "🎭 Showtier: ×1,7",
+     6,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     9,
+     11,
      2
     ]
    ]
@@ -1639,8 +1639,8 @@
   },
   {
    "id": 20,
-   "a": 16,
-   "s": 11,
+   "a": 18,
+   "s": 14,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1658,18 +1658,18 @@
      3
     ],
     [
-     "🎭 Showtier: ×1,7",
-     6,
-     4
+     "🎭 Showtier: ×2,05",
+     8,
+     6
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     7,
-     5
+     8,
+     6
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -5,
+     -6,
      -4
     ]
    ]

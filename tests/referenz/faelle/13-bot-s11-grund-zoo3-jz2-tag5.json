@@ -1178,9 +1178,9 @@
  ]
 },
 "erwartet":{
- "A": 202,
- "S": 231,
- "total": 46662,
+ "A": 206,
+ "S": 239,
+ "total": 49234,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1204,8 +1204,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 18,
-   "s": 8,
+   "a": 21,
+   "s": 9,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1218,18 +1218,23 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
+     "🍃 Ensemble Stilles Eck ×1,2",
+     0,
+     1
+    ],
+    [
      "🔗 Kombo ×1,5: nicht gestresst",
-     4,
+     5,
      2
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     6,
+     7,
      3
     ]
    ]
@@ -1255,7 +1260,7 @@
   {
    "id": 4,
    "a": 14,
-   "s": 8,
+   "s": 9,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1268,6 +1273,11 @@
      0
     ],
     [
+     "🍃 Ensemble Stilles Eck ×1,2",
+     0,
+     1
+    ],
+    [
      "🔗 Kombo ×1,5: nicht gestresst",
      3,
      2
@@ -1275,12 +1285,12 @@
     [
      "⛰️ Rand/Felsen (3) ×2",
      9,
-     5
+     6
     ],
     [
      "2. Rote Pandas: zählt ×0,75 des eigenen Werts",
      -4,
-     -2
+     -3
     ]
    ]
   },
@@ -1368,7 +1378,7 @@
   {
    "id": 8,
    "a": 5,
-   "s": 5,
+   "s": 7,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -1381,9 +1391,14 @@
      0
     ],
     [
+     "🍃 Ensemble Stilles Eck ×1,2",
+     0,
+     1
+    ],
+    [
      "⛰️ Rand/Felsen (2) ×1,75",
      2,
-     2
+     3
     ]
    ]
   },
@@ -1448,7 +1463,7 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      2,
      1
     ],
@@ -1488,8 +1503,8 @@
   },
   {
    "id": 14,
-   "a": 11,
-   "s": 8,
+   "a": 12,
+   "s": 9,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1502,9 +1517,9 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,7",
-     3,
-     2
+     "🎭 Showtier: ×2,05",
+     4,
+     3
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
@@ -1612,7 +1627,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],

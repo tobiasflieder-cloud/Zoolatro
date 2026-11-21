@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.89a';
+const VERSION='0.90a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.90a',d:'21.11.2026',t:'Ensembles, Promis, neue Spezialisten, Auflagen',i:['✨ Ensembles: Drei passende Karten nebeneinander (z. B. 3 verschiedene Gastro-Gebäude = 🍔 Food Corner) bekommen einen Bonus. Fünf gibt es zu entdecken, entdeckte stehen im 📖 Zoo-Buch.','⚡ Die Verstärker sind jetzt Promis: Chef Carmen, Mia Megaviral, Stella Starr, Nova, Sven Frost und Luna Lotus – stärker, mit eigenem Look und Strahlen auf dem Brett. 🎭 Show-Bonus ×1,35 je Nachbar.','👥 Zehn neue Spezialisten, u. a. Wetterfrosch (Winter schon im Frühling sichtbar) und Ensemble-Regisseur.','📜 Auflagen haben Kategorien: Keine Kategorie kommt zweimal im Lauf. Neu sind Limitierungen, Vorlieben (×1,5 / ×0,5), Durchmischt und in der Weltreise die Schwerpunkt-Pflicht.']},
  {v:'0.89a',d:'21.11.2026',t:'Stufenwahl, Umbau-Bestätigung, Schliff',i:['🏔️ Stufenwahl: Antippen zeigt, was die Stufe ändert (alle Verschärfungen bis dahin), gestartet wird über den Knopf. Saisonziele der Stufen gelten erst ab Sommer.','🧰 Umbauten zeigen erst ein Fenster mit ihrer Wirkung, erst „Einsetzen“ löst aus. 📊 Neuer Schalter im Menü: Vorschau auf dem Spielfeld an/aus.','🌍 Weltreise: höchstens zwei Ziele mit demselben Schwerpunkt. Zerklüftet kommt nie mit der Auflage Eingang, und der Eingang darf zugebaut werden.','🦷 Raubtier-Kenner gibt jetzt Natur. 🌭 Bratwurstbude nur noch mit Savanne.']},
- {v:'0.88a',d:'18.11.2026',t:'Weltkarte, Highscores, Stufen',i:['🗺️ Weltreise: Die Ziele stehen jetzt auf einer gezeichneten Weltkarte – antippen, Gelände ansehen, losreisen. Deine Route ist golden eingezeichnet. Es sind nie mehr nur leichte Ziele zur Wahl.','🏆 Highscores: Läufe antippen zeigt das Endbild, dazu das Profil.','🧪 Testläufe zählen in der Statistik und im Zoo-Buch. Neuer Test-Schalter „Alle Stufen“.','🎴 Profile ohne passenden Lebensraum zeigen ihre Stufen, mit Hinweis, welchen Lebensraum du brauchst.']},
- {v:'0.87a',d:'16.11.2026',t:'Schliff Weltreise, Arktis',i:['🌍 Weltreise: etwas weniger Naturflächen, die Auswilderung kommt im Sommer und Herbst statt im Winter, bei schwerer Auflage gibt es nur eine leichte Winter-Bedingung, Leichter Boden nicht mehr mit Gebirge.','❄️ Die Arktis-Zone liegt oben auf dem Bildschirm, wie beim Zoo-Start, und ist nicht mehr mit fremden Naturflächen zugepflastert.','🏅 Meilensteine dürfen auch auf Felsen und fremde Naturflächen. 🌿 Naturfläche ändern gilt für bis zu 3 Felder.','🔍 Detail-Fenster: neu „Wirkung auf den Zoo“. Testlauf 4 Tage: Geschenke schon ab 1 Tag früher.']}];
+ {v:'0.88a',d:'18.11.2026',t:'Weltkarte, Highscores, Stufen',i:['🗺️ Weltreise: Die Ziele stehen jetzt auf einer gezeichneten Weltkarte – antippen, Gelände ansehen, losreisen. Deine Route ist golden eingezeichnet. Es sind nie mehr nur leichte Ziele zur Wahl.','🏆 Highscores: Läufe antippen zeigt das Endbild, dazu das Profil.','🧪 Testläufe zählen in der Statistik und im Zoo-Buch. Neuer Test-Schalter „Alle Stufen“.','🎴 Profile ohne passenden Lebensraum zeigen ihre Stufen, mit Hinweis, welchen Lebensraum du brauchst.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -38,7 +38,7 @@ const SHAPES={
 };
 function rotCells(cells,rot){let c=cells.map(x=>x.slice());for(let i=0;i<((rot%6)+6)%6;i++)c=c.map(([q,r])=>[-r,q+r]);return c}
 function placeCells(key,rot,q,r){return rotCells(SHAPES[CARDS[key].shape].cells,rot).map(([a,b])=>[a+q,b+r])}
-const costParts=key=>{const cl=SHAPES[CARDS[key].shape].cells.length,C=CARDS[key],dk=typeof dkNow==='function'?dkNow():'',n=Math.max(1,cl-(C.cat==='gehege'&&cl>=4?1:0)-(dk==='freizeit'&&C.cat==='attr'?1:0)+(dk==='steppe'&&C.cat==='gehege'&&cl===1?1:0)+(dk==='dschungel'&&C.cat==='attr'?1:0)),x=[];if(cl===1&&hasSpec('polier')&&typeof state!=='undefined'&&state&&state.day===0)x.push(['🧱','Polier']);if(taxed(key))x.push(['💸','Teuerung']);return{n,x}};
+const costParts=key=>{const cl=SHAPES[CARDS[key].shape].cells.length,C=CARDS[key],dk=typeof dkNow==='function'?dkNow():'',n=Math.max(1,cl-(C.cat==='gehege'&&cl>=4?1:0)-(dk==='freizeit'&&C.cat==='attr'?1:0)+(dk==='steppe'&&C.cat==='gehege'&&cl===1?1:0)+(dk==='dschungel'&&C.cat==='attr'?1:0))+(C.preis||0),x=[];if(cl===1&&hasSpec('polier')&&typeof state!=='undefined'&&state&&state.day===0)x.push(['🧱','Polier']);if(taxed(key))x.push(['💸','Teuerung']);return{n,x}};
 const costOf=key=>{if(typeof umbBm==='function'&&umbBm()&&CARDS[key]&&CARDS[key].cat!=='verst')return 0;const p=costParts(key);if(p.n===1&&hasSpec('rb_leicht')&&CARDS[key].cat!=='verst'&&typeof state!=='undefined'&&state&&(state.free1||0)<2)return 0;return Math.max(1,p.n+p.x.length-(CARDS[key].pr==='leicht'?1:0))};
 const costTxt=key=>{const p=costParts(key);return`${costOf(key)} BP${CARDS[key].pr==='leicht'?' (🪶 −1)':''}${p.x.length?` <b class="cx">(${p.x.map(e=>e[0]+' '+e[1]+': +1').join(' · ')})</b>`:''}`};
 const costDots=key=>{const p=costParts(key);return'<i></i>'.repeat(p.n)+'<i class="x"></i>'.repeat(p.x.length)+(p.x.length?`<em>${p.x.map(e=>e[0]).join('')}</em>`:'')};
@@ -306,6 +306,7 @@ const SPGRP={kleintier:{t:(b,c)=>c.cat==='gehege'&&b.cells.length===1,b:1,s:1,w:
   dompteur:{t:(b,c)=>c.cat==='gehege'&&c.tags.includes('raubtier'),b:1,s:0,w:'Raubtiere',w1:'Raubtier',je:'Raubtier',st:.15},
   artenschuetzer:{t:(b,c)=>c.tags.includes('bedroht'),b:0,s:1,w:'bedrohte Tiere',w1:'bedrohte Tier',je:'bedrohtes Tier',st:.15},
   bauleiterin:{t:b=>(b.lvl||1)>1,n:bs=>bs.reduce((t,b)=>t+Math.max(0,(b.lvl||1)-1),0),b:1,s:1,w:'Ausbaustufen',w1:'ausgebaute Gehege/Gebäude',je:'Ausbaustufe',st:.05},
+  zweiraum:{t:(b,c)=>c.cat==='gehege'&&b.cells.length===2,b:1,s:1,w:'Gehege mit 2 Feldern',w1:'Gehege mit 2 Feldern',je:'Gehege mit 2 Feldern',st:.1}, // 0.90a
   sammler:{t:(b,c)=>c.cat==='gehege',ok:bs=>vielfalt(bs).lvl>=2,b:0,s:1,w:'Gehege',w1:'Gehege',je:'Gehege',st:.05,wenn:', wenn dein Zoo von jedem deiner Lebensräume mindestens 2 Arten hat'}};
 for(const h in HAB){const L=HAB[h].label+'-Gehege';SPGRP['pfleger_'+h]={t:(b,c)=>c.cat==='gehege'&&c.hab===h,b:1,s:1,w:L,w1:L,je:L,st:.1}}
 const spGrpStep=id=>{const S=typeof SPEC!=='undefined'&&SPEC[id];return S&&S.schritt!=null?S.schritt:SPGRP[id].st};
@@ -324,7 +325,11 @@ const SPEZ_WIRKUNG=(()=>{const per={},mult={};
   kleintier:spGrpPer('kleintier'),architekt:spGrpPer('architekt'),dompteur:spGrpPer('dompteur'),artenschuetzer:spGrpPer('artenschuetzer'),
   tierpfleger:(b,c,nb)=>c.cat==='schutz'?{s:2*cnt(nb,n=>has(n,'scheu'))}:null,
   bauleiterin:spGrpPer('bauleiterin'),
-  sammler:spGrpPer('sammler')});
+  sammler:spGrpPer('sammler'),
+  // 0.90a: neue Spezialisten
+  zweiraum:spGrpPer('zweiraum'),
+  hirtin:(b,c,nb)=>c.cat==='gehege'&&c.tags.includes('beute')?{a:2*cnt(nb,n=>isCat(n,'gehege')&&has(n,'beute'))}:null,
+  grenz:(b,c,nb)=>{if(c.cat!=='gehege')return null;const H=new Set(nb.filter(n=>isCat(n,'gehege')&&K(n).hab).map(n=>K(n).hab));return H.size>=2?{fa:1,fs:1.2,l:H.size+' Lebensräume daneben'}:null}});
   // Faktor für den ganzen Zoo
   Object.assign(mult,{
   kurator:bs=>{const n=new Set(bs.filter(b=>isCat(b,'gehege')).map(b=>spK(b.key))).size,f=Math.min(1.6,1+.05*n);return f>1?{ma:+f.toFixed(2)}:null},
@@ -353,6 +358,10 @@ const SPEZ_WIRKUNG=(()=>{const per={},mult={};
   mult.floss=bs=>{const n=flossLen(bs||[]),f=+(1+.1*n).toFixed(2);return n?{ma:f}:null};
   mult.wgast=()=>{const f=grwF('ga');return f>1?{ma:f}:null};
   mult.wnat=()=>{const f=grwF('nat');return f>1?{ms:f}:null};
+  // 0.90a: neue Spezialisten (Faktor für den ganzen Zoo)
+  {const nC=(bs,cats)=>cnt(bs||[],b=>cats.includes(K(b).cat)),dy=()=>typeof state!=='undefined'&&state&&state.mode==='camp'?state.day:null;
+  Object.assign(mult,{naturpur:bs=>nC(bs,['essen','attr'])<=2?{ms:1.3}:null,kl_kueche:bs=>nC(bs,['essen'])<=2?{ma:1.3}:null,ruhlage:bs=>nC(bs,['attr'])<=2?{ma:1.3}:null,
+    frueh:()=>dy()===0?{ma:1.5,ms:1.5}:null,spurt:()=>dy()!=null&&dy()===DAYS-1?{ma:1.4,ms:1.4}:null})}
   return{per,mult}})();
 const SPEC={};for(const d of SPEZ_DATEN.spezialisten){const S={};for(const p in d){if(p==='key')continue;const v=d[p];S[p]=Array.isArray(v)?v.slice():v;if(p==='per'||p==='mult'){S[p]=SPEZ_WIRKUNG[p][v];if(!S[p])throw new Error('Wirkung fehlt: '+p+' '+v)}}SPEC[d.key]=S}
 const bpBase=()=>BP+(hasSpec('polier')?1:0);

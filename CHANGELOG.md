@@ -5,6 +5,22 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.90a · 21.11.2026 · Ensembles, Promis, neue Spezialisten, Auflagen
+- ✨ **Ensembles:** Drei passende Karten, die zusammenhängen, bilden ein Ensemble. Jedes Mitglied bekommt den Bonus (auch bei größeren Gruppen nur einmal):
+  🍔 Food Corner (3 verschiedene Gastro-Gebäude: je ×1,25 B, +1 🪙 pro Tag), 🎠 Vergnügungsmeile (3 Attraktionen: je ×1,25 B), 🍃 Stilles Eck (3 scheue Tiere, keins gestresst: je ×1,2 N),
+  🐇 Sicherer Hain (3 Beutetiere, keins gestresst: je ×1,2 B und N), 🛡️ Schutzzone (3 bedrohte Tiere, keins gestresst: je ×1,5 B und N). Steckt eine Karte in zwei Ensembles, gelten beide.
+  Auf dem Brett goldener Umriss mit Schild, beim ersten Mal die Einblendung „✨ Neu entdeckt · Ensemble“, danach im 📖 Zoo-Buch (Reiter „Freundschaften & Ensembles“). Im Tutorial aus.
+- 🎭 **Show-Bonus** ×1,35 je Gastro-Gebäude oder Attraktion daneben (zwei: ×1,7). Belugas ×1,45, mit Leckerli ×1,5.
+- ⚡ **Verstärker werden Promis** mit eigenem Look (violett-eisblau, leuchtender Rahmen), Story-Satz und Strahlen zu den verstärkten Nachbarn; beim Zählen blitzt „⚡ ×1,5“ auf:
+  🧑‍🍳 Chef Carmen (×1,5 N für Nachbar-Gehege, kostet 1 BP mehr), 🤳 Mia Megaviral (×1,5 B für alle Nachbarn, 1 BP mehr), 🎬 Stella Starr (×2,5 für das stärkste Nachbar-Gehege),
+  🎤 Nova (Show doppelt, bis ×2,5), 🧗 Sven Frost (Nachbarn ohne Winter-Bedingung, dazu ×1,2 im Winter), 🧘 Luna Lotus (kein Trubel für scheue Nachbarn, dazu ×1,25 N).
+- 👥 **Zehn neue Spezialisten:** 🏠 Zweiraum-Planerin, 🔭 Wetterfrosch (Winter-Bedingung schon ab dem Frühling sichtbar), 🌿 Naturpur-Leiterin, 🍽️ Kleine Küche, 🏞️ Ruhige-Lage-Planer,
+  🐑 Beute-Hirtin, 🎬 Ensemble-Regisseur (Ensembles stärker, frei nach dem ersten Ensemble), 🌅 Frühaufsteherin, 🏁 Schlussspurt, 🧭 Grenzgängerin.
+- 📜 **Auflagen in Kategorien** (Platz & Gelände, Gebäude, Limitierung, Lebensräume, Vorlieben, Ziel): Keine Kategorie kommt zweimal in einem Lauf, solange noch eine andere geht.
+  In der Weltreise passt jede Auflage zu bestimmten Kontinenten. Die Kategorie steht klein im Auflagen-Fenster und im Zoo-Menü, das Zoo-Buch listet die Auflagen danach.
+- 🆕 **Neue Auflagen:** 🎪 Höchstens 3 Showtiere, 🦁 Höchstens 2 Raubtiere, 🧺 Kleiner Etat (3 Käufe je Shop-Besuch), 🐘 Kleine Gehege (höchstens 2 mit 4 Feldern), 🔀 Durchmischt,
+  🎯 Schwerpunkt-Pflicht (nur Weltreise, Prüfung Ende Winter) und sieben **Vorlieben** mit Bonus und Malus (🤫 Stille Wildnis, 🎭 Showtime, 🌱 Naturnah, 🍿 Feinschmecker, 🎢 Nervenkitzel, 🦒 Großwild-Fans, 🔴 Artenschützer), sichtbar als Schild auf dem Brett.
+
 ## 0.89a · 21.11.2026 · Stufenwahl, Umbau-Bestätigung, Schliff
 - 🏔️ **Stufenwahl:** Eine Stufe antippen zeigt, was gilt – alle Verschärfungen bis zu dieser Stufe, die neue markiert, Saisonziele zusammengefasst. Gestartet wird erst über „▶ Mit Stufe n starten“. Gesperrte Stufen zeigen ihre Wirkung und wie du sie freischaltest.
 - 🎯 Die Saisonziele der Stufen (×1,1 auf Stufe 2, 4, 7) gelten erst **ab Sommer**, der Frühling bleibt gleich.

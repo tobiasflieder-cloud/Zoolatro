@@ -101,7 +101,7 @@ Betrag, das sind die Zeilen in den Referenzfällen.
       Aus mit Ruhezone daneben, Spezialist Ruhepol, Partyzoo.
     - Ein Gebäude ist höchstens **einfach** gestresst (`st=min(1,…)`). Es verliert selbst nichts, sondern zählt für den Zoo-Faktor (Abschnitt 3).
     - **Showtier** (`show`): `sh = min(4, min(2, normale Gastro/Attraktionen daneben + Bühne + 2 bei Savanne neben Bistro) + 2·(Trubel-Gastro/-Attraktionen daneben + Tribünen im Umkreis 2, nicht direkt daneben))`.
-      Faktor `f = (Leckerli 0,5 | Belugas 0,4 | sonst 0,3) · sh · (Bühne daneben 2)`, Zuschlag `round(max(0,a)·f)`.
+      Faktor (0.90a, `04:showF`) `f = min(2,5, 1 + (Leckerli 0,5 | Belugas 0,45 | sonst 0,35) · sh · (Nova/Bühne daneben 2))`, auf 0,05 gerundet; Zuschlag `round(max(0,a)·(f−1))`.
     - Jagdrevier/Partyzoo: statt Stress +30 % je Auslöser direkt daneben, höchstens 2.
 13. **Kombo** `c.km(...)` → Faktor (×fa auf B, ×fs auf N).
 14. **Zoolatro-Zusätze** `09:extra92` (nur mit `state.zl`). Jeder Eintrag ist entweder fest `{a,s}` oder Faktor `[Text, fa, fs]`,
@@ -445,3 +445,22 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Vorschau-Schalter** `META.pvOff`: in `render0` keine `badges`/`links`/Hervorhebungen der Vorschau (nicht im Tutorial).
 - **Stufenwahl** `09:stageBox`, Auswahl `screenArg.stSel`.
 - **Bratwurstbude** `rq:'savanne'`, Ersatz Popcorn.
+
+## 21. 0.90a – Ensembles, Promis, Spezialisten, Auflagen-Kategorien
+- **Show-Bonus** `04:showF(sh,art,nova)`: je Auslöser +0,35 (Belugas 0,45, Leckerli 0,5), Nova verdoppelt, höchstens ×2,5. Vorschau-Schilder nutzen `showF`.
+- **Stress** `04:strOf(b,c,nb,idx,vs)` (aus `evalB` herausgezogen, gleiche Rechnung): liefert `st` für die Wertung und die Ensembles.
+- **Ensembles** (`daten/ensembles.json` → `04:ENS`, Texte `texte_de.json` `ensemble`, Bedingungen `04:ENS_WIRKUNG`):
+  - `04:ensFind(bs,idx)`: je Ensemble alle passenden Karten (bei `ruhig` nur ungestresste nach `strOf`), zusammenhängende Teile (Nachbarschaft wie `nbrs`) ab `mindest` = 3, Food Corner zusätzlich `verschieden` = 3 verschiedene Grundkarten. Ergebnis wird je Brett-Array zwischengespeichert (Signatur aus Gebäuden, Team, Profil, Ereignissen, Winter).
+  - Wertung: in `evalB` als Prozent-Schritt (`pct`, vor Gold) je Ensemble `[Icon Ensemble Name, fa, fs, 1]` → eigene Zeile im Detail-Fenster; zwei Ensembles multiplizieren sich, jedes Mitglied genau einmal.
+  - Faktoren: Food Corner ×1,25 B, Vergnügungsmeile ×1,25 B, Stilles Eck ×1,2 N, Sicherer Hain ×1,2 B/N, Schutzzone ×1,5 B/N; Ensemble-Regisseur (`regie`): 1,25→1,5, 1,2→1,4, 1,5→1,75 (`regisseur` in der JSON).
+  - Taler: `dayIncome` → `ens` = Summe `taler` (Food Corner +1 je Ensemble).
+  - Aus, wenn kein `CTX.zl` oder im Tutorial (`04:ensOn`). Entdecken `09:ensDiscover` (in `discover92`): `sl.ens[key]`, Einblendung `#ensPop` (`state.ensNew`), sonst Banner einmal je Zoo (`state.ensSeen`). Brett: `06:ensMarks` (Außenkanten golden, Schild). Zoo-Buch: `09:ensBuchHtml` im Reiter „Freundschaften & Ensembles“.
+- **Promi-Verstärker** (Kennungen unverändert): Chef Carmen `futterkueche` ×1,5 N Nachbar-Gehege, Mia Megaviral `besucherlotse` ×1,5 B, beide `preis:1` (`01:costParts`); Stella Starr `scheinwerfer` ×2,5 (stärkstes Nachbar-Gehege), Nova `buehne` (Show doppelt, bis ×2,5), Sven Frost `winterquartier` (ohne Winter-Bedingung, ×1,2 B/N im Winter für Nicht-Verstärker), Luna Lotus `ruhezone` (kein Trubel, ×1,25 N für scheue Gehege). Story in `texte_de.json` `story` (→ `c.story`, `07:fxHtml`). Brett: `06:vstMarks` (Strahlen + Schild), Zählen: „⚡ ×…“ (`07:startScoring0`).
+- **Neue Spezialisten** (`daten/spezialisten.json`, Wirkung `01:SPEZ_WIRKUNG`): `zweiraum` (Gruppen-Bonus `SPGRP`, Gehege mit 2 Feldern, ×1,1 B/N je solches), `hirtin` (+2 B je benachbartes Beutetier für Beutetiere), `grenz` (×1,2 N, wenn Nachbar-Gehege aus ≥ 2 Lebensräumen), `naturpur` (×1,3 N bei ≤ 2 Gastro+Attraktionen), `kl_kueche` (×1,3 B bei ≤ 2 Gastro), `ruhlage` (×1,3 B bei ≤ 2 Attraktionen), `frueh` (×1,5 B/N an `state.day===0`), `spurt` (×1,4 B/N an `state.day===DAYS−1`), `wetterfrosch` (`02:inspHid`/`winterSee`: Winter-Bedingung samt Schildern ab Frühling; gewertet wird weiter nur im Winter), `regie` (s. o.; Freischaltung `s:regie` in `LEGEND91`/`FSG`, sobald `sl.ens` ein Ensemble hat).
+- **Auflagen-Kategorien** (`daten/auflagen.json` → `06:AUFL_DATEN`; `kategorien`, `auflagen` mit `kat`/`stufe`/`kont`; `WRLV` kommt jetzt von dort):
+  - `06:ruleRoll(mapId)`: Kategorien der früheren Zoos (`seenOf(run)` + `SEEN`) meiden, solange möglich; danach wie bisher ungesehene bevorzugen.
+  - Weltreise `06:wrRollOpts0`: nur `aufPasst(id, Kontinent)`; Reihenfolge der Kandidaten: gleiche Stufe + neue Kategorie → erlaubte Stufe + neue Kategorie → gleiche Stufe → erlaubte Stufe → alle; `o.lv` = Stufe der gelosten Auflage.
+  - Neue Limitierungen in `06:ruleWhy`: `show3` (≤ 3 Showtier-Gehege), `raub2` (≤ 2 Raubtier-Gehege), `klein4` (≤ 2 Gehege mit 4 Feldern), `misch` (gleicher Lebensraum darf sich nicht berühren). `etat`: `07:buy` zählt Karten, Futtersack, Futterlieferung und Umbau je Shop-Besuch (`state.shop.etat`, höchstens 3; Geschenke und Spezialisten nicht).
+  - `spflicht` (nur Weltreise, in `kontinente.json` `ziel_auflagen`): `wrGoal` zählt Gehege im Schwerpunkt `state.wrDest.foc`, nötig `max(1, ⌈Gehege/2⌉)`, Prüfung Ende Winter wie die Ziel-Auflagen.
+  - Vorlieben (`vorlieben` in der JSON, Gruppen `06:VORL_WIRKUNG`): `06:vorlOf(b,c)` → Faktoren je Gehege/Gebäude auf B und N, in `evalB` als Prozent-Schritt (Zeile im Detail-Fenster), Schild `06:vorlMarks`.
+  - Anzeige der Kategorie `06:aufKatHtml` (Auflage-Einblendung, Willkommen der Weltreise, Ziel-Karten, Zoo-Menü); Zoo-Buch Regeln nach Kategorien.

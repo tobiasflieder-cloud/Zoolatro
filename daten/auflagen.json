@@ -1,0 +1,386 @@
+{
+ "hinweis": "0.90a: Zoo-Auflagen nach Kategorien. Je Auflage: kat (Kategorie), stufe (Schwierigkeit in der Weltreise), kont (Kontinente in der Weltreise: 'alle', 'ohne_europa' oder Liste). Beim Auslosen kommt keine Kategorie zweimal in einem Lauf, solange eine unbenutzte geht (ruleRoll, wrRollOpts0 in Modul 06). 'vorlieben': Faktoren je Gehege/Gebäude (B und N), Gruppen-Kennungen in VORL_WIRKUNG (Modul 06). 'neu': weitere Auflagen mit Grenzwert n. Wirkungen und Texte im Code (RULES, ruleWhy).",
+ "kategorien": {
+  "platz": {
+   "name": "Platz & Gelände",
+   "icon": "🗺️"
+  },
+  "gebaeude": {
+   "name": "Gebäude",
+   "icon": "🏛️"
+  },
+  "limit": {
+   "name": "Limitierung",
+   "icon": "⛔"
+  },
+  "lebensraum": {
+   "name": "Lebensräume",
+   "icon": "🌍"
+  },
+  "vorliebe": {
+   "name": "Vorlieben",
+   "icon": "⚖️"
+  },
+  "ziel": {
+   "name": "Ziel",
+   "icon": "🎯",
+   "nur_weltreise": true
+  }
+ },
+ "auflagen": {
+  "eingang": {
+   "kat": "platz",
+   "stufe": "mittel",
+   "kont": "alle"
+  },
+  "achse": {
+   "kat": "platz",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "halb": {
+   "kat": "platz",
+   "stufe": "leicht",
+   "kont": "alle"
+  },
+  "baum": {
+   "kat": "platz",
+   "stufe": "schwer",
+   "kont": [
+    "suedamerika",
+    "asien"
+   ]
+  },
+  "gastro": {
+   "kat": "gebaeude",
+   "stufe": "leicht",
+   "kont": "alle"
+  },
+  "wege": {
+   "kat": "gebaeude",
+   "stufe": "leicht",
+   "kont": "alle"
+  },
+  "viertel": {
+   "kat": "gebaeude",
+   "stufe": "leicht",
+   "kont": [
+    "nordamerika",
+    "australien"
+   ]
+  },
+  "anschl": {
+   "kat": "gebaeude",
+   "stufe": "mittel",
+   "kont": "alle"
+  },
+  "schutzn": {
+   "kat": "gebaeude",
+   "stufe": "leicht",
+   "kont": [
+    "afrika",
+    "suedamerika"
+   ]
+  },
+  "locker": {
+   "kat": "limit",
+   "stufe": "mittel",
+   "kont": [
+    "australien",
+    "nordamerika"
+   ]
+  },
+  "gross2": {
+   "kat": "limit",
+   "stufe": "mittel",
+   "kont": [
+    "polar"
+   ]
+  },
+  "einzel": {
+   "kat": "limit",
+   "stufe": "leicht",
+   "kont": "alle"
+  },
+  "show3": {
+   "kat": "limit",
+   "stufe": "mittel",
+   "kont": [
+    "suedamerika",
+    "asien"
+   ]
+  },
+  "raub2": {
+   "kat": "limit",
+   "stufe": "mittel",
+   "kont": [
+    "afrika"
+   ]
+  },
+  "etat": {
+   "kat": "limit",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "klein4": {
+   "kat": "limit",
+   "stufe": "leicht",
+   "kont": [
+    "asien"
+   ]
+  },
+  "raub": {
+   "kat": "lebensraum",
+   "stufe": "mittel",
+   "kont": [
+    "afrika",
+    "nordamerika"
+   ]
+  },
+  "max3": {
+   "kat": "lebensraum",
+   "stufe": "schwer",
+   "kont": "alle"
+  },
+  "insel": {
+   "kat": "lebensraum",
+   "stufe": "schwer",
+   "kont": [
+    "australien",
+    "suedamerika"
+   ]
+  },
+  "grundl": {
+   "kat": "lebensraum",
+   "stufe": "schwer",
+   "kont": "alle"
+  },
+  "misch": {
+   "kat": "lebensraum",
+   "stufe": "schwer",
+   "kont": [
+    "suedamerika",
+    "asien"
+   ]
+  },
+  "spflicht": {
+   "kat": "lebensraum",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "v_still": {
+   "kat": "vorliebe",
+   "stufe": "leicht",
+   "kont": [
+    "asien",
+    "polar"
+   ]
+  },
+  "v_show": {
+   "kat": "vorliebe",
+   "stufe": "leicht",
+   "kont": [
+    "nordamerika"
+   ]
+  },
+  "v_natur": {
+   "kat": "vorliebe",
+   "stufe": "leicht",
+   "kont": "alle"
+  },
+  "v_fein": {
+   "kat": "vorliebe",
+   "stufe": "leicht",
+   "kont": "ohne_europa"
+  },
+  "v_nerv": {
+   "kat": "vorliebe",
+   "stufe": "leicht",
+   "kont": [
+    "nordamerika",
+    "australien"
+   ]
+  },
+  "v_gross": {
+   "kat": "vorliebe",
+   "stufe": "mittel",
+   "kont": [
+    "afrika"
+   ]
+  },
+  "v_arten": {
+   "kat": "vorliebe",
+   "stufe": "leicht",
+   "kont": [
+    "asien",
+    "suedamerika"
+   ]
+  },
+  "z_ausbau": {
+   "kat": "ziel",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "z_vielfalt": {
+   "kat": "ziel",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "z_schlemmer": {
+   "kat": "ziel",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "z_rummel": {
+   "kat": "ziel",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "z_arten": {
+   "kat": "ziel",
+   "stufe": "mittel",
+   "kont": "ohne_europa"
+  },
+  "z_vorzeige": {
+   "kat": "ziel",
+   "stufe": "schwer",
+   "kont": "ohne_europa"
+  },
+  "z_nachwuchs": {
+   "kat": "ziel",
+   "stufe": "schwer",
+   "kont": "ohne_europa"
+  },
+  "auswild": {
+   "kat": "ziel",
+   "stufe": "schwer",
+   "kont": "ohne_europa"
+  }
+ },
+ "vorlieben": {
+  "v_still": {
+   "icon": "🤫",
+   "name": "Stille Wildnis",
+   "regeln": [
+    [
+     "scheu",
+     1.5
+    ],
+    [
+     "show",
+     0.5
+    ]
+   ]
+  },
+  "v_show": {
+   "icon": "🎭",
+   "name": "Showtime",
+   "regeln": [
+    [
+     "show",
+     1.5
+    ],
+    [
+     "scheu",
+     0.5
+    ]
+   ]
+  },
+  "v_natur": {
+   "icon": "🌱",
+   "name": "Naturnah",
+   "regeln": [
+    [
+     "natur",
+     1.25
+    ],
+    [
+     "ohne_natur",
+     0.8
+    ]
+   ]
+  },
+  "v_fein": {
+   "icon": "🍿",
+   "name": "Feinschmecker",
+   "regeln": [
+    [
+     "gastro",
+     1.5
+    ],
+    [
+     "attr",
+     0.5
+    ]
+   ]
+  },
+  "v_nerv": {
+   "icon": "🎢",
+   "name": "Nervenkitzel",
+   "regeln": [
+    [
+     "attr",
+     1.5
+    ],
+    [
+     "gastro",
+     0.5
+    ]
+   ]
+  },
+  "v_gross": {
+   "icon": "🦒",
+   "name": "Großwild-Fans",
+   "regeln": [
+    [
+     "ab3",
+     1.5
+    ],
+    [
+     "feld1",
+     0.5
+    ]
+   ]
+  },
+  "v_arten": {
+   "icon": "🔴",
+   "name": "Artenschützer",
+   "regeln": [
+    [
+     "bedroht",
+     1.5
+    ],
+    [
+     "raubtier",
+     0.5
+    ]
+   ]
+  }
+ },
+ "neu": {
+  "show3": {
+   "icon": "🎪",
+   "name": "Höchstens 3 Showtiere",
+   "n": 3
+  },
+  "raub2": {
+   "icon": "🦁",
+   "name": "Höchstens 2 Raubtiere",
+   "n": 2
+  },
+  "etat": {
+   "icon": "🧺",
+   "name": "Kleiner Etat",
+   "n": 3
+  },
+  "klein4": {
+   "icon": "🐘",
+   "name": "Kleine Gehege",
+   "n": 2
+  },
+  "misch": {
+   "icon": "🔀",
+   "name": "Durchmischt"
+  }
+ }
+}

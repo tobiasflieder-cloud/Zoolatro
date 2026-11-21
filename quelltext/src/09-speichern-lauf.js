@@ -169,7 +169,7 @@ function verstUnlock(sl,run){run.vNow=[];run.newNow=[];fsMig(sl);return;sl.vu=sl
 // Alte Spielstände behalten alles, was schon offen war (Karten, Lebensräume, Spezialisten); Decks und Verstärker schalten auch dort über die neuen Ziele frei.
 // Jedes Ziel wird am Ende jeder Jahreszeit, jedes Zoos und jedes Laufs geprüft und schaltet sofort frei (keine Grenze je Zoo).
 const LOCK91=['kraken','krokodile','nilpferde','antilopen','bueffel','nashoerner','gorillas','koalas','tiger','dingos','kaengurus','addax','belugas','eisbaeren','rentiere','braunbaeren','rotepandas','schneeleoparden','aquarium','nachtfuehrung','seilbahn','biergarten','kuerbisfest','pizzeria','bistro','weihnachtsmarkt','vielfalt','bergwacht','polarstation','schmetterling','tropenhaus','stiftung','zucht'];
-const LEGEND91=['zwilling','polier','spekulant','direktor','z_rekord','glueckspilz','doppel'];
+const LEGEND91=['zwilling','polier','spekulant','direktor','z_rekord','glueckspilz','doppel','regie']; // 0.90a: Ensemble-Regisseur nach dem 1. Ensemble
 const isNew91=sl=>!!(sl&&sl.v91);
 const fsOf=sl=>{sl.fs=sl.fs||{};sl.fsb=sl.fsb||{};return sl.fs};
 const fsSl=()=>{try{const sl=activeSlot();if(!sl||(sl.run&&(sl.run.seed||sl.run.tut)))return null;return sl}catch(e){return null}};
@@ -243,7 +243,8 @@ const FSG=[
  {id:'c:schmetterling',v:fsNat},
  {id:'c:tropenhaus',grp:'zoo',ev:'zoo',v:x=>x.z+1},
  {id:'c:stiftung',grp:'geld',ev:'zoo',v:()=>Math.max(0,state.money)},
- {id:'c:zucht',v:()=>+fsPair()}];
+ {id:'c:zucht',v:()=>+fsPair()},
+ {id:'s:regie',ev:'any',v:x=>Object.keys(x.sl.ens||{}).length}];
 FSG.forEach(g=>{g.un=g.un||[g.id]});
 // 0.79a: Texte/Zahlen aus daten/freischaltungen.json; Fleiß-Ziele (über alle Läufe) ersetzen das Kunststück und werden bei jeder Zähler-Änderung geprüft (ev 'any')
 const FREI_DATEN=/*@@DATEN:freischaltungen@@*/null,FLZ=FREI_DATEN.zaehler,FLG=Object.fromEntries(FREI_DATEN.fleiss.map(e=>[e.id,e]));
@@ -440,8 +441,19 @@ function popNext(){if(POPBUSY||!POPQ.length)return;if(popBlocked()){if(!popNext.
   document.body.appendChild(w);try{Sfx.combo()}catch(e){}w.querySelector('button').onclick=()=>{try{Sfx.select()}catch(e){}w.remove();POPBUSY=false;setTimeout(popNext,250)}}
 // Entdeckungen beim Bauen: Freundschaft (fürs Zoo-Buch)
 function discover92(){if(!luckOn())return;const sl=activeSlot(),bs=state.buildings,idx=mkIndex(bs);sl.friends=sl.friends||{};
+  try{ensDiscover(sl,bs,idx)}catch(e){console.warn(e)}
   for(const b of bs){if(!isCat(b,'gehege'))continue;for(const n of nbrs(b,idx)){const i=friendOf(b.key,n.key);if(i<0)continue;const id=FRIENDS[i].join('+');if(!state.friendSeen)state.friendSeen={};if(state.friendSeen[id])continue;state.friendSeen[id]=1;const neu=!sl.friends[id];sl.friends[id]=1;state.bannerQ=(state.bannerQ||[]).concat([['🤝 Freundschaft'+(neu?' entdeckt!':'!'),`${CARDS[FRIENDS[i][0]].icon} ${CARDS[FRIENDS[i][0]].name} und ${CARDS[FRIENDS[i][1]].icon} ${CARDS[FRIENDS[i][1]].name} vertragen sich: beide ×1,25${neu?' · steht jetzt im 📖 Zoo-Buch':''}`]])}}
   }
+// 0.90a: Ensembles entdecken: erstes Mal im Spielstand (sl.ens) = große Einblendung, sonst Banner (einmal je Zoo, state.ensSeen)
+function ensDiscover(sl,bs,idx){if(!ensOn())return;sl.ens=sl.ens||{};state.ensSeen=state.ensSeen||{};let neu=0;
+  for(const g of ensFind(bs,idx).groups){if(state.ensSeen[g.key])continue;state.ensSeen[g.key]=1;const E=ENS[g.key];
+    if(!sl.ens[g.key]){sl.ens[g.key]=1;neu=1;state.ensNew=(state.ensNew||[]).concat([g.key])}
+    else state.bannerQ=(state.bannerQ||[]).concat([[`${E.icon} Ensemble ${E.name}!`,`${ensFxTxt(E,1).join(' · ')}`]])}
+  if(neu){try{fsCheck('fl')}catch(e){}try{saveSoon()}catch(e){}}}
+function ensPopHtml(k){const E=ENS[k];if(!E)return'';return`<div class="enspop"><p class="wph" style="margin:0;font-size:12px;letter-spacing:.06em;text-transform:uppercase">✨ Neu entdeckt · Ensemble</p><div class="big">${E.icon}</div><h3>${E.name}</h3><p class="wpr">${E.text}</p><p class="wpw">${ensFxTxt(E,1).join(' · ')}</p><p class="wph" style="font-size:12.5px">Steht jetzt im 📖 Zoo-Buch.</p><button class="btn main" data-bpok>Super!</button></div>`}
+function ensBuchHtml(sl){const F=(sl&&sl.ens)||{},n=ENSORD.filter(k=>F[k]).length;
+  return`<h3 class="sh lexh">✨ Ensembles · ${n} von ${ENSORD.length}</h3><div class="dprog frbar"><i style="width:${Math.round(n/ENSORD.length*100)}%"></i></div><p style="margin:0;color:var(--muted);font-size:12.5px">Drei passende Karten, die zusammenhängen, bilden ein Ensemble. Jedes Mitglied bekommt den Bonus, auch bei größeren Gruppen nur einmal.</p>
+    <div class="ensgrid">${ENSORD.map(k=>{const E=ENS[k];return F[k]?`<div class="ensb"><div class="hd"><span class="eic">${E.icon}</span><div><b>${E.name}</b><div class="how">${E.how}</div></div></div><div class="efx">${ensFxTxt(E).map(t=>`<span class="chip${/🪙/.test(t)?' g':/ N$/.test(t)?' n':''}">${t}</span>`).join('')}</div></div>`:'<div class="ensb lock"><div class="hd"><span class="eic">❔</span><div><b>???</b><div class="how">Noch nicht entdeckt</div></div></div></div>'}).join('')}</div>`}
 // Heute-Zeile im Infokasten
 function todayHtml(){if(!state||!state.zl)return'';const L=[],B=id=>{const b=state.buildings.find(x=>x.id===id);return b?CARDS[b.key].icon+' '+CARDS[b.key].name:''};
   if(state.fav!=null&&B(state.fav))L.push(`❤️ <b>${B(state.fav)}</b> ×2`);

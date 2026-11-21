@@ -1605,9 +1605,9 @@
  ]
 },
 "erwartet":{
- "A": 353,
- "S": 298,
- "total": 105194,
+ "A": 377,
+ "S": 303,
+ "total": 114231,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1631,7 +1631,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 40,
+   "a": 48,
    "s": 40,
    "parts": [
     [
@@ -1645,23 +1645,23 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "★ Goldenes Feld: zählt doppelt",
-     5,
+     6,
      5
     ],
     [
      "★ Goldenes Feld: zählt doppelt",
-     10,
+     12,
      10
     ],
     [
      "🧊 Nordlage ×2",
-     20,
+     24,
      20
     ]
    ]
@@ -1812,7 +1812,7 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],
@@ -1859,7 +1859,7 @@
   },
   {
    "id": 10,
-   "a": 9,
+   "a": 11,
    "s": 9,
    "parts": [
     [
@@ -1873,13 +1873,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     4,
+     5,
      4
     ]
    ]
@@ -1938,7 +1938,7 @@
   },
   {
    "id": 15,
-   "a": 21,
+   "a": 26,
    "s": 5,
    "parts": [
     [
@@ -1952,18 +1952,18 @@
      1
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     4,
+     "🎭 Showtier: ×1,7",
+     6,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     9,
+     11,
      2
     ]
    ]
@@ -2011,8 +2011,8 @@
   },
   {
    "id": 20,
-   "a": 20,
-   "s": 14,
+   "a": 23,
+   "s": 17,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2030,24 +2030,24 @@
      3
     ],
     [
-     "🎭 Showtier: ×1,7",
-     6,
-     4
+     "🎭 Showtier: ×2,05",
+     8,
+     6
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     7,
-     5
+     8,
+     6
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     5,
-     4
+     6,
+     5
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -6,
-     -5
+     -7,
+     -6
     ]
    ]
   },
@@ -2090,8 +2090,8 @@
   },
   {
    "id": 22,
-   "a": 7,
-   "s": 7,
+   "a": 9,
+   "s": 9,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2109,19 +2109,24 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     4,
-     4
+     5,
+     5
     ],
     [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
-     -4,
-     -4
+     -5,
+     -5
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     3,
-     3
+     4,
+     4
     ]
    ]
   },
@@ -2202,9 +2207,14 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
-     -1,
-     -1
+     -2,
+     -2
     ]
    ]
   },
@@ -2254,12 +2264,17 @@
   },
   {
    "id": 29,
-   "a": 2,
+   "a": 3,
    "s": 1,
    "parts": [
     [
      "Arktis-Nachbarn",
      2,
+     0
+    ],
+    [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
      0
     ],
     [

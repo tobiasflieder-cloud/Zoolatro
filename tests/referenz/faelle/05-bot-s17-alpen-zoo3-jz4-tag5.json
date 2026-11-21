@@ -1727,9 +1727,9 @@
  ]
 },
 "erwartet":{
- "A": 412,
- "S": 205,
- "total": 84460,
+ "A": 631,
+ "S": 281,
+ "total": 177311,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1817,8 +1817,8 @@
   },
   {
    "id": 3,
-   "a": 11,
-   "s": 5,
+   "a": 16,
+   "s": 6,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1836,21 +1836,26 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     4,
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     2,
+     1
+    ],
+    [
      "🌾 Herde aus 3 ×1,15",
-     1,
+     2,
      1
     ]
    ]
   },
   {
    "id": 4,
-   "a": 9,
-   "s": 3,
+   "a": 13,
+   "s": 5,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1868,14 +1873,19 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     2,
+     1
+    ],
+    [
      "🌾 Herde aus 3 ×1,15",
-     1,
-     0
+     2,
+     1
     ]
    ]
   },
@@ -1932,8 +1942,8 @@
   },
   {
    "id": 8,
-   "a": 24,
-   "s": 20,
+   "a": 48,
+   "s": 38,
    "parts": [
     [
      "Wüste-Naturfläche",
@@ -1951,19 +1961,19 @@
      0
     ],
     [
-     "🔦 Scheinwerfer: ×1,5",
-     2,
-     2
-    ],
-    [
-     "🎭 Showtier: ×1,95",
+     "🎬 Stella Starr: ×2,5",
      6,
      5
     ],
     [
+     "🎭 Showtier: ×2,4",
+     14,
+     11
+    ],
+    [
      "🏜️ Einzelgänger: allein ×2",
-     12,
-     10
+     24,
+     19
     ]
    ]
   },
@@ -2036,18 +2046,23 @@
   {
    "id": 13,
    "a": 0,
-   "s": 16,
+   "s": 19,
    "parts": [
     [
      "Kartenbonus",
      0,
      15
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     3
     ]
    ]
   },
   {
    "id": 14,
-   "a": 5,
+   "a": 7,
    "s": 2,
    "parts": [
     [
@@ -2066,13 +2081,18 @@
      0
     ],
     [
-     "🪧 Besucherlotse ×1,25",
+     "🤳 Mia Megaviral ×1,5",
+     2,
+     0
+    ],
+    [
+     "🐇 Ensemble Sicherer Hain ×1,2",
      1,
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
-     1,
+     "🎭 Showtier: ×1,35",
+     2,
      1
     ],
     [
@@ -2082,15 +2102,15 @@
     ],
     [
      "2. Warzenschweine: zählt ×0,75 des eigenen Werts",
-     -1,
+     -2,
      -1
     ]
    ]
   },
   {
    "id": 15,
-   "a": 122,
-   "s": 54,
+   "a": 248,
+   "s": 108,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2113,34 +2133,39 @@
      1
     ],
     [
-     "🔦 Scheinwerfer: ×1,5",
-     5,
-     2
-    ],
-    [
-     "🎭 Showtier: ×1,95",
-     13,
+     "🎬 Stella Starr: ×2,5",
+     14,
      6
     ],
     [
+     "🎭 Showtier: ×2,4",
+     32,
+     14
+    ],
+    [
      "⛰️ Rand/Felsen (3) ×2",
-     27,
-     12
+     55,
+     24
     ],
     [
      "Ausbau Stufe III: ×2,25 des eigenen Werts",
-     68,
-     30
+     138,
+     60
     ]
    ]
   },
   {
    "id": 16,
-   "a": 3,
+   "a": 4,
    "s": 0,
    "parts": [
     [
      "Kartenbonus",
+     1,
+     0
+    ],
+    [
+     "🍔 Ensemble Food Corner ×1,25",
      1,
      0
     ]
@@ -2148,12 +2173,12 @@
   },
   {
    "id": 17,
-   "a": 4,
+   "a": 5,
    "s": 0,
    "parts": [
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ]
    ]
@@ -2192,20 +2217,30 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "❄️ Wegekontrolle: zählt nicht",
-     -5,
-     -4
+     -6,
+     -5
     ]
    ]
   },
   {
    "id": 23,
-   "a": 4,
+   "a": 5,
    "s": 0,
    "parts": [
     [
      "Kartenbonus",
      2,
+     0
+    ],
+    [
+     "🍔 Ensemble Food Corner ×1,25",
+     1,
      0
     ],
     [
@@ -2375,8 +2410,8 @@
   },
   {
    "id": 31,
-   "a": 42,
-   "s": 25,
+   "a": 46,
+   "s": 26,
    "parts": [
     [
      "⛰️ Der Gipfelstürmer: Felsen",
@@ -2389,13 +2424,18 @@
      1
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     1,
+     1
+    ],
+    [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
     [
      "⛰️ Rand/Felsen (1) ×1,5",
-     3,
+     4,
      2
     ],
     [
@@ -2410,7 +2450,7 @@
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     18,
+     20,
      11
     ]
    ]
@@ -2419,7 +2459,18 @@
    "id": 32,
    "a": 2,
    "s": 0,
-   "parts": []
+   "parts": [
+    [
+     "🍔 Ensemble Food Corner ×1,25",
+     1,
+     0
+    ],
+    [
+     "2. Berghütte: zählt ×0,75 des eigenen Werts",
+     -1,
+     0
+    ]
+   ]
   },
   {
    "id": 33,

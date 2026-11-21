@@ -1152,9 +1152,9 @@
  ]
 },
 "erwartet":{
- "A": 212,
+ "A": 220,
  "S": 117,
- "total": 24804,
+ "total": 25740,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1218,7 +1218,7 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      2,
      1
     ],
@@ -1323,7 +1323,7 @@
    "s": 2,
    "parts": [
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],
@@ -1362,7 +1362,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
+     "🎭 Showtier: ×1,35",
      1,
      1
     ],
@@ -1444,7 +1444,7 @@
   },
   {
    "id": 15,
-   "a": 30,
+   "a": 36,
    "s": 6,
    "parts": [
     [
@@ -1453,23 +1453,23 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,25",
-     1,
+     "🎭 Showtier: ×1,35",
+     2,
      0
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     6,
+     7,
      1
     ],
     [
      "🤝 Freundschaft mit Papageien-Voliere ×1,25",
-     3,
+     4,
      1
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     15,
+     18,
      3
     ]
    ]

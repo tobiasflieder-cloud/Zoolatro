@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 192,
- "S": 249,
- "total": 47808,
+ "A": 197,
+ "S": 210,
+ "total": 41370,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1736,7 +1736,7 @@
  "buildings": [
   {
    "id": 1,
-   "a": 20,
+   "a": 24,
    "s": 20,
    "parts": [
     [
@@ -1750,18 +1750,18 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     1,
+     "🤳 Mia Megaviral ×1,5",
+     2,
      0
     ],
     [
      "❄️ Schneekönig: zählt doppelt",
-     5,
+     6,
      5
     ],
     [
      "🧊 Nordlage ×2",
-     10,
+     12,
      10
     ]
    ]
@@ -1790,8 +1790,8 @@
   },
   {
    "id": 3,
-   "a": 5,
-   "s": 45,
+   "a": 0,
+   "s": 0,
    "parts": [
     [
      "Kartenbonus",
@@ -1809,14 +1809,9 @@
      3
     ],
     [
-     "❄️ Schneekönig: zählt doppelt",
-     1,
-     10
-    ],
-    [
-     "Ausbau Stufe III: ×2,25 des eigenen Werts",
-     3,
-     25
+     "❄️ Schneekönig: zählt nicht",
+     -1,
+     -10
     ]
    ]
   },
@@ -1893,7 +1888,7 @@
   },
   {
    "id": 7,
-   "a": 40,
+   "a": 44,
    "s": 20,
    "parts": [
     [
@@ -1907,18 +1902,18 @@
      2
     ],
     [
-     "🎭 Showtier: ×1,25",
-     2,
+     "🎭 Showtier: ×1,35",
+     3,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     10,
+     11,
      5
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     20,
+     22,
      10
     ]
    ]
@@ -1978,13 +1973,13 @@
      2
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
      "❄️ Schneekönig: zählt nicht",
-     -8,
+     -9,
      -7
     ]
    ]
@@ -2047,12 +2042,17 @@
   {
    "id": 14,
    "a": 2,
-   "s": 4,
+   "s": 5,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
@@ -2072,13 +2072,13 @@
      1
     ],
     [
-     "🪧 Besucherlotse ×1,25",
-     2,
+     "🤳 Mia Megaviral ×1,5",
+     3,
      0
     ],
     [
      "❄️ Schneekönig: zählt nicht",
-     -8,
+     -9,
      -2
     ]
    ]
@@ -2174,8 +2174,8 @@
   },
   {
    "id": 21,
-   "a": 5,
-   "s": 4,
+   "a": 6,
+   "s": 5,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2188,18 +2188,23 @@
      1
     ],
     [
+     "🧗 Sven Frost ×1,2",
+     1,
+     1
+    ],
+    [
      "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     2,
+     3,
      2
     ],
     [
      "2. Schwanensee: zählt ×0,75 des eigenen Werts",
-     -1,
+     -2,
      -1
     ]
    ]
@@ -2225,14 +2230,19 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "★ Goldenes Feld: zählt doppelt",
-     4,
-     4
+     5,
+     5
     ],
     [
      "❄️ Schneekönig: zählt nicht",
-     -8,
-     -8
+     -10,
+     -10
     ]
    ]
   },
@@ -2242,8 +2252,13 @@
    "s": 0,
    "parts": [
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
+    [
      "❄️ Schneekönig: zählt nicht",
-     -4,
+     -5,
      0
     ]
    ]
@@ -2251,12 +2266,17 @@
   {
    "id": 24,
    "a": 1,
-   "s": 3,
+   "s": 4,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     1
     ]
    ]
   },
@@ -2323,9 +2343,14 @@
      1
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "❄️ Schneekönig: zählt nicht",
-     -3,
-     -3
+     -4,
+     -4
     ]
    ]
   },
@@ -2335,8 +2360,13 @@
    "s": 0,
    "parts": [
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     1,
+     0
+    ],
+    [
      "❄️ Schneekönig: zählt nicht",
-     -4,
+     -5,
      -2
     ]
    ]
@@ -2384,8 +2414,13 @@
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     0
+    ],
+    [
      "❄️ Schneekönig: zählt nicht",
-     -4,
+     -5,
      -2
     ]
    ]
@@ -2471,7 +2506,7 @@
   {
    "id": 34,
    "a": 2,
-   "s": 22,
+   "s": 26,
    "parts": [
     [
      "Kartenbonus",
@@ -2482,6 +2517,11 @@
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🧗 Sven Frost ×1,2",
+     0,
+     4
     ]
    ]
   },
@@ -2535,8 +2575,13 @@
    "s": 0,
    "parts": [
     [
+     "🎠 Ensemble Vergnügungsmeile ×1,25",
+     2,
+     0
+    ],
+    [
      "❄️ Schneekönig: zählt nicht",
-     -6,
+     -8,
      0
     ]
    ]

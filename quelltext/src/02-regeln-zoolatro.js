@@ -45,7 +45,7 @@ let TOPS=null;const topSet=(bs,kind)=>{if(TOPS&&TOPS.bs===bs&&TOPS.n===bs.length
 const habTop=bs=>{const n={};for(const b of bs){const c=CARDS[b.key];if(c&&c.cat==='gehege'&&c.hab)n[c.hab]=(n[c.hab]||0)+1}const m=Math.max(0,...Object.values(n));return m?Object.keys(n).filter(h=>n[h]===m):[]};
 // Winter-Bedingung erst ab Herbst sichtbar (Frühling/Sommer verborgen, nicht im Tutorial)
 // 0.81a: Winter-Bedingung je Gebäude ab dem Herbst sichtbar: Faktor (fa/fs) oder null
-function winterHit(b,bs,idx){try{const Z=state&&state.zl;if(!Z||!Z.insp||!INSP[Z.insp]||Z.insp==='frei'||state.mode!=='camp'||(state.season||0)<2||inspHid())return null;
+function winterHit(b,bs,idx){try{const Z=state&&state.zl;if(!Z||!Z.insp||!INSP[Z.insp]||Z.insp==='frei'||state.mode!=='camp'||!winterSee()||inspHid())return null;
   const c=K(b),nb=nbrs(b,idx||mkIndex(bs));if(nb.some(n=>n.key==='winterquartier'))return null;if(CTX.dk==='polar'&&c.cat==='gehege'&&c.hab==='arktis')return null;
   const e=inspFx(b,c,nb,bs,Z);if(!e)return null;const fa=e.f!=null?e.f:e.fa!=null?e.fa:1,fs=e.f!=null?e.f:e.fs!=null?e.fs:1;if(fa===1&&fs===1)return null;
   return{fa,fs,t:fa===fs?'×'+mxs(fa):[fa!==1?'B ×'+mxs(fa):'',fs!==1?'N ×'+mxs(fs):''].filter(Boolean).join(' '),neg:Math.min(fa,fs)<1}}catch(e){return null}}
@@ -54,7 +54,8 @@ function winterHitTxt(){try{const bs=state.buildings,idx=mkIndex(bs),G={};for(co
   const L=Object.values(G).map(({h,L})=>{const n=L.length,w=L.every(b=>isCat(b,'gehege'))?'Gehege':'Gebäude',v=n===1?'zählt':'zählen',f=h.fa===h.fs?h.fa:null;
     return`${n} deiner ${w} ${v} ${f===0?'gar nicht':f!=null&&f<1?'nur '+h.t:h.t}`});
   return L.length?`<p class="winhit">❄️ ${INSP[state.zl.insp].name}: ${L.join(' · ')}.</p>`:`<p class="winhit ok">❄️ ${INSP[state.zl.insp].name}: Stand jetzt trifft es keins deiner Gebäude.</p>`}catch(e){return''}}
-const inspHid=()=>{try{if(!state||!state.zl||state.mode!=='camp'||state.season>=2)return false;return true}catch(e){return false}};
+const inspHid=()=>{try{if(!state||!state.zl||state.mode!=='camp'||state.season>=2||hasSpec('wetterfrosch'))return false;return true}catch(e){return false}}; // 0.90a: Wetterfrosch zeigt sie ab dem Frühling
+const winterSee=()=>!!(state&&((state.season||0)>=2||hasSpec('wetterfrosch')));
 const inspText=Z=>{const I=INSP[Z.insp],t=HARD(Z)?I.ht:I.text;return(typeof t==='function'?t(Z):t)+(HARD(Z)?' <b class="hardtag">verschärft ab Zoo 3</b>':'')+(Z&&Z.wplus?' <b class="hardtag">Winterziel ×1,1</b>':'')},inspIcon=Z=>INSP[Z.insp].icon||'❄️';
 // Schneekönig: je Sorte das Gehege/Gebäude mit dem höchsten eigenen Wert (B + N, ohne Winter-Bedingung)
 let KING=null;

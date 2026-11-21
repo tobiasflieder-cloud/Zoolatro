@@ -320,6 +320,10 @@
   "c:zucht": {
    "how": "Zwei gleiche Gehege nebeneinander, eines auf Stufe II",
    "n": 1
+  },
+  "s:regie": {
+   "how": "Ein Ensemble entdecken",
+   "n": 1
   }
  }
 }

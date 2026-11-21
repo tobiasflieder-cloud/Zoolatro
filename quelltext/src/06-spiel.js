@@ -60,8 +60,9 @@ let SEEN={r:new Set(),i:new Set()};
 function seenOf(run,z){const o={r:new Set(),i:new Set()};for(const k in run&&run.offered||{}){if(+k>=z)continue;const e=run.offered[k];if(e.r)o.r.add(e.r);for(const i of e.i||[])o.i.add(i)}return o}
 // 0.89a: verbotene Paare (Gelände, Auflage) aus daten/gelaende.json
 const VPAARE=GELAENDE_DATEN.verbotene_paare||[],paarVerboten=(m,r)=>!!m&&!!r&&VPAARE.some(([a,b])=>a===m&&b===r);
-function ruleRoll(mapId){const d4=(()=>{try{return isD4(runOf())}catch(e){return false}})(),all=Object.keys(RULES).filter(k=>!RULES[k].gone&&!RULES[k].wr&&!(d4&&k==='locker')&&!paarVerboten(mapId,k)), // 0.82a: keine „Lockere Bebauung“ im Testlauf
- f=all.filter(k=>!SEEN.r.has(k)),pool=f.length?f:all;return pool[Math.floor(Math.random()*pool.length)]}
+function ruleRoll(mapId){const run=(()=>{try{return runOf()}catch(e){return null}})(),d4=isD4(run),all=Object.keys(RULES).filter(k=>!RULES[k].gone&&!RULES[k].wr&&!(d4&&k==='locker')&&!paarVerboten(mapId,k)), // 0.82a: keine „Lockere Bebauung“ im Testlauf
+ seen=new Set([...SEEN.r,...(run?seenOf(run,run.zoo||0).r:[])]),uk=new Set([...seen].map(aufK).filter(Boolean)),c=all.filter(k=>!uk.has(aufK(k))),p0=c.length?c:all, // 0.90a: keine Kategorie zweimal pro Lauf, solange eine unbenutzte geht
+ f=p0.filter(k=>!seen.has(k)),pool=f.length?f:p0;return pool[Math.floor(Math.random()*pool.length)]}
 function noteOffered(run){try{if(!run||!state||!state.zl)return;(run.offered=run.offered||{})[state.zoo||0]={r:state.rule&&state.rule.id||null,i:(state.zl.inspOpts||[state.zl.insp]).filter(Boolean)}}catch(e){}}
 function rollPlan0(run){SEEN=seenOf(run,run.zoo);try{return rollPlan1(run)}finally{SEEN={r:new Set(),i:new Set()}}}
 function rollPlan1(run){mapRoll(run);GENHABS=run.habs||null;const cf=cfOf(run),m=(()=>{const r=genMap(cf.map,Math.random,cf.rocks);GENHABS=null;return r})(),keep=state,kb=keep?BOARD.map(c=>c.slice()):null,kt=TERR;setBoard(m.cells);TERR=m.terr;
@@ -157,9 +158,28 @@ Object.assign(RULES,{
   anschl:{icon:'🔌',name:'Anschluss',text:()=>'Attraktionen dürfen nur neben ein schon gebautes Gebäude (Attraktion, Gastro oder Naturschutz) gebaut werden.'},
   schutzn:{icon:'🌳',name:'Artenschutz am Naturfeld',text:()=>'Jedes Naturschutz-Gebäude muss an eine Naturfläche (💧🌾🌿🏜️) grenzen.'},
   locker:{icon:'🏚️',name:'Lockere Bebauung',text:()=>'Ein neues Gehege/Gebäude darf an höchstens 3 andere grenzen.'}});
+// ===== 0.90a: Auflagen-Kategorien (daten/auflagen.json): Kategorie, Schwierigkeit (Weltreise), Kontinente; neue Limitierungen, Durchmischt, Vorlieben =====
+const AUFL_DATEN=/*@@DATEN:auflagen@@*/null,AUFK=AUFL_DATEN.kategorien,AUFA=AUFL_DATEN.auflagen,AUFN=AUFL_DATEN.neu,VORL=AUFL_DATEN.vorlieben;
+const aufK=id=>(AUFA[id]||{}).kat||null,aufPasst=(id,k)=>{const A=AUFA[id];if(!A)return false;const ko=A.kont;return ko==='alle'||(ko==='ohne_europa'?k!=='europa':Array.isArray(ko)&&ko.includes(WRALT[k]||k))};
+const aufKatHtml=id=>{const K=AUFK[aufK(id)];return K?`<span class="auflk">${K.icon} ${K.name}</span>`:''};
+const VORLN={scheu:'scheue Tiere',show:'Showtiere',natur:'Gehege auf passender Naturfläche',ohne_natur:'Gehege ganz ohne passende Naturfläche',gastro:'Gastro-Gebäude',attr:'Attraktionen',ab3:'Gehege ab 3 Feldern',feld1:'Gehege mit 1 Feld',bedroht:'bedrohte Tiere',raubtier:'Raubtiere'};
+const VORL_WIRKUNG={scheu:(b,c)=>c.cat==='gehege'&&c.tags.includes('scheu'),show:(b,c)=>c.cat==='gehege'&&c.tags.includes('show'),natur:(b,c)=>c.cat==='gehege'&&!!c.hab&&natCells(b.cells,c.hab)>0,ohne_natur:(b,c)=>c.cat==='gehege'&&!!c.hab&&!natCells(b.cells,c.hab),
+  gastro:(b,c)=>c.cat==='essen',attr:(b,c)=>c.cat==='attr',ab3:(b,c)=>c.cat==='gehege'&&b.cells.length>=3,feld1:(b,c)=>c.cat==='gehege'&&b.cells.length===1,bedroht:(b,c)=>c.cat==='gehege'&&c.tags.includes('bedroht'),raubtier:(b,c)=>c.cat==='gehege'&&c.tags.includes('raubtier')};
+const vorlRule=()=>{const R=typeof state!=='undefined'&&state&&state.rule;return CTX.zl&&R&&VORL[R.id]?R.id:null};
+// Faktoren einer Vorlieben-Auflage für ein Gehege/Gebäude (B und N): [[Name, fa, fs, 1], …]
+function vorlOf(b,c){const id=vorlRule();if(!id||!c)return[];const V=VORL[id];return V.regeln.filter(([g])=>VORL_WIRKUNG[g](b,c)).map(([g,f])=>[`${V.icon} ${V.name}: ${VORLN[g]}`,f,f,1])}
+for(const id in VORL){const V=VORL[id];RULES[id]={icon:V.icon,name:V.name,vorl:1,text:()=>`Vorliebe der Besucher: ${V.regeln.map(([g,f])=>`${VORLN[g]} zählen ×${mxs(f)}`).join(', ')} (Besucher und Natur).`}}
+Object.assign(RULES,{
+  show3:{icon:AUFN.show3.icon,name:AUFN.show3.name,text:()=>`Höchstens ${AUFN.show3.n} Showtier-Gehege im Zoo.`},
+  raub2:{icon:AUFN.raub2.icon,name:AUFN.raub2.name,text:()=>`Höchstens ${AUFN.raub2.n} Raubtier-Gehege im Zoo.`},
+  etat:{icon:AUFN.etat.icon,name:AUFN.etat.name,text:()=>`Pro Shop-Besuch höchstens ${AUFN.etat.n} Käufe. Karten, Futter und Umbauten zählen, Spezialisten nicht.`},
+  klein4:{icon:AUFN.klein4.icon,name:AUFN.klein4.name,text:()=>`Höchstens ${AUFN.klein4.n} Gehege mit 4 Feldern im Zoo.`},
+  misch:{icon:AUFN.misch.icon,name:AUFN.misch.name,text:()=>'Zwei Gehege desselben Lebensraums dürfen sich nicht berühren.'}});
+// Kleiner Etat: Käufe je Shop-Besuch (state.shop.etat)
+const etatOn=()=>!!(typeof state!=='undefined'&&state&&state.rule&&state.rule.id==='etat'),etatKind=it=>etatOn()&&(['card','sack','umbau'].includes(it.kind)||(it.kind==='einmal'&&it.key==='futter')),etatLeft=()=>Math.max(0,AUFN.etat.n-((state.shop&&state.shop.etat)||0)),etatAdd=it=>{if(etatKind(it))state.shop.etat=(state.shop.etat||0)+1};
 // ===== 0.85a: 🌍 Weltreise-Modus (Plan docs/plan/weltreise.md, Daten daten/kontinente.json) =====
 // Lauf mit run.wr: zwischen den Zoos (und vor Zoo 1) wählt man ein Ziel; je Ziel Gelände (vorab erzeugt), Auflage und Belohnung.
-const WR_DATEN=/*@@DATEN:kontinente@@*/null,WRL=WR_DATEN.lauf,WRK=WR_DATEN.kontinente,WRLV=WR_DATEN.auflagen,WRZ=WR_DATEN.ziel_auflagen,
+const WR_DATEN=/*@@DATEN:kontinente@@*/null,WRL=WR_DATEN.lauf,WRK=WR_DATEN.kontinente,WRLV=Object.fromEntries(Object.entries(AUFA).map(([k,v])=>[k,v.stufe])),WRZ=WR_DATEN.ziel_auflagen,
   WRB=Object.assign({},WR_DATEN.belohnungen.sofort,WR_DATEN.belohnungen.dauerhaft),WRNOW=Object.keys(WR_DATEN.belohnungen.sofort),WRPERM=Object.keys(WR_DATEN.belohnungen.dauerhaft),WRLVN={leicht:'e',mittel:'m',schwer:'h'};
 for(const id in WRZ){const Z=WRZ[id];RULES[id]={icon:Z.icon,name:Z.name,wr:1,ziel:1,text:()=>Z.text+' Sonst ist der Zoo gescheitert.'}}
 RULES.auswild={icon:'🦓',name:'Auswilderung',wr:1,text:()=>'Am 1. Sommertag und am 1. Herbsttag wird je ein zufälliges Gehege ausgewildert: Das Feld wird frei, die Karte verlässt dein Lauf-Deck.'};
@@ -191,7 +211,10 @@ function wrRollOpts0(run){const sl=activeSlot(),H=run.habs||DEFHABS,n=(run.stage
     const r=pick(R1),f=pick(r.foki.filter(f=>okH(f)&&fr(f)));opts.push({k:K.id,r:r.id,ort:r.name,foc:f});fc[f]=(fc[f]||0)+1}
   if(EU&&(opts.length<n&&!done.has(EU.id)||!opts.length))opts.push({k:EU.id,foc:null,eu:1,ort:pick(EU.staedte||[EU.name])});
   const R=opts.filter(o=>!o.eu),lvs=first?['leicht','mittel']:['leicht','mittel','schwer'];R.forEach(o=>{o.lv=pick(lvs)});if(R.length&&R.every(o=>o.lv==='schwer'))pick(R).lv=pick(['leicht','mittel']);if(opts.length>=2&&R.length&&R.every(o=>o.lv==='leicht'))pick(R).lv=first?'mittel':pick(['mittel','schwer']); /* 0.88a: nie nur leichte (Europa zählt wie leicht) */
-  const S=seenOf(run,run.zoo),used=new Set();for(const o of R){const all=Object.keys(WRLV).filter(id=>WRLV[id]===o.lv&&RULES[id]&&!RULES[id].gone&&!(d4&&id==='locker')&&!used.has(id)),fr=all.filter(id=>!S.r.has(id));o.rule=pick(fr.length?fr:all)||null;used.add(o.rule)}
+  // 0.90a: nur Auflagen, die zum Kontinent passen; keine Kategorie zweimal pro Lauf (solange eine unbenutzte geht); Schwierigkeit wie gelost (sonst die der Auflage)
+  const S=seenOf(run,run.zoo),used=new Set(),uk=new Set([...S.r].map(aufK).filter(Boolean));for(const o of R){const base=Object.keys(WRLV).filter(id=>RULES[id]&&!RULES[id].gone&&!(d4&&id==='locker')&&!used.has(id)&&aufPasst(id,o.k)),
+      lvl=base.filter(id=>WRLV[id]===o.lv),kat=L=>L.filter(id=>!uk.has(aufK(id))),fresh=L=>{const f=L.filter(id=>!S.r.has(id));return f.length?f:L},
+      okL=base.filter(id=>lvs.includes(WRLV[id])),L=[kat(lvl),kat(okL),lvl,okL,base].find(x=>x.length)||[];o.rule=pick(fresh(L))||null;if(o.rule){used.add(o.rule);o.lv=WRLV[o.rule]||o.lv}}
   const uR=new Set(),food=foodOnRun(run);for(const o of R){if(o.lv==='leicht'){o.rw=null;continue}let L=o.lv==='schwer'?WRPERM.filter(k=>!(run.boni||[]).includes(k)&&!uR.has(k)&&!(k==='boden'&&H.includes('gebirge'))):[]; /* 0.87a: Leichter Boden nicht mit Gebirge */if(!L.length)L=WRNOW.filter(k=>!uR.has(k)&&!(k==='speisekammer'&&!food));o.rw=pick(L)||null;if(o.rw)uR.add(o.rw)}
   run.maps=run.maps||{};for(const o of opts){delete run.maps[run.zoo];WRCTX={foc:o.foc,rule:o.rule||null,rw:o.rw||null,eu:!!o.eu};try{o.plan=rollPlan0(run)}finally{WRCTX=null}o.plan.map=run.maps[run.zoo];o.nat=wrNatOf(o.plan.terr)}delete run.maps[run.zoo];
   return opts}
@@ -213,6 +236,7 @@ function wrGoal(bs){const R=state&&state.rule,Z=R&&WRZ[R.id];if(!Z)return null;b
   if(R.id==='z_ausbau')n=cnt(G,b=>L(b)>=2);else if(R.id==='z_vorzeige')n=cnt(G,b=>L(b)>=3);
   else if(R.id==='z_vielfalt'){const H=habsNow();need=H.length;n=cnt(H,h=>cnt(G,b=>CARDS[b.key].hab===h)>=Z.n)}
   else if(R.id==='z_schlemmer')n=cnt(bs,b=>isCat(b,'essen'));else if(R.id==='z_rummel')n=cnt(bs,b=>isCat(b,'attr'));
+  else if(R.id==='spflicht'){const f=(state.wrDest||{}).foc;n=cnt(G,b=>CARDS[b.key].hab===f);need=Math.max(1,Math.ceil(G.length/2))} // 0.90a: Hälfte aus dem Schwerpunkt
   else if(R.id==='z_arten')n=cnt(G,b=>(CARDS[b.key].tags||[]).includes('bedroht'));else if(R.id==='z_nachwuchs')n=cnt(G,b=>!!CARDS[b.key].jt);
   return{id:R.id,Z,n:Math.min(n,need),need,ok:n>=need,unit:R.id==='z_vielfalt'?' Lebensräume':''}}
 const wrBadge=()=>{const G=state&&state.zl&&wrOn()&&wrGoal();if(!G)return'';const bad=state.season===3&&!G.ok;return`<button class="evb wbb wrb${G.ok?' ok':''}${bad?' bad':''}" data-ev="zoo" title="Ziel-Auflage ${G.Z.name}: bis Ende Winter" aria-label="Ziel-Auflage ${G.Z.name}: ${G.n} von ${G.need}">${G.Z.icon} ${G.ok?'✓':G.n+'/'+G.need}</button>`};
@@ -226,7 +250,7 @@ const wrAusHtml=A=>{const c=CARDS[A.key];return`<div class="wpi">🦓</div><h3>A
 // Einblendung beim Zoo-Start (ersetzt die Auflage-Einblendung)
 function wrWelcomeHtml(){const D=state.wrDest;if(!D)return'';const K=wrK(D.k),R=state.rule&&RULES[state.rule.id],B=D.rw&&WRB[D.rw],perm=B&&WRPERM.includes(D.rw),nat=D.nat||{},tot=Object.values(nat).reduce((a,b)=>a+b,0);
   return`<div class="wpi">${K.icon}</div><h3>${esc(D.ort||K.name)}</h3><p class="wph"><b>Willkommen!</b> ${K.icon} ${K.name} · ${D.foc&&HAB[D.foc]?`Viel ${HAB[D.foc].icon} ${HAB[D.foc].label} im Gelände: ${nat[D.foc]||0} von ${tot} Naturflächen`:`Ruhe-Zoo: ${tot} Naturflächen, gleich verteilt`}</p>
-    ${R?`<div class="wrrule"><b>${D.lv?`<span class="wrlv ${WRLVN[D.lv]}">${D.lv}</span> `:''}${R.icon} ${R.name}</b><br>${R.text(state.rule)}</div>`:'<div class="wrrule">Keine Auflage: Hier darfst du frei bauen.</div>'}
+    ${R?`<div class="wrrule"><b>${D.lv?`<span class="wrlv ${WRLVN[D.lv]}">${D.lv}</span> `:''}${R.icon} ${R.name}</b> ${aufKatHtml(state.rule.id)}<br>${R.text(state.rule)}</div>`:'<div class="wrrule">Keine Auflage: Hier darfst du frei bauen.</div>'}
     ${B?`<div class="wrrule rw"><b><span class="wrbt ${perm?'p':'i'}">${perm?'dauerhaft':'sofort'}</span> ${B.icon} ${B.name}</b><br>${B.text}${D.prog&&PROGS[D.prog]?` Diesmal: ${PROGS[D.prog].icon} <b>${PROGS[D.prog].name}</b>.`:''}</div>`:''}
     <button class="btn main" data-bpok>Los geht’s</button>`}
 // ===== 0.88a: gezeichnete Weltkarte (Entwurf docs/stil/weltkarte-entwurf.html): Ziele als leuchtende Punkte, besuchte Regionen mit goldener Route =====
@@ -272,7 +296,7 @@ function wrPickHtml(run,a,head){if(!run.wrOpts)wrRollOpts(run);const opts=run.wr
       <div class="wrnm">${esc(o.ort||K.name)}<small>${K.icon} ${K.name}</small></div>
       <div class="wrnat"><div class="wrbar">${hs.map(h=>`<span style="width:${(nat[h]/Math.max(1,tot)*100).toFixed(1)}%;background:var(--h-${h})"></span>`).join('')}</div><div class="wrnt">Naturflächen ${tot}: ${hs.map(h=>h===o.foc?`<b>${HAB[h].icon} ${nat[h]}</b>`:`${HAB[h].icon} ${nat[h]}`).join(' · ')}</div></div>
       <div class="wrnt">${o.foc&&HAB[o.foc]?`Schwerpunkt <b>${HAB[o.foc].icon} ${HAB[o.foc].label}</b>`:'<b>Ruhe-Zoo</b>: kein Schwerpunkt'}</div>
-      <div class="wrrow"><div class="wrbox"><span class="k">Auflage${R&&o.lv?` <span class="wrlv ${WRLVN[o.lv]}">${o.lv}</span>`:''}</span><span class="v">${R?R.icon+' '+R.name:'keine'}</span><span class="t">${R?withRot(false,()=>R.text(pr.rule||{id:o.rule})):'Hier darfst du frei bauen.'}</span></div>
+      <div class="wrrow"><div class="wrbox"><span class="k">Auflage${R&&o.lv?` <span class="wrlv ${WRLVN[o.lv]}">${o.lv}</span>`:''}</span><span class="v">${R?R.icon+' '+R.name:'keine'}</span>${R?aufKatHtml(o.rule):''}<span class="t">${R?withRot(false,()=>R.text(pr.rule||{id:o.rule})):'Hier darfst du frei bauen.'}</span></div>
         <div class="wrbox rw${Bw?'':' none'}"><span class="k">Belohnung${Bw?` <span class="wrbt ${perm?'p':'i'}">${perm?'dauerhaft':'sofort'}</span>`:''}</span><span class="v">${Bw?Bw.icon+' '+Bw.name:'keine'}</span><span class="t">${Bw?Bw.text:o.eu?'Ruhe-Zoo ohne Auflage.':'Dafür eine leichte Auflage.'}</span></div></div></button>`};
   const so=sel!=null?{icon:wrK(opts[sel].k).icon,name:opts[sel].ort||wrK(opts[sel].k).name}:null;
   return`${head||''}<h2 class="wrh">🌍 Wohin geht die Reise?</h2><p class="wrsub">Zoo ${z+1} von ${N} · tippen zum Auswählen</p>
@@ -329,6 +353,11 @@ function ruleWhy(bs,cells,key,isMove){const R=state&&state.rule;if(!R)return nul
   if(R.id==='anschl'&&key!=='flossteil'&&c.cat==='attr'&&!nb.some(n=>!isCat(n,'gehege')))return'Auflage Anschluss: Attraktionen nur neben ein schon gebautes Gebäude.';
   if(R.id==='schutzn'&&c.cat==='schutz'&&!cells.some(([q,r])=>DIRS.some(([dq,dr])=>{const t=TERR.get(hk(q+dq,r+dr));return!!t&&t!=='block'})))return'Auflage Artenschutz am Naturfeld: Naturschutz-Gebäude müssen an eine Naturfläche grenzen.';
   if(R.id==='locker'&&nb.length>3)return'Auflage Lockere Bebauung: Hier grenzten mehr als 3 Gehege/Gebäude an.';
+  // 0.90a: neue Limitierungen und Durchmischt
+  if(R.id==='show3'&&c.cat==='gehege'&&T.includes('show')&&cnt(bs,b=>isCat(b,'gehege')&&has(b,'show'))>=AUFN.show3.n)return`Auflage ${AUFN.show3.name}: Es stehen schon ${AUFN.show3.n} Showtiere im Zoo.`;
+  if(R.id==='raub2'&&c.cat==='gehege'&&T.includes('raubtier')&&cnt(bs,b=>isCat(b,'gehege')&&has(b,'raubtier'))>=AUFN.raub2.n)return`Auflage ${AUFN.raub2.name}: Es stehen schon ${AUFN.raub2.n} Raubtiere im Zoo.`;
+  if(R.id==='klein4'&&c.cat==='gehege'&&cells.length>=4&&cnt(bs,b=>isCat(b,'gehege')&&b.cells.length>=4)>=AUFN.klein4.n)return`Auflage ${AUFN.klein4.name}: Es stehen schon ${AUFN.klein4.n} Gehege mit 4 Feldern im Zoo.`;
+  if(R.id==='misch'&&c.cat==='gehege'&&c.hab&&nb.some(n=>isCat(n,'gehege')&&K(n).hab===c.hab))return`Auflage Durchmischt: Zwei ${HAB[c.hab].label}-Gehege dürfen sich nicht berühren.`;
   if(R.id==='max3'&&c.cat==='gehege'&&habGroup(fake,[...bs,fake])>3)return`Sonderregel: Höchstens 3 ${HAB[c.hab].label}-Gehege dürfen zusammenhängen.`;
   return null}
 function ruleOverlay(){const R=state.rule;if(!R)return'';let o='';
@@ -386,9 +415,18 @@ function twinMarks(){if(state.selected==null||state.phase!=='play')return'';cons
 let LASTH=null;function hvioMarks(){if(!habRulesOn())return'';try{const h=LASTH&&LASTH.ok&&LASTH.b&&!LASTH.up?LASTH:null,all=h?(h.move?state.buildings.map(x=>x.id===h.move.id?h.b:x):[...state.buildings,h.b]):state.buildings,ix=mkIndex(all);let o='';
   for(const b of all){if(!isCat(b,'gehege')||!HABBRK[K(b).hab]||!habViol(b,ix)||grpList(b,ix,K(b).hab).length<2)continue;for(const[q,r]of b.cells){const[x,y]=px(q,r);o+=`<polygon class="hvio" points="${hexPts(x,y,SZ*.9)}" pointer-events="none"/>`}}return o}catch(e){return''}}
 // 0.81a: ❄️-Schilder ab dem Herbst: was die Winter-Bedingung trifft (im Herbst blau als Vorschau, im Winter rot bei Abzügen)
-function winterMarks(idx){if(!state||!state.zl||(state.season||0)<2)return'';let o='';const bs=state.buildings;for(const b of bs){if(b.id===state.moving)continue;const h=winterHit(b,bs,idx);if(!h)continue;const[cx,cy]=centroid(b.cells),t='❄️'+h.t,w=(t.length-1)*2.5+5,y=cy-(b.cells.length>1?5:4.2);
+function winterMarks(idx){if(!state||!state.zl||!winterSee()||inspHid())return'';let o='';const bs=state.buildings;for(const b of bs){if(b.id===state.moving)continue;const h=winterHit(b,bs,idx);if(!h)continue;const[cx,cy]=centroid(b.cells),t='❄️'+h.t,w=(t.length-1)*2.5+5,y=cy-(b.cells.length>1?5:4.2);
   o+=`<g class="trl wnt ${h.neg?(state.season===3?'neg':'pre'):'pos'}"><rect x="${(cx-w/2).toFixed(2)}" y="${(y-3.1).toFixed(2)}" width="${w.toFixed(2)}" height="6.2" rx="3.1"/><text x="${cx.toFixed(2)}" y="${y.toFixed(2)}">${t}</text></g>`}return o}
-function zlMarks(){const Z=state.zl;if(!Z)return'';let o='';const idx=mkIndex(state.buildings);o+=dayMarks(idx);o+=hvioMarks();o+=winterMarks(idx);
+// 0.90a: Ensembles auf dem Brett: goldener Umriss um die Gruppe + Schild; Promi-Verstärker: Strahlen zu den verstärkten Nachbarn mit Schildchen
+function ensMarks(idx){if(!state||!state.zl||!ensOn())return'';let o='';try{const R=ensFind(state.buildings,idx);for(const g of R.groups){const E=ENS[g.key],cs=g.m.flatMap(b=>b.cells),set=new Set(cs.map(([q,r])=>hk(q,r)));let d='';
+    for(const[q,r]of cs){const[x,y]=px(q,r);for(const[dq,dr]of DIRS){if(set.has(hk(q+dq,r+dr)))continue;const[x2,y2]=px(q+dq,r+dr),mx=(x+x2)/2,my=(y+y2)/2,L=Math.hypot(x2-x,y2-y)||1,ux=-(y2-y)/L*SZ/2,uy=(x2-x)/L*SZ/2;d+=`M${(mx+ux).toFixed(2)} ${(my+uy).toFixed(2)}L${(mx-ux).toFixed(2)} ${(my-uy).toFixed(2)}`}}
+    o+=`<path class="ensl glow" d="${d}"/><path class="ensl" d="${d}"/>`;const[cx,cy]=centroid(cs),t=`${E.icon} ${E.name}`,w=(t.length-1)*2.05+6;o+=`<g class="enstag"><rect x="${(cx-w/2).toFixed(2)}" y="${(cy+SZ*.55).toFixed(2)}" width="${w.toFixed(2)}" height="5.6" rx="2.8"/><text x="${cx.toFixed(2)}" y="${(cy+SZ*.55+2.8).toFixed(2)}">${t}</text></g>`}}catch(e){}return o}
+// 0.90a: Vorlieben-Auflage: Schild ×1,5 / ×0,5 an jedem betroffenen Gehege/Gebäude
+function vorlMarks(){if(!state||!state.zl||!vorlRule())return'';let o='';for(const b of state.buildings){if(b.id===state.moving)continue;const L=vorlOf(b,K(b));if(!L.length)continue;const f=+L.reduce((t,e)=>t*e[1],1).toFixed(2);if(f===1)continue;const[cx,cy]=centroid(b.cells),t='×'+mxs(f),w=t.length*1.9+3,x=cx+(b.cells.length>1?6:4.6),y=cy+(b.cells.length>1?6:4.8);
+  o+=`<g class="pref ${f>1?'up':'dn'}"><rect x="${(x-w/2).toFixed(2)}" y="${(y-2.3).toFixed(2)}" width="${w.toFixed(2)}" height="4.6" rx="2.3"/><text x="${x.toFixed(2)}" y="${y.toFixed(2)}">${t}</text></g>`}return o}
+function vstMarks(idx){if(!state)return'';let o='';try{for(const v of state.buildings){if(K(v).cat!=='verst'||v.id===state.moving)continue;const[vx,vy]=centroid(v.cells);for(const n of nbrs(v,idx)){let t=verstHit(v.key,K(n));if(!t)continue;if(v.key==='scheinwerfer'){if(spotOf(v,idx)!==n)continue;t='×2,5'}const[nx,ny]=centroid(n.cells),bx=vx+(nx-vx)*.55,by=vy+(ny-vy)*.55,l=(t.match(/×\d+(?:,\d+)?(?: [BN])?/)||[t.replace(/ .*/,'')])[0],w=l.length*1.9+3;
+    o+=`<line class="vray" x1="${vx.toFixed(2)}" y1="${vy.toFixed(2)}" x2="${nx.toFixed(2)}" y2="${ny.toFixed(2)}"/><g class="vbadge"><rect x="${(bx-w/2).toFixed(2)}" y="${(by-2.4).toFixed(2)}" width="${w.toFixed(2)}" height="4.8" rx="2.4"/><text x="${bx.toFixed(2)}" y="${by.toFixed(2)}">${l}</text></g>`}}}catch(e){}return o}
+function zlMarks(){const Z=state.zl;if(!Z)return'';let o='';const idx=mkIndex(state.buildings);o+=dayMarks(idx);o+=hvioMarks();o+=winterMarks(idx);o+=ensMarks(idx);o+=vorlMarks();
   for(const k of Z.gold){const[q,r]=k.split(',').map(Number),[x,y]=px(q,r);o+=`<polygon class="zgold" points="${hexPts(x,y,SZ*.8)}" pointer-events="none"/><text class="tic zst ${idx.has(k)?'sm':''}" x="${idx.has(k)?x-4.6:x}" y="${idx.has(k)?y+5:y}">×2</text>`}
   for(const k of Z.g4||[]){const[q,r]=k.split(',').map(Number),[x,y]=px(q,r);o+=`<polygon class="zgold g4" points="${hexPts(x,y,SZ*.8)}" pointer-events="none"/><text class="tic zst ${idx.has(k)?'sm':''}" x="${idx.has(k)?x-4.6:x}" y="${idx.has(k)?y+5:y}">×4</text>`}
   for(const ck of[Z.crown,...(Z.crown2||[])])if(ck){const[q,r]=ck.split(',').map(Number),[x,y]=px(q,r),cb=idx.get(ck),ok=cb&&isCat(cb,'gehege')&&cb.cells.length>=4;o+=`<polygon class="zcrown ${ok?'ok':''}" points="${hexPts(x,y,SZ*.8)}" pointer-events="none"/>${cb?(ok?`<text class="tic zst sm" x="${x-4.4}" y="${y+5}">👑</text>`:''):`<text class="tic zcr" x="${x}" y="${y-1.6}">👑</text><text class="tic zst sm" x="${x}" y="${y+3.6}">×1,3</text>`}`}
@@ -416,7 +454,7 @@ function zooBoxHtml(rail){if(ZRULES&&!rail)return zooRulesHtml();const Z=state.z
   // 1) Weltreise-Ziel
   if(Z&&run){const nat=D&&D.nat||{},tot=Object.values(nat).reduce((a,b)=>a+b,0);h+=ZT('zwr',K?K.icon:'🌍',D&&D.foc&&HAB[D.foc]?`Schwerpunkt ${HAB[D.foc].icon} ${HAB[D.foc].label}`:D?'Ruhe-Zoo':'Weltreise',`🌍 Weltreise · Zoo ${(state.zoo||0)+1} von ${runGoal(run)}${D?' · '+(D.foc&&HAB[D.foc]?`${nat[D.foc]||0} von ${tot} Naturflächen sind ${HAB[D.foc].label}`:`${tot} Naturflächen, gleich verteilt`):''}`)}
   // 2) Auflage (Ziel-Auflagen mit Stand, rot solange offen)
-  if(R){const G=wrOn()&&wrGoal();h+=ZT('zau',R.icon,`Auflage: ${R.name}${D&&D.lv&&D.rule===state.rule.id?` <span class="wrlv ${WRLVN[D.lv]}">${D.lv}</span>`:''}`,R.text(state.rule),G?(G.ok?'✓ ':'')+G.n+'/'+G.need:'',G?(G.ok?'ok':'open'):'')}
+  if(R){const G=wrOn()&&wrGoal();h+=ZT('zau',R.icon,`Auflage: ${R.name}${D&&D.lv&&D.rule===state.rule.id?` <span class="wrlv ${WRLVN[D.lv]}">${D.lv}</span>`:''}`,R.text(state.rule),G?(G.ok?'✓ ':'')+G.n+'/'+G.need:'',G?(G.ok?'ok':'open'):'',aufKatHtml(state.rule.id)?`<span>${aufKatHtml(state.rule.id)}</span>`:'')}
   // 3) Thema der Jahreszeit: Besucherwunsch, sonst Ereignisse, sonst ein kurzer Hinweis
   if(state.wish&&WISH[state.wish.id]){const W=state.wish,Dw=WISH[W.id],n=Math.min(Dw.need,Dw.n(W));h+=ZT('zwi',Dw.ic(W),'Besucherwunsch',`${Dw.t(W)} · Belohnung ${wRwTxt(wRw(W))}`,W.ok?'✓':Dw.end?'…':n+'/'+Dw.need,W.ok?'ok':'')}
   else if((state.events||[]).some(e=>EVENTS[e.id])){for(const e of state.events)if(EVENTS[e.id])h+=ZT('zev',evIcon(e),`Ereignis im ${se.name}: ${evName(e)}`,evFx(e).map(l=>l.replace('|',' ')).join(' · ')+' · gilt die ganze Jahreszeit, auch für Gebautes.')}

@@ -796,9 +796,9 @@
  ]
 },
 "erwartet":{
- "A": 107,
- "S": 110,
- "total": 11770,
+ "A": 111,
+ "S": 114,
+ "total": 12654,
  "mults": [
   {
    "label": "Beute-Kennerin",
@@ -878,11 +878,16 @@
   },
   {
    "id": 4,
-   "a": 7,
+   "a": 8,
    "s": 6,
    "parts": [
     [
      "Savanne-Nachbarn",
+     1,
+     0
+    ],
+    [
+     "🐇 Ensemble Sicherer Hain ×1,2",
      1,
      0
     ],
@@ -944,8 +949,8 @@
   },
   {
    "id": 7,
-   "a": 7,
-   "s": 6,
+   "a": 8,
+   "s": 7,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -954,6 +959,11 @@
     ],
     [
      "Kartenbonus",
+     1,
+     1
+    ],
+    [
+     "🐇 Ensemble Sicherer Hain ×1,2",
      1,
      1
     ],
@@ -1005,8 +1015,8 @@
   },
   {
    "id": 10,
-   "a": 8,
-   "s": 3,
+   "a": 9,
+   "s": 5,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1014,9 +1024,14 @@
      0
     ],
     [
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
      "🌾 Herde aus 3 ×1,15",
      1,
-     0
+     1
     ]
    ]
   }

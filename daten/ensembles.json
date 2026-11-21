@@ -1,0 +1,12 @@
+{
+ "hinweis": "0.90a: Ensembles – 3 oder mehr passende Karten, die zusammenhängen (jede grenzt an eine andere der Gruppe). Jedes Mitglied bekommt den Faktor genau einmal; steckt eine Karte in zwei Ensembles, multiplizieren sich die Faktoren. 'wer' = Kennung in ENS_WIRKUNG (Modul 04), 'ruhig' = kein Mitglied darf gestresst sein, 'verschieden' = so viele verschiedene Karten braucht die Gruppe, 'taler' = Taler pro Tag je Ensemble. 'regisseur' = Faktoren mit dem Ensemble-Regisseur. Namen und Texte stehen in texte_de.json (ensemble).",
+ "mindest": 3,
+ "ensembles": [
+  {"key": "food", "icon": "🍔", "wer": "gastro", "fa": 1.25, "fs": 1, "taler": 1, "verschieden": 3},
+  {"key": "meile", "icon": "🎠", "wer": "attr", "fa": 1.25, "fs": 1},
+  {"key": "still", "icon": "🍃", "wer": "scheu", "fa": 1, "fs": 1.2, "ruhig": 1},
+  {"key": "hain", "icon": "🐇", "wer": "beute", "fa": 1.2, "fs": 1.2, "ruhig": 1},
+  {"key": "schutz", "icon": "🛡️", "wer": "bedroht", "fa": 1.5, "fs": 1.5, "ruhig": 1}
+ ],
+ "regisseur": {"1.25": 1.5, "1.2": 1.4, "1.5": 1.75}
+}

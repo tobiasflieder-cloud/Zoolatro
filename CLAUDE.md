@@ -20,7 +20,7 @@ Es ist eine einzige HTML-Datei, die aus Modulen zusammengebaut und über GitHub 
 | Pfad | Inhalt |
 |---|---|
 | `quelltext/src/` | **Quelle der Wahrheit.** Module 00–11 + `00-seite-und-stil.html` (Kopf, CSS) + `99-ende.html` |
-| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a–2c): `karten.json`, `merkmale.json`, `spezialisten.json`, `futter.json`, `winter.json`, `gelaende.json`, `stufen.json`, `profile.json`, `texte_de.json` (alle Namen/Texte aus `TXT`), `tutorial.json`, `foerderprogramme.json`, `werbung.json`, `ereignisse.json`, `praegungen.json`, `herausforderungen.json`, `kontinente.json` (🌍 Weltreise). Werden von `mache.py` ins Spiel eingebaut |
+| `daten/` | **Inhalte als Daten** (Godot-Vorbereitung 2a–2c): `karten.json`, `merkmale.json`, `spezialisten.json`, `futter.json`, `winter.json`, `gelaende.json`, `stufen.json`, `profile.json`, `texte_de.json` (alle Namen/Texte aus `TXT`), `tutorial.json`, `foerderprogramme.json`, `werbung.json`, `ereignisse.json`, `praegungen.json`, `herausforderungen.json`, `kontinente.json` (🌍 Weltreise), `ensembles.json`, `auflagen.json` (Kategorien, Kontinente, Vorlieben). Werden von `mache.py` ins Spiel eingebaut |
 | `quelltext/mache.py` | baut `build/zoodeck.html` (Tests), `index.html` (GitHub Pages), setzt die Daten aus `daten/` ein und den Cache in `sw.js` |
 | `quelltext/huelle/` | Rahmen um das Spiel für Web (`web-*`, mit Service Worker) und App (`app-*`) |
 | `index.html`, `sw.js`, `manifest.webmanifest`, Icons | die veröffentlichte Seite. **`index.html` nie von Hand ändern.** |
@@ -97,14 +97,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.90a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.91a) – erst bauen, wenn Tobi „bauen“ sagt
 
-Alle Werte und Tabellen stehen in `docs/plan/ensembles-spezialisten-auflagen.md` (Chat 21.11., Tabelle „Weltreise-Plan“, Blätter „Neue Ideen“ und „Auflagen-Kategorien“). Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
-1. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
-2. **Show-Bonus ×1,35** statt ×1,25 je Gastro-/Attraktions-Nachbar (Plan B).
-3. **Verstärker werden Promis** (Chef Carmen, Mia Megaviral, Stella Starr, Nova, Sven Frost, Luna Lotus) mit Story-Satz (kursiv auf Karte und im Zoo-Buch), Personen-Emoji als Symbol (🧑‍🍳 🤳 🎬 🎤 🧗 🧘), neuen Werten und neuem Aussehen (Plan C, Entwurf); interne Kennungen bleiben.
-4. **Neue Spezialisten** (Plan D): Zweiraum-Planerin, Wetterfrosch, Naturpur-Leiterin, Kleine Küche, Ruhige-Lage-Planer, Beute-Hirtin, Ensemble-Regisseur (braucht 10), Frühaufsteherin, Schlussspurt, Grenzgängerin.
-5. **Zoo-Auflagen in Kategorien** (Plan E): 6 Kategorien, keine doppelt pro Lauf, in der Weltreise nach Kontinent, 13 neue Auflagen (Limitierungen, Vorlieben = Bonus/Malus, Durchmischt, Schwerpunkt-Pflicht).
+(leer)
+
+**Nach 0.90a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -128,6 +125,12 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.90a** ([Auftrag](docs/auftraege/0.90a-ensembles-promis-spezialisten-auflagen.md), Plan `docs/plan/ensembles-spezialisten-auflagen.md`, Regeln `docs/regeln.md` 21): Show `showF` (×1,35 je Auslöser, Belugas 1,45, Leckerli 1,5, Nova doppelt, max ×2,5);
+  Stress aus `evalB` nach `strOf` gezogen; Ensembles `daten/ensembles.json` → `ENS`/`ENS_WIRKUNG`/`ensFind` (Zwischenspeicher je Brett-Array)/`ensOf` (Prozent-Schritt in `evalB`)/`ensTaler` (`dayIncome.ens`), Entdecken `ensDiscover` (`sl.ens`, `state.ensNew` → `#ensPop`, `state.ensSeen`), Brett `ensMarks`, Zoo-Buch `ensBuchHtml`;
+  Promis: Namen/Story (`story`) in `texte_de.json`, Icons in `karten.json`, `preis:1` in `costParts`, Look `.card.vst`/`.ocard.vst` (`vstVal`), Strahlen `vstMarks`, „⚡“ beim Zählen; 10 Spezialisten (`zweiraum` in `SPGRP`, `hirtin`/`grenz` per, `naturpur`/`kl_kueche`/`ruhlage`/`frueh`/`spurt` mult, `wetterfrosch` über `inspHid`/`winterSee`, `regie` in `ensF`, Freischaltung `s:regie`);
+  Auflagen `daten/auflagen.json` (`AUFK`/`AUFA`/`aufK`/`aufPasst`/`aufKatHtml`, `WRLV` von dort, `kontinente.json` ohne `auflagen`), `ruleRoll`/`wrRollOpts0` mit Kategorien und Kontinenten, neue `show3`/`raub2`/`klein4`/`misch` (`ruleWhy`), `etat` (`buy`, `state.shop.etat`), `spflicht` (`wrGoal`), Vorlieben `VORL`/`vorlOf`/`vorlMarks`.
+  Tests: neu `jsd90a.js`; Referenzfälle mit `aktualisiere` (siehe Commit/Zusammenfassung).
 
 - **0.89a** ([Auftrag](docs/auftraege/0.89a-schliff-stufen-umbau-auflagen.md), Regeln `docs/regeln.md` 20): Weltreise höchstens 2× derselbe Schwerpunkt (`wrRollOpts0`, Paare Region/Schwerpunkt, zweiter Durchgang erlaubt Gleichheit);
   Umbau-Fenster `umbConfHtml`/`umbConfOk` (`state.umbConf`, `#umbConfPop`, `data-umbcx`); Raubtier-Kenner `ms`; `META.pvOff`/`data-pvm` (Vorschau-Schilder/Linien aus, nicht im Tutorial); Eingang-„frei“-Regel gestrichen;
