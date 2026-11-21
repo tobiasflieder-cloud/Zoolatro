@@ -128,6 +128,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Neu: `rq:"savanne"` bei `bratwurst`; Ersatz im Startdeck ohne Savanne: `RQS` (Modul 04 ~Z. 109) `bratwurst:'popcorn'` und ggf. `daten/profile.json` `startdeck.ersatz` (Sterneköchin hat Bratwurst in `inn`). Tutorial (Savanne gewählt) bleibt gleich.
    Geprüft: Unter allen Nicht-Gehege-Karten ist sie die einzige mit Lebensraum-Wirkung ohne `rq`; Gehege sind über `hab` gefiltert, Lebensraum-Spezialisten über `specOff`.
    Test (dauerhaft, damit es nicht wieder passiert): jede Nicht-Gehege-Karte, deren Wirkungstext genau einen Lebensraum nennt, hat `rq`; Kartenwahl/Shop ohne Savanne bieten keine Bratwurst an.
+9. **Stufen: „Saisonziele ×1,1“ nicht im Frühling** (Chat 21.11.): Heute multipliziert `stTF()` (Modul 08 ~Z. 421) in `seTarget` (Modul 05 ~Z. 159) alle vier Jahreszeiten gleich. Neu: `stTF(i)` gibt im Frühling (`i===0`) immer 1, ab Sommer wie bisher (Stufe 2: ×1,1, Stufe 4: ×1,21, Stufe 7: ×1,331).
+   Texte anpassen: `daten/stufen.json` („Saisonziele ab Sommer ×1,1“) und die Zusammenfassung aus Punkt 6 („Ziele ab Sommer ×1,21“). Test: Stufe 4 → Frühlingsziel wie Stufe 1, Sommerziel ×1,21. Referenzfälle unberührt (keine Ziele darin).
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
