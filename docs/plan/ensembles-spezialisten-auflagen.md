@@ -43,7 +43,7 @@ Verstärker werden zu **Promis** (frei erfundene Namen, keine echten Personen). 
 | ❄️ Winterquartier | **Sven Frost** (Abenteurer) | Nachbarn ohne Winter-Bedingung, dazu ×1,2 im Winter | Sven Frost überwintert im Zoo, und mit ihm frieren selbst die Nachbarn nicht. |
 | 🤫 Ruhezone | **Luna Lotus** (Wellness-Guru) | kein Trubel für scheue Nachbarn, dazu ×1,25 N | Luna Lotus gibt Meditationskurse, und die scheuen Tiere finden endlich Ruhe. |
 
-Offen für den Entwurf: Symbol bleibt das Emoji der Wirkung oder ein Personen-Emoji (🧑‍🍳, 🤳, 🎬, 🎤, 🧗, 🧘) – Vorschlag Personen-Emoji.
+Symbol: Personen-Emoji (🧑‍🍳 Chef Carmen, 🤳 Mia Megaviral, 🎬 Stella Starr, 🎤 Nova, 🧗 Sven Frost, 🧘 Luna Lotus) – von Tobi bestätigt (Chat 21.11.).
 
 ## D · Neue Spezialisten (+ eine Änderung)
 
