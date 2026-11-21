@@ -117,6 +117,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 5. **Auflage 🚪 Eingang: Regel „ein Feld neben dem Eingang bleibt frei“ streichen** (Chat 21.11., Tobi: macht keinen Sinn): Prüfung in `06-spiel.js` ~Z. 319 (`R.id==='eingang'` mit `ruleFree` um `R.entry`) entfernen,
    Satz „Der Eingang darf nicht ganz zugebaut werden …“ aus `RULES.eingang.text` (~Z. 138) und ggf. `docs/regeln.md`/Tests nehmen. Bleibt: Eingangsfeld selbst ist nicht bebaubar, erstes Gebäude berührt ihn, alles bleibt verbunden (`entryCut`).
    `initRule` (≥ 2 bebaubare Nachbarn) darf bleiben. Test: Eingang rundum zubauen ist erlaubt.
+6. **Stufenwahl: zeigen, was die Stufe ändert** (Chat 21.11.: „Ich sehe bei den Stufen gar nicht, was sich ändert“): Heute startet ein Tipp auf „Stufe n“ (`data-cdeck`+`data-stage`, `deckSelHtml` Modul 09 ~Z. 121) sofort den Lauf, die Texte aus `daten/stufen.json` (`text`) sieht man nirgends.
+   Neu: Tipp auf eine Stufe **wählt** sie nur (hervorgehoben), darunter ein Kasten „🏔️ Stufe n – das gilt:“ mit **allen** Wirkungen bis einschließlich n (Stufen wirken aufeinander), die neue der Stufe n markiert (z. B. „neu“),
+   Saisonziele zusammengefasst („Saisonziele ×1,21“), bei Zoogründer Stufe 1 der Einstiegs-Hinweis. Darunter Knopf „▶ Mit Stufe n starten“. Vorauswahl = höchste freie Stufe. Gesperrte Stufen (🔒) zeigen beim Tippen ebenfalls ihre Wirkungen + Freischalt-Hinweis, ohne Start.
+   Auch im Zoo-Buch (Reiter 📜 Regeln oder Freischalten → Stufen) die Liste aller 8 Stufen mit Text. Querformat prüfen. Test: Tipp auf Stufe 3 startet nichts und zeigt die Texte von Stufe 2 und 3.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
