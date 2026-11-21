@@ -103,6 +103,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    (`render0` Modul 07, Block `if(h&&h.ok)`); ohne Nachbar-Wirkung sieht man keinen Unterschied. Vorschlag (Tobi ohne Vorliebe): „Aus“ blendet beim Platzieren **alle Zahlen** aus –
    zusätzlich die Punkte/Rechnung im Info-Feld (`infoHtml`: Karte/Zoo-Werte, `calcHtml`, Details-Knopf) und die Änderung im Zähler oben (`dA`/`dS`/`dT`). Bleibt: Umriss grün/rot, Feld-Markierungen,
    im Info-Feld Name, Kosten und „passt nicht, weil …“. Im Tutorial immer an. Test: Schalter aus → keine Zahlen in Info-Feld/Zähler/Brett, Umriss da.
+   **Nachtrag (Screenshot Tobi, Otter nur ausgewählt):** Schon beim **Auswählen** einer Karte zeigt das Brett Wechselwirkungs-Schilder an Gebäuden („+4B“, „+1N“, `trm`/`labs` in `render0` Modul 07 ~Z. 54ff.)
+   und die grün/rot/hellgrüne Hervorhebung der betroffenen Gehege/Felder – der Schalter greift dort heute gar nicht. „Aus“ soll auch diese Auswahl-Hinweise ausblenden.
+   Bleiben: dunkle ⊘-Felder der Auflage (`ruleOverlay`, sonst baut man ins Leere), Naturflächen-Markierung passt/passt nicht, Umriss.
 
 **Danach (Chat 21.11., alle Werte und Tabellen in `docs/plan/ensembles-spezialisten-auflagen.md`; Vorschlag: in eigenen Versionen bauen, z. B. 0.90a = 1–3, 0.91a = 4, 0.92a = 5):**
 1. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
