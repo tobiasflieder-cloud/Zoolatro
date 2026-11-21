@@ -99,7 +99,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.90a) – erst bauen, wenn Tobi „bauen“ sagt
 
-**Danach (Chat 21.11., alle Werte und Tabellen in `docs/plan/ensembles-spezialisten-auflagen.md`; Vorschlag: in eigenen Versionen bauen, z. B. 0.90a = 1–3, 0.91a = 4, 0.92a = 5):**
+Alle Werte und Tabellen stehen in `docs/plan/ensembles-spezialisten-auflagen.md` (Chat 21.11., Tabelle „Weltreise-Plan“, Blätter „Neue Ideen“ und „Auflagen-Kategorien“). Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
 1. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
 2. **Show-Bonus ×1,35** statt ×1,25 je Gastro-/Attraktions-Nachbar (Plan B).
 3. **Verstärker werden Promis** (Chef Carmen, Mia Megaviral, Stella Starr, Nova, Sven Frost, Luna Lotus) mit Story-Satz (kursiv auf Karte und im Zoo-Buch), Personen-Emoji als Symbol (🧑‍🍳 🤳 🎬 🎤 🧗 🧘), neuen Werten und neuem Aussehen (Plan C, Entwurf); interne Kennungen bleiben.
