@@ -42,7 +42,8 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
   w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};enterCamp(0,false,null,'z2');modal=null`);
   T(w.eval('!!state&&state.zoo')===F.stand.zoo&&w.eval('state.season')===F.stand.season&&w.eval('state.buildings.length')===F.stand.n,`Lauf geht weiter (Zoo ${F.stand.zoo+1}, Jahreszeit ${F.stand.season+1}, ${F.stand.n} Gebäude)`);
   // Seit 0.77a gibt es keine Formen (Innenhof, Allee, Dreiländereck) mehr: die Gesamtwertung des alten Spielstands weicht absichtlich ab.
-  const tot=w.eval('scoreZoo(state.buildings).total');T(tot>0&&tot<=F.erwartet.total,`Wertung läuft mit den Regeln von heute (${tot}; 0.73a mit Formen: ${F.erwartet.total})`);
+  const tot=w.eval('scoreZoo(state.buildings).total');// 0.90a: Show ×1,35, Promi-Verstärker und Ensembles heben die Wertung wieder über den Wert von 0.73a – geprüft wird nur, dass sie läuft.
+  T(tot>0,`Wertung läuft mit den Regeln von heute (${tot}; 0.73a mit Formen: ${F.erwartet.total})`);
   // 0.75a: Tribüne ist legendär (kommt seltener ins Angebot). Für den Vergleich mit dem 0.73a-Ablauf gilt hier die alte Seltenheit.
   w.eval("if(CARDS.tribuene&&CARDS.tribuene.rar==='sehr selten')CARDS.tribuene.rar='selten'");
   // Seit 0.76a gelten andere Regeln (Faktoren statt Prozente, Besucherliebling seltener): die Punkte der 3 Tage weichen absichtlich ab.
@@ -62,7 +63,7 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
   for(const k in dt)T(dt[k],'Daten '+k+' vollständig eingebaut');
   // 2c: Texte, Tutorial, Förderprogramme, Werbung, Ereignisse, Prägungen, Herausforderungen
   if(w.eval("typeof TUT_DATEN==='undefined'"))L('ok 2c-Prüfungen übersprungen (Stand ohne daten/tutorial.json)');
-  else{const c=JSON.parse(w.eval(`JSON.stringify({texte:Object.keys(TXT.de).join()==='card,spec,insp,tagfx,event,rule,prog,ad',
+  else{const c=JSON.parse(w.eval(`JSON.stringify({texte:Object.keys(TXT.de).join()==='card,ensemble,spec,insp,tagfx,event,rule,prog,ad',
     tutorial:Object.keys(TUT).join()===Object.keys(TUT_DATEN.kapitel).join()&&Object.values(TUT).every(K=>K.steps.every(st=>st.t&&(!st.done||typeof st.done==='function')&&(!st.setup||typeof st.setup==='function'))),
     tutorial_texte:!JSON.stringify(Object.values(TUT).map(K=>K.steps.map(st=>[st.t,st.h]))).includes('{'+'N}'),
     programme:Object.keys(PROGS).filter(k=>!PROGS[k].plus).join()===PROG_DATEN.programme.map(d=>d.key).join()&&Object.values(PROGS).every(P=>typeof(P.per||P.mult)==='function'&&P.name),

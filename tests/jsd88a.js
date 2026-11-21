@@ -50,7 +50,7 @@ const play=`modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;r
  const box=[...d.querySelectorAll('.slot')].find(e=>/Expedition|polar/i.test(e.textContent)&&e.querySelector('.hdhint'));
  T(!!box&&/Stufe 2 von 8/.test(box.textContent)&&!box.querySelector('[data-cdeck]')&&/brauchst du den Lebensraum/.test(box.textContent),'Profil ohne Lebensraum: Stufe 2 von 8, Hinweis, nichts wählbar');
  start(w,{deck:'polar',wr:1,d4:1,habs:['arktis','wasser','savanne']});
- T(ev(`(()=>{const sl=activeSlot();sl.z2={st:{},ch:{}};const r=runOf();screenArg.wrSel=0;wrGo(r,screenArg,0);state.zoo=2;z2After(sl,r,true);return stMax(sl,'polar')===2&&(r.stNewAll||[]).includes(2)})()`),'Testlauf + Weltreise + Expeditionsleiterin: Sieg in Zoo 3 → Stufe 2');
+ T(ev(`(()=>{const sl=activeSlot();sl.z2={st:{},ch:{}};const r=runOf();screenArg.wrSel=0;r.wrOpts[0].rw=null;wrGo(r,screenArg,0);state.zoo=2;z2After(sl,r,true);return stMax(sl,'polar')===2&&(r.stNewAll||[]).includes(2)})()`),'Testlauf + Weltreise + Expeditionsleiterin: Sieg in Zoo 3 → Stufe 2');
  // 9. Weltkarte
  T(ev(`WRREG.every(r=>Array.isArray(r.lage)&&r.lage.length===2)&&wrK('europa').staedte_lage.length===wrK('europa').staedte.length`),'alle Regionen und Europa-Städte haben eine Lage');
  start(w,{wr:1});
