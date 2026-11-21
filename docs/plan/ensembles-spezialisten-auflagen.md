@@ -31,14 +31,19 @@ Showtier je benachbartes Gastro-Gebäude oder Attraktion **×1,35** statt ×1,25
 Aussehen wie im Entwurf: eigener violett-eisblauer Rahmen mit umlaufendem Leuchten, Wert groß in der Mitte, auf dem Brett Strahlen zu den verstärkten Nachbarn
 mit „×1,5“-Schildchen, beim Zählen Einblendung „⚡ ×1,5 B“. `prefers-reduced-motion` beachten.
 
-| Verstärker | heute | neu |
-|---|---|---|
-| 🥣 Futterküche (Tobi nennt sie in der Tabelle „Chef Carmen“ – Namen klären) | ×1,25 N je benachbartes Gehege | ×1,5 N, Preis +1 |
-| 🧭 Besucherlotse | ×1,25 B für alle Nachbarn | ×1,5 B, Preis +1 |
-| 🔦 Scheinwerfer | ×1,5 stärkstes Nachbar-Gehege | ×2,5 |
-| 🎭 Bühne | Show doppelt, bis ×1,95 | Show doppelt, bis ×2,5 |
-| ❄️ Winterquartier | Nachbarn ohne Winter-Bedingung | dazu ×1,2 im Winter |
-| 🤫 Ruhezone | kein Trubel für scheue Nachbarn | dazu ×1,25 N |
+Verstärker werden zu **Promis** (frei erfundene Namen, keine echten Personen). Jede Karte bekommt unter der Wirkung einen kurzen **Story-Satz**
+(kursiv, z. B. im Kartentext und im Zoo-Buch). Namen/Storys in `texte_de.json`, interne Kennungen bleiben (Spielstände!).
+
+| heute | neu: Name (Promi-Typ) | Wirkung neu | Story |
+|---|---|---|---|
+| 🥣 Futterküche | **Chef Carmen** (TV-Koch, männlich) | ×1,5 N je benachbartes Gehege, Preis +1 | Chef Carmen eröffnet sein Pop-up-Lokal im Zoo, die Tiere nebenan bekommen das Beste vom Besten. |
+| 🧭 Besucherlotse | **Mia Megaviral** (Influencerin) | ×1,5 B für alle Nachbarn, Preis +1 | Mia Megaviral streamt live aus dem Zoo, ihre Follower stürmen jedes Gehege in ihrer Nähe. |
+| 🔦 Scheinwerfer | **Stella Starr** (Filmstar) | ×2,5 für das stärkste Nachbar-Gehege | Stella Starr dreht ihren neuen Film im Zoo, und das schönste Gehege bekommt die Hauptrolle. |
+| 🎭 Bühne | **Nova** (Popstar) | Show-Bonus doppelt, bis ×2,5 | Nova gibt ein Konzert im Zoo, und die Showtiere tanzen mit. |
+| ❄️ Winterquartier | **Sven Frost** (Abenteurer) | Nachbarn ohne Winter-Bedingung, dazu ×1,2 im Winter | Sven Frost überwintert im Zoo, und mit ihm frieren selbst die Nachbarn nicht. |
+| 🤫 Ruhezone | **Luna Lotus** (Wellness-Guru) | kein Trubel für scheue Nachbarn, dazu ×1,25 N | Luna Lotus gibt Meditationskurse, und die scheuen Tiere finden endlich Ruhe. |
+
+Offen für den Entwurf: Symbol bleibt das Emoji der Wirkung oder ein Personen-Emoji (🧑‍🍳, 🤳, 🎬, 🎤, 🧗, 🧘) – Vorschlag Personen-Emoji.
 
 ## D · Neue Spezialisten (+ eine Änderung)
 
