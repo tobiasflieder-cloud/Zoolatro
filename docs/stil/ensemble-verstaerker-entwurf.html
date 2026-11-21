@@ -1,0 +1,197 @@
+<title>Ensembles und Verstärker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* Layout: Spiel-Look (dunkles Grün, Papierkarten). Oben Ensembles (Brett-Ausschnitt, Entdeckt-Einblendung, Zoo-Buch), unten Verstärker alt/neu und Wirkung auf dem Brett. Bewusst nur dunkel wie das Spiel. */
+:root{color-scheme:dark;--bg:#0b2015;--bg2:#12301f;--paper:#fffaf0;--paper2:#f3ead6;--line:#e7dcc4;--ink:#1d2a21;--muted:#6b7a6f;
+  --gold:#ffd166;--bInk:#a85d00;--bbg:#ffe7c4;--nInk:#00756b;--nbg:#c9f1ec;
+  --volt:#7cf6ff;--volt2:#b06bff;--vdark:#160f2e;
+  --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;--f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#eaf2e3;font-family:var(--f-body);font-size:14px;line-height:1.4;
+  padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1{font-family:var(--f-display);font-weight:400;color:var(--gold);font-size:26px;margin:0}
+h2{font-family:var(--f-display);font-weight:400;font-size:20px;margin:0;color:#fff;text-wrap:balance}
+.note{color:#9fbba5;font-size:13px;max-width:65ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.panel{background:var(--bg2);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9fbba5}
+svg{max-width:100%;height:auto;display:block}
+/* Ensemble-Karten im Zoo-Buch */
+.ens{background:var(--paper);color:var(--ink);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.ens .hd{display:flex;gap:10px;align-items:center}
+.ens .ic{font-size:26px;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--paper2);flex:none}
+.ens b{font-family:var(--f-display);font-weight:400;font-size:18px}
+.ens .how{font-size:13px;color:var(--muted)}
+.ens .fx{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-family:var(--f-display);font-size:14px;padding:2px 9px;border-radius:8px}
+.chip.b{background:var(--bbg);color:var(--bInk)}.chip.n{background:var(--nbg);color:var(--nInk)}.chip.g{background:#fff0c2;color:#8a6500}
+.ens.lock{background:#2a3b30;color:#9fbba5}.ens.lock .ic{background:#34483b}.ens.lock b{color:#cfe0d2}
+/* Einblendung */
+.pop{background:var(--paper);color:var(--ink);border-radius:20px;padding:16px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;box-shadow:0 0 0 3px var(--gold),0 12px 30px rgba(0,0,0,.4)}
+.pop .t{font-family:var(--f-display);font-size:22px;color:var(--bInk)}
+.pop .big{font-size:46px;line-height:1}
+.btn{font-family:var(--f-display);font-size:16px;border:0;border-radius:12px;padding:8px 18px;background:#2e8b57;color:#fff}
+/* Verstärker-Karten */
+.cards{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.card{width:150px;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:12.5px}
+.card.old{background:var(--paper);color:var(--ink);border:2px solid var(--line)}
+.card .nm{font-family:var(--f-display);font-size:16px}
+.card .em{font-size:30px;text-align:center}
+.card.new{position:relative;isolation:isolate;color:#eef;background:linear-gradient(160deg,#241a4d,var(--vdark) 60%);border:2px solid transparent;
+  background-clip:padding-box;box-shadow:0 0 0 2px var(--volt2),0 0 18px rgba(124,246,255,.35)}
+.card.new::before{content:"";position:absolute;inset:-2px;border-radius:15px;z-index:-1;padding:2px;
+  background:conic-gradient(from var(--a,0deg),var(--volt),var(--volt2),var(--volt));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 4s linear infinite}
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+@keyframes spin{to{--a:360deg}}
+.card.new .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--volt)}
+.card.new .val{font-family:var(--f-display);font-size:30px;line-height:1;text-align:center;color:#fff;text-shadow:0 0 12px var(--volt)}
+.card.new .em{filter:drop-shadow(0 0 8px var(--volt))}
+.card.new .tx{color:#c9c7ef}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.tblw{overflow-x:auto}
+.tbl th,.tbl td{text-align:left;padding:6px 8px;border-bottom:1px solid #24402f;vertical-align:top}
+.tbl th{color:#9fbba5;font-weight:500}
+.tbl td.v{white-space:nowrap;font-family:var(--f-display);font-size:15px}
+.tbl .up{color:var(--volt)}
+@media (prefers-reduced-motion:reduce){.card.new::before,.ray{animation:none}}
+.ray{stroke-dasharray:4 5;animation:flow 1.2s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+</style>
+
+<div class="wrap">
+  <div>
+    <h1>Ensembles und Verstärker · Entwurf</h1>
+    <p class="note">Für 0.89a+ zum Anschauen. Zahlen sind Vorschläge.</p>
+  </div>
+
+  <h2>1 · Ensembles: Gruppen auf dem Brett</h2>
+  <p class="note">Drei passende Karten, die zusammenhängen, bilden ein Ensemble. Auf dem Brett bekommt die Gruppe einen goldenen Umriss und ein Schild. Jedes Ensemble wird wie eine Freundschaft entdeckt: beim ersten Mal kommt die Einblendung, danach steht es im Zoo-Buch.</p>
+  <div class="grid">
+    <div class="panel">
+      <span class="lbl">Brett-Ausschnitt</span>
+      <svg viewBox="0 0 300 220" role="img" aria-label="Drei Gastro-Gebäude als Food Corner mit goldenem Umriss">
+        <defs>
+          <filter id="gl"><feGaussianBlur stdDeviation="3"/></filter>
+        </defs>
+        <g fill="#1f4a30" stroke="#0b2015" stroke-width="2">
+          <polygon points="60,40 85,26 110,40 110,68 85,82 60,68"/>
+          <polygon points="110,40 135,26 160,40 160,68 135,82 110,68"/>
+          <polygon points="160,40 185,26 210,40 210,68 185,82 160,68"/>
+          <polygon points="210,40 235,26 260,40 260,68 235,82 210,68"/>
+          <polygon points="35,82 60,68 85,82 85,110 60,124 35,110"/>
+          <polygon points="235,82 260,68 285,82 285,110 260,124 235,110"/>
+          <polygon points="60,124 85,110 110,124 110,152 85,166 60,152"/>
+          <polygon points="110,124 135,110 160,124 160,152 135,166 110,152"/>
+          <polygon points="160,124 185,110 210,124 210,152 185,166 160,152"/>
+          <polygon points="210,124 235,110 260,124 260,152 235,166 210,152"/>
+          <polygon points="85,166 110,152 135,166 135,194 110,208 85,194"/>
+          <polygon points="185,166 210,152 235,166 235,194 210,208 185,194"/>
+        </g>
+        <!-- Ensemble: drei Gastro-Felder -->
+        <path d="M85,82 L110,68 L135,82 L160,68 L185,82 L210,68 L235,82 L235,110 L210,124 L185,110 L160,124 L135,110 L110,124 L85,110 Z" fill="none" stroke="#ffd166" stroke-width="7" opacity=".45" filter="url(#gl)"/>
+        <g stroke="#0b2015" stroke-width="2">
+          <polygon points="85,82 110,68 135,82 135,110 110,124 85,110" fill="#ffe7c4"/>
+          <polygon points="135,82 160,68 185,82 185,110 160,124 135,110" fill="#ffe7c4"/>
+          <polygon points="185,82 210,68 235,82 235,110 210,124 185,110" fill="#ffe7c4"/>
+        </g>
+        <path d="M85,82 L110,68 L135,82 L160,68 L185,82 L210,68 L235,82 L235,110 L210,124 L185,110 L160,124 L135,110 L110,124 L85,110 Z" fill="none" stroke="#ffd166" stroke-width="3"/>
+        <g font-size="20" text-anchor="middle" dominant-baseline="central">
+          <text x="110" y="96">🌭</text><text x="160" y="96">🍦</text><text x="210" y="96">☕</text>
+        </g>
+        <!-- Schild -->
+        <g>
+          <rect x="102" y="128" width="116" height="26" rx="13" fill="#ffd166"/>
+          <text x="160" y="141" text-anchor="middle" dominant-baseline="central" font-family="Lilita One, sans-serif" font-size="14" fill="#5a3e00">🍔 Food Corner</text>
+        </g>
+      </svg>
+      <span class="note">Drei verschiedene Gastro-Gebäude hängen zusammen → je ×1,25 B, dazu +1 🪙 pro Tag.</span>
+    </div>
+
+    <div class="panel">
+      <span class="lbl">Erstes Mal: Einblendung</span>
+      <div class="pop">
+        <span class="lbl" style="color:var(--muted)">✨ Neu entdeckt · Ensemble</span>
+        <span class="big">🍔</span>
+        <span class="t">Food Corner</span>
+        <span style="font-size:13.5px">Drei verschiedene Gastro-Gebäude nebeneinander. Die Gäste bleiben länger.</span>
+        <div class="fx" style="display:flex;gap:6px"><span class="chip b">je ×1,25 B</span><span class="chip g">+1 🪙/Tag</span></div>
+        <button class="btn" type="button">Super!</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <span class="lbl">Zoo-Buch · Reiter „Freundschaften &amp; Ensembles“</span>
+    <div class="grid">
+      <div class="ens"><div class="hd"><span class="ic">🍔</span><div><b>Food Corner</b><div class="how">3 verschiedene Gastro-Gebäude, die zusammenhängen</div></div></div><div class="fx"><span class="chip b">je ×1,25 B</span><span class="chip g">+1 🪙/Tag</span></div></div>
+      <div class="ens"><div class="hd"><span class="ic">🎠</span><div><b>Vergnügungsmeile</b><div class="how">3 Attraktionen, die zusammenhängen</div></div></div><div class="fx"><span class="chip b">je ×1,25 B</span></div></div>
+      <div class="ens"><div class="hd"><span class="ic">🍃</span><div><b>Stilles Eck</b><div class="how">3 scheue Tiere, die zusammenhängen, keins gestresst</div></div></div><div class="fx"><span class="chip n">je ×1,2 N</span></div></div>
+      <div class="ens lock"><div class="hd"><span class="ic">❔</span><div><b>???</b><div class="how">Noch nicht entdeckt</div></div></div></div>
+    </div>
+    <span class="note">Namen „Rummelplatz“ und „Ruhezone“ sind schon vergeben (Ziel-Auflage, Verstärker), daher Vergnügungsmeile und Stilles Eck. Gesperrte zeigen wie bei den Freundschaften nur „???“.</span>
+  </div>
+
+  <h2>2 · Verstärker: stärker und auffälliger</h2>
+  <p class="note">Eigener Rahmen in Violett und Eisblau mit umlaufendem Leuchten, die Zahl groß in der Mitte. Auf dem Brett laufen Strahlen zu den verstärkten Nachbarn, beim Zählen blitzt „⚡ ×1,5“ auf.</p>
+  <div class="grid">
+    <div class="panel">
+      <span class="lbl">Karte heute → neu</span>
+      <div class="cards">
+        <div class="card old"><span class="nm">Besucherlotse</span><span class="em">🧭</span><span>×1,25 B für alle Nachbarn</span></div>
+        <div class="card new"><span class="tag">⚡ Verstärker</span><span class="nm">Besucherlotse</span><span class="em">🧭</span><span class="val">×1,5 B</span><span class="tx">für alle Nachbarn</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <span class="lbl">Auf dem Brett</span>
+      <svg viewBox="0 0 300 200" role="img" aria-label="Verstärker in der Mitte mit Strahlen zu vier Nachbar-Gehegen">
+        <g fill="#1f4a30" stroke="#0b2015" stroke-width="2">
+          <polygon points="100,30 125,16 150,30 150,58 125,72 100,58"/>
+          <polygon points="150,30 175,16 200,30 200,58 175,72 150,58"/>
+          <polygon points="75,72 100,58 125,72 125,100 100,114 75,100"/>
+          <polygon points="175,72 200,58 225,72 225,100 200,114 175,100"/>
+          <polygon points="100,114 125,100 150,114 150,142 125,156 100,142"/>
+          <polygon points="150,114 175,100 200,114 200,142 175,156 150,142"/>
+        </g>
+        <g stroke="#0b2015" stroke-width="2">
+          <polygon points="100,30 125,16 150,30 150,58 125,72 100,58" fill="#c9f1ec"/>
+          <polygon points="75,72 100,58 125,72 125,100 100,114 75,100" fill="#c9f1ec"/>
+          <polygon points="175,72 200,58 225,72 225,100 200,114 175,100" fill="#c9f1ec"/>
+          <polygon points="150,114 175,100 200,114 200,142 175,156 150,142" fill="#c9f1ec"/>
+          <polygon points="125,72 150,58 175,72 175,100 150,114 125,100" fill="#241a4d"/>
+        </g>
+        <polygon points="125,72 150,58 175,72 175,100 150,114 125,100" fill="none" stroke="#7cf6ff" stroke-width="3"/>
+        <g stroke="#7cf6ff" stroke-width="2.5" class="ray" fill="none">
+          <line x1="150" y1="86" x2="125" y2="44"/><line x1="150" y1="86" x2="100" y2="86"/><line x1="150" y1="86" x2="200" y2="86"/><line x1="150" y1="86" x2="175" y2="128"/>
+        </g>
+        <g font-size="18" text-anchor="middle" dominant-baseline="central">
+          <text x="150" y="86">🧭</text><text x="125" y="44">🦭</text><text x="100" y="86">🐧</text><text x="200" y="86">🦦</text><text x="175" y="128">🐢</text>
+        </g>
+        <g font-family="Lilita One, sans-serif" font-size="12" text-anchor="middle">
+          <rect x="128" y="2" width="44" height="18" rx="9" fill="#7cf6ff"/><text x="150" y="12" dominant-baseline="central" fill="#160f2e">×1,5</text>
+          <rect x="44" y="60" width="44" height="18" rx="9" fill="#7cf6ff"/><text x="66" y="70" dominant-baseline="central" fill="#160f2e">×1,5</text>
+          <rect x="214" y="60" width="44" height="18" rx="9" fill="#7cf6ff"/><text x="236" y="70" dominant-baseline="central" fill="#160f2e">×1,5</text>
+          <rect x="182" y="150" width="44" height="18" rx="9" fill="#7cf6ff"/><text x="204" y="160" dominant-baseline="central" fill="#160f2e">×1,5</text>
+        </g>
+        <text x="150" y="186" text-anchor="middle" font-family="Lilita One, sans-serif" font-size="22" fill="#fff" style="filter:drop-shadow(0 0 6px #7cf6ff)">⚡ ×1,5 B</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="panel">
+    <span class="lbl">Werte heute → Vorschlag</span>
+    <div class="tblw">
+    <table class="tbl">
+      <tr><th>Verstärker</th><th>heute</th><th>Vorschlag</th><th>Gegengewicht</th></tr>
+      <tr><td>🥣 Futterküche</td><td class="v">×1,25 N</td><td class="v up">×1,5 N</td><td>für jedes benachbarte Gehege; Preis +1</td></tr>
+      <tr><td>🧭 Besucherlotse</td><td class="v">×1,25 B</td><td class="v up">×1,5 B</td><td>für alle Nachbarn; Preis +1</td></tr>
+      <tr><td>🔦 Scheinwerfer</td><td class="v">×1,5</td><td class="v up">×2,5</td><td>nur das stärkste Nachbar-Gehege</td></tr>
+      <tr><td>🎭 Bühne</td><td class="v">Show ×2 (bis ×1,95)</td><td class="v up">Show ×2 (bis ×2,5)</td><td>höhere Obergrenze</td></tr>
+      <tr><td>❄️ Winterquartier</td><td class="v">kein ❄️</td><td class="v up">kein ❄️ + ×1,2 im Winter</td><td>bisher reiner Schutz, nun auch etwas Gewinn</td></tr>
+      <tr><td>🤫 Ruhezone</td><td class="v">kein Trubel</td><td class="v up">kein Trubel + ×1,25 N</td><td>für scheue Nachbarn</td></tr>
+    </table>
+    </div>
+    <span class="note">Verstärker bleiben selten. Ob sie dafür teurer werden oder höchstens 2 im Zoo stehen dürfen, entscheidest du.</span>
+  </div>
+</div>
