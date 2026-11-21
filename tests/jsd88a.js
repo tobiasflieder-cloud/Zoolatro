@@ -21,7 +21,7 @@ const play=`modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;r
  T(R.every(x=>!x.lv.every(l=>l==='schwer')),'nie nur schwere Ziele');
  T(R.filter(x=>x.z===0).every(x=>x.lv.includes('mittel')&&!x.lv.includes('schwer')),'vor Zoo 1: mindestens ein mittleres, kein schweres');
  // 3. Protokoll: Lebensraum-Prüfung mit dem gewerteten Lebensraum
- ev(`screenArg.wrSel=0;wrGo(runOf(),screenArg,0);${play}`);
+ ev(`screenArg.wrSel=0;runOf().wrOpts[0].rw=null;wrGo(runOf(),screenArg,0);${play}`);
  T(ev(`(()=>{state.zl.insp='hab';state.zl.inspHabs=['wasser'];logZoo(true);const z=runOf().zlog.slice(-1)[0];return z.ih==='Wasser'&&!('inspHab' in state.zl&&state.zl.inspHab)})()`),'Lauf-Protokoll: Lebensraum-Prüfung zeigt den gewerteten Lebensraum');
  // 4. Testlauf zählt in der Statistik, Bestwerte getrennt
  start(w,{d4:1});ev(play);

@@ -4,7 +4,7 @@ const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),wait=ms=>new Promi
 const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message));
   let S=seed||87;w.Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}});
 const base=`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.fbOff=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,fs:{'h:arktis':1,'h:gebirge':1}};META.lastSlot=0;META.active=0;screen=null;`;
-const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};META.d4=${o.d4?1:0};enterCamp(0,true,'grund','z2',${JSON.stringify(o.habs||['wasser','savanne','wueste'])},NOPROF,1);if(${o.wr?1:0}){screenArg.wrSel=0;wrGo(runOf(),screenArg,0)}modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;render()`);
+const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};META.d4=${o.d4?1:0};enterCamp(0,true,'grund','z2',${JSON.stringify(o.habs||['wasser','savanne','wueste'])},NOPROF,1);if(${o.wr?1:0}){screenArg.wrSel=0;runOf().wrOpts[0].rw=null;wrGo(runOf(),screenArg,0)}modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;render()`);
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x),J=x=>JSON.parse(ev(`JSON.stringify(${x})`));await wait(200);
  T(ev('VERSION')==='0.87a','Version');

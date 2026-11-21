@@ -34,7 +34,7 @@ const start=(w,o={})=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')S
  // 7. Zoogründer Stufe 1 leichter, Stufe 2 und Kapitänin unverändert
  dom=neu();w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);start(w);
  const e1=JSON.parse(ev(`JSON.stringify([0,1,2,3].map(einTF))`));T(JSON.stringify(e1)==='[0.8,0.8,0.8,0.8]','Zoogründer Stufe 1: alle Faktoren 0,8 (seit 0.82a)');
- const t1=ev('seTarget(0,true,0)');ev(`runOf().stage=2`);const t2=ev('seTarget(0,true,0)/stTF()');ev(`runOf().stage=1`);T(Math.abs(t1/t2-.8)<.03,`Frühlingsziel Stufe 1 ≈ ×0,8 (${t1} zu ${Math.round(t2)})`);
+ const t1=ev('seTarget(0,true,0)');ev(`runOf().stage=2`);const t2=ev('seTarget(0,true,0)/stTF(0)');ev(`runOf().stage=1`);T(Math.abs(t1/t2-.8)<.03,`Frühlingsziel Stufe 1 ≈ ×0,8 (${t1} zu ${Math.round(t2)})`);
  ev(`runOf().deckId='kueste'`);T(JSON.stringify(JSON.parse(ev(`JSON.stringify([0,1,2,3].map(einTF))`)))==='[1,1,1,1]','Kapitänin Stufe 1 unverändert');ev(`runOf().deckId='grund'`);
  ev(`state=null;screen='cdeck';screenArg={slot:0,zl:'z2',habs:['wasser','savanne','wueste']};renderAll()`);T(/Einstieg: alle Ziele ×0,8/.test(d.getElementById('screenRoot').textContent),'Stufenwahl: Einstiegs-Hinweis beim Zoogründer');
  dom.window.close();

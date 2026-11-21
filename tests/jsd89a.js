@@ -13,7 +13,7 @@ const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};enterCamp(0,true,'${o.dec
  start(w,{wr:1});
  const R=J(`(()=>{const r=runOf(),HS=[['wald','wasser','savanne'],['wald','wueste','gebirge'],['wasser','savanne','wueste'],['wald','arktis','wasser'],['savanne','wueste','gebirge']],o=[];for(let i=0;i<150;i++){r.habs=HS[i%HS.length];r.zoo=i%4;r.wrRoute=[];const f={};for(const q of wrRollOpts0(r))if(q.foc)f[q.foc]=(f[q.foc]||0)+1;o.push(Math.max(0,...Object.values(f)))}r.zoo=0;return o})()`);
  T(R.every(n=>n<=2),`Weltreise: nie 3-mal derselbe Schwerpunkt (150 Auslosungen, höchstens ${Math.max(...R)})`);
- ev(`screenArg.wrSel=0;wrGo(runOf(),screenArg,0);modal=null;state.ruleIntro=0;render()`);
+ ev(`screenArg.wrSel=0;runOf().wrOpts[0].rw=null;wrGo(runOf(),screenArg,0);modal=null;state.ruleIntro=0;render()`);
  // 2. Umbau erst nach Bestätigung
  const u0=J(`(()=>{const inv=umbInv();inv.length=0;inv.push('bauplan');state.phase='play';state.umbOpen=true;render();const b=document.querySelector('[data-umbuse="0"]');b.click();return{n:umbInv().length,conf:!!state.umbConf,pop:!!document.getElementById('umbConfPop'),txt:(document.getElementById('umbConfPop')||{}).textContent||''}})()`);
  T(u0.n===1&&u0.conf&&u0.pop&&/Bauplan/.test(u0.txt)&&/Einsetzen/.test(u0.txt),'Umbau antippen: Detail-Fenster, noch nichts verbraucht');

@@ -162,7 +162,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.85a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()
   // 13) 0.86a: Zoo-Menü (Dieser Zoo, Chips, Dein Stand) und „📖 Regeln“: nichts breiter als der Bildschirm, Kacheln ohne Überlappung, Knöpfe wirken, keine doppelten ids (auch mit Seitenleiste)
   p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
-    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);screenArg.wrSel=0;wrGo(runOf(),screenArg,0);state.ruleIntro=0;state.wishIntro=0;modal='zoo';ZRULES=0;render()});await p.waitForTimeout(400);
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);screenArg.wrSel=0;runOf().wrOpts[0].rw=null;wrGo(runOf(),screenArg,0);state.ruleIntro=0;state.wishIntro=0;modal='zoo';ZRULES=0;render()});await p.waitForTimeout(400);
   {const r=await p.evaluate(()=>{const M=document.querySelector('#modalRoot .modal');if(!M)return null;const t=[...M.querySelectorAll('.ztl,.zdt')].map(e=>e.getBoundingClientRect());let ov=0;for(let i=1;i<t.length;i++)if(t[i].top<t[i-1].bottom-1)ov++;
       const mr=M.getBoundingClientRect();let out=0;for(const e of M.querySelectorAll('.ztl,.zdt,.zch,.zst,.zdv')){const q=e.getBoundingClientRect();if(q.right>mr.right+1||q.left<mr.left-1)out++}
       return{n:t.length,ov,out,qx:document.documentElement.scrollWidth-innerWidth,sec:/Dieser Zoo/.test(M.textContent)&&/Dein Stand/.test(M.textContent)}});

@@ -33,7 +33,7 @@ const start=(w,wr,habs,deck)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'$
  // Anzeige: Region als Name, Kontinent darunter
  ev(`(()=>{const r=runOf();r.zoo=0;r.wrRoute=[];r.wrOpts=null;screen='creward';screenArg=r.reward={step:'wr',first:1};wrRollOpts(r);renderAll()})()`);
  ev(`screenArg.wrSel=0;renderAll()`);const c0=d.querySelector('.wrc .wrnm');const o0=J(`runOf().wrOpts[0]`);T(!!c0&&c0.firstChild.textContent.trim()===o0.ort&&/[A-ZÄÖÜ]/.test(c0.querySelector('small').textContent),`Kontinent-Wahl: Region als Name, Kontinent darunter (${c0&&c0.textContent})`);
- ev(`screenArg.wrSel=0;wrGo(runOf(),screenArg,0)`);ev(`modal=null;state.ruleIntro=1;render()`);
+ ev(`screenArg.wrSel=0;runOf().wrOpts[0].rw=null;wrGo(runOf(),screenArg,0)`);ev(`modal=null;state.ruleIntro=1;render()`);
  T(new RegExp(o0.ort).test((d.getElementById('rulePop')||{}).textContent||'')&&/Willkommen/.test(d.getElementById('rulePop').textContent),'Willkommen-Einblendung mit Region');
  T(new RegExp(o0.ort).test(ev('runText(runOf())')),'Lauf-Text nennt die Region');
  // 4. Zoo-Menü
