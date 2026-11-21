@@ -97,7 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.90a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.91a) – erst bauen, wenn Tobi „bauen“ sagt
 
 Alle Werte und Tabellen stehen in `docs/plan/ensembles-spezialisten-auflagen.md` (Chat 21.11., Tabelle „Weltreise-Plan“, Blätter „Neue Ideen“ und „Auflagen-Kategorien“). Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
 1. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
@@ -128,6 +128,9 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.90a** (Chat 21.11., Tobi: „Vorschau aus funktioniert nicht“): Schalter wirkte nur auf Nachbar-Schilder beim Platzieren. Jetzt `pvHide()` (Modul 07, `META.pvOff`, nicht im Tutorial) auch für Auswahl-Hinweise (`trm`/`labs`-Schilder `.trl`, Hervorhebung),
+  Info-Feld beim Platzieren (`infoHtml`: `h=null` → nur Karteninfo), Winter-Wirkungen (`winterMarks`, Handkarten `data-dead`, `zlDead`-Markierungen außer Profil/„Betroffene zeigen“, Info-Zeilen). Bleiben: Umriss, `ruleOverlay`, Naturflächen passt/nicht, „passt nicht, weil“. Test neu `jsd90a.js`.
 
 - **0.89a** ([Auftrag](docs/auftraege/0.89a-schliff-stufen-umbau-auflagen.md), Regeln `docs/regeln.md` 20): Weltreise höchstens 2× derselbe Schwerpunkt (`wrRollOpts0`, Paare Region/Schwerpunkt, zweiter Durchgang erlaubt Gleichheit);
   Umbau-Fenster `umbConfHtml`/`umbConfOk` (`state.umbConf`, `#umbConfPop`, `data-umbcx`); Raubtier-Kenner `ms`; `META.pvOff`/`data-pvm` (Vorschau-Schilder/Linien aus, nicht im Tutorial); Eingang-„frei“-Regel gestrichen;

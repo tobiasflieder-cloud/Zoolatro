@@ -442,6 +442,6 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Stufen-Ziele** `08:stTF(i)`: Frühling ×1, ab Sommer Produkt der `ziel`-Wirkungen. Einstieg (`einTF`) und Testlauf (`d4TF`) unverändert.
 - **Raubtier-Kenner** `k_raub`: ×(1+0,12·Raubtiere) auf N, höchstens ×1,6.
 - **Umbau:** `data-umbuse` öffnet `#umbConfPop` (`umbConfHtml`), „Einsetzen“ ruft `umbUse(i,true)`.
-- **Vorschau-Schalter** `META.pvOff`: in `render0` keine `badges`/`links`/Hervorhebungen der Vorschau (nicht im Tutorial).
+- **Vorschau-Schalter** `META.pvOff` (`07:pvHide`, nicht im Tutorial), seit 0.90a vollständig: keine Auswahl-Hinweise (`.trl`/`trm`), keine Vorschau-Schilder/Linien, Info-Feld beim Platzieren nur Karteninfo, keine Winter-Wirkungen (`winterMarks`, `data-dead`, `zlDead`-Markierungen außer Profil und „Betroffene zeigen“). Auflagen-Felder, Umriss und Gründe für „passt nicht“ bleiben.
 - **Stufenwahl** `09:stageBox`, Auswahl `screenArg.stSel`.
 - **Bratwurstbude** `rq:'savanne'`, Ersatz Popcorn.
