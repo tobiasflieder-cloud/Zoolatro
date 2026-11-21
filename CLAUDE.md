@@ -131,12 +131,15 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 9. **Stufen: „Saisonziele ×1,1“ nicht im Frühling** (Chat 21.11.): Heute multipliziert `stTF()` (Modul 08 ~Z. 421) in `seTarget` (Modul 05 ~Z. 159) alle vier Jahreszeiten gleich. Neu: `stTF(i)` gibt im Frühling (`i===0`) immer 1, ab Sommer wie bisher (Stufe 2: ×1,1, Stufe 4: ×1,21, Stufe 7: ×1,331).
    Texte anpassen: `daten/stufen.json` („Saisonziele ab Sommer ×1,1“) und die Zusammenfassung aus Punkt 6 („Ziele ab Sommer ×1,21“). Test: Stufe 4 → Frühlingsziel wie Stufe 1, Sommerziel ×1,21. Referenzfälle unberührt (keine Ziele darin).
 
+**Danach (Chat 21.11., alle Werte und Tabellen in `docs/plan/ensembles-spezialisten-auflagen.md`; Vorschlag: in eigenen Versionen bauen, z. B. 0.90a = 10–12, 0.91a = 13, 0.92a = 14):**
+10. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
+11. **Show-Bonus ×1,35** statt ×1,25 je Gastro-/Attraktions-Nachbar (Plan B).
+12. **Verstärker** neue Werte und neues Aussehen (Plan C, Entwurf).
+13. **Neue Spezialisten** (Plan D): Zweiraum-Planerin, Wetterfrosch, Naturpur-Leiterin, Kleine Küche, Ruhige-Lage-Planer, Beute-Hirtin, Ensemble-Regisseur (braucht 10), Frühaufsteherin, Schlussspurt, Grenzgängerin.
+14. **Zoo-Auflagen in Kategorien** (Plan E): 6 Kategorien, keine doppelt pro Lauf, in der Weltreise nach Kontinent, 13 neue Auflagen (Limitierungen, Vorlieben = Bonus/Malus, Durchmischt, Schwerpunkt-Pflicht).
+
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
-
-**In Planung (Chat 21.11., noch nicht entschieden):** Ensembles (3 verschiedene Gastro = 🍔 Food Corner, 3 Attraktionen = 🎠 Vergnügungsmeile, 3 scheue Tiere = 🍃 Stilles Eck; entdecken wie Freundschaften, sind ein Bonus; unter der Auflage „Gastronomische Vielfalt“ gibt es eben keine Food Corner – gewollt) und stärkere Verstärker – Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
-  Spezialist 🔭 Wetterfrosch (Winter-Bedingung schon ab Frühling sichtbar). Spezialist für Gehege mit 2 Feldern (Kleintier-Expertin = 1 Feld, Architekt bleibt 3 und 4 Felder). Zoo-Auflagen in Kategorien (Platz & Gelände, Tiere, Gebäude, Limitierung, Lebensräume, Vorlieben = Bonus/Malus, Ziel), keine Kategorie doppelt in einem Lauf (bei 4 Zoos kommen nicht alle dran), an Kontinente gekoppelt, neue Auflagen
-  (Stille Wildnis, Showtime, höchstens 3 Showtiere, höchstens 2 Raubtiere) – Tabelle „Weltreise-Plan“, Blatt „Auflagen-Kategorien“.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
