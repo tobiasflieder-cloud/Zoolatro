@@ -114,6 +114,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Aus = beim Platzieren keine Wirkungs-Schilder und -Linien auf dem Brett (`badges`/`links` aus der Vorschau, Modul 07 ~Z. 28–39). Bleibt: die Umriss-Vorschau (`ghost`, sonst kann man nicht zielen, rot = geht nicht),
    der Zähler oben (`dA`/`dS`/`dT`) und das Info-Feld mit Details. Schilder gebauter Gehege außerhalb der Vorschau (Winter, Stress usw.) bleiben. Im Tutorial immer an.
    Test: Schalter aus → Vorschau ohne `.badge`/`.link` aus der Vorschau, Umriss da; an → wie heute.
+5. **Auflage 🚪 Eingang: Regel „ein Feld neben dem Eingang bleibt frei“ streichen** (Chat 21.11., Tobi: macht keinen Sinn): Prüfung in `06-spiel.js` ~Z. 319 (`R.id==='eingang'` mit `ruleFree` um `R.entry`) entfernen,
+   Satz „Der Eingang darf nicht ganz zugebaut werden …“ aus `RULES.eingang.text` (~Z. 138) und ggf. `docs/regeln.md`/Tests nehmen. Bleibt: Eingangsfeld selbst ist nicht bebaubar, erstes Gebäude berührt ihn, alles bleibt verbunden (`entryCut`).
+   `initRule` (≥ 2 bebaubare Nachbarn) darf bleiben. Test: Eingang rundum zubauen ist erlaubt.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
