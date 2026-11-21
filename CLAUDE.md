@@ -124,6 +124,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 7. **Zerklüftetes Gelände nie mit Auflage 🚪 Eingang** (Chat 21.11.: Zoo 3 einer Reise mit Zerklüftet + Eingang + Naturfeldern kaum spielbar): `ruleRoll()` (Modul 06 ~Z. 61) kennt das Gelände nicht.
    Neu: `ruleRoll(mapId)` filtert `eingang` heraus, wenn das Gelände `zerkluftet` ist (Kennung aus `daten/gelaende.json`); alle Aufrufer übergeben die Gelände-Kennung (Modul 06 ~Z. 67, Modul 09 ~Z. 31, Weltreise-Auslosung über `WRCTX.rule` in `wrRollOpts`).
    Falls das Gelände erst nach der Auflage ausgelost wird: dort umgekehrt bei `eingang` kein `zerkluftet`. Am besten als kleine Liste „verbotene Paare“ (Gelände, Auflage), damit später weitere dazukommen können. Test: viele Auslosungen → nie zerklüftet + Eingang.
+8. **Bratwurstbude nur mit Savanne** (Chat 21.11.: kam ohne Savanne im Lauf): Ihre Wirkung („+1 B und 1 🪙 je benachbartes Savannen-Gehege“) hängt an Savanne, in `daten/karten.json` fehlt aber `"rq":"savanne"` (wie bei Bistro/Wasserloch).
+   Neu: `rq:"savanne"` bei `bratwurst`; Ersatz im Startdeck ohne Savanne: `RQS` (Modul 04 ~Z. 109) `bratwurst:'popcorn'` und ggf. `daten/profile.json` `startdeck.ersatz` (Sterneköchin hat Bratwurst in `inn`). Tutorial (Savanne gewählt) bleibt gleich.
+   Geprüft: Unter allen Nicht-Gehege-Karten ist sie die einzige mit Lebensraum-Wirkung ohne `rq`; Gehege sind über `hab` gefiltert, Lebensraum-Spezialisten über `specOff`.
+   Test (dauerhaft, damit es nicht wieder passiert): jede Nicht-Gehege-Karte, deren Wirkungstext genau einen Lebensraum nennt, hat `rq`; Kartenwahl/Shop ohne Savanne bieten keine Bratwurst an.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
