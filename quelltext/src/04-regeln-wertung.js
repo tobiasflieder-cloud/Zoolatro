@@ -106,7 +106,7 @@ const bldFix=(L,H)=>L.map(k=>CARDS[k]&&CARDS[k].rq&&!H.includes(CARDS[k].rq)?(RQ
 function grundDeck(H){return gehege3(H).concat(bldFix(GRBLD,H))}
 const deckCards=(id,habs)=>{const D=DECKS[id]||DECKS.grund;if(!D.type&&habs)return grundDeck(habs);if(D.type&&!HAB[D.type]&&habs)return gehege3(habs).concat(bldFix([...(D.core||[]),...D.inn],habs));const d=deckCards0(id),H=habs||DEFHABS,used=new Set(d.filter(k=>k[0]!=='_'));
   if(D.type&&HAB[D.type]){const oth=H.filter(h=>h!==D.type);let oi=0;return d.map(k=>{if(k[0]!=='_')return k;const n=+k.slice(2),h=oth[oi++%Math.max(1,oth.length)]||H[0],L=[...(HABSUB[h][n]||[]),...(HABSUB[h][1]||[]),...(HABSUB[h][2]||[])],pick=L.find(x=>!used.has(x)&&okK(x))||L.find(okK)||L[0];used.add(pick);return pick})}
-  if(!habs)return d;const U=DEFHABS.filter(h=>!habs.includes(h)),N=NEWHABS.filter(h=>habs.includes(h)),RQS={delfinshow:'lehrpfad',baumschule:'gruen',wasserfall:'gruen',wasserloch:'gruen',oase:'gruen',beduinen:'popcorn',teestube:'popcorn',berghuette:'popcorn',glashaus:'turm',polarstation:'gruen',bergwacht:'gruen',seilbahn:'turm'};
+  if(!habs)return d;const U=DEFHABS.filter(h=>!habs.includes(h)),N=NEWHABS.filter(h=>habs.includes(h)),RQS={bratwurst:'popcorn',delfinshow:'lehrpfad',baumschule:'gruen',wasserfall:'gruen',wasserloch:'gruen',oase:'gruen',beduinen:'popcorn',teestube:'popcorn',berghuette:'popcorn',glashaus:'turm',polarstation:'gruen',bergwacht:'gruen',seilbahn:'turm'};
   return d.map(k=>{const rq=CARDS[k].rq;if(rq&&!habs.includes(rq))return RQS[k]||'gruen';const h=CARDS[k].hab;if(!h||habs.includes(h))return k;const to=N[U.indexOf(h)]||habs[Math.max(0,U.indexOf(h))%habs.length],n=Math.min(3,SHAPES[CARDS[k].shape].cells.length),L=[...(HABSUB[to][n]||[]),...(HABSUB[to][2]||[]),...(HABSUB[to][1]||[])],pick=L.find(x=>!used.has(x)&&okK(x))||L.find(okK)||L[0];used.add(pick);return pick})};
 const typeOfCard=c=>c.hab||c.cat;
 // Kampagne: jeder Zoo wird schwerer (Gelände, Felsen, Ereignisse, Ziele)
@@ -116,7 +116,8 @@ const CAMP_GOAL=CAMP.length;
 // ab 0.85: Gelände je Zoo gewürfelt (ohne Wiederholung, Zerklüftet erst ab Zoo 3), gespeichert in run.maps
 const MAPPOOL=GELAENDE_DATEN.wuerfel_pool.slice();
 function mapRoll(run){if(!run||!run.zl||run.tut)return;run.maps=run.maps||{};if(run.maps[run.zoo])return;const used=Object.keys(run.maps).filter(k=>+k<run.zoo).map(k=>run.maps[k]);
-  let pool=MAPPOOL.filter(m=>!used.includes(m)&&!(m==='zerkluftet'&&run.zoo<2));if(!pool.length)pool=MAPPOOL.filter(m=>!(m==='zerkluftet'&&run.zoo<2));run.maps[run.zoo]=pool[Math.floor(Math.random()*pool.length)]}
+  const vb=m=>typeof WRCTX!=='undefined'&&WRCTX&&paarVerboten(m,WRCTX.rule); /* 0.89a: Weltreise-Auflage steht vorher fest */
+  let pool=MAPPOOL.filter(m=>!used.includes(m)&&!(m==='zerkluftet'&&run.zoo<2)&&!vb(m));if(!pool.length)pool=MAPPOOL.filter(m=>!(m==='zerkluftet'&&run.zoo<2)&&!vb(m));run.maps[run.zoo]=pool[Math.floor(Math.random()*pool.length)]}
 const MAPROCKS={...GELAENDE_DATEN.felsen};
 const cfOf=run=>{const c=campCfg(run.zoo),m=run.maps&&run.maps[run.zoo];if(!m)return run.deckId==='alpen'&&run.zl&&!run.tut?{...c,rocks:(c.rocks||0)+3}:c;const z=run.zoo||0,rk=(z===0?0:m==='zerkluftet'?3:Math.max(MAPROCKS[m]||0,2*z-2))+(run.deckId==='alpen'&&run.zl&&!run.tut?3:0);return{...c,map:m,rocks:rk}};
 function campCfg(z){if(z<CAMP.length)return CAMP[z];const ks=Object.keys(MAPS),e=z-CAMP.length+1;return{map:ks[z%ks.length],rocks:6+2*e,k:3,n:2,spring:true,hard:true,mult:2.2+.5*e}}

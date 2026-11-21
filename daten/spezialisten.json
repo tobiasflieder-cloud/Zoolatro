@@ -46,7 +46,7 @@
 {"key":"tagesfeld","name":"Tagesfeld","icon":"⭐","tier":2,"fx":["×3|jeden Tag für ein ausgelostes Feld, bebaut oder frei"]},
 {"key":"grosshand","name":"Große Hand","icon":"🖐️","tier":2,"fx":["6|Handkarten statt 5"]},
 {"key":"k_beute","name":"Beute-Kennerin","icon":"🐇","tier":2,"fx":["×1 N|+0,06 je Beutetier im Zoo (höchstens ×1,6)"],"mult":"k_beute"},
-{"key":"k_raub","name":"Raubtier-Kenner","icon":"🦷","tier":2,"fx":["×1 B|+0,12 je Raubtier im Zoo (höchstens ×1,6)"],"mult":"k_raub"},
+{"key":"k_raub","name":"Raubtier-Kenner","icon":"🦷","tier":2,"fx":["×1 N|+0,12 je Raubtier im Zoo (höchstens ×1,6)"],"mult":"k_raub"},
 {"key":"k_scheu","name":"Scheu-Kennerin","icon":"🙈","tier":2,"fx":["×1 N|+0,1 je scheues Tier im Zoo (höchstens ×1,6)"],"mult":"k_scheu"},
 {"key":"k_show","name":"Show-Kenner","icon":"🎭","tier":2,"fx":["×1 B|+0,1 je Showtier im Zoo (höchstens ×1,6)"],"mult":"k_show"},
 {"key":"k_rot","name":"Rote-Liste-Kennerin","icon":"🔴","tier":2,"fx":["×1 N|+0,15 je bedrohtes Tier im Zoo (höchstens ×1,6)"],"mult":"k_rot"},

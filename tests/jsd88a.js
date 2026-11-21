@@ -40,14 +40,14 @@ const play=`modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;r
  T(ev(`(()=>{META.cscores=[];for(let i=0;i<30;i++)META.cscores.push({name:'x',zoos:1,pts:i,date:1000+i,sum:{total:i}});csPrune();return META.cscores.filter(x=>x.sum).length===20&&META.cscores.filter(x=>x.sum).every(x=>x.date>=1010)})()`),'Endbild-Kopie nur bei den 20 jüngsten Einträgen');
  // 7. Alle Stufen
  ev(base+`META.stAll=1;screen='cdeck';screenArg={slot:0,zl:'z2',habs:['wasser','savanne','wueste'],prof:NOPROF};renderAll()`);
- T(!!d.querySelector('[data-cdeck="grund"][data-stage="8"]'),'Schalter „Alle Stufen“: Stufe 8 wählbar');
+ T(!!d.querySelector('[data-stsel="grund:8"]:not(.stlk)'),'Schalter „Alle Stufen“: Stufe 8 wählbar');
  start(w,{stAll:1,stage:5});T(ev(`runOf().stTest===1&&runOf().test===1`),'Lauf über dem Fortschritt: Stufen-Test');
  T(ev(`(()=>{const sl=activeSlot(),r=runOf(),Z2=z2Of(sl),a=Z2.st.grund||1;state.zoo=2;z2After(sl,r,true);return(Z2.st.grund||1)===a})()`),'Sieg in Zoo 3 ändert den Stufen-Fortschritt nicht');
  T(/Stufen-Test/.test(ev(`runText(runOf())`)),'Lauf-Protokoll: 🧪 Stufen-Test');
  ev(base+`META.stAll=0;screen='zlsetup';screenArg={slot:0,step:'habs',prof:NOPROF,opts:[],habs:[],z2:true};renderAll()`);T(!!d.querySelector('[data-zsstall]'),'Schalter steht bei Futter und 4 Tage');
  // 8. Profil ohne Lebensraum: Stufen sichtbar, nichts wählbar; Testlauf+Weltreise → Stufe 2
  ev(base+`META.slots[0].z2={st:{polar:2},ch:{}};screen='cdeck';screenArg={slot:0,zl:'z2',habs:['wasser','savanne','wueste'],prof:NOPROF};renderAll()`);
- const box=[...d.querySelectorAll('.slot')].find(e=>/Expedition|polar/i.test(e.textContent)&&e.querySelector('[data-hdlock]'));
+ const box=[...d.querySelectorAll('.slot')].find(e=>/Expedition|polar/i.test(e.textContent)&&e.querySelector('.hdhint'));
  T(!!box&&/Stufe 2 von 8/.test(box.textContent)&&!box.querySelector('[data-cdeck]')&&/brauchst du den Lebensraum/.test(box.textContent),'Profil ohne Lebensraum: Stufe 2 von 8, Hinweis, nichts wählbar');
  start(w,{deck:'polar',wr:1,d4:1,habs:['arktis','wasser','savanne']});
  T(ev(`(()=>{const sl=activeSlot();sl.z2={st:{},ch:{}};const r=runOf();screenArg.wrSel=0;wrGo(r,screenArg,0);state.zoo=2;z2After(sl,r,true);return stMax(sl,'polar')===2&&(r.stNewAll||[]).includes(2)})()`),'Testlauf + Weltreise + Expeditionsleiterin: Sieg in Zoo 3 → Stufe 2');

@@ -44,7 +44,7 @@
 {"key":"glashaus","icon":"🪴","cat":"attr","shape":"s2","a":3,"s":2,"rar":"winter","bonus":"glashaus","tags":["ruhig"]},
 {"key":"popcorn","icon":"🍿","cat":"essen","shape":"s1","a":1,"s":0,"rar":"gewöhnlich","bonus":"popcorn","tags":[]},
 {"key":"eiswagen","icon":"🍦","cat":"essen","shape":"s1","a":2,"s":0,"rar":"gewöhnlich","bonus":"eiswagen","tal":"eiswagen","tags":[]},
-{"key":"bratwurst","icon":"🌭","cat":"essen","shape":"s1","a":2,"s":0,"rar":"gewöhnlich","bonus":"bratwurst","tal":"bratwurst","tags":["trubel"]},
+{"key":"bratwurst","icon":"🌭","cat":"essen","shape":"s1","a":2,"s":0,"rar":"gewöhnlich","bonus":"bratwurst","tal":"bratwurst","tags":["trubel"],"rq":"savanne"},
 {"key":"cafe","icon":"☕","cat":"essen","shape":"s2","a":3,"s":0,"rar":"gewöhnlich","bonus":"cafe","tal":"cafe","tags":[]},
 {"key":"getraenke","gone":1,"icon":"🥤","cat":"essen","shape":"s1","a":1,"s":0,"rar":"selten","bonus":"getraenke","tags":[]},
 {"key":"crepes","gone":1,"icon":"🥞","cat":"essen","shape":"s1","a":2,"s":0,"rar":"selten","bonus":"crepes","tags":[]},

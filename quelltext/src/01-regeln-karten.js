@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.88a';
+const VERSION='0.89a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.89a',d:'21.11.2026',t:'Stufenwahl, Umbau-Bestätigung, Schliff',i:['🏔️ Stufenwahl: Antippen zeigt, was die Stufe ändert (alle Verschärfungen bis dahin), gestartet wird über den Knopf. Saisonziele der Stufen gelten erst ab Sommer.','🧰 Umbauten zeigen erst ein Fenster mit ihrer Wirkung, erst „Einsetzen“ löst aus. 📊 Neuer Schalter im Menü: Vorschau auf dem Spielfeld an/aus.','🌍 Weltreise: höchstens zwei Ziele mit demselben Schwerpunkt. Zerklüftet kommt nie mit der Auflage Eingang, und der Eingang darf zugebaut werden.','🦷 Raubtier-Kenner gibt jetzt Natur. 🌭 Bratwurstbude nur noch mit Savanne.']},
  {v:'0.88a',d:'18.11.2026',t:'Weltkarte, Highscores, Stufen',i:['🗺️ Weltreise: Die Ziele stehen jetzt auf einer gezeichneten Weltkarte – antippen, Gelände ansehen, losreisen. Deine Route ist golden eingezeichnet. Es sind nie mehr nur leichte Ziele zur Wahl.','🏆 Highscores: Läufe antippen zeigt das Endbild, dazu das Profil.','🧪 Testläufe zählen in der Statistik und im Zoo-Buch. Neuer Test-Schalter „Alle Stufen“.','🎴 Profile ohne passenden Lebensraum zeigen ihre Stufen, mit Hinweis, welchen Lebensraum du brauchst.']},
- {v:'0.87a',d:'16.11.2026',t:'Schliff Weltreise, Arktis',i:['🌍 Weltreise: etwas weniger Naturflächen, die Auswilderung kommt im Sommer und Herbst statt im Winter, bei schwerer Auflage gibt es nur eine leichte Winter-Bedingung, Leichter Boden nicht mehr mit Gebirge.','❄️ Die Arktis-Zone liegt oben auf dem Bildschirm, wie beim Zoo-Start, und ist nicht mehr mit fremden Naturflächen zugepflastert.','🏅 Meilensteine dürfen auch auf Felsen und fremde Naturflächen. 🌿 Naturfläche ändern gilt für bis zu 3 Felder.','🔍 Detail-Fenster: neu „Wirkung auf den Zoo“. Testlauf 4 Tage: Geschenke schon ab 1 Tag früher.']},
- {v:'0.86a',d:'15.11.2026',t:'Regionen, Zoo-Menü, Savanne, Krone',i:['🌍 Weltreise: Ziele sind jetzt Regionen wie Sahara, Amazonas oder Alaska, jede mit eigenem Schwerpunkt. Neu sind Nordamerika und die Polargebiete. Jeder Kontinent kommt nur einmal pro Reise, auch Europa.','🃏 Zoo-Menü aufgeräumt: oben, was diesen Zoo ausmacht (Ziel, Auflage, Wunsch, Winter), darunter dein Stand zum Aufklappen und ein Knopf 📖 Regeln.','🌾 Savanne: Die Herde zählt erst ab 3 Gehegen (×1,15), je weiteres +0,1, höchstens ×1,75. Zu zweit ×1.','🔓 Freischaltbare Gehege sind stärker, z. B. Tiger und Nilpferde 7 B, Eisbären 8 B.','👑 Das Kronenfeld liegt nur noch dort, wo ein Gehege mit 4 Feldern auch hinpasst.']}];
+ {v:'0.87a',d:'16.11.2026',t:'Schliff Weltreise, Arktis',i:['🌍 Weltreise: etwas weniger Naturflächen, die Auswilderung kommt im Sommer und Herbst statt im Winter, bei schwerer Auflage gibt es nur eine leichte Winter-Bedingung, Leichter Boden nicht mehr mit Gebirge.','❄️ Die Arktis-Zone liegt oben auf dem Bildschirm, wie beim Zoo-Start, und ist nicht mehr mit fremden Naturflächen zugepflastert.','🏅 Meilensteine dürfen auch auf Felsen und fremde Naturflächen. 🌿 Naturfläche ändern gilt für bis zu 3 Felder.','🔍 Detail-Fenster: neu „Wirkung auf den Zoo“. Testlauf 4 Tage: Geschenke schon ab 1 Tag früher.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -341,7 +341,7 @@ const SPEZ_WIRKUNG=(()=>{const per={},mult={};
   Object.assign(mult,{
   gluecksspielerin:()=>{const L=LK();return L&&L.spec.gl?{ma:1.5}:null},
   ausw:()=>state&&state.auswDay===state.day+'/'+state.season?{ms:1.5}:null,
-  k_beute:KN('beute',.06,'ms'),k_raub:KN('raubtier',.12,'ma'),k_scheu:KN('scheu',.1,'ms'),k_show:KN('show',.1,'ma'),k_rot:KN('bedroht',.15,'ms')})}
+  k_beute:KN('beute',.06,'ms'),k_raub:KN('raubtier',.12,'ms') /* 0.89a: Natur statt Besucher */,k_scheu:KN('scheu',.1,'ms'),k_show:KN('show',.1,'ma'),k_rot:KN('bedroht',.15,'ms')})}
   // Futter (0.64a)
   mult.ernprof=()=>{const L=CTX&&CTX.fdl||{},n=Object.values(L).reduce((a,b)=>a+(b||0),0);return n?{ma:+(1.05**n).toFixed(3)}:null};
   // Zoolatro 2.0: wachsende Spezialisten (HGROW, HGMAX, gf in Modul 04)

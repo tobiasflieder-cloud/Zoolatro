@@ -97,46 +97,14 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.89a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.90a) – erst bauen, wenn Tobi „bauen“ sagt
 
-1. **Weltreise: höchstens 2 Ziele mit gleichem Schwerpunkt** (Chat 18.11.: „3 mal Dschungel“): In `wrRollOpts0` (Modul 06 ~Z. 187) wird je Kontinent Region und Schwerpunkt unabhängig ausgelost (`pick(regs(K))`, `pick(r.foki…)`),
-   so können z. B. Borneo, Amazonas und Kongo-Becken alle Dschungel sein. Neu: Ziele nacheinander auslosen; für jedes weitere Ziel nur Paare (Region, Schwerpunkt) zulassen, deren Schwerpunkt noch keine 2-mal vorkommt (Tobi: „maximal 2 mal den gleichen“).
-   Hat ein Kontinent kein passendes Paar, einen anderen noch nicht besuchten Kontinent nehmen; erst wenn es gar keinen gibt, Gleichheit zulassen.
-   Europa (ohne Schwerpunkt) zählt nicht mit. Test: viele Auslosungen (auch mit nur 2–3 gewählten Lebensräumen) → nie 3-mal derselbe Schwerpunkt, sofern möglich.
-2. **Umbauten aus der Ablage erst nach Bestätigung auslösen** (Chat 19.11.): Heute löst ein Tipp auf einen Umbau ohne Ziel (`!U.t`: Gelände erweitern, Umzugstag, Mehr Natur, Wo ist es hin?, Das Tier ist weg, ×2-Feld, Mehr Kronen, ×4?!, Good Luck, Bauplan, Baumeister)
-   in `umbUse` (Modul 08 ~Z. 103, Knopf `data-umbuse` aus `umbTrayHtml`) sofort aus – auch die zerstörerischen Zufalls-Umbauten. Neu: erster Tipp öffnet ein Detail-Fenster (`bigPop`-Stil) mit Symbol, Name, ganzem Text (`U.text`),
-   ggf. Hinweis „Kein Platz – trotzdem?“ (ersetzt `state.umbAsk`) bzw. „nur auf dem Spielfeld“, und den Knöpfen „✅ Einsetzen“ / „Abbrechen“. Erst „Einsetzen“ ruft den bisherigen Ablauf (`umbUse(i,force)`).
-   Gilt für **alle** Umbauten, auch die mit Ziel (danach wie heute Zielwahl mit Abbrechen). Im Tutorial (Sommer-Shop) prüfen, dass die Schritte noch passen. Test: Tipp ändert `umbInv()` nicht, erst „Einsetzen“.
-3. **Raubtier-Kenner gibt Natur statt Besucher** (Chat 19.11., Variante A): Er ähnelte dem Raubtier-Dompteur zu sehr (beide B, beide je Raubtier). Neu wie die Scheu-Kennerin:
-   `KN('raubtier',.12,'ma')` → `'ms'` (Modul 01 ~Z. 344), Texte in `daten/spezialisten.json` (`fx`: „×1 N|+0,12 je Raubtier im Zoo (höchstens ×1,6)“) und ggf. `texte_de.json` anpassen. Dompteur bleibt unverändert.
-   Referenzfälle prüfen (betroffene Fälle mit `aktualisiere`, in der Zusammenfassung nennen); Bot nutzt ggf. eine Bewertung je Spezialist – mitziehen.
-4. **Schalter „📊 Vorschau auf dem Spielfeld: An/Aus“** (Chat 21.11.): im Menü (`helpHtml`, Modul 08 ~Z. 247, neue `setrow` wie `data-fbm`), jederzeit umschaltbar, auch mitten im Lauf; `META.pvOff`, sofort neu zeichnen.
-   Aus = beim Platzieren keine Wirkungs-Schilder und -Linien auf dem Brett (`badges`/`links` aus der Vorschau, Modul 07 ~Z. 28–39). Bleibt: die Umriss-Vorschau (`ghost`, sonst kann man nicht zielen, rot = geht nicht),
-   der Zähler oben (`dA`/`dS`/`dT`) und das Info-Feld mit Details. Schilder gebauter Gehege außerhalb der Vorschau (Winter, Stress usw.) bleiben. Im Tutorial immer an.
-   Test: Schalter aus → Vorschau ohne `.badge`/`.link` aus der Vorschau, Umriss da; an → wie heute.
-5. **Auflage 🚪 Eingang: Regel „ein Feld neben dem Eingang bleibt frei“ streichen** (Chat 21.11., Tobi: macht keinen Sinn): Prüfung in `06-spiel.js` ~Z. 319 (`R.id==='eingang'` mit `ruleFree` um `R.entry`) entfernen,
-   Satz „Der Eingang darf nicht ganz zugebaut werden …“ aus `RULES.eingang.text` (~Z. 138) und ggf. `docs/regeln.md`/Tests nehmen. Bleibt: Eingangsfeld selbst ist nicht bebaubar, erstes Gebäude berührt ihn, alles bleibt verbunden (`entryCut`).
-   `initRule` (≥ 2 bebaubare Nachbarn) darf bleiben. Test: Eingang rundum zubauen ist erlaubt.
-6. **Stufenwahl: zeigen, was die Stufe ändert** (Chat 21.11.: „Ich sehe bei den Stufen gar nicht, was sich ändert“): Heute startet ein Tipp auf „Stufe n“ (`data-cdeck`+`data-stage`, `deckSelHtml` Modul 09 ~Z. 121) sofort den Lauf, die Texte aus `daten/stufen.json` (`text`) sieht man nirgends.
-   Neu: Tipp auf eine Stufe **wählt** sie nur (hervorgehoben), darunter ein Kasten „🏔️ Stufe n – das gilt:“ mit **allen** Wirkungen bis einschließlich n (Stufen wirken aufeinander), die neue der Stufe n markiert (z. B. „neu“),
-   Saisonziele zusammengefasst („Saisonziele ×1,21“), bei Zoogründer Stufe 1 der Einstiegs-Hinweis. Darunter Knopf „▶ Mit Stufe n starten“. Vorauswahl = höchste freie Stufe. Gesperrte Stufen (🔒) zeigen beim Tippen ebenfalls ihre Wirkungen + Freischalt-Hinweis, ohne Start.
-   Auch im Zoo-Buch (Reiter 📜 Regeln oder Freischalten → Stufen) die Liste aller 8 Stufen mit Text. Querformat prüfen. Test: Tipp auf Stufe 3 startet nichts und zeigt die Texte von Stufe 2 und 3.
-7. **Zerklüftetes Gelände nie mit Auflage 🚪 Eingang** (Chat 21.11.: Zoo 3 einer Reise mit Zerklüftet + Eingang + Naturfeldern kaum spielbar): `ruleRoll()` (Modul 06 ~Z. 61) kennt das Gelände nicht.
-   Neu: `ruleRoll(mapId)` filtert `eingang` heraus, wenn das Gelände `zerkluftet` ist (Kennung aus `daten/gelaende.json`); alle Aufrufer übergeben die Gelände-Kennung (Modul 06 ~Z. 67, Modul 09 ~Z. 31, Weltreise-Auslosung über `WRCTX.rule` in `wrRollOpts`).
-   Falls das Gelände erst nach der Auflage ausgelost wird: dort umgekehrt bei `eingang` kein `zerkluftet`. Am besten als kleine Liste „verbotene Paare“ (Gelände, Auflage), damit später weitere dazukommen können. Test: viele Auslosungen → nie zerklüftet + Eingang.
-8. **Bratwurstbude nur mit Savanne** (Chat 21.11.: kam ohne Savanne im Lauf): Ihre Wirkung („+1 B und 1 🪙 je benachbartes Savannen-Gehege“) hängt an Savanne, in `daten/karten.json` fehlt aber `"rq":"savanne"` (wie bei Bistro/Wasserloch).
-   Neu: `rq:"savanne"` bei `bratwurst`; Ersatz im Startdeck ohne Savanne: `RQS` (Modul 04 ~Z. 109) `bratwurst:'popcorn'` und ggf. `daten/profile.json` `startdeck.ersatz` (Sterneköchin hat Bratwurst in `inn`). Tutorial (Savanne gewählt) bleibt gleich.
-   Geprüft: Unter allen Nicht-Gehege-Karten ist sie die einzige mit Lebensraum-Wirkung ohne `rq`; Gehege sind über `hab` gefiltert, Lebensraum-Spezialisten über `specOff`.
-   Test (dauerhaft, damit es nicht wieder passiert): jede Nicht-Gehege-Karte, deren Wirkungstext genau einen Lebensraum nennt, hat `rq`; Kartenwahl/Shop ohne Savanne bieten keine Bratwurst an.
-9. **Stufen: „Saisonziele ×1,1“ nicht im Frühling** (Chat 21.11.): Heute multipliziert `stTF()` (Modul 08 ~Z. 421) in `seTarget` (Modul 05 ~Z. 159) alle vier Jahreszeiten gleich. Neu: `stTF(i)` gibt im Frühling (`i===0`) immer 1, ab Sommer wie bisher (Stufe 2: ×1,1, Stufe 4: ×1,21, Stufe 7: ×1,331).
-   Texte anpassen: `daten/stufen.json` („Saisonziele ab Sommer ×1,1“) und die Zusammenfassung aus Punkt 6 („Ziele ab Sommer ×1,21“). Test: Stufe 4 → Frühlingsziel wie Stufe 1, Sommerziel ×1,21. Referenzfälle unberührt (keine Ziele darin).
-
-**Danach (Chat 21.11., alle Werte und Tabellen in `docs/plan/ensembles-spezialisten-auflagen.md`; Vorschlag: in eigenen Versionen bauen, z. B. 0.90a = 10–12, 0.91a = 13, 0.92a = 14):**
-10. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
-11. **Show-Bonus ×1,35** statt ×1,25 je Gastro-/Attraktions-Nachbar (Plan B).
-12. **Verstärker werden Promis** (Chef Carmen, Mia Megaviral, Stella Starr, Nova, Sven Frost, Luna Lotus) mit Story-Satz (kursiv auf Karte und im Zoo-Buch), Personen-Emoji als Symbol (🧑‍🍳 🤳 🎬 🎤 🧗 🧘), neuen Werten und neuem Aussehen (Plan C, Entwurf); interne Kennungen bleiben.
-13. **Neue Spezialisten** (Plan D): Zweiraum-Planerin, Wetterfrosch, Naturpur-Leiterin, Kleine Küche, Ruhige-Lage-Planer, Beute-Hirtin, Ensemble-Regisseur (braucht 10), Frühaufsteherin, Schlussspurt, Grenzgängerin.
-14. **Zoo-Auflagen in Kategorien** (Plan E): 6 Kategorien, keine doppelt pro Lauf, in der Weltreise nach Kontinent, 13 neue Auflagen (Limitierungen, Vorlieben = Bonus/Malus, Durchmischt, Schwerpunkt-Pflicht).
+**Danach (Chat 21.11., alle Werte und Tabellen in `docs/plan/ensembles-spezialisten-auflagen.md`; Vorschlag: in eigenen Versionen bauen, z. B. 0.90a = 1–3, 0.91a = 4, 0.92a = 5):**
+1. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
+2. **Show-Bonus ×1,35** statt ×1,25 je Gastro-/Attraktions-Nachbar (Plan B).
+3. **Verstärker werden Promis** (Chef Carmen, Mia Megaviral, Stella Starr, Nova, Sven Frost, Luna Lotus) mit Story-Satz (kursiv auf Karte und im Zoo-Buch), Personen-Emoji als Symbol (🧑‍🍳 🤳 🎬 🎤 🧗 🧘), neuen Werten und neuem Aussehen (Plan C, Entwurf); interne Kennungen bleiben.
+4. **Neue Spezialisten** (Plan D): Zweiraum-Planerin, Wetterfrosch, Naturpur-Leiterin, Kleine Küche, Ruhige-Lage-Planer, Beute-Hirtin, Ensemble-Regisseur (braucht 10), Frühaufsteherin, Schlussspurt, Grenzgängerin.
+5. **Zoo-Auflagen in Kategorien** (Plan E): 6 Kategorien, keine doppelt pro Lauf, in der Weltreise nach Kontinent, 13 neue Auflagen (Limitierungen, Vorlieben = Bonus/Malus, Durchmischt, Schwerpunkt-Pflicht).
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -160,6 +128,12 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.89a** ([Auftrag](docs/auftraege/0.89a-schliff-stufen-umbau-auflagen.md), Regeln `docs/regeln.md` 20): Weltreise höchstens 2× derselbe Schwerpunkt (`wrRollOpts0`, Paare Region/Schwerpunkt, zweiter Durchgang erlaubt Gleichheit);
+  Umbau-Fenster `umbConfHtml`/`umbConfOk` (`state.umbConf`, `#umbConfPop`, `data-umbcx`); Raubtier-Kenner `ms`; `META.pvOff`/`data-pvm` (Vorschau-Schilder/Linien aus, nicht im Tutorial); Eingang-„frei“-Regel gestrichen;
+  Stufenwahl `data-stsel` → `screenArg.stSel`, Kasten `stageBox` (alle Wirkungen bis n, Ziele zusammengefasst, Start `data-cdeck`+`data-stage`); verbotene Paare `gelaende.json` `verbotene_paare` (`paarVerboten`, `ruleRoll(mapId)`, `mapRoll` mit `WRCTX`);
+  Bratwurst `rq:savanne` (+ `RQS`/`ersatz`); `stTF(i)` Frühling 1. Nebenbei: `pointerleave` auf Brett/Hand und Brett-Klick ohne laufenden Zoo abgesichert. Referenzfälle unverändert (kein Fall mit Raubtier-Kenner).
+  Tests: neu `jsd89a.js`, angepasst `jsd71a`/`jsd88a` (Stufe antippen + Start-Knopf), `quer.js` Schritt 15 und Menüweg mit „▶ Mit Stufe 1 starten“.
 
 - **0.88a** ([Auftrag](docs/auftraege/0.88a-weltkarte-highscores-stufen.md), Regeln `docs/regeln.md` 19): Meilenstein `habSel` ohne `c.ms`; Auslosung nie nur leicht; Protokoll `ih` aus `inspHabs` (`inspHab` weg); `statOff` (Testlauf zählt, Bestwerte getrennt, `run.tv`);
   Highscores `deck` + `sum` (`sumSlim`/`csPrune`/`sumTags`, `data-hsum`, `summary` mit `view`, `data-sumback`); `META.stAll`/`data-zsstall`, `run.stTest`, `run.stNewAll`; Profil ohne Lebensraum mit `data-hdlock`/`.hdhint`;

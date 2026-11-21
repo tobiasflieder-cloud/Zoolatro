@@ -12,4 +12,7 @@
 "felsen":{"wiese":0,"bucht":4,"flusstal":5,"zerkluftet":3,"huegel":6},
 "schrumpfen":0.8,
 "naturfelder":18,
-"natur_fokus":{"flusstal":[{"wasser":8}],"bucht":[{"wasser":7,"wueste":7}],"huegel":[{"wald":8},{"savanne":8}],"zerkluftet":[{"wueste":8}]}}
+"natur_fokus":{"flusstal":[{"wasser":8}],"bucht":[{"wasser":7,"wueste":7}],"huegel":[{"wald":8},{"savanne":8}],"zerkluftet":[{"wueste":8}]},
+"verbotene_paare":[["zerkluftet","eingang"]],
+"verbotene_paare_hinweis":"0.89a: [Gelände, Auflage], die nie zusammen vorkommen (ruleRoll und mapRoll prüfen beide Richtungen)"
+}

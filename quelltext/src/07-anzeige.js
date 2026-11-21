@@ -31,13 +31,13 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
   const bigBadge=(pt,c,a,s)=>{const[x,y]=pct(pt),da=a-c.a,ds=s-c.s;
     badges+=`<span class="badge big ${da+ds<0?'neg':''}" style="left:${x}%;top:${y}%"><span class="base">${c.a} B · ${c.s} N</span>${da||ds?`<span>${bTxt(da,ds)}</span>`:''}</span>`};
   const byId=Object.fromEntries(state.buildings.map(b=>[b.id,b]));
-  if(h&&h.ok){const gc=centroid(h.cells),ownId=h.up?h.up.id:h.move?h.move.id:-1;
+  if(h&&h.ok){if(!(META.pvOff&&!TUTNOW)){/* 0.89a: Schalter „📊 Vorschau“: aus = keine Schilder/Linien beim Platzieren */const gc=centroid(h.cells),ownId=h.up?h.up.id:h.move?h.move.id:-1;
     for(const st of h.r.steps){if(st.id===ownId)continue;const old=cur.steps.find(s=>s.id===st.id),da=st.a-old.a,ds=st.s-old.s;if(!da&&!ds)continue;
       const c=centroid(byId[st.id].cells),neg=da+ds<0;hl[st.id]=neg?'hlneg':'hl';addLink(gc,c,neg);badgeAt(c,da,ds)}
     for(const s of h.src){if(hl[s.id]||s.id===ownId)continue;const c=centroid(byId[s.id].cells),neg=s.da+s.ds<0;hl[s.id]=neg?'hlneg':'hl';addLink(c,gc,neg)}
     if(h.up){const old=cur.steps.find(s=>s.id===h.up.id),[x,y]=pct(gc);
       badges+=`<span class="badge big up" style="left:${x}%;top:${y}%"><span class="base">Ausbau → Stufe ${ROMAN[h.b.lvl]}</span><span>${bTxt(h.own.a-old.a,h.own.s-old.s)}</span></span>`}
-    else bigBadge(gc,CARDS[h.b.key],h.own.a,h.own.s)}
+    else bigBadge(gc,CARDS[h.b.key],h.own.a,h.own.s)}}
   else if(state.info!=null&&byId[state.info]&&state.phase==='play'){const b=byId[state.info],bc=centroid(b.cells),st=cur.steps.find(s=>s.id===b.id);
     for(const s of sourcesOf(b,state.buildings)){const c=centroid(byId[s.id].cells),neg=s.da+s.ds<0;hl[s.id]=neg?'hlneg':'hl';addLink(c,bc,neg);badgeAt(c,s.da,s.ds)}
     bigBadge(bc,CARDS[b.key],st.a,st.s)}
@@ -111,6 +111,7 @@ function render0(){try{applyView()}catch(e){}setTimeout(()=>{try{railRender()}ca
   // 0.75a: Auflage zu Beginn des Zoos groß einblenden (vor dem Besucherwunsch, nicht im Tutorial: dort gibt es keine Auflage)
   if(state.wrDest&&wrOn()){bigPop('rulePop',state.ruleIntro&&state.phase==='play'&&!modal&&!screen?wrWelcomeHtml():'',()=>{state.ruleIntro=0;render()})} // 0.85a: Willkommen statt Auflage
   else{const R=state.rule&&RULES[state.rule.id];bigPop('rulePop',state.ruleIntro&&R&&state.phase==='play'&&!modal&&!screen?`<div class="wpi">${R.icon}</div><h3>Auflage: ${R.name}</h3><p class="wpr">${R.text(state.rule)}</p><p class="wph">Sie gilt für den ganzen Zoo. Oben am Zoo-Knopf kannst du sie jederzeit nachlesen.</p><button class="btn main" data-bpok>Los geht's</button>`:'',()=>{state.ruleIntro=0;render()})}
+  {const h=state.umbConf?umbConfHtml():'';bigPop('umbConfPop',h,umbConfOk);const el=document.getElementById('umbConfPop');if(el&&!el._cx){el._cx=1;el.querySelector('[data-umbcx]').onclick=()=>{Sfx.select();state.umbConf=null;el.remove();render()}}} // 0.89a
   {const A=state.wrAusPop;bigPop('wrAusPop',A&&CARDS[A.key]&&state.phase==='play'&&!modal&&!screen&&!state.ruleIntro?wrAusHtml(A):'',()=>{state.wrAusPop=null;render()})} // 0.85a: Auswilderung
   // 0.75a: Überraschungsfutter groß einblenden (Karte schon mit der neuen Prägung)
   {const u=(state.fsRev||[])[0];bigPop('fsRevPop',u&&!screen&&!state.surprise&&!document.getElementById('surPop')?fsRevHtml(u):'',()=>{state.fsRev.shift();render()})}
@@ -356,7 +357,7 @@ function floatAt(pt,txt,cls){let[x,y]=pct(pt);x=Math.max(9,Math.min(91,x));y=Mat
 /* ---------- input: tap ---------- */
 let lastPtr='mouse';$('board').addEventListener('pointerdown',e=>{lastPtr=e.pointerType||'mouse'},{capture:true});
 let suppressClick=false;
-$('board').addEventListener('click',e=>{if(state&&state.umbT&&state.phase==='play'){if(!state.umbPick){const hx=hexAt(e.clientX,e.clientY);if(hx)umbClick(hx.q,hx.r)}return}if(state.phase==='review'&&!suppressBoard){const bl=e.target.closest('.bld');state.info=bl&&state.info!==+bl.dataset.bid?+bl.dataset.bid:null;Sfx.select();render();return}
+$('board').addEventListener('click',e=>{if(!state)return;if(state.umbT&&state.phase==='play'){if(!state.umbPick){const hx=hexAt(e.clientX,e.clientY);if(hx)umbClick(hx.q,hx.r)}return}if(state.phase==='review'&&!suppressBoard){const bl=e.target.closest('.bld');state.info=bl&&state.info!==+bl.dataset.bid?+bl.dataset.bid:null;Sfx.select();render();return}
   if(state.phase!=='play'||suppressBoard)return;state.infoProg=null;
   if(state.moving!=null){if(e.target.closest('[data-ghost]')&&lastPtr!=='touch'){build();return}const hx=hexAt(e.clientX,e.clientY);if(hx){state.preview={q:hx.q,r:hx.r};Sfx.hover();render()}return}
   if(e.target.closest('[data-ghost]')){
@@ -383,10 +384,10 @@ $('hand').addEventListener('click',e=>{if(suppressClick)return;const c=e.target.
   state.moving=null;if(state.selected===i){state.selected=null;state.preview=null}else if(selectCard(i)){Sfx.select();if(state.preview&&state.preview.up!=null)state.preview=null}else{state.selected=null;state.preview=null;state.info=null}render()});
 $('hand').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||state.selected!=null||state.phase!=='play')return;const c=e.target.closest('.card');const i=c?+c.dataset.i:null;
   if(i===state.hover)return;state.hover=i;setInfo(infoHtml(null,scoreZoo(state.buildings)))});
-$('hand').addEventListener('pointerleave',()=>{if(state.hover==null)return;state.hover=null;if(state.phase==='play')setInfo(infoHtml(hypo(),scoreZoo(state.buildings)))});
+$('hand').addEventListener('pointerleave',()=>{if(!state||state.hover==null)return;state.hover=null;if(state.phase==='play')setInfo(infoHtml(hypo(),scoreZoo(state.buildings)))});
 $('board').addEventListener('pointerover',e=>{if(e.pointerType!=='mouse'||state.phase!=='play'||state.selected!=null)return;const t=e.target.closest('[data-terr]');const v=t?t.dataset.terr:null;
   if(v===state.hoverTerr)return;state.hoverTerr=v;setInfo(infoHtml(null,scoreZoo(state.buildings)))});
-$('board').addEventListener('pointerleave',()=>{if(!state.hoverTerr)return;state.hoverTerr=null;if(state.phase==='play')setInfo(infoHtml(hypo(),scoreZoo(state.buildings)))});
+$('board').addEventListener('pointerleave',()=>{if(!state||!state.hoverTerr)return;state.hoverTerr=null;if(state.phase==='play')setInfo(infoHtml(hypo(),scoreZoo(state.buildings)))});
 const rdFree0=()=>!!state&&(state.rdFree!==state.season+'/'+(state.zoo||0)||(runDeck()==='grund'&&state.rdFree2!==state.season+'/'+(state.zoo||0))),rdFree=()=>rdFree0()||mixFree()||(!!state&&(state.rdBonus||0)>0);
 function redraw(){if(state.phase!=='play'||winIs('glatteis')||umbBm()||(state.bp<1&&!rdFree())){Sfx.deny();return}{const ts=tutStep();if(ts&&!ts.redraw){Sfx.deny();tutNudge();return}}
   if(state.infoProg!=='redraw'){state.infoProg='redraw';state.moving=null;state.selected=null;state.preview=null;state.info=null;Sfx.select();render();return}

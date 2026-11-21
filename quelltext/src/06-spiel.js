@@ -58,13 +58,15 @@ function rollPlan(run){if(run.seed)return withSeed(run.seed+'|zoo'+run.zoo+'|'+(
 // schon angebotene Auflagen und Winter-Bedingungen dieses Laufs (nur aus früheren Zoos)
 let SEEN={r:new Set(),i:new Set()};
 function seenOf(run,z){const o={r:new Set(),i:new Set()};for(const k in run&&run.offered||{}){if(+k>=z)continue;const e=run.offered[k];if(e.r)o.r.add(e.r);for(const i of e.i||[])o.i.add(i)}return o}
-function ruleRoll(){const d4=(()=>{try{return isD4(runOf())}catch(e){return false}})(),all=Object.keys(RULES).filter(k=>!RULES[k].gone&&!RULES[k].wr&&!(d4&&k==='locker')), // 0.82a: keine „Lockere Bebauung“ im Testlauf
+// 0.89a: verbotene Paare (Gelände, Auflage) aus daten/gelaende.json
+const VPAARE=GELAENDE_DATEN.verbotene_paare||[],paarVerboten=(m,r)=>!!m&&!!r&&VPAARE.some(([a,b])=>a===m&&b===r);
+function ruleRoll(mapId){const d4=(()=>{try{return isD4(runOf())}catch(e){return false}})(),all=Object.keys(RULES).filter(k=>!RULES[k].gone&&!RULES[k].wr&&!(d4&&k==='locker')&&!paarVerboten(mapId,k)), // 0.82a: keine „Lockere Bebauung“ im Testlauf
  f=all.filter(k=>!SEEN.r.has(k)),pool=f.length?f:all;return pool[Math.floor(Math.random()*pool.length)]}
 function noteOffered(run){try{if(!run||!state||!state.zl)return;(run.offered=run.offered||{})[state.zoo||0]={r:state.rule&&state.rule.id||null,i:(state.zl.inspOpts||[state.zl.insp]).filter(Boolean)}}catch(e){}}
 function rollPlan0(run){SEEN=seenOf(run,run.zoo);try{return rollPlan1(run)}finally{SEEN={r:new Set(),i:new Set()}}}
 function rollPlan1(run){mapRoll(run);GENHABS=run.habs||null;const cf=cfOf(run),m=(()=>{const r=genMap(cf.map,Math.random,cf.rocks);GENHABS=null;return r})(),keep=state,kb=keep?BOARD.map(c=>c.slice()):null,kt=TERR;setBoard(m.cells);TERR=m.terr;
   const p={zoo:run.zoo,cells:m.cells,terr:[...m.terr],north:northOf(m.cells,viewRotFor(m.cells,cf.map)),ev:cf.spring&&!run.zl?rollEvents({...cf,s:0}):[],rule:null};
-  state={zoo:run.zoo,habs:run.habs||null};if(run.zl){if(!run.tut){const rid=WRCTX?WRCTX.rule:ruleRoll();if(rid)state.rule={id:rid}}state.zl={};if(state.rule)initRule();initZl();noteOffered(run);p.terr=[...TERR];Object.assign(p,{rule:state.rule||null,gold:state.zl.gold,crown:state.zl.crown,opts:state.zl.opts,insp:state.zl.insp,inspOpts:state.zl.inspOpts,prof:run.prof||NOPROF,ban:null})}
+  state={zoo:run.zoo,habs:run.habs||null};if(run.zl){if(!run.tut){const rid=WRCTX?WRCTX.rule:ruleRoll(cf.map);if(rid)state.rule={id:rid}}state.zl={};if(state.rule)initRule();initZl();noteOffered(run);p.terr=[...TERR];Object.assign(p,{rule:state.rule||null,gold:state.zl.gold,crown:state.zl.crown,opts:state.zl.opts,insp:state.zl.insp,inspOpts:state.zl.inspOpts,prof:run.prof||NOPROF,ban:null})}
   state=keep;if(keep){setBoard(kb);TERR=kt}return p}
 function rollPraeg(){const ids=praegLos(),out=[];while(out.length<3){const pool=ids.filter(i=>!out.includes(i)),t=pool.reduce((x,i)=>x+PRAEG[i].w,0);let r=Math.random()*t;for(const i of pool){r-=PRAEG[i].w;if(r<=0){out.push(i);break}}}return out}
 function newReward(run){if(run.wr){run.plan=null;run.wrOpts=null;const a={step:'card',left:3,pstep:'cat'};zkDeal(run,a);return a} // 0.85a: Weltreise ohne Vorschau und Prägungs-Schritt, Ziel erst nach dem Team
@@ -135,7 +137,7 @@ function hypo(){const mb=movingB();
 // 0.87a: Vorschau rechnet mit dem Stand nach dem Bauen – Felsen unter dem neuen Gehege/Gebäude (Meilenstein, Sprengmeisterin) sind dann weg
 function noRocks(cells,fn){const ks=(cells||[]).map(c=>hk(...c)).filter(k=>TERR.get(k)==='block');if(!ks.length)return fn();for(const k of ks)TERR.delete(k);try{return fn()}finally{for(const k of ks)TERR.set(k,'block')}}
 // Test-Szenarien im freien Spiel: je eine Sonderregel fürs Bauen
-const RULES={eingang:{icon:'🚪',text:()=>'Am Rand liegt der Eingang 🚪. Das erste Gehege/Gebäude muss ihn berühren, jedes weitere ein schon gebautes oder den Eingang. Beim Umziehen muss alles mit dem Eingang verbunden bleiben. Der Eingang darf nicht ganz zugebaut werden: Mindestens ein Feld daneben bleibt frei.'},
+const RULES={eingang:{icon:'🚪',text:()=>'Am Rand liegt der Eingang 🚪. Das erste Gehege/Gebäude muss ihn berühren, jedes weitere ein schon gebautes oder den Eingang. Beim Umziehen muss alles mit dem Eingang verbunden bleiben.'},
   raub:{icon:'🚫',text:()=>'Raubtiere und Beutetiere dürfen nicht nebeneinander gebaut werden.'},
   rand:{icon:'🧱',gone:1,text:R=>`${HAB[R.hab].icon} ${HAB[R.hab].label}-Gehege dürfen nur gebaut werden, wenn mindestens ein Feld am Rand des Geländes liegt.`}, // 0.93 gestrichen (bleibt für alte Spielstände)
   max3:{icon:'✋',text:()=>'Es dürfen höchstens 3 Gehege desselben Lebensraums zusammenhängend nebeneinander liegen.'}};
@@ -183,8 +185,10 @@ function wrRollOpts(run){const f=()=>wrRollOpts0(run);run.wrOpts=run.seed?withSe
 function wrRollOpts0(run){const sl=activeSlot(),H=run.habs||DEFHABS,n=(run.stage||1)>=2?WRL.ziele_ab_stufe2:WRL.ziele,first=(run.zoo||0)===0,d4=isD4(run),pick=a=>a[Math.floor(Math.random()*a.length)];
   // 0.86a: Ziele sind Regionen; jeder Kontinent höchstens einmal pro Lauf (auch Europa), Ziele einer Wahl von verschiedenen Kontinenten
   const done=new Set((run.wrRoute||[]).filter(x=>x.z<run.zoo).map(wrKOf)),okH=h=>H.includes(h)&&(()=>{try{return habOpen(sl,h)}catch(e){return true}})(),regs=K=>WRREG.filter(r=>r.k===K.id&&r.foki.some(okH)&&(!r.frei||r.frei.some(h=>{try{return habOpen(sl,h)}catch(e){return true}})));
-  const C=shuffle(WRK.filter(K=>!K.ruhe&&!done.has(K.id)&&regs(K).length)).slice(0,n),EU=WRK.find(K=>K.ruhe);
-  const opts=C.map(K=>{const r=pick(regs(K));return{k:K.id,r:r.id,ort:r.name,foc:pick(r.foki.filter(okH))}});
+  const C=shuffle(WRK.filter(K=>!K.ruhe&&!done.has(K.id)&&regs(K).length)),EU=WRK.find(K=>K.ruhe);
+  // 0.89a: höchstens 2 Ziele mit demselben Schwerpunkt; passt ein Kontinent nicht, kommt der nächste dran, erst zum Schluss Gleichheit zulassen
+  const opts=[],fc={};for(const pass of[0,1])for(const K of C){if(opts.length>=n)break;if(opts.some(o=>o.k===K.id))continue;const fr=f=>pass||(fc[f]||0)<2,R1=regs(K).filter(r=>r.foki.some(f=>okH(f)&&fr(f)));if(!R1.length)continue;
+    const r=pick(R1),f=pick(r.foki.filter(f=>okH(f)&&fr(f)));opts.push({k:K.id,r:r.id,ort:r.name,foc:f});fc[f]=(fc[f]||0)+1}
   if(EU&&(opts.length<n&&!done.has(EU.id)||!opts.length))opts.push({k:EU.id,foc:null,eu:1,ort:pick(EU.staedte||[EU.name])});
   const R=opts.filter(o=>!o.eu),lvs=first?['leicht','mittel']:['leicht','mittel','schwer'];R.forEach(o=>{o.lv=pick(lvs)});if(R.length&&R.every(o=>o.lv==='schwer'))pick(R).lv=pick(['leicht','mittel']);if(opts.length>=2&&R.length&&R.every(o=>o.lv==='leicht'))pick(R).lv=first?'mittel':pick(['mittel','schwer']); /* 0.88a: nie nur leichte (Europa zählt wie leicht) */
   const S=seenOf(run,run.zoo),used=new Set();for(const o of R){const all=Object.keys(WRLV).filter(id=>WRLV[id]===o.lv&&RULES[id]&&!RULES[id].gone&&!(d4&&id==='locker')&&!used.has(id)),fr=all.filter(id=>!S.r.has(id));o.rule=pick(fr.length?fr:all)||null;used.add(o.rule)}
@@ -316,7 +320,6 @@ function ruleWhy(bs,cells,key,isMove){const R=state&&state.rule;if(!R)return nul
   if(R.id==='achse'&&cells.some(([q,r])=>R.ax?R.ax.includes(hk(q,r)):r===R.row))return'Auflage Baugrube: Diese Felder müssen frei bleiben.';
   if(R.id==='gross2'&&!isMove&&state.builtToday>=2)return'Auflage Großbaustelle: Heute hast du schon 2 Karten gebaut.';
   if(R.id==='insel'&&c.cat==='gehege'&&nb.some(n=>CARDS[n.key].cat==='gehege'&&CARDS[n.key].hab!==c.hab))return'Auflage Inselzoo: Gehege verschiedener Lebensräume dürfen sich nicht berühren.';
-  if(R.id==='eingang'){const all=mkIndex([...bs,fake]),[eq,er]=R.entry;if(!DIRS.some(([dq,dr])=>ruleFree(hk(eq+dq,er+dr),all)))return'Auflage Eingang: Der Eingang 🚪 darf nicht ganz zugebaut werden, ein Feld daneben bleibt frei.'}
   if(R.id==='einzel'&&key!=='flossteil'&&c.cat!=='gehege'&&!c.ms&&bs.some(b=>b.key===baseK(key)))return`Auflage Weniger ist mehr: ${c.name} steht schon im Zoo.`;
   if(R.id==='gastro'&&c.cat==='essen'&&nb.some(n=>isCat(n,'essen')))return'Auflage Gastronomische Vielfalt: Gastro-Gebäude dürfen nicht nebeneinander liegen.';
   if(R.id==='viertel'&&key!=='flossteil'&&c.cat==='attr'&&bs.some(b=>isCat(b,'attr'))&&!nb.some(n=>isCat(n,'attr')))return'Auflage Attraktionsviertel: Die neue Attraktion muss an eine schon gebaute grenzen.';

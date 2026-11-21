@@ -38,7 +38,7 @@ const HW=new Set();const klick=async(p,sel)=>{if(!/wishPop/.test(sel))await wuns
   await p.waitForTimeout(250);return true};
 const klickText=async(p,re)=>{await wunschWeg(p);for(const e of await p.$$('button:not([disabled])')){if(re.test((await e.textContent()).trim())&&await e.isVisible()){try{await e.click({timeout:3000})}catch(x){T(false,`Klick auf „${(await e.textContent()).trim().slice(0,20)}“ blockiert: ${(/<[^>]*> intercepts/.exec(x.message)||['?'])[0]}`);return false}await p.waitForTimeout(250);return true}}return false};
 // neuer Lauf über die echten Menüs bis zur Zoo-Übersicht
-async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/^Anlegen/,/^Lauf starten/,/Zufällig/,/^Weiter zum/,/^Stufe 1$/])if(!await klickText(p,re)){T(false,`${wo}: Menü-Knopf ${re} fehlt (${await zu(p)})`);return false}
+async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/^Anlegen/,/^Lauf starten/,/Zufällig/,/^Weiter zum/,/^Stufe 1$/,/^▶ Mit Stufe 1 starten/])if(!await klickText(p,re)){T(false,`${wo}: Menü-Knopf ${re} fehlt (${await zu(p)})`);return false}
   // 0.79a: keine Einführung mit 3 Freischalt-Zielen mehr
   if(await zu(p)!=='null/zoo/play:0:0'){T(false,`${wo}: Zoo-Übersicht fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Zoo-Übersicht',seen);return true}
 (async()=>{const b=await chromium.launch();try{
@@ -179,5 +179,18 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     const z=await p.evaluate(()=>{const cy=e=>{const r=e.getBoundingClientRect();return r.top+r.height/2};const all=[...document.querySelectorAll('#board polygon[data-q]')].map(cy).sort((a,b)=>a-b),m=(all[(all.length-1)>>1]+all[all.length>>1])/2,zn=[...document.querySelectorAll('#board .znorth')].map(cy);return{rot:ROT,n:zn.length,bad:zn.filter(y=>y>m+2).length,N:JSON.stringify(state.north)}});
     T(z.n>0&&z.bad===0,`${wo}: ${mk}${z.rot?' (gedreht)':''}: Arktis-Zone oben auf dem Bildschirm (${z.n} Felder, ${z.bad} unten)`);
     const vs=p.viewportSize();if(vs){await p.setViewportSize({width:vs.height,height:vs.width});await p.waitForTimeout(500);T(await p.evaluate(()=>JSON.stringify(state.north))===z.N,`${wo}: ${mk}: Zone bleibt nach dem Drehen gleich`);await p.setViewportSize(vs)}
-    if(p._errs.length)T(false,`${wo}: Seitenfehler (0.87a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}}
+    if(p._errs.length)T(false,`${wo}: Seitenfehler (0.87a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  // 15) 0.89a: Umbau-Fenster (erst „Einsetzen“ löst aus) und Stufen-Kasten in der Profilwahl
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,z2:{st:{grund:3},ch:{}}};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;const inv=umbInv();inv.length=0;inv.push('bauplan');state.umbOpen=true;render()});await p.waitForTimeout(300);
+  if(!await klick(p,'[data-umbuse="0"]'))T(false,`${wo}: Umbau in der Ablage nicht antippbar`);
+  {const r=await p.evaluate(()=>{const P=document.getElementById('umbConfPop');if(!P)return null;const c=P.querySelector('.wpc').getBoundingClientRect(),bt=[...P.querySelectorAll('button')].map(b=>{const q=b.getBoundingClientRect(),e=document.elementFromPoint(q.left+q.width/2,q.top+q.height/2);return!!e&&b.contains(e)});return{in:c.left>=0&&c.right<=innerWidth+1&&c.top>=-1&&c.bottom<=innerHeight+1,bt,n:umbInv().length}});
+    T(!!r&&r.in&&r.bt.length===2&&r.bt.every(Boolean)&&r.n===1,`${wo}: Umbau-Fenster im Bildschirm, beide Knöpfe erreichbar, noch nichts verbraucht`)}
+  {let ok=true;try{await p.click('#umbConfPop [data-bpok]',{timeout:3000})}catch(e){ok=false}await p.waitForTimeout(200);T(ok&&await p.evaluate(()=>umbInv().length===0&&!document.getElementById('umbConfPop')),`${wo}: „Einsetzen“ löst den Umbau aus`)} // direkt klicken: klick() tippt Einblendungen sonst selbst weg
+  await p.evaluate(()=>{state=null;screen='cdeck';screenArg={slot:0,zl:'z2',habs:['wasser','savanne','wueste'],prof:NOPROF};renderAll()});await p.waitForTimeout(200);
+  if(!await klick(p,'[data-stsel="grund:3"]'))T(false,`${wo}: Stufe nicht antippbar`);
+  {const r=await p.evaluate(()=>{const B=document.querySelector('.stbox');if(!B)return null;const q=B.getBoundingClientRect();return{scr:screen,in:q.left>=0&&q.right<=innerWidth+1,qx:document.documentElement.scrollWidth-innerWidth}});
+    T(!!r&&r.scr==='cdeck'&&r.in&&r.qx<=2,`${wo}: Stufen-Kasten erscheint, startet nichts, passt in die Breite`)}
+  T(await klick(p,'.stbox [data-cdeck]')&&await p.evaluate(()=>!!activeSlot().run&&activeSlot().run.stage===3),`${wo}: Start über „▶ Mit Stufe 3 starten“`);
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.89a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

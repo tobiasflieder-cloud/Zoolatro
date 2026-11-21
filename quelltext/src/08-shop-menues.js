@@ -130,6 +130,11 @@ function umbHand(hi){const T=state.umbT;if(!T||T.id!=='tausch')return false;cons
   const L=Object.keys(CARDS).filter(x=>{const d=CARDS[x];return x!==k&&d.cat===c.cat&&!x.includes('^')&&!x.includes('~')&&!d.ms&&!isLocked(x)&&(!d.hab||habsNow().includes(d.hab))&&(!d.rq||habsNow().includes(d.rq))});if(!L.length){Sfx.deny();return true}
   const n=pickRnd(L),run=runOf();state.hand[hi]=n;if(run){const j=run.deck.indexOf(k);if(j>=0)run.deck[j]=n}umbDone(`${c.icon} ${c.name} → ${CARDS[n].icon} ${CARDS[n].name} (auch im Deck).`);return true}
 // Anzeige: Knopf, Ablage, Zielhinweis
+// 0.89a: Umbau-Detail-Fenster vor dem Einsetzen (Symbol, Name, Text, Hinweise; „✅ Einsetzen“ / „Abbrechen“)
+function umbConfHtml(){const C=state.umbConf,id=C&&umbInv()[C.i];if(!C||id!==C.id||!UMB[id])return'';const U=UMB[id],inShop=modal==='shop'||state.phase!=='play',field=!!U.t&&inShop,ask=!field&&!umbOk(id);
+  return`<div class="wpi">${U.icon}</div><h3>${U.name}</h3><p class="wpr">${U.text}</p>${field?'<p class="wph">📍 Diesen Umbau setzt du auf dem Spielfeld ein (in der Bauphase).</p>':ask?'<p class="wph">⚠️ Kein Platz – trotzdem einsetzen?</p>':U.t?'<p class="wph">Danach wählst du das Ziel auf dem Spielfeld (Abbrechen geht dann noch).</p>':'<p class="wph">Wirkt sofort und ist danach verbraucht.</p>'}
+    <div class="shopbar" style="justify-content:center"><button class="btn sub" data-umbcx="1">Abbrechen</button><button class="btn main" data-bpok ${field?'disabled':''}>✅ Einsetzen</button></div>`}
+function umbConfOk(){const C=state.umbConf;state.umbConf=null;if(!C||umbInv()[C.i]!==C.id){render();return}umbUse(C.i,true)}
 function umbTrayHtml(shop){const inv=umbInv();return`<div class="umbtray ${shop?'inshop':''}">${inv.map((id,i)=>{const U=UMB[id],ask=state.umbAsk===i;return`<button class="ub" data-umbuse="${i}" title="${U.text}"><span class="ti">${U.icon}</span><span class="nm">${U.name}</span><span class="tv">${ask?'Kein Platz – trotzdem?':shop&&U.t?'nur auf dem Spielfeld':'einsetzen'}</span></button>`}).join('')}${Array.from({length:Math.max(0,UMBMAX-inv.length)},()=>'<span class="ub empty">＋ frei</span>').join('')}</div>${state.umbNote?`<p class="umbnote">${state.umbNote}</p>`:''}`}
 function umbHintHtml(){const T=state.umbT;if(!T)return'';const U=UMB[T.id];
   if(state.umbPick){const P=state.umbPick,H=habsNow();return`<h3>${U.icon} ${U.name}</h3><p class="hint">Welcher Lebensraum?</p><div class="umbhabs">${H.map(h=>`<button class="btn sub" data-umbhab="${h}">${HAB[h].icon} ${HAB[h].label}</button>`).join('')}${T.id==='natur'?'<button class="btn sub" data-umbhab="">✕ keine Naturfläche</button>':''}<button class="btn sub" data-umbx="1">Abbrechen</button></div>`}
@@ -140,7 +145,7 @@ function umbHintHtml(){const T=state.umbT;if(!T)return'';const U=UMB[T.id];
 document.addEventListener('click',e=>{const t=e.target.closest('[data-umbuse],[data-umbhab],[data-umbx],[data-umbfin],[data-umbtake],[data-umbrep],[data-umbskip],#btnUmb');if(!t||!state)return;
   if(t.id==='btnUmb'){if(!umbOn()||state.phase!=='play'){Sfx.deny();return}state.umbOpen=!state.umbOpen;state.umbAsk=null;state.umbNote=null;Sfx.select();render();return}
   const d=t.dataset;e.stopPropagation();
-  if(d.umbuse!=null){const i=+d.umbuse;umbUse(i,state.umbAsk===i);return}
+  if(d.umbuse!=null){const i=+d.umbuse;if(!UMB[umbInv()[i]])return;state.umbConf={i,id:umbInv()[i]};state.umbAsk=null;Sfx.select();render();return} // 0.89a: erst Detail-Fenster, „Einsetzen“ löst aus
   if(d.umbhab!=null){umbHab(d.umbhab||null);return}
   if(d.umbx){umbCancel();return}
   if(d.umbfin){const T=state.umbT;if(!T||!(T.sel||[]).length){Sfx.deny();return}state.umbPick={ks:T.sel.slice()};Sfx.select();render();return}
@@ -247,6 +252,7 @@ function helpHtml(){const rs=(()=>{try{const r=runOf();return r&&r.seed?r.seed:'
   ${(()=>{try{const r=runOf();return r&&!r.tut&&state&&state.mode==='camp'}catch(e){return false}})()?'<button class="btn sub" id="mRunCopy" style="align-self:center;padding:6px 14px">📋 Lauf kopieren</button>':''}<div class="viewsel"><span>📐 Ansicht</span>${[['auto','Automatisch'],['hoch','Hochformat'],['quer','Querformat']].map(([k,t])=>`<button class="btn sub${(META.view||'auto')===k?' on':''}" data-view="${k}">${t}</button>`).join('')}</div><div class="menubtns"><button class="btn sub" id="mHome">🏠 Hauptmenü</button><button class="btn sub" id="mTut">📖 Kurzübersicht</button><button class="btn sub" id="mTraits">🔗 Eigenschaften</button><button class="btn sub" id="mNews">📜 Neuigkeiten</button><button class="btn sub" id="mRestart">${state&&(state.mode==='tut'||gRun())?'✕ Tutorial beenden':state&&state.mode==='camp'?'🏳 Lauf beenden':'⟲ Neues Spiel'}</button></div>
   <div class="setrow"><span>Ton:</span>${[[0,'🔊 An'],[1,'🔇 Aus']].map(([v,l])=>`<button class="chip2 ${(Sfx.muted?1:0)===v?'on':''}" data-mute="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>🗑️ Neu anfangen:</span><button class="chip2" id="mReset">Alles zurücksetzen</button></div>
+  <div class="setrow"><span>📊 Vorschau auf dem Spielfeld:</span>${[[0,'An'],[1,'Aus']].map(([v,l])=>`<button class="chip2 ${(META.pvOff?1:0)===v?'on':''}" data-pvm="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>💬 Feedback nach dem Lauf:</span>${[[0,'An'],[1,'Aus']].map(([v,l])=>`<button class="chip2 ${(META.fbOff?1:0)===v?'on':''}" data-fbm="${v}">${l}</button>`).join('')}</div>
   ${META.dev?`<div class="setrow"><span>🌿 Spielfeld:</span>${[[0,'neu'],[1,'alt']].map(([v,l])=>`<button class="chip2 ${(META.oldBoard?1:0)===v?'on':''}" data-nbm="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>💥 Wucht:</span>${[['s','stark'],['n','normal']].map(([v,l])=>`<button class="chip2 ${(META.fxPow||'s')===v?'on':''}" data-pwm="${v}">${l}</button>`).join('')}</div>
@@ -374,6 +380,7 @@ function renderModal0(){const root=$('modalRoot'),se=state?seOf(state.season):nu
   root.querySelectorAll('[data-pwm]').forEach(b=>b.onclick=()=>{META.fxPow=b.dataset.pwm;saveMeta();Sfx.select();renderModal()});
   root.querySelectorAll('[data-fxm]').forEach(b=>b.onclick=()=>{META.fxOff=+b.dataset.fxm;saveMeta();Sfx.select();document.body.classList.toggle('fxp',fxOn());renderModal()});
   {const rb=$('mReset');if(rb)rb.onclick=()=>{Sfx.select();resetAsk(1)}}
+  root.querySelectorAll('[data-pvm]').forEach(b=>b.onclick=()=>{META.pvOff=+b.dataset.pvm?1:0;saveMeta();Sfx.select();renderAll()});
   root.querySelectorAll('[data-fbm]').forEach(b=>b.onclick=()=>{META.fbOff=+b.dataset.fbm?1:0;saveMeta();Sfx.select();renderModal()});
   root.querySelectorAll('[data-vtm]').forEach(b=>b.onclick=()=>{META.testVerst=!!+b.dataset.vtm;saveMeta();Sfx.select();renderModal()});
   root.querySelectorAll('[data-scf]').forEach(b=>b.onclick=()=>{SCFAST=+b.dataset.scf;try{localStorage.setItem('zoodeck-fast',SCFAST)}catch(e){}Sfx.select();renderModal()});
@@ -418,7 +425,7 @@ const STUFEN_DATEN=/*@@DATEN:stufen@@*/null;
 // Saisonziele (ziel) multiplizieren sich über alle erreichten Stufen.
 const stWirk=()=>{const s=stOf();return STUFEN_DATEN.stufen.filter(x=>x.nr<=s).flatMap(x=>x.wirkungen||[])};
 const stAb=k=>{let w=null;for(const x of stWirk())if(x.kennung===k)w=x;return w},stW=(k,d)=>{const x=stAb(k);return x&&x.wert!=null?x.wert:d};
-const stTF=()=>stWirk().filter(x=>x.kennung==='ziel').reduce((f,x)=>f*x.wert,1);
+const stTF=i=>i===0?1:stWirk().filter(x=>x.kennung==='ziel').reduce((f,x)=>f*x.wert,1);
 const STAGES=['',...STUFEN_DATEN.stufen.map(x=>x.text)];
 const z2Of=sl=>{sl.z2=sl.z2||{};sl.z2.st=sl.z2.st||{};sl.z2.ch=sl.z2.ch||{};return sl.z2};
 const stMax=(sl,d)=>Math.min(8,z2Of(sl).st[d]||1);

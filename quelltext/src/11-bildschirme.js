@@ -245,6 +245,7 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button,[d
   if(d.zsrand){const a=screenArg;a.habs=shuffle(Object.keys(HAB).filter(h=>habOpen(META.slots[a.slot],h))).slice(0,3);Sfx.select();renderScreen();return}
   if(d.zsnext){const a=screenArg;if(a.habs.length!==3)return;sc('cdeck',{slot:a.slot,zl:a.z2?'z2':true,prof:a.prof,habs:Object.keys(HAB).filter(h=>a.habs.includes(h)),seed:a.seed||'',back:a});return}
   if(d.zsback2){const b=screenArg.back;if(b){screen='zlsetup';screenArg=b;Sfx.select();renderAll()}return}
+  if(d.stsel){const[id,n]=d.stsel.split(':');screenArg.stSel={id,n:+n};screenArg.stHint=null;Sfx.select();renderScreen();return} // 0.89a: Stufe nur wählen
   if(d.stlock){const[id,n]=d.stlock.split(':');screenArg.stHint={id,n:+n};Sfx.deny();renderScreen();return} // 0.71a: gesperrte Stufe
   if(d.cdeck){const i=screenArg.slot;if(!deckOpen(META.slots[i],d.cdeck)){Sfx.deny();return}Sfx.select();ZSTART={slot:i,arg:screenArg,run:JSON.stringify((META.slots[i]&&META.slots[i].run)||null),alt:JSON.stringify((META.slots[i]&&META.slots[i].runAlt)||null),active:META.active,last:META.lastSlot,mode:META.lastMode};PENDSEED=screenArg.seed||null;enterCamp(i,true,d.cdeck,screenArg.zl||false,screenArg.habs||null,screenArg.prof||null,+d.stage||1);return}
   if(d.cfresh!=null){sc('mode',{slot:+d.cfresh,z2fresh:1});return}

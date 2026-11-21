@@ -5,6 +5,16 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.89a · 21.11.2026 · Stufenwahl, Umbau-Bestätigung, Schliff
+- 🏔️ **Stufenwahl:** Eine Stufe antippen zeigt, was gilt – alle Verschärfungen bis zu dieser Stufe, die neue markiert, Saisonziele zusammengefasst. Gestartet wird erst über „▶ Mit Stufe n starten“. Gesperrte Stufen zeigen ihre Wirkung und wie du sie freischaltest.
+- 🎯 Die Saisonziele der Stufen (×1,1 auf Stufe 2, 4, 7) gelten erst **ab Sommer**, der Frühling bleibt gleich.
+- 🧰 **Umbauten** zeigen beim Antippen erst ein Fenster mit ihrer Wirkung. Erst „✅ Einsetzen“ löst aus, „Abbrechen“ lässt sie liegen.
+- 📊 Neuer Schalter im Menü: **Vorschau auf dem Spielfeld an/aus**. Aus = beim Platzieren keine Schilder und Linien, Umriss, Zähler und Info-Feld bleiben.
+- 🌍 Weltreise: höchstens zwei Ziele mit demselben Schwerpunkt zur Wahl.
+- 🚪 Auflage **Eingang**: Der Eingang darf jetzt ganz zugebaut werden. Zerklüftetes Gelände kommt nie zusammen mit dieser Auflage.
+- 🦷 **Raubtier-Kenner** gibt jetzt Natur (×1 N, +0,12 je Raubtier, höchstens ×1,6) statt Besucher.
+- 🌭 **Bratwurstbude** kommt nur noch, wenn Savanne im Lauf ist (im Startdeck sonst Popcorn).
+
 ## 0.88a · 18.11.2026 · Weltkarte, Highscores, Stufen
 - 🗺️ **Weltreise auf der Weltkarte:** Die Reiseziele leuchten als Punkte auf einer gezeichneten Weltkarte (Farbe = Schwerpunkt). Antippen wählt, darunter (im Querformat daneben) stehen Region, Kontinent, Auflage, Belohnung und die Vorschau des echten Geländes. Besuchte Orte sind golden mit Route verbunden, besuchte Kontinente abgedunkelt.
 - ⚖️ Weltreise: Unter mehreren Zielen ist immer mindestens eines mittel oder schwer (vor Zoo 1 mindestens eines mittel). Europa zählt wie leicht.

@@ -434,3 +434,14 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Alle Stufen** (`META.stAll`, `data-zsstall`): Stufenwahl bis 8; Lauf über `stMax` → `run.stTest=1`, `run.test=1`, `z2After` schaltet nichts frei. `run.stNewAll`, Endbild `z2NewsHtml(run,1)`.
 - **Profilwahl:** Profil ohne gewählten Lebensraum (offen, z2) zeigt Stufen-Knöpfe `data-hdlock` (gesperrt) und Hinweis `.hdhint`.
 - **Lebensraum-Prüfung im Protokoll:** `ih` aus `Z.inspHabs`; `inspHab` entfällt (Zufallszug bleibt für gleiche Seeds).
+
+## 20. 0.89a
+- **Weltreise:** `wrRollOpts0` lost je Kontinent ein Paar (Region, Schwerpunkt); im ersten Durchgang nur Schwerpunkte, die noch < 2-mal vorkommen; reicht das nicht, zweiter Durchgang ohne Grenze. Europa zählt nicht.
+- **Verbotene Paare** (`daten/gelaende.json` `verbotene_paare`, `06:paarVerboten`): `ruleRoll(mapId)` lässt verbotene Auflagen weg; `04:mapRoll` lässt in der Weltreise (Auflage steht vorher fest) verbotene Gelände weg. Heute: Zerklüftet + Eingang.
+- **Eingang:** nur noch Eingangsfeld frei, erstes Gebäude am Eingang, alles verbunden (`entryCut`); zubauen erlaubt.
+- **Stufen-Ziele** `08:stTF(i)`: Frühling ×1, ab Sommer Produkt der `ziel`-Wirkungen. Einstieg (`einTF`) und Testlauf (`d4TF`) unverändert.
+- **Raubtier-Kenner** `k_raub`: ×(1+0,12·Raubtiere) auf N, höchstens ×1,6.
+- **Umbau:** `data-umbuse` öffnet `#umbConfPop` (`umbConfHtml`), „Einsetzen“ ruft `umbUse(i,true)`.
+- **Vorschau-Schalter** `META.pvOff`: in `render0` keine `badges`/`links`/Hervorhebungen der Vorschau (nicht im Tutorial).
+- **Stufenwahl** `09:stageBox`, Auswahl `screenArg.stSel`.
+- **Bratwurstbude** `rq:'savanne'`, Ersatz Popcorn.
