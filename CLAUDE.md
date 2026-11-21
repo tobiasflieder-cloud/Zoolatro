@@ -99,6 +99,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.90a) – erst bauen, wenn Tobi „bauen“ sagt
 
+0. **Schalter „📊 Vorschau aus“ wirkt kaum** (Chat 21.11., Tobi: „funktioniert nicht“): Der Schalter schaltet (`META.pvOff`), blendet seit 0.89a aber nur die Schilder/Linien an **Nachbarn** aus
+   (`render0` Modul 07, Block `if(h&&h.ok)`); ohne Nachbar-Wirkung sieht man keinen Unterschied. Vorschlag (Tobi ohne Vorliebe): „Aus“ blendet beim Platzieren **alle Zahlen** aus –
+   zusätzlich die Punkte/Rechnung im Info-Feld (`infoHtml`: Karte/Zoo-Werte, `calcHtml`, Details-Knopf) und die Änderung im Zähler oben (`dA`/`dS`/`dT`). Bleibt: Umriss grün/rot, Feld-Markierungen,
+   im Info-Feld Name, Kosten und „passt nicht, weil …“. Im Tutorial immer an. Test: Schalter aus → keine Zahlen in Info-Feld/Zähler/Brett, Umriss da.
+
 **Danach (Chat 21.11., alle Werte und Tabellen in `docs/plan/ensembles-spezialisten-auflagen.md`; Vorschlag: in eigenen Versionen bauen, z. B. 0.90a = 1–3, 0.91a = 4, 0.92a = 5):**
 1. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
 2. **Show-Bonus ×1,35** statt ×1,25 je Gastro-/Attraktions-Nachbar (Plan B).
