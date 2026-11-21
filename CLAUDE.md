@@ -106,6 +106,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    **Nachtrag (Screenshot Tobi, Otter nur ausgewählt):** Schon beim **Auswählen** einer Karte zeigt das Brett Wechselwirkungs-Schilder an Gebäuden („+4B“, „+1N“, `trm`/`labs` in `render0` Modul 07 ~Z. 54ff.)
    und die grün/rot/hellgrüne Hervorhebung der betroffenen Gehege/Felder – der Schalter greift dort heute gar nicht. „Aus“ soll auch diese Auswahl-Hinweise ausblenden.
    Bleiben: dunkle ⊘-Felder der Auflage (`ruleOverlay`, sonst baut man ins Leere), Naturflächen-Markierung passt/passt nicht, Umriss.
+   **Nachtrag 2 (Tobi):** „Aus“ blendet auch die **Winter-Wirkungen** aus, die man sonst an Karten und Gebäuden sieht: Winter-Schilder auf dem Brett (`winterMarks` in `zlMarks`, Modul 06 ~Z. 389,
+   Herbst blau/Winter rot), das ❄️/🥇/🚫-Zeichen auf Handkarten (`data-dead`, `zd`/`zlDead` in der Hand, Modul 07) und die Zeilen „❄️ Zählt selbst nicht …“/„🥇 zählt im Winter mehrfach“ im Info-Feld (`resdead`/`resgood`).
+   Die Winter-Bedingung selbst bleibt lesbar (Wetterbericht, Winter-Fenster, Zoo-Menü) – nur nicht mehr je Karte/Gebäude vorgerechnet.
 
 **Danach (Chat 21.11., alle Werte und Tabellen in `docs/plan/ensembles-spezialisten-auflagen.md`; Vorschlag: in eigenen Versionen bauen, z. B. 0.90a = 1–3, 0.91a = 4, 0.92a = 5):**
 1. **Ensembles** (Plan A): Food Corner, Vergnügungsmeile, Stilles Eck, Sicherer Hain (Beute), Schutzzone (bedroht) – 3 zusammenhängende, Bonus je Mitglied, entdecken wie Freundschaften (Einblendung, Zoo-Buch), Umriss + Schild auf dem Brett. Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
