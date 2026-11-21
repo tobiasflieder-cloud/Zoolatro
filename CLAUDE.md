@@ -121,6 +121,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Neu: Tipp auf eine Stufe **wählt** sie nur (hervorgehoben), darunter ein Kasten „🏔️ Stufe n – das gilt:“ mit **allen** Wirkungen bis einschließlich n (Stufen wirken aufeinander), die neue der Stufe n markiert (z. B. „neu“),
    Saisonziele zusammengefasst („Saisonziele ×1,21“), bei Zoogründer Stufe 1 der Einstiegs-Hinweis. Darunter Knopf „▶ Mit Stufe n starten“. Vorauswahl = höchste freie Stufe. Gesperrte Stufen (🔒) zeigen beim Tippen ebenfalls ihre Wirkungen + Freischalt-Hinweis, ohne Start.
    Auch im Zoo-Buch (Reiter 📜 Regeln oder Freischalten → Stufen) die Liste aller 8 Stufen mit Text. Querformat prüfen. Test: Tipp auf Stufe 3 startet nichts und zeigt die Texte von Stufe 2 und 3.
+7. **Zerklüftetes Gelände nie mit Auflage 🚪 Eingang** (Chat 21.11.: Zoo 3 einer Reise mit Zerklüftet + Eingang + Naturfeldern kaum spielbar): `ruleRoll()` (Modul 06 ~Z. 61) kennt das Gelände nicht.
+   Neu: `ruleRoll(mapId)` filtert `eingang` heraus, wenn das Gelände `zerkluftet` ist (Kennung aus `daten/gelaende.json`); alle Aufrufer übergeben die Gelände-Kennung (Modul 06 ~Z. 67, Modul 09 ~Z. 31, Weltreise-Auslosung über `WRCTX.rule` in `wrRollOpts`).
+   Falls das Gelände erst nach der Auflage ausgelost wird: dort umgekehrt bei `eingang` kein `zerkluftet`. Am besten als kleine Liste „verbotene Paare“ (Gelände, Auflage), damit später weitere dazukommen können. Test: viele Auslosungen → nie zerklüftet + Eingang.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
