@@ -99,7 +99,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.92a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **📸 Fotograf nie am selben Tag wie der ❤️ Besucherliebling** (Chat 21.11.): Der Liebling wird in `startDay` (Modul 09 ~Z. 393/394, `state.fav`) vor den Zoo-Momenten ausgelost (~Z. 398).
+   Lösung: bei der Momente-Auswahl `foto` ausschließen, wenn `state.fav!=null` (zusätzlich zu `state.season<1`). Kommt dann kein anderer Moment in Frage, gibt es an dem Tag keinen. Test: viele Tage mit gesetztem Liebling → nie `foto`.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
