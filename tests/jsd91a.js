@@ -1,4 +1,4 @@
-// 0.90a: Ensembles, Show ×1,35, Promi-Verstärker, neue Spezialisten, Auflagen-Kategorien (je eine Prüfung pro Punkt)
+// 0.91a (Auftrag 0.90a): Ensembles, Show ×1,35, Promi-Verstärker, neue Spezialisten, Auflagen-Kategorien (je eine Prüfung pro Punkt)
 const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync(process.env.ZF||require('path').join(__dirname,'..','build','zoodeck.html'),'utf8');
 const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message));
@@ -14,7 +14,7 @@ var put=L=>{state.buildings=L.map(([k,cell],i)=>({id:100+i,key:k,cells:[cell],lv
 var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var team=L=>{runOf().spec=L.slice();state.spec=L.slice();syncCtx()};`;
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x),J=x=>JSON.parse(ev(`JSON.stringify(${x})`));await wait(200);
- T(ev('VERSION')==='0.90a','Version');
+ T(ev('VERSION')==='0.91a','Version');
  start(w);ev(H+`state.rule=null;team([])`);
  // B · Show-Bonus ×1,35 (zwei ×1,7)
  const sh=J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0],g=one(c=>c.cat==='essen'&&!c.rq&&!(TRAITS.ruhig||[]).includes(c.key)&&!(TRAITS.trubel||[]).includes(c.key),2);put([[s,A0],[g[0],NB[0]]]);const a=lines(state.buildings[0]);put([[s,A0],[g[0],NB[0]],[g[1],NB[3]]]);return{a,b:lines(state.buildings[0])}})()`);

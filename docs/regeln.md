@@ -101,7 +101,7 @@ Betrag, das sind die Zeilen in den Referenzfällen.
       Aus mit Ruhezone daneben, Spezialist Ruhepol, Partyzoo.
     - Ein Gebäude ist höchstens **einfach** gestresst (`st=min(1,…)`). Es verliert selbst nichts, sondern zählt für den Zoo-Faktor (Abschnitt 3).
     - **Showtier** (`show`): `sh = min(4, min(2, normale Gastro/Attraktionen daneben + Bühne + 2 bei Savanne neben Bistro) + 2·(Trubel-Gastro/-Attraktionen daneben + Tribünen im Umkreis 2, nicht direkt daneben))`.
-      Faktor (0.90a, `04:showF`) `f = min(2,5, 1 + (Leckerli 0,5 | Belugas 0,45 | sonst 0,35) · sh · (Nova/Bühne daneben 2))`, auf 0,05 gerundet; Zuschlag `round(max(0,a)·(f−1))`.
+      Faktor (0.91a, `04:showF`) `f = min(2,5, 1 + (Leckerli 0,5 | Belugas 0,45 | sonst 0,35) · sh · (Nova/Bühne daneben 2))`, auf 0,05 gerundet; Zuschlag `round(max(0,a)·(f−1))`.
     - Jagdrevier/Partyzoo: statt Stress +30 % je Auslöser direkt daneben, höchstens 2.
 13. **Kombo** `c.km(...)` → Faktor (×fa auf B, ×fs auf N).
 14. **Zoolatro-Zusätze** `09:extra92` (nur mit `state.zl`). Jeder Eintrag ist entweder fest `{a,s}` oder Faktor `[Text, fa, fs]`,
@@ -442,11 +442,11 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Stufen-Ziele** `08:stTF(i)`: Frühling ×1, ab Sommer Produkt der `ziel`-Wirkungen. Einstieg (`einTF`) und Testlauf (`d4TF`) unverändert.
 - **Raubtier-Kenner** `k_raub`: ×(1+0,12·Raubtiere) auf N, höchstens ×1,6.
 - **Umbau:** `data-umbuse` öffnet `#umbConfPop` (`umbConfHtml`), „Einsetzen“ ruft `umbUse(i,true)`.
-- **Vorschau-Schalter** `META.pvOff`: in `render0` keine `badges`/`links`/Hervorhebungen der Vorschau (nicht im Tutorial).
+- **Vorschau-Schalter** `META.pvOff` (`07:pvHide`, nicht im Tutorial), seit 0.90a vollständig: keine Auswahl-Hinweise (`.trl`/`trm`), keine Vorschau-Schilder/Linien, Info-Feld beim Platzieren nur Karteninfo, keine Winter-Wirkungen (`winterMarks`, `data-dead`, `zlDead`-Markierungen außer Profil und „Betroffene zeigen“). Auflagen-Felder, Umriss und Gründe für „passt nicht“ bleiben.
 - **Stufenwahl** `09:stageBox`, Auswahl `screenArg.stSel`.
 - **Bratwurstbude** `rq:'savanne'`, Ersatz Popcorn.
 
-## 21. 0.90a – Ensembles, Promis, Spezialisten, Auflagen-Kategorien
+## 21. 0.91a – Ensembles, Promis, Spezialisten, Auflagen-Kategorien
 - **Show-Bonus** `04:showF(sh,art,nova)`: je Auslöser +0,35 (Belugas 0,45, Leckerli 0,5), Nova verdoppelt, höchstens ×2,5. Vorschau-Schilder nutzen `showF`.
 - **Stress** `04:strOf(b,c,nb,idx,vs)` (aus `evalB` herausgezogen, gleiche Rechnung): liefert `st` für die Wertung und die Ensembles.
 - **Ensembles** (`daten/ensembles.json` → `04:ENS`, Texte `texte_de.json` `ensemble`, Bedingungen `04:ENS_WIRKUNG`):

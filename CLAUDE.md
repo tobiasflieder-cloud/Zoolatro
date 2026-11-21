@@ -97,11 +97,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.91a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.92a) – erst bauen, wenn Tobi „bauen“ sagt
 
 (leer)
 
-**Nach 0.90a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
+**Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -126,13 +126,15 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
-- **0.90a** ([Auftrag](docs/auftraege/0.90a-ensembles-promis-spezialisten-auflagen.md), Plan `docs/plan/ensembles-spezialisten-auflagen.md`, Regeln `docs/regeln.md` 21): Show `showF` (×1,35 je Auslöser, Belugas 1,45, Leckerli 1,5, Nova doppelt, max ×2,5);
+- **0.91a** (als 0.90a beauftragt, Nummer war schon vergeben; [Auftrag](docs/auftraege/0.90a-ensembles-promis-spezialisten-auflagen.md), Plan `docs/plan/ensembles-spezialisten-auflagen.md`, Regeln `docs/regeln.md` 21): Show `showF` (×1,35 je Auslöser, Belugas 1,45, Leckerli 1,5, Nova doppelt, max ×2,5);
   Stress aus `evalB` nach `strOf` gezogen; Ensembles `daten/ensembles.json` → `ENS`/`ENS_WIRKUNG`/`ensFind` (Zwischenspeicher je Brett-Array)/`ensOf` (Prozent-Schritt in `evalB`)/`ensTaler` (`dayIncome.ens`), Entdecken `ensDiscover` (`sl.ens`, `state.ensNew` → `#ensPop`, `state.ensSeen`), Brett `ensMarks`, Zoo-Buch `ensBuchHtml`;
   Promis: Namen/Story (`story`) in `texte_de.json`, Icons in `karten.json`, `preis:1` in `costParts`, Look `.card.vst`/`.ocard.vst` (`vstVal`), Strahlen `vstMarks`, „⚡“ beim Zählen; 10 Spezialisten (`zweiraum` in `SPGRP`, `hirtin`/`grenz` per, `naturpur`/`kl_kueche`/`ruhlage`/`frueh`/`spurt` mult, `wetterfrosch` über `inspHid`/`winterSee`, `regie` in `ensF`, Freischaltung `s:regie`);
   Auflagen `daten/auflagen.json` (`AUFK`/`AUFA`/`aufK`/`aufPasst`/`aufKatHtml`, `WRLV` von dort, `kontinente.json` ohne `auflagen`), `ruleRoll`/`wrRollOpts0` mit Kategorien und Kontinenten, neue `show3`/`raub2`/`klein4`/`misch` (`ruleWhy`), `etat` (`buy`, `state.shop.etat`), `spflicht` (`wrGoal`), Vorlieben `VORL`/`vorlOf`/`vorlMarks`.
   Referenzfälle mit `aktualisiere`: alle 51 neu (Gesamt ×0,86–×2,1, Median ×1,13); Gegenprobe mit alten Show-/Verstärker-Werten und ohne Ensembles ergab alle Zahlen wie 0.89a.
-  Tests: neu `jsd90a.js`; angepasst `jsd64a` (Show/Leckerli/Tribüne, Profi-Mappe ×1,4, Showtier-Zeile genau), `jsd72a`/`jsd78a` (Show-Texte), `jsd88a` (Belohnung vor `wrGo` auf null, war zufallsabhängig), `jsddaten` (Texte mit `ensemble`, Wertung nur noch > 0).
+  Tests: neu `jsd91a.js`; angepasst `jsd64a` (Show/Leckerli/Tribüne, Profi-Mappe ×1,4, Showtier-Zeile genau), `jsd72a`/`jsd78a` (Show-Texte), `jsd88a` (Belohnung vor `wrGo` auf null, war zufallsabhängig), `jsddaten` (Texte mit `ensemble`, Wertung nur noch > 0).
   Bekannt (schon 0.89a): `WR=1 sim94.js` meldet `click is not a function` (SVG-Punkt der Weltkarte im jsdom).
+- **0.90a** (Chat 21.11., Tobi: „Vorschau aus funktioniert nicht“): Schalter wirkte nur auf Nachbar-Schilder beim Platzieren. Jetzt `pvHide()` (Modul 07, `META.pvOff`, nicht im Tutorial) auch für Auswahl-Hinweise (`trm`/`labs`-Schilder `.trl`, Hervorhebung),
+  Info-Feld beim Platzieren (`infoHtml`: `h=null` → nur Karteninfo), Winter-Wirkungen (`winterMarks`, Handkarten `data-dead`, `zlDead`-Markierungen außer Profil/„Betroffene zeigen“, Info-Zeilen). Bleiben: Umriss, `ruleOverlay`, Naturflächen passt/nicht, „passt nicht, weil“. Test neu `jsd90a.js`.
 
 - **0.89a** ([Auftrag](docs/auftraege/0.89a-schliff-stufen-umbau-auflagen.md), Regeln `docs/regeln.md` 20): Weltreise höchstens 2× derselbe Schwerpunkt (`wrRollOpts0`, Paare Region/Schwerpunkt, zweiter Durchgang erlaubt Gleichheit);
   Umbau-Fenster `umbConfHtml`/`umbConfOk` (`state.umbConf`, `#umbConfPop`, `data-umbcx`); Raubtier-Kenner `ms`; `META.pvOff`/`data-pvm` (Vorschau-Schilder/Linien aus, nicht im Tutorial); Eingang-„frei“-Regel gestrichen;

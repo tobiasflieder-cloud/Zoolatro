@@ -5,7 +5,7 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
-## 0.90a · 21.11.2026 · Ensembles, Promis, neue Spezialisten, Auflagen
+## 0.91a · 21.11.2026 · Ensembles, Promis, neue Spezialisten, Auflagen
 - ✨ **Ensembles:** Drei passende Karten, die zusammenhängen, bilden ein Ensemble. Jedes Mitglied bekommt den Bonus (auch bei größeren Gruppen nur einmal):
   🍔 Food Corner (3 verschiedene Gastro-Gebäude: je ×1,25 B, +1 🪙 pro Tag), 🎠 Vergnügungsmeile (3 Attraktionen: je ×1,25 B), 🍃 Stilles Eck (3 scheue Tiere, keins gestresst: je ×1,2 N),
   🐇 Sicherer Hain (3 Beutetiere, keins gestresst: je ×1,2 B und N), 🛡️ Schutzzone (3 bedrohte Tiere, keins gestresst: je ×1,5 B und N). Steckt eine Karte in zwei Ensembles, gelten beide.
@@ -20,6 +20,9 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
   In der Weltreise passt jede Auflage zu bestimmten Kontinenten. Die Kategorie steht klein im Auflagen-Fenster und im Zoo-Menü, das Zoo-Buch listet die Auflagen danach.
 - 🆕 **Neue Auflagen:** 🎪 Höchstens 3 Showtiere, 🦁 Höchstens 2 Raubtiere, 🧺 Kleiner Etat (3 Käufe je Shop-Besuch), 🐘 Kleine Gehege (höchstens 2 mit 4 Feldern), 🔀 Durchmischt,
   🎯 Schwerpunkt-Pflicht (nur Weltreise, Prüfung Ende Winter) und sieben **Vorlieben** mit Bonus und Malus (🤫 Stille Wildnis, 🎭 Showtime, 🌱 Naturnah, 🍿 Feinschmecker, 🎢 Nervenkitzel, 🦒 Großwild-Fans, 🔴 Artenschützer), sichtbar als Schild auf dem Brett.
+
+## 0.90a · 21.11.2026 · Vorschau-Schalter
+- 📊 **„Vorschau aus“** (Menü) wirkt jetzt richtig: Beim Auswählen einer Karte erscheinen keine Schilder wie „+4B“ und keine Hervorhebungen mehr, beim Platzieren keine Zahlen auf dem Brett und im Info-Feld (nur Name, Kosten und Kartentext), und die Winter-Wirkungen an Karten und Gebäuden (❄️-Schilder, ❄️/🥇 auf Handkarten) sind ausgeblendet. Umriss, Auflagen-Felder, Naturflächen und „passt nicht“ bleiben. Die Winter-Bedingung steht weiter im Wetterbericht und im Zoo-Menü. Im Tutorial ist die Vorschau immer an.
 
 ## 0.89a · 21.11.2026 · Stufenwahl, Umbau-Bestätigung, Schliff
 - 🏔️ **Stufenwahl:** Eine Stufe antippen zeigt, was gilt – alle Verschärfungen bis zu dieser Stufe, die neue markiert, Saisonziele zusammengefasst. Gestartet wird erst über „▶ Mit Stufe n starten“. Gesperrte Stufen zeigen ihre Wirkung und wie du sie freischaltest.
