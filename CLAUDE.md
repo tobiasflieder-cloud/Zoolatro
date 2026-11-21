@@ -135,7 +135,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
 
 **In Planung (Chat 21.11., noch nicht entschieden):** Ensembles (3 verschiedene Gastro = 🍔 Food Corner, 3 Attraktionen = 🎠 Vergnügungsmeile, 3 scheue Tiere = 🍃 Stilles Eck; entdecken wie Freundschaften, sind ein Bonus; unter der Auflage „Gastronomische Vielfalt“ gibt es eben keine Food Corner – gewollt) und stärkere Verstärker – Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
-  Spezialist für Gehege mit 2 Feldern (Kleintier-Expertin = 1 Feld, Architekt bleibt 3 und 4 Felder). Zoo-Auflagen in Kategorien (Platz & Gelände, Tiere, Gebäude, Ziel), je Lauf jede Kategorie mindestens einmal, an Kontinente gekoppelt, neue Auflagen
+  Spezialist für Gehege mit 2 Feldern (Kleintier-Expertin = 1 Feld, Architekt bleibt 3 und 4 Felder). Zoo-Auflagen in Kategorien (Platz & Gelände, Tiere, Gebäude, Limitierung, Lebensräume, Ziel), je Lauf jede Kategorie mindestens einmal, an Kontinente gekoppelt, neue Auflagen
   (Stille Wildnis, Showtime, höchstens 3 Showtiere, höchstens 2 Raubtiere) – Tabelle „Weltreise-Plan“, Blatt „Auflagen-Kategorien“.
 
 **Offen / zur Entscheidung:**
@@ -148,6 +148,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 **Für später (aus dem Chat 13.11.):** Gruppen-Bonus nach ein paar Läufen prüfen (evtl. Schritt 0,05 statt 0,1, in `daten/spezialisten.json` `schritt`) · Förderung attraktiver: erst Nutzen
 im aktuellen Zoo anzeigen („heute etwa +X B“), danach ggf. Preis/Wirkung; im Tutorial Zoo 2 zeigen · Winter-Bedingung „Mindestgröße“ zur Gruppe „schwer“ ·
 Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) · Schalter für Ereignisse und Glück in der Auswahl.
+
+**Für später (Chat 21.11., Endgame):** Wer Stufe 8 geschafft hat, schaltet einen 7. Zoo frei: eine sagenhafte oder unentdeckte Region (z. B. Atlantis, verlorenes Tal) mit eigenen Karten wie Dinosauriern, Einhörnern usw.
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · Weiterspielen nach dem Ziel beobachten.
