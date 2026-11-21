@@ -134,7 +134,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
 
-**In Planung (Chat 21.11., noch nicht entschieden):** Ensembles (3 verschiedene Gastro = 🍔 Food Corner, 3 Attraktionen = 🎠 Vergnügungsmeile, 3 scheue Tiere = 🍃 Stilles Eck; entdecken wie Freundschaften) und stärkere Verstärker – Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
+**In Planung (Chat 21.11., noch nicht entschieden):** Ensembles (3 verschiedene Gastro = 🍔 Food Corner, 3 Attraktionen = 🎠 Vergnügungsmeile, 3 scheue Tiere = 🍃 Stilles Eck; entdecken wie Freundschaften, sind ein Bonus; unter der Auflage „Gastronomische Vielfalt“ gibt es eben keine Food Corner – gewollt) und stärkere Verstärker – Entwurf `docs/stil/ensemble-verstaerker-entwurf.html`.
   Spezialist für Gehege mit 2 Feldern (Kleintier-Expertin = 1 Feld, Architekt bleibt 3 und 4 Felder). Zoo-Auflagen in Kategorien (Platz & Gelände, Tiere, Gebäude, Ziel), je Lauf jede Kategorie mindestens einmal, an Kontinente gekoppelt, neue Auflagen
   (Stille Wildnis, Showtime, höchstens 3 Showtiere, höchstens 2 Raubtiere) – Tabelle „Weltreise-Plan“, Blatt „Auflagen-Kategorien“.
 
