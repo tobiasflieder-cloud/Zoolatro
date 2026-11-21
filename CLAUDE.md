@@ -110,6 +110,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 3. **Raubtier-Kenner gibt Natur statt Besucher** (Chat 19.11., Variante A): Er ähnelte dem Raubtier-Dompteur zu sehr (beide B, beide je Raubtier). Neu wie die Scheu-Kennerin:
    `KN('raubtier',.12,'ma')` → `'ms'` (Modul 01 ~Z. 344), Texte in `daten/spezialisten.json` (`fx`: „×1 N|+0,12 je Raubtier im Zoo (höchstens ×1,6)“) und ggf. `texte_de.json` anpassen. Dompteur bleibt unverändert.
    Referenzfälle prüfen (betroffene Fälle mit `aktualisiere`, in der Zusammenfassung nennen); Bot nutzt ggf. eine Bewertung je Spezialist – mitziehen.
+4. **Schalter „📊 Vorschau auf dem Spielfeld: An/Aus“** (Chat 21.11.): im Menü (`helpHtml`, Modul 08 ~Z. 247, neue `setrow` wie `data-fbm`), jederzeit umschaltbar, auch mitten im Lauf; `META.pvOff`, sofort neu zeichnen.
+   Aus = beim Platzieren keine Wirkungs-Schilder und -Linien auf dem Brett (`badges`/`links` aus der Vorschau, Modul 07 ~Z. 28–39). Bleibt: die Umriss-Vorschau (`ghost`, sonst kann man nicht zielen, rot = geht nicht),
+   der Zähler oben (`dA`/`dS`/`dT`) und das Info-Feld mit Details. Schilder gebauter Gehege außerhalb der Vorschau (Winter, Stress usw.) bleiben. Im Tutorial immer an.
+   Test: Schalter aus → Vorschau ohne `.badge`/`.link` aus der Vorschau, Umriss da; an → wie heute.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
