@@ -5,6 +5,9 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.90a · 21.11.2026 · Vorschau-Schalter
+- 📊 **„Vorschau aus“** (Menü) wirkt jetzt richtig: Beim Auswählen einer Karte erscheinen keine Schilder wie „+4B“ und keine Hervorhebungen mehr, beim Platzieren keine Zahlen auf dem Brett und im Info-Feld (nur Name, Kosten und Kartentext), und die Winter-Wirkungen an Karten und Gebäuden (❄️-Schilder, ❄️/🥇 auf Handkarten) sind ausgeblendet. Umriss, Auflagen-Felder, Naturflächen und „passt nicht“ bleiben. Die Winter-Bedingung steht weiter im Wetterbericht und im Zoo-Menü. Im Tutorial ist die Vorschau immer an.
+
 ## 0.89a · 21.11.2026 · Stufenwahl, Umbau-Bestätigung, Schliff
 - 🏔️ **Stufenwahl:** Eine Stufe antippen zeigt, was gilt – alle Verschärfungen bis zu dieser Stufe, die neue markiert, Saisonziele zusammengefasst. Gestartet wird erst über „▶ Mit Stufe n starten“. Gesperrte Stufen zeigen ihre Wirkung und wie du sie freischaltest.
 - 🎯 Die Saisonziele der Stufen (×1,1 auf Stufe 2, 4, 7) gelten erst **ab Sommer**, der Frühling bleibt gleich.
