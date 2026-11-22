@@ -119,6 +119,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Referenzfälle prüfen (vermutlich keiner betroffen).
 9. **Lauf-Protokoll zeigt Ensembles** (Chat 22.11.): Je Zoo eine Zeile wie bei den Meilensteinen, z. B. „Ensembles: 🍔 Food Corner (Herbst, Tag 2) · 🍃 Stilles Eck (Winter, Tag 1)“ bzw. „Ensembles: -“.
    Zeitpunkt beim ersten Auftreten im Zoo merken (im Zoo-Protokoll `logZoo`, Modul 06, neben den Meilensteinen; Quelle `ensFind` am Tagesende). Test: Zoo mit Ensemble → Zeile im `runText`.
+10. **Kartenwahl zwischen den Zoos: Übersichtszeile zum Lauf-Deck** (Chat 22.11., Screenshot „Neue Karten für dein Lauf-Deck“): Über den Angeboten (Modul 11 ~Z. 43, unter „Zoo-Kasse …“) eine kompakte Zeile/Chips mit dem Inhalt des Lauf-Decks:
+   Gehege je Lebensraum (z. B. „💧 6 · 🌴 4 · 🏜️ 3“), Merkmale (🎭 Show · 🙈 scheu · 🐇 Beute · 🦁 Raubtier · 🔴 bedroht) und Gebäude (🍔 Gastro · 🎡 Attraktion · 🌳 Naturschutz · ⚡ Verstärker). Nur Anzahlen, keine Empfehlung.
+   Am besten als Helfer (`deckMixHtml(keys)`), damit er auch in der Deck-Ansicht/„Dein Deck aufräumen“ genutzt werden kann. Mehrere Kopien zählen einzeln. Test: bekanntes Deck → richtige Zahlen.
    Lösung: `.dsh>*{flex-shrink:0}` (oder `.dtrows,.dtcalc{flex:none}`); im Querformat (`body.land .dsh`, `height:100%`) dasselbe. Test (`quer.js`, Hochformat 360×740): Detail-Fenster einer Karte mit vielen Faktoren → jede `.dtrw` voll sichtbar (Höhe > 0, nicht abgeschnitten), Fenster scrollt.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
