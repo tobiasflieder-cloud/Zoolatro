@@ -101,6 +101,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 1. **📸 Fotograf nie am selben Tag wie der ❤️ Besucherliebling** (Chat 21.11.): Der Liebling wird in `startDay` (Modul 09 ~Z. 393/394, `state.fav`) vor den Zoo-Momenten ausgelost (~Z. 398).
    Lösung: bei der Momente-Auswahl `foto` ausschließen, wenn `state.fav!=null` (zusätzlich zu `state.season<1`). Kommt dann kein anderer Moment in Frage, gibt es an dem Tag keinen. Test: viele Tage mit gesetztem Liebling → nie `foto`.
+2. **Zoo-Übersicht zeigt die Stufe** (Chat 22.11.): `zooBoxHtml` (Modul 06 ~Z. 452) nennt Zoo, Jahreszeit und Tag, aber nicht die Stufe des Laufs (`run.stage`). Neu: in der Zeile `.zwhen` „· 🏔️ Stufe n“ (plus „🧪“ bei Testlauf bzw. „Stufen-Test“ bei `run.stTest`).
+   Antippen öffnet die Wirkungen dieser Stufe wie in der Stufenwahl (`stageBox`, nur ansehen). Gilt auch für die Seitenleiste im Querformat (`rail`). Im Tutorial nichts anzeigen. Test: Lauf auf Stufe 3 → Übersicht enthält „Stufe 3“.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
