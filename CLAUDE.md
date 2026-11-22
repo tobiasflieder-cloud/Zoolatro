@@ -99,7 +99,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.93a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **👤 Profil-Knopf in der Kopfleiste** (Chat 22.11., Entwurf `docs/stil/profil-und-spektrum-entwurf.html`, **Entscheidung offen**): Knopf mit Profil-Emoji und Stufen-Plakette links neben ☰ (`#btnHelp`, `00-seite-und-stil.html` ~Z. 1327), nicht im Tutorial.
+   Öffnet ein Profil-Fenster mit allem, was den ganzen Lauf gilt: Profil + neuer Personen-Text (`profile.json` neues Feld `person`), Profil-Regel, Stufe (`stageBox`), Weltreise-Route/Boni/Ausgewildert, Wachsende Spezialisten, Lebensraum-Futter, Lebensraum-Regeln, Reiter „Deck“ (`deckMixHtml` + Liste, nur ansehen), Reiter „Regeln“ (heutiges `zooRulesHtml`).
+   Dafür aus `zooBoxHtml` (Modul 06 ~Z. 458) heraus: `zooStageHtml`, Boni-Chips, Wachsende Spezialisten, Futter, Lebensraum-Regeln, Knopf „📖 Regeln“. Zoo-Übersicht behält Zoo/Jahreszeit/Tag, Weltreise-Ziel, Auflage, Wunsch/Ereignis, Winter, Zoo-Chips (Zeitung, Glückslos, Teuerung, Geschenk), Reinheit, Vielfalt, Zucht. Querformat-Seitenleiste (`rail`) entsprechend.
+2. **🎭 Spektrum im Detail-Fenster** (Chat 22.11., Entwurf wie oben): Bei Showtieren eine Leiter „jetzt ×a · höchstens ×2,5“ mit den Stufen (1 → ×1,35, 2 → ×1,7, 3 → ×2,05, 4 → ×2,4, max ×2,5; Belugas/Leckerli eigene Werte aus `SHOWS`) und den Regeln, was zählt. Nur Regeln, keine Feld-Empfehlung. Später ggf. für weitere Faktoren (Herde, Ensembles).
+3. **😴 Gelangweilte Showtiere** (Chat 22.11., **Wert offen**, Vorschlag ×0,8 B): Showtier ohne jeden Gastro-/Attraktions-Nachbarn (`sh===0` in `evalB`, Modul 04 ~Z. 259) bekommt ×0,8 B, Schild „😴 ×0,8“, Zeile im Detail-Fenster. Nicht im Tutorial. Referenzfälle betroffen.
 
 **Nach 0.92a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 

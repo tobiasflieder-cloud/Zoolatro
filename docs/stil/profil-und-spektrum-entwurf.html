@@ -1,0 +1,163 @@
+<title>Profil-Knopf und Show-Spektrum</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* Spiel-Look wie die anderen Entwürfe (dunkles Grün, Papier). Bewusst nur dunkel wie das Spiel. */
+:root{color-scheme:dark;--bg:#0b2015;--bg2:#12301f;--bg3:#1a3d29;--paper:#fffaf0;--paper2:#f3ead6;--line:#e7dcc4;--ink:#1d2a21;--muted:#6b7a6f;
+  --gold:#ffd166;--bInk:#a85d00;--bbg:#ffe7c4;--nInk:#00756b;--nbg:#c9f1ec;--red:#c0392b;--rbg:#fde2dd;
+  --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;--f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#eaf2e3;font-family:var(--f-body);font-size:14px;line-height:1.4;
+  padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1{font-family:var(--f-display);font-weight:400;color:var(--gold);font-size:26px;margin:0}
+h2{font-family:var(--f-display);font-weight:400;font-size:20px;margin:0;color:#fff;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:400;font-size:16px;margin:4px 0 0;color:var(--bInk)}
+.note{color:#9fbba5;font-size:13px;max-width:65ch;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.panel{background:var(--bg2);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9fbba5}
+/* Kopfleiste */
+.top{display:flex;align-items:center;gap:8px;background:#0e2a1b;border-radius:14px;padding:8px 10px}
+.brand{font-family:var(--f-display);color:var(--gold);font-size:18px;flex:1}
+.season{font-size:12px;color:#cfe0d2}
+.ic{width:38px;height:38px;border-radius:10px;border:0;background:var(--bg3);color:#fff;font-size:18px;display:grid;place-items:center;position:relative;flex:none}
+.ic.prof{background:linear-gradient(160deg,#2e6b46,#1a3d29);box-shadow:0 0 0 2px var(--gold) inset}
+.ic .st{position:absolute;right:-5px;bottom:-5px;background:var(--gold);color:#3a2a00;font-family:var(--f-display);font-size:11px;border-radius:7px;padding:0 4px;line-height:15px}
+.new{outline:2px dashed var(--gold);outline-offset:3px;border-radius:12px}
+/* Fenster */
+.modal{background:var(--paper);color:var(--ink);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.modal h2{color:var(--ink)}
+.who{display:flex;gap:12px;align-items:center}
+.ava{font-size:40px;width:64px;height:64px;border-radius:16px;background:var(--paper2);display:grid;place-items:center;flex:none;box-shadow:0 0 0 3px var(--gold)}
+.who small{display:block;color:var(--muted)}
+.story{font-style:italic;color:#4b5a50;margin:0;font-size:13.5px}
+.tile{background:var(--paper2);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:3px}
+.tile b{font-family:var(--f-display);font-weight:400;font-size:15px}
+.tile .s{font-size:12.5px;color:var(--muted)}
+.row{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-size:12.5px;padding:2px 8px;border-radius:8px;background:#fff;border:1px solid var(--line);white-space:nowrap}
+.chip.p{background:#fff0c2;border-color:#f1d68a}
+.tabs{display:flex;gap:6px}
+.tab{font-family:var(--f-display);font-size:13px;padding:4px 10px;border-radius:9px;background:var(--paper2);color:var(--muted)}
+.tab.on{background:#2e8b57;color:#fff}
+.btn{font-family:var(--f-display);font-size:15px;border:0;border-radius:12px;padding:8px 16px;background:#2e8b57;color:#fff;align-self:flex-start}
+.gone{opacity:.45;text-decoration:line-through}
+.move{font-size:12px;color:var(--bInk)}
+/* Detail-Fenster: Spektrum */
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:2px}
+.step{text-align:center;border-radius:8px;padding:4px 0;background:#fff;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.step b{display:block;font-family:var(--f-display);font-weight:400;font-size:14px;color:var(--bInk)}
+.step.done{background:var(--bbg);border-color:#f0c58a;color:var(--bInk)}
+.step.now{box-shadow:0 0 0 2px var(--bInk) inset}
+.how{font-size:12.5px;color:#4b5a50;margin:0;padding-left:16px}
+.how li{margin:1px 0}
+.bored{background:var(--rbg);border-radius:12px;padding:8px 10px;font-size:13px;color:#7a2318}
+.sign{display:inline-block;font-family:var(--f-display);font-size:13px;background:#fff;color:var(--red);border:2px solid var(--red);border-radius:8px;padding:0 6px}
+table{border-collapse:collapse;font-size:12.5px;width:100%}
+td,th{text-align:left;padding:3px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:500}
+.scroll{overflow-x:auto}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>👤 Profil-Knopf · 🎭 Show-Spektrum</h1>
+  <p class="note">Entwurf zu Tobis Vorschlägen vom 22.11. Gelb gestrichelt = neu. Alle Zahlen sind Beispiele aus Flivs Lauf (Stufe 2, Zoogründer, Weltreise).</p>
+</header>
+
+<!-- 1 Kopfleiste -->
+<section class="panel">
+  <div class="lbl">1 · Kopfleiste</div>
+  <div class="grid">
+    <div><p class="note">Heute</p>
+      <div class="top"><span class="brand">Zoolatro</span><span class="season">🌸 Frühling ●○○○</span><button class="ic">🔊</button><button class="ic">☰</button></div></div>
+    <div><p class="note">Neu: Profil-Knopf links neben ☰, mit Stufe als Plakette</p>
+      <div class="top"><span class="brand">Zoolatro</span><span class="season">🌸 Frühling ●○○○</span><button class="ic">🔊</button><span class="new"><button class="ic prof">🧑‍💼<span class="st">2</span></button></span><button class="ic">☰</button></div></div>
+  </div>
+  <p class="note">Im Tutorial ausgeblendet. Im Querformat sitzt der Knopf genauso in der oberen Leiste.</p>
+</section>
+
+<div class="grid">
+<!-- 2 Profil-Fenster -->
+<section class="panel">
+  <div class="lbl">2 · Profil-Fenster (alles, was den ganzen Lauf gilt)</div>
+  <div class="modal">
+    <div class="who"><div class="ava">🧑‍💼</div><div><h2>Der Zoogründer</h2><small>🏔️ Stufe 2 · 🌍 Weltreise · Zoo 3 von 6</small></div></div>
+    <p class="story">„Hat den Zoo mit einem geliehenen Lastwagen und drei Ziegen gegründet. Kennt jedes Tier beim Namen und jede Schraube am Tor.“</p>
+    <div class="tabs"><span class="tab on">Lauf</span><span class="tab">Deck</span><span class="tab">Regeln</span></div>
+
+    <div class="tile"><div class="row"><b>🧑‍💼 Profil-Regel</b></div><span class="s">＋ 2 Gratis-Neuziehen pro Jahreszeit statt 1.</span></div>
+    <div class="tile"><div class="row"><b>🏔️ Stufe 2</b><span class="s">antippen</span></div><span class="s">Saisonziele ab Sommer ×1,1 · …</span></div>
+    <div class="tile"><b>🌍 Weltreise</b><span class="s">Sundarbans → Okavango-Delta → <u>Amazonas</u> · Ausgewildert: Warzenschweine, Zebrasteppe</span>
+      <div class="chips"><span class="chip p">🧹 Fleißige Helfer</span></div></div>
+    <div class="tile"><div class="row"><b>📈 Wachsende Spezialisten</b><span class="s">⏱️ ×1,75 N</span></div><span class="s">Rekordjägerin: +0,25 je Ziel 2 Tage früher, höchstens ×3</span></div>
+    <div class="tile"><div class="row"><b>🧺 Lebensraum-Futter</b><span class="s">🌿 2 · 🌾 1</span></div></div>
+    <div class="tile"><div class="row"><b>🧭 Lebensraum-Regeln</b><span class="s">💧 🌾 🌿</span></div></div>
+
+    <h3>Reiter „Deck“</h3>
+    <div class="tile"><b>🃏 Lauf-Deck · 30 Karten</b>
+      <div class="chips"><span class="chip">💧 9</span><span class="chip">🌾 3</span><span class="chip">🌿 6</span><span class="chip">🎭 8</span><span class="chip">🙈 2</span><span class="chip">🦁 1</span><span class="chip">🔴 2</span><span class="chip">🍔 3</span><span class="chip">🎡 7</span><span class="chip">🌳 2</span><span class="chip">⚡ 1</span></div>
+      <span class="s">Darunter die Kartenliste wie in „Dein Deck aufräumen“ (nur ansehen).</span></div>
+    <button class="btn">Schließen</button>
+  </div>
+</section>
+
+<!-- 3 Zoo-Übersicht schlank -->
+<section class="panel">
+  <div class="lbl">3 · Zoo-Übersicht danach (nur dieser Zoo)</div>
+  <div class="modal">
+    <h2>🃏 Zoo 3 · Amazonas</h2>
+    <p class="note" style="color:var(--muted);margin:0">🌸 Frühling, Tag 1 von 4 · 🌎 Südamerika</p>
+    <div class="tile"><b>🌍 Schwerpunkt 🌿 Dschungel</b><span class="s">Zoo 3 von 6</span></div>
+    <div class="tile"><b>🏗️ Auflage: Bauabschnitte</b><span class="s">…</span></div>
+    <div class="tile"><b>🌸 Frühling</b><span class="s">Im Frühling zählt die Auflage. Der Besucherwunsch kommt im Sommer.</span></div>
+    <div class="tile"><b>❄️ Winter</b><span class="s">wird zu Beginn des Herbstes angekündigt</span></div>
+    <div class="chips"><span class="chip">📰 Zeitungsartikel: Showtiere ×1,5</span></div>
+    <h3>Dein Stand</h3>
+    <div class="tile"><div class="row"><b>🧬 Reinheit</b><span class="s">💧 5 Arten · ×1,3 N</span></div></div>
+    <div class="tile"><div class="row"><b>🎨 Vielfalt</b><span class="s">–</span></div></div>
+    <div class="tile"><div class="row"><b>🍼 Zucht</b><span class="s">kein Paar</span></div></div>
+    <p class="move">Weg aus der Übersicht und ins Profil-Fenster: Stufe, Boni-Chips, Wachsende Spezialisten, Futter, Lebensraum-Regeln, 📖 Regeln (Stufe/Profil-Regel/Boni).</p>
+    <button class="btn">Los geht's</button>
+  </div>
+</section>
+</div>
+
+<!-- 4 Spektrum -->
+<section class="panel">
+  <div class="lbl">4 · Detail-Fenster: Spektrum am Beispiel Showtier</div>
+  <div class="grid">
+    <div class="modal">
+      <h2>🦭 Seelöwenbucht</h2>
+      <h3>🎭 Show: jetzt ×1,35 · höchstens ×2,5</h3>
+      <div class="ladder">
+        <div class="step done now"><b>×1,35</b>1</div>
+        <div class="step"><b>×1,7</b>2</div>
+        <div class="step"><b>×2,05</b>3</div>
+        <div class="step"><b>×2,4</b>4</div>
+        <div class="step"><b>×2,5</b>max</div>
+      </div>
+      <ul class="how">
+        <li>Gastro/Attraktion daneben: je 1 (höchstens 2)</li>
+        <li>Trubel-Nachbar oder 🏟️ Tribüne in Reichweite 2: je 2</li>
+        <li>🎤 Nova im Zoo: alles doppelt</li>
+      </ul>
+      <p class="note" style="color:var(--muted)">Zeigt nur die Stufen und was zählt, nicht wo man bauen soll.</p>
+    </div>
+    <div class="modal">
+      <h2>💤 Idee: gelangweilte Showtiere</h2>
+      <p style="margin:0">Ein Showtier ohne einen einzigen Gastro- oder Attraktions-Nachbarn langweilt sich:</p>
+      <div class="bored"><span class="sign">😴 ×0,8</span> &nbsp;🦭 Seelöwenbucht langweilt sich: ×0,8 B</div>
+      <div class="scroll"><table>
+        <tr><th>Auslöser</th><th>heute</th><th>mit Malus</th></tr>
+        <tr><td>0</td><td>×1</td><td>×0,8 B</td></tr>
+        <tr><td>1</td><td>×1,35</td><td>×1,35</td></tr>
+        <tr><td>2</td><td>×1,7</td><td>×1,7</td></tr>
+      </table></div>
+      <p class="note" style="color:var(--muted)">Nur B (Besucher), nicht im Tutorial. Gegenspieler: Scheue Tiere wollen genau diese Nachbarn nicht – das macht das Legen spannender.</p>
+    </div>
+  </div>
+</section>
+</div>
