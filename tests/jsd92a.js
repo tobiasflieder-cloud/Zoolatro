@@ -22,8 +22,8 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  // 2. Stufe in der Zoo-Übersicht
  ev(`modal='zoo';ZRULES=0;render()`);const zb=(d.querySelector('.modal .zstg')||{}).textContent||'';T(/🏔️ Stufe 3/.test(zb)&&/Stufe 3 – das gilt/.test(zb)&&!d.querySelector('.modal .zstg [data-cdeck]'),'Zoo-Übersicht zeigt Stufe 3, antippen zeigt die Wirkungen (ohne Start-Knopf)');ev(`modal=null;render()`);
  // 3. Öko-Viertel (Ensemble oeko)
- const pf=J(`(()=>{const N=one(c=>c.cat==='schutz'&&!c.rq,3);put([[N[0],A0],[N[1],NB[0]],[N[2],NB[3]]]);const a=ensOf(state.buildings[0],state.buildings).map(e=>e[0]+' '+e[1]+'/'+e[2]);put([[N[0],A0],[N[0],NB[0]],[N[0],NB[3]]]);return{a,b:ensOf(state.buildings[0],state.buildings).length,n:ENSORD.length}})()`);
- T(pf.a.length===1&&/Öko-Viertel 1\/1\.25/.test(pf.a[0])&&ENS.oeko&&!ENS.pfad&&pf.b===0&&pf.n===6,`Öko-Viertel: 3 verschiedene Naturschutz ×1,25 N (${pf.a}), 3 gleiche nichts`);
+ const pf=J(`(()=>{const N=one(c=>c.cat==='schutz'&&!c.rq,3);put([[N[0],A0],[N[1],NB[0]],[N[2],NB[3]]]);const a=ensOf(state.buildings[0],state.buildings).map(e=>e[0]+' '+e[1]+'/'+e[2]);put([[N[0],A0],[N[0],NB[0]],[N[0],NB[3]]]);return{a,b:ensOf(state.buildings[0],state.buildings).length,n:ENSORD.length,k:!!ENS.oeko&&!ENS.pfad}})()`);
+ T(pf.a.length===1&&/Öko-Viertel 1\/1\.25/.test(pf.a[0])&&pf.k&&pf.b===0&&pf.n===6,`Öko-Viertel: 3 verschiedene Naturschutz ×1,25 N (${pf.a}), 3 gleiche nichts`);
  // 4. Zeitung/Glückslos
  const zt=J(`(()=>{state.money=999;openShop();const it={kind:'einmal',key:'zeitung',price:1};buy(it);it2={kind:'einmal',key:'glueckslos',price:1};buy(it2);let z=0,g=0;for(let i=0;i<300;i++)for(const x of genEinmal()){if(x.key==='zeitung')z++;if(x.key==='glueckslos')g++}state.phase='play';modal='zoo';render();const t=document.querySelector('.modal').textContent;modal=null;render();return{news:!!state.zl.news,z,g,chip:/Zeitungsartikel: Showtiere ×1,5/.test(t),lchip:/Glückslos/.test(t)}})()`);
  T(zt.news&&zt.z===0&&zt.g===0&&zt.chip&&zt.lchip,`Zeitung/Glückslos: nach Kauf kein zweites Angebot, Chips in der Zoo-Übersicht`);
