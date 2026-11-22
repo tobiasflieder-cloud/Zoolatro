@@ -111,6 +111,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    `genEinmal` (Modul 07 ~Z. 660) bietet `zeitung` nicht mehr an, wenn `state.zl.news` schon gesetzt ist (heute kann man ihn ein zweites Mal ohne Wirkung kaufen), ebenso `glueckslos` bei offenem `state.luckNext`. Test: nach Kauf kein zweites Angebot, Chip da.
 5. **Gratis-Geschenke auch mit Schulden abholen** (Chat 22.11.): `canPay(p)` (Modul 07 ~Z. 717) verlangt `state.money>=0` auch bei Preis 0 → Geschenke aus `run.gifts` (Futtersack, Umbaukiste, Profi-Mappe; `price:0`, ~Z. 715) sind im Minus gesperrt.
    Lösung: `canPay(p)` gibt bei `p<=0` immer `true`. Alles mit Preis bleibt im Minus gesperrt (Schulden-Hinweis „Erst ab 0 kannst du wieder kaufen“ bleibt, ggf. „außer Geschenke“ ergänzen). Test: Kasse −10, Geschenk abholbar, Karte mit Preis nicht.
+6. **Detail-Fenster: Listen werden abgeschnitten** (Chat 22.11., Screenshot Krakengrotte: „Grundwert und dazu“ und „Möglich, wirkt gerade nicht“ zeigen nur 1½ Zeilen, „Faktoren“ nur 2 von 5 – die Rechnung darunter hat ×1,25 ×1,5 ×2 ×2 ×1,75).
+   Ursache CSS (`00-seite-und-stil.html` ~Z. 884/893): `.dsh` ist eine Flex-Spalte mit `max-height:88vh;overflow:auto`, die Kinder dürfen schrumpfen (`flex-shrink:1`), und `.dtrows` hat `overflow:hidden` → bei langem Inhalt werden die Listen gestaucht und abgeschnitten, statt dass das Fenster scrollt.
+   Lösung: `.dsh>*{flex-shrink:0}` (oder `.dtrows,.dtcalc{flex:none}`); im Querformat (`body.land .dsh`, `height:100%`) dasselbe. Test (`quer.js`, Hochformat 360×740): Detail-Fenster einer Karte mit vielen Faktoren → jede `.dtrw` voll sichtbar (Höhe > 0, nicht abgeschnitten), Fenster scrollt.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
