@@ -109,6 +109,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 4. **📰 Zeitungsartikel sichtbar machen und nicht doppelt anbieten** (Chat 22.11.): Wirkt bis Zoo-Ende (`state.zl.news`, Kauf Modul 07 ~Z. 725, Wertung Modul 09 ~Z. 378), sichtbar aber nur als Zeile im Detail-Fenster.
    Neu: Chip in der Zoo-Übersicht (Chips-Zeile in `zooBoxHtml`, wie Boni): „📰 Zeitungsartikel: Showtiere ×1,5 (bis Zoo-Ende)“; ebenso „🎟️ Glückslos: nächster Jahreszeit-Start Chancen ×2“, solange `state.luckNext` offen.
    `genEinmal` (Modul 07 ~Z. 660) bietet `zeitung` nicht mehr an, wenn `state.zl.news` schon gesetzt ist (heute kann man ihn ein zweites Mal ohne Wirkung kaufen), ebenso `glueckslos` bei offenem `state.luckNext`. Test: nach Kauf kein zweites Angebot, Chip da.
+5. **Gratis-Geschenke auch mit Schulden abholen** (Chat 22.11.): `canPay(p)` (Modul 07 ~Z. 717) verlangt `state.money>=0` auch bei Preis 0 → Geschenke aus `run.gifts` (Futtersack, Umbaukiste, Profi-Mappe; `price:0`, ~Z. 715) sind im Minus gesperrt.
+   Lösung: `canPay(p)` gibt bei `p<=0` immer `true`. Alles mit Preis bleibt im Minus gesperrt (Schulden-Hinweis „Erst ab 0 kannst du wieder kaufen“ bleibt, ggf. „außer Geschenke“ ergänzen). Test: Kasse −10, Geschenk abholbar, Karte mit Preis nicht.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
