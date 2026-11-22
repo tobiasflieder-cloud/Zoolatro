@@ -41,10 +41,10 @@ const start=(w,wr,habs,deck)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'$
  let m=d.getElementById('modalRoot');
  T(!!m.querySelector('.zbig')&&!!m.querySelector('.zstand')&&/Dieser Zoo/.test(m.textContent)&&/Dein Stand/.test(m.textContent),'Zoo-Menü: „Dieser Zoo“ und „Dein Stand“');
  const tl=[...m.querySelectorAll('.zbig .ztl')].map(e=>e.className.split(' ')[1]);T(tl[0]==='zwr'&&tl.includes('zwt')&&tl.indexOf('zwt')===tl.length-1,`feste Reihenfolge: Ziel … Winter (${tl.join(',')})`);
- T(m.querySelectorAll('.zstand details').length>=4,'Stand-Zeilen aufklappbar');T(!!m.querySelector('.zchips')||!J('runOf().boni').length,'Chips für Boni');
- T(!!d.getElementById('mZooRules')&&!!d.getElementById('mClose'),'Knöpfe „📖 Regeln“ und „Los geht’s“');
- d.getElementById('mZooRules').click();m=d.getElementById('modalRoot');T(/Regeln für diesen Lauf/.test(m.textContent)&&/Stufe/.test(m.textContent)&&/Zucht/.test(m.textContent)&&/Gelände/.test(m.textContent),'Regeln-Ansicht mit Stufe, Zucht, Gelände');
- d.getElementById('mZooBack').click();T(/Dieser Zoo/.test(d.getElementById('modalRoot').textContent),'◂ Zurück führt ins Zoo-Menü');
+ T(m.querySelectorAll('.zstand details').length>=2,'Stand-Zeilen aufklappbar (seit 0.93a: Reinheit, Vielfalt, Zucht; Lauf-Dinge im Profil-Fenster)');
+ T(!d.getElementById('mZooRules')&&!!d.getElementById('mClose'),'Knopf „Los geht’s“, kein „📖 Regeln“ mehr (seit 0.93a im Profil-Fenster)');
+ ev(`PROFT='regeln';modal='prof';render()`);m=d.getElementById('modalRoot');T(/Stufe/.test(m.textContent)&&/Zucht/.test(m.textContent)&&/Gelände/.test(m.textContent),'Regeln im Profil-Fenster mit Stufe, Zucht, Gelände');
+ ev(`modal='zoo';render()`);T(/Dieser Zoo/.test(d.getElementById('modalRoot').textContent),'Zoo-Menü wieder offen');
  T(ev(`(()=>{const ids={};document.querySelectorAll('[id]').forEach(e=>ids[e.id]=(ids[e.id]||0)+1);return Object.values(ids).every(n=>n===1)})()`),'keine doppelten ids');
  // 5. Kronenfeld erreichbar (normale Läufe und Weltreise mit halber Natur)
  const kr=J(`(()=>{const r=runOf(),kb=BOARD.map(c=>c.slice()),kt=TERR,out=[];const chk=p=>{if(!p.crown)return;setBoard(p.cells);TERR=new Map(p.terr);const ek=p.rule&&p.rule.entry?hk(...p.rule.entry):null,ax=p.rule&&p.rule.ax,bad=k=>!!ax&&ax.includes(k);out.push(crownFits(p.crown,ek,bad))};

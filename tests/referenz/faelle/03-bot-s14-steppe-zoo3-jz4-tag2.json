@@ -1501,9 +1501,9 @@
  ]
 },
 "erwartet":{
- "A": 351,
+ "A": 343,
  "S": 291,
- "total": 102141,
+ "total": 99813,
  "mults": [
   {
    "label": "Gestresste Tiere: 4",
@@ -1613,7 +1613,7 @@
   },
   {
    "id": 4,
-   "a": 8,
+   "a": 6,
    "s": 8,
    "parts": [
     [
@@ -1637,6 +1637,11 @@
      -2
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
@@ -1648,14 +1653,14 @@
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     4,
+     3,
      4
     ]
    ]
   },
   {
    "id": 5,
-   "a": 18,
+   "a": 14,
    "s": 14,
    "parts": [
     [
@@ -1674,8 +1679,13 @@
      1
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "💧 Fluss: Kette aus 2 ×1,5",
-     3,
+     2,
      2
     ],
     [
@@ -1685,7 +1695,7 @@
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     8,
+     6,
      6
     ]
    ]

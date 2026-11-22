@@ -207,7 +207,7 @@
 "beute":"🐇 Beute|gestresst, wenn ein Raubtier im Umkreis von 2 Feldern steht: Zoo ×0,95 Natur",
 "raubtier":"🦷 Raubtier|stresst Beutetiere im Umkreis von 2 Feldern",
 "scheu":"🙈 Scheu|gestresst, wenn ein Gastro-Gebäude oder eine Attraktion im Umkreis von 2 Feldern steht (ruhige ausgenommen): Zoo ×0,95 Natur",
-"show":"🎭 Showtier|×1,35 B und N mit einem benachbarten Gastro-Gebäude oder einer Attraktion, ×1,7 mit zweien. 🎉 Trubel-Nachbarn und Tribünen zählen doppelt, zusammen bis ×2,4"
+"show":"🎭 Showtier|×1,35 B und N mit einem benachbarten Gastro-Gebäude oder einer Attraktion, ×1,7 mit zweien. 🎉 Trubel-Nachbarn und Tribünen zählen doppelt, zusammen bis ×2,4. Ohne beides langweilt es sich: ×0,8 B"
 },
 "event":{
 "hitze":{"name":"Extreme Hitze"},

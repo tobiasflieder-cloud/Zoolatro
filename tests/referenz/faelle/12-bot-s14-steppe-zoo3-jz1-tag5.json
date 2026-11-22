@@ -796,9 +796,9 @@
  ]
 },
 "erwartet":{
- "A": 111,
+ "A": 104,
  "S": 114,
- "total": 12654,
+ "total": 11856,
  "mults": [
   {
    "label": "Beute-Kennerin",
@@ -878,7 +878,7 @@
   },
   {
    "id": 4,
-   "a": 8,
+   "a": 7,
    "s": 6,
    "parts": [
     [
@@ -897,6 +897,11 @@
      3
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "🌾 Herde aus 3 ×1,15",
      1,
      1
@@ -905,7 +910,7 @@
   },
   {
    "id": 5,
-   "a": 8,
+   "a": 6,
    "s": 6,
    "parts": [
     [
@@ -919,13 +924,18 @@
      1
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "💧 Fluss: Kette aus 2 ×1,5",
      2,
      2
     ],
     [
      "🤝 Freundschaft mit Schildkröten ×1,25",
-     2,
+     1,
      1
     ]
    ]
@@ -1015,7 +1025,7 @@
   },
   {
    "id": 10,
-   "a": 9,
+   "a": 7,
    "s": 5,
    "parts": [
     [
@@ -1027,6 +1037,11 @@
      "🐇 Ensemble Sicherer Hain ×1,2",
      1,
      1
+    ],
+    [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -2,
+     0
     ],
     [
      "🌾 Herde aus 3 ×1,15",

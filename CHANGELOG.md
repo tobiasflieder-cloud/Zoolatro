@@ -5,6 +5,14 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.93a · 22.11.2026 · Profil-Knopf, Show-Spektrum, gelangweilte Showtiere
+- 👤 **Profil-Knopf** oben neben ☰ (Profil-Emoji mit Stufe): öffnet dein Profil mit kurzer Geschichte der Person und drei Reitern.
+  **Lauf:** Profil-Regel, Stufe (antippen zeigt, was sie ändert), Weltreise (Route, Boni, Ausgewildert), wachsende Spezialisten, Lebensraum-Futter, Lebensraum-Regeln. **Deck:** Übersicht und Kartenliste. **Regeln:** die Regeln dieses Laufs.
+- 🗺️ Die **Zoo-Übersicht** zeigt nur noch, was diesen Zoo betrifft (Auflage, Wunsch/Ereignis, Winter, Chips, Reinheit, Vielfalt, Zucht).
+- 📖 Die Personen-Texte stehen auch in der Profilwahl beim Laufstart.
+- 🎭 **Show-Spektrum:** Das Detail-Fenster eines Showtiers zeigt die Leiter ×1,35 · ×1,7 · ×2,05 · ×2,4 (höchstens ×2,5), wo es gerade steht und was zählt.
+- 😴 **Gelangweilte Showtiere:** Ein Showtier ganz ohne Gastro-Gebäude oder Attraktion daneben (auch ohne Tribüne und Nova) zählt ×0,8 B. Auf dem Brett steht dann „😴 ×0,8“ (nur mit eingeschalteter Vorschau).
+
 ## 0.92a · 22.11.2026 · Stufe in der Übersicht, Öko-Viertel, Schliff
 - 🏔️ **Stufe in der Zoo-Übersicht:** Unter Zoo, Jahreszeit und Tag steht jetzt die Stufe des Laufs (mit 🧪 im Testlauf). Antippen zeigt, was auf dieser Stufe gilt – wie in der Stufenwahl, nur zum Ansehen.
 - 🎯 **Stufe 4** hebt die Saisonziele ab Sommer um ×1,2 statt ×1,1 (zusammen ab Stufe 4 ×1,32, ab Stufe 7 ×1,45). Der Frühling bleibt gleich.

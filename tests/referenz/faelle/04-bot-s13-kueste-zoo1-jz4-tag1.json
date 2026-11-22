@@ -1221,9 +1221,9 @@
  ]
 },
 "erwartet":{
- "A": 365,
+ "A": 360,
  "S": 293,
- "total": 106945,
+ "total": 105480,
  "mults": [
   {
    "label": "Nachtführung",
@@ -1447,7 +1447,7 @@
   },
   {
    "id": 9,
-   "a": 8,
+   "a": 5,
    "s": 3,
    "parts": [
     [
@@ -1461,13 +1461,18 @@
      0
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     3,
+     2,
      1
     ],
     [
      "🤝 Freundschaft mit Papageien-Voliere ×1,25",
-     2,
+     1,
      1
     ]
    ]

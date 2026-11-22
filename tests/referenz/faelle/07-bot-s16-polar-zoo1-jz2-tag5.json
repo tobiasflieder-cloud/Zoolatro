@@ -1152,9 +1152,9 @@
  ]
 },
 "erwartet":{
- "A": 220,
+ "A": 218,
  "S": 117,
- "total": 25740,
+ "total": 25506,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1532,7 +1532,7 @@
   },
   {
    "id": 19,
-   "a": 4,
+   "a": 3,
    "s": 2,
    "parts": [
     [
@@ -1542,6 +1542,11 @@
     ],
     [
      "Sommerhitze",
+     -1,
+     0
+    ],
+    [
+     "😴 Showtier gelangweilt: ×0,8 B",
      -1,
      0
     ],

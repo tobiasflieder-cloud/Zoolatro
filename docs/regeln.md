@@ -102,6 +102,7 @@ Betrag, das sind die Zeilen in den Referenzfällen.
     - Ein Gebäude ist höchstens **einfach** gestresst (`st=min(1,…)`). Es verliert selbst nichts, sondern zählt für den Zoo-Faktor (Abschnitt 3).
     - **Showtier** (`show`): `sh = min(4, min(2, normale Gastro/Attraktionen daneben + Bühne + 2 bei Savanne neben Bistro) + 2·(Trubel-Gastro/-Attraktionen daneben + Tribünen im Umkreis 2, nicht direkt daneben))`.
       Faktor (0.91a, `04:showF`) `f = min(2,5, 1 + (Leckerli 0,5 | Belugas 0,45 | sonst 0,35) · sh · (Nova/Bühne daneben 2))`, auf 0,05 gerundet; Zuschlag `round(max(0,a)·(f−1))`.
+      0.93a: Auslöser-Zahl `04:showN(b,c,nb,idx,vs)` (aus `evalB` herausgezogen). **Gelangweilt:** Showtier mit `sh = 0` (auch ohne Tribüne/Nova) ×`SHOWBORED` = 0,8 auf B (N bleibt), nicht im Tutorial.
     - Jagdrevier/Partyzoo: statt Stress +30 % je Auslöser direkt daneben, höchstens 2.
 13. **Kombo** `c.km(...)` → Faktor (×fa auf B, ×fs auf N).
 14. **Zoolatro-Zusätze** `09:extra92` (nur mit `state.zl`). Jeder Eintrag ist entweder fest `{a,s}` oder Faktor `[Text, fa, fs]`,
@@ -471,3 +472,9 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Ensembles im Protokoll** `06:ensLog` (am Tagesende in `startScoring0`): erstes Auftreten je Zoo `state.ensLog` `{k,s,d}`, in `logZoo` als `en`, `runText` „Ensembles: …“.
 - **Kasse** `07:canPay(p)`: Preis ≤ 0 immer erlaubt (Geschenke aus `run.gifts`), sonst Kasse ≥ 0 und ≥ Preis.
 - **Einmal-Angebote** `07:genEinmal`: kein `zeitung` bei `state.zl.news`, kein `glueckslos` bei `state.luckNext`.
+
+## 23. 0.93a
+- **Profil-Fenster** `06:profHtml` (Knopf `#btnProf`, sichtbar über `profOn()`: laufender Zoolatro-Lauf, nicht Tutorial), Reiter `PROFT` lauf/deck/regeln; Lauf: Profil-Regel, `zooStageHtml`, Weltreise (Route, Boni, Ausgewildert), wachsende Spezialisten, Futter, Lebensraum-Regeln; Deck: `deckMixHtml` + `deckRows`; Regeln: `zooRulesHtml`.
+  `zooBoxHtml` (Zoo-Übersicht und Seitenleiste) zeigt nur noch Zoo-Inhalte. Personen-Text `profile.json` `person` (auch in der Profilwahl).
+- **Show-Spektrum** `07:showSpecHtml` im Detail-Fenster: Leiter aus `showF` je Auslöser 1–4 (mit Nova/Belugas/Leckerli die eigenen Werte), jetzt-Stufe nach `showN`, höchstens `SHOWMAX`.
+- **Gelangweilt:** Abschnitt 2 (Show), Schild `06:boredMarks` nur ohne `pvHide()`.

@@ -169,9 +169,14 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     T(!!r&&r.sec&&r.n>=6,`${wo}: Zoo-Menü mit „Dieser Zoo“ und „Dein Stand“ (${r&&r.n} Zeilen)`);if(r){T(r.ov===0&&r.out===0,`${wo}: Zoo-Menü ohne Überlappung (${r.ov}/${r.out})`);if(r.qx>2)T(false,`${wo}: Zoo-Menü breiter als der Bildschirm (${r.qx} px)`)}}
   await pruefe(p,wo+' Zoo-Menü',seen);
   if(!await klick(p,'#modalRoot .zdt summary'))T(false,`${wo}: Stand-Zeile nicht aufklappbar`);else T(await p.evaluate(()=>!!document.querySelector('#modalRoot .zdt[open] .zdx')),`${wo}: Stand-Zeile klappt auf`);
-  if(!await klick(p,'#mZooRules'))T(false,`${wo}: Knopf „📖 Regeln“ fehlt/verdeckt`);else{T(await p.evaluate(()=>/Regeln für diesen Lauf/.test(document.getElementById('modalRoot').textContent)),`${wo}: Regeln-Ansicht öffnet`);await pruefe(p,wo+' Regeln-Ansicht',seen);
-    T(await klick(p,'#mZooBack')&&await p.evaluate(()=>/Dieser Zoo/.test(document.getElementById('modalRoot').textContent)),`${wo}: Regeln-Ansicht ◂ Zurück`)}
   T(await klick(p,'#mClose')&&await p.evaluate(()=>!modal),`${wo}: Zoo-Menü schließt`);
+  // 0.93a: Profil-Knopf in der Kopfleiste (kein Umbruch, antippbar), Profil-Fenster mit 3 Reitern, Regeln-Reiter (statt „📖 Regeln“ im Zoo-Menü)
+  {const r=await p.evaluate(()=>{const T0=document.querySelector('.top'),B=document.getElementById('btnProf');if(!T0||!B||B.hidden)return null;const H=document.getElementById('btnHelp').getBoundingClientRect(),tops=[B,document.getElementById('btnHelp')].map(e=>Math.round(e.getBoundingClientRect().top)),q=B.getBoundingClientRect(),e=document.elementFromPoint(q.left+q.width/2,q.top+q.height/2);
+      return{spread:Math.max(...tops)-Math.min(...tops),hit:!!e&&B.contains(e),in:q.left>=0&&q.right<=innerWidth+1}});
+    T(!!r&&r.hit&&r.in&&r.spread<=4,`${wo}: Profil-Knopf in der Kopfleiste antippbar, in einer Reihe mit ☰ (${r?r.spread:'-'} px)`)}
+  if(!await klick(p,'#btnProf'))T(false,`${wo}: Profil-Knopf nicht antippbar`);else{T(await p.evaluate(()=>modal==='prof'&&document.querySelectorAll('[data-proft]').length===3),`${wo}: Profil-Fenster mit 3 Reitern`);await pruefe(p,wo+' Profil-Fenster',seen);
+    for(const t of['deck','regeln']){if(!await klick(p,`[data-proft="${t}"]`))T(false,`${wo}: Profil-Reiter ${t} nicht antippbar`);else{const q=await p.evaluate(()=>({qx:document.documentElement.scrollWidth-innerWidth,sc:(()=>{const M=document.querySelector('#modalRoot .modal');return!!M&&(M.scrollHeight<=M.clientHeight+1||getComputedStyle(M).overflowY!=='visible')})()}));T(q.qx<=2&&q.sc,`${wo}: Profil-Reiter ${t}: passt in die Breite, Fenster scrollt`)}}
+    T(await klick(p,'#mClose')&&await p.evaluate(()=>!modal),`${wo}: Profil-Fenster schließt`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.86a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()
   // 14) 0.87a: Arktis-Zone liegt beim Start oben auf dem Bildschirm (auch gedreht) und bleibt beim Drehen des Geräts dieselbe
   for(const mk of['huegel','bucht','zerkluftet']){p=await seite(b,vp);await p.evaluate(mk=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,fs:{'h:arktis':1}};META.lastSlot=0;META.active=0;screen=null;
@@ -206,9 +211,9 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   await p.evaluate(()=>{const x=document.querySelector('#detSheet [data-dsx]');if(x)x.click();state.phase='play';state.info=null;modal='deck';render()});await p.waitForTimeout(200);
   {const r=await p.evaluate(()=>{const D=document.querySelector('.dmix');if(!D)return null;const q=D.getBoundingClientRect();return{in:q.left>=0&&q.right<=innerWidth+1,qx:document.documentElement.scrollWidth-innerWidth,ch:D.querySelectorAll('span').length}});
     T(!!r&&r.in&&r.qx<=2&&r.ch>=3,`${wo}: Deck-Zeile im Deck-Fenster passt in die Breite (${r?r.ch:0} Chips)`)}
-  await p.evaluate(()=>{modal='zoo';ZRULES=0;render()});await p.waitForTimeout(200);
-  if(!await klick(p,'.modal .zstg summary'))T(false,`${wo}: Stufe in der Zoo-Übersicht nicht antippbar`);
+  await p.evaluate(()=>{PROFT='lauf';modal='prof';render()});await p.waitForTimeout(200);
+  if(!await klick(p,'.modal .zstg summary'))T(false,`${wo}: Stufe im Profil-Fenster nicht antippbar`);
   {const r=await p.evaluate(()=>{const B=document.querySelector('.modal .zstg[open] .stbox');if(!B)return null;const q=B.getBoundingClientRect();return{t:B.textContent,in:q.left>=0&&q.right<=innerWidth+1,start:!!B.querySelector('[data-cdeck]'),ids:[...document.querySelectorAll('[id]')].map(e=>e.id).filter((x,i,a)=>a.indexOf(x)!==i).length}});
-    T(!!r&&/Stufe 3/.test(r.t)&&r.in&&!r.start&&r.ids===0,`${wo}: Stufen-Kasten in der Zoo-Übersicht: nur ansehen, im Bildschirm, keine doppelten ids`)}
+    T(!!r&&/Stufe 3/.test(r.t)&&r.in&&!r.start&&r.ids===0,`${wo}: Stufen-Kasten im Profil-Fenster: nur ansehen, im Bildschirm, keine doppelten ids`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.92a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

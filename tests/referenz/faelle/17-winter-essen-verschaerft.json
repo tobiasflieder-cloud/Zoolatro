@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 426,
+ "A": 421,
  "S": 349,
- "total": 148674,
+ "total": 146929,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1888,7 +1888,7 @@
   },
   {
    "id": 7,
-   "a": 18,
+   "a": 16,
    "s": 10,
    "parts": [
     [
@@ -1913,7 +1913,7 @@
     ],
     [
      "❄️ Lebensmittelaufsicht: Gastro-Boni nur halb",
-     -2,
+     -4,
      -2
     ]
    ]
@@ -2117,12 +2117,17 @@
   },
   {
    "id": 17,
-   "a": 6,
+   "a": 4,
    "s": 4,
    "parts": [
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "🎪 Zirkus-Zelt ×2,0",
-     3,
+     2,
      2
     ]
    ]

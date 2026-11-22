@@ -97,20 +97,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.93a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.94a) – erst bauen, wenn Tobi „bauen“ sagt
 
-1. **👤 Profil-Knopf in der Kopfleiste** (Chat 22.11., Entwurf `docs/stil/profil-und-spektrum-entwurf.html`): Knopf mit Profil-Emoji und Stufen-Plakette links neben ☰ (`#btnHelp`, `00-seite-und-stil.html` ~Z. 1327), nicht im Tutorial.
-   Öffnet ein Profil-Fenster mit allem, was den ganzen Lauf gilt: Profil + neuer Personen-Text (`profile.json` neues Feld `person`), Profil-Regel, Stufe (`stageBox`), Weltreise-Route/Boni/Ausgewildert, Wachsende Spezialisten, Lebensraum-Futter, Lebensraum-Regeln, Reiter „Deck“ (`deckMixHtml` + Liste, nur ansehen), Reiter „Regeln“ (heutiges `zooRulesHtml`).
-   Dafür aus `zooBoxHtml` (Modul 06 ~Z. 458) heraus: `zooStageHtml`, Boni-Chips, Wachsende Spezialisten, Futter, Lebensraum-Regeln, Knopf „📖 Regeln“. Zoo-Übersicht behält Zoo/Jahreszeit/Tag, Weltreise-Ziel, Auflage, Wunsch/Ereignis, Winter, Zoo-Chips (Zeitung, Glückslos, Teuerung, Geschenk), Reinheit, Vielfalt, Zucht. Querformat-Seitenleiste (`rail`) entsprechend.
-   Personen-Texte (`person`, Entwürfe, Tobi: „erstmal so“): Zoogründer „Hat den Zoo mit einem geliehenen Lastwagen und drei Ziegen gegründet. Kennt jedes Tier beim Namen.“ · Kapitänin „Fuhr zwanzig Jahre zur See, bevor sie vor Anker ging. Füttert die Seelöwen persönlich.“ ·
-   Safari-Ranger „Hat in der Serengeti Herden gezählt, bis ihm die Zahlen ausgingen. Schläft am liebsten im Freien.“ · Dschungelforscher „Kam mit 40 Notizbüchern und einem Papagei zurück, der seitdem nicht von seiner Schulter weicht.“ ·
-   Oasen-Dschinn „Erfüllt keine Wünsche, baut aber Oasen, wo vorher nur Sand war. Sein Alter verrät er nicht.“ · Zirkusdirektor „Hat den Zylinder nie abgesetzt. Für ihn ist jeder Tag Premiere.“ ·
-   Sterneköchin „Hat ihren Stern gegen eine Zoo-Küche getauscht. Ihr Bratwurst-Rezept ist streng geheim.“ · Biologin „Forscht seit Jahren an bedrohten Arten. Ihr Ziel: Kein Tier bleibt auf der Roten Liste.“ ·
-   Expeditionsleiterin „War an beiden Polen und friert trotzdem nie. Ihre Huskys hören nur auf sie.“ · Gipfelstürmer „Steigt jeden Morgen auf den höchsten Felsen im Zoo. Fürchtet sich nur vor Flachland.“
-2. **🎭 Spektrum im Detail-Fenster** (Chat 22.11., Entwurf wie oben): Bei Showtieren eine Leiter „jetzt ×a · höchstens ×2,5“ mit den Stufen (1 → ×1,35, 2 → ×1,7, 3 → ×2,05, 4 → ×2,4, max ×2,5; Belugas/Leckerli eigene Werte aus `SHOWS`) und den Regeln, was zählt. Nur Regeln, keine Feld-Empfehlung. Später ggf. für weitere Faktoren (Herde, Ensembles).
-3. **😴 Gelangweilte Showtiere** (Chat 22.11., Tobi: ×0,8 B): Showtier ohne jeden Gastro-/Attraktions-Nachbarn (`sh===0` in `evalB`, Modul 04 ~Z. 259) bekommt ×0,8 B, Schild „😴 ×0,8“, Zeile im Detail-Fenster. Nicht im Tutorial. Referenzfälle betroffen.
+(leer)
 
-**Nach 0.92a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Stufe 4 (Ziele ab Sommer ×1,32): nach 0.93a einen Lauf spielen; landet Tobi oft unter ~110 % oder scheitert, `stufen.json` Stufe 4 `ziel` zurück auf 1,1.
+**Nach 0.93a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Stufe 4 (Ziele ab Sommer ×1,32): nach 0.93a einen Lauf spielen; landet Tobi oft unter ~110 % oder scheitert, `stufen.json` Stufe 4 `ziel` zurück auf 1,1.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -134,6 +125,10 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.93a** ([Auftrag](docs/auftraege/0.93a-profil-knopf-show-spektrum.md), Regeln `docs/regeln.md` 23): Profil-Knopf `#btnProf` (`profOn`, `profBtnHtml`, Plakette `.stp`), Fenster `modal='prof'` → `profHtml` mit Reitern `PROFT` (`data-proft`); aus `zooBoxHtml` raus: Stufe, Boni-Chips, wachsende Spezialisten, Futter, Lebensraum-Regeln, „📖 Regeln“ (`ZRULES` ohne Wirkung, `mZooRules`/`mZooBack` weg);
+  `profile.json` `person` (+ Profilwahl `.dkperson`); `showN` aus `evalB`, `SHOWBORED` 0,8 B, `boredMarks` (nur mit Vorschau), `showSpecHtml` im Detail-Fenster.
+  Referenzfälle mit `aktualisiere`: 30 von 51 mit anderer Gesamtzahl (×0,937–×0,998, nur gelangweilte Showtiere). Tests: neu `jsd93a.js`, `quer.js` (Schritt 13 Profil-Knopf/-Fenster statt „📖 Regeln“, Schritt 16 Stufe im Profil-Fenster); angepasst `jsd86a` (Zoo-Menü ohne Regeln-Knopf), `jsd92a` (Stufe im Profil-Fenster).
 
 - **0.92a** ([Auftrag](docs/auftraege/0.92a-schliff-stufe-ensembles-anzeige.md), Regeln `docs/regeln.md` 22): Fotograf nicht bei `state.fav` (`dayRoll`); Stufe in der Zoo-Übersicht `zooStageHtml` (`<details class="zstg">`, `stageBox(…,view)` mit Schließen, ohne ids);
   Ensemble `oeko` Öko-Viertel (`ENS_WIRKUNG.natur`); Chips Zeitung/Glückslos in `zooBoxHtml`, `genEinmal` ohne Doppel; `canPay(p<=0)`; CSS `.dsh>*{flex-shrink:0}`; Stufe 4 `ziel` 1,2; `kl_kueche`/`ruhlage`/`naturpur` ×1,2;

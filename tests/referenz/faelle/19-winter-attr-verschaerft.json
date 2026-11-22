@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 373,
+ "A": 366,
  "S": 337,
- "total": 125701,
+ "total": 123342,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2073,7 +2073,7 @@
   },
   {
    "id": 15,
-   "a": 41,
+   "a": 37,
    "s": 9,
    "parts": [
     [
@@ -2113,7 +2113,7 @@
     ],
     [
      "❄️ TÜV-Prüfung: Attraktions-Boni nur halb",
-     -9,
+     -13,
      -1
     ]
    ]
@@ -2137,12 +2137,17 @@
   },
   {
    "id": 17,
-   "a": 6,
+   "a": 4,
    "s": 4,
    "parts": [
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "🎪 Zirkus-Zelt ×2,0",
-     3,
+     2,
      2
     ]
    ]

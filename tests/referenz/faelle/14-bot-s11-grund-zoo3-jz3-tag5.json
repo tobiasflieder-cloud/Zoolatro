@@ -1369,9 +1369,9 @@
  ]
 },
 "erwartet":{
- "A": 299,
+ "A": 296,
  "S": 321,
- "total": 95979,
+ "total": 95016,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1826,12 +1826,17 @@
   },
   {
    "id": 21,
-   "a": 15,
+   "a": 14,
    "s": 9,
    "parts": [
     [
      "Gebirge-Nachbarn",
      1,
+     0
+    ],
+    [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
      0
     ],
     [
@@ -1889,7 +1894,7 @@
   },
   {
    "id": 25,
-   "a": 10,
+   "a": 8,
    "s": 6,
    "parts": [
     [
@@ -1903,8 +1908,13 @@
      1
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "⛰️ Rand/Felsen (1) ×1,5",
-     3,
+     2,
      2
     ],
     [

@@ -1178,9 +1178,9 @@
  ]
 },
 "erwartet":{
- "A": 206,
+ "A": 202,
  "S": 239,
- "total": 49234,
+ "total": 48278,
  "mults": [
   {
    "label": "Zoo-Stiftung",
@@ -1645,7 +1645,7 @@
   },
   {
    "id": 21,
-   "a": 18,
+   "a": 14,
    "s": 14,
    "parts": [
     [
@@ -1654,13 +1654,18 @@
      0
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "⛰️ Rand/Felsen (2) ×1,75",
-     4,
+     3,
      3
     ],
     [
      "📏 Vermesser-Linie ×2,0",
-     9,
+     7,
      7
     ]
    ]

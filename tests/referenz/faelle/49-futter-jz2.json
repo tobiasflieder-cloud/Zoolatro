@@ -1373,9 +1373,9 @@
  ]
 },
 "erwartet":{
- "A": 598,
+ "A": 597,
  "S": 334,
- "total": 199732,
+ "total": 199398,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1703,7 +1703,7 @@
   },
   {
    "id": 12,
-   "a": 3,
+   "a": 2,
    "s": 2,
    "parts": [
     [
@@ -1720,6 +1720,11 @@
      "🐇 Ensemble Sicherer Hain ×1,2",
      1,
      1
+    ],
+    [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
     ],
     [
      "🌾 Herde: allein ×0,5",

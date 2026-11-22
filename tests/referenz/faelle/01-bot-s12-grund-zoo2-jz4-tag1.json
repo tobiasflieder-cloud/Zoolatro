@@ -1464,9 +1464,9 @@
  ]
 },
 "erwartet":{
- "A": 618,
+ "A": 613,
  "S": 308,
- "total": 190344,
+ "total": 188804,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -2058,7 +2058,7 @@
   },
   {
    "id": 28,
-   "a": 9,
+   "a": 6,
    "s": 5,
    "parts": [
     [
@@ -2072,18 +2072,23 @@
      0
     ],
     [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ],
+    [
      "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
      0,
      0
     ],
     [
      "⛰️ Rand/Felsen (2) ×1,75",
-     3,
+     2,
      2
     ],
     [
      "🤝 Freundschaft mit Yakweide ×1,25",
-     2,
+     1,
      1
     ]
    ]

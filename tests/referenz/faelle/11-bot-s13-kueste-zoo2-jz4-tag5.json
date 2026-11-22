@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 386,
+ "A": 385,
  "S": 345,
- "total": 133170,
+ "total": 132825,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -2122,9 +2122,15 @@
   },
   {
    "id": 17,
-   "a": 3,
+   "a": 2,
    "s": 2,
-   "parts": []
+   "parts": [
+    [
+     "😴 Showtier gelangweilt: ×0,8 B",
+     -1,
+     0
+    ]
+   ]
   },
   {
    "id": 18,
