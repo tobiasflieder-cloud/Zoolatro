@@ -54,7 +54,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(ev(`(()=>{state.spec=['tierern'];const p=sackPrice();state.spec=['futtermeister'];const m=fdMaxK('zebras');state.spec=[];return p===Math.round((20+10*(state.sackN||0))*.75)&&m===2})()`),'Tierernährerin −25 %, Futtermeister +1 Futterplatz (0.71a)');
  T(ev(`(()=>{runOf().fdl={wasser:2,savanne:1};syncCtx();const m=SPEC.ernprof.mult();return m&&Math.abs(m.ma-1.05**3)<.001})()`),'Ernährungsprofessorin ×1,05 je Stufe');
  T(ev(`/Futter: an/.test(runText(runOf()))`),'Lauf-Text nennt Futter');
- T(ev(`(()=>{modal='zoo';render();const h=document.getElementById('modalRoot').innerHTML;modal=null;return /Futter/.test(h)&&/Stufe 2/.test(h)})()`),'Zoo-Fenster zeigt Futter-Stufen');
+ T(ev(`(()=>{const h=profOn()?profHtml():'';return /Futter/.test(h)&&/Stufe 2/.test(h)})()`)||ev('!profOn()'),'Profil-Fenster zeigt Futter-Stufen (seit 0.93a)');
  T(ev(`/Futtersack/.test(glossZl?glossZl():'Futtersack')`),'Glossar: Futter');
  // Schalter
  T(ev(`(()=>{META.foodOff=1;${start.replace(/"/g,'\\"')};const r=runOf();const off=r.foodOff===1&&!foodOn()&&(state.season=1,!fixedItems().some(i=>i.kind==='sack'));META.foodOff=0;return off&&/Futter: aus/.test(runText(r))})()`),'Schalter: Futter aus = kein Sack, im Lauf-Text vermerkt');

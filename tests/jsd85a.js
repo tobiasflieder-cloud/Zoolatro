@@ -54,7 +54,7 @@ const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'
  T(J('runOf().boni').join()==='gold','dauerhafte Belohnung in run.boni');
  T(ev(`state.wrDest&&state.wrDest.k===runOf().wrRoute[0].k`),'Reiseziel im Zoo gespeichert');
  ev(`modal=null;render()`);T(/Willkommen/.test((d.getElementById('rulePop')||{}).textContent||''),'Einblendung „Willkommen“');
- const zb=ev(`zooBoxHtml()`);T(/Weltreise/.test(zb)&&/Goldader/.test(zb),'Zoo-Menü zeigt Reiseziel und Boni');
+ const zb=ev(`zooBoxHtml()`),pf=ev(`(PROFT='lauf',profHtml())`);T(/Weltreise/.test(zb)&&/Goldader/.test(pf),'Zoo-Menü zeigt Reiseziel, Profil-Fenster die Boni (seit 0.93a)');
  // nächster Zoo: Goldader wirkt, wird nicht noch einmal angeboten
  ev(`(()=>{const r=runOf();r.zoo=1;r.wrOpts=null;wrRollOpts(r)})()`);
  T(J(`runOf().wrOpts.map(o=>o.plan.gold.length)`).every(n=>n===4),'Goldader: im nächsten Zoo 4 statt 3 Goldfelder');
