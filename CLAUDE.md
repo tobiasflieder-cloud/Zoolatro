@@ -113,6 +113,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Lösung: `canPay(p)` gibt bei `p<=0` immer `true`. Alles mit Preis bleibt im Minus gesperrt (Schulden-Hinweis „Erst ab 0 kannst du wieder kaufen“ bleibt, ggf. „außer Geschenke“ ergänzen). Test: Kasse −10, Geschenk abholbar, Karte mit Preis nicht.
 6. **Detail-Fenster: Listen werden abgeschnitten** (Chat 22.11., Screenshot Krakengrotte: „Grundwert und dazu“ und „Möglich, wirkt gerade nicht“ zeigen nur 1½ Zeilen, „Faktoren“ nur 2 von 5 – die Rechnung darunter hat ×1,25 ×1,5 ×2 ×2 ×1,75).
    Ursache CSS (`00-seite-und-stil.html` ~Z. 884/893): `.dsh` ist eine Flex-Spalte mit `max-height:88vh;overflow:auto`, die Kinder dürfen schrumpfen (`flex-shrink:1`), und `.dtrows` hat `overflow:hidden` → bei langem Inhalt werden die Listen gestaucht und abgeschnitten, statt dass das Fenster scrollt.
+   Lösung: `.dsh>*{flex-shrink:0}` (oder `.dtrows,.dtcalc{flex:none}`); im Querformat (`body.land .dsh`, `height:100%`) dasselbe. Test (`quer.js`, Hochformat 360×740): Detail-Fenster einer Karte mit vielen Faktoren → jede `.dtrw` voll sichtbar (Höhe > 0, nicht abgeschnitten), Fenster scrollt.
 7. **Stufe 4: größerer Sprung bei den Zielen** (Chat 22.11., Tobi: Grundschwierigkeit nicht erhöhen, aber Stufe 4 höher ansetzen; Lauf Stufe 4 im Testlauf meist 115–186 %): `daten/stufen.json` Stufe 4 `ziel` 1,1 → **1,2**
    (zusammen ab Sommer: Stufe 2–3 ×1,1, ab 4 ×1,32, ab 7 ×1,45). Text „Saisonziele ab Sommer ×1,2 · Reinheit erst ab 6 Tieren“; Stufen-Kasten (`stageBox`) rechnet die Summe selbst. Frühling bleibt unberührt (`stTF`). Test: Stufe 4 Sommerziel ×1,32 gegenüber Stufe 1.
 8. **Kleine Küche schwächer** (Chat 22.11.: stand in jedem Endstand, kostet kaum etwas): ×1,3 B → **×1,2 B** bei höchstens 2 Gastro (`SPEZ_WIRKUNG.kl_kueche` Modul 01, Text `texte_de.json`). Ebenso **Ruhige-Lage-Planer** und **Naturpur-Leiterin** ×1,3 → ×1,2 (Tobi: ja).
@@ -122,7 +123,6 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 10. **Kartenwahl zwischen den Zoos: Übersichtszeile zum Lauf-Deck** (Chat 22.11., Screenshot „Neue Karten für dein Lauf-Deck“): Über den Angeboten (Modul 11 ~Z. 43, unter „Zoo-Kasse …“) eine kompakte Zeile/Chips mit dem Inhalt des Lauf-Decks:
    Gehege je Lebensraum (z. B. „💧 6 · 🌴 4 · 🏜️ 3“), Merkmale (🎭 Show · 🙈 scheu · 🐇 Beute · 🦁 Raubtier · 🔴 bedroht) und Gebäude (🍔 Gastro · 🎡 Attraktion · 🌳 Naturschutz · ⚡ Verstärker). Nur Anzahlen, keine Empfehlung.
    Am besten als Helfer (`deckMixHtml(keys)`), damit er auch in der Deck-Ansicht/„Dein Deck aufräumen“ genutzt werden kann. Mehrere Kopien zählen einzeln. Test: bekanntes Deck → richtige Zahlen.
-   Lösung: `.dsh>*{flex-shrink:0}` (oder `.dtrows,.dtcalc{flex:none}`); im Querformat (`body.land .dsh`, `height:100%`) dasselbe. Test (`quer.js`, Hochformat 360×740): Detail-Fenster einer Karte mit vielen Faktoren → jede `.dtrw` voll sichtbar (Höhe > 0, nicht abgeschnitten), Fenster scrollt.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
