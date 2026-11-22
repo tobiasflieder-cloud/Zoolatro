@@ -54,7 +54,7 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  T(disc.lk0&&!disc.lk1,'Ensemble-Regisseur wird mit dem ersten Ensemble frei');
  ev(`document.querySelector('#ensPop [data-bpok]').click()`);
  ev(`state.phase='play';render()`);T(d.querySelectorAll('#board .ensl').length>=1&&/Vergnügungsmeile/.test((d.querySelector('#board .enstag')||{}).textContent||''),'Brett: goldener Umriss und Schild');
- ev(`screen='buch';screenArg={tab:'friends'};renderAll()`);const bk=d.body.textContent;T(/Freundschaften & Ensembles/.test(bk)&&/Ensembles · 1 von 5/.test(bk)&&/Vergnügungsmeile/.test(bk)&&/\?\?\?/.test(bk),'Zoo-Buch: Reiter „Freundschaften & Ensembles“, entdeckte und ???');ev(`screen=null;renderAll()`);
+ ev(`screen='buch';screenArg={tab:'friends'};renderAll()`);const bk=d.body.textContent;T(/Freundschaften & Ensembles/.test(bk)&&/Ensembles · 1 von 6/.test(bk)&&/Vergnügungsmeile/.test(bk)&&/\?\?\?/.test(bk),'Zoo-Buch: Reiter „Freundschaften & Ensembles“, entdeckte und ???');ev(`screen=null;renderAll()`);
  ev(`(()=>{const s=TUTNOW;TUTNOW=true;window._t=ensFind([...state.buildings]).groups.length;TUTNOW=s})()`);T(ev('window._t')===0,'Ensembles im Tutorial aus');
  // D · neue Spezialisten
  const sp=J(`(()=>{const o={},g2=Object.keys(CARDS).find(k=>!/[~^#]/.test(k)&&CARDS[k].cat==='gehege'&&!CARDS[k].ms&&SHAPES[CARDS[k].shape].cells.length===2);
@@ -69,8 +69,8 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
    o.tiers=['zweiraum','naturpur','kl_kueche','ruhlage','hirtin','frueh','spurt','grenz'].every(id=>SPEC[id].tier===2)&&SPEC.wetterfrosch.tier===3&&SPEC.regie.tier===3;return o})()`);
  T(sp.zweiraum==='Zweiraum-Planerin ×1,2 1,2',`Zweiraum-Planerin ×1,1 je Gehege mit 2 Feldern (2 im Zoo: ${sp.zweiraum})`);
  T(sp.wf&&sp.wf0,'Wetterfrosch: Winter-Bedingung im Frühling sichtbar (ohne: verborgen)');
- T(sp.naturpur[0]&&sp.naturpur[0].ms===1.3&&!sp.naturpur[1],'Naturpur-Leiterin ×1,3 N bei höchstens 2 Gastro/Attraktionen');
- T(sp.kl_kueche[0]&&sp.kl_kueche[0].ma===1.3&&!sp.kl_kueche[1],'Kleine Küche ×1,3 B bei höchstens 2 Gastro');T(sp.ruhlage[0]&&sp.ruhlage[0].ma===1.3&&!sp.ruhlage[1],'Ruhige-Lage-Planer ×1,3 B bei höchstens 2 Attraktionen');
+ T(sp.naturpur[0]&&sp.naturpur[0].ms===1.2&&!sp.naturpur[1],'Naturpur-Leiterin ×1,2 N (seit 0.92a) bei höchstens 2 Gastro/Attraktionen');
+ T(sp.kl_kueche[0]&&sp.kl_kueche[0].ma===1.2&&!sp.kl_kueche[1],'Kleine Küche ×1,2 B (seit 0.92a) bei höchstens 2 Gastro');T(sp.ruhlage[0]&&sp.ruhlage[0].ma===1.2&&!sp.ruhlage[1],'Ruhige-Lage-Planer ×1,2 B (seit 0.92a) bei höchstens 2 Attraktionen');
  T(/Beute-Hirtin/.test(sp.hirtin),'Beute-Hirtin +2 B je benachbartes Beutetier');
  T(sp.frueh&&sp.frueh.ma===1.5&&sp.frueh.ms===1.5&&!sp.frueh1&&sp.spurt&&sp.spurt.ma===1.4,'Frühaufsteherin ×1,5 am 1. Tag, Schlussspurt ×1,4 am letzten');
  T(/Grenzgängerin[^|]*×1,2/.test(sp.grenz),'Grenzgängerin ×1,2 N an zwei Lebensräumen');T(/Vergnügungsmeile ×1,5/.test(sp.regie),'Ensemble-Regisseur: ×1,25 → ×1,5');

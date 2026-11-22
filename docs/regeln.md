@@ -439,7 +439,7 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Weltreise:** `wrRollOpts0` lost je Kontinent ein Paar (Region, Schwerpunkt); im ersten Durchgang nur Schwerpunkte, die noch < 2-mal vorkommen; reicht das nicht, zweiter Durchgang ohne Grenze. Europa zählt nicht.
 - **Verbotene Paare** (`daten/gelaende.json` `verbotene_paare`, `06:paarVerboten`): `ruleRoll(mapId)` lässt verbotene Auflagen weg; `04:mapRoll` lässt in der Weltreise (Auflage steht vorher fest) verbotene Gelände weg. Heute: Zerklüftet + Eingang.
 - **Eingang:** nur noch Eingangsfeld frei, erstes Gebäude am Eingang, alles verbunden (`entryCut`); zubauen erlaubt.
-- **Stufen-Ziele** `08:stTF(i)`: Frühling ×1, ab Sommer Produkt der `ziel`-Wirkungen. Einstieg (`einTF`) und Testlauf (`d4TF`) unverändert.
+- **Stufen-Ziele** `08:stTF(i)`: Frühling ×1, ab Sommer Produkt der `ziel`-Wirkungen. Ab 0.92a: Stufe 2 ×1,1, Stufe 4 ×1,2, Stufe 7 ×1,1 → ab Stufe 4 zusammen ×1,32, ab Stufe 7 ×1,452. Einstieg (`einTF`) und Testlauf (`d4TF`) unverändert.
 - **Raubtier-Kenner** `k_raub`: ×(1+0,12·Raubtiere) auf N, höchstens ×1,6.
 - **Umbau:** `data-umbuse` öffnet `#umbConfPop` (`umbConfHtml`), „Einsetzen“ ruft `umbUse(i,true)`.
 - **Vorschau-Schalter** `META.pvOff` (`07:pvHide`, nicht im Tutorial), seit 0.90a vollständig: keine Auswahl-Hinweise (`.trl`/`trm`), keine Vorschau-Schilder/Linien, Info-Feld beim Platzieren nur Karteninfo, keine Winter-Wirkungen (`winterMarks`, `data-dead`, `zlDead`-Markierungen außer Profil und „Betroffene zeigen“). Auflagen-Felder, Umriss und Gründe für „passt nicht“ bleiben.
@@ -452,7 +452,7 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Ensembles** (`daten/ensembles.json` → `04:ENS`, Texte `texte_de.json` `ensemble`, Bedingungen `04:ENS_WIRKUNG`):
   - `04:ensFind(bs,idx)`: je Ensemble alle passenden Karten (bei `ruhig` nur ungestresste nach `strOf`), zusammenhängende Teile (Nachbarschaft wie `nbrs`) ab `mindest` = 3, Food Corner zusätzlich `verschieden` = 3 verschiedene Grundkarten. Ergebnis wird je Brett-Array zwischengespeichert (Signatur aus Gebäuden, Team, Profil, Ereignissen, Winter).
   - Wertung: in `evalB` als Prozent-Schritt (`pct`, vor Gold) je Ensemble `[Icon Ensemble Name, fa, fs, 1]` → eigene Zeile im Detail-Fenster; zwei Ensembles multiplizieren sich, jedes Mitglied genau einmal.
-  - Faktoren: Food Corner ×1,25 B, Vergnügungsmeile ×1,25 B, Stilles Eck ×1,2 N, Sicherer Hain ×1,2 B/N, Schutzzone ×1,5 B/N; Ensemble-Regisseur (`regie`): 1,25→1,5, 1,2→1,4, 1,5→1,75 (`regisseur` in der JSON).
+  - Faktoren: Food Corner ×1,25 B, Vergnügungsmeile ×1,25 B, Stilles Eck ×1,2 N, Sicherer Hain ×1,2 B/N, Schutzzone ×1,5 B/N, Naturlehrpfad (0.92a, `pfad`, Kennung `natur` = Naturschutz, 3 verschiedene Grundkarten) ×1,25 N; Ensemble-Regisseur (`regie`): 1,25→1,5, 1,2→1,4, 1,5→1,75 (`regisseur` in der JSON).
   - Taler: `dayIncome` → `ens` = Summe `taler` (Food Corner +1 je Ensemble).
   - Aus, wenn kein `CTX.zl` oder im Tutorial (`04:ensOn`). Entdecken `09:ensDiscover` (in `discover92`): `sl.ens[key]`, Einblendung `#ensPop` (`state.ensNew`), sonst Banner einmal je Zoo (`state.ensSeen`). Brett: `06:ensMarks` (Außenkanten golden, Schild). Zoo-Buch: `09:ensBuchHtml` im Reiter „Freundschaften & Ensembles“.
 - **Promi-Verstärker** (Kennungen unverändert): Chef Carmen `futterkueche` ×1,5 N Nachbar-Gehege, Mia Megaviral `besucherlotse` ×1,5 B, beide `preis:1` (`01:costParts`); Stella Starr `scheinwerfer` ×2,5 (stärkstes Nachbar-Gehege), Nova `buehne` (Show doppelt, bis ×2,5), Sven Frost `winterquartier` (ohne Winter-Bedingung, ×1,2 B/N im Winter für Nicht-Verstärker), Luna Lotus `ruhezone` (kein Trubel, ×1,25 N für scheue Gehege). Story in `texte_de.json` `story` (→ `c.story`, `07:fxHtml`). Brett: `06:vstMarks` (Strahlen + Schild), Zählen: „⚡ ×…“ (`07:startScoring0`).
@@ -464,3 +464,10 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
   - `spflicht` (nur Weltreise, in `kontinente.json` `ziel_auflagen`): `wrGoal` zählt Gehege im Schwerpunkt `state.wrDest.foc`, nötig `max(1, ⌈Gehege/2⌉)`, Prüfung Ende Winter wie die Ziel-Auflagen.
   - Vorlieben (`vorlieben` in der JSON, Gruppen `06:VORL_WIRKUNG`): `06:vorlOf(b,c)` → Faktoren je Gehege/Gebäude auf B und N, in `evalB` als Prozent-Schritt (Zeile im Detail-Fenster), Schild `06:vorlMarks`.
   - Anzeige der Kategorie `06:aufKatHtml` (Auflage-Einblendung, Willkommen der Weltreise, Ziel-Karten, Zoo-Menü); Zoo-Buch Regeln nach Kategorien.
+
+## 22. 0.92a
+- **Zoo-Momente** `09:dayRoll`: der Fotograf (`foto`) ist ausgeschlossen, wenn am selben Tag ein Besucherliebling (`state.fav`) gelost wurde; dann ggf. kein Moment.
+- **Stufe 4** `ziel` 1,2 (Abschnitt 20). **Spezialisten** `kl_kueche`/`ruhlage` ×1,2 B, `naturpur` ×1,2 N.
+- **Ensembles im Protokoll** `06:ensLog` (am Tagesende in `startScoring0`): erstes Auftreten je Zoo `state.ensLog` `{k,s,d}`, in `logZoo` als `en`, `runText` „Ensembles: …“.
+- **Kasse** `07:canPay(p)`: Preis ≤ 0 immer erlaubt (Geschenke aus `run.gifts`), sonst Kasse ≥ 0 und ≥ Preis.
+- **Einmal-Angebote** `07:genEinmal`: kein `zeitung` bei `state.zl.news`, kein `glueckslos` bei `state.luckNext`.

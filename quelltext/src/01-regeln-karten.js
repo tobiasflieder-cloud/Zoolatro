@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.91a';
+const VERSION='0.92a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.92a',d:'22.11.2026',t:'Stufe in der Übersicht, Naturlehrpfad, Schliff',i:['🏔️ Die Zoo-Übersicht zeigt die Stufe des Laufs – antippen zeigt, was sie ändert. Stufe 4 hebt die Saisonziele ab Sommer jetzt um ×1,2.','🌳 Neues Ensemble Naturlehrpfad: 3 verschiedene Naturschutz-Gebäude nebeneinander, je ×1,25 N. Das Lauf-Protokoll nennt die Ensembles jedes Zoos.','📰 Zeitungsartikel und Glückslos stehen als Chip in der Zoo-Übersicht und werden nicht doppelt angeboten. 🎁 Geschenke kannst du auch mit Schulden abholen.','🃏 Kartenwahl und Deck zeigen eine Übersichtszeile (Lebensräume, Merkmale, Gebäude). Detail-Fenster scrollt statt abzuschneiden. Kleine Küche, Ruhige Lage und Naturpur ×1,2.']},
  {v:'0.91a',d:'21.11.2026',t:'Ensembles, Promis, neue Spezialisten, Auflagen',i:['✨ Ensembles: Drei passende Karten nebeneinander (z. B. 3 verschiedene Gastro-Gebäude = 🍔 Food Corner) bekommen einen Bonus. Fünf gibt es zu entdecken, entdeckte stehen im 📖 Zoo-Buch.','⚡ Die Verstärker sind jetzt Promis: Chef Carmen, Mia Megaviral, Stella Starr, Nova, Sven Frost und Luna Lotus – stärker, mit eigenem Look und Strahlen auf dem Brett. 🎭 Show-Bonus ×1,35 je Nachbar.','👥 Zehn neue Spezialisten, u. a. Wetterfrosch (Winter schon im Frühling sichtbar) und Ensemble-Regisseur.','📜 Auflagen haben Kategorien: Keine Kategorie kommt zweimal im Lauf. Neu sind Limitierungen, Vorlieben (×1,5 / ×0,5), Durchmischt und in der Weltreise die Schwerpunkt-Pflicht.']},
- {v:'0.90a',d:'21.11.2026',t:'Vorschau-Schalter',i:['📊 „Vorschau aus“ (Menü) blendet jetzt alle vorgerechneten Wirkungen aus: die Schilder beim Auswählen einer Karte, die Zahlen beim Platzieren und die Winter-Wirkungen an Karten und Gebäuden. Umriss, Auflagen-Felder und „passt nicht“ bleiben.']},
- {v:'0.89a',d:'21.11.2026',t:'Stufenwahl, Umbau-Bestätigung, Schliff',i:['🏔️ Stufenwahl: Antippen zeigt, was die Stufe ändert (alle Verschärfungen bis dahin), gestartet wird über den Knopf. Saisonziele der Stufen gelten erst ab Sommer.','🧰 Umbauten zeigen erst ein Fenster mit ihrer Wirkung, erst „Einsetzen“ löst aus. 📊 Neuer Schalter im Menü: Vorschau auf dem Spielfeld an/aus.','🌍 Weltreise: höchstens zwei Ziele mit demselben Schwerpunkt. Zerklüftet kommt nie mit der Auflage Eingang, und der Eingang darf zugebaut werden.','🦷 Raubtier-Kenner gibt jetzt Natur. 🌭 Bratwurstbude nur noch mit Savanne.']}];
+ {v:'0.90a',d:'21.11.2026',t:'Vorschau-Schalter',i:['📊 „Vorschau aus“ (Menü) blendet jetzt alle vorgerechneten Wirkungen aus: die Schilder beim Auswählen einer Karte, die Zahlen beim Platzieren und die Winter-Wirkungen an Karten und Gebäuden. Umriss, Auflagen-Felder und „passt nicht“ bleiben.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -360,7 +360,7 @@ const SPEZ_WIRKUNG=(()=>{const per={},mult={};
   mult.wnat=()=>{const f=grwF('nat');return f>1?{ms:f}:null};
   // 0.90a: neue Spezialisten (Faktor für den ganzen Zoo)
   {const nC=(bs,cats)=>cnt(bs||[],b=>cats.includes(K(b).cat)),dy=()=>typeof state!=='undefined'&&state&&state.mode==='camp'?state.day:null;
-  Object.assign(mult,{naturpur:bs=>nC(bs,['essen','attr'])<=2?{ms:1.3}:null,kl_kueche:bs=>nC(bs,['essen'])<=2?{ma:1.3}:null,ruhlage:bs=>nC(bs,['attr'])<=2?{ma:1.3}:null,
+  Object.assign(mult,{naturpur:bs=>nC(bs,['essen','attr'])<=2?{ms:1.2}:null,kl_kueche:bs=>nC(bs,['essen'])<=2?{ma:1.2}:null,ruhlage:bs=>nC(bs,['attr'])<=2?{ma:1.2}:null,
     frueh:()=>dy()===0?{ma:1.5,ms:1.5}:null,spurt:()=>dy()!=null&&dy()===DAYS-1?{ma:1.4,ms:1.4}:null})}
   return{per,mult}})();
 const SPEC={};for(const d of SPEZ_DATEN.spezialisten){const S={};for(const p in d){if(p==='key')continue;const v=d[p];S[p]=Array.isArray(v)?v.slice():v;if(p==='per'||p==='mult'){S[p]=SPEZ_WIRKUNG[p][v];if(!S[p])throw new Error('Wirkung fehlt: '+p+' '+v)}}SPEC[d.key]=S}

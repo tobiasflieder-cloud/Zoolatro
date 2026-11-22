@@ -38,10 +38,12 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run;if((run.vNow
       <button class="btn sub" data-cskip="perk">Überspringen</button>`}
   const trimSec=()=>{const T=a.trimmed||[],left=Math.max(0,Math.min(3-T.length,run.deck.length-MINDECK)),can=left>0;return`<h3 class="sh">Dein Deck aufräumen</h3><p style="margin:0">Wenn du möchtest, sortiere bis zu <b>3 Karten</b> aus. Sie verschwinden für den Rest des Laufs. Endgültig wird es erst mit „Fertig“.</p>
     <p style="margin:0;color:var(--gold);font-weight:700">Deck: ${run.deck.length} Karten · mindestens ${MINDECK} · noch ${left} aussortierbar</p>
+    ${deckMixHtml(run.deck)}
     ${deckRows(run.deck,k=>`<button class="btn sub" data-ctrim="${k}" ${can?'':'disabled'}>Aussortieren</button>`)}
     ${T.length?`<h3 class="sh">Aussortiert (${T.length}/3)</h3><div class="drows">${T.map((t,i)=>`<div class="drow out"><span class="ic">${ic(CARDS[t.k])}</span><span class="inf"><b>${CARDS[t.k].name}</b></span><button class="btn sub" data-cuntrim="${i}">Zurückholen</button></div>`).join('')}</div>`:''}`};
   if(a.step==='card'){const K=run.kasse||0,got=a.got||0,pr=zkCard(got),rp=zkRoll(a);return`${head}<h3 class="sh">Neue Karten für dein Lauf-Deck</h3><p style="margin:0">Die erste Karte ist gratis. Weitere kaufst du mit der <b>Zoo-Kasse</b>, das sind deine übrigen Taler aus dem letzten Zoo. Was übrig bleibt, verfällt beim Start des nächsten Zoos.</p>
     <p style="margin:0;font-weight:700;color:var(--gold)">🪙 Zoo-Kasse: ${fmt(K)} · ${got} von 3 Karten genommen</p>
+    <div class="dmixw"><small>Dein Lauf-Deck (${run.deck.length}):</small>${deckMixHtml(run.deck)}</div>
     ${got<3?`<div style="display:flex;flex-direction:column;gap:8px">${a.cards.map(k=>cardRow(k,pr>K?`<button class="btn sub" disabled>Kaufen<br><b>🪙 ${pr}</b></button>`:`<button class="btn main" data-ccard="${k}">${got?`Kaufen<br><b>🪙 ${pr}</b>`:'Nehmen<br><b>gratis</b>'}</button>`)).join('')}</div><button class="btn sub" data-creroll="1" ${rp>K?'disabled':''}>🎲 Andere Karten · 🪙 ${rp}</button>`:'<p style="margin:0;color:var(--gold);font-weight:700">✓ Drei Karten genommen.</p>'}
     ${trimSec()}<button class="btn main big" data-cskip="card">Fertig, weiter zum Team</button>`};
   if(a.step==='trim')return`${head}<p style="margin:0;color:var(--gold);font-weight:700">✓ Drei Karten gewählt.</p>${trimSec()}<button class="btn main big" data-cskip="trim">Fertig, weiter zum Team</button>`;

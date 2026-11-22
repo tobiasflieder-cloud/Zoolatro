@@ -5,6 +5,18 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.92a · 22.11.2026 · Stufe in der Übersicht, Naturlehrpfad, Schliff
+- 🏔️ **Stufe in der Zoo-Übersicht:** Unter Zoo, Jahreszeit und Tag steht jetzt die Stufe des Laufs (mit 🧪 im Testlauf). Antippen zeigt, was auf dieser Stufe gilt – wie in der Stufenwahl, nur zum Ansehen.
+- 🎯 **Stufe 4** hebt die Saisonziele ab Sommer um ×1,2 statt ×1,1 (zusammen ab Stufe 4 ×1,32, ab Stufe 7 ×1,45). Der Frühling bleibt gleich.
+- 🌳 **Neues Ensemble Naturlehrpfad:** 3 verschiedene Naturschutz-Gebäude, die zusammenhängen, bekommen je ×1,25 N. Zählt auch für den Ensemble-Regisseur (×1,5).
+- 📜 Das **Lauf-Protokoll** nennt je Zoo die Ensembles mit Jahreszeit und Tag ihres ersten Auftretens.
+- 📰 **Zeitungsartikel** und 🎟️ **Glückslos** stehen als Chip in der Zoo-Übersicht, solange sie wirken, und werden nicht mehr ein zweites Mal angeboten.
+- 🎁 **Geschenke** (Futtersack, Umbaukiste, Mappe) kannst du jetzt auch mit Schulden abholen. Alles mit Preis bleibt im Minus gesperrt.
+- 🔍 Das **Detail-Fenster** schneidet lange Listen nicht mehr ab, sondern scrollt.
+- 🃏 **Deck-Übersicht:** In der Kartenwahl zwischen den Zoos, beim Aufräumen und in der Deck-Ansicht steht eine Zeile mit Gehegen je Lebensraum, Merkmalen und Gebäuden.
+- 📸 Der **Fotograf** kommt nicht mehr am Tag des Besucherlieblings.
+- 👥 **Kleine Küche**, **Ruhige-Lage-Planer** und **Naturpur-Leiterin** geben ×1,2 statt ×1,3.
+
 ## 0.91a · 21.11.2026 · Ensembles, Promis, neue Spezialisten, Auflagen
 - ✨ **Ensembles:** Drei passende Karten, die zusammenhängen, bilden ein Ensemble. Jedes Mitglied bekommt den Bonus (auch bei größeren Gruppen nur einmal):
   🍔 Food Corner (3 verschiedene Gastro-Gebäude: je ×1,25 B, +1 🪙 pro Tag), 🎠 Vergnügungsmeile (3 Attraktionen: je ×1,25 B), 🍃 Stilles Eck (3 scheue Tiere, keins gestresst: je ×1,2 N),

@@ -272,7 +272,7 @@ function strOf(b,c,nb,idx,vs){const vet=fdHas(b,'kr')||nb.some(n=>n.key==='tiera
 // Zusammenhängende Gruppe ab 3 passenden Karten (Food Corner zusätzlich 3 verschiedene Karten); jedes Mitglied bekommt den Faktor einmal, zwei Ensembles multiplizieren sich.
 // „ruhig“: nur Mitglieder, die nicht gestresst sind (strOf wie in der Wertung). Aus im Tutorial; Ensemble-Regisseur hebt die Faktoren (regisseur).
 const ENS_DATEN=/*@@DATEN:ensembles@@*/null,ENS={},ENSORD=ENS_DATEN.ensembles.map(e=>e.key);for(const e of ENS_DATEN.ensembles)ENS[e.key]={...e,...((TXT.de.ensemble||{})[e.key]||{})};
-const ENS_WIRKUNG={gastro:c=>c.cat==='essen',attr:c=>c.cat==='attr',scheu:c=>c.cat==='gehege'&&c.tags.includes('scheu'),beute:c=>c.cat==='gehege'&&c.tags.includes('beute'),bedroht:c=>c.cat==='gehege'&&c.tags.includes('bedroht')};
+const ENS_WIRKUNG={gastro:c=>c.cat==='essen',attr:c=>c.cat==='attr',natur:c=>c.cat==='schutz',scheu:c=>c.cat==='gehege'&&c.tags.includes('scheu'),beute:c=>c.cat==='gehege'&&c.tags.includes('beute'),bedroht:c=>c.cat==='gehege'&&c.tags.includes('bedroht')};
 const ensOn=()=>!!CTX.zl&&!TUTNOW;
 const ensF=f=>hasSpec('regie')&&ENS_DATEN.regisseur[String(f)]?ENS_DATEN.regisseur[String(f)]:f;
 const ENSC=new WeakMap();

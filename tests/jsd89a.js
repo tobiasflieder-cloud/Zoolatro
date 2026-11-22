@@ -42,7 +42,7 @@ const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};enterCamp(0,true,'${o.dec
  T(ev(`(()=>{const r=runOf(),P=zkPools(r);return![...P.rare,...P.comm].includes('bratwurst')&&!deckCards('geniesser',['wasser','wald','wueste']).includes('bratwurst')})()`),'ohne Savanne: keine Bratwurst in Kartenwahl und Startdeck');
  // 9. Stufen-Ziele nicht im Frühling
  const tg=J(`(()=>{const r=runOf();r.stage=2;const a=[0,1,3].map(i=>seTarget(i,true,1));r.stage=4;const b=[0,1,3].map(i=>seTarget(i,true,1));r.stage=1;return{a,b}})()`);
- T(tg.a[0]===tg.b[0]&&Math.abs(tg.b[1]/tg.a[1]-1.1)<.02,`Stufe 4 gegen Stufe 2: Frühlingsziel gleich, Sommer ×1,1 (${tg.a[1]} → ${tg.b[1]})`);
+ T(tg.a[0]===tg.b[0]&&Math.abs(tg.b[1]/tg.a[1]-1.2)<.02,`Stufe 4 gegen Stufe 2: Frühlingsziel gleich, Sommer ×1,2 (seit 0.92a) (${tg.a[1]} → ${tg.b[1]})`);
  T(ev(`STAGES[2].startsWith('Saisonziele ab Sommer ×1,1')`),'Text „Saisonziele ab Sommer ×1,1“');
  // 6. Stufenwahl: Tipp wählt nur, Kasten mit Wirkungen
  ev(base+`screen='cdeck';screenArg={slot:0,zl:'z2',habs:['wasser','savanne','wueste'],prof:NOPROF};renderAll()`);
@@ -52,7 +52,7 @@ const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};enterCamp(0,true,'${o.dec
  T(/Stufe 3 – das gilt/.test(bx)&&/15 Naturfelder/.test(bx)&&/goldenes Feld/.test(bx)&&/×1,1(?![\d,])/.test(bx)&&/neu/.test(bx),`Kasten zeigt Wirkungen von Stufe 2 und 3 (${bx.slice(0,140)})`);
  T(!!d.querySelector('.stbox [data-cdeck="grund"][data-stage="3"]'),'Knopf „▶ Mit Stufe 3 starten“');
  d.querySelector('[data-stsel="grund:6"]').click();await wait(20);T(/🔒 Stufe 6/.test((d.querySelector('.stbox')||{}).textContent||'')&&!d.querySelector('.stbox [data-cdeck]'),'gesperrte Stufe: Wirkungen und Hinweis, kein Start');
- d.querySelector('[data-stsel="grund:4"]').click();await wait(20);T(/×1,21/.test(d.querySelector('.stbox').textContent),'Stufe 4: Saisonziele ab Sommer ×1,21 zusammengefasst');
+ d.querySelector('[data-stsel="grund:4"]').click();await wait(20);T(/×1,32/.test(d.querySelector('.stbox').textContent),'Stufe 4: Saisonziele ab Sommer ×1,32 zusammengefasst (seit 0.92a)');
  d.querySelector('.stbox [data-cdeck]').click();await wait(20);T(ev(`!!activeSlot().run&&activeSlot().run.stage===4`),'Start über den Knopf mit Stufe 4');
  dom.window.close();
 }catch(e){L('EXC',e.stack)}process.exit(0)})();

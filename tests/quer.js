@@ -192,5 +192,23 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   {const r=await p.evaluate(()=>{const B=document.querySelector('.stbox');if(!B)return null;const q=B.getBoundingClientRect();return{scr:screen,in:q.left>=0&&q.right<=innerWidth+1,qx:document.documentElement.scrollWidth-innerWidth}});
     T(!!r&&r.scr==='cdeck'&&r.in&&r.qx<=2,`${wo}: Stufen-Kasten erscheint, startet nichts, passt in die Breite`)}
   T(await klick(p,'.stbox [data-cdeck]')&&await p.evaluate(()=>!!activeSlot().run&&activeSlot().run.stage===3),`${wo}: Start über „▶ Mit Stufe 3 starten“`);
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.89a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.89a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 16) 0.92a: Detail-Fenster mit vielen Faktoren (Listen nicht gestaucht, Fenster scrollt; kleines Handy 360×560), Deck-Zeile ohne Überlauf, Stufe in der Zoo-Übersicht
+  p=await seite(b,vp.dev?{width:360,height:560}:vp);await p.evaluate(()=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,z2:{st:{grund:4},ch:{}},vu:{besucherlotse:1,futterkueche:1}};META.lastSlot=0;META.active=0;screen=null;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,3);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.infoProg=null;TERR.clear();
+    const A0=BOARD.find(([q,r])=>DIRS.every(([a,c])=>ONBOARD.has(hk(q+a,r+c)))),NB=DIRS.map(([a,c])=>[A0[0]+a,A0[1]+c]),one=f=>Object.keys(CARDS).filter(k=>!/[~^#]/.test(k)&&!CARDS[k].ms&&SHAPES[CARDS[k].shape].cells.length===1&&f(CARDS[k]));
+    const sh=one(c=>c.cat==='gehege'&&c.tags.includes('show'))[0]||one(c=>c.cat==='gehege')[0],ga=one(c=>c.cat==='essen'),at=one(c=>c.cat==='attr');
+    state.zl.gold=[hk(...A0)];state.buildings=[{id:900,key:sh,cells:[A0],lvl:3,pr:'star'},{id:901,key:'besucherlotse',cells:[NB[0]],lvl:1},{id:902,key:'futterkueche',cells:[NB[1]],lvl:1},{id:903,key:ga[0],cells:[NB[2]],lvl:1},{id:904,key:ga[1],cells:[NB[3]],lvl:1},{id:905,key:at[0],cells:[NB[4]],lvl:1},{id:906,key:at[1],cells:[NB[5]],lvl:1}];
+    syncCtx();const r=scoreZoo(state.buildings);state.yday={A:r.A,S:r.S,total:r.total,auf:aufOf(r)};state.phase='review';state.info=900;render()});await p.waitForTimeout(300);
+  if(!await klick(p,'#info [data-det]'))T(false,`${wo}: Details-Knopf fehlt (0.92a)`);else{const r=await p.evaluate(()=>{const S=document.querySelector('#detSheet .dsh');if(!S)return null;const L=[...S.querySelectorAll('.dtrows')],rows=[...S.querySelectorAll('.dtrw')];
+      return{n:rows.length,cut:L.filter(e=>e.scrollHeight>e.clientHeight+1).length,zero:rows.filter(e=>e.getBoundingClientRect().height<4).length,scroll:S.scrollHeight>S.clientHeight+1,qx:document.documentElement.scrollWidth-innerWidth}});
+    T(!!r&&r.n>=6&&r.cut===0&&r.zero===0,`${wo}: Detail-Fenster: ${r?r.n:0} Zeilen, keine Liste abgeschnitten (${r?r.cut:'-'}), Fenster scrollt: ${r&&r.scroll?'ja':'nein'}`);if(r&&r.qx>2)T(false,`${wo}: Detail-Fenster breiter als der Bildschirm`)}
+  await p.evaluate(()=>{const x=document.querySelector('#detSheet [data-dsx]');if(x)x.click();state.phase='play';state.info=null;modal='deck';render()});await p.waitForTimeout(200);
+  {const r=await p.evaluate(()=>{const D=document.querySelector('.dmix');if(!D)return null;const q=D.getBoundingClientRect();return{in:q.left>=0&&q.right<=innerWidth+1,qx:document.documentElement.scrollWidth-innerWidth,ch:D.querySelectorAll('span').length}});
+    T(!!r&&r.in&&r.qx<=2&&r.ch>=3,`${wo}: Deck-Zeile im Deck-Fenster passt in die Breite (${r?r.ch:0} Chips)`)}
+  await p.evaluate(()=>{modal='zoo';ZRULES=0;render()});await p.waitForTimeout(200);
+  if(!await klick(p,'.modal .zstg summary'))T(false,`${wo}: Stufe in der Zoo-Übersicht nicht antippbar`);
+  {const r=await p.evaluate(()=>{const B=document.querySelector('.modal .zstg[open] .stbox');if(!B)return null;const q=B.getBoundingClientRect();return{t:B.textContent,in:q.left>=0&&q.right<=innerWidth+1,start:!!B.querySelector('[data-cdeck]'),ids:[...document.querySelectorAll('[id]')].map(e=>e.id).filter((x,i,a)=>a.indexOf(x)!==i).length}});
+    T(!!r&&/Stufe 3/.test(r.t)&&r.in&&!r.start&&r.ids===0,`${wo}: Stufen-Kasten in der Zoo-Übersicht: nur ansehen, im Bildschirm, keine doppelten ids`)}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.92a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

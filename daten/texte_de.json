@@ -138,14 +138,15 @@
 "meile":{"name":"Vergnügungsmeile","how":"3 Attraktionen, die zusammenhängen","text":"Eine Attraktion neben der anderen. Hier wird es nie langweilig."},
 "still":{"name":"Stilles Eck","how":"3 scheue Tiere, die zusammenhängen, keins gestresst","text":"Drei scheue Tiere in Ruhe beieinander. Sie zeigen sich endlich."},
 "hain":{"name":"Sicherer Hain","how":"3 Beutetiere, die zusammenhängen, keins gestresst","text":"Drei Beutetiere ohne Raubtier in der Nähe. Die Herde fühlt sich sicher."},
-"schutz":{"name":"Schutzzone","how":"3 bedrohte Tiere, die zusammenhängen, keins gestresst","text":"Drei bedrohte Arten in Ruhe beieinander. Ein Vorzeigeprojekt für den Artenschutz."}
+"schutz":{"name":"Schutzzone","how":"3 bedrohte Tiere, die zusammenhängen, keins gestresst","text":"Drei bedrohte Arten in Ruhe beieinander. Ein Vorzeigeprojekt für den Artenschutz."},
+"pfad":{"name":"Naturlehrpfad","how":"3 verschiedene Naturschutz-Gebäude, die zusammenhängen","text":"Drei verschiedene Naturschutz-Gebäude nebeneinander. Ein Lehrpfad, der die Natur zeigt."}
 },
 "spec":{
 "zweiraum":{"name":"Zweiraum-Planerin","fx":["×1,1 B und N|für jedes Gehege mit 2 Feldern, je Gehege mit 2 Feldern im Zoo"]},
 "wetterfrosch":{"name":"Wetterfrosch","fx":["❄️ früh|Die Winter-Bedingung ist samt Schildern schon ab dem Frühling zu sehen (sonst erst ab Herbst)"]},
-"naturpur":{"name":"Naturpur-Leiterin","fx":["×1,3 N|für den ganzen Zoo, wenn höchstens 2 Gastro-Gebäude und Attraktionen zusammen stehen"]},
-"kl_kueche":{"name":"Kleine Küche","fx":["×1,3 B|für den ganzen Zoo bei höchstens 2 Gastro-Gebäuden"]},
-"ruhlage":{"name":"Ruhige-Lage-Planer","fx":["×1,3 B|für den ganzen Zoo bei höchstens 2 Attraktionen"]},
+"naturpur":{"name":"Naturpur-Leiterin","fx":["×1,2 N|für den ganzen Zoo, wenn höchstens 2 Gastro-Gebäude und Attraktionen zusammen stehen"]},
+"kl_kueche":{"name":"Kleine Küche","fx":["×1,2 B|für den ganzen Zoo bei höchstens 2 Gastro-Gebäuden"]},
+"ruhlage":{"name":"Ruhige-Lage-Planer","fx":["×1,2 B|für den ganzen Zoo bei höchstens 2 Attraktionen"]},
 "hirtin":{"name":"Beute-Hirtin","fx":["+2 B|für jedes Beutetier je benachbartes Beutetier"]},
 "regie":{"name":"Ensemble-Regisseur","fx":["stärker|Ensembles wirken stärker: ×1,25 → ×1,5, ×1,2 → ×1,4, ×1,5 → ×1,75"]},
 "frueh":{"name":"Frühaufsteherin","fx":["×1,5 B und N|für den ganzen Zoo am ersten Tag jeder Jahreszeit"]},

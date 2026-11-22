@@ -4,7 +4,7 @@
 {"nr":1,"text":"Grundstufe","wirkungen":[]},
 {"nr":2,"text":"Saisonziele ab Sommer ×1,1 · nur 15 Naturfelder","wirkungen":[{"kennung":"ziel","wert":1.1},{"kennung":"natur","wert":15}]},
 {"nr":3,"text":"Nur 1 goldenes Feld","wirkungen":[{"kennung":"gold","wert":1}]},
-{"nr":4,"text":"Saisonziele ab Sommer ×1,1 · Reinheit erst ab 6 Tieren","wirkungen":[{"kennung":"ziel","wert":1.1},{"kennung":"reinheit","wert":6}]},
+{"nr":4,"text":"Saisonziele ab Sommer ×1,2 · Reinheit erst ab 6 Tieren","wirkungen":[{"kennung":"ziel","wert":1.2},{"kennung":"reinheit","wert":6}]},
 {"nr":5,"text":"Shop und Stellenmarkt ×1,25 teurer","wirkungen":[{"kennung":"teurer","wert":1.25}]},
 {"nr":6,"text":"Krone nur noch ×1,15 · erster Tag jeder Jahreszeit 1 Baupunkt weniger","wirkungen":[{"kennung":"krone","wert":1.15},{"kennung":"bp_erster_tag","wert":1}]},
 {"nr":7,"text":"Saisonziele ab Sommer ×1,1 · nur 12 Naturfelder","wirkungen":[{"kennung":"ziel","wert":1.1},{"kennung":"natur","wert":12}]},

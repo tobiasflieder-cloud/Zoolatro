@@ -1603,8 +1603,8 @@
 },
 "erwartet":{
  "A": 296,
- "S": 239,
- "total": 70744,
+ "S": 243,
+ "total": 71928,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1759,7 +1759,7 @@
   {
    "id": 6,
    "a": 2,
-   "s": 7,
+   "s": 9,
    "parts": [
     [
      "Kartenbonus",
@@ -1768,6 +1768,11 @@
     ],
     [
      "Tierpfleger",
+     0,
+     2
+    ],
+    [
+     "🌳 Ensemble Naturlehrpfad ×1,25",
      0,
      2
     ]
@@ -1899,12 +1904,17 @@
   {
    "id": 14,
    "a": 2,
-   "s": 4,
+   "s": 5,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🌳 Ensemble Naturlehrpfad ×1,25",
+     0,
+     1
     ]
    ]
   },
@@ -2117,12 +2127,17 @@
   {
    "id": 24,
    "a": 1,
-   "s": 4,
+   "s": 5,
    "parts": [
     [
      "Tierpfleger",
      0,
      2
+    ],
+    [
+     "🌳 Ensemble Naturlehrpfad ×1,25",
+     0,
+     1
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",

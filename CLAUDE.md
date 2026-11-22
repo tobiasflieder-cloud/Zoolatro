@@ -97,34 +97,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.92a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.93a) – erst bauen, wenn Tobi „bauen“ sagt
 
-1. **📸 Fotograf nie am selben Tag wie der ❤️ Besucherliebling** (Chat 21.11.): Der Liebling wird in `startDay` (Modul 09 ~Z. 393/394, `state.fav`) vor den Zoo-Momenten ausgelost (~Z. 398).
-   Lösung: bei der Momente-Auswahl `foto` ausschließen, wenn `state.fav!=null` (zusätzlich zu `state.season<1`). Kommt dann kein anderer Moment in Frage, gibt es an dem Tag keinen. Test: viele Tage mit gesetztem Liebling → nie `foto`.
-2. **Zoo-Übersicht zeigt die Stufe** (Chat 22.11.): `zooBoxHtml` (Modul 06 ~Z. 452) nennt Zoo, Jahreszeit und Tag, aber nicht die Stufe des Laufs (`run.stage`). Neu: in der Zeile `.zwhen` „· 🏔️ Stufe n“ (plus „🧪“ bei Testlauf bzw. „Stufen-Test“ bei `run.stTest`).
-   Antippen öffnet die Wirkungen dieser Stufe wie in der Stufenwahl (`stageBox`, nur ansehen). Gilt auch für die Seitenleiste im Querformat (`rail`). Im Tutorial nichts anzeigen. Test: Lauf auf Stufe 3 → Übersicht enthält „Stufe 3“.
-3. **Ensemble für Naturschutz ergänzen** (Chat 22.11., wurde vergessen): 🌳 **Naturlehrpfad** = 3 **verschiedene** Naturschutz-Gebäude, die zusammenhängen → je ×1,25 N. Neuer Eintrag in `daten/ensembles.json`
-   (`{"key":"pfad","icon":"🌳","wer":"natur","fa":1,"fs":1.25,"verschieden":3}`), Kennung `natur` in `ENS_WIRKUNG` (Modul 04, Kategorie Naturschutz wie `gastro`/`attr`), Name/Text in `texte_de.json` (ensemble), Regisseur ×1,25 → ×1,5 gilt automatisch.
-   Zoo-Buch, Einblendung und Brett-Markierung laufen über die bestehenden Wege (`ensBuchHtml`, `ensDiscover`, `ensMarks`). Plan-Datei Abschnitt A nachziehen. Test: 3 verschiedene Naturschutz zusammen → ×1,25 N, 3 gleiche → nichts.
-4. **📰 Zeitungsartikel sichtbar machen und nicht doppelt anbieten** (Chat 22.11.): Wirkt bis Zoo-Ende (`state.zl.news`, Kauf Modul 07 ~Z. 725, Wertung Modul 09 ~Z. 378), sichtbar aber nur als Zeile im Detail-Fenster.
-   Neu: Chip in der Zoo-Übersicht (Chips-Zeile in `zooBoxHtml`, wie Boni): „📰 Zeitungsartikel: Showtiere ×1,5 (bis Zoo-Ende)“; ebenso „🎟️ Glückslos: nächster Jahreszeit-Start Chancen ×2“, solange `state.luckNext` offen.
-   `genEinmal` (Modul 07 ~Z. 660) bietet `zeitung` nicht mehr an, wenn `state.zl.news` schon gesetzt ist (heute kann man ihn ein zweites Mal ohne Wirkung kaufen), ebenso `glueckslos` bei offenem `state.luckNext`. Test: nach Kauf kein zweites Angebot, Chip da.
-5. **Gratis-Geschenke auch mit Schulden abholen** (Chat 22.11.): `canPay(p)` (Modul 07 ~Z. 717) verlangt `state.money>=0` auch bei Preis 0 → Geschenke aus `run.gifts` (Futtersack, Umbaukiste, Profi-Mappe; `price:0`, ~Z. 715) sind im Minus gesperrt.
-   Lösung: `canPay(p)` gibt bei `p<=0` immer `true`. Alles mit Preis bleibt im Minus gesperrt (Schulden-Hinweis „Erst ab 0 kannst du wieder kaufen“ bleibt, ggf. „außer Geschenke“ ergänzen). Test: Kasse −10, Geschenk abholbar, Karte mit Preis nicht.
-6. **Detail-Fenster: Listen werden abgeschnitten** (Chat 22.11., Screenshot Krakengrotte: „Grundwert und dazu“ und „Möglich, wirkt gerade nicht“ zeigen nur 1½ Zeilen, „Faktoren“ nur 2 von 5 – die Rechnung darunter hat ×1,25 ×1,5 ×2 ×2 ×1,75).
-   Ursache CSS (`00-seite-und-stil.html` ~Z. 884/893): `.dsh` ist eine Flex-Spalte mit `max-height:88vh;overflow:auto`, die Kinder dürfen schrumpfen (`flex-shrink:1`), und `.dtrows` hat `overflow:hidden` → bei langem Inhalt werden die Listen gestaucht und abgeschnitten, statt dass das Fenster scrollt.
-   Lösung: `.dsh>*{flex-shrink:0}` (oder `.dtrows,.dtcalc{flex:none}`); im Querformat (`body.land .dsh`, `height:100%`) dasselbe. Test (`quer.js`, Hochformat 360×740): Detail-Fenster einer Karte mit vielen Faktoren → jede `.dtrw` voll sichtbar (Höhe > 0, nicht abgeschnitten), Fenster scrollt.
-7. **Stufe 4: größerer Sprung bei den Zielen** (Chat 22.11., Tobi: Grundschwierigkeit nicht erhöhen, aber Stufe 4 höher ansetzen; Lauf Stufe 4 im Testlauf meist 115–186 %): `daten/stufen.json` Stufe 4 `ziel` 1,1 → **1,2**
-   (zusammen ab Sommer: Stufe 2–3 ×1,1, ab 4 ×1,32, ab 7 ×1,45). Text „Saisonziele ab Sommer ×1,2 · Reinheit erst ab 6 Tieren“; Stufen-Kasten (`stageBox`) rechnet die Summe selbst. Frühling bleibt unberührt (`stTF`). Test: Stufe 4 Sommerziel ×1,32 gegenüber Stufe 1.
-8. **Kleine Küche schwächer** (Chat 22.11.: stand in jedem Endstand, kostet kaum etwas): ×1,3 B → **×1,2 B** bei höchstens 2 Gastro (`SPEZ_WIRKUNG.kl_kueche` Modul 01, Text `texte_de.json`). Ebenso **Ruhige-Lage-Planer** und **Naturpur-Leiterin** ×1,3 → ×1,2 (Tobi: ja).
-   Referenzfälle prüfen (vermutlich keiner betroffen).
-9. **Lauf-Protokoll zeigt Ensembles** (Chat 22.11.): Je Zoo eine Zeile wie bei den Meilensteinen, z. B. „Ensembles: 🍔 Food Corner (Herbst, Tag 2) · 🍃 Stilles Eck (Winter, Tag 1)“ bzw. „Ensembles: -“.
-   Zeitpunkt beim ersten Auftreten im Zoo merken (im Zoo-Protokoll `logZoo`, Modul 06, neben den Meilensteinen; Quelle `ensFind` am Tagesende). Test: Zoo mit Ensemble → Zeile im `runText`.
-10. **Kartenwahl zwischen den Zoos: Übersichtszeile zum Lauf-Deck** (Chat 22.11., Screenshot „Neue Karten für dein Lauf-Deck“): Über den Angeboten (Modul 11 ~Z. 43, unter „Zoo-Kasse …“) eine kompakte Zeile/Chips mit dem Inhalt des Lauf-Decks:
-   Gehege je Lebensraum (z. B. „💧 6 · 🌴 4 · 🏜️ 3“), Merkmale (🎭 Show · 🙈 scheu · 🐇 Beute · 🦁 Raubtier · 🔴 bedroht) und Gebäude (🍔 Gastro · 🎡 Attraktion · 🌳 Naturschutz · ⚡ Verstärker). Nur Anzahlen, keine Empfehlung.
-   Am besten als Helfer (`deckMixHtml(keys)`), damit er auch in der Deck-Ansicht/„Dein Deck aufräumen“ genutzt werden kann. Mehrere Kopien zählen einzeln. Test: bekanntes Deck → richtige Zahlen.
+(leer)
 
-**Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
+**Nach 0.92a beobachten:** Ensembles (mit Naturlehrpfad) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -148,6 +125,12 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.92a** ([Auftrag](docs/auftraege/0.92a-schliff-stufe-ensembles-anzeige.md), Regeln `docs/regeln.md` 22): Fotograf nicht bei `state.fav` (`dayRoll`); Stufe in der Zoo-Übersicht `zooStageHtml` (`<details class="zstg">`, `stageBox(…,view)` mit Schließen, ohne ids);
+  Ensemble `pfad` (`ENS_WIRKUNG.natur`); Chips Zeitung/Glückslos in `zooBoxHtml`, `genEinmal` ohne Doppel; `canPay(p<=0)`; CSS `.dsh>*{flex-shrink:0}`; Stufe 4 `ziel` 1,2; `kl_kueche`/`ruhlage`/`naturpur` ×1,2;
+  `ensLog` → `zlog.en` → `runText`; `deckMixHtml(keys)` (Kartenwahl, Aufräumen, Deck-Fenster).
+  Referenzfälle mit `aktualisiere`: 39 von 51 neu (nur Naturlehrpfad, ×1,008–×1,039; ohne `natur` alle gleich). Geprüft: Preis 0 haben nur Geschenke (Mappe/Profi/Sack/Umbau haben immer Preis > 0).
+  Tests: neu `jsd92a.js`, `quer.js` Schritt 16 (Gegenprobe ohne CSS-Korrektur: am Handy 360×560 drei Listen abgeschnitten); angepasst `jsd89a` (Stufe 4 ×1,2/×1,32), `jsd91a` (6 Ensembles, Spezialisten ×1,2).
 
 - **0.91a** (als 0.90a beauftragt, Nummer war schon vergeben; [Auftrag](docs/auftraege/0.90a-ensembles-promis-spezialisten-auflagen.md), Plan `docs/plan/ensembles-spezialisten-auflagen.md`, Regeln `docs/regeln.md` 21): Show `showF` (×1,35 je Auslöser, Belugas 1,45, Leckerli 1,5, Nova doppelt, max ×2,5);
   Stress aus `evalB` nach `strOf` gezogen; Ensembles `daten/ensembles.json` → `ENS`/`ENS_WIRKUNG`/`ensFind` (Zwischenspeicher je Brett-Array)/`ensOf` (Prozent-Schritt in `evalB`)/`ensTaler` (`dayIncome.ens`), Entdecken `ensDiscover` (`sl.ens`, `state.ensNew` → `#ensPop`, `state.ensSeen`), Brett `ensMarks`, Zoo-Buch `ensBuchHtml`;

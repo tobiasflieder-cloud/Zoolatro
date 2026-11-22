@@ -615,7 +615,7 @@ async function startScoring0(retry){state.phase='scoring';fast=!!retry;if(!retry
     await new Promise(res=>{const tick=now=>{const f=Math.min(1,(now-t0)/(dur*1000));$('vT').textContent=fmt(r.total*(1-(1-f)**2));if(f<1&&!fast)requestAnimationFrame(tick);else res()};requestAnimationFrame(tick)})}
   $('vT').textContent=fmt(r.total);bump('cT');if(!quick()&&r.total>0){const big=r.total>((state.yday&&state.yday.total)||0),tg=seOf(state.season).target,reach=state.seasonScore<tg&&state.seasonScore+r.total>=tg;fxSlam('cT');if(reach){fxFlash();fxPunch(boardCenter(),1.05)}if(big||reach)fxShake(reach&&fxStrong()?2:1)}if(r.total>0)Sfx.total(r.total>((state.yday&&state.yday.total)||0));await wait(quick()?0:300);
   // money
-  try{flDay(r)}catch(e){}const inc=dayIncome(r.A,r.S,state.money);state.money+=inc.total;state._scM=1;state.lastIncome=inc;strikeNote(state.money-inc.total);
+  try{flDay(r)}catch(e){}try{ensLog()}catch(e){}const inc=dayIncome(r.A,r.S,state.money);state.money+=inc.total;state._scM=1;state.lastIncome=inc;strikeNote(state.money-inc.total);
   {const L=state.ledger=state.ledger||{entry:0,care:0,interest:0,early:0};L.entry+=inc.entry;L.care+=inc.care;L.interest+=inc.interest;L.spec=(L.spec||0)+(inc.spec||0)}
   {const t=state.stats;t.days++;if(inc.total>0)t.earned+=inc.total;if(!t.best||r.total>t.best.pts)t.best={pts:r.total,season:state.season,day:state.day,zoo:state.zoo}}
   const mo=$('money');mo.textContent=`🪙 ${monTxt(state.money)}`;mo.classList.toggle('neg',state.money<0);mo.classList.remove('pop');void mo.offsetWidth;mo.classList.add('pop');
@@ -658,7 +658,7 @@ const EINMAL={futter:{icon:'🥕',name:'Futterlieferung',price:15,text:'Ein zuf�
   zeitung:{icon:'📰',name:'Zeitungsartikel',price:20,text:'Alle Showtiere zählen bis zum Ende dieses Zoos ×1,5.'},
   glueckslos:{icon:'🎟️',name:'Glückslos',price:12,text:'Am ersten Tag der nächsten Jahreszeit sind alle Chancen doppelt.'}};
 const AUSBAU={hand:{icon:'🖐️',name:'Größere Hand',text:'+1 Handkarte, für den ganzen Lauf.'},team:{icon:'🪑',name:'Mehr Büros',text:'+1 Platz im Team, für den ganzen Lauf.'},rd:{icon:'🔄',name:'Kartenautomat',text:'+1 Gratis-Neuziehen in jeder Jahreszeit, für den ganzen Lauf.'},mappe:{icon:'📂',name:'Personalbüro',text:'Bewerbermappen haben 4 statt 3 Bewerbungen, für den ganzen Lauf.'}};
-function genEinmal(){const n=state.mode==='camp'?2+(runAus('shop')?1:0):0;return shuffle(Object.keys(EINMAL).filter(k=>!(k==='futter'&&foodOn()))).slice(0,n).map(k=>({kind:'einmal',key:k,price:priced(EINMAL[k].price)}))}
+function genEinmal(){const n=state.mode==='camp'?2+(runAus('shop')?1:0):0;return shuffle(Object.keys(EINMAL).filter(k=>!(k==='futter'&&foodOn())&&!(k==='zeitung'&&state.zl&&state.zl.news)&&!(k==='glueckslos'&&state.luckNext))/* 0.92a: nicht doppelt */).slice(0,n).map(k=>({kind:'einmal',key:k,price:priced(EINMAL[k].price)}))}
 function ausbauItem(){if(state.mode!=='camp'||!state.zl)return null;const run=runOf();if(!run)return null;if(state.ausbauDone)return null;if(state.ausbauKey&&!AUSBAU[state.ausbauKey])state.ausbauKey=null;if(!state.ausbauKey){const av=Object.keys(AUSBAU).filter(k=>!(run.ausbau||[]).includes(k));if(!av.length)return null;state.ausbauKey=av[Math.floor(Math.random()*av.length)]}return{kind:'ausbau',key:state.ausbauKey,price:priced(40)}}
 const mappePrice=()=>Math.round((25+10*(state.mappeN||0))*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1));
 // 0.64a Profi-Mappe: 3 Bewerbungen, mind. 1 selten/legendär, Selten/Legendär 3× so oft; ab Sommer, nicht im Tutorial
@@ -714,7 +714,7 @@ function mkItem(kind,key){if(kind==='prog'||kind==='ad'){const D=kind==='prog'?P
 const hasBlocks=()=>[...TERR.values()].includes('block');
 function fixedItems(){const f=[];{const r=runOf();if(r&&state.mode==='camp')(r.gifts||[]).forEach((g,i)=>{if(g!=='gsack'||sackOn())f.push({kind:g,price:0,gi:i})})}if(state.mode==='camp')f.push({kind:'mappe',price:mappePrice()});if(profiOn())f.push({kind:'profi',price:profiPrice()});if(sackOn())f.push({kind:'sack',price:sackPrice()});if(umbOn())f.push({kind:'umbau',price:UMBPRICE});f.push({kind:'remove',price:priced(10)});if(hasBlocks())f.push({kind:'dozer',price:priced(12)});return f}
 const rerollPrice=()=>3+state.shop.rerolls;
-function canPay(p){return state.money>=0&&state.money>=p}
+function canPay(p){if(p<=0)return true;return state.money>=0&&state.money>=p} // 0.92a: Geschenke (Preis 0) auch mit Schulden
 function buy(it){if(it.sold||!canPay(it.price)){Sfx.deny();return}
   if(etatKind(it)&&!etatLeft()){Sfx.deny();state.shop.note=`🧺 Kleiner Etat: In diesem Shop-Besuch hast du schon ${AUFN.etat.n} Käufe gemacht (Karten, Futter, Umbauten).`;render();return} // 0.90a
   if(it.kind==='prog'&&state.progs.length>=MAXPROGS){Sfx.deny();state.shop.note='Alle 4 Plätze für Förderprogramme sind belegt.';render();return}
@@ -744,6 +744,11 @@ function buy(it){if(it.sold||!canPay(it.price)){Sfx.deny();return}
 const TYPEORD=['wasser','wald','wueste','savanne','arktis','gebirge','attr','essen','schutz','verst'];
 const TRAITL={beute:'Beute',raubtier:'Raubtier',scheu:'scheu',show:'Showtier',bedroht:'bedroht',gross:'groß',einmalig:'einmalig'};
 // deckRows: extra(k) = optionale Zusatzzeile in der Infospalte (0.76a: Futterplätze beim Futter verteilen)
+// 0.92a: kompakte Übersicht eines Decks (nur Anzahlen, Kopien einzeln): Gehege je Lebensraum · Merkmale · Gebäude
+function deckMixHtml(keys){const C=(keys||[]).map(k=>CARDS[k]).filter(Boolean),n=f=>C.filter(f).length,ch=(ic,t,v)=>v?`<span title="${t}">${ic} ${v}</span>`:'',G=c=>c.cat==='gehege',tg=t=>c=>G(c)&&(c.tags||[]).includes(t);
+  const hab=Object.keys(HAB).map(h=>ch(HAB[h].icon,HAB[h].label+'-Gehege',n(c=>G(c)&&c.hab===h))).filter(Boolean),mk=[['🎭','Showtiere','show'],['🙈','scheue Tiere','scheu'],['🐇','Beutetiere','beute'],['🦁','Raubtiere','raubtier'],['🔴','bedrohte Tiere','bedroht']].map(([i,t,k])=>ch(i,t,n(tg(k)))).filter(Boolean),
+    gb=[['🍔','Gastro','essen'],['🎡','Attraktionen','attr'],['🌳','Naturschutz','schutz'],['⚡','Verstärker','verst']].map(([i,t,k])=>ch(i,t,n(c=>c.cat===k))).filter(Boolean);
+  const grp=[hab,mk,gb].filter(x=>x.length).map(x=>x.join(''));return grp.length?`<div class="dmix" aria-label="Deck-Übersicht">${grp.join('<i aria-hidden="true">·</i>')}</div>`:''}
 function deckRows(keys,btn,extra){const u=[...new Set(keys)].sort((a,b)=>TYPEORD.indexOf(typeOfCard(CARDS[a]))-TYPEORD.indexOf(typeOfCard(CARDS[b]))||CARDS[a].name.localeCompare(CARDS[b].name));let out='',last=null;
   for(const k of u){const c=CARDS[k],t=typeOfCard(c),n=cnt(keys,x=>x===k),col=colOf(c);
     if(t!==last){last=t;const tn=cnt(keys,x=>typeOfCard(CARDS[x])===t);const MT=MILE[t]||{icon:'🔆',label:CAT[t]?CAT[t].label:t};out+=`<div class="drh"><i style="background:${col}"></i>${MT.icon} ${MT.label} · ${tn} Karte${tn===1?'':'n'}</div>`}

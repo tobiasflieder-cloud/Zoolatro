@@ -18,6 +18,7 @@ Auf dem Brett goldener Umriss + Schild, beim ersten Mal Einblendung „✨ Neu e
 | 🐇 | Sicherer Hain | 3 Beutetiere, keins gestresst | je ×1,2 B und N |
 | 🌳 | Naturlehrpfad (ergänzt 22.11.) | 3 **verschiedene** Naturschutz-Gebäude | je ×1,25 N |
 | 🛡️ | Schutzzone | 3 bedrohte Tiere, keins gestresst | je ×1,5 B und N |
+| 🌳 | Naturlehrpfad (0.92a) | 3 **verschiedene** Naturschutz-Gebäude | je ×1,25 N |
 
 - Unter der Auflage „Gastronomische Vielfalt“ ist die Food Corner unmöglich – gewollt.
 - Mehr als 3 zusammenhängende: zählt einmal als Ensemble (alle Karten der Gruppe bekommen den Bonus) – oder je 3er-Gruppe? Vorschlag: alle Mitglieder einer zusammenhängenden Gruppe ab 3 bekommen ihn, nur einmal je Karte.
