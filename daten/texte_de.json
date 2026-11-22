@@ -139,7 +139,7 @@
 "still":{"name":"Stilles Eck","how":"3 scheue Tiere, die zusammenhängen, keins gestresst","text":"Drei scheue Tiere in Ruhe beieinander. Sie zeigen sich endlich."},
 "hain":{"name":"Sicherer Hain","how":"3 Beutetiere, die zusammenhängen, keins gestresst","text":"Drei Beutetiere ohne Raubtier in der Nähe. Die Herde fühlt sich sicher."},
 "schutz":{"name":"Schutzzone","how":"3 bedrohte Tiere, die zusammenhängen, keins gestresst","text":"Drei bedrohte Arten in Ruhe beieinander. Ein Vorzeigeprojekt für den Artenschutz."},
-"pfad":{"name":"Naturlehrpfad","how":"3 verschiedene Naturschutz-Gebäude, die zusammenhängen","text":"Drei verschiedene Naturschutz-Gebäude nebeneinander. Ein Lehrpfad, der die Natur zeigt."}
+"oeko":{"name":"Öko-Viertel","how":"3 verschiedene Naturschutz-Gebäude, die zusammenhängen","text":"Drei verschiedene Naturschutz-Gebäude nebeneinander. Hier wird Naturschutz zum Erlebnis."}
 },
 "spec":{
 "zweiraum":{"name":"Zweiraum-Planerin","fx":["×1,1 B und N|für jedes Gehege mit 2 Feldern, je Gehege mit 2 Feldern im Zoo"]},

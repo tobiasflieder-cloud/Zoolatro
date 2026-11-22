@@ -5,10 +5,10 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
-## 0.92a · 22.11.2026 · Stufe in der Übersicht, Naturlehrpfad, Schliff
+## 0.92a · 22.11.2026 · Stufe in der Übersicht, Öko-Viertel, Schliff
 - 🏔️ **Stufe in der Zoo-Übersicht:** Unter Zoo, Jahreszeit und Tag steht jetzt die Stufe des Laufs (mit 🧪 im Testlauf). Antippen zeigt, was auf dieser Stufe gilt – wie in der Stufenwahl, nur zum Ansehen.
 - 🎯 **Stufe 4** hebt die Saisonziele ab Sommer um ×1,2 statt ×1,1 (zusammen ab Stufe 4 ×1,32, ab Stufe 7 ×1,45). Der Frühling bleibt gleich.
-- 🌳 **Neues Ensemble Naturlehrpfad:** 3 verschiedene Naturschutz-Gebäude, die zusammenhängen, bekommen je ×1,25 N. Zählt auch für den Ensemble-Regisseur (×1,5).
+- 🌳 **Neues Ensemble Öko-Viertel:** 3 verschiedene Naturschutz-Gebäude, die zusammenhängen, bekommen je ×1,25 N. Zählt auch für den Ensemble-Regisseur (×1,5).
 - 📜 Das **Lauf-Protokoll** nennt je Zoo die Ensembles mit Jahreszeit und Tag ihres ersten Auftretens.
 - 📰 **Zeitungsartikel** und 🎟️ **Glückslos** stehen als Chip in der Zoo-Übersicht, solange sie wirken, und werden nicht mehr ein zweites Mal angeboten.
 - 🎁 **Geschenke** (Futtersack, Umbaukiste, Mappe) kannst du jetzt auch mit Schulden abholen. Alles mit Preis bleibt im Minus gesperrt.

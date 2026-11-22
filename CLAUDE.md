@@ -101,7 +101,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 (leer)
 
-**Nach 0.92a beobachten:** Ensembles (mit Naturlehrpfad) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
+**Nach 0.92a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -127,9 +127,9 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 ## 7. Erledigt (zuletzt)
 
 - **0.92a** ([Auftrag](docs/auftraege/0.92a-schliff-stufe-ensembles-anzeige.md), Regeln `docs/regeln.md` 22): Fotograf nicht bei `state.fav` (`dayRoll`); Stufe in der Zoo-Übersicht `zooStageHtml` (`<details class="zstg">`, `stageBox(…,view)` mit Schließen, ohne ids);
-  Ensemble `pfad` (`ENS_WIRKUNG.natur`); Chips Zeitung/Glückslos in `zooBoxHtml`, `genEinmal` ohne Doppel; `canPay(p<=0)`; CSS `.dsh>*{flex-shrink:0}`; Stufe 4 `ziel` 1,2; `kl_kueche`/`ruhlage`/`naturpur` ×1,2;
+  Ensemble `oeko` Öko-Viertel (`ENS_WIRKUNG.natur`); Chips Zeitung/Glückslos in `zooBoxHtml`, `genEinmal` ohne Doppel; `canPay(p<=0)`; CSS `.dsh>*{flex-shrink:0}`; Stufe 4 `ziel` 1,2; `kl_kueche`/`ruhlage`/`naturpur` ×1,2;
   `ensLog` → `zlog.en` → `runText`; `deckMixHtml(keys)` (Kartenwahl, Aufräumen, Deck-Fenster).
-  Referenzfälle mit `aktualisiere`: 39 von 51 neu (nur Naturlehrpfad, ×1,008–×1,039; ohne `natur` alle gleich). Geprüft: Preis 0 haben nur Geschenke (Mappe/Profi/Sack/Umbau haben immer Preis > 0).
+  Referenzfälle mit `aktualisiere`: 39 von 51 neu (nur Öko-Viertel, ×1,008–×1,039; ohne `natur` alle gleich). Geprüft: Preis 0 haben nur Geschenke (Mappe/Profi/Sack/Umbau haben immer Preis > 0).
   Tests: neu `jsd92a.js`, `quer.js` Schritt 16 (Gegenprobe ohne CSS-Korrektur: am Handy 360×560 drei Listen abgeschnitten); angepasst `jsd89a` (Stufe 4 ×1,2/×1,32), `jsd91a` (6 Ensembles, Spezialisten ×1,2).
 
 - **0.91a** (als 0.90a beauftragt, Nummer war schon vergeben; [Auftrag](docs/auftraege/0.90a-ensembles-promis-spezialisten-auflagen.md), Plan `docs/plan/ensembles-spezialisten-auflagen.md`, Regeln `docs/regeln.md` 21): Show `showF` (×1,35 je Auslöser, Belugas 1,45, Leckerli 1,5, Nova doppelt, max ×2,5);

@@ -7,7 +7,7 @@
   {"key": "still", "icon": "🍃", "wer": "scheu", "fa": 1, "fs": 1.2, "ruhig": 1},
   {"key": "hain", "icon": "🐇", "wer": "beute", "fa": 1.2, "fs": 1.2, "ruhig": 1},
   {"key": "schutz", "icon": "🛡️", "wer": "bedroht", "fa": 1.5, "fs": 1.5, "ruhig": 1},
-  {"key": "pfad", "icon": "🌳", "wer": "natur", "fa": 1, "fs": 1.25, "verschieden": 3}
+  {"key": "oeko", "icon": "🌳", "wer": "natur", "fa": 1, "fs": 1.25, "verschieden": 3}
  ],
  "regisseur": {"1.25": 1.5, "1.2": 1.4, "1.5": 1.75}
 }

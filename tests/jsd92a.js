@@ -1,4 +1,4 @@
-// 0.92a: Fotograf/Liebling, Stufe in der Übersicht, Naturlehrpfad, Zeitung/Glückslos, Geschenke mit Schulden, Detail-Fenster, Stufe 4, Spezialisten ×1,2, Protokoll, Deck-Übersicht
+// 0.92a: Fotograf/Liebling, Stufe in der Übersicht, Öko-Viertel, Zeitung/Glückslos, Geschenke mit Schulden, Detail-Fenster, Stufe 4, Spezialisten ×1,2, Protokoll, Deck-Übersicht
 const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync(process.env.ZF||require('path').join(__dirname,'..','build','zoodeck.html'),'utf8');
 const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message));
@@ -21,9 +21,9 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  T(f.both===0&&f.fav>100&&f.foto>10,`Fotograf nie am Tag des Lieblings (4000 Tage: Liebling ${f.fav}, Fotograf ${f.foto}, beides ${f.both})`);
  // 2. Stufe in der Zoo-Übersicht
  ev(`modal='zoo';ZRULES=0;render()`);const zb=(d.querySelector('.modal .zstg')||{}).textContent||'';T(/🏔️ Stufe 3/.test(zb)&&/Stufe 3 – das gilt/.test(zb)&&!d.querySelector('.modal .zstg [data-cdeck]'),'Zoo-Übersicht zeigt Stufe 3, antippen zeigt die Wirkungen (ohne Start-Knopf)');ev(`modal=null;render()`);
- // 3. Naturlehrpfad
+ // 3. Öko-Viertel (Ensemble oeko)
  const pf=J(`(()=>{const N=one(c=>c.cat==='schutz'&&!c.rq,3);put([[N[0],A0],[N[1],NB[0]],[N[2],NB[3]]]);const a=ensOf(state.buildings[0],state.buildings).map(e=>e[0]+' '+e[1]+'/'+e[2]);put([[N[0],A0],[N[0],NB[0]],[N[0],NB[3]]]);return{a,b:ensOf(state.buildings[0],state.buildings).length,n:ENSORD.length}})()`);
- T(pf.a.length===1&&/Naturlehrpfad 1\/1\.25/.test(pf.a[0])&&pf.b===0&&pf.n===6,`Naturlehrpfad: 3 verschiedene Naturschutz ×1,25 N (${pf.a}), 3 gleiche nichts`);
+ T(pf.a.length===1&&/Öko-Viertel 1\/1\.25/.test(pf.a[0])&&ENS.oeko&&!ENS.pfad&&pf.b===0&&pf.n===6,`Öko-Viertel: 3 verschiedene Naturschutz ×1,25 N (${pf.a}), 3 gleiche nichts`);
  // 4. Zeitung/Glückslos
  const zt=J(`(()=>{state.money=999;openShop();const it={kind:'einmal',key:'zeitung',price:1};buy(it);it2={kind:'einmal',key:'glueckslos',price:1};buy(it2);let z=0,g=0;for(let i=0;i<300;i++)for(const x of genEinmal()){if(x.key==='zeitung')z++;if(x.key==='glueckslos')g++}state.phase='play';modal='zoo';render();const t=document.querySelector('.modal').textContent;modal=null;render();return{news:!!state.zl.news,z,g,chip:/Zeitungsartikel: Showtiere ×1,5/.test(t),lchip:/Glückslos/.test(t)}})()`);
  T(zt.news&&zt.z===0&&zt.g===0&&zt.chip&&zt.lchip,`Zeitung/Glückslos: nach Kauf kein zweites Angebot, Chips in der Zoo-Übersicht`);
