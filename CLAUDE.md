@@ -110,7 +110,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 2. **🎭 Spektrum im Detail-Fenster** (Chat 22.11., Entwurf wie oben): Bei Showtieren eine Leiter „jetzt ×a · höchstens ×2,5“ mit den Stufen (1 → ×1,35, 2 → ×1,7, 3 → ×2,05, 4 → ×2,4, max ×2,5; Belugas/Leckerli eigene Werte aus `SHOWS`) und den Regeln, was zählt. Nur Regeln, keine Feld-Empfehlung. Später ggf. für weitere Faktoren (Herde, Ensembles).
 3. **😴 Gelangweilte Showtiere** (Chat 22.11., Tobi: ×0,8 B): Showtier ohne jeden Gastro-/Attraktions-Nachbarn (`sh===0` in `evalB`, Modul 04 ~Z. 259) bekommt ×0,8 B, Schild „😴 ×0,8“, Zeile im Detail-Fenster. Nicht im Tutorial. Referenzfälle betroffen.
 
-**Nach 0.92a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
+**Nach 0.92a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Stufe 4 (Ziele ab Sommer ×1,32): nach 0.93a einen Lauf spielen; landet Tobi oft unter ~110 % oder scheitert, `stufen.json` Stufe 4 `ziel` zurück auf 1,1.
 
 **Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
