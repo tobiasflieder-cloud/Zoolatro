@@ -16,6 +16,7 @@ Auf dem Brett goldener Umriss + Schild, beim ersten Mal Einblendung „✨ Neu e
 | 🎠 | Vergnügungsmeile | 3 Attraktionen | je ×1,25 B |
 | 🍃 | Stilles Eck | 3 scheue Tiere, keins gestresst | je ×1,2 N |
 | 🐇 | Sicherer Hain | 3 Beutetiere, keins gestresst | je ×1,2 B und N |
+| 🌳 | Naturlehrpfad (ergänzt 22.11.) | 3 **verschiedene** Naturschutz-Gebäude | je ×1,25 N |
 | 🛡️ | Schutzzone | 3 bedrohte Tiere, keins gestresst | je ×1,5 B und N |
 
 - Unter der Auflage „Gastronomische Vielfalt“ ist die Food Corner unmöglich – gewollt.

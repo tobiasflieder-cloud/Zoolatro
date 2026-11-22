@@ -103,6 +103,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Lösung: bei der Momente-Auswahl `foto` ausschließen, wenn `state.fav!=null` (zusätzlich zu `state.season<1`). Kommt dann kein anderer Moment in Frage, gibt es an dem Tag keinen. Test: viele Tage mit gesetztem Liebling → nie `foto`.
 2. **Zoo-Übersicht zeigt die Stufe** (Chat 22.11.): `zooBoxHtml` (Modul 06 ~Z. 452) nennt Zoo, Jahreszeit und Tag, aber nicht die Stufe des Laufs (`run.stage`). Neu: in der Zeile `.zwhen` „· 🏔️ Stufe n“ (plus „🧪“ bei Testlauf bzw. „Stufen-Test“ bei `run.stTest`).
    Antippen öffnet die Wirkungen dieser Stufe wie in der Stufenwahl (`stageBox`, nur ansehen). Gilt auch für die Seitenleiste im Querformat (`rail`). Im Tutorial nichts anzeigen. Test: Lauf auf Stufe 3 → Übersicht enthält „Stufe 3“.
+3. **Ensemble für Naturschutz ergänzen** (Chat 22.11., wurde vergessen): 🌳 **Naturlehrpfad** = 3 **verschiedene** Naturschutz-Gebäude, die zusammenhängen → je ×1,25 N. Neuer Eintrag in `daten/ensembles.json`
+   (`{"key":"pfad","icon":"🌳","wer":"natur","fa":1,"fs":1.25,"verschieden":3}`), Kennung `natur` in `ENS_WIRKUNG` (Modul 04, Kategorie Naturschutz wie `gastro`/`attr`), Name/Text in `texte_de.json` (ensemble), Regisseur ×1,25 → ×1,5 gilt automatisch.
+   Zoo-Buch, Einblendung und Brett-Markierung laufen über die bestehenden Wege (`ensBuchHtml`, `ensDiscover`, `ensMarks`). Plan-Datei Abschnitt A nachziehen. Test: 3 verschiedene Naturschutz zusammen → ×1,25 N, 3 gleiche → nichts.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
