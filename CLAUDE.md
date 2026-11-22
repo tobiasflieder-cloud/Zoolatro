@@ -106,6 +106,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 3. **Ensemble für Naturschutz ergänzen** (Chat 22.11., wurde vergessen): 🌳 **Naturlehrpfad** = 3 **verschiedene** Naturschutz-Gebäude, die zusammenhängen → je ×1,25 N. Neuer Eintrag in `daten/ensembles.json`
    (`{"key":"pfad","icon":"🌳","wer":"natur","fa":1,"fs":1.25,"verschieden":3}`), Kennung `natur` in `ENS_WIRKUNG` (Modul 04, Kategorie Naturschutz wie `gastro`/`attr`), Name/Text in `texte_de.json` (ensemble), Regisseur ×1,25 → ×1,5 gilt automatisch.
    Zoo-Buch, Einblendung und Brett-Markierung laufen über die bestehenden Wege (`ensBuchHtml`, `ensDiscover`, `ensMarks`). Plan-Datei Abschnitt A nachziehen. Test: 3 verschiedene Naturschutz zusammen → ×1,25 N, 3 gleiche → nichts.
+4. **📰 Zeitungsartikel sichtbar machen und nicht doppelt anbieten** (Chat 22.11.): Wirkt bis Zoo-Ende (`state.zl.news`, Kauf Modul 07 ~Z. 725, Wertung Modul 09 ~Z. 378), sichtbar aber nur als Zeile im Detail-Fenster.
+   Neu: Chip in der Zoo-Übersicht (Chips-Zeile in `zooBoxHtml`, wie Boni): „📰 Zeitungsartikel: Showtiere ×1,5 (bis Zoo-Ende)“; ebenso „🎟️ Glückslos: nächster Jahreszeit-Start Chancen ×2“, solange `state.luckNext` offen.
+   `genEinmal` (Modul 07 ~Z. 660) bietet `zeitung` nicht mehr an, wenn `state.zl.news` schon gesetzt ist (heute kann man ihn ein zweites Mal ohne Wirkung kaufen), ebenso `glueckslos` bei offenem `state.luckNext`. Test: nach Kauf kein zweites Angebot, Chip da.
 
 **Nach 0.91a beobachten:** Ensembles (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht.
 
