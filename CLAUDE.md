@@ -99,7 +99,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.94a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **Kartentext der Tribüne kaputt** (Chat 23.11., Screenshot Kartenwahl: Text links/rechts abgeschnitten, Zeile doppelt): Ursache `fxLine` (Modul 07 ~Z. 131) erwartet in jeder Wirkungszeile ein `|`.
+   Fehlt es, wird `indexOf` −1 → fett gedruckt die ganze Zeile ohne letztes Zeichen (`b` mit `white-space:nowrap`) und danach die ganze Zeile noch einmal. Die lange fette Zeile sprengt die Karte (`.ocard` zentriert, `overflow:hidden`).
+   Betroffen (`texte_de.json`): Tribüne „🙈 stört scheue Tiere …“, Regenkuppel „🙈 Scheue Tiere daneben …“, Food Court „🏅 zählt beim Gastro-Meilenstein …“, Futterstation „🏅 zählt für jeden Meilenstein …“. Besteht schon lange (seit `fxLine`).
+   Lösung: `fxLine` ohne `|` → `<li>${l}</li>` (kein fetter Teil). Zusätzlich Prüfung in `jsddaten.js`: jede Zeile hat entweder `|` oder wird als einfache Zeile gezeigt. Test: Tribüne-Karte → kein Text doppelt, `.ocard` ohne Überbreite (`scrollWidth<=clientWidth`, `quer.js`).
 
 **Nach 0.93a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Stufe 4 (Ziele ab Sommer ×1,32): nach 0.93a einen Lauf spielen; landet Tobi oft unter ~110 % oder scheitert, `stufen.json` Stufe 4 `ziel` zurück auf 1,1.
 
