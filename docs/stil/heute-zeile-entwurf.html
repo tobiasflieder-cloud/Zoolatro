@@ -28,6 +28,9 @@ h1{font-family:var(--f-display);font-weight:400;color:var(--gold);font-size:26px
 .today .zl.now{box-shadow:0 0 0 2px #b79cff}
 .today .zc{background:var(--cost);color:var(--costInk)}
 .today .zg{background:var(--gift);color:var(--giftInk)}
+.today span.zb{padding:2px 6px;letter-spacing:-.02em}
+.tip{display:inline-block;background:#fffaf0;color:#1d2a21;border-radius:10px;padding:5px 9px;font-size:12px;box-shadow:0 6px 16px #0008;margin-top:6px;position:relative}
+.tip:before{content:"";position:absolute;left:22px;top:-6px;border:6px solid transparent;border-top:0;border-bottom-color:#fffaf0}
 .sep{width:1px;align-self:stretch;background:#ffffff22;margin:0 1px}
 .new{outline:2px dashed var(--gold);outline-offset:3px;border-radius:12px}
 .kasse{font-size:12.5px;font-weight:700;color:var(--gold);border-top:1px solid #ffffff1a;padding-top:5px;margin-top:2px}
@@ -57,10 +60,10 @@ ul{margin:0;padding-left:18px;color:#cfe0d2;font-size:13px}
     <div class="lbl">Neu</div>
     <div class="info">
       <h3>Tag 2</h3>
-      <div class="today"><span>❤️ <b>🦭 Seelöwenbucht</b> ×2</span><span>📏 Linie ×2</span><span class="new" style="display:contents"><i class="sep"></i><span class="zb zn">📰 Showtiere ×1,5</span><span class="zb zl">🎟️ nächste Jahreszeit: Chancen ×2</span><span class="zb zc">💸 Attraktionen +1 BP</span><span class="zb zg">🎁 🦒 Giraffenweide</span></span></div>
+      <div class="today"><span>❤️ <b>🦭 Seelöwenbucht</b> ×2</span><span>📏 Linie ×2</span><span class="new" style="display:contents"><i class="sep"></i><span class="zb zn">📰🎭×1,5</span><span class="zb zl">🎟️⏭️</span><span class="zb zc">💸🎡+1</span><span class="zb zg">🎁🦒</span></span></div>
       <div class="kasse">🪙 22</div>
     </div>
-    <p class="note">Erst die Glücksfälle des Tages, dann (nach einem dünnen Strich) die Boni, die den ganzen Zoo gelten.</p>
+    <p class="note">Erst die Glücksfälle des Tages, dann (nach einem dünnen Strich) die Zoo-Boni als kurze Symbol-Schilder. Antippen erklärt sie.</p>
   </section>
 </div>
 
@@ -69,8 +72,9 @@ ul{margin:0;padding-left:18px;color:#cfe0d2;font-size:13px}
     <div class="lbl">Tag, an dem das Glückslos wirkt</div>
     <div class="info">
       <h3>Tag 1</h3>
-      <div class="today"><span class="zb zl now">🎟️ heute Chancen ×2</span><i class="sep"></i><span class="zb zn">📰 Showtiere ×1,5</span></div>
+      <div class="today"><span class="zb zl now">🎟️×2</span><i class="sep"></i><span class="zb zn">📰🎭×1,5</span></div>
       <div class="kasse">🪙 41</div>
+      <span class="tip">🎟️ Glückslos: heute sind alle Chancen doppelt.</span>
     </div>
   </section>
 
@@ -78,7 +82,7 @@ ul{margin:0;padding-left:18px;color:#cfe0d2;font-size:13px}
     <div class="lbl">Nur ein Bonus, sonst nichts</div>
     <div class="info">
       <h3>Tag 3</h3>
-      <div class="today"><span class="zb zn">📰 Showtiere ×1,5</span></div>
+      <div class="today"><span class="zb zn">📰🎭×1,5</span></div>
       <div class="kasse">🪙 9</div>
     </div>
   </section>
@@ -87,9 +91,9 @@ ul{margin:0;padding-left:18px;color:#cfe0d2;font-size:13px}
 <section class="panel">
   <div class="lbl">Regeln für die Zeile</div>
   <ul>
-    <li>📰 solange der Zeitungsartikel wirkt (bis Zoo-Ende) · 🎟️ solange das Glückslos offen ist, am Wirkungstag „heute“ mit leichtem Leuchten</li>
-    <li>💸 Teuerung und 🎁 Geschenk, solange sie in diesem Zoo gelten</li>
-    <li>Antippen eines Schilds öffnet die Zoo-Übersicht (dort bleiben die Chips zum Nachlesen)</li>
+    <li>📰🎭×1,5 = Zeitungsartikel, Showtiere ×1,5 bis Zoo-Ende · 🎟️⏭️ = Glückslos wartet auf die nächste Jahreszeit · 🎟️×2 = heute Chancen ×2 (leuchtet leicht)</li><li>💸🎡+1 = Teuerung: Attraktionen kosten +1 BP · 🎁🦒 = Geschenk-Karte in diesem Zoo</li>
+    
+    <li>Antippen eines Schilds zeigt eine kurze Erklärung (kleine Sprechblase); die Zoo-Übersicht behält die ausgeschriebenen Chips</li>
     <li>Wie heute: Die Zeile ist zu sehen, solange keine Karte ausgewählt ist. Nicht im Tutorial.</li>
   </ul>
 </section>
