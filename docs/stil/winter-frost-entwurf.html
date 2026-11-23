@@ -1,0 +1,128 @@
+<title>Winter als Frost</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@400;500;600&display=swap">
+<style>
+/* Spiel-Look (dunkles Grün). Bewusst nur dunkel wie das Spiel. Links heute, rechts Vorschlag A (Frost statt Schild). */
+:root{color-scheme:dark;--bg:#12301f;--bg0:#0b2015;--panel:#1a3f2a;--panel2:#224d33;--muted:#9fbba5;--gold:#ffd166;
+  --frost:#9fe0ff;--frost2:#e8f8ff;--red:#c0392b;
+  --f-display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;--f-body:"Fredoka","Trebuchet MS",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg0);color:#eaf2e3;font-family:var(--f-body);font-size:14px;line-height:1.4;
+  padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--f-display);font-weight:400;color:var(--gold);font-size:26px;margin:0}
+.note{color:var(--muted);font-size:13px;max-width:65ch;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.panel{background:var(--bg);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+svg{width:100%;height:auto;display:block}
+.today{display:flex;flex-wrap:wrap;gap:5px}
+.today span{background:var(--panel2);border-radius:9px;padding:2px 7px;font-size:11.5px;white-space:nowrap}
+.today .zw{background:#dff4ff;color:#0f4a6b;font-weight:600}
+.today .zw.pre{background:transparent;color:var(--frost);border:1.5px dashed var(--frost)}
+.info{background:var(--panel);border-radius:10px;padding:6px 10px;display:flex;flex-direction:column;gap:4px}
+.info h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--f-display);font-size:13px;padding:1px 8px;border-radius:8px;background:#2b5a3d}
+.chip.w{background:#3a1f1f;color:#ffb3b5;border:1.5px solid #7a3030}
+.new{outline:2px dashed var(--gold);outline-offset:3px;border-radius:10px}
+ul{margin:0;padding-left:18px;color:#cfe0d2;font-size:13px}
+/* SVG */
+.hx{stroke:#0e2618;stroke-width:1}
+.ic{font-size:11px;text-anchor:middle;dominant-baseline:central}
+.tg{font-family:var(--f-display);font-size:5.2px;text-anchor:middle;dominant-baseline:central}
+.frostline{fill:none;stroke:var(--frost);stroke-width:1.6;stroke-linejoin:round}
+.frostline.pre{stroke-dasharray:2.2 1.6;stroke-width:1.3}
+@media (prefers-reduced-motion:no-preference){.shim{animation:shim 3.5s ease-in-out infinite}}
+@keyframes shim{50%{opacity:.55}}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>❄️ Winter als Frost (Vorschlag A)</h1>
+  <p class="note">Nachgebaut nach deinem Screenshot (Zoo 5, Winter, ×0,75 auf viele Gebäude). Show- und Stress-Schilder bleiben, nur die Winter-Schilder fallen weg.</p>
+</header>
+
+<div class="grid">
+  <section class="panel">
+    <div class="lbl">Heute</div>
+    <div class="info"><h3>Tag 1</h3><div class="today"><span>❤️ <b>🦜 Papageien</b> ×2</span></div></div>
+    <svg id="b0" role="img" aria-label="Brett heute mit vielen Winter-Schildern"></svg>
+  </section>
+  <section class="panel">
+    <div class="lbl">Vorschlag A · Winter</div>
+    <div class="info"><h3>Tag 1</h3><div class="today"><span>❤️ <b>🦜 Papageien</b> ×2</span><span class="zw new">❄️ 9 Gebäude ×0,75</span></div></div>
+    <svg id="b1" role="img" aria-label="Brett mit Frost-Rand statt Winter-Schildern"></svg>
+  </section>
+</div>
+
+<div class="grid">
+  <section class="panel">
+    <div class="lbl">Vorschlag A · Herbst (Vorwarnung)</div>
+    <div class="info"><h3>Tag 3</h3><div class="today"><span class="zw pre">❄️ im Winter: 9 Gebäude ×0,75</span></div></div>
+    <svg id="b2" role="img" aria-label="Brett im Herbst mit gestricheltem Frost-Rand"></svg>
+    <p class="note">Im Herbst nur gestrichelt, ohne Reif: „das wird im Winter getroffen“.</p>
+  </section>
+  <section class="panel">
+    <div class="lbl">Gebäude angetippt</div>
+    <div class="info">
+      <h3>🎫 Lotterie-Bude</h3>
+      <div class="chips"><span class="chip">🤳 ×1,5</span><span class="chip">🍔 ×1,25</span><span class="chip w">❄️ Winter ×0,75</span></div>
+      <p class="note" style="margin:0">Der Wert steht wie heute im Info-Feld und im Detail-Fenster.</p>
+    </div>
+    <ul>
+      <li>Eisblauer Rand um das ganze Gebäude (auch über mehrere Felder) + heller Reif darüber</li>
+      <li>Kleines ❄️ an der Ecke statt Schild mit Zahl</li>
+      <li>Zahl einmal in der Tages-Zeile: „❄️ 9 Gebäude ×0,75“; Antippen zeigt den Text der Winter-Bedingung</li>
+      <li>Gebäude mit stärkerem Abzug (z. B. verschärft ×0,5) bekommen ❄️❄️</li>
+      <li>Reif glitzert leicht; ohne Animation bei „Bewegung reduzieren“</li>
+    </ul>
+  </section>
+</div>
+</div>
+
+<script>
+const SZ=10,R3=Math.sqrt(3),xy=(q,r)=>[SZ*R3*(q+r/2),SZ*1.5*r];
+const pts=(x,y,s)=>[...Array(6)].map((_,i)=>{const a=Math.PI/180*(60*i-30);return(x+s*Math.cos(a)).toFixed(2)+','+(y+s*Math.sin(a)).toFixed(2)}).join(' ');
+const cells=[];for(let q=-3;q<=3;q++)for(let r=-3;r<=3;r++)if(Math.abs(q+r)<=3)cells.push([q,r]);
+const C={g:'#86c96f',w:'#5cbfe3',s:'#e2c46e',d:'#e8a070',e:'#ffcf4a',a:'#ff7a98',n:'#b49af0',rock:'#6f6c66',tile:'#2f6b41'};
+// Gebäude wie im Screenshot (vereinfacht): Felder, Farbe, Icon, Winter, weitere Schilder
+const B=[
+ {c:[[0,-2],[1,-2]],f:C.e,i:'☕',w:0},
+ {c:[[-1,-1]],f:C.e,i:'🎫',w:1,t:[['🤳×1,5','#2e8b57']]},
+ {c:[[0,-1]],f:C.a,i:'🐑',w:1},
+ {c:[[1,-1],[2,-2]],f:C.g,i:'🐄',w:0,t:[['🎭×1,7','#2e8b57']]},
+ {c:[[-1,0]],f:C.e,i:'🍿',w:1},
+ {c:[[0,0],[1,0]],f:C.a,i:'🗼',w:1},
+ {c:[[2,-1],[3,-2]],f:C.d,i:'🦂',w:0,t:[['🎭×1,7','#2e8b57']]},
+ {c:[[-2,1],[-2,2]],f:C.g,i:'🦜',w:1,t:[['🎭×1,7','#2e8b57']]},
+ {c:[[-1,1]],f:C.e,i:'🛖',w:1},
+ {c:[[0,1],[1,1]],f:C.n,i:'🏛️',w:1},
+ {c:[[2,0],[2,1]],f:C.g,i:'🐒',w:0,t:[['🎭×1,7','#2e8b57'],['🙈×0,95','#c0392b']]},
+ {c:[[-3,2],[-3,3]],f:C.d,i:'🦉',w:1,t:[['🙈×0,95','#c0392b']]},
+ {c:[[-1,2],[0,2]],f:C.n,i:'🌳',w:1},
+ {c:[[1,2]],f:C.g,i:'🐺',w:0},
+];
+const rocks=[[-3,0],[3,-3],[1,-3],[-2,-1]];
+function draw(id,mode){const svg=document.getElementById(id);let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;for(const[q,r]of cells){const[x,y]=xy(q,r);mnx=Math.min(mnx,x);mny=Math.min(mny,y);mxx=Math.max(mxx,x);mxy=Math.max(mxy,y)}
+  const pad=SZ+6;svg.setAttribute('viewBox',`${mnx-pad} ${mny-pad} ${mxx-mnx+2*pad} ${mxy-mny+2*pad}`);
+  const occ=new Map();B.forEach((b,i)=>b.c.forEach(c=>occ.set(c+'',i)));let h=`<defs><pattern id="rime${id}" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".45" fill="#fff" opacity=".8"/></pattern></defs>`;
+  for(const[q,r]of cells){const[x,y]=xy(q,r),k=q+','+r,bi=occ.get(k),rk=rocks.some(o=>o+''===k);h+=`<polygon class="hx" points="${pts(x,y,SZ-.3)}" fill="${bi!=null?B[bi].f:rk?C.rock:C.tile}"/>`;if(rk)h+=`<text class="ic" x="${x}" y="${y}">🪨</text>`}
+  const lab=[];
+  B.forEach(b=>{const P=b.c.map(([q,r])=>xy(q,r)),cx=P.reduce((a,p)=>a+p[0],0)/P.length,cy=P.reduce((a,p)=>a+p[1],0)/P.length;
+    if(b.w&&mode!=='alt'){ // Frost: Rand um jedes Feld (äußere Kanten), Reif nur im Winter
+      for(const[x,y]of P){if(mode==='neu')h+=`<polygon class="shim" points="${pts(x,y,SZ-1.2)}" fill="url(#rime${id})" opacity=".85"/><polygon points="${pts(x,y,SZ-1.2)}" fill="#dff4ff" opacity=".22"/>`;}
+      // äußere Kanten zeichnen
+      for(const[q,r]of b.c){const[x,y]=xy(q,r);const N=[[1,-1],[1,0],[0,1],[-1,1],[-1,0],[0,-1]];
+        for(let i=0;i<6;i++){const a1=Math.PI/180*(60*i-30),a2=Math.PI/180*(60*(i+1)-30),mid=Math.PI/180*(60*i);
+          // Nachbar in Richtung der Kante
+          const dx=Math.cos(mid),dy=Math.sin(mid);const nb=b.c.some(([q2,r2])=>{const[x2,y2]=xy(q2,r2);return Math.hypot(x2-(x+dx*SZ*R3),y2-(y+dy*SZ*R3))<1});
+          if(!nb){const s=SZ-1.1;h+=`<line class="frostline${mode==='pre'?' pre':''}" x1="${x+s*Math.cos(a1)}" y1="${y+s*Math.sin(a1)}" x2="${x+s*Math.cos(a2)}" y2="${y+s*Math.sin(a2)}"/>`}}}
+      const[fx,fy]=P[0];h+=`<circle cx="${fx+6}" cy="${fy-6}" r="3.4" fill="${mode==='pre'?'#12301f':'#dff4ff'}" stroke="var(--frost)" stroke-width=".8"/><text class="ic" x="${fx+6}" y="${fy-5.8}" style="font-size:4.4px">❄️</text>`}
+    h+=`<text class="ic" x="${cx}" y="${cy}">${b.i}</text>`;
+    let ty=cy+7.5;if(b.w&&mode==='alt')lab.push([cx,cy-6.5,'❄️×0,75','#c0392b']);
+    (b.t||[]).forEach(([t,c],j)=>lab.push([cx+(j?4:0),ty+j*6,t,c]))});
+  for(const[x,y,t,c]of lab){const w=t.length*2.3+4;h+=`<rect x="${x-w/2}" y="${y-3.3}" width="${w}" height="6.6" rx="3.3" fill="${c}" stroke="#fff" stroke-width=".5"/><text class="tg" x="${x}" y="${y+.2}" fill="#fff">${t}</text>`}
+  svg.innerHTML=h}
+draw('b0','alt');draw('b1','neu');draw('b2','pre');
+</script>
