@@ -65,7 +65,11 @@ input[type=search],textarea,input[type=text]{width:100%;font:inherit;border:1.5p
 details summary{cursor:pointer;font-weight:600}
 .seasonbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
 .seasonbar .chip{text-align:center;padding:6px 4px}
-.daybar{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.daybar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.warn4{background:color-mix(in srgb,var(--danger) 14%,var(--panel));border:1.5px solid var(--danger);border-radius:12px;padding:9px 11px;font-size:13.5px;display:flex;flex-direction:column;gap:6px}
+.warn4 b{color:var(--danger)}
+.pgrp.old h3{color:var(--danger)}
+.pill4{display:inline-block;font-size:11px;font-weight:600;background:var(--accent);color:var(--accentfg);border-radius:999px;padding:1px 8px;vertical-align:3px;margin-left:6px}
 .daybar .chip{text-align:center;padding:6px 0}
 .tabs{display:flex;gap:6px;flex-wrap:wrap}
 @media (prefers-reduced-motion:reduce){.hx{transition:none}}
@@ -73,8 +77,8 @@ details summary{cursor:pointer;font-weight:600}
 
 <div class="wrap">
   <header>
-    <h1>🗺️ Tutorial-Zooplan</h1>
-    <p class="intro">Die Karte ist das Gelände des Tutorials aus dem Spiel. Wähle oben den Zeitpunkt (Jahreszeit und Tag) und eine Karte, dann tippe die Felder an, auf die sie kommen soll. Mit „Plan kopieren“ schickst du mir alles.</p>
+    <h1>🗺️ Tutorial-Zooplan <span class="pill4">4 Tage je Jahreszeit</span></h1>
+    <p class="intro">Die Karte ist das Gelände des Tutorials aus dem Spiel. Jede Jahreszeit hat jetzt 4 Tage. Wähle oben den Zeitpunkt (Jahreszeit und Tag 1–4) und eine Karte, dann tippe die Felder an, auf die sie kommen soll. Mit „Plan kopieren“ schickst du mir alles.</p>
   </header>
   <div class="grid">
     <section class="card boardbox" aria-label="Gelände">
@@ -98,6 +102,7 @@ details summary{cursor:pointer;font-weight:600}
       </section>
       <section class="card stack">
         <div class="row" style="justify-content:space-between"><h2 style="margin:0">Dein Plan</h2><span class="note" id="count"></span></div>
+        <div class="warn4" id="warn4" hidden></div>
         <div class="plist" id="plist"></div>
         <div class="row">
           <button class="btn main" id="copy">📋 Plan kopieren</button>
@@ -127,7 +132,8 @@ const xy=(q,r)=>[SZ*R3*(q+r/2),SZ*1.5*r];
 const pts=(x,y,s)=>[...Array(6)].map((_,i)=>{const a=Math.PI/180*(60*i-30);return(x+s*Math.cos(a)).toFixed(2)+','+(y+s*Math.sin(a)).toFixed(2)}).join(' ');
 let S={se:0,d:1,pick:null,pend:[],sel:null,cat:'alle',q:'',until:false};
 let P=[]; // {id,k,cells:[...],se,d,up:[[se,d],...],note}
-const tkey=(se,d)=>se*10+d, ttxt=(se,d)=>SEA[se]+' Tag '+d;
+const NDAYS=4; // 4-Tage-Version: jede Jahreszeit hat 4 Tage
+const tkey=(se,d)=>se*10+d, ttxt=(se,d)=>SEA[se]+' Tag '+d, old=d=>d>NDAYS;
 const save=()=>{try{localStorage.setItem('zooplan1',JSON.stringify(P))}catch(e){}};
 const load=()=>{try{const v=JSON.parse(localStorage.getItem('zooplan1')||'null');if(Array.isArray(v))return v}catch(e){}return null};
 const EXAMPLE=[
@@ -155,7 +161,7 @@ function drawBoard(){const om=occ();let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;for(co
     if(pend)h+=`<text class="ico" x="${x}" y="${y}" style="font-size:12px">${S.pick?CK[S.pick].i:''}</text>`}
   for(const p of P){const c=CK[p.k];if(!c)continue;let cx=0,cy=0;for(const k of p.cells){const[q,r]=k.split(',').map(Number),[x,y]=xy(q,r);cx+=x;cy+=y}cx/=p.cells.length;cy/=p.cells.length;const lat=!visible(p),sel=S.sel===p.id;
     if(p.cells.length>1)for(const k of p.cells){const[q,r]=k.split(',').map(Number),[x,y]=xy(q,r);if(Math.hypot(x-cx,y-cy)>1)h+=`<line class="bld${lat?' later':''}" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#1d2a2044" stroke-width="2.2" stroke-linecap="round"/>`}
-    h+=`<g class="bld${lat?' later':''}"><text class="ico" x="${cx}" y="${cy-1.5}">${c.i}</text><text class="tag" x="${cx}" y="${cy+7.2}">${SE1[p.se]}${p.d}${p.up.length?' ⬆'+p.up.length:''}</text>${sel?`<circle cx="${cx}" cy="${cy}" r="${SZ*.95}" fill="none" stroke="var(--sel)" stroke-width="2"/>`:''}</g>`}
+    h+=`<g class="bld${lat?' later':''}"><text class="ico" x="${cx}" y="${cy-1.5}">${c.i}</text><text class="tag" x="${cx}" y="${cy+7.2}"${old(p.d)?' style="fill:var(--danger)"':''}>${old(p.d)?'⚠':''}${SE1[p.se]}${p.d}${p.up.length?' ⬆'+p.up.length:''}</text>${sel?`<circle cx="${cx}" cy="${cy}" r="${SZ*.95}" fill="none" stroke="var(--sel)" stroke-width="2"/>`:''}</g>`}
   svg.innerHTML=h;
   svg.querySelectorAll('.hx').forEach(e=>e.onclick=()=>tapCell(e.dataset.k))}
 function tapCell(k){const om=occ(),p=om.get(k),t=TERR.get(k);
@@ -169,7 +175,8 @@ function tapCell(k){const om=occ(),p=om.get(k),t=TERR.get(k);
 const adj=(a,b)=>{const[q,r]=a.split(',').map(Number),[q2,r2]=b.split(',').map(Number);const dq=q2-q,dr=r2-r;return[[1,0],[-1,0],[0,1],[0,-1],[1,-1],[-1,1]].some(([x,y])=>x===dq&&y===dr)};
 function flash(t){$('msg').textContent=t}
 function drawTime(){ $('seasons').innerHTML=SEA.map((n,i)=>`<button class="chip${S.se===i?' on':''}" data-se="${i}">${n}</button>`).join('');
-  $('days').innerHTML=[1,2,3,4,5,6].map(d=>`<button class="chip${S.d===d?' on':''}" data-d="${d}" title="${d===6?'Tag 6 (optional, falls das Tutorial langsamer wird)':'Tag '+d}">${d===6?'6*':d}</button>`).join('');
+  if(S.d>NDAYS)S.d=NDAYS;
+  $('days').innerHTML=Array.from({length:NDAYS},(_,i)=>i+1).map(d=>`<button class="chip${S.d===d?' on':''}" data-d="${d}" title="Tag ${d} von ${NDAYS}">${d}</button>`).join('');
   document.querySelectorAll('[data-se]').forEach(b=>b.onclick=()=>{S.se=+b.dataset.se;render()});
   document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{S.d=+b.dataset.d;render()})}
 function drawStatus(){let h;const sp=P.find(p=>p.id===S.sel);
@@ -192,17 +199,23 @@ function drawList(){const G=new Map();for(const p of [...P].sort((a,b)=>tkey(a.s
   for(const u of ups){const k=tkey(u.se,u.d);if(!G.has(k))G.set(k,[])}
   const keys=[...G.keys()].sort((a,b)=>a-b);
   $('plist').innerHTML=keys.length?keys.map(k=>{const se=Math.floor(k/10),d=k%10;const U=ups.filter(u=>tkey(u.se,u.d)===k);
-    return`<div class="pgrp"><h3>${ttxt(se,d)}</h3>${G.get(k).map(p=>`<div class="pi${S.sel===p.id?' on':''}" data-sel="${p.id}"><span class="e">${CK[p.k].i}</span><span class="n">${CK[p.k].n}<small>${p.cells.join(' · ')}${p.note?' · '+p.note.replace(/</g,'&lt;'):''}</small></span><button class="x" data-del="${p.id}" aria-label="${CK[p.k].n} löschen">✕</button></div>`).join('')}${U.map(u=>`<div class="pi" data-sel="${u.p.id}"><span class="e">⬆</span><span class="n">${CK[u.p.k].n} ausbauen<small>${u.p.cells.join(' · ')}</small></span></div>`).join('')}</div>`}).join(''):'<p class="note">Noch nichts geplant. Wähle eine Karte und tippe Felder an.</p>';
+    return`<div class="pgrp${old(d)?' old':''}"><h3>${ttxt(se,d)}${old(d)?' ⚠ gibt es nicht mehr':''}</h3>${G.get(k).map(p=>`<div class="pi${S.sel===p.id?' on':''}" data-sel="${p.id}"><span class="e">${CK[p.k].i}</span><span class="n">${CK[p.k].n}<small>${p.cells.join(' · ')}${p.note?' · '+p.note.replace(/</g,'&lt;'):''}</small></span><button class="x" data-del="${p.id}" aria-label="${CK[p.k].n} löschen">✕</button></div>`).join('')}${U.map(u=>`<div class="pi" data-sel="${u.p.id}"><span class="e">⬆</span><span class="n">${CK[u.p.k].n} ausbauen<small>${u.p.cells.join(' · ')}</small></span></div>`).join('')}</div>`}).join(''):'<p class="note">Noch nichts geplant. Wähle eine Karte und tippe Felder an.</p>';
   $('count').textContent=P.length+' Karten · '+ups.length+' Ausbauten';
+  drawWarn();
   document.querySelectorAll('[data-sel]').forEach(e=>e.onclick=ev=>{if(ev.target.closest('[data-del]'))return;S.sel=+e.dataset.sel;S.pick=null;S.pend=[];const p=P.find(x=>x.id===S.sel);if(p){S.se=p.se;S.d=p.d}render()});
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{P=P.filter(p=>p.id!==+b.dataset.del);if(S.sel===+b.dataset.del)S.sel=null;save();render()})}
+function drawWarn(){const bad=P.filter(p=>old(p.d)),badU=P.reduce((n,p)=>n+p.up.filter(([a,b])=>old(b)).length,0),w=$('warn4');
+  if(!bad.length&&!badU){w.hidden=true;w.innerHTML='';return}w.hidden=false;
+  w.innerHTML=`<span><b>⚠ ${bad.length+badU} Eintr${bad.length+badU>1?'äge liegen':'ag liegt'} auf Tag 5 oder 6.</b> Die gibt es in der 4-Tage-Version nicht mehr. Tippe einen Eintrag an und verschiebe ihn auf einen anderen Tag, oder schiebe alle auf einmal:</span><div class="row"><button class="btn" id="to4">Alle auf Tag ${NDAYS} schieben</button><button class="btn" id="toNext">Alle in die nächste Jahreszeit, Tag 1</button></div>`;
+  $('to4').onclick=()=>{for(const p of P){if(old(p.d))p.d=NDAYS;p.up=p.up.map(([a,b])=>[a,old(b)?NDAYS:b])}save();render();flash(`Alles von Tag 5/6 liegt jetzt auf Tag ${NDAYS}.`)};
+  $('toNext').onclick=()=>{const mv=(se,d)=>old(d)?(se<3?[se+1,1]:[se,NDAYS]):[se,d];for(const p of P){[p.se,p.d]=mv(p.se,p.d);p.up=p.up.map(([a,b])=>mv(a,b))}save();render();flash('Alles von Tag 5/6 liegt jetzt am Tag 1 der nächsten Jahreszeit (im Winter auf Tag 4).')}}
 function drawLegend(){$('legend').innerHTML=Object.keys(HAB).filter(h=>MAP.terr.some(t=>t[1]===h)).map(h=>`<span><i style="background:${HAB[h][1]}"></i>${HAB[h][0]}-Naturfläche</span>`).join('')+`<span><i style="background:var(--rock)"></i>Felsen</span><span><i style="border:1.5px dashed var(--accent)"></i>×2-Feld</span><span>👑 Kronenfeld</span><span>F1 = Frühling Tag 1 · ⬆ = Ausbau</span>`}
-function planText(){const L=['Zoolatro · Tutorial-Zooplan'];const all=[];for(const p of P){all.push([tkey(p.se,p.d),`${ttxt(p.se,p.d)}: ${CK[p.k].n} (${p.k}) auf ${p.cells.join(' · ')}${p.note?' – '+p.note:''}`]);for(const[a,b]of p.up)all.push([tkey(a,b),`${ttxt(a,b)}: ${CK[p.k].n} ausbauen (${p.cells[0]})`])}
+function planText(){const L=['Zoolatro · Tutorial-Zooplan (4 Tage je Jahreszeit)'];const all=[];for(const p of P){all.push([tkey(p.se,p.d),`${ttxt(p.se,p.d)}: ${CK[p.k].n} (${p.k}) auf ${p.cells.join(' · ')}${p.note?' – '+p.note:''}`]);for(const[a,b]of p.up)all.push([tkey(a,b),`${ttxt(a,b)}: ${CK[p.k].n} ausbauen (${p.cells[0]})`])}
   all.sort((a,b)=>a[0]-b[0]);for(const[,t]of all)L.push(t);L.push('');L.push('PLAN:'+JSON.stringify(P.map(({k,cells,se,d,up,note})=>({k,cells,se,d,up,note}))));return L.join('\n')}
 $('copy').onclick=()=>{const t=planText(),o=$('out');o.value=t;const done=()=>flash('📋 Kopiert. Füge den Plan einfach in den Chat ein.');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{o.hidden=false;o.select();flash('Bitte den markierten Text kopieren.')});else{o.hidden=false;o.select();flash('Bitte den markierten Text kopieren.')}};
 let clearArm=0;$('clear').onclick=()=>{if(!clearArm){clearArm=1;$('clear').textContent='Wirklich alles leeren?';setTimeout(()=>{clearArm=0;$('clear').textContent='Alles leeren'},3000);return}P=[];S.sel=null;clearArm=0;$('clear').textContent='Alles leeren';save();render();flash('Plan geleert.')};
-$('example').onclick=()=>{P=withIds(EXAMPLE);nextId=P.length+1;S.sel=null;save();render();flash('Beispiel geladen: so ähnlich läuft der Frühling im Tutorial heute.')};
+$('example').onclick=()=>{P=withIds(EXAMPLE);nextId=P.length+1;S.sel=null;save();render();flash('Beispiel geladen: so läuft der Frühling im Tutorial heute (noch mit 5 Tagen).')};
 $('doimp').onclick=()=>{const t=$('imp').value,m=t.match(/PLAN:(\[.*\])/s);try{const v=JSON.parse(m?m[1]:t);if(!Array.isArray(v))throw 0;P=withIds(v.filter(p=>CK[p.k]));nextId=P.length+1;save();render();flash('Plan übernommen: '+P.length+' Karten.')}catch(e){flash('Das sieht nicht wie ein kopierter Plan aus. Es braucht die Zeile mit PLAN:.')}};
 $('q').oninput=e=>{S.q=e.target.value;drawCards()};
 $('onlyUntil').onchange=e=>{S.until=e.target.checked;drawBoard()};
