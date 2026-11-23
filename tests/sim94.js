@@ -9,6 +9,7 @@ if(process.env.FORCE){const o2="enterCamp(0,true,'grund',!!BOT.zl,HB)";if(!src.i
 if(process.env.SEED){const o4="enterCamp(0,true,";if(!src.includes(o4))throw 'patch4';src=src.split(o4).join('PENDSEED='+JSON.stringify(process.env.SEED)+';'+o4)}
 src=src.replace(old,`(()=>{const f=${JSON.stringify((process.env.HABS||'').split(',').filter(Boolean))};return f.concat(shuffle(Object.keys(HAB).filter(h=>!f.includes(h)))).slice(0,+(process.env.NH||3))})()`);
 // 0.85a: WR=1 spielt einen Weltreise-Lauf (Kontinent-Wahl zufällig, Mitbringsel/Prägung erste Wahl)
+if(process.env.D5){const o5="META.slots[0]={name:'Bot'";if(!src.includes(o5))throw 'patch5';src=src.split(o5).join("META.d5=1;"+o5)} // 0.94a: Bot mit 5 Tagen (Standard 4)
 if(process.env.WR){const P=[["META.slots[0]={name:'Bot'","META.wr=1;META.slots[0]={name:'Bot'"],["for(let z=0;z<CAMP_GOAL;z++)","for(let z=0;z<runGoal(META.slots[0].run||{});z++)"]];for(const[a,b]of P){if(!src.includes(a))throw 'patchWR '+a;src=src.split(a).join(b)}
   if(!src.includes("botClick('[data-cstart]');break"))throw 'patchWR3';src=src.split("botClick('[data-cstart]');break").join("if(!botClick('[data-cstart]')){botClick('[data-cwr]');botWr()}break");
   src=src.replace(/(enterCamp\(0,true,[^;]*\));/,"$1;botWr();");
