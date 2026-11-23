@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync
 const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message));
   let S=seed||80;w.Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}});
-const start=(w,o={})=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.fbOff=0;META.d4=${o.d4?1:0};META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'${o.deck||'grund'}','z2',['wasser','savanne','wueste'],NOPROF,${o.st||1});modal=null;state.ruleIntro=0;state.wishIntro=0;syncCtx();renderAll()`);
+const start=(w,o={})=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.fbOff=0;META.d4=${o.d4?1:0};META.d5=${o.d4?0:1};META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'${o.deck||'grund'}','z2',['wasser','savanne','wueste'],NOPROF,${o.st||1});modal=null;state.ruleIntro=0;state.wishIntro=0;syncCtx();renderAll()`);
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x);await wait(200);start(w);
  T(ev('VERSION')==='0.80a','Version');
@@ -28,7 +28,7 @@ const start=(w,o={})=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')S
  // 4. Testlauf-Preise ×0,8
  const p5=ev(`priced(100)`);dom.window.close();dom=neu();w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);start(w,{d4:1});
  const p4=ev(`priced(100)`);T(p4===Math.ceil(p5*.8),`Testlauf: Preise ×0,8 aufgerundet (${p4} statt ${p5})`);
- T(/^🧪 Testlauf 4 Tage/.test(ev('runText(runOf())')),'Lauftext beginnt mit „🧪 Testlauf 4 Tage“');
+ T(!/🧪/.test(ev('runText(runOf())')),'Lauftext ohne 🧪 (seit 0.94a, 4 Tage sind Standard)');
  T(ev(`fbAsk(runOf())`)===true&&ev(`fbAsk({tut:true})`)===false,'Feedback nach Testlauf ja, nach Tutorial nein');
  dom.window.close();
  // 7. Zoogründer Stufe 1 leichter, Stufe 2 und Kapitänin unverändert

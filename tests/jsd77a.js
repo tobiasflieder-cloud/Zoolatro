@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync
 const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message));
   let S=seed||77;w.Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}});
-const start=(w,d4)=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.d4=${d4?1:0};META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);runOf().fsIntro=0;modal=null;state.ruleIntro=0;state.wishIntro=0;syncCtx();renderAll()`);
+const start=(w,d4)=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.d4=${d4?1:0};META.d5=${d4?0:1};META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);runOf().fsIntro=0;modal=null;state.ruleIntro=0;state.wishIntro=0;syncCtx();renderAll()`);
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x);await wait(200);start(w,0);
  T(ev('VERSION')==='0.77a','Version');
@@ -54,19 +54,19 @@ const start=(w,d4)=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx
  const nrm=ev('BOARD.length');dom.window.close();
  // 4. Testlauf „4 Tage“
  dom=neu(5);w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);start(w,1);
- T(ev('runOf().d4===1&&runOf().test===1&&DAYS===4'),'Testlauf: run.d4, 4 Tage je Jahreszeit');
- T(/🧪/.test(d.getElementById('seasonName').textContent)&&/\/4/.test(d.getElementById('seasonName').textContent),'Kennzeichnung in der Kopfzeile: '+d.getElementById('seasonName').textContent);
+ T(ev('isD4(runOf())&&!runOf().test&&DAYS===4'),'4 Tage (seit 0.94a Standard): 4 Tage je Jahreszeit, kein Testlauf');
+ T(!/🧪/.test(d.getElementById('seasonName').textContent)&&/\/4/.test(d.getElementById('seasonName').textContent),'Kopfzeile ohne 🧪 (seit 0.94a): '+d.getElementById('seasonName').textContent);
  const b4=ev('BOARD.length'),nat=ev(`[...TERR.values()].filter(v=>HAB[v]).length`);T(b4<nrm*.9&&b4>nrm*.7,`Spielfeld kleiner: ${b4} statt ${nrm} Felder`);T(nat===14,'Naturfelder anteilig: '+nat);
  ev(`state.day=3;state.seasonScore=1;state.phase='review';render()`);
  ev('cuOf(activeSlot())');const sl0=ev(`JSON.stringify([(({open,...c})=>c)(activeSlot().cu||{}),statOf(activeSlot())])`); // 0.81a: Freischaltungen (fsb) zählen im Testlauf mit
  ev(`state.zoo=2;try{fsCheck('season')}catch(e){};state.phase='win';finishGame()`);
- T(ev(`JSON.stringify([(({open,...c})=>c)(activeSlot().cu||{}),statOf(activeSlot())])`)===sl0,'Testlauf: Bestwerte und Statistik unverändert (Freischaltungen zählen seit 0.81a)');
+ T(ev(`JSON.stringify([(({open,...c})=>c)(activeSlot().cu||{}),statOf(activeSlot())])`)!==sl0,'4 Tage zählen für Bestwerte und Statistik (seit 0.94a)');
  ev(`(()=>{const sl=activeSlot();if(!state){sl.run.reward=null;sl.run.game=null}endRun(false)})()`);
- T(ev(`META.cscores.slice(-1)[0].test`)===1||ev(`META.cscores.every(x=>x.test)`),'Testlauf: Highscore-Eintrag als Test markiert');
+ T(!ev(`META.cscores.slice(-1)[0].test`),'Highscore-Eintrag ohne Test-Markierung (seit 0.94a)');
  dom.window.close();
  dom=neu(9);w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);start(w,0);T(ev('DAYS===5&&!runOf().d4'),'normaler Lauf: wieder 5 Tage');
  // Schalter in der Lauf-Einrichtung
- ev(`state=null;modal=null;screen='zlsetup';screenArg={slot:0,habs:[]};renderAll()`);const sw=d.querySelector('[data-zsd4]');
- T(!!sw&&/4 Tage: aus/.test(sw.textContent),'Schalter „🧪 4 Tage“ neben „Futter“');sw.click();await wait(20);T(ev('META.d4')===1&&/4 Tage: an/.test(d.querySelector('[data-zsd4]').textContent),'Schalter schaltet an');
+ ev(`META.d5=0;state=null;modal=null;screen='zlsetup';screenArg={slot:0,habs:[]};renderAll()`);const sw=d.querySelector('[data-zsd4]');
+ T(!!sw&&/5 Tage: aus/.test(sw.textContent),'Schalter „🐢 5 Tage“ neben „Futter“ (seit 0.94a)');sw.click();await wait(20);T(ev('META.d5')===1&&/5 Tage: an/.test(d.querySelector('[data-zsd4]').textContent),'Schalter schaltet an');
  dom.window.close();
 }catch(e){L('EXC',e.stack)}process.exit(0)})();

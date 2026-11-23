@@ -55,7 +55,7 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
   const soll=[1,2,3,4,5,6,7,8].map(s=>[s,(s>=2?1.1:1)*(s>=4?1.2:1)*(s>=7?1.1:1),s>=8?0:s>=3?1:3,s>=5?1.25:1,false,s>=6?1:0]); // 0.76a: neue Stufen; 0.92a: Stufe 4 ×1,2
   T(JSON.stringify(st)===JSON.stringify(soll),'Stufen 1–8 wirken wie in der Tabelle (Ziel, Goldfelder, Preise, Baupunkte; Gratis-Neuziehen bleibt)');
   // 2b: alle Daten eingebaut, jede Kennung hat eine Wirkung
-  const dt=JSON.parse(w.eval(`JSON.stringify({spec:Object.keys(SPEC).length===SPEZ_DATEN.spezialisten.length&&SPEZ_DATEN.spezialisten.every(d=>(!d.per||typeof SPEC[d.key].per==='function')&&(!d.mult||typeof SPEC[d.key].mult==='function')),
+  const dt=JSON.parse(w.eval(`JSON.stringify({fxzeilen:Object.keys(CARDS).every(k=>(CARDS[k].fx||[]).every(l=>l.includes('|')||fxLine(l)==='<li>'+l+'</li>')) /* 0.94a: Zeilen ohne | einfach */,spec:Object.keys(SPEC).length===SPEZ_DATEN.spezialisten.length&&SPEZ_DATEN.spezialisten.every(d=>(!d.per||typeof SPEC[d.key].per==='function')&&(!d.mult||typeof SPEC[d.key].mult==='function')),
     food:Object.keys(FOOD).join()===FUTTER_DATEN.futter.map(d=>d.key).join()&&FUTTER_DATEN.futter.every(d=>!d.ok||typeof FOOD[d.key].ok==='function'),
     insp:Object.keys(INSP).join()===WINTER_DATEN.bedingungen.map(d=>d.key).join()&&Object.values(INSP).every(I=>typeof I.fx==='function'&&I.name),
     maps:Object.keys(MAPS).join()===GELAENDE_DATEN.gelaende.map(d=>d.key).join()&&MAPPOOL.every(m=>MAPS[m]),

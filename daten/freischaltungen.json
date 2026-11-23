@@ -1,5 +1,5 @@
 {
- "hinweis": "Freischaltungen (0.79a). „zaehler“: Fleiß-Zähler je Spielstand über alle Läufe (nicht Tutorial, nicht Testlauf „4 Tage“, nicht Seed-Läufe), Name = Anzeige. „fleiss“: Freischaltung (Kennung wie im Spiel) → Zähler und Zielzahl. „kunststueck“: Ziele innerhalb eines Zoos/Laufs, Text und Zielzahl (wie geprüft wird, steht im Code: FSG in 09-speichern-lauf.js).",
+ "hinweis": "Freischaltungen (0.79a). „zaehler“: Fleiß-Zähler je Spielstand über alle Läufe (nicht Tutorial, nicht Seed-Läufe; 4 und 5 Tage zählen), Name = Anzeige. „fleiss“: Freischaltung (Kennung wie im Spiel) → Zähler und Zielzahl. „kunststueck“: Ziele innerhalb eines Zoos/Laufs, Text und Zielzahl (wie geprüft wird, steht im Code: FSG in 09-speichern-lauf.js).",
  "zaehler": {
   "wasserGeh": {
    "name": "Wasser-Gehege gebaut"

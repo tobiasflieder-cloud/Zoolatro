@@ -245,10 +245,10 @@ mindestens 1. Dazu Extra-Baupunkte (`bpWish`), z. B. „früh geschafft“: je �
 ---
 
 ## 8. Jahreszeiten und Ziele (`01:SEASONS`, `05:seTarget`, `05:seOf`)
-- 4 Jahreszeiten mit je `DAYS=5` Tagen (`DAYS0`; Testlauf „4 Tage“ `run.d4`: 4 Tage, gesetzt in `05:syncCtx`): Frühling 9.500 · Sommer 51.000 · Herbst 118.000 · Winter 267.000 (Grundziele).
+- 4 Jahreszeiten mit je 4 Tagen (0.94a Standard, `run.days=4`; Schalter „🐢 5 Tage“ `META.d5` → `run.days=5` = `DAYS0`; alte Spielstände ohne `days`: `run.d4` → 4, sonst 5; `01:isD4`/`runDays`, gesetzt in `05:syncCtx`; Tutorial 5 Tage): Frühling 9.500 · Sommer 51.000 · Herbst 118.000 · Winter 267.000 (Grundziele).
 - **Zoolatro**: `Ziel = Grund · ZLUP[i] · ZLSEAS[i]^zoo · deckTF · deckSF(i) · stTF · (Winter ab Zoo 5: 1,1) · d4TF · einTF(i)`.
-  - `d4TF` (0.78a): Testlauf „4 Tage“ ×0,6. `einTF(i)` (0.80a): Profil mit `einstieg` in `daten/profile.json` (Zoogründer) nur auf Stufe 1: seit 0.82a alle ×0,8.
-  - Preise im Testlauf (0.80a): `priced` ×0,8, aufgerundet.
+  - `d4TF` (0.78a): 4-Tage-Lauf ×0,6 (seit 0.94a der Standard). `einTF(i)` (0.80a): Profil mit `einstieg` in `daten/profile.json` (Zoogründer) nur auf Stufe 1: seit 0.82a alle ×0,8.
+  - Preise im 4-Tage-Lauf (0.80a, seit 0.94a Standard): `priced` ×0,8, aufgerundet.
   - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,35, 1,6, 1,55]` (0.81a: Sommer 1,46 → 1,35; 0.82a: Herbst 1,68 → 1,6) (Steigerung je Zoo, zoo = 0 … 4),
   - `deckSF`: Profil Polar Sommer ×1,15, Winter ×0,85,
   - `stTF` (Stufen): ×1,1 ab Stufe 2, nochmals ab Stufe 5, nochmals ab Stufe 8.
@@ -326,7 +326,7 @@ Die Sorten bestimmen auch den Schneekönig.
 
 ## 11. Gelände erzeugen (`daten/gelaende.json`; `04:genMap` = `genMap0` → `shrinkMap` → `natPlace`)
 - `genMap0`: Form je Gelände (Wiese Sechseck Radius 5, Flusstal 13×7, Bucht/Zerklüftet Sternform, Zwei Hügel zwei Scheiben mit Brücke)
-  und Felsen (`addRocks`). `shrinkMap` behält 80 % (`MAPSHRINK`) der Felder um die Mitte, zusammenhängend (Testlauf `run.d4`: nochmals ×0,8, Naturfelder ×0,8 in `natNow`).
+  und Felsen (`addRocks`). `shrinkMap` behält 80 % (`MAPSHRINK`) der Felder um die Mitte, zusammenhängend (4-Tage-Lauf: nochmals ×0,8, Naturfelder ×0,8 in `natNow`).
 - `natPlace` (0.71a): alle Naturflächen werden neu gelegt, **18** (`NATN`), nur in den gewählten Lebensräumen (`GENHABS`), Mengen nach
   `natQuota`: Wiese gleich verteilt · Flusstal Wasser 8 · Bucht Wasser 7 + Wüste 7 · Zwei Hügel Wald 8 (sonst Savanne 8) · Zerklüftet Wüste 8.
   Der Rest wird gleichmäßig auf die übrigen gewählten Lebensräume verteilt, ungerade Reste reihum.
@@ -478,3 +478,11 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
   `zooBoxHtml` (Zoo-Übersicht und Seitenleiste) zeigt nur noch Zoo-Inhalte. Personen-Text `profile.json` `person` (auch in der Profilwahl).
 - **Show-Spektrum** `07:showSpecHtml` im Detail-Fenster: Leiter aus `showF` je Auslöser 1–4 (mit Nova/Belugas/Leckerli die eigenen Werte), jetzt-Stufe nach `showN`, höchstens `SHOWMAX`.
 - **Gelangweilt:** Abschnitt 2 (Show), Schild `06:boredMarks` nur ohne `pvHide()`.
+
+## 24. 0.94a
+- **Lauflänge** (Abschnitt 8): 4 Tage Standard ohne Testlauf-Kennzeichen; 4- und 5-Tage-Läufe zählen voll (`statOff` ohne Sonderfall, Bestwerte `bestZoo`/`bestRun`/`cu`, Pokal). Highscores/Protokoll/Feedback: `d5` → „🐢 5 Tage“. Weltreise: weicht eine Auflage von der gelosten Stufe ab, werden „nie nur leicht/schwer“ danach wiederhergestellt (`wrRollOpts0`).
+- **Futter auf Gebautes** (`08:shopSub==='feed'`, `data-feedb`): Gehege aus `state.buildings` mit `fdFits`, Schlüssel `b.key=fdKey(b.key,f)` (wirkt sofort), im Lauf-Deck ein passender Schlüssel ersetzt.
+- **Legendäre Spezialisten** `rudel`/`fluester`/`patin` (tier 3, `SPEZ_WIRKUNG.per`): Gehege mit `raubtier`/`scheu`/`bedroht` ×1,75 B und N (Prozent-Schritt in `evalB`), nicht im Tutorial.
+- **Winter-Anzeige** `06:winterMarks`: Frost (Außenkanten `frostl`, Reif `frostf` nur im Winter, ❄️ bzw. ❄️❄️ bei `HARD`) statt Schild; Vorteile (z. B. Schneekönig) behalten ihr Schild. Zahl in `09:winterDayChip` (Tages-Zeile).
+- **Tages-Zeile** `09:todayHtml`: Glücksfälle · Trennstrich · Zoo-Boni (`data-tip`, Sprechblase `#tipBub` in `07`) · ❄️-Zahl; Glückslos-Wirkungstag = `state.luckBoost===Tag/Jahreszeit`.
+- **Kartentexte** `07:fxLine`: Zeile ohne „|“ wird einfach gezeigt.

@@ -1,23 +1,24 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.93a';
+const VERSION='0.94a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.94a',d:'23.11.2026',t:'4 Tage, Frost, Futter für Gebautes',i:['📅 4 Tage je Jahreszeit sind jetzt Standard (kleineres Gelände, passende Ziele), zählen ganz normal. Wer längere Jahreszeiten mag: Schalter „🐢 5 Tage“ beim Laufstart.','❄️ Der Winter zeigt sich als Frost-Rand an den betroffenen Gebäuden, die Zahl steht in der Tages-Zeile. Dort stehen jetzt auch Zeitungsartikel, Glückslos, Teuerung und Geschenk – antippen erklärt sie.','🥕 Futter kannst du jetzt auch gebauten Gehegen geben, es wirkt sofort. 👥 Neu legendär: Rudelführerin, Tierflüsterer, Artenpatin (×1,75 für Raubtiere, scheue bzw. bedrohte Tiere).']},
  {v:'0.93a',d:'22.11.2026',t:'Profil-Knopf, Show-Spektrum',i:['👤 Neuer Knopf oben neben ☰: Dein Profil mit Stufe, Weltreise, wachsenden Spezialisten, Futter, Lebensraum-Regeln, Deck und Regeln. Die Zoo-Übersicht zeigt nur noch, was diesen Zoo betrifft.','🎭 Das Detail-Fenster eines Showtiers zeigt die Show-Leiter: jetzt und höchstens.','😴 Showtiere ohne Gastro oder Attraktion daneben langweilen sich: ×0,8 B.']},
- {v:'0.92a',d:'22.11.2026',t:'Stufe in der Übersicht, Öko-Viertel, Schliff',i:['🏔️ Die Zoo-Übersicht zeigt die Stufe des Laufs – antippen zeigt, was sie ändert. Stufe 4 hebt die Saisonziele ab Sommer jetzt um ×1,2.','🌳 Neues Ensemble Öko-Viertel: 3 verschiedene Naturschutz-Gebäude nebeneinander, je ×1,25 N. Das Lauf-Protokoll nennt die Ensembles jedes Zoos.','📰 Zeitungsartikel und Glückslos stehen als Chip in der Zoo-Übersicht und werden nicht doppelt angeboten. 🎁 Geschenke kannst du auch mit Schulden abholen.','🃏 Kartenwahl und Deck zeigen eine Übersichtszeile (Lebensräume, Merkmale, Gebäude). Detail-Fenster scrollt statt abzuschneiden. Kleine Küche, Ruhige Lage und Naturpur ×1,2.']},
- {v:'0.91a',d:'21.11.2026',t:'Ensembles, Promis, neue Spezialisten, Auflagen',i:['✨ Ensembles: Drei passende Karten nebeneinander (z. B. 3 verschiedene Gastro-Gebäude = 🍔 Food Corner) bekommen einen Bonus. Fünf gibt es zu entdecken, entdeckte stehen im 📖 Zoo-Buch.','⚡ Die Verstärker sind jetzt Promis: Chef Carmen, Mia Megaviral, Stella Starr, Nova, Sven Frost und Luna Lotus – stärker, mit eigenem Look und Strahlen auf dem Brett. 🎭 Show-Bonus ×1,35 je Nachbar.','👥 Zehn neue Spezialisten, u. a. Wetterfrosch (Winter schon im Frühling sichtbar) und Ensemble-Regisseur.','📜 Auflagen haben Kategorien: Keine Kategorie kommt zweimal im Lauf. Neu sind Limitierungen, Vorlieben (×1,5 / ×0,5), Durchmischt und in der Weltreise die Schwerpunkt-Pflicht.']}];
+ {v:'0.92a',d:'22.11.2026',t:'Stufe in der Übersicht, Öko-Viertel, Schliff',i:['🏔️ Die Zoo-Übersicht zeigt die Stufe des Laufs – antippen zeigt, was sie ändert. Stufe 4 hebt die Saisonziele ab Sommer jetzt um ×1,2.','🌳 Neues Ensemble Öko-Viertel: 3 verschiedene Naturschutz-Gebäude nebeneinander, je ×1,25 N. Das Lauf-Protokoll nennt die Ensembles jedes Zoos.','📰 Zeitungsartikel und Glückslos stehen als Chip in der Zoo-Übersicht und werden nicht doppelt angeboten. 🎁 Geschenke kannst du auch mit Schulden abholen.','🃏 Kartenwahl und Deck zeigen eine Übersichtszeile (Lebensräume, Merkmale, Gebäude). Detail-Fenster scrollt statt abzuschneiden. Kleine Küche, Ruhige Lage und Naturpur ×1,2.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
   document.body.appendChild(o);o.querySelector('#newsOk').onclick=()=>o.remove();o.onclick=e=>{if(e.target===o)o.remove()}}
-const DAYS0=5;let DAYS=DAYS0,TUTNOW=false;const isD4=r=>!!(r&&r.d4); // 0.77a: Testmodus „4 Tage“ (run.d4): 4 Tage je Jahreszeit, Feld ×0,8
+const DAYS0=5;let DAYS=DAYS0,TUTNOW=false;const isD4=r=>!!r&&!r.tut&&(r.days?r.days===4:!!r.d4); // 0.94a: 4 Tage sind Standard (run.days 4/5); alte Spielstände ohne days: run.d4 → 4 Tage, sonst 5. 4 Tage: Feld/Naturfelder ×0,8, Ziele ×0,6, Preise ×0,8
+const runDays=r=>isD4(r)?4:5;
 const HAND=5,BP=4,MAXPROGS=4,MAXLVL=3,OFFER=2,MINDECK=14,MINSKIP=5;
 const ROMAN=['','I','II','III'];
 const SEASONS=[{name:'Frühling',target:9500},{name:'Sommer',target:51000},{name:'Herbst',target:118000},{name:'Winter',target:267000,winter:true}]; // 0.91: per Bot neu gemessen (5 Tage, kleineres Gelände, ohne Profile/Förderprogramme)
 const EARLY_BONUS=5,EARLYG={gsack:['🧺','Futtersack'],gumb:['🧰','Umbau-Kiste'],gprofi:['💼','Profi-Mappe'],gmappe:['📁','Bewerbermappe']}; // gmappe: 0.85a Besucherwunsch der Weltreise
 // 0.66a Früh geschafft: je übrigem Tag +1 Baupunkt in der nächsten Jahreszeit (run.bpCarry, je Tag 1) + Geschenk ab 2/3/4 Tagen, im Testlauf 4 Tage ab 1/2/3 (0.87a; run.gifts, im nächsten Shop gratis)
-function earlyReward(left){const r=runOf();if(!r||left<=0)return'';r.bpCarry=(r.bpCarry||0)+left;const ER=state.earlyR={left,bp:left,gift:null,gtal:0};const e=left+(r.d4?1:0);let g=r.tut?null:e>=4?'gprofi':e>=3?'gumb':e>=2?'gsack':null,t=` · ⚡ <b>+${left} Baupunkt${left>1?'e':''}</b> in der nächsten Jahreszeit (je Tag 1)`;
+function earlyReward(left){const r=runOf();if(!r||left<=0)return'';r.bpCarry=(r.bpCarry||0)+left;const ER=state.earlyR={left,bp:left,gift:null,gtal:0};const e=left+(isD4(r)?1:0);let g=r.tut?null:e>=4?'gprofi':e>=3?'gumb':e>=2?'gsack':null,t=` · ⚡ <b>+${left} Baupunkt${left>1?'e':''}</b> in der nächsten Jahreszeit (je Tag 1)`;
   if(g==='gsack'&&!foodOnRun(r)){state.money+=20;state.stats.earned+=20;ER.gtal=20;t+=' · 🎁 <b>+🪙 20</b>'}else if(g){ER.gift=g;r.gifts=(r.gifts||[]).concat(g);t+=` · 🎁 <b>Gratis ${EARLYG[g][0]} ${EARLYG[g][1]}</b> im nächsten Shop`}return t}
  // Taler je übrigem Tag, wenn das Saisonziel früh erreicht ist
 const DIRS=[[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]];
@@ -326,6 +327,10 @@ const SPEZ_WIRKUNG=(()=>{const per={},mult={};
   tierpfleger:(b,c,nb)=>c.cat==='schutz'?{s:2*cnt(nb,n=>has(n,'scheu'))}:null,
   bauleiterin:spGrpPer('bauleiterin'),
   sammler:spGrpPer('sammler'),
+  // 0.94a: legendär, Merkmal zählt ×1,75 (nicht im Tutorial, dort sind Merkmale aus)
+  rudel:(b,c)=>c.cat==='gehege'&&c.tags.includes('raubtier')&&!(TUTNOW&&!TUTTR)?{fa:1.75,fs:1.75,ic:1}:null,
+  fluester:(b,c)=>c.cat==='gehege'&&c.tags.includes('scheu')&&!(TUTNOW&&!TUTTR)?{fa:1.75,fs:1.75,ic:1}:null,
+  patin:(b,c)=>c.cat==='gehege'&&c.tags.includes('bedroht')&&!(TUTNOW&&!TUTTR)?{fa:1.75,fs:1.75,ic:1}:null,
   // 0.90a: neue Spezialisten
   zweiraum:spGrpPer('zweiraum'),
   hirtin:(b,c,nb)=>c.cat==='gehege'&&c.tags.includes('beute')?{a:2*cnt(nb,n=>isCat(n,'gehege')&&has(n,'beute'))}:null,

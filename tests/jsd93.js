@@ -2,7 +2,7 @@
 const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync(process.env.ZF||require('path').join(__dirname,'..','build','zoodeck.html'),'utf8');
 const dom=new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message))}});
 const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=>{try{const ev=x=>w.eval(x),T=(c,m)=>L(c?'ok':'FAIL',m);
- ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1`);
+ ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.d5=1`);
  T(/^0\.9[3-9]$/.test(ev('VERSION')),'Version '+ev('VERSION'));
  // neuer Spielstand (0.91-Regeln: Freischalten über Ziele)
  ev(`META.slots[0]={name:'Neu',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.active=0;enterCamp(0,true,'grund',true,['wasser','savanne','wald','wueste'],NOPROF)`);

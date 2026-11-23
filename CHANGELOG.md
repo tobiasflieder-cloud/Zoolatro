@@ -5,6 +5,15 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.94a · 23.11.2026 · 4 Tage, Frost, Futter für Gebautes, neue Legendäre
+- 📅 **4 Tage je Jahreszeit sind jetzt Standard** – mit kleinerem Gelände, weniger Naturfeldern, Zielen ×0,6 und Preisen ×0,8 wie im bisherigen Testlauf. Es ist kein Testlauf mehr: kein 🧪, zählt voll für Bestwerte, Pokale und Highscores.
+- 🐢 Neuer Schalter **„5 Tage“** beim Laufstart: längere Jahreszeiten, größeres Gelände, höhere Ziele. Zählt ganz normal (in Highscores und Protokoll mit 🐢). Laufende Läufe behalten ihre Länge. Das Tutorial bleibt vorerst bei 5 Tagen.
+- ❄️ **Winter als Frost:** Statt vieler „❄️×0,75“-Schilder bekommen betroffene Gebäude einen eisblauen Rand mit Reif und einem ❄️ (verschärft ❄️❄️), im Herbst als gestrichelte Vorwarnung. Die Zahl steht einmal in der Tages-Zeile („❄️ 9 Gebäude ×0,75“).
+- 🏷️ **Tages-Zeile:** Zeitungsartikel, Glückslos (am Wirkungstag leuchtend), Teuerung und Geschenk stehen als kurze farbige Schilder unter „Tag n“. Antippen erklärt sie in einer kleinen Sprechblase.
+- 🥕 **Futter für gebaute Gehege:** „Wer bekommt …?“ bietet jetzt auch Gehege an, die schon im Zoo stehen. Das Futter wirkt sofort und kommt mit der Karte in den nächsten Zoo.
+- 👥 **Drei neue legendäre Spezialisten:** 🦁 Rudelführerin (Raubtiere ×1,75 B und N), 🙈 Tierflüsterer (scheue Tiere ×1,75), 🔴 Artenpatin (bedrohte Tiere ×1,75).
+- 🏟️ Der Kartentext der **Tribüne** (und von Regenkuppel, Food Court, Futterstation) war abgeschnitten und doppelt – behoben.
+
 ## 0.93a · 22.11.2026 · Profil-Knopf, Show-Spektrum, gelangweilte Showtiere
 - 👤 **Profil-Knopf** oben neben ☰ (Profil-Emoji mit Stufe): öffnet dein Profil mit kurzer Geschichte der Person und drei Reitern.
   **Lauf:** Profil-Regel, Stufe (antippen zeigt, was sie ändert), Weltreise (Route, Boni, Ausgewildert), wachsende Spezialisten, Lebensraum-Futter, Lebensraum-Regeln. **Deck:** Übersicht und Kartenliste. **Regeln:** die Regeln dieses Laufs.

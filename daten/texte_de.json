@@ -142,6 +142,9 @@
 "oeko":{"name":"Öko-Viertel","how":"3 verschiedene Naturschutz-Gebäude, die zusammenhängen","text":"Drei verschiedene Naturschutz-Gebäude nebeneinander. Hier wird Naturschutz zum Erlebnis."}
 },
 "spec":{
+"rudel":{"name":"Rudelführerin","fx":["×1,75 B und N|für jedes Raubtier-Gehege"]},
+"fluester":{"name":"Tierflüsterer","fx":["×1,75 B und N|für jedes Gehege mit scheuen Tieren"]},
+"patin":{"name":"Artenpatin","fx":["×1,75 B und N|für jedes Gehege mit bedrohten Tieren"]},
 "zweiraum":{"name":"Zweiraum-Planerin","fx":["×1,1 B und N|für jedes Gehege mit 2 Feldern, je Gehege mit 2 Feldern im Zoo"]},
 "wetterfrosch":{"name":"Wetterfrosch","fx":["❄️ früh|Die Winter-Bedingung ist samt Schildern schon ab dem Frühling zu sehen (sonst erst ab Herbst)"]},
 "naturpur":{"name":"Naturpur-Leiterin","fx":["×1,2 N|für den ganzen Zoo, wenn höchstens 2 Gastro-Gebäude und Attraktionen zusammen stehen"]},

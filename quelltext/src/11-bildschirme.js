@@ -241,7 +241,7 @@ $('screenRoot').addEventListener('click',e=>{const t=e.target.closest('button,[d
   if(d.zsseed||d.zsseedr||d.zsseedx){const a=screenArg,inp=$('zsSeed');a.seed=d.zsseedx?'':d.zsseedr?seedNew():seedClean(inp&&inp.value);Sfx.select();renderScreen();return}
   if(d.zsback){sc('mode',{slot:screenArg.slot});return}
   if(d.zshab){const a=screenArg,h=d.zshab;if(!habOpen(META.slots[a.slot],h)){Sfx.deny();return}if(a.habs.includes(h))a.habs=a.habs.filter(x=>x!==h);else if(a.habs.length<3)a.habs.push(h);else{Sfx.deny();return}Sfx.select();renderScreen();return}
-  if(d.zsd4){META.d4=META.d4?0:1;saveMeta();Sfx.select();renderScreen();return}
+  if(d.zsd4){META.d5=META.d5?0:1;saveMeta();Sfx.select();renderScreen();return}
   if(d.zswr){META.wr=META.wr?0:1;saveMeta();Sfx.select();renderScreen();return}
   if(d.zsstall){META.stAll=META.stAll?0:1;saveMeta();Sfx.select();renderScreen();return}
   if(d.hdlock){screenArg.stHint=null;Sfx.deny();const e=document.querySelector('.hdhint');if(e){e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash');e.scrollIntoView({block:'nearest'})}return}

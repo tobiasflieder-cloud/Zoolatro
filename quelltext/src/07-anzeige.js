@@ -8,7 +8,7 @@ function railRender(){const rail=document.getElementById('rail');if(!rail||!docu
 window.addEventListener('resize',()=>{try{applyView();railRender()}catch(e){}});
 function render0(){try{applyView()}catch(e){}try{const pb=$('btnProf'),on=profOn()&&!screen;pb.hidden=!on;if(on){const h=profBtnHtml();if(pb.innerHTML!==h)pb.innerHTML=h}}catch(e){} /* 0.93a: Profil-Knopf */setTimeout(()=>{try{railRender()}catch(e){}},0);document.body.classList.toggle('fxp',fxOn());if(!FXWARM&&state&&state.phase==='play')fxWarm();document.body.classList.toggle('nb',!META.oldBoard);zoomAuto();
   const se=seOf(state.season);
-  $('seasonName').textContent=`${isD4(runOf())?'🧪 ':''}${se.winter?'❄️ ':''}${se.name} · Tag ${Math.min(state.day+1,DAYS)}/${DAYS}`;
+  $('seasonName').textContent=`${se.winter?'❄️ ':''}${se.name} · Tag ${Math.min(state.day+1,DAYS)}/${DAYS}`;
   $('dots').innerHTML=Array.from({length:DAYS},(_,i)=>`<span class="dot ${i<state.day?'done':i===state.day?'now':''}"></span>`).join('');
   $('sScore').textContent=fmt(state.seasonScore);$('sTarget').textContent=fmt(se.target);
   const p=Math.min(100,state.seasonScore/se.target*100);$('bar').firstElementChild.style.width=p+'%';$('bar').classList.toggle('full',p>=100);
@@ -128,7 +128,7 @@ function render0(){try{applyView()}catch(e){}try{const pb=$('btnProf'),on=profOn
 // Kurztext für die Sponsoren-Zeile: "×1,2 B", "+20 % Savanne", "+40 % Gastro"
 const PSHORT=[[/Savannen-Gehege/,'Savanne'],[/Wasser-Gehege/,'Wasser'],[/Dschungel-Gehege/,'Dschungel'],[/Wüsten-Gehege/,'Wüste'],[/Arktis-Gehege/,'Arktis'],[/Gebirgs-Gehege/,'Gebirge'],[/bedrohte/,'bedrohte'],[/Gastro-Gebäude/,'Gastro'],[/Attraktion/,'Attraktionen'],[/Naturschutz-Gebäude/,'Naturschutz'],[/große/,'große Gehege'],[/1-Feld/,'1-Feld-Gehege'],[/Naturfläche/,'Naturfläche']];
 function progShort(P){try{const l=(P.fx||[])[0]||'',v=l.split('|')[0],t=l.split('|')[1]||'';if(/^×/.test(v))return v.replace(' für den ganzen Zoo','');const m=PSHORT.find(([r])=>r.test(t));return(v.match(/^[+−-]\d+ %/)||[v])[0]+(m?' '+m[1]:'')}catch(e){return P.name}}
-function fxLine(l){const i=l.indexOf('|'),v=l.slice(0,i),t=l.slice(i+1),neg=/^[−-]/.test(v),word=/^[A-Za-zÄÖÜäöü]/.test(v);
+function fxLine(l){const i=l.indexOf('|');if(i<0)return`<li>${l}</li>`; /* 0.94a: Zeile ohne „|“ einfach zeigen (Tribüne, Regenkuppel …) */const v=l.slice(0,i),t=l.slice(i+1),neg=/^[−-]/.test(v),word=/^[A-Za-zÄÖÜäöü]/.test(v);
   const cls=word?'w':neg?'neg':(v.includes('B')&&v.includes('N'))?'bn':v.includes('N')?'n':'b';return`<li><b class="${cls}">${v}</b> ${t}</li>`}
 // Zahlen in Eigenschafts-Texten an das Profil anpassen (Ruhezoo: Stress doppelt, Manege: Show doppelt)
 function fxDyn(t){return t}
@@ -531,6 +531,8 @@ $('btnEnd').addEventListener('click',()=>{if(state.phase==='review'){state.info=
   state.discard.push(...state.hand);state.hand=[];state.hover=null;state.selected=null;state.preview=null;state.info=null;state.infoProg=null;startScoring()});
 $('btnMute').addEventListener('click',()=>{Sfx.muted=!Sfx.muted;try{localStorage.setItem('zoodeck-muted',Sfx.muted?'1':'0')}catch(e){}if(!Sfx.muted){Sfx.init();Sfx.select()}render()});
 $('btnHelp').addEventListener('click',()=>{helpOpen=false;modal='help';render()});
+// 0.94a: Sprechblase für Schilder mit data-tip (Tages-Zeile); Tipp daneben schließt
+document.addEventListener('click',e=>{const old=document.getElementById('tipBub'),t=e.target&&e.target.closest&&e.target.closest('[data-tip]');if(old)old.remove();if(!t||(old&&old._t===t))return;const d=document.createElement('div');d.id='tipBub';d._t=t;d.textContent=t.dataset.tip;document.body.appendChild(d);const q=t.getBoundingClientRect(),w=d.offsetWidth;d.style.left=Math.max(8,Math.min(innerWidth-w-8,q.left+q.width/2-w/2))+'px';d.style.top=(q.bottom+6+d.offsetHeight>innerHeight?q.top-d.offsetHeight-6:q.bottom+6)+'px'},true);
 $('btnProf').addEventListener('click',()=>{if(!profOn())return;PROFT='lauf';modal='prof';try{Sfx.select()}catch(e){}render()}); // 0.93a
 $('btnDeck').addEventListener('click',()=>{modal='deck';render()});
 document.addEventListener('click',()=>{if(state&&state.phase==='scoring')fast=true},true);

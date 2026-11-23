@@ -5,7 +5,7 @@ const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{u
   let S=seed||88;w.Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}});
 const slot=`{name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,fs:{'h:arktis':1,'h:gebirge':1,'d:polar':1}}`;
 const base=`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.fbOff=1;META.slots[0]=${slot};META.lastSlot=0;META.active=0;screen=null;`;
-const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};META.d4=${o.d4?1:0};META.stAll=${o.stAll?1:0};enterCamp(0,true,'${o.deck||'grund'}','z2',${JSON.stringify(o.habs||['wasser','savanne','wueste'])},NOPROF,${o.stage||1});`);
+const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};META.d4=${o.d4?1:0};META.d5=${o.d4?0:1};META.stAll=${o.stAll?1:0};enterCamp(0,true,'${o.deck||'grund'}','z2',${JSON.stringify(o.habs||['wasser','savanne','wueste'])},NOPROF,${o.stage||1});`);
 const play=`modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;render()`;
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x),J=x=>JSON.parse(ev(`JSON.stringify(${x})`));await wait(200);
@@ -26,7 +26,7 @@ const play=`modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;r
  // 4. Testlauf zählt in der Statistik, Bestwerte getrennt
  start(w,{d4:1});ev(play);
  const st=J(`(()=>{const sl=activeSlot(),r=runOf(),S=statOf(sl),z0=S.zoos,b0=S.bestZoo,r0=S.runs;const k=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&CARDS[x].hab==='wasser'&&!CARDS[x].ms);state.buildings=[{id:1,key:k,cells:[BOARD[0]],lvl:1}];state.totalScore=999999;statZoo(sl,r,true);r.zoo=3;statRun(sl,r);return{z:S.zoos-z0,b:S.bestZoo===b0,r:S.runs-r0,lex:!!(sl.lex||{})[k]}})()`);
- T(st.z===1&&st.r===1&&st.lex,'Testlauf 4 Tage zählt in der Statistik und im Zoo-Buch');T(st.b,'Bestwert bleibt getrennt');
+ T(st.z===1&&st.r===1&&st.lex,'Testlauf 4 Tage zählt in der Statistik und im Zoo-Buch');T(!st.b,'4-Tage-Lauf zählt auch für den Bestwert (seit 0.94a)');
  T(ev(`statOff({test:1,tv:1})&&statOff({seed:'X',test:1})&&!statOff({test:1,d4:1})`),'„Test verstärkt“ und Seed bleiben draußen');
  // 5./6. Highscores: Endbild-Kopie, Profil
  start(w,{deck:'grund'});ev(play);

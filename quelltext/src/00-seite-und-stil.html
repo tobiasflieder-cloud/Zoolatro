@@ -1311,6 +1311,18 @@ p.story{margin:4px 0 0;font-style:italic;font-size:.92em;line-height:1.3;color:v
 .dtspec{flex-shrink:0;display:flex;flex-direction:column;gap:6px;background:#f3ead6;border-radius:12px;padding:8px 10px}.dtsnow{font-size:13.5px}.dtlad{display:flex;flex-wrap:wrap;gap:4px}.dtlad span{display:flex;flex-direction:column;align-items:center;min-width:46px;padding:3px 6px;border-radius:9px;background:#fffaf0;font-weight:700;font-size:13px;border:2px solid transparent}.dtlad span small{font-weight:500;font-size:10.5px;color:#6b7a6f}.dtlad span.on{border-color:#a85d00;background:#ffe7c4}.dtspec>small{color:#6b7a6f;font-size:12px;line-height:1.35}
 .icbtn.profb{position:relative;font-size:19px}.icbtn.profb[hidden]{display:none}.profb .stp{position:absolute;right:-3px;bottom:-3px;min-width:15px;height:15px;padding:0 3px;border-radius:8px;background:var(--gold,#ffd166);color:#3a2a00;font-size:10px;line-height:15px;font-weight:800;font-family:inherit}
 .profhd{display:flex;gap:12px;align-items:center}.profic{font-size:40px;width:60px;height:60px;border-radius:16px;display:grid;place-items:center;background:#ffffff14;flex:none}.profhd h2{margin:0}.profsub{margin:2px 0 0;font-size:13px;opacity:.85}.dkperson{margin:3px 0 0;font-style:italic;font-size:13px;opacity:.85;text-wrap:pretty}
+
+/* 0.94a: Tages-Zeile mit Zoo-Bonus-Schildern, Sprechblase, Frost statt Winter-Schilder */
+.today .tsep{width:1px;align-self:stretch;background:#ffffff33;margin:0 1px}
+.today span.zb{font-weight:600;padding:2px 6px;cursor:pointer;color:#1d2a21}
+.today .zn{background:#ffe7c4;color:#8a4b00}.today .zl{background:#e6dcff;color:#4b2a8a}.today .zl.now{box-shadow:0 0 0 2px #b79cff}.today .zc{background:#ffd9d6;color:#8a1f14}.today .zg{background:#d9f5e0;color:#1d6b35}
+.today .zw{background:#e8f8ff;color:#0e4a66}.today .zw.pre{background:transparent;color:#9fe0ff;border:1.5px dashed #9fe0ff}
+@media (prefers-reduced-motion:no-preference){.today .zl.now{animation:zlpuls 2.4s ease-in-out infinite}.frostf{animation:frostglit 3.2s ease-in-out infinite}}
+@keyframes zlpuls{50%{box-shadow:0 0 0 4px #b79cff66}}@keyframes frostglit{50%{opacity:.5}}
+#tipBub{position:fixed;z-index:9000;max-width:min(78vw,300px);background:#fffaf0;color:#1d2a21;border-radius:12px;padding:7px 10px;font-size:13px;line-height:1.35;box-shadow:0 6px 18px #0007;pointer-events:none}
+.frostf{fill:url(#rime);opacity:.75;pointer-events:none}
+.frostl{fill:none;stroke:#9fe0ff;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round;pointer-events:none;filter:drop-shadow(0 0 .8px #0b2015)}.frostl.pre{stroke-dasharray:2.2 1.6;stroke-width:1.2}
+.frostic{pointer-events:none}.frostic circle{fill:#dff4ff;stroke:#5bb8e6;stroke-width:.6}.frostic.pre circle{fill:#12301f;stroke:#9fe0ff}.frostic text{font-size:3.3px;text-anchor:middle;dominant-baseline:central}
 </style>
 
 <div class="app" id="app">

@@ -38,7 +38,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(ev(`['bratwurst','giraffen'].every(k=>{const s=TUT.zl.steps.find(s=>s.only===k);return s&&s.pv&&s.pv.length>1})`),'Bratwurst und Giraffe mit Pause');
  T(ev(`(()=>{const i=TUT.zl.steps.findIndex(s=>s.only==='giraffen');return!/Schauen Sie/.test(JSON.stringify(TUT.zl.steps[i+1].t))})()`),'Alter Giraffen-Weiter-Schritt entfernt');
  // Früh geschafft im Zoolatro-Lauf
- ev(`META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;syncCtx();render()`);
+ ev(`META.noHints=1;META.d5=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;syncCtx();render()`);
  T(ev('!TUTNOW&&!!runOf()'),'Zoolatro-Lauf läuft');
  const box=ev(`(()=>{const r=runOf();r.gifts=[];r.bpCarry=0;state.earlyBonus=3*EARLY_BONUS;state.earlyInfo=earlyReward(3);return earlyBoxHtml()})()`);
  T(/Früh geschafft: noch 3 Tage übrig/.test(box)&&/\+3 Baupunkte/.test(box)&&/Umbau-Kiste/.test(box)&&/Reiter 🧰 Umbau/.test(box)&&/Taler/.test(box),'Früh-Kasten: Tage, Taler, Baupunkte, Geschenk mit Reiter');
