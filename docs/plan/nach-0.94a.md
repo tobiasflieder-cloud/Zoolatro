@@ -8,3 +8,5 @@ Während 0.94a gebaut wird, hier gesammelt; nach dem Bauen in `CLAUDE.md` Abschn
    - 🌿 Naturfläche ändern (`UMB.natur`): nur noch **bestehende** Naturflächen (bis zu 3, auch bebaute? → nur unbebaute, damit kein Gehege auf falschem Lebensraum steht) wählen, dann anderen Lebensraum oder „entfernen“. Text: „Bis zu 3 Naturflächen bekommen einen anderen Lebensraum deines Laufs oder verschwinden.“
    - Verfügbarkeit (`umbOk` ~Z. 79): Mehr Natur nur, wenn es freie Felder gibt; Naturfläche ändern nur, wenn es unbebaute Naturflächen gibt.
    - Gewicht/Preis beider Umbauten unverändert. Test: Mehr Natur auf Feld ohne Natur-Nachbarn möglich, Lebensraum frei wählbar; Naturfläche ändern lehnt freies Feld ohne Natur ab.
+2. **Sommerziele steigen stärker je Zoo** (Chat 23.11., Tobi nach Weltreise Stufe 4: Zoo 6 Sommer 539 % an 1 Tag; „Sommer darf ruhig etwas mehr steigen, Frühling so lassen“; Sammlerin/Stella Starr bleiben):
+   `ZLSEAS` (Modul 05 ~Z. 153) Sommer 1,35 → **1,45** (Vorschlag, Wert noch zu bestätigen). Frühling 1,15, Herbst 1,6, Winter 1,55 unverändert. Zoo 1 bleibt gleich, Zoo 5 Sommer etwa ×1,33, Zoo 6 etwa ×1,42 gegenüber heute.
