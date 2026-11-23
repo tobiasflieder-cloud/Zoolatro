@@ -110,7 +110,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Neu: Standard = 4 Tage mit der heutigen 4-Tage-Abstimmung (Feld/Naturfelder ×0,8 `shrinkMap`/`natNow`/Europa-Naturfelder Modul 06 ~Z. 202, Ziele `D4TF` 0,6, Preise ×0,8 `priced`, keine Auflage „locker“ in `ruleRoll`, Früh-geschafft +1 in `earlyReward`). Schalter wird „🐢 5 Tage: an/aus“ (Standard aus) mit der alten Abstimmung (alles ×1).
    Am besten intern ein Feld `run.days` (4/5) statt `run.d4`; alte Spielstände: `run.d4` → 4, ohne → 5 (laufende Läufe behalten ihre Länge), `META.d4` entfällt, neu `META.d5`.
    Kein „Testlauf“ mehr für 4 Tage: kein 🧪 in Jahreszeit-Leiste (Modul 07 ~Z. 11), Stufe/Profil (Modul 06 ~Z. 460/491), Lauf-Protokoll `runText`, Highscores (`sumTags` Modul 09 ~Z. 152), Feedback `fbText`; 4-Tage-Läufe zählen voll für Bestwerte (`statZoo`/`statRun`), Pokal (`sl.trophy`), `cu` (Modul 09 ~Z. 71–77, 481, 485), `statOff` ohne `run.d4`-Sonderfall.
-   5-Tage-Läufe zählen ebenfalls voll und tragen in Highscores/Protokoll/Feedback „🐢 5 Tage“ (Tobi: ja, keine getrennten Bestwerte). Nachholung in `loadMeta` (Modul 08 ~Z. 409, `d4st`) anpassen oder entfernen. Tutorial bleibt vorerst bei 5 Tagen, bis Tobis neuer Plan (Werkzeug `docs/tutorial/Zoolatro-Tutorial-Zooplan.html`, jetzt 4 Tage) fertig ist; dann `tutorial.json` (Ziele `TUTT`, Tage) umstellen.
+   5-Tage-Läufe zählen ebenfalls voll und tragen in Highscores/Protokoll/Feedback „🐢 5 Tage“ (Tobi: ja, keine getrennten Bestwerte). Nachholung in `loadMeta` (Modul 08 ~Z. 409, `d4st`) anpassen oder entfernen. Tutorial bleibt vorerst bei 5 Tagen, bis Tobis neuer Plan (Werkzeug `docs/tutorial/Zoolatro-Tutorial-Zooplan.html`, jetzt 4 Tage) fertig ist; dann `tutorial.json` (Ziele `TUTT`, Tage) umstellen. Neues Tutorial-Gelände steht schon im Werkzeug (`MAP`): nur Wasser/Savanne/Wüste, 14 Naturfelder je 5/5/4 als Flecken wie im 4-Tage-Modus/Europa (Wald weg), Felsen/×2/Krone unverändert → in `tutorial.json` `gelaende.terr` übernehmen.
    `docs/regeln.md` und Hinweistexte (Schalter, Menü) nachziehen. Test: neuer Lauf ohne Schalter → 4 Tage, Ziele ×0,6, kein 🧪, zählt für Bestwerte; mit Schalter → 5 Tage, Ziele ×1; alter Spielstand mit `run.d4` lädt als 4 Tage, ohne als 5 Tage.
 
 **Nach 0.93a beobachten:** Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Stufe 4 (Ziele ab Sommer ×1,32): nach 0.93a einen Lauf spielen; landet Tobi oft unter ~110 % oder scheitert, `stufen.json` Stufe 4 `ziel` zurück auf 1,1.
@@ -120,7 +120,6 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 **Offen / zur Entscheidung:**
 - Dingo hat im Tutorial keinen Wirkungstext (Bonus hing an Beutetieren) – prüfen, ob eine andere Karte besser passt.
-- Waldfelder auf dem Tutorial-Gelände bleiben, obwohl keine Dschungel-Karten kommen – Tobi fragen, falls es stört.
 
 **Godot-Vorbereitung (Stand):** 2a–2c fertig und mit 0.74a in main. Nächster Schritt laut `docs/godot-plan.md`: Wertung in Godot gegen die Referenzfälle.
   Werkzeuge: Textvergleich alt/neu `bash tests/textvergleich.sh`, Querformat-Test `node tests/quer.js` (auch in `pruefen.sh`).
