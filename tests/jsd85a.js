@@ -10,8 +10,8 @@ const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};META.klassik=(${wr
  T(ev('VERSION')==='0.85a','Version');
  // 1. Schalter in der Lebensraum-Auswahl
  ev(base+`META.wr=0;META.klassik=(0)?0:1;screen='zlsetup';screenArg={slot:0,step:'habs',prof:NOPROF,opts:[],habs:[],z2:true};renderAll()`);
- const b=d.querySelector('[data-zswr]');T(!!b&&/Weltreise: aus/.test(b.textContent),'Schalter „🌍 Weltreise: aus“ in der Auswahl');if(b)b.click();
- T(ev('META.wr')===1&&/Weltreise: an/.test((d.querySelector('[data-zswr]')||{}).textContent||''),'Schalter schaltet an');
+ T(!d.querySelector('[data-zswr]')&&!d.querySelector('[data-zsfood]'),'kein Schalter für Weltreise und Futter mehr (seit 0.95a)');
+ ev('META.wr=1;META.klassik=0');T(ev('META.wr')===1,'Weltreise für den Test eingeschaltet');
  start(w,1);T(ev('runOf().wr')===1,'Laufstart setzt run.wr');
  T(ev(`screen==='creward'&&screenArg.step==='wr'&&screenArg.first===1`),'vor Zoo 1: Kontinent-Wahl');
  T(!!d.querySelector('.wpin')&&!!d.querySelector('[data-wrgo]')&&/Wohin geht die Reise/.test(d.body.textContent),'Kontinent-Wahl wird angezeigt');

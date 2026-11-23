@@ -57,5 +57,5 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  T(ev(`(()=>{const h=profOn()?profHtml():'';return /Futter/.test(h)&&/Stufe 2/.test(h)})()`)||ev('!profOn()'),'Profil-Fenster zeigt Futter-Stufen (seit 0.93a)');
  T(ev(`/Futtersack/.test(glossZl?glossZl():'Futtersack')`),'Glossar: Futter');
  // Schalter
- T(ev(`(()=>{META.foodOff=1;${start.replace(/"/g,'\\"')};const r=runOf();const off=r.foodOff===1&&!foodOn()&&(state.season=1,!fixedItems().some(i=>i.kind==='sack'));META.foodOff=0;return off&&/Futter: aus/.test(runText(r))})()`),'Schalter: Futter aus = kein Sack, im Lauf-Text vermerkt');
+ T(ev(`(()=>{META.foodOff=1;${start.replace(/"/g,'\\"')};const r=runOf();const on=!r.foodOff;META.foodOff=0;return on})()`),'Futter immer an: alter Schalter META.foodOff wirkt nicht mehr (seit 0.95a)');
  L('fertig')}catch(e){L('ERR',e.stack)}process.exit(0)},300);

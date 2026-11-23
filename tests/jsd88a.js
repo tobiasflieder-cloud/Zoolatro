@@ -40,7 +40,7 @@ const play=`modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;r
  T(ev(`(()=>{META.cscores=[];for(let i=0;i<30;i++)META.cscores.push({name:'x',zoos:1,pts:i,date:1000+i,sum:{total:i}});csPrune();return META.cscores.filter(x=>x.sum).length===20&&META.cscores.filter(x=>x.sum).every(x=>x.date>=1010)})()`),'Endbild-Kopie nur bei den 20 jüngsten Einträgen');
  // 7. Alle Stufen
  ev(base+`META.stAll=1;screen='cdeck';screenArg={slot:0,zl:'z2',habs:['wasser','savanne','wueste'],prof:NOPROF};renderAll()`);
- T(!!d.querySelector('[data-stsel="grund:8"]:not(.stlk)'),'Schalter „Alle Stufen“: Stufe 8 wählbar');
+ T(!!d.querySelector('[data-stsel="grund:5"]:not(.stlk)'),'Schalter „Alle Stufen“: Stufe 5 wählbar (seit 0.95a höchste)');
  start(w,{stAll:1,stage:5});T(ev(`runOf().stTest===1&&runOf().test===1`),'Lauf über dem Fortschritt: Stufen-Test');
  T(ev(`(()=>{const sl=activeSlot(),r=runOf(),Z2=z2Of(sl),a=Z2.st.grund||1;state.zoo=2;z2After(sl,r,true);return(Z2.st.grund||1)===a})()`),'Sieg in Zoo 3 ändert den Stufen-Fortschritt nicht');
  T(/Stufen-Test/.test(ev(`runText(runOf())`)),'Lauf-Protokoll: 🧪 Stufen-Test');

@@ -53,8 +53,8 @@ async function pruefe(){const files=fs.readdirSync(DIR).filter(f=>f.endsWith('.j
   console.log(`${files.length-bad}/${files.length} Fälle gleich`);return bad}
 
 // ---- Erzeugen ----
-const BOTRUNS=[{seed:11,deck:'grund',stage:1},{seed:12,deck:'grund',stage:3},{seed:13,deck:'kueste',stage:1},{seed:14,deck:'steppe',stage:2},
-  {seed:15,deck:'dschungel',stage:1},{seed:16,deck:'polar',stage:1},{seed:17,deck:'alpen',stage:5},{seed:18,deck:'grund',stage:8}];
+const BOTRUNS=[{seed:11,deck:'grund',stage:1},{seed:12,deck:'grund',stage:2},{seed:13,deck:'kueste',stage:1},{seed:14,deck:'steppe',stage:2},
+  {seed:15,deck:'dschungel',stage:1},{seed:16,deck:'polar',stage:1},{seed:17,deck:'alpen',stage:3},{seed:18,deck:'grund',stage:5}]; // 0.95a: Stufen auf 5 umgerechnet (3→2, 5→3, 8→5)
 async function botSnaps(R){const dom=makeDom(R.seed);await wait(250);const w=dom.window;
   let src=fs.readFileSync(path.join(__dirname,'..','bot7.js'),'utf8');
   const o1="const HB=shuffle(Object.keys(HAB)).slice(0,4);",o2="enterCamp(0,true,'grund',!!BOT.zl,HB)";if(!src.includes(o1)||!src.includes(o2))throw new Error('bot7 geändert');

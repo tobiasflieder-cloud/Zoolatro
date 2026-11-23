@@ -33,9 +33,9 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  // 6. Detail-Fenster (CSS; Darstellung prüft quer.js Schritt 16)
  T(html.includes('.dsh>*{flex-shrink:0}'),'Detail-Fenster: Inhalte schrumpfen nicht (CSS)');
  // 7. Stufe 4
- const tg=J(`(()=>{const r=runOf(),o={};for(const s of[2,4,7]){r.stage=s;o[s]=[0,1,3].map(i=>seTarget(i,true,1))}r.stage=3;return{o,box:stageBox('grund',4,8,0,false,true)}})()`);
- T(tg.o[4][0]===tg.o[2][0]&&Math.abs(tg.o[4][1]/tg.o[2][1]-1.2)<.02&&Math.abs(tg.o[7][1]/tg.o[2][1]-1.32)<.02,`Stufe 4 gegen Stufe 2: Frühling gleich, Sommer ×1,2 (zusammen ×1,32; ${tg.o[2][1]} → ${tg.o[4][1]}), Stufe 7 ×1,45 gesamt`);
- T(/×1,32/.test(tg.box)&&/Schließen/.test(tg.box),'Stufen-Kasten zeigt „Saisonziele ab Sommer ×1,32“');
+ const tg=J(`(()=>{const r=runOf(),o={};for(const s of[2,3,5]){r.stage=s;o[s]=[0,1,3].map(i=>seTarget(i,true,1))}r.stage=3;return{o,box:stageBox('grund',3,5,0,false,true)}})()`);
+ T(tg.o[3][0]===tg.o[2][0]&&Math.abs(tg.o[3][1]/tg.o[2][1]-1.15)<.02&&Math.abs(tg.o[5][1]/tg.o[2][1]-2/1.15)<.03,`Stufe 3 gegen Stufe 2: Frühling gleich, Sommer ×1,15 (zusammen ×1,32; ${tg.o[2][1]} → ${tg.o[3][1]}), Stufe 5 ×2 gesamt (seit 0.95a)`);
+ T(/×1,32/.test(tg.box)&&/Schließen/.test(tg.box),'Stufen-Kasten Stufe 3 zeigt „Saisonziele ab Sommer ×1,32“ (seit 0.95a)');
  // 8. Spezialisten ×1,2
  T(J(`(()=>{const o=[];for(const id of['kl_kueche','ruhlage','naturpur']){const m=SPEC[id].mult([])||{};o.push(m.ma||m.ms)}return o.every(x=>x===1.2)&&SPEC.kl_kueche.fx[0].startsWith('×1,2')})()`),'Kleine Küche, Ruhige Lage, Naturpur ×1,2');
  // 9. Protokoll

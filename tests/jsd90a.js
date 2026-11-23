@@ -15,7 +15,7 @@ const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{u
    const b0=state.buildings[0].cells[0],nb=DIRS.map(([a,c])=>[b0[0]+a,b0[1]+c]).find(([q,r])=>ONBOARD.has(hk(q,r))&&!TERR.get(hk(q,r))&&!mkIndex(state.buildings).has(hk(q,r)));state.preview={q:nb[0],r:nb[1]};render();
    const inf=document.getElementById('info').innerHTML;pre={badge:document.querySelectorAll('.badge').length,ghost:document.querySelectorAll('#board .ghost').length,zahl:/mknb|resbig|mkchips|class="calc"|Zoo-Wert|resgood|resbad/.test(inf),name:inf.includes(CARDS[k].name)};
    state.selected=null;state.preview=null;state.season=3;state.zl.insp='gross';state.zl.hard=1;state.zl.inspOpts=null;state.zl.inspPicked=1;syncCtx();state.hand=[k];render();
-   const win={wnt:document.querySelectorAll('#board .wnt').length,dead:[...document.querySelectorAll('#hand .card')].filter(c=>c.dataset.dead).length};state.season=0;syncCtx();render();return{sel,pre,win}})()`);
+   const win={wnt:document.querySelectorAll('#board .wnt,#board .frostl').length,dead:[...document.querySelectorAll('#hand .card')].filter(c=>c.dataset.dead).length};state.season=0;syncCtx();render();return{sel,pre,win}})()`);
  const A=look(1),B=look(0);L(`  an: ${JSON.stringify(A)}\n  aus: ${JSON.stringify(B)}`);
  T(A.sel.trl+A.sel.trm>0&&B.sel.trl===0&&B.sel.trm===0,'Auswählen: Wechselwirkungs-Schilder und Hervorhebung nur mit Vorschau an');
  T(A.pre.badge>0&&B.pre.badge===0,'Platzieren: Schilder auf dem Brett nur mit Vorschau an');

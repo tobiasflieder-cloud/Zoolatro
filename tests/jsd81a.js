@@ -13,12 +13,12 @@ const GS=(()=>{const s=fs.readFileSync(require('path').join(__dirname,'referenz'
  const put=`(()=>{const free=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));for(const c of free){const cs=placeCells('${two}',0,c[0],c[1]);if(cs&&cs.every(([q,r])=>!TERR.get(hk(q,r))&&ONBOARD.has(hk(q,r)))){state.buildings=[{id:900,key:'${two}',cells:cs,lvl:1}];return true}}return false})()`;
  T(ev(put),'2-Felder-Gehege gesetzt ('+two+')');
  ev(`state.zoo=2;state.zl.insp='gross';state.zl.hard=false;state.season=2;state.phase='play';state.selected=null;syncCtx();render()`);
- const sg=[...d.querySelectorAll('#board .trl.wnt text')].map(e=>e.textContent);T(sg.some(t=>/❄️×0,75/.test(t)),'Herbst: ❄️-Schild „×0,75“ am 2-Felder-Gehege ('+sg.join(',')+')');
+ const sg=ev('winterDayChip()').replace(/<[^>]+>/g,'');T(d.querySelectorAll('#board .frostl.pre').length===1&&/×0,75/.test(sg),'Herbst: gestrichelter Frost-Rand am 2-Felder-Gehege, „×0,75“ in der Tages-Zeile (seit 0.94a; '+sg+')');
  T(ev(`winterHit(state.buildings[0],state.buildings).fa`)===.75,'Mindestgröße normal ×0,75');ev(`state.zl.hard=true`);T(ev(`winterHit(state.buildings[0],state.buildings).fa`)===.5,'Mindestgröße verschärft ×0,5');
  ev(`state.buildings[0].lvl=2`);T(ev(`winterHit(state.buildings[0],state.buildings)`)===null,'Stufe II: nicht betroffen');ev(`state.buildings[0].lvl=1`);
  ev(`modal='insp';state.season=3;syncCtx();render()`);T(/Mindestgröße: 1 deiner Gehege zählt nur ×0,5/.test(d.getElementById('modalRoot').textContent),'Winter-Ansage nennt die Zahl der betroffenen Gehege');ev('modal=null;render()');
- T([...d.querySelectorAll('#board .trl.wnt.neg')].length===1,'Winter: rotes ❄️-Schild');
- ev(`state.season=1;syncCtx();render()`);T(!d.querySelector('#board .trl.wnt'),'Sommer: noch keine ❄️-Schilder');
+ T(d.querySelectorAll('#board .frostl:not(.pre)').length===1&&!d.querySelector('#board .trl.wnt.neg'),'Winter: Frost-Rand statt rotem ❄️-Schild (seit 0.94a)');
+ ev(`state.season=1;syncCtx();render()`);T(!d.querySelector('#board .trl.wnt')&&!d.querySelector('#board .frostl'),'Sommer: noch kein Frost');
  // nie in Zoo 1–2
  const picks=JSON.parse(ev(`JSON.stringify([0,1,2].map(z=>{const L=[];for(let i=0;i<60;i++){state.zoo=z;state.zl.insp=null;try{initZl()}catch(e){}L.push(state.zl.insp)}return L}))`));
  T(!picks[0].includes('gross')&&!picks[1].includes('gross'),'Mindestgröße nie in Zoo 1–2 (je 60 Ziehungen)');T(picks[2].includes('gross'),'ab Zoo 3 möglich');
@@ -50,6 +50,6 @@ const GS=(()=>{const s=fs.readFileSync(require('path').join(__dirname,'referenz'
  const f0=ev(`flOf(activeSlot()).runs||0`);ev(`flAdd('runs',1)`);T(ev(`flOf(activeSlot()).runs`)===f0+1,'Testlauf: Fleiß zählt mit');
  T(ev(`(()=>{const sl=activeSlot();sl.fs=sl.fs||{};const g=FSG.find(g=>g.id==='c:dingos');return fsCheck('season')&&true})()`),'Testlauf: fsCheck läuft');
  // 7. Sommer-Kurve
- const r1=ev(`seTarget(1,true,1)/seTarget(1,true,0)`);T(Math.abs(r1-1.35)<.02,`Sommerziel Zoo 2 = Zoo 1 × 1,35 (${r1.toFixed(3)})`);
+ const r1=ev(`seTarget(1,true,1)/seTarget(1,true,0)`);T(Math.abs(r1-1.45)<.02,`Sommerziel Zoo 2 = Zoo 1 × 1,45 (seit 0.95a; ${r1.toFixed(3)})`);
  dom.window.close();
 }catch(e){L('EXC',e.stack)}process.exit(0)})();

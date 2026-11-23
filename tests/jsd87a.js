@@ -10,9 +10,9 @@ const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};META.klassik=(${o.wr?1:0}
  T(ev('VERSION')==='0.87a','Version');
  // 1. Naturfläche ändern: bis zu 3 Felder, ein Lebensraum für alle
  start(w);
- const n1=J(`(()=>{const inv=umbInv();inv.length=0;inv.push('natur');state.phase='play';umbUse(0,true);const fr=BOARD.map(c=>hk(...c)).filter(k=>!TERR.get(k)&&!mkIndex(state.buildings).has(k)).slice(0,4);for(const k of fr){const[q,r]=k.split(',').map(Number);umbClick(q,r)}const sel=(state.umbT.sel||[]).slice();render();const fin=document.querySelector('[data-umbfin]');fin.click();umbHab('wasser');return{sel,fr,after:fr.map(k=>TERR.get(k)||null),inv:umbInv().length,mark:!!fin}})()`);
+ const n1=J(`(()=>{const inv=umbInv();inv.length=0;inv.push('natur3');/* 0.95a: Auswahl freier Felder macht jetzt Mehr Natur */state.phase='play';umbUse(0,true);const fr=BOARD.map(c=>hk(...c)).filter(k=>!TERR.get(k)&&!mkIndex(state.buildings).has(k)).slice(0,4);for(const k of fr){const[q,r]=k.split(',').map(Number);umbClick(q,r)}const sel=(state.umbT.sel||[]).slice();render();const fin=document.querySelector('[data-umbfin]');fin.click();umbHab('wasser');return{sel,fr,after:fr.map(k=>TERR.get(k)||null),inv:umbInv().length,mark:!!fin}})()`);
  T(n1.sel.length===3,`Naturfläche ändern: höchstens 3 Felder wählbar (${n1.sel.length})`);T(n1.after.slice(0,3).every(t=>t==='wasser')&&n1.after[3]===null&&n1.inv===0,'drei Felder werden Wasser-Naturfläche, eine Kiste verbraucht');
- T(ev(`UMB.natur.text`).startsWith('Bis zu 3 freie Felder'),'Text „Bis zu 3 freie Felder …“');
+ T(ev(`UMB.natur3.text`).startsWith('Bis zu 3 freie Felder'),'Text „Bis zu 3 freie Felder …“ (seit 0.95a bei Mehr Natur)');
  // 2. Früh geschafft im Testlauf 4 Tage: 1 → Futtersack, 2 → Umbaukiste, 3 → Profi-Mappe
  start(w,{d4:1});T(J(`[1,2,3].map(n=>{const r=runOf();r.gifts=[];earlyReward(n);return r.gifts[0]||null})`).join()==='gsack,gumb,gprofi','Testlauf 4 Tage: 1/2/3 Tage früher → Futtersack/Umbaukiste/Profi-Mappe');
  start(w);T(J(`[1,2,3,4].map(n=>{const r=runOf();r.gifts=[];earlyReward(n);return r.gifts[0]||null})`).join()===',gsack,gumb,gprofi','normaler Lauf unverändert (2/3/4 Tage)');

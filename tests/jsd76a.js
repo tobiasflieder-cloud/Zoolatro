@@ -21,13 +21,13 @@ const start=(w,st)=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx
  const kc=[...d.querySelectorAll('.pcard.kcard')];
  {const rs=kc.filter(e=>/Selten|Legendär/.test(e.querySelector('.meta3').textContent));T(kc.length>0&&rs.length>=1&&kc.every(e=>!!e.querySelector('.glz')===/Selten|Legendär/.test(e.querySelector('.meta3').textContent)),'Lauf-Deck zwischen den Zoos: seltene mit Glanz und „Selten“/„Legendär“, gewöhnliche ohne ('+rs.length+' von '+kc.length+', seit 0.84a 1–2 seltene)')}
  dom.window.close();
- // 4. Stufen 1–8
- const soll={1:[18,3,1.3,4],2:[15,3,1.3,4],3:[15,1,1.3,4],4:[15,1,1.3,6],5:[15,1,1.3,6],6:[15,1,1.15,6],7:[12,1,1.15,6],8:[9,0,0,6]};
- for(const st of[1,2,3,4,5,6,7,8]){dom=neu(st*7);w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);start(w,st);
+ // 4. Stufen 1–5 (seit 0.95a)
+ const soll={1:[18,3,1.3,4],2:[15,1,1.3,4],3:[15,1,1.3,6],4:[12,1,1.15,6],5:[9,0,0,6]};
+ for(const st of[1,2,3,4,5]){dom=neu(st*7);w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(150);start(w,st);
   const r=JSON.parse(ev(`JSON.stringify([[...TERR.values()].filter(v=>HAB[v]).length,state.zl.gold.length,state.zl.crown?CROWNF:0,PURN,!!state.wish,rollSpecs(99).includes('wunsch')])`)),s=soll[st];
   T(r[0]===s[0]&&r[1]===s[1]&&r[2]===s[2]&&r[3]===s[3],`Stufe ${st}: ${r[0]} Naturfelder, ${r[1]} Goldfelder, Krone ${r[2]||'keine'}, Reinheit ab ${r[3]}`);
-  if(st===8)T(!r[4]&&!r[5],'Stufe 8: kein Besucherwunsch, keine 🎈 Wunscherfüllerin im Stellenmarkt');
-  if(st===7)T(r[4]&&r[5],'Stufe 7: Besucherwunsch und Wunscherfüllerin wie bisher');
+  if(st===5)T(!r[4]&&!r[5],'Stufe 5: kein Besucherwunsch, keine 🎈 Wunscherfüllerin im Stellenmarkt');
+  if(st===4)T(r[4]&&r[5],'Stufe 4: Besucherwunsch und Wunscherfüllerin wie bisher');
   dom.window.close()}
  // 5. Faktoren nacheinander: Social-Media-Hype (+40 % → ×1,3) und Prägung Gold (+25 % → ×1,2) auf der Tribüne (6 B)
  dom=neu();w=dom.window;d=w.document;ev=x=>w.eval(x);await wait(200);start(w,1);

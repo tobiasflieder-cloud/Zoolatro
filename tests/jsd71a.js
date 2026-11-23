@@ -42,8 +42,8 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  // Stufen-Knöpfe
  ev(`(()=>{const sl=META.slots[0];delete sl.run;delete sl.runAlt;state=null;modal=null;screen='cdeck';screenArg={slot:0,zl:'z2',prof:null,habs:['wasser','savanne','wueste'],seed:''};renderAll()})()`);
  const g=d.querySelector('.stgrid');
- T(!!g&&g.querySelectorAll('button').length===8,'8 Stufen-Knöpfe');
- T(g&&g.querySelectorAll('[data-stsel]:not(.stlk)').length===ev(`stMax(META.slots[0],'grund')`)&&g.querySelectorAll('.stlk').length===8-ev(`stMax(META.slots[0],'grund')`),'Gesperrte Stufen grau mit 🔒');
+ T(!!g&&g.querySelectorAll('button').length===5,'5 Stufen-Knöpfe (seit 0.95a)');
+ T(g&&g.querySelectorAll('[data-stsel]:not(.stlk)').length===ev(`stMax(META.slots[0],'grund')`)&&g.querySelectorAll('.stlk').length===5-ev(`stMax(META.slots[0],'grund')`),'Gesperrte Stufen grau mit 🔒');
  ck('.stgrid .stlk');T(!!d.querySelector('.sthint')&&/Zoo 3 mit Stufe/.test(d.querySelector('.sthint').textContent),'Tipp auf gesperrte Stufe: Hinweis');
  ck('.stgrid [data-stsel$=":1"]');ck('.stbox [data-stage="1"]');if(ev('modal')==='fsIntro')ev('runOf().fsIntro=0;modal="zoo";render()');
  T(ev('modal')==='zoo'&&!!d.getElementById('zlBack'),'Nach der Stufenwahl: Fenster mit ◂ Zurück');
