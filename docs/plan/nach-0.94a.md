@@ -10,3 +10,14 @@ Während 0.94a gebaut wird, hier gesammelt; nach dem Bauen in `CLAUDE.md` Abschn
    - Gewicht/Preis beider Umbauten unverändert. Test: Mehr Natur auf Feld ohne Natur-Nachbarn möglich, Lebensraum frei wählbar; Naturfläche ändern lehnt freies Feld ohne Natur ab.
 2. **Sommerziele steigen stärker je Zoo** (Chat 23.11., Tobi nach Weltreise Stufe 4: Zoo 6 Sommer 539 % an 1 Tag; „Sommer darf ruhig etwas mehr steigen, Frühling so lassen“; Sammlerin/Stella Starr bleiben):
    `ZLSEAS` (Modul 05 ~Z. 153) Sommer 1,35 → **1,45** (Vorschlag, Wert noch zu bestätigen). Frühling 1,15, Herbst 1,6, Winter 1,55 unverändert. Zoo 1 bleibt gleich, Zoo 5 Sommer etwa ×1,33, Zoo 6 etwa ×1,42 gegenüber heute.
+3. **Stufen neu: 5 statt 8, Ziele steigen mit jeder Stufe** (Chat 23.11., Tobi): `daten/stufen.json` neu (Frühling bleibt immer ×1, `stTF`):
+   | Stufe | Verschärfung | `ziel`-Schritt | Ziele ab Sommer gesamt |
+   |---|---|---|---|
+   | 1 | Grundstufe | – | ×1 |
+   | 2 | 15 Naturfelder · nur 1 goldenes Feld | 1,15 | ×1,15 |
+   | 3 | Reinheit ab 6 Tieren · Shop/Stellenmarkt ×1,25 | 1,15 | ×1,32 (= heutige Stufe 4, Tobi hat sie gut geschafft) |
+   | 4 | Krone ×1,15 · 1. Tag jeder Jahreszeit 1 Baupunkt weniger · 12 Naturfelder | 1,21 | ×1,6 |
+   | 5 | Keine Besucherwünsche · keine Gold- und Kronenfelder · 9 Naturfelder | 1,25 | ×2,0 |
+   Naturfelder-Zahlen gelten für 5 Tage, bei 4 Tagen ×0,8 (wie heute `natNow`). Stufen-Kasten (`stageBox`) rechnet die Summe selbst.
+   Alte Spielstände umrechnen (laufende Läufe `run.stage` und freigeschaltete Stufen je Profil): alt 1 → 1, 2–3 → 2, 4–5 → 3, 6–7 → 4, 8 → 5. Stufenwahl mit 5 statt 8 Knöpfen (`.stgrid`), „🏔️ Alle Stufen“, Highscores/Protokoll zeigen die neue Nummer (alte Einträge umrechnen oder „(alt n)“).
+   Alles, was „Stufe 8“ meint, gilt für Stufe 5 (Weltreise-Notiz „Ersatz für Stufen 7/8“, Endgame-Idee 7. Zoo). Freischaltungen, die eine Stufe nennen (z. B. Belugas „Zoo auf Stufe 2 oder höher“), prüfen. `docs/regeln.md` nachziehen.
