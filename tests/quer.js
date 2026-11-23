@@ -40,6 +40,8 @@ const klickText=async(p,re)=>{await wunschWeg(p);for(const e of await p.$$('butt
 // neuer Lauf über die echten Menüs bis zur Zoo-Übersicht
 async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/^Anlegen/,/^Lauf starten/,/Zufällig/,/^Weiter zum/,/^Stufe 1$/,/^▶ Mit Stufe 1 starten/])if(!await klickText(p,re)){T(false,`${wo}: Menü-Knopf ${re} fehlt (${await zu(p)})`);return false}
   // 0.79a: keine Einführung mit 3 Freischalt-Zielen mehr
+  // 0.95a: jeder Lauf ist eine Weltreise: Ziel auf der Weltkarte antippen und losreisen (Belohnung ohne Zwischenschritt)
+  if((await zu(p)).startsWith('creward/')){await p.evaluate(()=>{const r=runOf();(r.wrOpts||[]).forEach(o=>o.rw=null)});if(!await klick(p,'[data-wrsel]')){T(false,`${wo}: Weltkarte: kein Ziel antippbar`);return false}if(!await klick(p,'[data-wrgo]')){T(false,`${wo}: Weltkarte: Losreisen fehlt`);return false}await p.waitForTimeout(300);await wunschWeg(p)}
   if(await zu(p)!=='null/zoo/play:0:0'){T(false,`${wo}: Zoo-Übersicht fehlt (${await zu(p)})`);return false}await pruefe(p,wo+' Zoo-Übersicht',seen);return true}
 (async()=>{const b=await chromium.launch();try{
  for(const vp of[{width:1280,height:800},{width:1600,height:900},{dev:'Pixel 7'}]){const wo=vp.dev?'Handy '+vp.dev:vp.width+'×'+vp.height,seen=new Set();
