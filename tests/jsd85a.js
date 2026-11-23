@@ -3,13 +3,13 @@ const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync
 const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),wait=ms=>new Promise(r=>setTimeout(r,ms));
 const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message));
   let S=seed||85;w.Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}});
-const base=`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.fbOff=1;META.d4=0;META.d5=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;`;
-const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};enterCamp(0,true,'grund','z2',${JSON.stringify(habs||['wasser','savanne','wueste'])},NOPROF,${stage||1});`);
+const base=`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.klassik=1;META.fbOff=1;META.d4=0;META.d5=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;`;
+const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};META.klassik=(${wr?1:0})?0:1;enterCamp(0,true,'grund','z2',${JSON.stringify(habs||['wasser','savanne','wueste'])},NOPROF,${stage||1});`);
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x),J=x=>JSON.parse(ev(`JSON.stringify(${x})`));await wait(200);
  T(ev('VERSION')==='0.85a','Version');
  // 1. Schalter in der Lebensraum-Auswahl
- ev(base+`META.wr=0;screen='zlsetup';screenArg={slot:0,step:'habs',prof:NOPROF,opts:[],habs:[],z2:true};renderAll()`);
+ ev(base+`META.wr=0;META.klassik=(0)?0:1;screen='zlsetup';screenArg={slot:0,step:'habs',prof:NOPROF,opts:[],habs:[],z2:true};renderAll()`);
  const b=d.querySelector('[data-zswr]');T(!!b&&/Weltreise: aus/.test(b.textContent),'Schalter „🌍 Weltreise: aus“ in der Auswahl');if(b)b.click();
  T(ev('META.wr')===1&&/Weltreise: an/.test((d.querySelector('[data-zswr]')||{}).textContent||''),'Schalter schaltet an');
  start(w,1);T(ev('runOf().wr')===1,'Laufstart setzt run.wr');

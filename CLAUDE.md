@@ -97,41 +97,15 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.95a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.96a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(übernommen aus `docs/plan/nach-0.94a.md`)
-
-1. **Umbau „Mehr Natur“ zum Auswählen, „Naturfläche ändern“ nur für bestehende Natur** (Chat 23.11., Tobi: Variante 1):
-   - 🌱 Mehr Natur (`UMB.natur3`, Modul 08 ~Z. 61, Wirkung ~Z. 96, `natur3Cells` ~Z. 85): heute 3 zufällige Felder neben bestehender Natur. Neu: wie heute `natur` (`t:'free'`, `n:3`, `pick:'hab'`): bis zu 3 **freie** Felder antippen, „Fertig“ (`data-umbfin`), dann Lebensraum des Laufs wählen. Keine Pflicht, an bestehende Natur anzugrenzen.
-     Text: „Bis zu 3 freie Felder werden Naturflächen eines deiner Lebensräume.“ Option „Naturfläche entfernen“ hier **nicht** anbieten.
-   - 🌿 Naturfläche ändern (`UMB.natur`): nur noch **bestehende** Naturflächen (bis zu 3, auch bebaute? → nur unbebaute, damit kein Gehege auf falschem Lebensraum steht) wählen, dann anderen Lebensraum oder „entfernen“. Text: „Bis zu 3 Naturflächen bekommen einen anderen Lebensraum deines Laufs oder verschwinden.“
-   - Verfügbarkeit (`umbOk` ~Z. 79): Mehr Natur nur, wenn es freie Felder gibt; Naturfläche ändern nur, wenn es unbebaute Naturflächen gibt.
-   - Gewicht/Preis beider Umbauten unverändert. Test: Mehr Natur auf Feld ohne Natur-Nachbarn möglich, Lebensraum frei wählbar; Naturfläche ändern lehnt freies Feld ohne Natur ab.
-2. **Sommerziele steigen stärker je Zoo** (Chat 23.11., Tobi nach Weltreise Stufe 4: Zoo 6 Sommer 539 % an 1 Tag; „Sommer darf ruhig etwas mehr steigen, Frühling so lassen“; Sammlerin/Stella Starr bleiben):
-   `ZLSEAS` (Modul 05 ~Z. 153) Sommer 1,35 → **1,45** (Vorschlag, Wert noch zu bestätigen). Frühling 1,15, Herbst 1,6, Winter 1,55 unverändert. Zoo 1 bleibt gleich, Zoo 5 Sommer etwa ×1,33, Zoo 6 etwa ×1,42 gegenüber heute.
-3. **Stufen neu: 5 statt 8, Ziele steigen mit jeder Stufe** (Chat 23.11., Tobi): `daten/stufen.json` neu (Frühling bleibt immer ×1, `stTF`):
-   | Stufe | Verschärfung | `ziel`-Schritt | Ziele ab Sommer gesamt |
-   |---|---|---|---|
-   | 1 | Grundstufe | – | ×1 |
-   | 2 | 15 Naturfelder · nur 1 goldenes Feld | 1,15 | ×1,15 |
-   | 3 | Reinheit ab 6 Tieren · Shop/Stellenmarkt ×1,25 | 1,15 | ×1,32 (= heutige Stufe 4, Tobi hat sie gut geschafft) |
-   | 4 | Krone ×1,15 · 1. Tag jeder Jahreszeit 1 Baupunkt weniger · 12 Naturfelder | 1,21 | ×1,6 |
-   | 5 | Keine Besucherwünsche · keine Gold- und Kronenfelder · 9 Naturfelder | 1,25 | ×2,0 |
-   Naturfelder-Zahlen gelten für 5 Tage, bei 4 Tagen ×0,8 (wie heute `natNow`). Stufen-Kasten (`stageBox`) rechnet die Summe selbst.
-   Alte Spielstände umrechnen (laufende Läufe `run.stage` und freigeschaltete Stufen je Profil): alt 1 → 1, 2–3 → 2, 4–5 → 3, 6–7 → 4, 8 → 5. Stufenwahl mit 5 statt 8 Knöpfen (`.stgrid`), „🏔️ Alle Stufen“, Highscores/Protokoll zeigen die neue Nummer (alte Einträge umrechnen oder „(alt n)“).
-   Alles, was „Stufe 8“ meint, gilt für Stufe 5 (Weltreise-Notiz „Ersatz für Stufen 7/8“, Endgame-Idee 7. Zoo). Freischaltungen, die eine Stufe nennen (z. B. Belugas „Zoo auf Stufe 2 oder höher“), prüfen. `docs/regeln.md` nachziehen.
-4. **Futter und Weltreise immer an, Test-Schalter weg** (Chat 23.11., Tobi: „So wird das Spiel in Zukunft aussehen. Die Optionen kannst du weg machen, nur die 5-Tage-Option ist vielleicht noch nützlich“):
-   - Lauf-Einrichtung (Modul 09 ~Z. 55, Klicks Modul 11 ~Z. 244–248): Schalter `data-zsfood` (🧺 Futter) und `data-zswr` (🌍 Weltreise) entfallen; es bleiben „🐢 5 Tage“ (aus 0.94a) und `data-zsstall` (🏔️ Alle Stufen, Tobi: zum Testen behalten; mit 5 Stufen).
-   - Jeder neue Lauf: Futter an (`run.foodOff` nie gesetzt, `META.foodOff` ignorieren), Weltreise an (`run.wr` immer, `META.wr` ignorieren). Der normale Lauf ohne Weltreise ist dann nicht mehr wählbar; Code dafür darf bleiben (alte laufende Läufe ohne `wr` müssen weiter laden und zu Ende spielbar sein).
-   - Auch der Menü-Schalter „🧪 Test: Verstärker an/aus“ (`META.testVerst`, Modul 08 ~Z. 260/386, Modul 11 ~Z. 212/232, Hinweis Modul 09 ~Z. 95) entfällt (Annahme: zählt zu „Optionen weg“, Tobi kann widersprechen). `run.tv`/`run.stTest` in alten Läufen weiter beachten.
-   - Texte, die Weltreise/Futter als Option beschreiben (Schalter-Hinweise, Zoo-Buch-Regeln, `regeln.md`, Weltreise-Willkommen), anpassen. Highscores: das Kennzeichen „🌍 Weltreise“ wird überflüssig (nur noch bei alten Einträgen ohne Weltreise ggf. „klassisch“).
-   - Tutorial unverändert (ohne Weltreise, Futter wie heute im Tutorial).
+(leer)
 
 **Offen aus 0.94a:** Tutorial auf 4 Tage umstellen, sobald Tobis Plan fertig ist (`docs/tutorial/Zoolatro-Tutorial-Zooplan.html`: Ziele `TUTT`, Tage, Gelände `MAP` → `tutorial.json` `gelaende.terr`).
 
-**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Stufe 4 (Ziele ab Sommer ×1,32): nach 0.93a einen Lauf spielen; landet Tobi oft unter ~110 % oder scheitert, `stufen.json` Stufe 4 `ziel` zurück auf 1,1.
+**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten.
 
-**Nächster Schritt Weltreise:** Ersatz für die Stufen 7/8 im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
+**Nächster Schritt Weltreise:** Ersatz für die höchste Stufe (5) im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
 
 **Offen / zur Entscheidung:**
@@ -144,7 +118,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 im aktuellen Zoo anzeigen („heute etwa +X B“), danach ggf. Preis/Wirkung; im Tutorial Zoo 2 zeigen · Winter-Bedingung „Mindestgröße“ zur Gruppe „schwer“ ·
 Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) · Schalter für Ereignisse und Glück in der Auswahl.
 
-**Für später (Chat 21.11., Endgame):** Wer Stufe 8 geschafft hat, schaltet einen 7. Zoo frei: eine sagenhafte oder unentdeckte Region (z. B. Atlantis, verlorenes Tal) mit eigenen Karten wie Dinosauriern, Einhörnern usw.
+**Für später (Chat 21.11., Endgame):** Wer Stufe 5 (früher 8) geschafft hat, schaltet einen 7. Zoo frei: eine sagenhafte oder unentdeckte Region (z. B. Atlantis, verlorenes Tal) mit eigenen Karten wie Dinosauriern, Einhörnern usw.
 
 **Für später:** Tutorial Zoo 2 (Merkmale, Regeln, Winter-Bedingung) · Grafikstil · Futter-Balance · neue Meilensteine
 (Freundschaften, Ausbaustufen) · Verschmelzen · Weiterspielen nach dem Ziel beobachten.
@@ -152,6 +126,10 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.95a** ([Auftrag](docs/auftraege/0.95a-stufen-weltreise-standard-natur.md), Regeln `docs/regeln.md` 25): Weltreise und Futter Standard (`enterCamp`: `wr` immer außer Tutorial/`META.klassik`, kein `foodOff`/`test`/`tv`; Schalter `data-zsfood`/`data-zswr`/`data-vtm`/`data-vtest` weg, `verstOn` ohne `META.testVerst`);
+  5 Stufen (`stufen.json`, `STMAXN`, `ST5MAP`/`st5`, Umrechnung in `loadMeta` mit `META.st5`); `ZLSEAS` Sommer 1,45; Umbauten `natur3`/`natur` mit `nat:'leer'`/`'nur'`. `docs/plan/nach-0.94a.md` gelöscht.
+  Tests: neu `jsd95a.js`; alle Tests setzen `META.klassik=1` (bzw. `=0` bei Weltreise), `sim94.js` spielt standardmäßig Weltreise (`KLASSIK=1` alt), Weltkarten-Klick per `dispatchEvent` (alter jsdom-Fehler weg).
 
 - **0.94a** ([Auftrag](docs/auftraege/0.94a-vier-tage-frost-futter-spezialisten.md), Regeln `docs/regeln.md` 24): `fxLine` ohne „|“; 4 Tage Standard über `run.days` (`isD4`/`runDays`, alte Stände `run.d4`), Schalter `data-zsd4` → `META.d5` „🐢 5 Tage“, kein 🧪, Bestwerte/Pokal/`cu` ohne Sonderfall, Highscore/Feedback `d5`;
   `wrRollOpts0` stellt „nie nur leicht/schwer“ nach Stufen-Abweichung wieder her (fiel im 4-Tage-Modus auf); Futter auf Gebautes (`data-feedb`); `rudel`/`fluester`/`patin` (tier 3); `winterMarks` als Frost, `winterDayChip`; `todayHtml` mit Zoo-Boni (`data-tip`, `#tipBub`).

@@ -12,6 +12,6 @@
 {"key":"spar","icon":"💰","name":"Sparfuchs","txt":"Schaffe einen Zoo mit mindestens 300 Talern in der Kasse.","title":"Sparfuchs","ok":"spar"},
 {"key":"alle5","icon":"🏆","name":"Zoodirektion","txt":"Schaffe alle 5 Zoos in einem Lauf.","title":"Zoodirektorin","ok":"alle5"},
 {"key":"vielseitig","icon":"🎴","name":"Vielseitig","txt":"Schalte bei 3 verschiedenen Profilen Stufe 4 frei.","title":"Allrounder","ok":"vielseitig"},
-{"key":"gipfel","icon":"🏔️","name":"Gipfelstürmer","txt":"Schalte bei einem Profil Stufe 8 frei.","title":"Gipfelstürmerin","ok":"gipfel"}
+{"key":"gipfel","icon":"🏔️","name":"Gipfelstürmer","txt":"Schalte bei einem Profil die höchste Stufe (5) frei.","title":"Gipfelstürmerin","ok":"gipfel"}
 ],
 "regelbrecher_frei":["rb_klon","rb_wild"]}

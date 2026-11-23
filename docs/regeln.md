@@ -231,7 +231,7 @@ Mit Winterfest `rb_winter`: Nachteile halb so stark (`inspFx`), König ×3,75.
    Seltenheit `RARW`), die Karte kommt in die Ablage. Danach nächster Tag.
 
 ### 7.2 Baupunkte (`01:bpBase`, `06:startDay`)
-`BP=4` je Tag, +1 mit Polier. Abzüge: Ereignis Baustelle am Tag 1 −1, ab Stufe 7 am Tag 1 jeder Jahreszeit −1, Glatteis verschärft −1,
+`BP=4` je Tag, +1 mit Polier. Abzüge: Ereignis Baustelle am Tag 1 −1, ab Stufe 4 (0.95a; vorher 7) am Tag 1 jeder Jahreszeit −1, Glatteis verschärft −1,
 mindestens 1. Dazu Extra-Baupunkte (`bpWish`), z. B. „früh geschafft“: je übrigen Tag +1 BP an einem Tag der nächsten Jahreszeit (`run.bpCarry`).
 
 ### 7.3 Taler (`04:dayIncome`)
@@ -251,7 +251,7 @@ mindestens 1. Dazu Extra-Baupunkte (`bpWish`), z. B. „früh geschafft“: je �
   - Preise im 4-Tage-Lauf (0.80a, seit 0.94a Standard): `priced` ×0,8, aufgerundet.
   - `ZLUP=[1, 1,2, 1,2, 1,2]` (0.70a), `ZLSEAS=[1,15, 1,35, 1,6, 1,55]` (0.81a: Sommer 1,46 → 1,35; 0.82a: Herbst 1,68 → 1,6) (Steigerung je Zoo, zoo = 0 … 4),
   - `deckSF`: Profil Polar Sommer ×1,15, Winter ×0,85,
-  - `stTF` (Stufen): ×1,1 ab Stufe 2, nochmals ab Stufe 5, nochmals ab Stufe 8.
+  - `stTF` (Stufen, 0.95a): ab Sommer ×1,15 ab Stufe 2, ×1,32 ab 3, ×1,6 ab 4, ×2,0 ab 5 (Frühling ×1).
   - Rundung: ab 100.000 auf Tausender, sonst auf Hunderter.
 - Freies Spiel: `Grund · tmult`. Tutorial: feste Ziele `TUTT`.
 - Ereignisse je Jahreszeit (`rollSeason`, `EVENTS`), im Zoolatro statt Ereignissen Besucherwünsche (`wishEval`).
@@ -315,7 +315,7 @@ Seit 0.76a kann eine Stufe mehrere Wirkungen haben; kommt eine Kennung mehrfach 
 | 6 | Krone ×1,15 · Tag 1 jeder Jahreszeit 1 BP weniger | `krone` → `CROWNF` (in `syncCtx`) · `bp_erster_tag` → `startDay` |
 | 7 | Saisonziele +10 % · nur 12 Naturfelder | `ziel` · `natur` |
 | 8 | keine Besucherwünsche (keine 🎈 Wunscherfüllerin) · keine Gold- und Kronenfelder · nur 9 Naturfelder | `keine_wuensche` → `wishOn`, `rollSpecs` · `gold` 0, `keine_krone` → `initZl` · `natur` |
-Das ×4-Feld aus dem Shop bleibt auch auf Stufe 8 möglich. Ziele gesamt: Stufe 1 ×1, 2–3 ×1,1, 4–6 ×1,21, 7–8 ×1,33.
+Das ×4-Feld aus dem Shop bleibt auch auf Stufe 5 möglich. 0.95a: 5 Stufen (`daten/stufen.json`), Ziele ab Sommer gesamt: Stufe 1 ×1, 2 ×1,15, 3 ×1,32, 4 ×1,6, 5 ×2,0.
 
 ### 10.4 Meilensteine (`01:MILE`, `mileCount`)
 Je Sorte (Wasser-, Savannen-, Dschungel-, Wüsten-, Arktis-, Gebirgs-Gehege, Attraktionen, Gastro: 6 verschiedene Arten; Naturschutz 7;
@@ -486,3 +486,9 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Winter-Anzeige** `06:winterMarks`: Frost (Außenkanten `frostl`, Reif `frostf` nur im Winter, ❄️ bzw. ❄️❄️ bei `HARD`) statt Schild; Vorteile (z. B. Schneekönig) behalten ihr Schild. Zahl in `09:winterDayChip` (Tages-Zeile).
 - **Tages-Zeile** `09:todayHtml`: Glücksfälle · Trennstrich · Zoo-Boni (`data-tip`, Sprechblase `#tipBub` in `07`) · ❄️-Zahl; Glückslos-Wirkungstag = `state.luckBoost===Tag/Jahreszeit`.
 - **Kartentexte** `07:fxLine`: Zeile ohne „|“ wird einfach gezeigt.
+
+## 25. 0.95a
+- **Stufen** (Abschnitt 10.3): 5 statt 8 (`STMAXN` = Anzahl in `stufen.json`). Umrechnung alter Spielstände einmalig in `08:loadMeta` (Merker `META.st5`, Tabelle `ST5MAP`: 1→1, 2–3→2, 4–5→3, 6–7→4, 8→5) für `sl.z2.st`, laufende Läufe, Highscores (`stage`, `sum.stage`) und Feedback-Verlauf. Herausforderung „Gipfelstürmer“: höchste Stufe (5).
+- **Lauf-Start** `09:enterCamp`: Weltreise (`run.wr`) und Futter immer an (kein `META.wr`/`META.foodOff`/`META.testVerst` mehr; `META.klassik` nur für Tests). Alte Läufe ohne `wr`/mit `foodOff`/`tv` laufen weiter.
+- **Zielkurve** `05:ZLSEAS` Sommer 1,45 je Zoo (vorher 1,35).
+- **Umbauten** `08:UMB`: `natur3` (Mehr Natur) = bis zu 3 freie Felder ohne Natur wählen, dann Lebensraum (`nat:'leer'`); `natur` (Naturfläche ändern) = bis zu 3 unbebaute Naturflächen (`nat:'nur'`), anderer Lebensraum oder entfernen. Verfügbarkeit `umbOk` danach.

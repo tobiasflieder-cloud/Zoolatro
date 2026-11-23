@@ -23,7 +23,7 @@ const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=
  ev(`state.tut.i=${ai};state.tut.k=9;state.phase='play';state.day=1;state.hand=['cafe','papageien','popcorn'];render()`);
  T(ev('state.tut.i')===bi&&ev(`state.hand.join()`)==='bratwurst,giraffen','Tag 2: nach einem Zeichnen gleich Bratwurst-Schritt mit richtiger Hand ('+ev('state.hand.join()')+')');
  // Zoolatro-2.0-Lauf für Futter/Seltenheit
- ev(`META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;syncCtx();render()`);
+ ev(`META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;syncCtx();render()`);
  const sel=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&CARDS[k].rar==='selten'&&!CARDS[k].ms)`),com='zebras';
  T(ev(`fdMaxK('${com}')`)===1&&ev(`fdMaxK('${sel}')`)===2,'Futterplätze: gewöhnlich 1, selten 2');
  T(ev(`fdMaxK(Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&CARDS[k].rar==='sehr selten'))`)===3,'Futterplätze: sehr selten 3');

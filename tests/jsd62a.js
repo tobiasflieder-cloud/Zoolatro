@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync
 const dom=new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message))}});
 const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=>{try{const ev=x=>w.eval(x),T=(c,m)=>L(c?'ok':'FAIL',m);
 // 0.62a: Karawane, Eigenschaften-Übersicht, Infokasten ⅓, kurze Tutorial-Zeile, App-Hinweis
- ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;state.season=1;syncCtx()`);
+ ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;state.season=1;syncCtx()`);
  T(ev('VERSION')==='0.62a','Version '+ev('VERSION'));
  T(/anderen Lebensraum/.test(ev(`CARDS.karawane.fx.join()`)),'Karawane-Text');
  const kv=JSON.parse(ev(`(()=>{const C=BOARD.filter(([q,r])=>ONBOARD.has(hk(q,r))&&!TERR.get(hk(q,r)));const [q,r]=C.find(([q,r])=>C.some(x=>x[0]===q+2&&x[1]===r)&&C.some(x=>x[0]===q-1&&x[1]===r)&&C.some(x=>x[0]===q&&x[1]===r+1));

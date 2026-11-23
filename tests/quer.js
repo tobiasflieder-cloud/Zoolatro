@@ -91,7 +91,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
    T(n===tabs.length&&n>=5,`${wo}: Zoo-Buch: alle ${tabs.length} Reiter antippbar`);await klick(p,'.bar2 [data-go="title"]');T((await zu(p)).startsWith('title/'),`${wo}: Zoo-Buch „Zurück“ führt zum Startbildschirm`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (Zoo-Buch): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
   // 7) 0.78a Feedback-Kasten nach einem verlorenen Lauf: alles erreichbar, keine Querverschiebung, Überspringen wirkt
-  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.fbOff=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.fbOff=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);const sl=activeSlot();state.phase='lost';sl.run.game=null;state=null;modal=null;endRun(false)});await p.waitForTimeout(300);
   if(!await p.$('.fbbox'))T(false,`${wo}: Feedback-Kasten fehlt`);else{let ok=0;for(const sel of['[data-fbs="5"]','[data-fbd="passt"]','#fbTxt','#fbInc','[data-fbsend]','[data-fbskip]','[data-fboff]']){const e=await p.$(sel);if(!e)continue;await e.scrollIntoViewIfNeeded();
      const frei=await e.evaluate(b=>{const r=b.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,el=document.elementFromPoint(x,y);return x>=0&&x<=innerWidth&&!!el&&(el===b||b.contains(el))});if(frei)ok++;else T(false,`${wo}: Feedback-Kasten: ${sel} verdeckt`)}
@@ -99,7 +99,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
    await klick(p,'[data-fbskip]');T(!await p.$('.fbbox')&&(await zu(p)).startsWith('summary/'),`${wo}: Feedback „Überspringen“ führt zur Zusammenfassung`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (Feedback): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
   // 8) 0.80a: Enthüllung, „Alles zurücksetzen“-Fenster, Felsen antippen mit Sprengmeisterin
-  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;
     flOf(activeSlot()).wasserGeh=149;flBuilt({key:Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&CARDS[k].hab==='wasser'&&!CARDS[k].ms&&!fsLocked(k)),cells:[]},1);render()});await p.waitForTimeout(300);
   {const ok=await p.$('#fsRevPop [data-bpok]');if(!ok)T(false,`${wo}: Enthüllung fehlt`);else{await ok.scrollIntoViewIfNeeded();const fr=await ok.evaluate(b=>{const r=b.getBoundingClientRect(),e=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return!!e&&(e===b||b.contains(e))});
@@ -117,7 +117,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     await p.mouse.click(bb.x,bb.y);await p.waitForTimeout(250);const pv=await p.evaluate(()=>state.preview&&[state.preview.q,state.preview.r]);T(!!pv&&pv[0]===rk[0]&&pv[1]===rk[1],`${wo}: Felsen antippen (Sprengmeisterin) setzt die Vorschau (${JSON.stringify(pv)} / ${JSON.stringify(rk)})`)}}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.80a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
   // 9) 0.81a: Aufstellung am Zähler und Detail-Fenster
-  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.infoProg=null;
     const k=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1&&!fsLocked(x)&&CARDS[x].hab==='wasser');const fr=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));
     state.buildings=[{id:901,key:k,cells:[fr[3]],lvl:1},{id:902,key:k,cells:[fr[4]],lvl:2}];const r=scoreZoo(state.buildings);state.yday={A:r.A,S:r.S,total:r.total,auf:aufOf(r)};state.phase='review';state.info=902;render()});await p.waitForTimeout(300);
@@ -128,7 +128,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
       const qx=await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth);if(qx>2)T(false,`${wo}: Detail-Fenster breiter als der Bildschirm (${qx} px)`);await x.click();await p.waitForTimeout(150);T(!await p.$('#detSheet'),`${wo}: Detail-Fenster schließt`)}}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.81a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
   // 10) 0.82a: Futter verteilen: Zeilen überlappen nicht, Gruppen-Überschrift lesbar (Hintergrund nicht cremefarben)
-  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.phase='shop';openShop();state.shopSub='feed';state.feedF='kf';modal='shop';render()});await p.waitForTimeout(400);
   {const r=await p.evaluate(()=>{const rows=[...document.querySelectorAll('#modalRoot .drows .drow')].map(e=>e.getBoundingClientRect()),hs=[...document.querySelectorAll('#modalRoot .drows .drh')];let ov=0;for(let i=1;i<rows.length;i++)if(rows[i].top<rows[i-1].bottom-1)ov++;
       const L=c=>{const m=c.match(/[\d.]+/g).map(Number);return(.2126*m[0]+.7152*m[1]+.0722*m[2])/255},bg=e=>{for(let x=e;x;x=x.parentElement){const c=getComputedStyle(x).backgroundColor;if(c&&!/rgba\(0, 0, 0, 0\)|transparent/.test(c))return c}return'rgb(0,0,0)'};
@@ -136,7 +136,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     T(r.n>0&&r.ov===0,`${wo}: Futter verteilen: ${r.n} Zeilen ohne Überlappung`);if(r.h)T(r.con>.35,`${wo}: Gruppen-Überschrift lesbar (Kontrast ${r.con.toFixed(2)})`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.82a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
   // 11) 0.84a: Flusstal ohne Zoom: auch mit verschobener Ansicht und großem/kleinem Info-Feld bleiben alle Felder sichtbar (nicht an der Bildkante abgeschnitten)
-  if(vp.dev){p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  if(vp.dev){p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);const r=runOf();r.maps={0:'flusstal'};r.plan=null;r.game=null;state=null;startZoo();modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.rule=null;ZOOM=null;
     const k=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1);const fr=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));state.buildings=[{id:1,key:k,cells:[fr[0]],lvl:1}];render()});
    let bad=0,tot=0;for(const info of[null,1])for(const sh of[0,-25,25]){await p.evaluate(([i,s])=>{state.info=i;render();SHIFT=s;panView()},[info,sh]);await p.waitForTimeout(250);
@@ -145,7 +145,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
    T(bad===0&&tot>0,`${wo}: Flusstal (Hochformat, Info klein/groß, verschoben): alle ${tot} Felder sichtbar`);
    if(p._errs.length)T(false,`${wo}: Seitenfehler (0.84a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
   // 12) 0.85a: 🌍 Weltreise – Kontinent-Wahl vor Zoo 1 und Willkommen-Einblendung: nichts überlappt, nichts breiter als der Bildschirm, Knöpfe erreichbar
-  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.wr=1;META.klassik=(1)?0:1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1)});await p.waitForTimeout(400);
   {const r=await p.evaluate(()=>{const svg=document.querySelector('svg.wrworld'),sb=svg&&svg.getBoundingClientRect(),pins=[...document.querySelectorAll('.wpin')];let out=0;for(const e of pins){const q=e.getBoundingClientRect();if(!sb||q.left<sb.left-1||q.right>sb.right+1||q.top<sb.top-1||q.bottom>sb.bottom+1)out++}
       return{n:pins.length,out,svg:!!sb&&sb.width>200,qx:document.documentElement.scrollWidth-innerWidth,scr:screen,step:screenArg&&screenArg.step}});
@@ -161,7 +161,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   await wunschWeg(p);T(await p.evaluate(()=>!document.getElementById('rulePop')&&!state.ruleIntro),`${wo}: Willkommen-Einblendung schließt`);
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.85a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()
   // 13) 0.86a: Zoo-Menü (Dieser Zoo, Chips, Dein Stand) und „📖 Regeln“: nichts breiter als der Bildschirm, Kacheln ohne Überlappung, Knöpfe wirken, keine doppelten ids (auch mit Seitenleiste)
-  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.wr=1;META.klassik=(1)?0:1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);screenArg.wrSel=0;runOf().wrOpts[0].rw=null;wrGo(runOf(),screenArg,0);state.ruleIntro=0;state.wishIntro=0;modal='zoo';ZRULES=0;render()});await p.waitForTimeout(400);
   {const r=await p.evaluate(()=>{const M=document.querySelector('#modalRoot .modal');if(!M)return null;const t=[...M.querySelectorAll('.ztl,.zdt')].map(e=>e.getBoundingClientRect());let ov=0;for(let i=1;i<t.length;i++)if(t[i].top<t[i-1].bottom-1)ov++;
       const mr=M.getBoundingClientRect();let out=0;for(const e of M.querySelectorAll('.ztl,.zdt,.zch,.zst,.zdv')){const q=e.getBoundingClientRect();if(q.right>mr.right+1||q.left<mr.left-1)out++}
@@ -179,14 +179,14 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     T(await klick(p,'#mClose')&&await p.evaluate(()=>!modal),`${wo}: Profil-Fenster schließt`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.86a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()
   // 14) 0.87a: Arktis-Zone liegt beim Start oben auf dem Bildschirm (auch gedreht) und bleibt beim Drehen des Geräts dieselbe
-  for(const mk of['huegel','bucht','zerkluftet']){p=await seite(b,vp);await p.evaluate(mk=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,fs:{'h:arktis':1}};META.lastSlot=0;META.active=0;screen=null;
+  for(const mk of['huegel','bucht','zerkluftet']){p=await seite(b,vp);await p.evaluate(mk=>{META.noHints=1;META.klassik=1;META.wr=0;META.klassik=(0)?0:1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,fs:{'h:arktis':1}};META.lastSlot=0;META.active=0;screen=null;
       enterCamp(0,true,'grund','z2',['arktis','wasser','savanne'],NOPROF,1);const r=runOf();r.maps={0:mk};r.plan=null;r.game=null;state=null;startZoo();modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;ZOOM=null;render()},mk);await p.waitForTimeout(300);
     const z=await p.evaluate(()=>{const cy=e=>{const r=e.getBoundingClientRect();return r.top+r.height/2};const all=[...document.querySelectorAll('#board polygon[data-q]')].map(cy).sort((a,b)=>a-b),m=(all[(all.length-1)>>1]+all[all.length>>1])/2,zn=[...document.querySelectorAll('#board .znorth')].map(cy);return{rot:ROT,n:zn.length,bad:zn.filter(y=>y>m+2).length,N:JSON.stringify(state.north)}});
     T(z.n>0&&z.bad===0,`${wo}: ${mk}${z.rot?' (gedreht)':''}: Arktis-Zone oben auf dem Bildschirm (${z.n} Felder, ${z.bad} unten)`);
     const vs=p.viewportSize();if(vs){await p.setViewportSize({width:vs.height,height:vs.width});await p.waitForTimeout(500);T(await p.evaluate(()=>JSON.stringify(state.north))===z.N,`${wo}: ${mk}: Zone bleibt nach dem Drehen gleich`);await p.setViewportSize(vs)}
     if(p._errs.length)T(false,`${wo}: Seitenfehler (0.87a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
   // 15) 0.89a: Umbau-Fenster (erst „Einsetzen“ löst aus) und Stufen-Kasten in der Profilwahl
-  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,z2:{st:{grund:3},ch:{}}};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.wr=0;META.klassik=(0)?0:1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,z2:{st:{grund:3},ch:{}}};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;const inv=umbInv();inv.length=0;inv.push('bauplan');state.umbOpen=true;render()});await p.waitForTimeout(300);
   if(!await klick(p,'[data-umbuse="0"]'))T(false,`${wo}: Umbau in der Ablage nicht antippbar`);
   {const r=await p.evaluate(()=>{const P=document.getElementById('umbConfPop');if(!P)return null;const c=P.querySelector('.wpc').getBoundingClientRect(),bt=[...P.querySelectorAll('button')].map(b=>{const q=b.getBoundingClientRect(),e=document.elementFromPoint(q.left+q.width/2,q.top+q.height/2);return!!e&&b.contains(e)});return{in:c.left>=0&&c.right<=innerWidth+1&&c.top>=-1&&c.bottom<=innerHeight+1,bt,n:umbInv().length}});
@@ -199,7 +199,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   T(await klick(p,'.stbox [data-cdeck]')&&await p.evaluate(()=>!!activeSlot().run&&activeSlot().run.stage===3),`${wo}: Start über „▶ Mit Stufe 3 starten“`);
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.89a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
   // 16) 0.92a: Detail-Fenster mit vielen Faktoren (Listen nicht gestaucht, Fenster scrollt; kleines Handy 360×560), Deck-Zeile ohne Überlauf, Stufe in der Zoo-Übersicht
-  p=await seite(b,vp.dev?{width:360,height:560}:vp);await p.evaluate(()=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,z2:{st:{grund:4},ch:{}},vu:{besucherlotse:1,futterkueche:1}};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp.dev?{width:360,height:560}:vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.wr=0;META.klassik=(0)?0:1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,z2:{st:{grund:4},ch:{}},vu:{besucherlotse:1,futterkueche:1}};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,3);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.infoProg=null;TERR.clear();
     const A0=BOARD.find(([q,r])=>DIRS.every(([a,c])=>ONBOARD.has(hk(q+a,r+c)))),NB=DIRS.map(([a,c])=>[A0[0]+a,A0[1]+c]),one=f=>Object.keys(CARDS).filter(k=>!/[~^#]/.test(k)&&!CARDS[k].ms&&SHAPES[CARDS[k].shape].cells.length===1&&f(CARDS[k]));
     const sh=one(c=>c.cat==='gehege'&&c.tags.includes('show'))[0]||one(c=>c.cat==='gehege')[0],ga=one(c=>c.cat==='essen'),at=one(c=>c.cat==='attr');
@@ -217,7 +217,7 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
     T(!!r&&/Stufe 3/.test(r.t)&&r.in&&!r.start&&r.ids===0,`${wo}: Stufen-Kasten im Profil-Fenster: nur ansehen, im Bildschirm, keine doppelten ids`)}
   if(p._errs.length)T(false,`${wo}: Seitenfehler (0.92a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
   // 17) 0.94a: Tribünen-Karte in der Kartenwahl ohne Überbreite, Tages-Zeile mit Schildern (Handy 360 px), Frost-Rand im Winter statt „❄️×“-Schild
-  p=await seite(b,vp.dev?{width:360,height:740}:vp);await p.evaluate(()=>{META.noHints=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+  p=await seite(b,vp.dev?{width:360,height:740}:vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.wr=0;META.klassik=(0)?0:1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
     enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.offer=['tribuene','regenkuppel',Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&!CARDS[k].ms)];state.phase='draft';render()});await p.waitForTimeout(300);
   {const r=await p.evaluate(()=>[...document.querySelectorAll('.ocard')].map(e=>e.scrollWidth-e.clientWidth));T(r.length>=2&&r.every(x=>x<=1),`${wo}: Kartenwahl mit Tribüne/Regenkuppel ohne Überbreite (${r.join('/')})`)}
   await p.evaluate(()=>{TERR.clear();const A0=BOARD.find(([q,r])=>DIRS.every(([a,c])=>ONBOARD.has(hk(q+a,r+c))));const g=Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&!CARDS[k].ms&&SHAPES[CARDS[k].shape].cells.length===1);

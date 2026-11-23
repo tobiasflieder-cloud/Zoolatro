@@ -48,7 +48,7 @@ const foerdOk=()=>!!state&&!!state.shop&&modal==='shop'&&(state.shop.items||[]).
 const UMBMAX=3,UMBPRICE=25;
 // t = Ziel: 'cell' freies Feld/Felsen · 'free' freies Feld · 'geh' Gehege · 'bld' Gehege/Gebäude · null = sofort
 const UMB={
-  natur:{icon:'🌿',name:'Naturfläche ändern',text:'Bis zu 3 freie Felder werden Naturflächen eines deiner Lebensräume (oder die Naturflächen verschwinden).',t:'free',pick:'hab',n:3}, // 0.87a: bis zu 3 Felder
+  natur:{icon:'🌿',name:'Naturfläche ändern',text:'Bis zu 3 Naturflächen bekommen einen anderen Lebensraum deines Laufs oder verschwinden.',t:'free',pick:'hab',n:3,nat:'nur'}, // 0.87a: bis zu 3 Felder; 0.95a: nur unbebaute Naturflächen
   habw:{icon:'🔄',name:'Lebensraum ändern',text:'Ein gebautes Gehege zählt ab jetzt als anderer Lebensraum deines Laufs.',t:'geh',pick:'hab'},
   fels:{icon:'🪨',name:'Felsen setzen oder wegbaggern',text:'Ein Felsen verschwindet, oder auf ein freies Feld kommt ein Felsen (gut fürs Gebirge).',t:'cell'},
   erw:{icon:'📐',name:'Gelände erweitern',text:'Das Gelände bekommt 1 Feld mehr am Rand.',t:null},
@@ -58,7 +58,7 @@ const UMB={
   abbau:{icon:'🏚️',name:'Abbau',text:'Ein Gehege/Gebäude wird abgebaut, die Karte kommt sofort zurück ins Deck.',t:'bld'},
   aufst:{icon:'⬆️',name:'Aufstieg',text:'Ein Gehege/Gebäude steigt eine Stufe auf.',t:'bld'},
   neu:{icon:'🎲',name:'Alles neu',text:'Tippe ein Gehege an: Alle Gehege seines Lebensraums bekommen gemeinsam einen neu ausgelosten Lebensraum deines Laufs. Vielleicht auch wieder denselben.',t:'geh'},
-  natur3:{icon:'🌱',name:'Mehr Natur',text:'3 neue Naturflächen entstehen neben schon bestehenden.',t:null},
+  natur3:{icon:'🌱',name:'Mehr Natur',text:'Bis zu 3 freie Felder werden Naturflächen eines deiner Lebensräume.',t:'free',pick:'hab',n:3,nat:'leer'}, // 0.95a: zum Auswählen, Felder ohne Natur
   woist:{icon:'❓',name:'Wo ist es hin?',text:'Ein zufälliges Gebäude (kein Gehege) verschwindet. Dafür +40 Taler und am nächsten Tag +2 Baupunkte.',t:null},
   tierweg:{icon:'🐾',name:'Das Tier ist weg',text:'Ein zufälliges Gehege verschwindet. Dafür +40 Taler und am nächsten Tag +2 Baupunkte.',t:null},
   x2:{icon:'✨',name:'×2-Feld',text:'Auf einem zufälligen freien Feld erscheint ein goldenes ×2-Feld.',t:null},
@@ -74,9 +74,9 @@ const umbBm=()=>!!(state&&state.bmDay&&state.bmDay===dayKeyNow());
 const umbUz=()=>!!(state&&state.uzDay&&state.uzDay===dayKeyNow());
 // Machbarkeit (für die Rückfrage „kein Platz“)
 function umbOk(id){const fc=freeCells(),idx=mkIndex(state.buildings);
-  switch(id){case'natur':return fc.length>0;case'habw':case'neu':return state.buildings.some(b=>isCat(b,'gehege'))&&habsNow().length>1;case'fels':return fc.length>0||[...TERR.values()].includes('block');
+  switch(id){case'natur':return fc.some(k=>TERR.get(k));case'habw':case'neu':return state.buildings.some(b=>isCat(b,'gehege'))&&habsNow().length>1;case'fels':return fc.length>0||[...TERR.values()].includes('block');
     case'erw':return erwCells().length>0;case'vergr':return state.buildings.some(b=>isCat(b,'gehege')&&growCells(b,idx).length);case'tausch':return state.hand.some(k=>CARDS[k]&&!CARDS[k].ms);
-    case'abbau':case'aufst':return state.buildings.some(b=>!CARDS[b.key].ms&&(id!=='aufst'||(b.lvl||1)<MAXLVL));case'natur3':return natur3Cells().length>0;
+    case'abbau':case'aufst':return state.buildings.some(b=>!CARDS[b.key].ms&&(id!=='aufst'||(b.lvl||1)<MAXLVL));case'natur3':return fc.some(k=>!TERR.get(k));
     case'woist':return state.buildings.some(b=>!isCat(b,'gehege')&&!CARDS[b.key].ms);case'tierweg':return state.buildings.some(b=>isCat(b,'gehege')&&!CARDS[b.key].ms);
     case'x2':case'krone':case'x4':return fc.some(k=>cellRuleOk(k)&&!(state.zl.gold||[]).includes(k)&&k!==state.zl.crown&&!(state.zl.crown2||[]).includes(k)&&!(state.zl.g4||[]).includes(k));
     case'luck':return luckPool().length>0;default:return true}}
@@ -112,6 +112,7 @@ function umbClick(q,r){const T=state.umbT;if(!T)return false;const U=UMB[T.id],k
   if(!ONBOARD.has(k)){Sfx.deny();return true}
   if(T.id==='vergr'&&T.step===1){const g=state.buildings.find(x=>x.id===T.b);if(!g||!growCells(g,idx).includes(k)){Sfx.deny();return true}g.cells=g.cells.concat([[q,r]]);umbDone(`${CARDS[g.key].name} ist um 1 Feld gewachsen.`);return true}
   if(U.t==='free'&&(b||blk)){Sfx.deny();return true}
+  if(U.nat==='leer'&&TERR.get(k)||U.nat==='nur'&&!TERR.get(k)){Sfx.deny();return true} // 0.95a: Mehr Natur nur Felder ohne Natur, Naturfläche ändern nur bestehende
   if(U.t==='cell'&&b){Sfx.deny();return true}
   if((U.t==='geh'||U.t==='bld')&&(!b||CARDS[b.key].ms||(U.t==='geh'&&!isCat(b,'gehege')))){Sfx.deny();return true}
   if(T.id==='fels'){if(blk){TERR.delete(k);state.terr=[...TERR];umbDone('Der Felsen ist weg.')}else{TERR.set(k,'block');state.terr=[...TERR];umbDone('Ein Felsen steht jetzt hier.')}return true}
@@ -123,7 +124,7 @@ function umbClick(q,r){const T=state.umbT;if(!T)return false;const U=UMB[T.id],k
   if(U.pick==='hab'){state.umbPick={k,b:b?b.id:null};Sfx.select();render();return true}
   return true}
 const umbSelOverlay=()=>{const S=state&&state.umbT&&state.umbT.sel;if(!S||!S.length)return'';return S.map(k=>{const[x,y]=px(...k.split(',').map(Number));return`<polygon class="umbsel" points="${hexPts(x,y,SZ*.86)}" pointer-events="none"/><text class="tic" x="${x}" y="${y}">🌿</text>`}).join('')}; // 0.87a
-function umbHab(h){const P=state.umbPick,T=state.umbT;if(!P||!T)return;if(T.id==='natur'){const ks=P.ks||[P.k];for(const k of ks){if(h)TERR.set(k,h);else TERR.delete(k)}state.terr=[...TERR];const m=ks.length>1;umbDone(h?(m?`${ks.length} Felder sind jetzt ${HAB[h].label}-Naturflächen.`:`Das Feld ist jetzt ${HAB[h].label}-Naturfläche.`):(m?'Die Naturflächen sind weg.':'Die Naturfläche ist weg.'))}
+function umbHab(h){const P=state.umbPick,T=state.umbT;if(!P||!T)return;if(T.id==='natur'||T.id==='natur3'){const ks=P.ks||[P.k];for(const k of ks){if(h)TERR.set(k,h);else TERR.delete(k)}state.terr=[...TERR];const m=ks.length>1;umbDone(h?(m?`${ks.length} Felder sind jetzt ${HAB[h].label}-Naturflächen.`:`Das Feld ist jetzt ${HAB[h].label}-Naturfläche.`):(m?'Die Naturflächen sind weg.':'Die Naturfläche ist weg.'))}
   else{const b=state.buildings.find(x=>x.id===P.b);if(!b)return umbCancel();b.hab=h;if(h===CARDS[b.key].hab)delete b.hab;umbDone(`${CARDS[b.key].name} zählt jetzt als ${HAB[h].label}-Gehege.`)}}
 // Hand-Ziel: Karte tauschen
 function umbHand(hi){const T=state.umbT;if(!T||T.id!=='tausch')return false;const k=state.hand[hi],c=CARDS[k];if(!c||c.ms){Sfx.deny();return true}
@@ -139,7 +140,7 @@ function umbTrayHtml(shop){const inv=umbInv();return`<div class="umbtray ${shop?
 function umbHintHtml(){const T=state.umbT;if(!T)return'';const U=UMB[T.id];
   if(state.umbPick){const P=state.umbPick,H=habsNow();return`<h3>${U.icon} ${U.name}</h3><p class="hint">Welcher Lebensraum?</p><div class="umbhabs">${H.map(h=>`<button class="btn sub" data-umbhab="${h}">${HAB[h].icon} ${HAB[h].label}</button>`).join('')}${T.id==='natur'?'<button class="btn sub" data-umbhab="">✕ keine Naturfläche</button>':''}<button class="btn sub" data-umbx="1">Abbrechen</button></div>`}
   const w={free:'ein freies Feld',cell:'einen Felsen oder ein freies Feld',geh:'ein Gehege',bld:'ein Gehege oder Gebäude',hand:'eine Karte in deiner Hand'}[U.t]||'';
-  if(U.n>1){const n=(T.sel||[]).length;return`<h3>${U.icon} ${U.name}</h3><p class="hint">Tippe bis zu ${U.n} freie Felder an (nochmal tippen = abwählen). ${U.text}</p><p class="hint"><b>Gewählt: ${n} von ${U.n}</b></p><div class="umbhabs"><button class="btn main" data-umbfin="1" ${n?'':'disabled'}>Fertig ▸</button><button class="btn sub" data-umbx="1">Abbrechen</button></div>`}
+  if(U.n>1){const n=(T.sel||[]).length;return`<h3>${U.icon} ${U.name}</h3><p class="hint">Tippe bis zu ${U.n} ${U.nat==='nur'?'unbebaute Naturflächen':U.nat==='leer'?'freie Felder ohne Natur':'freie Felder'} an (nochmal tippen = abwählen). ${U.text}</p><p class="hint"><b>Gewählt: ${n} von ${U.n}</b></p><div class="umbhabs"><button class="btn main" data-umbfin="1" ${n?'':'disabled'}>Fertig ▸</button><button class="btn sub" data-umbx="1">Abbrechen</button></div>`}
   return`<h3>${U.icon} ${U.name}</h3><p class="hint">${T.id==='vergr'&&T.step===1?'Tippe jetzt ein freies Feld direkt neben dem Gehege an.':'Tippe '+w+' an.'} ${U.text}</p><button class="btn sub" data-umbx="1">Abbrechen</button>`}
 // Klicks rund um Umbauten (Kartenleiste, Info-Kasten, Shop)
 document.addEventListener('click',e=>{const t=e.target.closest('[data-umbuse],[data-umbhab],[data-umbx],[data-umbfin],[data-umbtake],[data-umbrep],[data-umbskip],#btnUmb');if(!t||!state)return;
@@ -256,8 +257,7 @@ function helpHtml(){const rs=(()=>{try{const r=runOf();return r&&r.seed?r.seed:'
   <div class="setrow"><span>💬 Feedback nach dem Lauf:</span>${[[0,'An'],[1,'Aus']].map(([v,l])=>`<button class="chip2 ${(META.fbOff?1:0)===v?'on':''}" data-fbm="${v}">${l}</button>`).join('')}</div>
   ${META.dev?`<div class="setrow"><span>🌿 Spielfeld:</span>${[[0,'neu'],[1,'alt']].map(([v,l])=>`<button class="chip2 ${(META.oldBoard?1:0)===v?'on':''}" data-nbm="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>💥 Wucht:</span>${[['s','stark'],['n','normal']].map(([v,l])=>`<button class="chip2 ${(META.fxPow||'s')===v?'on':''}" data-pwm="${v}">${l}</button>`).join('')}</div>
-  <div class="setrow"><span>✨ Effekt-Probe:</span>${[[0,'an'],[1,'aus']].map(([v,l])=>`<button class="chip2 ${(META.fxOff?1:0)===v?'on':''}" data-fxm="${v}">${l}</button>`).join('')}</div>
-  <div class="setrow"><span>🧪 Test:</span>${[[1,'Verstärker an'],[0,'aus']].map(([v,l])=>`<button class="chip2 ${(META.testVerst?1:0)===v?'on':''}" data-vtm="${v}">${l}</button>`).join('')}</div>`:''}
+  <div class="setrow"><span>✨ Effekt-Probe:</span>${[[0,'an'],[1,'aus']].map(([v,l])=>`<button class="chip2 ${(META.fxOff?1:0)===v?'on':''}" data-fxm="${v}">${l}</button>`).join('')}</div>`:''}
   <div class="setrow"><span>Auszähl-Tempo:</span>${[[0,'Normal'],[1,'Schnell']].map(([v,l])=>`<button class="chip2 ${SCFAST===v?'on':''}" data-scf="${v}">${l}</button>`).join('')}</div>
   <div class="setrow"><span>Schiebe-Tempo im Zoom:</span>${[[1.5,'Normal'],[2.25,'Schnell'],[3,'Sehr schnell']].map(([v,l])=>`<button class="chip2 ${PANSPEED===v?'on':''}" data-pan="${v}">${l}</button>`).join('')}</div>
   <button class="btn sub" id="mRules">${helpOpen?'▾ Spielregeln ausblenden':'▸ 📜 Spielregeln anzeigen'}</button>
@@ -403,12 +403,16 @@ function renderModal0(){const root=$('modalRoot'),se=state?seOf(state.season):nu
 /* ---------- Speicher: drei Speicherplätze, Highscores, Verbesserungen ---------- */
 const SAVE_KEY='zoodeck-save-v1';
 let META={slots:[null,null,null],active:null,lastSlot:null,scores:[]},screen=null,screenArg={},saveT=0;
-function loadMeta(){try{const raw=localStorage.getItem(SAVE_KEY);if(raw){const m=JSON.parse(raw);if(m&&Array.isArray(m.slots)&&m.slots.length===3)META=Object.assign({scores:[],cscores:[]},m)}}catch(e){}
+function loadMeta(){let old5=false;try{const raw=localStorage.getItem(SAVE_KEY);if(raw){const m=JSON.parse(raw);if(m&&Array.isArray(m.slots)&&m.slots.length===3){META=Object.assign({scores:[],cscores:[]},m);old5=!m.st5}}}catch(e){}
   // 0.73a: nur noch Zoolatro (2.0): alte Kampagnen-, Zoolatro-1- und Freies-Spiel-Stände verwerfen, Verbesserungen und Freischaltungen bleiben
   for(const sl of META.slots){if(!sl)continue;const rs=[sl.run,sl.runAlt].filter(r=>r&&r.z2);sl.run=rs[0]||null;sl.runAlt=rs[1]||null;sl.game=null}
   if(META.lastMode&&META.lastMode!=='camp')META.lastMode=null;
   // 0.83a: einmalig nachträglich: ein laufender Testlauf „4 Tage“, der Zoo 3 schon geschafft hat, schaltet die nächste Stufe frei (abgeschlossene Läufe sind nicht mehr gespeichert)
-  for(const sl of META.slots){if(!sl)continue;for(const r of[sl.run,sl.runAlt]){if(!r||!r.z2||!r.d4||r.seed||r.d4st||(r.zoo||0)<3)continue;r.d4st=1;const Z2=z2Of(sl),d=r.deckId||'grund',st=r.stage||1;if(st<8&&(Z2.st[d]||1)<=st)Z2.st[d]=st+1}}}
+  for(const sl of META.slots){if(!sl)continue;for(const r of[sl.run,sl.runAlt]){if(!r||!r.z2||!r.d4||r.seed||r.d4st||(r.zoo||0)<3)continue;r.d4st=1;const Z2=z2Of(sl),d=r.deckId||'grund',st=r.stage||1;if(st<(old5?8:STMAXN)&&(Z2.st[d]||1)<=st)Z2.st[d]=st+1}}
+  // 0.95a: einmalig 8 Stufen → 5 Stufen umrechnen (freigeschaltete Stufen je Profil, laufende Läufe, Highscores, Feedback), Merker META.st5
+  if(old5){for(const sl of META.slots){if(!sl)continue;const Z=sl.z2&&sl.z2.st;if(Z)for(const d in Z)Z[d]=st5(Z[d]);for(const r of[sl.run,sl.runAlt])if(r&&r.stage)r.stage=st5(r.stage)}
+    for(const e of META.cscores||[]){if(e.stage)e.stage=st5(e.stage);if(e.sum&&e.sum.stage)e.sum.stage=st5(e.sum.stage)}for(const f of META.fbHist||[])if(f&&f.stage)f.stage=st5(f.stage)}
+  META.st5=1}
 function saveMeta(){if(RESETTING)return;try{const sl=activeSlot();if(sl&&state&&state.mode!=='tut'){if(state.mode==='camp'){if(sl.run)sl.run.game=state}else sl.game=state;sl.last=Date.now()}localStorage.setItem(SAVE_KEY,JSON.stringify(META))}catch(e){}}
 // 0.80a: „Alles zurücksetzen“ mit doppelter Abfrage (eigenes Fenster), danach nichts mehr speichern und neu laden
 var RESETTING=false;
@@ -429,9 +433,10 @@ const STUFEN_DATEN=/*@@DATEN:stufen@@*/null;
 const stWirk=()=>{const s=stOf();return STUFEN_DATEN.stufen.filter(x=>x.nr<=s).flatMap(x=>x.wirkungen||[])};
 const stAb=k=>{let w=null;for(const x of stWirk())if(x.kennung===k)w=x;return w},stW=(k,d)=>{const x=stAb(k);return x&&x.wert!=null?x.wert:d};
 const stTF=i=>i===0?1:stWirk().filter(x=>x.kennung==='ziel').reduce((f,x)=>f*x.wert,1);
-const STAGES=['',...STUFEN_DATEN.stufen.map(x=>x.text)];
+const STAGES=['',...STUFEN_DATEN.stufen.map(x=>x.text)],STMAXN=STUFEN_DATEN.stufen.length; // 0.95a: 5 Stufen
+const ST5MAP=[0,1,2,2,3,3,4,4,5],st5=n=>n?ST5MAP[Math.max(1,Math.min(8,n))]:n; // 0.95a: alte Stufe (1–8) → neue (1–5)
 const z2Of=sl=>{sl.z2=sl.z2||{};sl.z2.st=sl.z2.st||{};sl.z2.ch=sl.z2.ch||{};return sl.z2};
-const stMax=(sl,d)=>Math.min(8,z2Of(sl).st[d]||1);
+const stMax=(sl,d)=>Math.min(STMAXN,z2Of(sl).st[d]||1);
 // Godot-Vorbereitung 2c: Herausforderungen stehen in daten/herausforderungen.json; Bedingungen hier in CHAL_WIRKUNG (Kennung = Schlüssel)
 const CHAL_DATEN=/*@@DATEN:herausforderungen@@*/null;
 const RBFREE=CHAL_DATEN.regelbrecher_frei.slice();
@@ -448,7 +453,7 @@ const CHAL_WIRKUNG={ok:{
   spar:x=>x.won&&state.money>=300,
   alle5:x=>x.won&&x.z>=CAMP_GOAL-1,
   vielseitig:x=>Object.values(z2Of(x.sl).st).filter(v=>v>=4).length>=3,
-  gipfel:x=>Object.values(z2Of(x.sl).st).some(v=>v>=8)}};
+  gipfel:x=>Object.values(z2Of(x.sl).st).some(v=>v>=STMAXN)}};
 const CHAL={};for(const d of CHAL_DATEN.herausforderungen){const C={};for(const p in d){if(p==='key')continue;C[p]=d[p];if(p==='ok'){C.ok=CHAL_WIRKUNG.ok[d.ok];if(!C.ok)throw new Error('Wirkung fehlt: ok '+d.ok)}}CHAL[d.key]=C}
 const rbOpen=(sl,id)=>RBFREE.includes(id)||(!!sl&&Object.keys(CHAL).some(c=>CHAL[c].rb===id&&z2Of(sl).ch[c]));
 const rbHow=id=>{const c=Object.keys(CHAL).find(c=>CHAL[c].rb===id);return c?`Herausforderung ${CHAL[c].icon} ${CHAL[c].name}`:'von Anfang an'};
@@ -564,7 +569,7 @@ const winterBox=(Z,box,peek,hid)=>{if(hid||inspHid())return box('zi2','❄️','
   return box('zi2',inspIcon(Z),'Winter: '+INSP[Z.insp].name,inspText(Z)+(peek||''))};
 // am Ende jedes Zoos: Stufe freischalten (Zoo 3 geschafft) und Herausforderungen prüfen
 function z2After(sl,run,won){const z=state.zoo||0,Z2=z2Of(sl),d=run.deckId||'grund',st=run.stage||1;run.stNew=0;run.chNow=[];if(run.seed||run.stTest)return; // 0.83a: Testlauf „4 Tage“ schaltet Stufen und Herausforderungen frei
-  if(won&&z>=2&&st<8&&(Z2.st[d]||1)<=st){Z2.st[d]=st+1;run.stNew=st+1;(run.stNewAll=run.stNewAll||[]).push(st+1)}
+  if(won&&z>=2&&st<STMAXN&&(Z2.st[d]||1)<=st){Z2.st[d]=st+1;run.stNew=st+1;(run.stNewAll=run.stNewAll||[]).push(st+1)}
   const x={won,z,run,sl};for(const id in CHAL){if(Z2.ch[id])continue;let ok=false;try{ok=CHAL[id].ok(x)}catch(e){}if(ok){Z2.ch[id]=1;run.chNow.push(id)}}}
 const z2NewsHtml=(run,all)=>(all&&(run.stNewAll||[]).length?run.stNewAll.map(n=>`<p style="margin:0;color:var(--gold);font-weight:700">🏔️ Stufe ${n} für ${DECKS[run.deckId||'grund'].icon} ${DECKS[run.deckId||'grund'].name} freigeschaltet!</p>`).join(''):run.stNew?`<p style="margin:0;color:var(--gold);font-weight:700">🏔️ Stufe ${run.stNew} für ${DECKS[run.deckId||'grund'].icon} ${DECKS[run.deckId||'grund'].name} freigeschaltet!</p>`:'')+(run.chNow||[]).map(id=>{const C=CHAL[id];return`<p style="margin:0;color:var(--gold);font-weight:700">🎯 Herausforderung geschafft: ${C.icon} ${C.name}${C.rb?` · ⚡ Regelbrecher ${SPEC[C.rb].icon} ${SPEC[C.rb].name} freigeschaltet`:` · Titel „${C.title}“`}</p>`}).join('');
 const cperkCount=sl=>Object.values(sl&&sl.cperks||{}).reduce((t,q)=>t+(q.a||0)+(q.s||0),0);

@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.94a';
+const VERSION='0.95a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.95a',d:'23.11.2026',t:'5 Stufen, Weltreise als Standard',i:['🏔️ Statt 8 gibt es jetzt 5 Stufen, und jede hebt die Ziele ab Sommer: ×1,15 · ×1,32 · ×1,6 · ×2. Deine bisherigen Stufen sind umgerechnet.','🌍 Jeder Lauf ist jetzt eine Weltreise mit Futter – die Schalter dafür sind weg (🐢 5 Tage bleibt). Sommerziele steigen je Zoo etwas stärker.','🌱 Mehr Natur: Du wählst bis zu 3 freie Felder und den Lebensraum selbst. 🌿 Naturfläche ändern gilt nur noch für bestehende Naturflächen.']},
  {v:'0.94a',d:'23.11.2026',t:'4 Tage, Frost, Futter für Gebautes',i:['📅 4 Tage je Jahreszeit sind jetzt Standard (kleineres Gelände, passende Ziele), zählen ganz normal. Wer längere Jahreszeiten mag: Schalter „🐢 5 Tage“ beim Laufstart.','❄️ Der Winter zeigt sich als Frost-Rand an den betroffenen Gebäuden, die Zahl steht in der Tages-Zeile. Dort stehen jetzt auch Zeitungsartikel, Glückslos, Teuerung und Geschenk – antippen erklärt sie.','🥕 Futter kannst du jetzt auch gebauten Gehegen geben, es wirkt sofort. 👥 Neu legendär: Rudelführerin, Tierflüsterer, Artenpatin (×1,75 für Raubtiere, scheue bzw. bedrohte Tiere).']},
- {v:'0.93a',d:'22.11.2026',t:'Profil-Knopf, Show-Spektrum',i:['👤 Neuer Knopf oben neben ☰: Dein Profil mit Stufe, Weltreise, wachsenden Spezialisten, Futter, Lebensraum-Regeln, Deck und Regeln. Die Zoo-Übersicht zeigt nur noch, was diesen Zoo betrifft.','🎭 Das Detail-Fenster eines Showtiers zeigt die Show-Leiter: jetzt und höchstens.','😴 Showtiere ohne Gastro oder Attraktion daneben langweilen sich: ×0,8 B.']},
- {v:'0.92a',d:'22.11.2026',t:'Stufe in der Übersicht, Öko-Viertel, Schliff',i:['🏔️ Die Zoo-Übersicht zeigt die Stufe des Laufs – antippen zeigt, was sie ändert. Stufe 4 hebt die Saisonziele ab Sommer jetzt um ×1,2.','🌳 Neues Ensemble Öko-Viertel: 3 verschiedene Naturschutz-Gebäude nebeneinander, je ×1,25 N. Das Lauf-Protokoll nennt die Ensembles jedes Zoos.','📰 Zeitungsartikel und Glückslos stehen als Chip in der Zoo-Übersicht und werden nicht doppelt angeboten. 🎁 Geschenke kannst du auch mit Schulden abholen.','🃏 Kartenwahl und Deck zeigen eine Übersichtszeile (Lebensräume, Merkmale, Gebäude). Detail-Fenster scrollt statt abzuschneiden. Kleine Küche, Ruhige Lage und Naturpur ×1,2.']}];
+ {v:'0.93a',d:'22.11.2026',t:'Profil-Knopf, Show-Spektrum',i:['👤 Neuer Knopf oben neben ☰: Dein Profil mit Stufe, Weltreise, wachsenden Spezialisten, Futter, Lebensraum-Regeln, Deck und Regeln. Die Zoo-Übersicht zeigt nur noch, was diesen Zoo betrifft.','🎭 Das Detail-Fenster eines Showtiers zeigt die Show-Leiter: jetzt und höchstens.','😴 Showtiere ohne Gastro oder Attraktion daneben langweilen sich: ×0,8 B.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -196,7 +196,7 @@ const habOff=k=>{const c=CARDS[k],h=c.hab||c.rq;return!!h&&!habsNow().includes(h
 // Forscher-Deck: Meilensteine brauchen 1 Art weniger
 for(const t in MILE){const M=MILE[t],b0=M.n;Object.defineProperty(M,'n',{get:()=>{const b1=!TUTNOW&&(t==='attr'||t==='essen')?b0+1:b0;try{return b1-(dkNow()==='forscher'?1:0)}catch(e){return b1}},configurable:true})}
 const VCOND={futterkueche:'Zoo 2 schaffen',besucherlotse:'Zoo 4 schaffen',winterquartier:'100 Arktis-Gehege bauen (über alle Läufe)',scheinwerfer:'Reinheit mit 7 Arten in einem Zoo',buehne:'5 Showtiere mit vollem Show-Bonus (je 2 Gastro-Gebäude oder Attraktionen daneben) in einem Zoo',ruhezone:'6 scheue Tiere ganz ohne Stress in einem Zoo'};
-const verstOn=k=>{if(typeof META!=='undefined'&&META.testVerst)return true;try{const sl=activeSlot();return!!sl&&(sl.vu||{})[k]===1}catch(e){return false}};
+const verstOn=k=>{try{const sl=activeSlot();return!!sl&&(sl.vu||{})[k]===1}catch(e){return false}};
 const isLocked=k=>!!CARDS[k].gone||!!CARDS[k].sig||(!!CARDS[k].bonus_&&!UNLOCK.has(k))||habOff(k)||fsLocked(k)||(CARDS[k].cat==='verst'&&!verstOn(baseK(k)));
 function applySlot(sl){applyPerks(sl&&sl.perks);UNLOCK=new Set(sl&&sl.unlocked||[])}
 function applyPerks(p){PERKS=p||{};for(const k in CARDS){const q=PERKS[k]||{};CARDS[k].a=CARDS[k].a0+(q.a||0);CARDS[k].s=CARDS[k].s0+(q.s||0)}}

@@ -4,8 +4,8 @@ const L=(...a)=>console.log(...a),T=(c,m)=>L(c?'ok':'FAIL',m),wait=ms=>new Promi
 const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message));
   let S=seed||90;w.Math.random=()=>{S|=0;S=S+0x6D2B79F5|0;let t=Math.imul(S^S>>>15,1|S);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}});
 const slot=`{name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1,fs:{'h:arktis':1,'h:gebirge':1},z2:{st:{grund:4},ch:{}}}`;
-const base=`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.fbOff=1;META.d4=0;META.d5=0;META.stAll=0;META.pvOff=0;META.slots[0]=${slot};META.lastSlot=0;META.active=0;screen=null;`;
-const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};enterCamp(0,true,'${o.deck||'grund'}','z2',${JSON.stringify(o.habs||['wasser','savanne','wueste'])},NOPROF,${o.stage||1});if(!${o.wr?1:0}){modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;render()}`);
+const base=`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.klassik=1;META.fbOff=1;META.d4=0;META.d5=0;META.stAll=0;META.pvOff=0;META.slots[0]=${slot};META.lastSlot=0;META.active=0;screen=null;`;
+const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};META.klassik=(${o.wr?1:0})?0:1;enterCamp(0,true,'${o.deck||'grund'}','z2',${JSON.stringify(o.habs||['wasser','savanne','wueste'])},NOPROF,${o.stage||1});if(!${o.wr?1:0}){modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;render()}`);
 // Helfer im Spiel: freie Mitte A mit Ring N[0..5]; Karten nach Bedingung (1 Feld); Aufstellen; Zeilen der Wertung
 const H=`TERR.clear();var A0=BOARD.find(([q,r])=>DIRS.every(([a,c])=>ONBOARD.has(hk(q+a,r+c))&&DIRS.every(([e,f])=>ONBOARD.has(hk(q+a+e,r+c+f)))));var NB=DIRS.map(([a,c])=>[A0[0]+a,A0[1]+c]);
 var one=(f,n,ex)=>Object.keys(CARDS).filter(k=>{const c=CARDS[k];return!/[~^#]/.test(k)&&!c.ms&&!c.gone&&!c.jt&&!c.sig&&SHAPES[c.shape].cells.length===1&&f(c)&&!(ex||[]).includes(k)}).slice(0,n||1);
@@ -24,7 +24,7 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  const r4=J(`(()=>{const r=runOf();return{days:r.days,d4:isD4(r),D:DAYS,test:!!r.test,tf:d4TF(),sn:document.getElementById('seasonName').textContent,rt:runText(r)}})()`);
  T(r4.days===4&&r4.d4&&r4.D===4&&!r4.test&&r4.tf===.6&&!/🧪/.test(r4.sn+r4.rt),`neuer Lauf: 4 Tage, Ziele ×0,6, kein 🧪 (${r4.sn})`);
  T(J(`(()=>{const sl=activeSlot(),r=runOf(),S=statOf(sl),b0=S.bestZoo;state.totalScore=999999;statZoo(sl,r,true);return S.bestZoo>b0&&!statOff(r)})()`),'4-Tage-Lauf zählt für Bestwerte');
- w.eval(base.replace('META.d5=0','META.d5=1')+`META.wr=0;enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null`);T(J(`(()=>{const r=runOf();return r.days===5&&!isD4(r)&&DAYS===5&&d4TF()===1&&/🐢 5 Tage/.test(runText(r))})()`),'Schalter 🐢 5 Tage: 5 Tage, Ziele ×1, im Protokoll');ev(`META.d5=0`);
+ w.eval(base.replace('META.d5=0','META.d5=1')+`META.wr=0;META.klassik=(0)?0:1;enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null`);T(J(`(()=>{const r=runOf();return r.days===5&&!isD4(r)&&DAYS===5&&d4TF()===1&&/🐢 5 Tage/.test(runText(r))})()`),'Schalter 🐢 5 Tage: 5 Tage, Ziele ×1, im Protokoll');ev(`META.d5=0`);
  T(J(`(()=>{const a={d4:1,z2:1},b={z2:1};return isD4(a)&&!isD4(b)&&runDays(a)===4&&runDays(b)===5&&!isD4({tut:1,days:4})})()`),'alter Spielstand: mit run.d4 → 4 Tage, ohne → 5 Tage; Tutorial 5 Tage');
  // 4. Futter auf gebaute Gehege
  start(w);ev(H+`state.rule=null;team([])`);

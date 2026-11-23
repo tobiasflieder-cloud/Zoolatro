@@ -5,7 +5,7 @@ const neu=()=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x);await wait(200);
  const klick=e=>{if(e)e.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));return!!e};
- ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);runOf().fsIntro=0;modal=null;renderAll()`);
+ ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);runOf().fsIntro=0;modal=null;renderAll()`);
  T(ev('VERSION')==='0.75a','Version');
  // 7. Tribüne legendär
  T(ev("CARDS.tribuene.rar")==='sehr selten'&&ev("rarLabel(CARDS.tribuene)")==='Legendär','Tribüne ist legendär (intern „sehr selten“, angezeigt „Legendär“)');

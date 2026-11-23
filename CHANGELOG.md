@@ -5,6 +5,15 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.95a · 23.11.2026 · 5 Stufen, Weltreise und Futter als Standard, Mehr Natur
+- 🏔️ **5 Stufen statt 8**, jede hebt die Saisonziele ab Sommer (Frühling bleibt):
+  1 Grundstufe · 2 ×1,15 (15 Naturfelder, 1 goldenes Feld) · 3 ×1,32 (Reinheit ab 6, Shop ×1,25 teurer) · 4 ×1,6 (Krone ×1,15, 1. Tag −1 Baupunkt, 12 Naturfelder) · 5 ×2 (keine Wünsche, keine Gold-/Kronenfelder, 9 Naturfelder).
+  Bisherige Stufen sind umgerechnet (alt 2–3 → 2, 4–5 → 3, 6–7 → 4, 8 → 5), auch in laufenden Läufen und Highscores.
+- 🌍 **Jeder Lauf ist eine Weltreise mit Futter.** Die Schalter „Weltreise“, „Futter“ und „Test: Verstärker“ sind weg; „🐢 5 Tage“ und „🏔️ Alle Stufen“ bleiben. Alte Läufe ohne Weltreise laufen weiter.
+- ☀️ **Sommerziele** steigen je Zoo stärker (×1,45 statt ×1,35), Frühling, Herbst und Winter wie bisher.
+- 🌱 **Mehr Natur:** Du tippst bis zu 3 freie Felder an und wählst den Lebensraum selbst (keine Nachbarschaft zu bestehender Natur nötig).
+- 🌿 **Naturfläche ändern** gilt nur noch für bestehende, unbebaute Naturflächen: anderer Lebensraum oder entfernen.
+
 ## 0.94a · 23.11.2026 · 4 Tage, Frost, Futter für Gebautes, neue Legendäre
 - 📅 **4 Tage je Jahreszeit sind jetzt Standard** – mit kleinerem Gelände, weniger Naturfeldern, Zielen ×0,6 und Preisen ×0,8 wie im bisherigen Testlauf. Es ist kein Testlauf mehr: kein 🧪, zählt voll für Bestwerte, Pokale und Highscores.
 - 🐢 Neuer Schalter **„5 Tage“** beim Laufstart: längere Jahreszeiten, größeres Gelände, höhere Ziele. Zählt ganz normal (in Highscores und Protokoll mit 🐢). Laufende Läufe behalten ihre Länge. Das Tutorial bleibt vorerst bei 5 Tagen.

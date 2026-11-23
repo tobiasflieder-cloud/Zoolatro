@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync
 const dom=new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message))}});
 const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=>{try{const ev=x=>w.eval(x),T=(c,m)=>L(c?'ok':'FAIL',m);
 // 0.63a: Zoom, Lebensraum-Symbol, Tagesfeld, Meldungen, Fluss-Übeltäter, Lexikon, Glossar, Jäger, Karawane-Symbol, Bedrohte
- ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;state.season=1;syncCtx();render()`);
+ ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.klassik=1;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;enterCamp(0,true,'grund',true,['wasser','savanne','wueste'],NOPROF);modal=null;state.season=1;syncCtx();render()`);
  T(ev('VERSION')==='0.63a','Version '+ev('VERSION'));
  const bd=ev(`Object.keys(HAB).map(h=>h+':'+Object.keys(CARDS).filter(k=>!/[~^]/.test(k)&&CARDS[k].cat==='gehege'&&CARDS[k].hab===h&&!CARDS[k].jt&&!CARDS[k].ms&&(CARDS[k].tags||[]).includes('bedroht')).length).join(' ')`);
  T(/wasser:3 savanne:3 wald:3 wueste:3 arktis:3 gebirge:3/.test(bd),'3 bedrohte je Lebensraum: '+bd);

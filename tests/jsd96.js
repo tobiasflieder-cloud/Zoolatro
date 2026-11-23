@@ -3,7 +3,7 @@ const {JSDOM}=require('jsdom');const fs=require('fs');const html=fs.readFileSync
 const dom=new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{url:'https://x.test/',runScripts:'dangerously',pretendToBeVisual:true,beforeParse(w){w.matchMedia=()=>({matches:false});w.scrollTo=()=>{};w.console.error=(...a)=>console.log('ERR',String(a[0]).slice(0,300));w.addEventListener('error',e=>console.log('WINERR',e.message))}});
 const L=(...a)=>console.log(...a);const w=dom.window,d=w.document;setTimeout(()=>{try{const ev=x=>w.eval(x),T=(c,m)=>L(c?'ok':'FAIL',m);
 // 0.96: Bauabschnitte-Richtung, Dschungel = Schutzgebiet, Vielfalt-Hinweis, Grunddeck 3 je Lebensraum, keine gesperrten Ersatz-Gehege
- ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1`);
+ ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};META.noHints=1;META.klassik=1`);
  T(/^0\.(9[6-9]|5[1-9]a)$/.test(ev('VERSION')),'Version '+ev('VERSION'));
  ev(`META.slots[0]={name:'N',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.active=0`);
  const lab=(bs,i)=>ev(`(()=>{const bs=${bs};state.buildings=bs;syncCtx();const p=[];evalB(bs[${i}],bs,mkIndex(bs),p);return p.map(x=>x.label).join(' | ')})()`);

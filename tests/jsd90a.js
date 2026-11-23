@@ -6,7 +6,7 @@ const neu=seed=>new JSDOM('<!doctype html><html><body>'+html+'</body></html>',{u
 (async()=>{try{
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x),J=x=>JSON.parse(ev(`JSON.stringify(${x})`));await wait(200);
  T(ev('VERSION')==='0.90a','Version');
- ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.fbOff=1;META.d4=0;META.d5=1;META.wr=0;META.pvOff=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
+ ev(`for(const k in Sfx)if(typeof Sfx[k]==='function')Sfx[k]=function(){};HTMLCanvasElement.prototype.getContext=()=>null;META.noHints=1;META.klassik=1;META.fbOff=1;META.d4=0;META.d5=1;META.wr=0;META.klassik=(0)?0:1;META.pvOff=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;screen=null;
    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;state.rule=null;
    const g=Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&CARDS[x].hab==='wasser'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1&&(CARDS[x].tags||[]).includes('show'))||Object.keys(CARDS).find(x=>CARDS[x].cat==='gehege'&&CARDS[x].hab==='wasser'&&!CARDS[x].ms&&SHAPES[CARDS[x].shape].cells.length===1);
    const fr=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));state.buildings=[{id:1,key:g,cells:[fr[3]],lvl:1},{id:2,key:g,cells:[fr[4]],lvl:1}];window._g=g;render()`);
