@@ -111,6 +111,12 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Vorschlag: beim Antippen eines gebauten Verstärkers (`state.info`, Modul 07 Zeile ~41 und `infoHtml`) die betroffenen Nachbarn hervorheben (`hl`, Linie + Schild „×1,5 B“ wie beim Platzieren aus der Hand, Zeile ~63)
    und im Info-Feld eine Zeile „⚡ wirkt auf: Affeninsel ×1,5 B · Zebras ×1,2 B“ (Texte über `verstHit`, Scheinwerfer nur `spotOf`, Winterquartier nur im Winter). Auch bei „📊 Vorschau aus“ zeigen (das ist gebaute, keine vorgerechnete Wirkung).
    Nachgeprüft in 0.92a/0.94a/0.95a: Anzeige war dort gleich – also eher fehlende Funktion als kaputt; bei Tobi nachfragen, falls er etwas anderes meinte.
+4. **Fehler: Gefüttertes Gehege lässt sich nicht ausbauen** (Chat 24.11., Screenshot Affeninsel Stufe 1 mit 1/1 Futter, Affeninsel auf der Hand): Seit „Futter auf Gebautes“ (0.94a, `data-feedb` in Modul 08)
+   bekommt das gebaute Gehege den Schlüssel mit Futter (`affen#kf`). Ausbau-Erkennung in `previewAt` (Modul 06 Z. 119) vergleicht `tb.key===baseK(key)` → `'affen#kf'!=='affen'` → „Da steht schon etwas.“
+   (nachgestellt: ungefüttert gebaut + Handkarte geht, gefüttert gebaut + Handkarte nicht). Lösung: `baseK(tb.key)===baseK(key)`; beim Ausbau bleibt das Futter des Gebäudes, Futter der Handkarte kommt dazu, soweit Plätze frei (`fdMaxK`).
+   Dabei alle Stellen prüfen, die `b.key` direkt mit einem Kartenschlüssel vergleichen (Wiederholung ×0,75, Ausbau-Zähler, Wünsche/Meilensteine …), und Test mit gefüttertem Gebäude schreiben.
+   **Verdacht, beim Bauen prüfen:** Baut man eine gefütterte Handkarte, speichert `build` (Modul 07 Z. ~551) `key:baseK(key)` – `baseK` entfernt auch das Futter (Ausgabe `ed`/`pr` wird danach wieder gesetzt, Futter nicht).
+   Im Test war das Futter nach dem Bauen weg (`affen#kf` → gebaut `affen`). Falls bestätigt: Futter beim Bauen behalten (Schlüssel mit `#…` ohne `~`/`^`).
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
