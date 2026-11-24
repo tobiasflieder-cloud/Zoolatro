@@ -5,6 +5,15 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.96a · 24.11.2026 · Futter wirkt beim Bauen, Zucht jeden Tag, Verstärker-Anzeige
+- 🥩 **Futter auf Handkarten wirkt jetzt auch nach dem Bauen.** Bisher ging es beim Bauen verloren (Vorschau und Gehege rechneten ohne Futter).
+- 🔨 **Gefütterte Gehege lassen sich wieder ausbauen.** Das Futter des Geheges bleibt, Futter der neuen Karte kommt dazu, solange Futterplätze frei sind. Gefüttert und ungefüttert zählen als dieselbe Art (Wiederholung, Einmalig, Meilensteine, Auflagen).
+- 🍼 **Zucht jeden Tag:** Ein Zuchtpaar (zwei gleiche Gehege nebeneinander, eins mindestens Stufe II, Futter egal) bekommt am Ende jedes Tages Nachwuchs, unabhängig vom Saisonziel. Das Jungtier liegt am nächsten Tag zusätzlich auf der Hand. Weiter höchstens eins pro Art und Zoo und 3 im Deck. Für die Weltreise-Auflage „Nachwuchs“ zählt am letzten Wintertag auch ein an diesem Tag geborenes Jungtier.
+- ⚡ **Gebaute Verstärker antippen** zeigt, auf welche Nachbarn sie gerade wirken (Zeile im Info-Feld, Linien und Zuwachs auf dem Brett), auch bei „Vorschau aus“.
+- 🃏 **Deck-Mischung bei der Spezialisten-Wahl** (Stellenmarkt, Bewerbermappe, Profi-Mappe, Auswahl zwischen den Zoos) zum Aufklappen.
+- 🌍 **Weltkarte:** neue Leiste „Deine Tiere und Gebäude“ (Showtiere, scheu, Beute, Raubtiere, bedroht, Gastro, Attraktionen, Naturschutz, Verstärker).
+- 🏔️ Ab Stufe 3 sind Shop und Stellenmarkt nur noch ×1,1 teurer (vorher ×1,25).
+
 ## 0.95a · 23.11.2026 · 5 Stufen, Weltreise und Futter als Standard, Mehr Natur
 - 🏔️ **5 Stufen statt 8**, jede hebt die Saisonziele ab Sommer (Frühling bleibt):
   1 Grundstufe · 2 ×1,15 (15 Naturfelder, 1 goldenes Feld) · 3 ×1,32 (Reinheit ab 6, Shop ×1,25 teurer) · 4 ×1,6 (Krone ×1,15, 1. Tag −1 Baupunkt, 12 Naturfelder) · 5 ×2 (keine Wünsche, keine Gold-/Kronenfelder, 9 Naturfelder).

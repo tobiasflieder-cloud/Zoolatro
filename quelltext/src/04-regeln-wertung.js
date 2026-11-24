@@ -48,6 +48,11 @@ const sackPrice=()=>Math.round((20+10*(state.sackN||0))*(fdTeam('tierern')?.75:1
 const sackOn=()=>foodOn();
 function foodPile(){return['deck','discard','hand'].flatMap(p=>(state[p]||[]).map((k,i)=>[p,i,k]))}
 function fdFits(f,k){const c=CARDS[k];if(!c||c.cat!=='gehege'||c.ms)return false;const F=fdOf(k);if(F.length>=fdMaxK(k)||F.includes(f))return false;return!FOOD[f].ok||FOOD[f].ok(c)}
+// 0.96a: Gebäude-Schlüssel = Art + Futter (Ausgabe/Prägung stehen in b.ed/b.pr); Art-Vergleiche immer ohne Futter
+const bldK=k=>{const F=fdOf(k);return baseK(k)+(F.length?'#'+F.join('.'):'')};
+const sameArt=(a,b)=>baseK(a)===baseK(b);
+// Ausbau: Futter des Gebäudes bleibt, Futter der Handkarte kommt dazu, solange Plätze frei sind und es passt
+const upFdKey=(g,h)=>{let k=bldK(g);for(const f of fdOf(h))if(fdFits(f,k))k=fdKey(k,f);return k};
 const ueFits=k=>{const c=CARDS[k];return!!c&&c.cat==='gehege'&&!c.pr&&!c.jt&&!c.sig&&!c.ms};
 function rollFood(n){const P=foodPile(),C=[];for(const h of habsNow())if(HFOOD[h])C.push(['h:'+h,HFOODW]);
   for(const f in FOOD){const ok=f==='ue'?P.some(x=>ueFits(x[2])):P.some(x=>fdFits(f,x[2]));if(ok)C.push([f,FOODR[FOOD[f].r]])}
@@ -219,7 +224,7 @@ const upStep=b=>Math.ceil(b.cells.length/2); // Ausbau: +1 B und +1 N je angefan
 // Mehrfach gebaut und ausgebaut: Anteil am eigenen Wert (Grundwert plus die Boni, die es selbst bekommt), seit 0.61a
 const DUPW=[1,.75,.25],LVLW=[0,0,.75,1.25]; // 0.61a: Ausbau +75 % / +50 % des eigenen Werts
 const dupW=n=>hasSpec('rb_klon')||(n===1&&hasSpec('zwilling'))?1:DUPW[Math.min(n,2)];
-const dupOf=(b,bs)=>{let n=0;for(const x of bs){if(x===b)break;if(x.key===b.key)n++}return n};
+const dupOf=(b,bs)=>{let n=0;for(const x of bs){if(x===b)break;if(sameArt(x.key,b.key))n++}return n};
 // 0.90a: Show-Bonus je Auslöser ×1,35 (Belugas ×1,45, Leckerli ×1,5), Trubel/Tribüne zählen doppelt; Nova (Bühne) verdoppelt, alles höchstens ×2,5
 const SHOWS={'':.35,belugas:.45,le:.5},SHOWMAX=2.5,showF=(sh,k,bu)=>Math.min(SHOWMAX,Math.round((1+(SHOWS[k||'']||.35)*sh*(bu?2:1))*20)/20);
 // 0.93a: Auslöser des Show-Bonus (aus evalB herausgezogen, auch fürs Spektrum im Detail-Fenster): normale Gastro/Attraktionen daneben + Nova + Bistro (Savanne) höchstens 2, dazu Trubel-Nachbarn und Tribünen (Umkreis 2) doppelt, zusammen höchstens 4
@@ -305,7 +310,7 @@ function scoreZoo(bs){const idx=mkIndex(bs);let A=0,S=0;const steps=[],mults=[];
 // Summe aller Gehege/Gebäude einer Auswahl (ohne Multiplikatoren)
 function rawSum(set){const ix=mkIndex(set);let a=0,s=0;for(const b of set){const v=evalB(b,set,ix);a+=v.a;s+=v.s}return[a,s]}
 // Zuschläge/Abzüge für Mehrfach-Bau und Ausbau, gemessen am eigenen Wert (0.61a)
-function multiAdj(bs,V){if(!V){const ix=mkIndex(bs);V=bs.map(b=>evalB(b,bs,ix))}const adj=new Map(),seen={};bs.forEach((b,i)=>{const n=seen[b.key]||0;seen[b.key]=n+1;const w=n?dupW(n):1,v=V[i]||{a:0,s:0},oa=Math.max(0,v.a),os=Math.max(0,v.s);let a=0,s=0;const L=[];
+function multiAdj(bs,V){if(!V){const ix=mkIndex(bs);V=bs.map(b=>evalB(b,bs,ix))}const adj=new Map(),seen={};bs.forEach((b,i)=>{const bk=baseK(b.key),n=seen[bk]||0;seen[bk]=n+1;const w=n?dupW(n):1,v=V[i]||{a:0,s:0},oa=Math.max(0,v.a),os=Math.max(0,v.s);let a=0,s=0;const L=[];
   if(n&&w<1){const da=Math.round((w-1)*oa),ds=Math.round((w-1)*os);if(da||ds){a+=da;s+=ds;L.push(`${n+1}. ${CARDS[b.key].name}: zählt ×${mxs(w)} des eigenen Werts`)}}
   let ua=0,us=0;if((b.lvl||1)>1){const f=(LVLW[b.lvl]||0)*w;ua=Math.round(f*oa);us=Math.round(f*os);a+=ua;s+=us;L.push(b.lvl>2?'Ausbau Stufe III: ×2,25 des eigenen Werts':'Ausbau Stufe II: ×1,75 des eigenen Werts')}
   if(a||s||L.length)adj.set(b.id,{a,s,label:L.join(' · '),ua,us})});return adj}
@@ -325,13 +330,13 @@ function scoreZoo0(bs,idx,A,S,steps,mults){STRZ=strzNow();const V=bs.map(b=>eval
 function breakdown(b,bs){const parts=[];const v=evalB(b,bs,mkIndex(bs),parts);if(b.pr==='magnet'){const g=giveOf(b,bs),ma=Math.round(.5*Math.max(0,g.a)),ms=Math.round(.5*Math.max(0,g.s));if(ma||ms){parts.push({label:'🧲 Publikumsmagnet',a:ma,s:ms});v.a+=ma;v.s+=ms}}const j=multiAdj(bs).get(b.id);if(j&&(j.a||j.s)){const f=(()=>{const n=bs.filter(x=>x.key===b.key).indexOf(b),w=n>0?dupW(n):1;return+(w*(1+(LVLW[b.lvl||1]||0))).toFixed(4)})();parts.push({label:j.label,a:j.a,s:j.s,fa:f,fs:f,own:1});v.a+=j.a;v.s+=j.s}return{a:v.a,s:v.s,parts,a0:v.a0,s0:v.s0}}
 function sourcesOf(b,bs){const idx=mkIndex(bs),full=evalB(b,bs,idx),out=[];
   for(const n of full.nb){const bs2=bs.filter(x=>x!==n),v=evalB(b,bs2,mkIndex(bs2));const da=full.a-v.a,ds=full.s-v.s;if(da||ds)out.push({id:n.id,da,ds})}return out}
-const builtUnique=(bs,key)=>CARDS[key].tags.includes('einmalig')&&cnt(bs,b=>b.key===baseK(key))>=(hasSpec('sammel')?2:1);
+const builtUnique=(bs,key)=>CARDS[key].tags.includes('einmalig')&&cnt(bs,b=>sameArt(b.key,key))>=(hasSpec('sammel')?2:1);
 function fits(bs,cells,key){const idx=mkIndex(bs),c=CARDS[key];if(builtUnique(bs,key))return false;
   return cells.every(([q,r])=>{const k=hk(q,r);if(!ONBOARD.has(k)||idx.has(k))return false;if(typeof state!=='undefined'&&state&&(state.nests||[]).includes(k))return false;const t=TERR.get(k);return!t||c.ms||(t==='block'?hasSpec('spreng'):(c.cat!=='gehege'||c.hab===t||hasSpec('rb_wild')))})}
 function weightOf(k){const c=CARDS[k];if(isLocked(k))return 0;return c.rar==='winter'?(CTX.winter?8:0):c.rar==='saison'?(sea(c.only)?8:0):RARW[c.rar]*((c.rar==='selten'||c.rar==='sehr selten')&&hasSpec('talent')?2.5:1)}
 function pickWeighted(keys,rnd=Math.random){const tot=keys.reduce((t,k)=>t+weightOf(k),0);let r=rnd()*tot;
   for(const k of keys){r-=weightOf(k);if(r<=0)return k}return keys[keys.length-1]}
-const ownsUnique=k=>CARDS[k].tags.includes('einmalig')&&typeof state!=='undefined'&&!!state&&(cnt(state.buildings,b=>b.key===baseK(k))+cnt([...state.hand,...state.deck,...state.discard],x=>baseK(x)===baseK(k)))>=(hasSpec('sammel')?2:1);
+const ownsUnique=k=>CARDS[k].tags.includes('einmalig')&&typeof state!=='undefined'&&!!state&&(cnt(state.buildings,b=>sameArt(b.key,k))+cnt([...state.hand,...state.deck,...state.discard],x=>baseK(x)===baseK(k)))>=(hasSpec('sammel')?2:1);
 function makeOffer(n=3,rnd=Math.random,bs=(typeof state!=='undefined'&&state)?state.buildings:[]){const Z=typeof state!=='undefined'&&state&&state.zl;
   const TH=['wasser','savanne','wueste'],pool=Object.keys(CARDS).filter(k=>weightOf(k)>0&&!builtUnique(bs,k)&&!ownsUnique(k)&&(!TUTNOW||(!k.includes('^')&&!k.includes('~')&&!k.includes('#')&&(!CARDS[k].hab||TH.includes(CARDS[k].hab))&&(!CARDS[k].rq||TH.includes(CARDS[k].rq))))),out=[];
   while(out.length<n){let p=pool.filter(x=>!out.includes(x));{const last=(Z&&state.lastOffer)||[],q=p.filter(x=>!last.includes(x));if(q.length>=n)p=q}

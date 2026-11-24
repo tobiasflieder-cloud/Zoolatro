@@ -183,7 +183,7 @@ const fsCalm=f=>{const bs=state.buildings,idx=mkIndex(bs);return cnt(bs,b=>{cons
 const fsShowFull=()=>{const bs=state.buildings,idx=mkIndex(bs);return cnt(bs,b=>{const c=CARDS[b.key];return c.cat==='gehege'&&c.tags.includes('show')&&cnt(nbrs(b,idx),n=>isCat(n,'essen')||isCat(n,'attr'))>=2})};
 const fsAdjSav=()=>{const bs=state.buildings,idx=mkIndex(bs);return state.buildings.some(b=>CARDS[b.key].cat==='essen'&&nbrs(b,idx).some(n=>isCat(n,'gehege')&&isHab(n,'savanne')))};
 const fsSavGroup=()=>{const g=state.buildings.filter(b=>CARDS[b.key].cat==='gehege'&&CARDS[b.key].hab==='savanne'),idx=mkIndex(g),seen=new Set();let best=0;for(const b of g){if(seen.has(b))continue;let n=0;const st=[b];seen.add(b);while(st.length){const x=st.pop();n++;for(const y of nbrs(x,idx))if(!seen.has(y)){seen.add(y);st.push(y)}}best=Math.max(best,n)}return best};
-const fsPair=()=>{const bs=state.buildings,idx=mkIndex(bs);return bs.some(b=>CARDS[b.key].cat==='gehege'&&!CARDS[b.key].ms&&nbrs(b,idx).some(n=>n.key===b.key&&Math.max(b.lvl||1,n.lvl||1)>=2))};
+const fsPair=()=>{const bs=state.buildings,idx=mkIndex(bs);return bs.some(b=>CARDS[b.key].cat==='gehege'&&!CARDS[b.key].ms&&nbrs(b,idx).some(n=>sameArt(n.key,b.key)&&!CARDS[b.key].jt&&Math.max(b.lvl||1,n.lvl||1)>=2))};
 const fsSame=()=>{const n={};for(const b of state.buildings){const c=CARDS[b.key];if(c.cat==='gehege'&&!c.ms){const k=baseK(b.key);n[k]=(n[k]||0)+1}}return Math.max(0,...Object.values(n))};
 const fsAttrWater=()=>{const bs=state.buildings,idx=mkIndex(bs);return cnt(bs,b=>CARDS[b.key].cat==='attr'&&nbrs(b,idx).some(n=>isCat(n,'gehege')&&isHab(n,'wasser')))};
 const fsNat=()=>cnt(state.buildings,b=>{const c=CARDS[b.key];return c.cat==='gehege'&&c.hab&&natCells(b.cells,c.hab)>0});
@@ -367,7 +367,7 @@ function habBreakTxt(all,nb0){if(!habRulesOn())return'';const ix=mkIndex(all),ix
   return out.map(t=>`<p class="resbad">${t}</p>`).join('')}
 function extra92(b,c,nb,bs,idx){const o=[];if(!state||!state.zl)return o;if(habRulesOn()){const hr=habRule(b,c,nb,idx);if(hr)o.push(hr)}
   if(b.ea||b.es)o.push({l:`🍖 Jäger: ${b.ate||1}× Beute gefressen (zählt für die Reinheit als ${b.ate||1} Art${(b.ate||1)>1?'en':''} mehr)`,a:b.ea||0,s:b.es||0});const geh=c.cat==='gehege',L=LK(),cells=b.cells.map(([q,r])=>hk(q,r));
-  if(geh){const f=new Set();for(const n of nb){if(!isCat(n,'gehege')||n.key===b.key)continue;const i=friendOf(b.key,n.key);if(i>=0&&!f.has(i)){f.add(i);o.push([`🤝 Freundschaft mit ${CARDS[n.key].name}`,1.25,1.25])}}
+  if(geh){const f=new Set();for(const n of nb){if(!isCat(n,'gehege')||sameArt(n.key,b.key))continue;const i=friendOf(b.key,n.key);if(i>=0&&!f.has(i)){f.add(i);o.push([`🤝 Freundschaft mit ${CARDS[n.key].name}`,1.25,1.25])}}
     const ns=(state.nests||[]).filter(k=>b.cells.some(([q,r])=>DIRS.some(([dq,dr])=>hk(q+dq,r+dr)===k))).length;if(ns)o.push({l:'🪺 Storchennest daneben',a:0,s:2*ns})}
   if(state.fav===b.id)o.push(['❤️ Besucherliebling des Tages',2,2]);else if(state.fav!=null&&nb.some(n=>n.id===state.fav))o.push(['❤️ neben dem Besucherliebling',1.25,1.25]);
   if(geh&&state.lottoH&&hasSpec('lotto')&&c.hab===state.lottoH)o.push(['🎰 Lebensraum-Lotto',2,2]);
@@ -416,7 +416,7 @@ const mixFree=()=>!!state&&hasSpec('mischer')&&state.rdMix!==(state.zoo||0)+'/'+
 function twitchTeam(id){const tb=document.querySelector(`#team [data-sp="${id}"]`);if(!tb||tb.classList.contains('hop'))return;tb.classList.remove('twitch');void tb.offsetWidth;tb.classList.add('twitch')}
 function hopTeam(id,txt){const tb=document.querySelector(`#team [data-sp="${id}"]`);if(!tb)return;tb.classList.remove('hop');void tb.offsetWidth;tb.classList.add('hop');try{Sfx.sparkle()}catch(e){}if(txt){const f=document.createElement('span');f.className='tmf';f.textContent=txt;tb.appendChild(f);setTimeout(()=>f.remove(),1600)}}
 function auswilder(id){const b=state.buildings.find(x=>x.id===id);if(!b||!isCat(b,'gehege')||!hasSpec('ausw')||state.phase!=='play')return;const key=(state.zoo||0)+'/'+state.season;if(state.auswS===key){Sfx.deny();return}
-  state.buildings=state.buildings.filter(x=>x!==b);const run=runOf();if(run){let i=run.deck.indexOf(b.key);if(i<0)i=run.deck.findIndex(k=>baseK(String(k).split('^')[0].split('~')[0])===b.key);if(i>=0)run.deck.splice(i,1)}
+  state.buildings=state.buildings.filter(x=>x!==b);const run=runOf();if(run){let i=run.deck.indexOf(b.key);if(i<0)i=run.deck.findIndex(k=>sameArt(k,b.key));if(i>=0)run.deck.splice(i,1)}
   state.auswS=key;state.auswDay=state.day+'/'+state.season;state.undo=[];state.info=null;state.bannerQ=(state.bannerQ||[]).concat([['🌿 Ausgewildert!',`${CARDS[b.key].name} ist in die Freiheit zurück. Heute ×1,5 Natur.`]]);Sfx.win();render();flushBanners()}
 function banner92(t,x){const ba=document.querySelector('.boardarea');if(!ba)return;const bn=document.createElement('div');bn.className='mbanner';bn.innerHTML=`<b>${t}</b><span>${x}</span>`;ba.appendChild(bn);setTimeout(()=>bn.remove(),3000)}
 // 0.93: eine Warteschlange für alles, was aufploppt – immer nur eins, beim ersten Mal je Spielstand als Fenster mit Erklärung
@@ -533,6 +533,6 @@ function fbHtml(){const a=screenArg,s=a.fbS||0;
     <div class="shopbar"><button class="btn sub" data-fbskip="1">${a.fbCopied?'Weiter':'Überspringen'}</button><button class="btn main" data-fbsend="1">📤 Feedback senden</button></div>
     <button class="fboff" data-fboff="1">Nicht mehr fragen</button></div>`}
 /* ---------- spielbares Tutorial: drei Kapitel auf einem kleinen Übungs-Zoo ---------- */
-const tB=(k)=>state.buildings.filter(b=>b.key===baseK(k));
+const tB=(k)=>state.buildings.filter(b=>sameArt(b.key,k));
 const tAdj=(k,f)=>{const idx=mkIndex(state.buildings);return tB(k).some(b=>nbrs(b,idx).some(n=>f(CARDS[n.key],n)))};
 const tHand=(...ks)=>s=>{s.discard.push(...s.hand.filter(k=>!ks.includes(k)));s.hand=ks.slice();s.bp=s.bpMax;s.selected=null;s.preview=null;s.undo=[]};

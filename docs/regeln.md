@@ -265,7 +265,7 @@ Nach jeder gewonnenen Jahreszeit (außer Winter). Reiter: 👥 Team · 🧰 Umba
   🧰 Umbau (`UMBPRICE`), Karte aussortieren (10), Felsen räumen (12).
 - **Wechselnde Angebote**: Einmal-Angebote (`EINMAL`: Futterlieferung, Zeitungsartikel, Glückslos), ein Zoo-Ausbau je Zoo (`AUSBAU`:
   größere Hand, mehr Büros, Kartenautomat …), Stellenmarkt (`state.market`).
-- Preise: `priced(p) = p · inflation · (Stufe ≥4: 1,25) · (Genießer 0,8)`; Mappe/Profi ebenso, Freizeit ×1,25 für Spezialisten.
+- Preise: `priced(p) = p · inflation · (ab Stufe 3: ×1,1, seit 0.96a; vorher ×1,25) · (Genießer 0,8)`; Mappe/Profi ebenso, Freizeit ×1,25 für Spezialisten.
 - **Futtersack** (`04:rollFood`): Kandidaten = Lebensraum-Futter für jeden Lebensraum des Laufs (Gewicht `HFOODW=4`) + jedes Einzelfutter,
   das auf mindestens eine Karte in Stapel/Hand/Ablage passt (Gewicht `FOODR=[6,3,1]` nach Seltenheit). Ziehen ohne Zurücklegen.
   **Futterplätze** je Karte `fdMaxK`: gewöhnlich 1, selten 2, sehr selten 3, Futtermeister +1.
@@ -311,7 +311,7 @@ Seit 0.76a kann eine Stufe mehrere Wirkungen haben; kommt eine Kennung mehrfach 
 | 2 | Saisonziele +10 % · nur 15 Naturfelder | `ziel` → `stTF` · `natur` → `natNow`/`natQuota` (Schwerpunkt anteilig) |
 | 3 | nur 1 goldenes Feld | `gold` → `initZl` |
 | 4 | Saisonziele +10 % · Reinheit erst ab 6 | `ziel` · `reinheit` → `PURN` (in `syncCtx`) |
-| 5 | Shop und Stellenmarkt ×1,25 | `teurer` → `priced`, `mappePrice`, `profiPrice` |
+| 5 | Shop und Stellenmarkt ×1,1 (0.96a; vorher ×1,25) | `teurer` → `priced`, `mappePrice`, `profiPrice` |
 | 6 | Krone ×1,15 · Tag 1 jeder Jahreszeit 1 BP weniger | `krone` → `CROWNF` (in `syncCtx`) · `bp_erster_tag` → `startDay` |
 | 7 | Saisonziele +10 % · nur 12 Naturfelder | `ziel` · `natur` |
 | 8 | keine Besucherwünsche (keine 🎈 Wunscherfüllerin) · keine Gold- und Kronenfelder · nur 9 Naturfelder | `keine_wuensche` → `wishOn`, `rollSpecs` · `gold` 0, `keine_krone` → `initZl` · `natur` |
@@ -492,3 +492,14 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Lauf-Start** `09:enterCamp`: Weltreise (`run.wr`) und Futter immer an (kein `META.wr`/`META.foodOff`/`META.testVerst` mehr; `META.klassik` nur für Tests). Alte Läufe ohne `wr`/mit `foodOff`/`tv` laufen weiter.
 - **Zielkurve** `05:ZLSEAS` Sommer 1,45 je Zoo (vorher 1,35).
 - **Umbauten** `08:UMB`: `natur3` (Mehr Natur) = bis zu 3 freie Felder ohne Natur wählen, dann Lebensraum (`nat:'leer'`); `natur` (Naturfläche ändern) = bis zu 3 unbebaute Naturflächen (`nat:'nur'`), anderer Lebensraum oder entfernen. Verfügbarkeit `umbOk` danach.
+
+## 26. 0.96a
+- **Stufen** (Abschnitt 10.3): `teurer` ab Stufe 3 ×1,1 (vorher ×1,25), wirkt in `07:priced`, `mappePrice`, `profiPrice`. Saison-Inflation und Team-Aufschlag ×1,25 je Spezialist unverändert.
+- **Gebäude-Schlüssel** `04:bldK(k)` = Art + Futter (`affen#kf`), ohne Ausgabe `~g` und Prägung `^…` (stehen in `b.ed`/`b.pr`). Bauen (`07:build`) und Vorschau (`06:hypo`) nutzen `bldK` statt `baseK`: Futter von Hand-/Deckkarten wirkt nach dem Bauen.
+- **Art-Vergleich** `04:sameArt(a,b)` = `baseK(a)===baseK(b)` (Futter, Ausgabe, Prägung egal; Jungtier `~j` ist eine eigene Art). Gilt für Ausbau-Erkennung (`06:previewAt`), Wiederholung (`dupOf`, `multiAdj`), Einmalig (`builtUnique`, `ownsUnique`), Auflage „Weniger ist mehr“, Zähler an Hand-/Angebotskarten, Meilenstein-Hinweis, Doppelt-Markierung (`twinMarks`), Freundschaft, Auswildern, `fsPair`, Zucht.
+- **Ausbau mit Futter** `04:upFdKey(gebaut,hand)`: Futter des Gebäudes bleibt, Futter der Handkarte kommt dazu, solange `fdFits` (Plätze `fdMaxK`). Rückgängig setzt den alten Schlüssel zurück (`ok0` im Undo-Eintrag).
+- **Zucht** `08:z2Breed` am Anfang von `07:endDay` (jeden Tag, jede Jahreszeit, unabhängig vom Saisonziel). Partner per `sameArt`, Jungtier `baseK(b.key)+'~j'`, eins pro Art und Zoo (`state.z2jt`), höchstens 3 im Lauf-Deck. Das Jungtier kommt in `run.deck` und `state.jtNext` (nicht in die Ablage); `06:startDay` legt es nach den Meilenstein-Karten zusätzlich auf die Hand.
+  Einblendung: mitten in der Jahreszeit Banner (`07:bornBanner`), am Saisonende das Nachwuchs-Fenster (Jungtier am ersten Tag der nächsten Jahreszeit auf der Hand).
+- **Ziel-Auflage Nachwuchs** (`06:wrGoal`): am letzten Wintertag zählt zusätzlich ein an diesem Tag geborenes Jungtier (`state.z2bornD===dayKeyNow()`).
+- **Verstärker antippen**: `06:vstTargets(v)` (Nachbarn mit `verstHit`, Scheinwerfer nur `spotOf`, Winterquartier nur im Winter; Zuwachs = `evalB` mit/ohne Verstärker), `vstInfoHtml` im Info-Feld, auf dem Brett Hervorhebung, Linie, Zuwachs-Schild. Unabhängig von „Vorschau aus“.
+- **Deck-Mischung** `07:deckMixData(keys)` → `{hab,mk,gb}`; `deckMixHtml` baut daraus; `specDeckMix` (`<details class="spdmix">`) in Stellenmarkt, Mappe/Profi-Mappe/Geschenk, Auswahl zwischen den Zoos; Weltkarte (`06:wrPickHtml`) zweite Leiste „Deine Tiere und Gebäude“.

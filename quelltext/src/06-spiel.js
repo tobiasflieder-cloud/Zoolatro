@@ -99,6 +99,7 @@ function newOffer(){const base=makeOffer(OFFER);if(state.offer&&state.offer.leng
 function startDay(){if(state&&state.zl&&state.zl.inspOpts&&!state.zl.inspPicked){state.zl.insp=state.zl.insp||state.zl.inspOpts[0];state.zl.inspOpts=undefined}if(ZPREV&&!ZOOM&&!META.zoomOut)ZOOM=ZPREV;ZPREV=null;if(ZSH){SHIFT=ZSH[0];SHX=ZSH[1]}ZSH=null;if(!ZOOM){SHIFT=0;SHX=0}if(state.zl&&state.zl.tv&&state.day>0){state.zl.tv=false;syncCtx()}state.moving=null;state.free1=0;state.bp=Math.max(1,state.bpMax-(state.day===0&&hasEv('baustelle')?1:0)-(state.day===0?stW('bp_erster_tag',0):0)-(winIs('glatteis')&&HARD(state.zl)?1:0));{const r=runOf();if(r&&r.bpCarry>0){r.bpCarry--;state.bpWish=(state.bpWish||0)+1;state.bpWhy=(state.bpWhy||[]).concat('⚡ früh geschafft')}}if(state.day===0&&state.season<2&&wrBon('helfer')){state.bpWish=(state.bpWish||0)+1;state.bpWhy=(state.bpWhy||[]).concat('🔨 Fleißige Helfer')}if(state.wbp2>0){state.wbp2--;state.bpWish=(state.bpWish||0)+1;state.bpWhy=(state.bpWhy||[]).concat('🌟 Besucherwunsch')}if(state.bpWish){state.bp+=state.bpWish;const why=[...new Set(state.bpWhy||[])].join(', ');state.bannerQ=(state.bannerQ||[]).concat([[`🧱 +${state.bpWish} Baupunkte heute`,why?'Extra von: '+why:'Extra-Baupunkte für heute.']]);state.bpWish=0;state.bpWhy=[]}try{wrAuswild()}catch(e){console.warn(e)}state.builtToday=0;state.kuUsed=0;if(state.uzDay==='next')state.uzDay=dayKeyNow();if(state.bmDay==='next')state.bmDay=dayKeyNow();state.undo=[];state.selected=null;state.preview=null;state.phase='play';state.luckNow=null;state.news=state.newsNext||[];state.newsNext=null;if(state.day===0&&state.season===0&&runAus('rd'))state.rdBonus=(state.rdBonus||0)+1;
   // Meilenstein-Karten kommen zuerst auf die Hand, dann wird auf fünf aufgefüllt
   state.miles=state.miles||{};state.mileNew=[];for(const t in MILE){const M=MILE[t];if(state.miles[t]||mileCount(state.buildings,t)<M.n)continue;state.miles[t]=1;state.hand.push(M.card);state.mileNew.push(t);(state.mileLog=state.mileLog||[]).push({t,s:state.season,d:state.day})}
+  if((state.jtNext||[]).length){state.hand.push(...state.jtNext);state.jtNext=[]} // 0.96a: gestern geborene Jungtiere zusätzlich auf die Hand
   if(state.day===0)for(const pile of['deck','discard'])for(let i=state[pile].length-1;i>=0;i--){const k=state[pile][i];if(CARDS[k]&&CARDS[k].pr==='stamm'&&state.hand.length<HAND){state[pile].splice(i,1);state.hand.push(k)}}
   if(state.day===0)try{wishRoll()}catch(e){}
   try{dayRoll()}catch(e){console.warn(e)}
@@ -116,7 +117,7 @@ const upTarget=()=>state.preview&&state.preview.up!=null?state.buildings.find(b=
 function ghostCells(){const key=selKey();if(!key||!state.preview)return null;const tb=upTarget();if(tb)return tb.cells;return placeCells(key,state.rot,state.preview.q,state.preview.r)}
 // where a card lands for a hex under the pointer: same gehege there = Ausbau
 function previewAt(hx,dq=0,dr=0){if(!hx)return null;if(state.moving!=null)return{q:hx.q+dq,r:hx.r+dr};const key=state.hand[state.selected],tb=mkIndex(state.buildings).get(hk(hx.q,hx.r));
-  if(tb&&tb.key===baseK(key)&&!CARDS[key].ms)return{q:hx.q,r:hx.r,up:tb.id};return{q:hx.q+dq,r:hx.r+dr}}
+  if(tb&&sameArt(tb.key,key)&&!CARDS[key].ms)return{q:hx.q,r:hx.r,up:tb.id};return{q:hx.q+dq,r:hx.r+dr}}
 function hypo(){const mb=movingB();
   if(mb){if(!state.preview)return null;const cells=ghostCells(),others=state.buildings.filter(b=>b!==mb);
     if(cells.map(c=>hk(...c)).sort().join('|')===mb.cells.map(c=>hk(...c)).sort().join('|'))return{ok:false,move:mb,cells,why:'Hier steht es schon. Wähle einen neuen Platz oder drehe es.'};
@@ -130,13 +131,13 @@ function hypo(){const mb=movingB();
   if(tb&&state.rule&&state.rule.id==='gross2'&&state.builtToday>=2)return{ok:false,up:tb,cells:tb.cells,why:'Auflage Großbaustelle: Heute hast du schon 2 Karten gebaut.'};
   {const tf=tutFix();if(tf&&tf.up&&!tb)return{ok:false,cells:ghostCells()||[],why:'👉 Zieh die Karte auf das leuchtende Gehege, um es auszubauen.'};if(tf&&tb&&!tf.up)return{ok:false,up:tb,cells:tb.cells,why:'👉 Auf die leuchtenden Felder legen'+(tf&&tf.rot?' (mit ↻ drehen)':'')}}
   if(tb){if((tb.lvl||1)>=MAXLVL)return{ok:false,up:tb,cells:tb.cells,why:`${CARDS[key].name} ist schon auf Stufe III, weiter geht es nicht.`};
-    const nb=Object.assign({},tb,{lvl:(tb.lvl||1)+1},CARDS[key].ed?{ed:(tb.ed||'')+CARDS[key].ed}:{},CARDS[key].pr&&!tb.pr?{pr:CARDS[key].pr}:{}),all=state.buildings.map(b=>b===tb?nb:b),r=scoreZoo(all);
+    const nb=Object.assign({},tb,{lvl:(tb.lvl||1)+1,key:upFdKey(tb.key,key)},CARDS[key].ed?{ed:(tb.ed||'')+CARDS[key].ed}:{},CARDS[key].pr&&!tb.pr?{pr:CARDS[key].pr}:{}),all=state.buildings.map(b=>b===tb?nb:b),r=scoreZoo(all);
     return{ok:true,up:tb,cells:tb.cells,r,b:nb,own:r.steps.find(s=>s.id===tb.id),src:sourcesOf(nb,all),brk:breakdown(nb,all)}}
   const cells=ghostCells();if(!cells)return null;
   {const tf=tutFix();if(tf&&tf.at&&!tutCellsEq(cells,tf.at))return{ok:false,cells,why:'👉 Auf die leuchtenden Felder legen'+(tf&&tf.rot?' (mit ↻ drehen)':'')}}
   if(!fits(state.buildings,cells,key))return{ok:false,cells,why:whyNot(cells,key)};
   {const rw=ruleWhy(state.buildings,cells,key);if(rw)return{ok:false,cells,why:rw}}
-  const b={id:-1,key:baseK(key),cells},all=[...state.buildings,b];if(CARDS[key].ed)b.ed=CARDS[key].ed;if(CARDS[key].pr)b.pr=CARDS[key].pr;
+  const b={id:-1,key:bldK(key),cells},all=[...state.buildings,b];if(CARDS[key].ed)b.ed=CARDS[key].ed;if(CARDS[key].pr)b.pr=CARDS[key].pr;
   return noRocks(cells,()=>{const r=scoreZoo(all);return{ok:true,cells,r,b,own:r.steps.find(s=>s.id===-1),src:sourcesOf(b,all),brk:breakdown(b,all)}})}
 // 0.87a: Vorschau rechnet mit dem Stand nach dem Bauen – Felsen unter dem neuen Gehege/Gebäude (Meilenstein, Sprengmeisterin) sind dann weg
 function noRocks(cells,fn){const ks=(cells||[]).map(c=>hk(...c)).filter(k=>TERR.get(k)==='block');if(!ks.length)return fn();for(const k of ks)TERR.delete(k);try{return fn()}finally{for(const k of ks)TERR.set(k,'block')}}
@@ -243,7 +244,7 @@ function wrGoal(bs){const R=state&&state.rule,Z=R&&WRZ[R.id];if(!Z)return null;b
   else if(R.id==='z_vielfalt'){const H=habsNow();need=H.length;n=cnt(H,h=>cnt(G,b=>CARDS[b.key].hab===h)>=Z.n)}
   else if(R.id==='z_schlemmer')n=cnt(bs,b=>isCat(b,'essen'));else if(R.id==='z_rummel')n=cnt(bs,b=>isCat(b,'attr'));
   else if(R.id==='spflicht'){const f=(state.wrDest||{}).foc;n=cnt(G,b=>CARDS[b.key].hab===f);need=Math.max(1,Math.ceil(G.length/2))} // 0.90a: Hälfte aus dem Schwerpunkt
-  else if(R.id==='z_arten')n=cnt(G,b=>(CARDS[b.key].tags||[]).includes('bedroht'));else if(R.id==='z_nachwuchs')n=cnt(G,b=>!!CARDS[b.key].jt);
+  else if(R.id==='z_arten')n=cnt(G,b=>(CARDS[b.key].tags||[]).includes('bedroht'));else if(R.id==='z_nachwuchs')n=cnt(G,b=>!!CARDS[b.key].jt)+(state.day===DAYS-1&&state.season===SEASONS.length-1&&state.z2bornD===dayKeyNow()?(state.z2born||[]).length:0); // 0.96a: am letzten Wintertag zählt ein heute geborenes Jungtier
   return{id:R.id,Z,n:Math.min(n,need),need,ok:n>=need,unit:R.id==='z_vielfalt'?' Lebensräume':''}}
 const wrBadge=()=>{const G=state&&state.zl&&wrOn()&&wrGoal();if(!G)return'';const bad=state.season===3&&!G.ok;return`<button class="evb wbb wrb${G.ok?' ok':''}${bad?' bad':''}" data-ev="zoo" title="Ziel-Auflage ${G.Z.name}: bis Ende Winter" aria-label="Ziel-Auflage ${G.Z.name}: ${G.n} von ${G.need}">${G.Z.icon} ${G.ok?'✓':G.n+'/'+G.need}</button>`};
 // Auswilderung: am 1. Sommer- und 1. Herbsttag (0.87a, vorher Winter) ein zufälliges Gehege weg (Feld frei, Karte aus dem Lauf-Deck)
@@ -306,7 +307,7 @@ function wrPickHtml(run,a,head){if(!run.wrOpts)wrRollOpts(run);const opts=run.wr
         <div class="wrbox rw${Bw?'':' none'}"><span class="k">Belohnung${Bw?` <span class="wrbt ${perm?'p':'i'}">${perm?'dauerhaft':'sofort'}</span>`:''}</span><span class="v">${Bw?Bw.icon+' '+Bw.name:'keine'}</span><span class="t">${Bw?Bw.text:o.eu?'Ruhe-Zoo ohne Auflage.':'Dafür eine leichte Auflage.'}</span></div></div></button>`};
   const so=sel!=null?{icon:wrK(opts[sel].k).icon,name:opts[sel].ort||wrK(opts[sel].k).name}:null;
   return`${head||''}<h2 class="wrh">🌍 Wohin geht die Reise?</h2><p class="wrsub">Zoo ${z+1} von ${N} · tippen zum Auswählen</p>
-    <div class="wrstrip"><b>Deine Gehege-Karten</b>${Object.keys(HAB).filter(h=>hc[h]).sort((x,y)=>hc[y]-hc[x]).map(h=>`<span class="wrchip">${HAB[h].icon} ${hc[h]}</span>`).join('')||'<span class="wrchip">keine</span>'}</div>
+    <div class="wrstrip"><b>Deine Gehege-Karten</b>${Object.keys(HAB).filter(h=>hc[h]).sort((x,y)=>hc[y]-hc[x]).map(h=>`<span class="wrchip">${HAB[h].icon} ${hc[h]}</span>`).join('')||'<span class="wrchip">keine</span>'}</div>${(()=>{const D=deckMixData(run.deck),L=[...D.mk,...D.gb];return L.length?`<div class="wrstrip"><b>Deine Tiere und Gebäude</b>${L.map(([i,t,v])=>`<span class="wrchip" title="${t}">${i} ${v}</span>`).join('')}</div>`:''})()}
     <div class="wrstrip"><b>Deine Boni</b>${B.length?B.map(k=>`<span class="wrchip">${WRB[k].icon} ${WRB[k].name}</span>`).join(''):'<span class="wrchip">noch keine</span>'}</div>
     <div class="wrlay"><div class="wrmapbox">${wrWorldSvg(run,opts,sel)}<div class="wrleg"><span><i class="lv"></i>besucht</span><span><i class="lo"></i>zur Wahl</span></div></div>
     <div class="wrside">${sel!=null?`<div class="wropts">${card(opts[sel],sel)}</div>`:'<p class="wrtap">👆 Tippe auf einen leuchtenden Ort auf der Karte.</p>'}
@@ -350,7 +351,7 @@ function ruleWhy(bs,cells,key,isMove){const R=state&&state.rule;if(!R)return nul
   if(R.id==='achse'&&cells.some(([q,r])=>R.ax?R.ax.includes(hk(q,r)):r===R.row))return'Auflage Baugrube: Diese Felder müssen frei bleiben.';
   if(R.id==='gross2'&&!isMove&&state.builtToday>=2)return'Auflage Großbaustelle: Heute hast du schon 2 Karten gebaut.';
   if(R.id==='insel'&&c.cat==='gehege'&&nb.some(n=>CARDS[n.key].cat==='gehege'&&CARDS[n.key].hab!==c.hab))return'Auflage Inselzoo: Gehege verschiedener Lebensräume dürfen sich nicht berühren.';
-  if(R.id==='einzel'&&key!=='flossteil'&&c.cat!=='gehege'&&!c.ms&&bs.some(b=>b.key===baseK(key)))return`Auflage Weniger ist mehr: ${c.name} steht schon im Zoo.`;
+  if(R.id==='einzel'&&key!=='flossteil'&&c.cat!=='gehege'&&!c.ms&&bs.some(b=>sameArt(b.key,key)))return`Auflage Weniger ist mehr: ${c.name} steht schon im Zoo.`;
   if(R.id==='gastro'&&c.cat==='essen'&&nb.some(n=>isCat(n,'essen')))return'Auflage Gastronomische Vielfalt: Gastro-Gebäude dürfen nicht nebeneinander liegen.';
   if(R.id==='viertel'&&key!=='flossteil'&&c.cat==='attr'&&bs.some(b=>isCat(b,'attr'))&&!nb.some(n=>isCat(n,'attr')))return'Auflage Attraktionsviertel: Die neue Attraktion muss an eine schon gebaute grenzen.';
   if(R.id==='grundl'){const ix2=mkIndex([...bs,fake]),hs=x=>new Set(nbrs(x,ix2).filter(n=>isCat(n,'gehege')).map(n=>CARDS[n.key].hab));
@@ -415,7 +416,7 @@ function zlTerrTile(box){const Z=state.zl,M=MAPS[state.map],tc=t=>[...TERR.value
 // gleiche Gehege/Gebäude leuchten, solange eine passende Handkarte ausgewählt ist
 const lockTxt=k=>costOf(k)>state.bpMax?`<p class="resbad">🔒 Zu teuer: braucht ${costOf(k)} BP, du hast höchstens ${state.bpMax} pro Tag. Mehr gibt es mit 🧱 Saison-Bautrupp oder dem Polier.</p>`:'';
 function twinMarks(){if(state.selected==null||state.phase!=='play')return'';const k=state.hand[state.selected];if(!k)return'';const bk=baseK(k);let o='';const v=ZOOM?viewNow():null;
-  for(const b of state.buildings)if(b.key===bk){const[cx,cy]=centroid(b.cells),up=!CARDS[k].ms&&(b.lvl||1)<MAXLVL;o+=`<g class="twing glow" pointer-events="none">${shapeSvg(b.cells)}</g><g class="twing" pointer-events="none">${shapeSvg(b.cells)}</g><text class="twinl" x="${cx}" y="${(cy-(b.cells.length>1?9.5:7.5)).toFixed(2)}" pointer-events="none">${up?'🔁 Ausbauen?':'🔁 schon da'}</text>`;
+  for(const b of state.buildings)if(sameArt(b.key,bk)){const[cx,cy]=centroid(b.cells),up=!CARDS[k].ms&&(b.lvl||1)<MAXLVL;o+=`<g class="twing glow" pointer-events="none">${shapeSvg(b.cells)}</g><g class="twing" pointer-events="none">${shapeSvg(b.cells)}</g><text class="twinl" x="${cx}" y="${(cy-(b.cells.length>1?9.5:7.5)).toFixed(2)}" pointer-events="none">${up?'🔁 Ausbauen?':'🔁 schon da'}</text>`;
     if(v&&(cx<v[0]||cx>v[0]+v[2]||cy<v[1]||cy>v[1]+v[3])){const m=7,ax=Math.max(v[0]+m,Math.min(v[0]+v[2]-m,cx)),ay=Math.max(v[1]+m,Math.min(v[1]+v[3]-m,cy)),an=Math.atan2(cy-ay,cx-ax)*180/Math.PI;o+=`<g class="twina" pointer-events="none" transform="translate(${ax.toFixed(2)},${ay.toFixed(2)}) rotate(${an.toFixed(1)})"><circle r="4.2"/><path d="M-1.8,-2.2L2.6,0L-1.8,2.2Z"/></g>`}}return o}
 // 0.63a: Gehege, die eine Gruppen-Regel brechen (Klumpen, ganz innen, außerhalb Nordhälfte), rot gestrichelt umranden (auch in der Vorschau)
 let LASTH=null;function hvioMarks(){if(!habRulesOn())return'';try{const h=LASTH&&LASTH.ok&&LASTH.b&&!LASTH.up?LASTH:null,all=h?(h.move?state.buildings.map(x=>x.id===h.move.id?h.b:x):[...state.buildings,h.b]):state.buildings,ix=mkIndex(all);let o='';
@@ -441,6 +442,12 @@ function vorlMarks(){if(!state||!state.zl||!vorlRule())return'';let o='';for(con
 // 0.93a: gelangweilte Showtiere (kein Auslöser) mit Schild „😴 ×0,8“; nur mit Vorschau, nicht im Tutorial
 function boredMarks(idx){if(!state||!state.zl||(TUTNOW&&!TUTTR)||pvHide())return'';let o='';for(const b of state.buildings){if(b.id===state.moving)continue;const c=K(b);if(c.cat!=='gehege'||!(c.tags||[]).includes('show'))continue;const nb=nbrs(b,idx),vs=new Set(nb.filter(n=>K(n).cat==='verst').map(n=>n.key));if(showN(b,c,nb,idx,vs))continue;
   const[cx,cy]=centroid(b.cells),t='😴 ×'+mxs(SHOWBORED),w=(t.length-1)*2.5+5,y=cy-(b.cells.length>1?5:4.2);o+=`<g class="trl neg bored"><rect x="${(cx-w/2).toFixed(2)}" y="${(y-3.1).toFixed(2)}" width="${w.toFixed(2)}" height="6.2" rx="3.1"/><text x="${cx.toFixed(2)}" y="${y.toFixed(2)}">${t}</text></g>`}return o}
+// 0.96a: gebauter Verstärker angetippt – auf welche Nachbarn er gerade wirkt (Scheinwerfer nur auf das stärkste Gehege, Winterquartier nur im Winter), mit Zuwachs
+function vstTargets(v,idx){const bs=state.buildings;if(!v||K(v).cat!=='verst')return[];idx=idx||mkIndex(bs);const bs2=bs.filter(x=>x!==v),i2=mkIndex(bs2),L=[];
+  for(const n of nbrs(v,idx)){let t=verstHit(v.key,K(n));if(!t)continue;if(v.key==='scheinwerfer'){if(spotOf(v,idx)!==n)continue;t='×2,5'}if(v.key==='winterquartier'&&!CTX.winter)continue;
+    let da=0,ds=0;try{const a=evalB(n,bs,idx),b=evalB(n,bs2,i2);da=Math.round(a.a-b.a);ds=Math.round(a.s-b.s)}catch(e){}L.push({n,t,da,ds})}return L}
+function vstInfoHtml(v){if(!v||K(v).cat!=='verst')return'';const L=vstTargets(v);
+  return L.length?`<p class="vstinfo">⚡ Wirkt auf: ${L.map(x=>`<b>${CARDS[x.n.key].icon} ${CARDS[x.n.key].name}</b> ${x.t}`).join(' · ')}</p>`:`<p class="vstinfo">⚡ Wirkt gerade auf kein Nachbar-Gebäude.${v.key==='winterquartier'&&!CTX.winter?' (Sven Frost wirkt nur im Winter.)':''}</p>`}
 function vstMarks(idx){if(!state)return'';let o='';try{for(const v of state.buildings){if(K(v).cat!=='verst'||v.id===state.moving)continue;const[vx,vy]=centroid(v.cells);for(const n of nbrs(v,idx)){let t=verstHit(v.key,K(n));if(!t)continue;if(v.key==='scheinwerfer'){if(spotOf(v,idx)!==n)continue;t='×2,5'}const[nx,ny]=centroid(n.cells),bx=vx+(nx-vx)*.55,by=vy+(ny-vy)*.55,l=(t.match(/×\d+(?:,\d+)?(?: [BN])?/)||[t.replace(/ .*/,'')])[0],w=l.length*1.9+3;
     o+=`<line class="vray" x1="${vx.toFixed(2)}" y1="${vy.toFixed(2)}" x2="${nx.toFixed(2)}" y2="${ny.toFixed(2)}"/><g class="vbadge"><rect x="${(bx-w/2).toFixed(2)}" y="${(by-2.4).toFixed(2)}" width="${w.toFixed(2)}" height="4.8" rx="2.4"/><text x="${bx.toFixed(2)}" y="${by.toFixed(2)}">${l}</text></g>`}}}catch(e){}return o}
 function zlMarks(){const Z=state.zl;if(!Z)return'';let o='';const idx=mkIndex(state.buildings);o+=dayMarks(idx);o+=hvioMarks();o+=pvHide()?'':winterMarks(idx);o+=ensMarks(idx);o+=vorlMarks();o+=boredMarks(idx);
@@ -460,12 +467,12 @@ function zlMarks(){const Z=state.zl;if(!Z)return'';let o='';const idx=mkIndex(st
 let ZRULES=0;
 const ZT=(cls,ic,t,txt,st,stc,extra)=>`<div class="ztl ${cls}"><span class="zti">${ic}</span><div class="ztx"><b>${t}</b><span>${txt}</span>${extra||''}</div>${st!=null&&st!==''?`<span class="zst ${stc||''}">${st}</span>`:''}</div>`;
 const ZD=(ic,k,sm,v,vc,x)=>`<details class="zdt"><summary><span class="zdi">${ic}</span><span class="zdk">${k}${sm?`<small>${sm}</small>`:''}</span><span class="zdv ${vc||''}">${v}</span></summary><div class="zdx">${x}</div></details>`;
-const ZTXT={zucht:'Stehen zwei gleiche Gehege nebeneinander und ist eines davon mindestens Stufe II, kommt am Ende der Jahreszeit ein <b>Jungtier</b> ins Lauf-Deck: 1 Feld, halber Grundwert, gleiche Eigenschaften. Neben einem Gehege seiner Elternart zählt es doppelt. Eins pro Art und Zoo, höchstens 3 im Deck.',
+const ZTXT={zucht:'Stehen zwei gleiche Gehege nebeneinander und ist eines davon mindestens Stufe II, kommt am Ende des Tages ein <b>Jungtier</b> ins Lauf-Deck und liegt am nächsten Tag zusätzlich auf der Hand: 1 Feld, halber Grundwert, gleiche Eigenschaften. Neben einem Gehege seiner Elternart zählt es doppelt. Eins pro Art und Zoo, höchstens 3 im Deck.',
   rein:()=>'Ab '+PURN+' <b>verschiedenen</b> Gehege-Arten eines Lebensraums, die zusammenhängen (Wüste: irgendwo im Zoo): <b>×1,15 Natur</b> für den ganzen Zoo, je weiterer Art +0,15 (höchstens ×1,6). Gleiche Arten halten die Gruppe zusammen, zählen aber nicht mit.',
   viel:'Stehen von <b>allen Lebensräumen</b> mindestens 2 verschiedene Gehege-Arten im Zoo: je 2 Arten ×1,1 Natur, je 3 ×1,15, je 4 ×1,2, je 5 ×1,25. Der Lebensraum mit den wenigsten Arten zählt. Es gilt Vielfalt oder Reinheit, das Bessere.'};
-// Zuchtpaare, die am Ende der Jahreszeit Nachwuchs bekämen (wie z2Breed, ohne Wirkung)
+// Zuchtpaare, die am Ende des Tages Nachwuchs bekämen (wie z2Breed, ohne Wirkung; 0.96a: Partner nach Art, Futter egal)
 function zuchtNow(){try{const run=runOf();if(!run||!run.z2||run.tut||state.mode!=='camp')return[];const idx=mkIndex(state.buildings),L=[],jt=state.z2jt||[];let room=3-cnt(run.deck,k=>CARDS[k]&&CARDS[k].jt);
-  for(const b of state.buildings){const c=CARDS[b.key];if(room<=0)break;if(c.cat!=='gehege'||c.jt||c.ms||jt.includes(b.key)||L.includes(b.key))continue;const m=nbrs(b,idx).find(n=>n.key===b.key);if(!m||Math.max(b.lvl||1,m.lvl||1)<2||!CARDS[b.key+'~j'])continue;L.push(b.key);room--}return L}catch(e){return[]}}
+  for(const b of state.buildings){const c=CARDS[b.key];if(room<=0)break;const bk=baseK(b.key);if(c.cat!=='gehege'||c.jt||c.ms||jt.includes(bk)||L.includes(bk))continue;const m=nbrs(b,idx).find(n=>sameArt(n.key,b.key));if(!m||Math.max(b.lvl||1,m.lvl||1)<2||!CARDS[bk+'~j'])continue;L.push(bk);room--}return L}catch(e){return[]}}
 // 0.92a: Stufe des Laufs in der Zoo-Übersicht, antippen zeigt die Wirkungen (nur ansehen; <details> ohne ids, auch in der Seitenleiste)
 function zooStageHtml(){const r=runOf();if(!r||r.tut||!state.zl)return'';const n=r.stage||1,id=r.deckId||'grund';let box='';try{box=stageBox(id,n,n,0,false,true)}catch(e){return''}
   return`<details class="zstg"><summary>🏔️ Stufe ${n}${r.stTest?' · Stufen-Test':''} <small>antippen</small></summary>${box}</details>`}
