@@ -99,7 +99,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.96a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **Preissteigerung der Stufen abschwächen** (Chat 24.11., Stufe-5-Test: in den ersten Zoos zu wenig Geld, selten kaufen können, Zoo 1 ganz ohne Team):
+   `daten/stufen.json` Stufe 3 `teurer` 1,25 → **1,1** (gilt bis Stufe 5; wirkt über `stW('teurer')` in `priced`, `mappePrice`, `profiPrice`, also auch Spezialisten).
+   Stufen-Text in `stufen.json` und Stufenwahl anpassen („×1,1 teurer“), `docs/regeln.md` nachziehen. Saison-Inflation (+50 % je Jahreszeit) und Team-Aufschlag (×1,25 je Spezialist) bleiben.
 
 **Offen aus 0.94a:** Tutorial auf 4 Tage umstellen, sobald Tobis Plan fertig ist (`docs/tutorial/Zoolatro-Tutorial-Zooplan.html`: Ziele `TUTT`, Tage, Gelände `MAP` → `tutorial.json` `gelaende.terr`).
 
