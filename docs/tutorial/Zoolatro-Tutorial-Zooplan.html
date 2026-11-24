@@ -78,7 +78,8 @@ details summary{cursor:pointer;font-weight:600}
 <div class="wrap">
   <header>
     <h1>🗺️ Tutorial-Zooplan <span class="pill4">4 Tage je Jahreszeit</span></h1>
-    <p class="intro">Die Karte ist das neue Tutorial-Gelände: 3 Lebensräume (Wasser, Savanne, Wüste) mit je 5/5/4 Naturfeldern. Jede Jahreszeit hat jetzt 4 Tage. Wähle oben den Zeitpunkt (Jahreszeit und Tag 1–4) und eine Karte, dann tippe die Felder an, auf die sie kommen soll. Mit „Plan kopieren“ schickst du mir alles.</p>
+    <div class="seasonbar" id="maps" style="margin:8px 0" aria-label="Tutorial-Zoo wählen"></div>
+    <p class="intro" id="intro"></p>
   </header>
   <div class="grid">
     <section class="card boardbox" aria-label="Gelände">
@@ -98,6 +99,7 @@ details summary{cursor:pointer;font-weight:600}
         <h2>Karte wählen</h2>
         <input type="search" id="q" placeholder="Suchen, z. B. Otter oder Café" aria-label="Karte suchen">
         <div class="tabs" id="cats"></div>
+        <div class="tabs" id="trs" aria-label="Nach Merkmal filtern"></div>
         <div class="cards" id="cards"></div>
       </section>
       <section class="card stack">
@@ -122,29 +124,52 @@ details summary{cursor:pointer;font-weight:600}
 <script>
 const CARDS=[["belugas","Belugabecken","🐳","gehege","arktis",4,1],["eisbaeren","Eisbärenküste","🐻‍❄️","gehege","arktis",3,1],["lemminge","Lemminge","🐹","gehege","arktis",1,0],["moschusochsen","Moschusochsen","🦣","gehege","arktis",3,0],["pinguine","Pinguinbecken","🐧","gehege","arktis",1,0],["polarfuchs","Polarfüchse","🐾","gehege","arktis",1,0],["rentiere","Rentierherde","🫎","gehege","arktis",3,1],["schneegaense","Schneegänse","🪿","gehege","arktis",2,0],["schneehasen","Schneehasen","🐇","gehege","arktis",1,0],["braunbaeren","Braunbären","🐻","gehege","gebirge",3,1],["luchse","Luchsrevier","🐈","gehege","gebirge",1,0],["mufflons","Mufflons","🐏","gehege","gebirge",2,0],["murmeltiere","Murmeltiere","🦫","gehege","gebirge",1,0],["pfeifhasen","Pfeifhasen","🐁","gehege","gebirge",1,0],["rotepandas","Rote Pandas","🦝","gehege","gebirge",2,1],["schneeleoparden","Schneeleoparden","🐆❄️","gehege","gebirge",2,1],["steinboecke","Steinböcke","🐐","gehege","gebirge",2,0],["yaks","Yakweide","🐄","gehege","gebirge",4,0],["antilopen","Antilopen","🦌","gehege","savanne",3,1],["bueffel","Büffelherde","🐃","gehege","savanne",3,1],["elefanten","Elefantenpark","🐘","gehege","savanne",4,0],["geparden","Gepardenlauf","🐆","gehege","savanne",2,0],["giraffen","Giraffenweide","🦒","gehege","savanne",3,0],["loewen","Löwensavanne","🦁","gehege","savanne",3,0],["nashoerner","Nashornsteppe","🦏","gehege","savanne",3,1],["warzenschweine","Warzenschweine","🐗","gehege","savanne",1,0],["zebras","Zebrasteppe","🦓","gehege","savanne",2,0],["affen","Affeninsel","🐒","gehege","wald",1,0],["eulen","Eulenwald","🦉","gehege","wald",2,0],["faultiere","Faultierhaus","🦥","gehege","wald",1,0],["gorillas","Gorillawald","🦍","gehege","wald",4,1],["pandas","Große Pandas","🐼","gehege","wald",2,0],["koalas","Koala-Hain","🐨","gehege","wald",1,1],["papageien","Papageien-Voliere","🦜","gehege","wald",2,0],["tiger","Tigerwald","🐯","gehege","wald",3,1],["woelfe","Wolfsrevier","🐺","gehege","wald",3,0],["flamingos","Flamingoteich","🦩","gehege","wasser",2,0],["korallenriff","Korallenriff","🪸","gehege","wasser",1,0],["kraken","Krakengrotte","🐙","gehege","wasser",2,1],["krokodile","Krokodilsumpf","🐊","gehege","wasser",2,1],["nilpferde","Nilpferdsee","🦛","gehege","wasser",4,1],["otter","Otterbach","🦦","gehege","wasser",3,0],["schildkroeten","Schildkröten","🐢","gehege","wasser",1,0],["schwan","Schwanensee","🦢","gehege","wasser",2,0],["seeloewen","Seelöwenbucht","🦭","gehege","wasser",2,0],["dingos","Dingo-Revier","🐕","gehege","wueste",2,1],["fennek","Fennek-Bau","🦊","gehege","wueste",2,0],["kamele","Kamelpfad","🐫","gehege","wueste",4,0],["kaengurus","Känguru-Outback","🦘","gehege","wueste",3,1],["addax","Mendesantilopen","🦌🏜️","gehege","wueste",3,1],["reptilien","Reptilienhaus","🦎","gehege","wueste",1,0],["schlangen","Schlangengrube","🐍","gehege","wueste",2,0],["skorpione","Skorpionhaus","🦂","gehege","wueste",1,0],["wuestenigel","Wüstenigel","🦔","gehege","wueste",1,0],["beduinen","Beduinenzelt","⛺","essen","",1,0],["berghuette","Berghütte","🛖","essen","",1,0],["biergarten","Biergarten","🍺","essen","",2,1],["bratwurst","Bratwurstbude","🌭","essen","",1,0],["eiswagen","Eiswagen","🍦","essen","",1,0],["kuerbisfest","Kürbisfest","🎃","essen","",2,1],["lotterie","Lotterie-Bude","🎫","essen","",1,0],["picknick","Picknickwiese","🧺","essen","",2,0],["pizzeria","Pizzeria","🍕","essen","",2,1],["popcorn","Popcornstand","🍿","essen","",1,0],["bistro","Safari-Bistro","🍽️","essen","",2,1],["teestube","Teestube","🫖","essen","",1,0],["weihnachtsmarkt","Weihnachtsmarkt","🎄","essen","",2,1],["cafe","Zoo-Café","☕","essen","",2,0],["aquarium","Aquarium","🐠","attr","",3,1],["turm","Aussichtsturm","🗼","attr","",1,0],["glashaus","Beheiztes Glashaus","🪴","attr","",2,0],["besucherzentrum","Besucherzentrum","🗺️","attr","",1,0],["delfinshow","Delfinshow","🐬","attr","",2,0],["nachtfuehrung","Nachtführung","🌙","attr","",2,1],["lehrpfad","Naturlehrpfad","🥾","attr","",2,0],["seilbahn","Seilbahn","🚡","attr","",3,1],["streichelzoo","Streichelzoo","🐑","attr","",2,0],["arena","Tiershow-Arena","🤹","attr","",3,0],["tribuene","Tribüne","🏟️","attr","",1,0],["wasserspiel","Wasserspielplatz","💦","attr","",2,0],["zirkus","Zirkus-Zelt","🎪","attr","",3,0],["vielfalt","Artenvielfalt-Institut","🧬","schutz","",1,1],["baumschule","Baumschule","🌱","schutz","",1,0],["bergwacht","Bergwacht","⛑️","schutz","",1,1],["bienen","Bienenhotel","🐝","schutz","",1,0],["gruen","Grünfläche","🌳","schutz","",1,0],["infozentrum","Infozentrum","📚","schutz","",2,0],["oase","Oase","🏝️","schutz","",1,0],["polarstation","Polarstation","📡","schutz","",1,1],["schmetterling","Schmetterlingshaus","🦋","schutz","",2,1],["tierarzt","Tierarztpraxis","🩺","schutz","",2,0],["tropenhaus","Tropenhaus","🌴","schutz","",3,1],["wasserfall","Wasserfall","🏞️","schutz","",1,0],["wasserloch","Wasserloch","🫗","schutz","",1,0],["stiftung","Zoo-Stiftung","🏛️","schutz","",2,1],["zucht","Zuchtstation","🥚","schutz","",2,1]];
 // Neues Tutorial-Gelände (Chat 23.11.): 3 Lebensräume, 14 Naturfelder wie im 4-Tage-Modus (18 × 0,8), gleichmäßig verteilt wie in Europa (5/5/4), als zusammenhängende Flecken
-const MAP={terr:[['2,-1','wasser'],['3,-1','wasser'],['3,-2','wasser'],['4,-1','wasser'],['4,-2','wasser'],['-4,1','savanne'],['-4,2','savanne'],['-5,2','savanne'],['-5,3','savanne'],['-4,3','savanne'],['1,3','wueste'],['2,3','wueste'],['1,4','wueste'],['3,2','wueste'],['-1,-3','block'],['4,1','block'],['-1,4','block']],gold:['0,0','0,3','2,-4'],crown:'2,1'};
+// Zoo 2 (Chat 24.11.): gleiche Regeln, aber breiter und flacher (9 statt 11 Reihen) mit Bucht im Süden, 88 Felder; Naturfelder 4/5/5 an anderen Stellen
+const MAPS={
+ z1:{name:'Zoo 1',sub:'Pantanal',intro:'Zoo 1 liegt im Pantanal (Schwerpunkt Wasser und Savanne): ein Sechseck mit 6 Wasser-, 6 Savannen- und 2 Wüsten-Naturfeldern. Die Naturfelder passen zu den geplanten Gehegen.',
+  terr:[['3,-1','wasser'],['3,-2','wasser'],['4,-2','wasser'],['4,-1','wasser'],['5,-2','wasser'],['5,-1','wasser'],['-4,1','savanne'],['-4,2','savanne'],['-5,2','savanne'],['-5,3','savanne'],['-4,3','savanne'],['-5,4','savanne'],['-1,-4','wueste'],['0,-4','wueste'],['-1,-3','block'],['4,1','block'],['-1,4','block']],gold:['0,0','0,3','2,-4'],crown:'2,1'},
+ z2:{name:'Zoo 2',sub:'Bucht',intro:'Zoo 2 hat dieselben Regeln, ist aber breiter und flacher und hat im Süden eine Bucht. 3 Lebensräume (Wasser, Savanne, Dschungel) mit 4/5/5 Naturfeldern: Wasser an der Bucht, Savanne im Osten, Dschungel im Nordwesten.',
+  cells:['-2,-4','-1,-4','0,-4','1,-4','2,-4','3,-4','4,-4','5,-4','6,-4','-3,-3','-2,-3','-1,-3','0,-3','1,-3','2,-3','3,-3','4,-3','5,-3','6,-3','-4,-2','-3,-2','-2,-2','-1,-2','0,-2','1,-2','2,-2','3,-2','4,-2','5,-2','6,-2','-4,-1','-3,-1','-2,-1','-1,-1','0,-1','1,-1','2,-1','3,-1','4,-1','5,-1','-5,0','-4,0','-3,0','-2,0','-1,0','0,0','1,0','2,0','3,0','4,0','5,0','-5,1','-4,1','-3,1','-2,1','-1,1','0,1','1,1','2,1','3,1','4,1','-6,2','-5,2','-4,2','-3,2','-2,2','-1,2','0,2','1,2','2,2','3,2','4,2','-6,3','-5,3','-4,3','-3,3','-2,3','-1,3','0,3','1,3','2,3','3,3','-6,4','-5,4','-4,4','0,4','1,4','2,4'],
+  terr:[['-4,4','wasser'],['-3,3','wasser'],['-2,3','wasser'],['-1,3','wasser'],['5,-2','savanne'],['4,-1','savanne'],['5,-1','savanne'],['4,0','savanne'],['3,0','savanne'],['-2,-4','wald'],['-1,-4','wald'],['-3,-3','wald'],['-2,-3','wald'],['-3,-2','wald'],['1,-3','block'],['-5,1','block'],['2,2','block']],gold:['2,-1','-3,1','4,-4'],crown:'0,1'}};
+const MAPKEY=id=>id==='z1'?'zooplan1':'zooplan1_'+id; // Zoo 1 behält den alten Speicherplatz
+let MID=(()=>{try{const v=localStorage.getItem('zooplanMap');return MAPS[v]?v:'z1'}catch(e){return 'z1'}})();
+let MAP,TERR,cells;
+function setMap(id){MID=id;MAP=MAPS[id];TERR=new Map(MAP.terr);
+  cells=MAP.cells?MAP.cells.map(k=>k.split(',').map(Number)):[];
+  if(!MAP.cells)for(let q=-5;q<=5;q++)for(let r=-5;r<=5;r++)if(Math.abs(q+r)<=5)cells.push([q,r]);
+  try{localStorage.setItem('zooplanMap',id)}catch(e){}}
 const HAB={wasser:['Wasser','var(--h-wasser)'],savanne:['Savanne','var(--h-savanne)'],wald:['Dschungel','var(--h-wald)'],wueste:['Wüste','var(--h-wueste)'],arktis:['Arktis','var(--h-arktis)'],gebirge:['Gebirge','var(--h-gebirge)']};
 const CAT={gehege:['Gehege','var(--c-gehege)'],essen:['Gastro','var(--c-essen)'],attr:['Attraktion','var(--c-attr)'],schutz:['Naturschutz','var(--c-schutz)']};
+// Merkmale aus daten/karten.json (tags), Stand 0.95a
+const TRN={raubtier:['🦷','Raubtier'],beute:['🐇','Beute'],scheu:['🙈','Scheu'],show:['🎭','Showtier'],ruhig:['🤫','Ruhig'],trubel:['🎉','Trubel'],bedroht:['🛡️','Bedroht'],gross:['🐘','Groß']};
+const TR={"pinguine":["show","bedroht"],"flamingos":["beute"],"schildkroeten":["scheu","bedroht"],"seeloewen":["show"],"otter":["bedroht","gross"],"nilpferde":["bedroht","gross"],"affen":["show"],"pandas":["scheu","bedroht"],"tiger":["raubtier","bedroht","gross"],"faultiere":["scheu"],"woelfe":["raubtier","gross"],"addax":["beute","bedroht","gross"],"kamele":["beute","bedroht","gross"],"fennek":["raubtier","scheu"],"skorpione":["show"],"giraffen":["beute","show","gross"],"zebras":["beute"],"warzenschweine":["beute","show"],"geparden":["raubtier","bedroht"],"elefanten":["bedroht","gross"],"loewen":["raubtier","gross"],"nashoerner":["scheu","bedroht","gross"],"delfinshow":["trubel"],"turm":["ruhig"],"tropenhaus":["gross"],"nachtfuehrung":["ruhig"],"glashaus":["ruhig"],"bratwurst":["trubel"],"picknick":["ruhig"],"weihnachtsmarkt":["trubel"],"gorillas":["bedroht","gross"],"koalas":["beute","scheu"],"eisbaeren":["raubtier","bedroht","gross"],"krokodile":["raubtier"],"schneeleoparden":["raubtier","bedroht"],"kaengurus":["beute","gross"],"aquarium":["gross"],"biergarten":["trubel"],"schwan":["scheu"],"eulen":["scheu"],"papageien":["show"],"schlangen":["bedroht"],"wuestenigel":["beute"],"bueffel":["gross"],"antilopen":["beute","gross"],"arena":["trubel","gross"],"wasserspiel":["trubel"],"kuerbisfest":["trubel"],"korallenriff":["show"],"dingos":["raubtier"],"polarfuchs":["raubtier","scheu"],"schneehasen":["beute"],"moschusochsen":["gross"],"rentiere":["beute","gross"],"belugas":["show","bedroht","gross"],"lemminge":["beute"],"teestube":["ruhig"],"steinboecke":["beute","bedroht"],"murmeltiere":["scheu"],"mufflons":["beute","show"],"yaks":["show","gross"],"braunbaeren":["gross"],"luchse":["raubtier","scheu"],"rotepandas":["scheu","bedroht"],"pfeifhasen":["beute"],"seilbahn":["gross"],"lehrpfad":["ruhig"],"besucherzentrum":["ruhig"],"zirkus":["trubel","gross"],"lotterie":["trubel"],"tribuene":["trubel"]};
+const trTxt=k=>(TR[k]||[]).map(t=>TRN[t].join(' ')).join(' · ');
 const SEA=['Frühling','Sommer','Herbst','Winter'],SE1=['F','S','H','W'];
 const CK=Object.fromEntries(CARDS.map(c=>[c[0],{k:c[0],n:c[1],i:c[2],c:c[3],h:c[4],s:c[5],lk:c[6]}]));
-const TERR=new Map(MAP.terr),R3=Math.sqrt(3),SZ=10;
-const cells=[];for(let q=-5;q<=5;q++)for(let r=-5;r<=5;r++)if(Math.abs(q+r)<=5)cells.push([q,r]);
+const R3=Math.sqrt(3),SZ=10;
+setMap(MID);
 const xy=(q,r)=>[SZ*R3*(q+r/2),SZ*1.5*r];
 const pts=(x,y,s)=>[...Array(6)].map((_,i)=>{const a=Math.PI/180*(60*i-30);return(x+s*Math.cos(a)).toFixed(2)+','+(y+s*Math.sin(a)).toFixed(2)}).join(' ');
-let S={se:0,d:1,pick:null,pend:[],sel:null,cat:'alle',q:'',until:false};
+let S={se:0,d:1,pick:null,pend:[],sel:null,cat:'alle',tr:'',q:'',until:false};
 let P=[]; // {id,k,cells:[...],se,d,up:[[se,d],...],note}
 const NDAYS=4; // 4-Tage-Version: jede Jahreszeit hat 4 Tage
 const tkey=(se,d)=>se*10+d, ttxt=(se,d)=>SEA[se]+' Tag '+d, old=d=>d>NDAYS;
-const save=()=>{try{localStorage.setItem('zooplan1',JSON.stringify(P))}catch(e){}};
-const load=()=>{try{const v=JSON.parse(localStorage.getItem('zooplan1')||'null');if(Array.isArray(v))return v}catch(e){}return null};
+const save=()=>{try{localStorage.setItem(MAPKEY(MID),JSON.stringify(P))}catch(e){}};
+const load=()=>{try{const v=JSON.parse(localStorage.getItem(MAPKEY(MID))||'null');if(Array.isArray(v))return v}catch(e){}return null};
 const EXAMPLE=[
  {k:'reptilien',cells:['1,0'],se:0,d:1,up:[[0,2]],note:''},{k:'gruen',cells:['2,0'],se:0,d:1,up:[],note:''},{k:'kraken',cells:['0,0','0,1'],se:0,d:1,up:[],note:'ein Feld auf ×2'},
  {k:'otter',cells:['2,-1','3,-1','4,-1'],se:0,d:2,up:[],note:'auf die Wasserfläche'},{k:'nilpferde',cells:['-2,1','-2,2','-3,2','-3,3'],se:0,d:3,up:[],note:'Drehen erklären'},
  {k:'bueffel',cells:['-4,1','-4,2','-3,1'],se:0,d:4,up:[],note:''},{k:'bratwurst',cells:['-3,0'],se:0,d:4,up:[],note:'🎉 Trubel, Taler'},{k:'streichelzoo',cells:['-2,0','-1,0'],se:0,d:4,up:[],note:''},
  {k:'wasserfall',cells:['1,-1'],se:0,d:5,up:[],note:''},{k:'gorillas',cells:['0,-1','0,-2','1,-2','-1,-1'],se:0,d:5,up:[],note:'neben Naturschutz, bedroht'}];
 const withIds=L=>L.map((p,i)=>Object.assign({id:i+1,up:[],note:''},p));
-P=load()||withIds(EXAMPLE);
+P=load()||(MID==='z1'?withIds(EXAMPLE):[]);
 let nextId=P.reduce((m,p)=>Math.max(m,p.id),0)+1;
+function drawMaps(){$('maps').innerHTML=Object.entries(MAPS).map(([id,m])=>`<button class="chip${MID===id?' on':''}" data-map="${id}">🗺️ ${m.name} <small>· ${m.sub}</small></button>`).join('');
+  document.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>switchMap(b.dataset.map));
+  $('intro').textContent=MAP.intro+' Jede Jahreszeit hat 4 Tage. Wähle den Zeitpunkt (Jahreszeit und Tag 1–4) und eine Karte, dann tippe die Felder an, auf die sie kommen soll. Mit „Plan kopieren“ schickst du mir alles. Jeder Zoo hat seinen eigenen Plan.';
+  $('example').hidden=MID!=='z1'}
+function switchMap(id){if(id===MID||!MAPS[id])return;save();setMap(id);P=load()||(id==='z1'?withIds(EXAMPLE):[]);nextId=P.reduce((m,p)=>Math.max(m,p.id),0)+1;
+  S.pick=null;S.pend=[];S.sel=null;drawMaps();drawLegend();render();flash(`${MAP.name} geladen.`)}
 const occ=()=>{const m=new Map();for(const p of P)for(const c of p.cells)m.set(c,p);return m};
 const colorOf=c=>c.c==='gehege'?(HAB[c.h]||['', 'var(--c-gehege)'])[1]:CAT[c.c][1];
 const $=id=>document.getElementById(id);
@@ -153,7 +178,7 @@ function drawBoard(){const om=occ();let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;for(co
   const pad=SZ+2,svg=$('board');svg.setAttribute('viewBox',`${mnx-pad} ${mny-pad} ${mxx-mnx+2*pad} ${mxy-mny+2*pad}`);let h='';
   for(const[q,r]of cells){const k=q+','+r,[x,y]=xy(q,r),t=TERR.get(k),p=om.get(k);let fill=t==='block'?'var(--rock)':t?HAB[t][1]:'var(--tile)';
     if(p){fill=colorOf(CK[p.k])}const pend=S.pend.includes(k);const lat=p&&!visible(p);
-    h+=`<polygon class="hx${pend?' pend':''}${lat?' later':''}" data-k="${k}" points="${pts(x,y,SZ-.4)}" fill="${fill}"><title>${k}${t?' · '+(t==='block'?'Felsen':HAB[t][0]+'-Naturfläche'):''}${p?' · '+CK[p.k].n:''}</title></polygon>`;
+    h+=`<polygon class="hx${pend?' pend':''}${lat?' later':''}" data-k="${k}" points="${pts(x,y,SZ-.4)}" fill="${fill}"><title>${k}${t?' · '+(t==='block'?'Felsen':HAB[t][0]+'-Naturfläche'):''}${p?' · '+CK[p.k].n+(TR[p.k]?' · '+trTxt(p.k):''):''}</title></polygon>`;
     if(!p&&MAP.gold.includes(k))h+=`<polygon class="bld" points="${pts(x,y,SZ-2.6)}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-dasharray="2 1.4"/><text class="tag" x="${x}" y="${y}">×2</text>`;
     if(!p&&MAP.crown===k)h+=`<text class="ico" x="${x}" y="${y}" style="font-size:12px">👑</text>`;
     if(!p&&t==='block')h+=`<text class="ico" x="${x}" y="${y}" style="font-size:11px">🪨</text>`;
@@ -181,8 +206,8 @@ function drawTime(){ $('seasons').innerHTML=SEA.map((n,i)=>`<button class="chip$
   document.querySelectorAll('[data-se]').forEach(b=>b.onclick=()=>{S.se=+b.dataset.se;render()});
   document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{S.d=+b.dataset.d;render()})}
 function drawStatus(){let h;const sp=P.find(p=>p.id===S.sel);
-  if(S.pick){const c=CK[S.pick];h=`<b>${c.i} ${c.n}</b> · ${c.s} Feld${c.s>1?'er':''} · ${ttxt(S.se,S.d)}<br>${S.pend.length?`Noch ${c.s-S.pend.length} Feld${c.s-S.pend.length>1?'er':''} antippen.`:`Tippe ${c.s>1?c.s+' zusammenhängende Felder':'ein Feld'} an. Tippe ein vorhandenes ${c.n} an, um es auszubauen.`} <button class="btn" id="cancel" style="margin-left:6px;padding:4px 10px">Fertig</button>`}
-  else if(sp){const c=CK[sp.k];h=`<b>${c.i} ${c.n}</b> · ${ttxt(sp.se,sp.d)} · Felder ${sp.cells.join(' · ')}${sp.up.length?'<br>Ausbau: '+sp.up.map(([a,b])=>ttxt(a,b)).join(', '):''}
+  if(S.pick){const c=CK[S.pick];h=`<b>${c.i} ${c.n}</b> · ${c.s} Feld${c.s>1?'er':''} · ${ttxt(S.se,S.d)}${TR[c.k]?'<br>'+trTxt(c.k):''}<br>${S.pend.length?`Noch ${c.s-S.pend.length} Feld${c.s-S.pend.length>1?'er':''} antippen.`:`Tippe ${c.s>1?c.s+' zusammenhängende Felder':'ein Feld'} an. Tippe ein vorhandenes ${c.n} an, um es auszubauen.`} <button class="btn" id="cancel" style="margin-left:6px;padding:4px 10px">Fertig</button>`}
+  else if(sp){const c=CK[sp.k];h=`<b>${c.i} ${c.n}</b> · ${ttxt(sp.se,sp.d)} · Felder ${sp.cells.join(' · ')}${TR[c.k]?'<br>'+trTxt(c.k):''}${sp.up.length?'<br>Ausbau: '+sp.up.map(([a,b])=>ttxt(a,b)).join(', '):''}
     <div class="stack" style="gap:6px;margin-top:8px"><input type="text" id="noteIn" placeholder="Notiz, z. B. „hier wird Drehen erklärt“" value="${(sp.note||'').replace(/"/g,'&quot;')}" aria-label="Notiz">
     <div class="row"><button class="btn" id="moveT">Auf ${ttxt(S.se,S.d)} verschieben</button>${sp.up.length?'<button class="btn" id="unup">Letzten Ausbau entfernen</button>':''}<button class="btn warn" id="del">Löschen</button></div></div>`}
   else h='Wähle unten eine Karte, oder tippe ein Gebäude auf dem Gelände an, um es zu bearbeiten.';
@@ -192,8 +217,10 @@ function drawStatus(){let h;const sp=P.find(p=>p.id===S.sel);
 function drawCards(){const cats=[['alle','Alle'],['gehege','Gehege'],['essen','Gastro'],['attr','Attraktion'],['schutz','Naturschutz']];
   $('cats').innerHTML=cats.map(([k,t])=>`<button class="chip${S.cat===k?' on':''}" data-cat="${k}">${t}</button>`).join('');
   document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{S.cat=b.dataset.cat;drawCards()});
-  const q=S.q.trim().toLowerCase();const L=Object.values(CK).filter(c=>(S.cat==='alle'||c.c===S.cat)&&(!q||c.n.toLowerCase().includes(q)));
-  $('cards').innerHTML=L.map(c=>`<button class="ci${S.pick===c.k?' on':''}" data-pick="${c.k}"><span class="e">${c.i}</span><span class="t"><b>${c.n}</b><small>${c.c==='gehege'?HAB[c.h][0]:CAT[c.c][0]} · ${c.s} Feld${c.s>1?'er':''}${c.lk?' · 🔒 freischaltbar':''}</small></span></button>`).join('')||'<p class="note">Keine Karte gefunden.</p>';
+  $('trs').innerHTML=[['','Alle Merkmale'],...Object.entries(TRN).map(([k,v])=>[k,v.join(' ')])].map(([k,t])=>`<button class="chip${S.tr===k?' on':''}" data-tr="${k}">${t}</button>`).join('');
+  document.querySelectorAll('[data-tr]').forEach(b=>b.onclick=()=>{S.tr=b.dataset.tr;drawCards()});
+  const q=S.q.trim().toLowerCase();const L=Object.values(CK).filter(c=>(S.cat==='alle'||c.c===S.cat)&&(!S.tr||(TR[c.k]||[]).includes(S.tr))&&(!q||c.n.toLowerCase().includes(q)));
+  $('cards').innerHTML=L.map(c=>`<button class="ci${S.pick===c.k?' on':''}" data-pick="${c.k}"><span class="e">${c.i}</span><span class="t"><b>${c.n}</b><small>${c.c==='gehege'?HAB[c.h][0]:CAT[c.c][0]} · ${c.s} Feld${c.s>1?'er':''}${c.lk?' · 🔒 freischaltbar':''}${TR[c.k]?'<br>'+trTxt(c.k):''}</small></span></button>`).join('')||'<p class="note">Keine Karte gefunden.</p>';
   document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{S.pick=S.pick===b.dataset.pick?null:b.dataset.pick;S.pend=[];S.sel=null;render()})}
 function drawList(){const G=new Map();for(const p of [...P].sort((a,b)=>tkey(a.se,a.d)-tkey(b.se,b.d)||a.id-b.id)){const k=tkey(p.se,p.d);if(!G.has(k))G.set(k,[]);G.get(k).push(p)}
   const ups=[];for(const p of P)for(const[a,b]of p.up)ups.push({p,se:a,d:b});
@@ -211,15 +238,15 @@ function drawWarn(){const bad=P.filter(p=>old(p.d)),badU=P.reduce((n,p)=>n+p.up.
   $('to4').onclick=()=>{for(const p of P){if(old(p.d))p.d=NDAYS;p.up=p.up.map(([a,b])=>[a,old(b)?NDAYS:b])}save();render();flash(`Alles von Tag 5/6 liegt jetzt auf Tag ${NDAYS}.`)};
   $('toNext').onclick=()=>{const mv=(se,d)=>old(d)?(se<3?[se+1,1]:[se,NDAYS]):[se,d];for(const p of P){[p.se,p.d]=mv(p.se,p.d);p.up=p.up.map(([a,b])=>mv(a,b))}save();render();flash('Alles von Tag 5/6 liegt jetzt am Tag 1 der nächsten Jahreszeit (im Winter auf Tag 4).')}}
 function drawLegend(){$('legend').innerHTML=Object.keys(HAB).filter(h=>MAP.terr.some(t=>t[1]===h)).map(h=>`<span><i style="background:${HAB[h][1]}"></i>${HAB[h][0]}-Naturfläche</span>`).join('')+`<span><i style="background:var(--rock)"></i>Felsen</span><span><i style="border:1.5px dashed var(--accent)"></i>×2-Feld</span><span>👑 Kronenfeld</span><span>F1 = Frühling Tag 1 · ⬆ = Ausbau</span>`}
-function planText(){const L=['Zoolatro · Tutorial-Zooplan (4 Tage je Jahreszeit)'];const all=[];for(const p of P){all.push([tkey(p.se,p.d),`${ttxt(p.se,p.d)}: ${CK[p.k].n} (${p.k}) auf ${p.cells.join(' · ')}${p.note?' – '+p.note:''}`]);for(const[a,b]of p.up)all.push([tkey(a,b),`${ttxt(a,b)}: ${CK[p.k].n} ausbauen (${p.cells[0]})`])}
+function planText(){const L=[`Zoolatro · Tutorial-Zooplan ${MAP.name} (${MAP.sub}, 4 Tage je Jahreszeit) · GELAENDE:${MID}`];const all=[];for(const p of P){all.push([tkey(p.se,p.d),`${ttxt(p.se,p.d)}: ${CK[p.k].n} (${p.k}) auf ${p.cells.join(' · ')}${p.note?' – '+p.note:''}`]);for(const[a,b]of p.up)all.push([tkey(a,b),`${ttxt(a,b)}: ${CK[p.k].n} ausbauen (${p.cells[0]})`])}
   all.sort((a,b)=>a[0]-b[0]);for(const[,t]of all)L.push(t);L.push('');L.push('PLAN:'+JSON.stringify(P.map(({k,cells,se,d,up,note})=>({k,cells,se,d,up,note}))));return L.join('\n')}
 $('copy').onclick=()=>{const t=planText(),o=$('out');o.value=t;const done=()=>flash('📋 Kopiert. Füge den Plan einfach in den Chat ein.');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,()=>{o.hidden=false;o.select();flash('Bitte den markierten Text kopieren.')});else{o.hidden=false;o.select();flash('Bitte den markierten Text kopieren.')}};
 let clearArm=0;$('clear').onclick=()=>{if(!clearArm){clearArm=1;$('clear').textContent='Wirklich alles leeren?';setTimeout(()=>{clearArm=0;$('clear').textContent='Alles leeren'},3000);return}P=[];S.sel=null;clearArm=0;$('clear').textContent='Alles leeren';save();render();flash('Plan geleert.')};
 $('example').onclick=()=>{P=withIds(EXAMPLE);nextId=P.length+1;S.sel=null;save();render();flash('Beispiel geladen: so läuft der Frühling im Tutorial heute (noch mit 5 Tagen).')};
-$('doimp').onclick=()=>{const t=$('imp').value,m=t.match(/PLAN:(\[.*\])/s);try{const v=JSON.parse(m?m[1]:t);if(!Array.isArray(v))throw 0;P=withIds(v.filter(p=>CK[p.k]));nextId=P.length+1;save();render();flash('Plan übernommen: '+P.length+' Karten.')}catch(e){flash('Das sieht nicht wie ein kopierter Plan aus. Es braucht die Zeile mit PLAN:.')}};
+$('doimp').onclick=()=>{const t=$('imp').value,m=t.match(/PLAN:(\[.*\])/s),g=t.match(/GELAENDE:(z\d+)/);if(g&&MAPS[g[1]]&&g[1]!==MID)switchMap(g[1]);try{const v=JSON.parse(m?m[1]:t);if(!Array.isArray(v))throw 0;P=withIds(v.filter(p=>CK[p.k]));nextId=P.length+1;save();render();flash('Plan übernommen: '+P.length+' Karten.')}catch(e){flash('Das sieht nicht wie ein kopierter Plan aus. Es braucht die Zeile mit PLAN:.')}};
 $('q').oninput=e=>{S.q=e.target.value;drawCards()};
 $('onlyUntil').onchange=e=>{S.until=e.target.checked;drawBoard()};
 function render(){drawTime();drawStatus();drawBoard();drawList();drawCards()}
-drawLegend();drawCards();render();
+drawMaps();drawLegend();drawCards();render();
 </script>

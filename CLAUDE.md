@@ -99,6 +99,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.96a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**Bauauftrag 0.96a (Tobi: „bauen bitte“, 24.11.):** Punkte 1–6 umsetzen nach [Auftrag](docs/auftraege/0.96a-futter-zucht-stufen-anzeige.md).
+
 1. **Preissteigerung der Stufen abschwächen** (Chat 24.11., Stufe-5-Test: in den ersten Zoos zu wenig Geld, selten kaufen können, Zoo 1 ganz ohne Team):
    `daten/stufen.json` Stufe 3 `teurer` 1,25 → **1,1** (gilt bis Stufe 5; wirkt über `stW('teurer')` in `priced`, `mappePrice`, `profiPrice`, also auch Spezialisten).
    Stufen-Text in `stufen.json` und Stufenwahl anpassen („×1,1 teurer“), `docs/regeln.md` nachziehen. Saison-Inflation (+50 % je Jahreszeit) und Team-Aufschlag (×1,25 je Spezialist) bleiben.
@@ -106,7 +108,34 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    soll die Deck-Übersicht sehen, um einzuschätzen, wie viel ein Spezialist bringt. Entschieden: **nur die Deck-Mischung** wie in Kartenwahl/Aufräumen (`deckMixHtml(keys)` mit dem Lauf-Deck), keine volle Kartenliste,
    aufklappbar (`<details>`) über den Bewerber-Karten, damit es am Handy nicht zu lang wird; im Stellenmarkt (`data-mhire`) gleich mit. Querformat prüfen (`quer.js`). Beim Bauen erst nachsehen, welche Auswahl-Fenster es genau gibt.
 
-**Offen aus 0.94a:** Tutorial auf 4 Tage umstellen, sobald Tobis Plan fertig ist (`docs/tutorial/Zoolatro-Tutorial-Zooplan.html`: Ziele `TUTT`, Tage, Gelände `MAP` → `tutorial.json` `gelaende.terr`).
+3. **Gebauter Verstärker: Wirkung beim Antippen zeigen** (Chat 24.11.): Tippt man einen gebauten Verstärker (Promi, z. B. Nova, Mia Megaviral) an, zeigt das Info-Feld nur „0 B 0 N · Nachbarn +5 B +1 N“,
+   auf dem Brett werden nur die Gebäude hervorgehoben, die auf ihn wirken (`sourcesOf`, für Verstärker leer). Die Strahlen (`vstMarks`) sind zwar immer da, aber man sieht nicht gezielt, wen *dieser* Verstärker stärkt.
+   Vorschlag: beim Antippen eines gebauten Verstärkers (`state.info`, Modul 07 Zeile ~41 und `infoHtml`) die betroffenen Nachbarn hervorheben (`hl`, Linie + Schild „×1,5 B“ wie beim Platzieren aus der Hand, Zeile ~63)
+   und im Info-Feld eine Zeile „⚡ wirkt auf: Affeninsel ×1,5 B · Zebras ×1,2 B“ (Texte über `verstHit`, Scheinwerfer nur `spotOf`, Winterquartier nur im Winter). Auch bei „📊 Vorschau aus“ zeigen (das ist gebaute, keine vorgerechnete Wirkung).
+   Nachgeprüft in 0.92a/0.94a/0.95a: Anzeige war dort gleich – also eher fehlende Funktion als kaputt; bei Tobi nachfragen, falls er etwas anderes meinte.
+4. **Fehler: Gefüttertes Gehege lässt sich nicht ausbauen** (Chat 24.11., Screenshot Affeninsel Stufe 1 mit 1/1 Futter, Affeninsel auf der Hand): Seit „Futter auf Gebautes“ (0.94a, `data-feedb` in Modul 08)
+   bekommt das gebaute Gehege den Schlüssel mit Futter (`affen#kf`). Ausbau-Erkennung in `previewAt` (Modul 06 Z. 119) vergleicht `tb.key===baseK(key)` → `'affen#kf'!=='affen'` → „Da steht schon etwas.“
+   (nachgestellt: ungefüttert gebaut + Handkarte geht, gefüttert gebaut + Handkarte nicht). Lösung: `baseK(tb.key)===baseK(key)`; beim Ausbau bleibt das Futter des Gebäudes, Futter der Handkarte kommt dazu, soweit Plätze frei (`fdMaxK`).
+   Dabei alle Stellen prüfen, die `b.key` direkt mit einem Kartenschlüssel vergleichen (Wiederholung ×0,75, Ausbau-Zähler, Wünsche/Meilensteine …), und Test mit gefüttertem Gebäude schreiben.
+   **Zweiter Fehler (bestätigt 24.11.):** Futter auf Hand-/Deckkarten wirkt nach dem Bauen nicht. `build` (Modul 07 Z. ~551) speichert `key:baseK(key)` – `baseK` entfernt auch das Futter
+   (Ausgabe `ed`/`pr` wird danach wieder gesetzt, Futter nicht); `hypo` rechnet die Vorschau ebenso ohne Futter. Test: Affeninsel mit Kraftfutter (+2 B +2 N): Vorschau 3 B 1 N, gebaut `affen` 3 B 1 N;
+   dasselbe Gebäude als `affen#kf` ergäbe 5 B 3 N. Nur „Futter auf Gebautes“ (0.94a) wirkt. Lösung: beim Bauen und in der Vorschau den Schlüssel mit Futter behalten (`#…` ohne `~`/`^`),
+   Kartenwahl/Deck/Abreißen/Rückgängig prüfen (Karte muss mit Futter zurück ins Deck). Referenzfälle betrifft das nur, wenn dort gefütterte Handkarten gebaut wurden.
+   Gleicher Vergleich auch in der **Zucht**: `z2Breed` (Modul 08 Z. ~463) und `zuchtNow`/`z2Marks` suchen den Partner mit `n.key===b.key` → ein gefüttertes und ein ungefüttertes Gehege derselben Art bekommen kein Jungtier (`b.key+'~j'` mit Futter im Schlüssel gibt es auch nicht). Auf Art vergleichen (`baseK`/Futter abschneiden).
+5. **Weltkarte: Merkmale im Deck zeigen** (Chat 24.11.): Die Weltkarte (`wrPickHtml`, Modul 06 ~Z. 295) zeigt nur die Leiste „Deine Gehege-Karten“ (Anzahl je Lebensraum, `.wrstrip`/`.wrchip`) und „Deine Boni“.
+   Tobi möchte dort auch die Verteilung nach Merkmalen sehen wie in Kartenwahl/Aufräumen: zweite Leiste „Deine Tiere“ mit 🎭 Showtiere · 🙈 scheu · 🐇 Beute · 🦁 Raubtiere · 🔴 bedroht
+   und Gebäude-Arten 🍔 Gastro · 🎡 Attraktionen · 🌳 Naturschutz · ⚡ Verstärker (Zahlen und Icons wie `deckMixHtml`, Modul 07 Z. ~756 – am besten dessen Gruppen `mk`/`gb` wiederverwenden, gleicher Chip-Stil wie `.wrchip`).
+   Leere Werte weglassen. Querformat (`.wrlay`, zweispaltig) prüfen. Hinweis: auf der Weltkarte gab es das bisher nie (in 0.85a–0.95a nachgesehen), Tobi kennt es aus Kartenwahl/Deck-Fenster.
+6. **Zucht: Jungtier sofort statt am Ende der Jahreszeit** (Chat 24.11., Zoo 3 mit Auflage 🍼 Nachwuchs im Winter verloren, obwohl das Paar im Winter stand): Bisher `z2Breed` (Modul 08 Z. ~463)
+   nur in Modul 07 Z. ~641 `if(reach){…}` = am Saisonende und nur bei geschafftem Ziel; Jungtier geht in die Ablage. Damit ist „Nachwuchs“ (Ziel-Auflage, zählt gebaute Jungtiere, `kontinente.json` „Bis Ende Winter mindestens 1 Jungtier im Zoo“) im Winter nicht erreichbar.
+   **Entschieden (Tobi):** Das Jungtier entsteht **direkt am Ende des Tages**, an dem das Paar steht (zwei gleiche Gehege nebeneinander, eins ≥ Stufe II), unabhängig vom Saisonziel, und liegt **am nächsten Tag zusätzlich auf der Hand**.
+   Grenzen bleiben: eins pro Art und Zoo, höchstens 3 im Lauf-Deck. Aufruf aus `if(reach)` heraus in das Tagesende verlegen (auch Herbst/Winter, alle Jahreszeiten); Einblendung `z2born` beim nächsten Tag.
+   Vorschlag für den letzten Wintertag (kein nächster Tag mehr): dann zählt für „Nachwuchs“ das **geborene** Jungtier (Prüfung in `wrGoal`/`endDay` nach `z2Breed`). Texte anpassen: `ZTXT.zucht` (Modul 06 Z. ~463), Regeln/Glossar, `docs/regeln.md`.
+   Zusammen mit Punkt 4 (Partner-Vergleich ohne Futter) bauen; Test: Paar im Winter Tag 2 → Jungtier Tag 3 auf der Hand, bauen → Nachwuchs erfüllt.
+
+**Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
+  Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
+  auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
 
 **Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Gewicht legendärer Karten (2; bei Bedarf 1). Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
 
