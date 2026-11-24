@@ -124,6 +124,12 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Tobi möchte dort auch die Verteilung nach Merkmalen sehen wie in Kartenwahl/Aufräumen: zweite Leiste „Deine Tiere“ mit 🎭 Showtiere · 🙈 scheu · 🐇 Beute · 🦁 Raubtiere · 🔴 bedroht
    und Gebäude-Arten 🍔 Gastro · 🎡 Attraktionen · 🌳 Naturschutz · ⚡ Verstärker (Zahlen und Icons wie `deckMixHtml`, Modul 07 Z. ~756 – am besten dessen Gruppen `mk`/`gb` wiederverwenden, gleicher Chip-Stil wie `.wrchip`).
    Leere Werte weglassen. Querformat (`.wrlay`, zweispaltig) prüfen. Hinweis: auf der Weltkarte gab es das bisher nie (in 0.85a–0.95a nachgesehen), Tobi kennt es aus Kartenwahl/Deck-Fenster.
+6. **Zucht: Jungtier sofort statt am Ende der Jahreszeit** (Chat 24.11., Zoo 3 mit Auflage 🍼 Nachwuchs im Winter verloren, obwohl das Paar im Winter stand): Bisher `z2Breed` (Modul 08 Z. ~463)
+   nur in Modul 07 Z. ~641 `if(reach){…}` = am Saisonende und nur bei geschafftem Ziel; Jungtier geht in die Ablage. Damit ist „Nachwuchs“ (Ziel-Auflage, zählt gebaute Jungtiere, `kontinente.json` „Bis Ende Winter mindestens 1 Jungtier im Zoo“) im Winter nicht erreichbar.
+   **Entschieden (Tobi):** Das Jungtier entsteht **direkt am Ende des Tages**, an dem das Paar steht (zwei gleiche Gehege nebeneinander, eins ≥ Stufe II), unabhängig vom Saisonziel, und liegt **am nächsten Tag zusätzlich auf der Hand**.
+   Grenzen bleiben: eins pro Art und Zoo, höchstens 3 im Lauf-Deck. Aufruf aus `if(reach)` heraus in das Tagesende verlegen (auch Herbst/Winter, alle Jahreszeiten); Einblendung `z2born` beim nächsten Tag.
+   Vorschlag für den letzten Wintertag (kein nächster Tag mehr): dann zählt für „Nachwuchs“ das **geborene** Jungtier (Prüfung in `wrGoal`/`endDay` nach `z2Breed`). Texte anpassen: `ZTXT.zucht` (Modul 06 Z. ~463), Regeln/Glossar, `docs/regeln.md`.
+   Zusammen mit Punkt 4 (Partner-Vergleich ohne Futter) bauen; Test: Paar im Winter Tag 2 → Jungtier Tag 3 auf der Hand, bauen → Nachwuchs erfüllt.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
