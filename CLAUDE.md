@@ -115,8 +115,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    bekommt das gebaute Gehege den Schlüssel mit Futter (`affen#kf`). Ausbau-Erkennung in `previewAt` (Modul 06 Z. 119) vergleicht `tb.key===baseK(key)` → `'affen#kf'!=='affen'` → „Da steht schon etwas.“
    (nachgestellt: ungefüttert gebaut + Handkarte geht, gefüttert gebaut + Handkarte nicht). Lösung: `baseK(tb.key)===baseK(key)`; beim Ausbau bleibt das Futter des Gebäudes, Futter der Handkarte kommt dazu, soweit Plätze frei (`fdMaxK`).
    Dabei alle Stellen prüfen, die `b.key` direkt mit einem Kartenschlüssel vergleichen (Wiederholung ×0,75, Ausbau-Zähler, Wünsche/Meilensteine …), und Test mit gefüttertem Gebäude schreiben.
-   **Verdacht, beim Bauen prüfen:** Baut man eine gefütterte Handkarte, speichert `build` (Modul 07 Z. ~551) `key:baseK(key)` – `baseK` entfernt auch das Futter (Ausgabe `ed`/`pr` wird danach wieder gesetzt, Futter nicht).
-   Im Test war das Futter nach dem Bauen weg (`affen#kf` → gebaut `affen`). Falls bestätigt: Futter beim Bauen behalten (Schlüssel mit `#…` ohne `~`/`^`).
+   **Zweiter Fehler (bestätigt 24.11.):** Futter auf Hand-/Deckkarten wirkt nach dem Bauen nicht. `build` (Modul 07 Z. ~551) speichert `key:baseK(key)` – `baseK` entfernt auch das Futter
+   (Ausgabe `ed`/`pr` wird danach wieder gesetzt, Futter nicht); `hypo` rechnet die Vorschau ebenso ohne Futter. Test: Affeninsel mit Kraftfutter (+2 B +2 N): Vorschau 3 B 1 N, gebaut `affen` 3 B 1 N;
+   dasselbe Gebäude als `affen#kf` ergäbe 5 B 3 N. Nur „Futter auf Gebautes“ (0.94a) wirkt. Lösung: beim Bauen und in der Vorschau den Schlüssel mit Futter behalten (`#…` ohne `~`/`^`),
+   Kartenwahl/Deck/Abreißen/Rückgängig prüfen (Karte muss mit Futter zurück ins Deck). Referenzfälle betrifft das nur, wenn dort gefütterte Handkarten gebaut wurden.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
