@@ -119,6 +119,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    (Ausgabe `ed`/`pr` wird danach wieder gesetzt, Futter nicht); `hypo` rechnet die Vorschau ebenso ohne Futter. Test: Affeninsel mit Kraftfutter (+2 B +2 N): Vorschau 3 B 1 N, gebaut `affen` 3 B 1 N;
    dasselbe Gebäude als `affen#kf` ergäbe 5 B 3 N. Nur „Futter auf Gebautes“ (0.94a) wirkt. Lösung: beim Bauen und in der Vorschau den Schlüssel mit Futter behalten (`#…` ohne `~`/`^`),
    Kartenwahl/Deck/Abreißen/Rückgängig prüfen (Karte muss mit Futter zurück ins Deck). Referenzfälle betrifft das nur, wenn dort gefütterte Handkarten gebaut wurden.
+   Gleicher Vergleich auch in der **Zucht**: `z2Breed` (Modul 08 Z. ~463) und `zuchtNow`/`z2Marks` suchen den Partner mit `n.key===b.key` → ein gefüttertes und ein ungefüttertes Gehege derselben Art bekommen kein Jungtier (`b.key+'~j'` mit Futter im Schlüssel gibt es auch nicht). Auf Art vergleichen (`baseK`/Futter abschneiden).
 5. **Weltkarte: Merkmale im Deck zeigen** (Chat 24.11.): Die Weltkarte (`wrPickHtml`, Modul 06 ~Z. 295) zeigt nur die Leiste „Deine Gehege-Karten“ (Anzahl je Lebensraum, `.wrstrip`/`.wrchip`) und „Deine Boni“.
    Tobi möchte dort auch die Verteilung nach Merkmalen sehen wie in Kartenwahl/Aufräumen: zweite Leiste „Deine Tiere“ mit 🎭 Showtiere · 🙈 scheu · 🐇 Beute · 🦁 Raubtiere · 🔴 bedroht
    und Gebäude-Arten 🍔 Gastro · 🎡 Attraktionen · 🌳 Naturschutz · ⚡ Verstärker (Zahlen und Icons wie `deckMixHtml`, Modul 07 Z. ~756 – am besten dessen Gruppen `mk`/`gb` wiederverwenden, gleicher Chip-Stil wie `.wrchip`).
