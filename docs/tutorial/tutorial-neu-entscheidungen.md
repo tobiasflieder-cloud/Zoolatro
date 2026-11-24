@@ -63,6 +63,8 @@ Zoo 2, Frühling: 18 · 234 · 399 · 644 (nach Tag 3: 651, nach Tag 4: 1.295).
 
 Freie Jahreszeiten sind Schätzungen: beim Bauen mit `MEAS=1 node tests/tutcal5.js` (bzw. dem neuen Tutorial-Durchlauf) nachmessen und von Tobi testen lassen.
 
-## Noch offen
-- Ziele für Zoo 3 und 4: Die normalen Weltreise-Ziele für den 3./4. Zoo liegen deutlich über dem Tutorial-Niveau (Tutorial-Zoo 1 Sommer ~22.000, normaler Lauf viel höher).
-  Vorschlag beim Bauen: Zoo 3/4 mit Stufe 1 und eigenem Faktor, so dass der Sprung nicht zu groß wird – mit Tobi klären.
+## Zoo 3 und 4 (frei, Chat 24.11.: „Mittelding“)
+Nicht ganz Stufe 1, aber schwerer als die Tutorial-Zoos: normale Weltreise-Ziele (Stufe 1, Zoogründer, 4 Tage) mal Faktor **Zoo 3 ×0,5, Zoo 4 ×0,7**.
+Zum Vergleich Stufe 1 normal (`seTarget`): Zoo 3 6.000 / 61.800 / 174.000 / 369.000 · Zoo 4 6.900 / 89.600 / 278.000 / 573.000.
+Damit Tutorial: Zoo 3 **3.000 / 30.900 / 87.000 / 185.000** · Zoo 4 **4.800 / 62.700 / 195.000 / 401.000** (gerundet wie im Spiel).
+Sprung Zoo 2 Winter (60.000) → Zoo 3 Winter (185.000) ist größer als im normalen Lauf (×1,55); nach Tobis erstem Testlauf prüfen.

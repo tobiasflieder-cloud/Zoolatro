@@ -106,9 +106,15 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    soll die Deck-Übersicht sehen, um einzuschätzen, wie viel ein Spezialist bringt. Entschieden: **nur die Deck-Mischung** wie in Kartenwahl/Aufräumen (`deckMixHtml(keys)` mit dem Lauf-Deck), keine volle Kartenliste,
    aufklappbar (`<details>`) über den Bewerber-Karten, damit es am Handy nicht zu lang wird; im Stellenmarkt (`data-mhire`) gleich mit. Querformat prüfen (`quer.js`). Beim Bauen erst nachsehen, welche Auswahl-Fenster es genau gibt.
 
+3. **Gebauter Verstärker: Wirkung beim Antippen zeigen** (Chat 24.11.): Tippt man einen gebauten Verstärker (Promi, z. B. Nova, Mia Megaviral) an, zeigt das Info-Feld nur „0 B 0 N · Nachbarn +5 B +1 N“,
+   auf dem Brett werden nur die Gebäude hervorgehoben, die auf ihn wirken (`sourcesOf`, für Verstärker leer). Die Strahlen (`vstMarks`) sind zwar immer da, aber man sieht nicht gezielt, wen *dieser* Verstärker stärkt.
+   Vorschlag: beim Antippen eines gebauten Verstärkers (`state.info`, Modul 07 Zeile ~41 und `infoHtml`) die betroffenen Nachbarn hervorheben (`hl`, Linie + Schild „×1,5 B“ wie beim Platzieren aus der Hand, Zeile ~63)
+   und im Info-Feld eine Zeile „⚡ wirkt auf: Affeninsel ×1,5 B · Zebras ×1,2 B“ (Texte über `verstHit`, Scheinwerfer nur `spotOf`, Winterquartier nur im Winter). Auch bei „📊 Vorschau aus“ zeigen (das ist gebaute, keine vorgerechnete Wirkung).
+   Nachgeprüft in 0.92a/0.94a/0.95a: Anzeige war dort gleich – also eher fehlende Funktion als kaputt; bei Tobi nachfragen, falls er etwas anderes meinte.
+
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
-  auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Offen: Ziele für Zoo 3/4.
+  auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
 
 **Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Gewicht legendärer Karten (2; bei Bedarf 1). Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
 
