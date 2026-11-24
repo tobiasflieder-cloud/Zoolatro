@@ -1373,9 +1373,9 @@
  ]
 },
 "erwartet":{
- "A": 597,
- "S": 334,
- "total": 199398,
+ "A": 575,
+ "S": 325,
+ "total": 186875,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1747,8 +1747,8 @@
   },
   {
    "id": 14,
-   "a": 69,
-   "s": 27,
+   "a": 52,
+   "s": 20,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1794,6 +1794,11 @@
      "📸 Fotograf ×3,0",
      46,
      18
+    ],
+    [
+     "2. Warzenschweine 🍉: zählt ×0,75 des eigenen Werts",
+     -17,
+     -7
     ]
    ]
   },

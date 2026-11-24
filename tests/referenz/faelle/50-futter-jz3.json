@@ -1626,9 +1626,9 @@
  ]
 },
 "erwartet":{
- "A": 506,
- "S": 415,
- "total": 209990,
+ "A": 462,
+ "S": 380,
+ "total": 175560,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1689,8 +1689,8 @@
   },
   {
    "id": 2,
-   "a": 10,
-   "s": 10,
+   "a": 8,
+   "s": 8,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1711,6 +1711,11 @@
      "🧊 Nordlage ×2",
      5,
      5
+    ],
+    [
+     "2. Schneegänse: zählt ×0,75 des eigenen Werts",
+     -2,
+     -2
     ]
    ]
   },
@@ -2073,8 +2078,8 @@
   },
   {
    "id": 20,
-   "a": 63,
-   "s": 55,
+   "a": 47,
+   "s": 41,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2110,13 +2115,18 @@
      "❤️ neben dem Besucherliebling ×1,25",
      13,
      11
+    ],
+    [
+     "2. Korallenriff 🌰: zählt ×0,75 des eigenen Werts",
+     -16,
+     -14
     ]
    ]
   },
   {
    "id": 21,
-   "a": 36,
-   "s": 34,
+   "a": 27,
+   "s": 26,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2152,6 +2162,11 @@
      "❤️ Besucherliebling des Tages ×2,0",
      18,
      17
+    ],
+    [
+     "2. Schwanensee ✨: zählt ×0,75 des eigenen Werts",
+     -9,
+     -8
     ]
    ]
   },
@@ -2275,8 +2290,8 @@
   },
   {
    "id": 26,
-   "a": 3,
-   "s": 3,
+   "a": 2,
+   "s": 2,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -2302,6 +2317,11 @@
      "Nordlage gebrochen: ganze Gruppe (3) ×0,5",
      -2,
      -2
+    ],
+    [
+     "2. Lemminge 🌿: zählt ×0,75 des eigenen Werts",
+     -1,
+     -1
     ]
    ]
   },
@@ -2383,8 +2403,8 @@
   },
   {
    "id": 30,
-   "a": 14,
-   "s": 12,
+   "a": 4,
+   "s": 3,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2405,6 +2425,11 @@
      "💧 Fluss: Kette aus 3 ×1,75",
      6,
      5
+    ],
+    [
+     "3. Schwanensee 🥜: zählt ×0,25 des eigenen Werts",
+     -10,
+     -9
     ]
    ]
   },
