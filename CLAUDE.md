@@ -118,6 +118,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 **Godot-Vorbereitung (Stand):** 2a–2c fertig und mit 0.74a in main. Nächster Schritt laut `docs/godot-plan.md`: Wertung in Godot gegen die Referenzfälle.
   Werkzeuge: Textvergleich alt/neu `bash tests/textvergleich.sh`, Querformat-Test `node tests/quer.js` (auch in `pruefen.sh`).
+  **Wenn der Godot-Port startet** (Chat 24.11.): Gamedev-Plugin einbinden, Community-Projekt `gamedev-skills/awesome-gamedev-agent-skills` (Plugin `gamedev`, 80 Skills, keine Hooks/MCP).
+  Eintrag in `.claude/settings.json` (`extraKnownMarketplaces` + `enabledPlugins`), damit jede Cloud-Sitzung es lädt. Nützlich: Godot-Skills (Resources, UI/Control, Tilemap, Tests ohne Fenster, Export), `card-game`.
+  Für die HTML-Version bewusst nicht eingebunden (bringt dort kaum etwas).
 
 **Für später (aus dem Chat 13.11.):** Gruppen-Bonus nach ein paar Läufen prüfen (evtl. Schritt 0,05 statt 0,1, in `daten/spezialisten.json` `schritt`) · Förderung attraktiver: erst Nutzen
 im aktuellen Zoo anzeigen („heute etwa +X B“), danach ggf. Preis/Wirkung; im Tutorial Zoo 2 zeigen · Winter-Bedingung „Mindestgröße“ zur Gruppe „schwer“ ·
