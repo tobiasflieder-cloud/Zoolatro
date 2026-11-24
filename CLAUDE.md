@@ -102,6 +102,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 1. **Preissteigerung der Stufen abschwächen** (Chat 24.11., Stufe-5-Test: in den ersten Zoos zu wenig Geld, selten kaufen können, Zoo 1 ganz ohne Team):
    `daten/stufen.json` Stufe 3 `teurer` 1,25 → **1,1** (gilt bis Stufe 5; wirkt über `stW('teurer')` in `priced`, `mappePrice`, `profiPrice`, also auch Spezialisten).
    Stufen-Text in `stufen.json` und Stufenwahl anpassen („×1,1 teurer“), `docs/regeln.md` nachziehen. Saison-Inflation (+50 % je Jahreszeit) und Team-Aufschlag (×1,25 je Spezialist) bleiben.
+2. **Karten-Übersicht bei der Spezialisten-Wahl** (Chat 24.11.): Wer aus einer Bewerber-Mappe wählt (Mappe/Profi-Mappe im Shop, Geschenk `gprofi`, Auswahl zwischen den Zoos `perk`/`wrPerk`),
+   soll die Deck-Übersicht sehen, um einzuschätzen, wie viel ein Spezialist bringt. Vorschlag: dieselbe Übersicht wie in Kartenwahl/Aufräumen (`deckMixHtml(keys)` mit dem Lauf-Deck),
+   aufklappbar (`<details>`) über den Bewerber-Karten, damit es am Handy nicht zu lang wird; im Stellenmarkt (`data-mhire`) gleich mit. Querformat prüfen (`quer.js`). Beim Bauen erst nachsehen, welche Auswahl-Fenster es genau gibt.
 
 **Offen aus 0.94a:** Tutorial auf 4 Tage umstellen, sobald Tobis Plan fertig ist (`docs/tutorial/Zoolatro-Tutorial-Zooplan.html`: Ziele `TUTT`, Tage, Gelände `MAP` → `tutorial.json` `gelaende.terr`).
 
