@@ -672,9 +672,9 @@ const EINMAL={futter:{icon:'🥕',name:'Futterlieferung',price:15,text:'Ein zuf�
 const AUSBAU={hand:{icon:'🖐️',name:'Größere Hand',text:'+1 Handkarte, für den ganzen Lauf.'},team:{icon:'🪑',name:'Mehr Büros',text:'+1 Platz im Team, für den ganzen Lauf.'},rd:{icon:'🔄',name:'Kartenautomat',text:'+1 Gratis-Neuziehen in jeder Jahreszeit, für den ganzen Lauf.'},mappe:{icon:'📂',name:'Personalbüro',text:'Bewerbermappen haben 4 statt 3 Bewerbungen, für den ganzen Lauf.'}};
 function genEinmal(){const n=state.mode==='camp'?2+(runAus('shop')?1:0):0;return shuffle(Object.keys(EINMAL).filter(k=>!(k==='futter'&&foodOn())&&!(k==='zeitung'&&state.zl&&state.zl.news)&&!(k==='glueckslos'&&state.luckNext))/* 0.92a: nicht doppelt */).slice(0,n).map(k=>({kind:'einmal',key:k,price:priced(EINMAL[k].price)}))}
 function ausbauItem(){if(state.mode!=='camp'||!state.zl)return null;const run=runOf();if(!run)return null;if(state.ausbauDone)return null;if(state.ausbauKey&&!AUSBAU[state.ausbauKey])state.ausbauKey=null;if(!state.ausbauKey){const av=Object.keys(AUSBAU).filter(k=>!(run.ausbau||[]).includes(k));if(!av.length)return null;state.ausbauKey=av[Math.floor(Math.random()*av.length)]}return{kind:'ausbau',key:state.ausbauKey,price:priced(40)}}
-const mappePrice=()=>Math.round((25+10*(state.mappeN||0))*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1));
+const mappePrice=()=>Math.max(1,Math.round(((25+10*(state.mappeN||0))*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1))*eroeffF()));
 // 0.64a Profi-Mappe: 3 Bewerbungen, mind. 1 selten/legendär, Selten/Legendär 3× so oft; ab Sommer, nicht im Tutorial
-const PROFIW=SPEZ_DATEN.profi_gewicht.slice(),profiPrice=()=>Math.round((45+15*(state.profiN||0))*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1)),profiOn=()=>!!(state&&state.mode==='camp'&&runOf()&&!runOf().tut);
+const PROFIW=SPEZ_DATEN.profi_gewicht.slice(),profiPrice=()=>Math.max(1,Math.round(((45+15*(state.profiN||0))*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*(runDeck()==='freizeit'?1.25:1))*eroeffF())),profiOn=()=>!!(state&&state.mode==='camp'&&runOf()&&!runOf().tut);
 function runOf(){const sl=activeSlot();return sl&&sl.run}
 const specPrice=id=>Math.round(priced(SPECPRICE[SPEC[id].tier])*(1+.25*((state.spec||[]).length))*(runDeck()==='freizeit'?1.25:1));
 function rollMarket(n,excl=[]){if(wrBon('forscher'))n++; // 0.85a: Gastforscher
@@ -719,7 +719,9 @@ function genShopItems(){const pick=a=>a.length?a.splice(Math.floor(Math.random()
   const out=[];let hasM=false;for(const[kind,arr]of[['prog',progs],['prog',progs],...(state.zl&&(state.zoo||0)>=2?[['prog',plusP]]:[]),['ad',ads],['card',cards]]){let k=pick(arr);if(k&&isMultItem(kind,k)){if(hasM){const j=arr.findIndex(x=>!isMultItem(kind,x));k=j>=0?arr.splice(j,1)[0]:null}else hasM=true}if(k)out.push(mkItem(kind,k))}
   return out}
 const inflation=()=>1+.5*state.season; // Preise steigen jede Saison um 50 %
-const priced=p=>{const x=p*inflation()*stW('teurer',1)*(runDeck()==='geniesser'?.8:1);return isD4(runOf())?Math.ceil(Math.round(x)*.8):Math.round(x)}; // 0.80a: Testlauf „4 Tage“: Preise ×0,8 (aufgerundet)
+// 0.98a: Eröffnungsangebot – erster Shop jedes Zoos (nach dem Frühling, nicht im Tutorial): alles ×0,75
+const EROEFF=.75,eroeffOn=()=>{try{const r=runOf();return!!state&&state.mode==='camp'&&state.season===0&&state.phase!=='play'&&!TUTNOW&&!(r&&r.tut)}catch(e){return false}},eroeffF=()=>eroeffOn()?EROEFF:1;
+const priced=p=>{const x=p*inflation()*stW('teurer',1)*(runDeck()==='geniesser'?.8:1)*eroeffF();const y=isD4(runOf())?Math.ceil(Math.round(x)*.8):Math.round(x);return p>0?Math.max(1,y):y}; // 0.80a: Testlauf „4 Tage“: Preise ×0,8 (aufgerundet)
 const isMultItem=(kind,key)=>kind==='prog'?!!PROGS[key].mult:kind==='ad'?!!ADS[key].mult:false;
 function mkItem(kind,key){if(kind==='prog'||kind==='ad'){const D=kind==='prog'?PROGS[key]:ADS[key],n=D.mult?(state.multBought||0):0;return{kind,key,price:Math.round(priced(D.price)*(1+.5*n)),sur:n*50}}
   const c=CARDS[key];return{kind,key,price:priced(c.rar==='sehr selten'?20:c.rar==='winter'||c.rar==='saison'?16:15)}}

@@ -265,7 +265,7 @@ Nach jeder gewonnenen Jahreszeit (außer Winter). Reiter: 👥 Team · 🧰 Umba
   🧰 Umbau (`UMBPRICE`), Karte aussortieren (10), Felsen räumen (12).
 - **Wechselnde Angebote**: Einmal-Angebote (`EINMAL`: Futterlieferung, Zeitungsartikel, Glückslos), ein Zoo-Ausbau je Zoo (`AUSBAU`:
   größere Hand, mehr Büros, Kartenautomat …), Stellenmarkt (`state.market`).
-- Preise: `priced(p) = p · inflation · (ab Stufe 3: ×1,1, seit 0.96a; vorher ×1,25) · (Genießer 0,8)`; Mappe/Profi ebenso, Freizeit ×1,25 für Spezialisten.
+- Preise: `priced(p) = p · inflation · (keine Stufen-Preissteigerung mehr seit 0.98a; 0.96a–0.97a ×1,1 ab Stufe 3, vorher ×1,25) · (Eröffnungsangebot nach dem Frühling ×0,75, seit 0.98a) · (Genießer 0,8)`; Mappe/Profi ebenso, Freizeit ×1,25 für Spezialisten.
 - **Futtersack** (`04:rollFood`): Kandidaten = Lebensraum-Futter für jeden Lebensraum des Laufs (Gewicht `HFOODW=4`) + jedes Einzelfutter,
   das auf mindestens eine Karte in Stapel/Hand/Ablage passt (Gewicht `FOODR=[6,3,1]` nach Seltenheit). Ziehen ohne Zurücklegen.
   **Futterplätze** je Karte `fdMaxK`: gewöhnlich 1, selten 2, sehr selten 3, Futtermeister +1.
@@ -311,7 +311,7 @@ Seit 0.76a kann eine Stufe mehrere Wirkungen haben; kommt eine Kennung mehrfach 
 | 2 | Saisonziele +10 % · nur 15 Naturfelder | `ziel` → `stTF` · `natur` → `natNow`/`natQuota` (Schwerpunkt anteilig) |
 | 3 | nur 1 goldenes Feld | `gold` → `initZl` |
 | 4 | Saisonziele +10 % · Reinheit erst ab 6 | `ziel` · `reinheit` → `PURN` (in `syncCtx`) |
-| 5 | Shop und Stellenmarkt ×1,1 (0.96a; vorher ×1,25) | `teurer` → `priced`, `mappePrice`, `profiPrice` |
+| 5 | ~~Shop und Stellenmarkt teurer~~ (gestrichen in 0.98a; vorher ×1,1 bzw. ×1,25) | `teurer` → `priced`, `mappePrice`, `profiPrice` |
 | 6 | Krone ×1,15 · Tag 1 jeder Jahreszeit 1 BP weniger | `krone` → `CROWNF` (in `syncCtx`) · `bp_erster_tag` → `startDay` |
 | 7 | Saisonziele +10 % · nur 12 Naturfelder | `ziel` · `natur` |
 | 8 | keine Besucherwünsche (keine 🎈 Wunscherfüllerin) · keine Gold- und Kronenfelder · nur 9 Naturfelder | `keine_wuensche` → `wishOn`, `rollSpecs` · `gold` 0, `keine_krone` → `initZl` · `natur` |
@@ -512,3 +512,14 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Seltenheit** `01:RARW`: gewöhnlich 10, selten **4** (vorher 5), legendär **1** (vorher 2); Forscher (`talent`) ×2,5 auf selten/legendär unverändert.
 - **Kartenwahl** `11:zkDeal`: Das Selten-Los wird nach Gewicht gezogen (`zkOrder`/`zkW`: Seltenheit aus `RARW`, Bonus-Karten wie selten, `talent` aus `run.spec` ×2,5; ohne Doppel). Gewöhnlich-Los bleibt gleichverteilt, Platzregeln (1 selten, 2 zu 50 %, 3 gewöhnlich, Forscher-Profil 2 Plätze, Ausweichen, Veredelungen) unverändert.
   Gemessen in `jsd97a` (je 5.000, Teststand mit 19 gesperrten seltenen/legendären Karten): Zoo-Angebot mind. 1 legendär 4,2 %, mind. 1 selten 48 %; Kartenwahl Platz 1 legendär 5,4 %, mind. 1 legendär 8,1 %.
+
+## 28. 0.98a
+- **Stufen** (`daten/stufen.json`): Stufe 3 ohne `teurer`; es gibt keine Stufen-Preissteigerung mehr (`stW('teurer',1)` in `priced`/`mappePrice`/`profiPrice` liefert 1).
+- **Seltenheit** `01:RARW`: gewöhnlich 10, selten **5**, legendär **2** (wie bis 0.96a), neu `promi` **3**. Die gewichtete Kartenwahl (`11:zkOrder`/`zkW`) bleibt.
+- **Promis** (die 6 Verstärker, `cat:'verst'`): `rar:'sehr selten'` (Glanz `rg2`, Label „Legendär“, Shop-Preis 20), Gewicht `RARW.promi`=3 in `04:weightOf` und `11:zkW`; Forscher ×2,5 gilt mit. Im Kartenwahl-Los bleiben sie im Selten-Los. Futterplätze betrifft das nicht (Futter nur auf Gehege).
+- **Besucher-Vielfalt** `04:besVielfalt`/`bvF`, Zahlen in `BVIEL` (`ab` 3, `f0` 1,1, `schritt` 0,05, `max` 1,3): verschiedene Gastro-Arten (`essen`) und verschiedene Attraktions-Arten (`attr`), Art über `spK`; nur die größere Gruppe zählt (Gleichstand: Gastro).
+  Faktor auf Besucher (`ma`) in `scoreZoo` im `CTX.zl`-Block nach Reinheit/Vielfalt, zusätzlich zu diesen: ab 3 Arten ×1,1, je weitere +0,05, höchstens ×1,3. Zeile „🍔 Gastro-Vielfalt: n Arten“ bzw. „🎡 Attraktions-Vielfalt: n Arten“.
+  Anzeige: Zoo-Faktoren, Zoo-Übersicht „Dein Stand“ (`ZTXT.bviel`), Regeln im Profil-Fenster, Glossar.
+- **Eröffnungsangebot** `07:eroeffOn`/`eroeffF` (`EROEFF` 0,75): im Shop nach dem Frühling (`state.season===0`, Phase nicht `play`, nicht im Tutorial) alle Preise ×0,75 in `priced` (Karten, Spezialisten, Umbau, Futter, Extras) und in `mappePrice`/`profiPrice`; mindestens 1. Hinweis `eroeffHtml` im Shop und im Stellenmarkt.
+- Festgestellt (nicht geändert): `priced` rechnet bei `isD4(run)` ×0,8 (aufgerundet). Seit 0.94a sind 4 Tage Standard, damit gilt dieser alte Testlauf-Rabatt in jedem 4-Tage-Lauf (nicht bei „🐢 5 Tage“). Mappe/Profi-Mappe haben ihn nicht.
+- Nebenbei: Die Aufstellung „Wiederholung/Ausbau“ in `breakdown` zählt Wiederholungen jetzt auch nach Art (`sameArt`, wie die Wertung seit 0.96a).

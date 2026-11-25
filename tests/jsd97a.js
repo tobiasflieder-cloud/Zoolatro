@@ -35,8 +35,8 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  const sm=J(`(()=>{const r=runOf(),P0=(()=>{const d=r.deck;r.deck=d.filter(k=>!CARDS[k]||!CARDS[k].tags.includes('einmalig'));const P=zkPools(r);r.deck=d;return[...P.rare,...P.comm]})(),u=P0.find(k=>CARDS[k].tags.includes('einmalig')),d0=r.deck.slice(),s0=(r.spec||[]).slice(),inP=()=>{const P=zkPools(r);return P.rare.includes(u)||P.comm.includes(u)};
    const o={u};r.deck=d0.filter(k=>baseK(k)!==u);r.spec=[];o.none=inP();r.deck.push(u);o.one=inP();r.spec=['sammel'];o.oneS=inP();r.deck.push(u);o.twoS=inP();r.deck=d0;r.spec=s0;return o})()`);
  T(sm.none&&!sm.one&&sm.oneS&&!sm.twoS,`Sammlerstück (${sm.u}): ohne Team schon bei 1 weg, mit Sammlerstück bei 1 noch da, bei 2 weg ${JSON.stringify(sm)}`);
- T(/"selten":4,"sehr selten":1/.test(rr.RW),'RARW selten 4, legendär 1');
- T(rr.L>=.02&&rr.L<=.05&&rr.S>=.40&&rr.S<=.55,`Zoo-Angebot: mind. 1 legendär ${(rr.L*100).toFixed(1)} %, mind. 1 selten ${(rr.S*100).toFixed(1)} % (gesperrt selten/legendär: ${rr.lk})`);
+ T(/"selten":5,"sehr selten":2/.test(rr.RW),"RARW selten 5, legendär 2 (0.98a zurück)");
+ T(rr.L>=.04&&rr.L<=.10&&rr.S>=.45&&rr.S<=.60,`Zoo-Angebot: mind. 1 legendär ${(rr.L*100).toFixed(1)} %, mind. 1 selten ${(rr.S*100).toFixed(1)} % (gesperrt selten/legendär: ${rr.lk})`);
  T(rr.p1>=.03&&rr.p1<=.10,`Kartenwahl: Platz 1 legendär ${(rr.p1*100).toFixed(1)} %, mind. 1 legendär ${(rr.any*100).toFixed(1)} %`);
  dom.window.close();
 }catch(e){L('FAIL Absturz',e&&e.stack||e)}})();

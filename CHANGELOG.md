@@ -5,6 +5,13 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.98a · 25.11.2026 · Preise, Promis, Besucher-Vielfalt
+- 💸 **Keine Preissteigerung mehr auf höheren Stufen** (Shop und Stellenmarkt kosten auf jeder Stufe gleich viel).
+- 🌱 **Eröffnungsangebot:** Im ersten Shop jedes Zoos (nach dem Frühling) kostet alles ×0,75, auch Spezialisten und Mappen.
+- ⚡ **Promis sind jetzt legendär:** Sie glänzen wie legendäre Karten, kosten im Shop entsprechend mehr und kommen etwas seltener, aber häufiger als andere legendäre Karten.
+- 💎 **Seltene und legendäre Karten wieder so häufig wie vor 0.97a.** Die Kartenwahl nach dem Zoo zieht weiter nach Seltenheit.
+- 🍔 **Neu: Gastro- oder Attraktions-Vielfalt.** Ab 3 verschiedenen Gastro-Arten oder 3 verschiedenen Attraktions-Arten gibt es ×1,1 Besucher für den ganzen Zoo, je weitere Art +0,05, höchstens ×1,3. Es zählt die bessere der beiden Gruppen, zusätzlich zu Reinheit oder Vielfalt.
+
 ## 0.97a · 25.11.2026 · Größe im Deck, Braunbär, Sammlerstück, Seltenheit
 - ⬢ **Deck-Übersicht zeigt jetzt auch, wie groß deine Gehege sind** (1, 2, 3 oder 4 Felder): in Kartenwahl, Aufräumen, Deck-Fenster, bei der Spezialisten-Wahl und auf der Weltkarte.
 - 🐻 **Braunbären freuen sich über Gebirgs-Nachbarn statt Dschungel:** +2 N je benachbartes Gebirge-Gehege.

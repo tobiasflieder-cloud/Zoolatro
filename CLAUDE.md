@@ -97,36 +97,15 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.98a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.99a) – erst bauen, wenn Tobi „bauen“ sagt
 
-**Bauauftrag erteilt (Tobi 25.11.): [docs/auftraege/0.98a-preise-promis-besuchervielfalt.md](docs/auftraege/0.98a-preise-promis-besuchervielfalt.md)** – Punkte 1–5.
-
-1. **Stufen: Preissteigerung streichen** (Chat 25.11., nach 8 Stufe-5-Läufen: höchstens 2 Zoos, Geld oft knapp): Stufe 3 verliert `teurer` 1,1 (`daten/stufen.json`, nur dort; Text Stufe 3 → „Saisonziele ab Sommer ×1,15 · Reinheit erst ab 6 Tieren“).
-   `stW('teurer',1)` in `mappePrice`/`profiPrice`/`priced` (Modul 07) bleibt harmlos stehen (liefert 1). Tests anpassen: `jsd96a` (erwartet `[1,1,1,1,1]`), `jsddaten` Z. 55 (`s>=3?1.1:1` → 1). Stufenwahl-Texte/`stageBox` und `docs/regeln.md` prüfen.
-   Sonst Stufe 5 vorerst unverändert; nach weiteren Läufen ggf. Kronenfeld ×1,15 behalten (A), Ziel ×1,15 (B) oder 12 Naturfelder (C). Vermutung offen: Gipfelstürmer leidet unter 9 Naturfeldern.
-
-2. **Seltenheit zurück auf 5/2** (Chat 25.11.: Tobi meinte mit „zu viele legendäre“ die Promis/Verstärker, nicht die legendären Karten): `RARW` selten 4 → **5**, legendär 1 → **2** (wie bis 0.96a).
-   Die gewichtete Kartenwahl aus 0.97a (`zkOrder`/`zkW`) **bleibt** (Tobi fand sie gut). `jsd97a` an die Werte anpassen.
-3. **Promis (Verstärker, `cat:'verst'`) werden legendär, aber etwas häufiger als andere legendäre:** alle 6 (Chef Carmen, Mia Megaviral, Stella Starr, Sven Frost, Nova, Luna Lotus) in `daten/karten.json` `rar` selten → **`'sehr selten'`**.
-   Eigenes Gewicht **3** (legendär 2, selten 5) in `weightOf` (Modul 04) und `zkW` (Modul 11), z. B. über `RARW.promi=3` und `c.cat==='verst'`; Forscher ×2,5 gilt auch hier.
-   Erwartung: Promis zusammen etwa 60 % so oft wie bisher (6×3=18 statt 6×5=30 Gewicht). Folgen bewusst mitnehmen: Glanz `rg2` und Label „Legendär“, Shop-Preis 20 statt 15 (`priced` in `fixedItems`, Modul 07 Z. ~725), Futterplätze `fdMaxK` 3 (falls für Verstärker relevant),
-   Glückspilz-Pool/`flRare` zählen sie weiter. Prüfen: Freischaltung der Promis, Zoo-Buch-Filter „Legendär“, Text-/Referenzfälle (Wertung sollte gleich bleiben). Test: Anteil Promis im Zoo-Angebot grob messen.
-
-4. **Besucher-Vielfalt (Gegenstück zu Reinheit/Vielfalt, Chat 25.11.):** Tobi: auf Stufe 5 sind Gastro/Attraktionen zu schwach, weil Reinheit/Vielfalt nur Gehege zählen (und nur Natur stärken).
-   Neu in `scoreZoo` (Modul 04, neben Reinheit/Vielfalt ~Z. 326): verschiedene **Gastro-Arten** (`cat:'essen'`) und verschiedene **Attraktions-Arten** (`cat:'attr'`) im Zoo zählen (Art über `spK`, wie bei Vielfalt; Ausbaustufen/Doppelte zählen nicht extra).
-   **Nur das Bessere von beiden gilt.** Zahlen (Tobi 25.11. bestätigt, erstmal so, später beobachten): ab **3** verschiedenen Arten **×1,1 B**, je weitere +0,05, höchstens **×1,3 B** (bei 7). Faktor als `ma` (Besucher), Zeile z. B. „🍔 Gastro-Vielfalt: 4 Arten ×1,15 B“ bzw. „🎡 Attraktions-Vielfalt …“.
-   Unabhängig von Reinheit/Vielfalt (wirkt zusätzlich). Zahlen in eine Daten-Datei (z. B. `daten/stufen.json` nein → eigene Konstanten oder `auflagen.json`/neue Felder; Claude Code entscheidet, Hauptsache an einer Stelle). Anzeige: Detail-/Zoo-Faktoren, `docs/regeln.md`, Zoo-Buch-Regeln (`ZRULES`/Regeln-Reiter) ergänzen.
-   Referenzfälle mit Gastro/Attraktionen ändern sich → `aktualisiere`, Spanne in der Zusammenfassung nennen. Test: 3/4/7 verschiedene Gastro → ×1,1/×1,15/×1,3; Attraktionen besser als Gastro → nur Attraktions-Zeile.
-
-5. **Erster Shop jedes Zoos günstiger** (Chat 25.11., Geld nach dem Frühling oft nur 7–14 Taler): im Shop nach dem Frühling (`state.season===0`, nicht Tutorial) alle Preise **×0,75** (Tobi bestätigt):
-   `priced` (Modul 07 Z. ~722: Karten 15/20, Spezialisten `SPECPRICE` 20/35/50, Umbau/Futter/Extras) und auch `mappePrice`/`profiPrice` (die nutzen `priced` nicht). Rundung wie bisher, mindestens 1.
-   Hinweis im Shop z. B. „🌱 Eröffnungsangebot: alles ×0,75“. Achtung: `inflation()` ist im Frühlings-Shop schon 1; `priced` enthält zusätzlich `isD4` ×0,8 – prüfen, ob das seit 0.94a (4 Tage Standard) in jedem Lauf greift, und in der Zusammenfassung nennen.
+(leer)
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
 
-**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Gewicht legendärer Karten (seit 0.97a: 1). Neu beobachten: Besucher-Vielfalt (×1,1–×1,3 B) – stark genug für Gastro/Attraktionen? Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
+**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Seltenheit seit 0.98a wieder 5/2 (Promis 3). Neu beobachten: Besucher-Vielfalt (×1,1–×1,3 B) – stark genug für Gastro/Attraktionen? Promis legendär mit Gewicht 3 – passend? Eröffnungsangebot ×0,75. Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
 
 **Nächster Schritt Weltreise:** Ersatz für die höchste Stufe (5) im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -152,6 +131,10 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.98a** ([Auftrag](docs/auftraege/0.98a-preise-promis-besuchervielfalt.md), Regeln `docs/regeln.md` 28): Stufe 3 ohne `teurer`; `RARW` 5/2 + `promi` 3 (`weightOf`, `zkW`), Promis `rar:'sehr selten'` in `karten.json`;
+  Besucher-Vielfalt `besVielfalt`/`bvF`/`BVIEL` in `scoreZoo` (+ `ZTXT.bviel`, Zoo-Übersicht, Regeln, Glossar); Eröffnungsangebot `eroeffOn`/`eroeffF` in `priced`/`mappePrice`/`profiPrice`, Hinweis `eroeffHtml`; `breakdown` Wiederholung nach `sameArt`.
+  Tests: neu `jsd98a.js`, angepasst `jsd96a` (Preise), `jsd97a` (RARW, Grenzen), `jsddaten` (Stufen).
 
 - **0.97a** ([Auftrag](docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md), Regeln `docs/regeln.md` 27): `deckMixData` mit `gr` (Gehege je Felderzahl, ⬢1–⬢4), Weltkarte mit Größen-Gruppe (`.wrsep`); Braunbären `W(nb,'gebirge')` + Text;
   `zkPools` zählt Einzigartige gegen `sammel` aus `run.spec`; `RARW` selten 4/legendär 1; `zkDeal` zieht das Selten-Los gewichtet (`zkOrder`/`zkW`). Test neu `jsd97a.js`. Referenzfälle mit `aktualisiere`: 1 von 4 Braunbär-Fällen mit anderer Gesamtzahl (Fall 02: 145 965 → 150 405).

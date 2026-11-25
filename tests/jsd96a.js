@@ -17,7 +17,7 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  T(ev('VERSION')==='0.96a','Version');
  start(w);ev(H);
  // 1. Stufen
- T(JSON.stringify(J(`(()=>{const r=runOf(),o=[];for(let s=1;s<=5;s++){r.stage=s;o.push(stW('teurer',1))}r.stage=1;return o})()`))==='[1,1,1.1,1.1,1.1]','Preise: Stufe 1–5 ×1 ×1 ×1,1 ×1,1 ×1,1');
+ T(JSON.stringify(J(`(()=>{const r=runOf(),o=[];for(let s=1;s<=5;s++){r.stage=s;o.push(stW('teurer',1))}r.stage=1;return o})()`))==='[1,1,1,1,1]','Preise: Stufe 1–5 ohne Preissteigerung (0.98a)');
  // Karte mit passendem Futter (1 Feld, Gehege, Kraftfutter)
  const K0=J(`(()=>{const L=one(c=>c.cat==='gehege'&&fdFits('kf',Object.keys(CARDS).find(k=>CARDS[k]===c)),40);return L.find(k=>fdFits('kf',k))})()`);
  T(!!K0,'Testkarte gefunden: '+K0);

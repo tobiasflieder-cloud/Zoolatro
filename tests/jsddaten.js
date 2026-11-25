@@ -52,7 +52,7 @@ const weiter=w=>JSON.parse(w.eval(`(()=>{const out=[];let g=0;while(out.length<3
   if(w.eval("typeof STUFEN_DATEN==='undefined'")){L('ok 2b-Prüfungen übersprungen (Stand ohne daten/stufen.json)');d.window.close();process.exit(0)}
   // 2b: Stufen wirken über Kennungen wie früher die festen Nummern (Ziel ×1,1 ab 2/5/8, 2 Goldfelder ab 3, 25 % teurer ab 4, kein Gratis-Neuziehen ab 6, −1 BP am 1. Tag ab 7)
   const st=JSON.parse(w.eval(`(()=>{const sl=META.slots[0],r0=sl.run,o=[];for(let s=1;s<=5;s++){sl.run=Object.assign({},r0,{stage:s});o.push([stOf(),stTF(),stW('gold',3),stW('teurer',1),!!stAb('kein_neuziehen'),stW('bp_erster_tag',0)])}sl.run=r0;return JSON.stringify(o)})()`));
-  const soll=[1,2,3,4,5].map(s=>[s,(s>=2?1.15:1)*(s>=3?1.15:1)*(s>=4?1.21:1)*(s>=5?1.25:1),s>=5?0:s>=2?1:3,s>=3?1.1:1,false,s>=4?1:0]); // 0.95a: 5 Stufen; 0.96a: teurer ×1,1
+  const soll=[1,2,3,4,5].map(s=>[s,(s>=2?1.15:1)*(s>=3?1.15:1)*(s>=4?1.21:1)*(s>=5?1.25:1),s>=5?0:s>=2?1:3,1,false,s>=4?1:0]); // 0.95a: 5 Stufen; 0.98a: keine Preissteigerung
   T(JSON.stringify(st)===JSON.stringify(soll),'Stufen 1–5 wirken wie in der Tabelle (Ziel, Goldfelder, Preise, Baupunkte; Gratis-Neuziehen bleibt)');
   // 2b: alle Daten eingebaut, jede Kennung hat eine Wirkung
   const dt=JSON.parse(w.eval(`JSON.stringify({fxzeilen:Object.keys(CARDS).every(k=>(CARDS[k].fx||[]).every(l=>l.includes('|')||fxLine(l)==='<li>'+l+'</li>')) /* 0.94a: Zeilen ohne | einfach */,spec:Object.keys(SPEC).length===SPEZ_DATEN.spezialisten.length&&SPEZ_DATEN.spezialisten.every(d=>(!d.per||typeof SPEC[d.key].per==='function')&&(!d.mult||typeof SPEC[d.key].mult==='function')),

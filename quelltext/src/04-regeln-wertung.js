@@ -81,6 +81,10 @@ let PURN=4,CROWNF=1.3; // Reinheit ab 4 verschiedenen Arten, Kronenfeld ×1,3; 0
 function vielfalt(bs){const H=(CTX&&CTX.habs)||DEFHABS,m={};for(const h of H)m[h]=new Set();for(const b of bs){const c=K(b);if(c.cat!=='gehege'||!c.hab||!m[c.hab])continue;m[c.hab].add(spK(b.key))}const per=H.map(h=>m[h].size),lvl=Math.min(5,Math.min(...per));return{lvl,per,habs:H,f:lvl>=2?1+.05*lvl:1}}
 const vfTxt=v=>v.habs.map((h,i)=>HAB[h].icon+v.per[i]).join(' ');
 // Reinheit: verschiedene Gehege-Arten in einer zusammenhängenden Gruppe eines Lebensraums (gleiche Arten halten die Gruppe nur zusammen)
+// 0.98a: Besucher-Vielfalt – verschiedene Gastro- bzw. Attraktions-Arten (spK), nur die bessere Gruppe zählt; ab 3 Arten ×1,1, je weitere +0,05, höchstens ×1,3 auf Besucher
+const BVIEL={ab:3,f0:1.1,schritt:.05,max:1.3};
+const bvF=n=>n<BVIEL.ab?1:Math.min(BVIEL.max,+(BVIEL.f0+BVIEL.schritt*(n-BVIEL.ab)).toFixed(2));
+function besVielfalt(bs){const n=cat=>new Set(bs.filter(b=>isCat(b,cat)).map(b=>spK(b.key))).size,e=n('essen'),a=n('attr'),cat=a>e?'attr':'essen',k=Math.max(a,e);return{cat,n:k,e,a,f:bvF(k)}}
 const purF=n=>n>=PURN?Math.min(1.6,+(1+.15*(n-PURN+1)).toFixed(2)):1;
 function zlPurity(bs,idx){let best=0,bh=null,zu=0;const seen=new Set();for(const b of bs){if(seen.has(b)||!isCat(b,'gehege'))continue;const h=K(b).hab,st=[b],ks=new Set();seen.add(b);let z=0;
     while(st.length){const x=st.pop();ks.add(spK(x.key));z+=x.ate||0;if(x.pr==='zucht'&&!zu){zu=1;z+=1}for(const y of nbrs(x,idx))if(!seen.has(y)&&isCat(y,'gehege')&&K(y).hab===h){seen.add(y);st.push(y)}}const n=ks.size+z;if(n>best){best=n;bh=h}}{const WB=bs.filter(b=>isCat(b,'gehege')&&K(b).hab==='wueste'),W=new Set(WB.map(b=>spK(b.key))),wn=W.size+WB.reduce((t,b)=>t+(b.ate||0),0);if(wn>best){best=wn;bh='wueste'}}return{n:best,hab:bh}}
@@ -324,16 +328,17 @@ function scoreZoo0(bs,idx,A,S,steps,mults){STRZ=strzNow();const V=bs.map(b=>eval
   if(CTX.zl){const Z=CTX.zl,rb=bs.reduce((t,b)=>t+edN(b,'r'),0);if(rb)mults.push({id:null,label:rb>1?`Regenbogen ×${rb}`:'Regenbogen',icon:'🌈',ma:+Math.pow(1.2,rb).toFixed(2)});
     for(const ck of[Z.crown,...(Z.crown2||[])]){if(!ck)continue;const cb=idx.get(ck);if(cb&&isCat(cb,'gehege')&&cb.cells.length>=4)mults.push({id:cb.id,label:'Kronenfeld',icon:'👑',ma:CROWNF})}
     const pu=zlPurity(bs,idx),vf=vielfalt(bs),pf=pu.n>=PURN?purF(pu.n):1;if(vf.f>1&&vf.f>pf)mults.push({id:null,label:`Vielfalt: alle Lebensräume, je ${vf.lvl}+ Arten`,icon:'🎨',ms:+vf.f.toFixed(2)});else if(pu.n>=PURN)mults.push({id:null,label:`Reinheit: ${pu.n} ${HAB[pu.hab].label}-Gehege`,icon:HAB[pu.hab].icon,ms:+purF(pu.n).toFixed(2)});
+    {const bv=besVielfalt(bs);if(bv.f>1)mults.push({id:null,label:`${bv.cat==='attr'?'Attraktions':'Gastro'}-Vielfalt: ${bv.n} Arten`,icon:bv.cat==='attr'?'🎡':'🍔',ma:bv.f})}
     if(Z.tv){const f=Z.tv();mults.push({id:null,label:f>1?'Fernsehteam: gelungen':'Fernsehteam: zu wenig gebaut',icon:'📺',ma:f})}}
   let A2=A,S2=S;for(const m of mults){if(m.ma)A2*=m.ma;if(m.ms)S2*=m.ms}
   A2=Math.max(0,Math.round(A2));S2=Math.max(0,Math.round(S2));return{steps,mults,A:A2,S:S2,total:A2*S2}}
-function breakdown(b,bs){const parts=[];const v=evalB(b,bs,mkIndex(bs),parts);if(b.pr==='magnet'){const g=giveOf(b,bs),ma=Math.round(.5*Math.max(0,g.a)),ms=Math.round(.5*Math.max(0,g.s));if(ma||ms){parts.push({label:'🧲 Publikumsmagnet',a:ma,s:ms});v.a+=ma;v.s+=ms}}const j=multiAdj(bs).get(b.id);if(j&&(j.a||j.s)){const f=(()=>{const n=bs.filter(x=>x.key===b.key).indexOf(b),w=n>0?dupW(n):1;return+(w*(1+(LVLW[b.lvl||1]||0))).toFixed(4)})();parts.push({label:j.label,a:j.a,s:j.s,fa:f,fs:f,own:1});v.a+=j.a;v.s+=j.s}return{a:v.a,s:v.s,parts,a0:v.a0,s0:v.s0}}
+function breakdown(b,bs){const parts=[];const v=evalB(b,bs,mkIndex(bs),parts);if(b.pr==='magnet'){const g=giveOf(b,bs),ma=Math.round(.5*Math.max(0,g.a)),ms=Math.round(.5*Math.max(0,g.s));if(ma||ms){parts.push({label:'🧲 Publikumsmagnet',a:ma,s:ms});v.a+=ma;v.s+=ms}}const j=multiAdj(bs).get(b.id);if(j&&(j.a||j.s)){const f=(()=>{const n=bs.filter(x=>sameArt(x.key,b.key)).indexOf(b),w=n>0?dupW(n):1;return+(w*(1+(LVLW[b.lvl||1]||0))).toFixed(4)})();parts.push({label:j.label,a:j.a,s:j.s,fa:f,fs:f,own:1});v.a+=j.a;v.s+=j.s}return{a:v.a,s:v.s,parts,a0:v.a0,s0:v.s0}}
 function sourcesOf(b,bs){const idx=mkIndex(bs),full=evalB(b,bs,idx),out=[];
   for(const n of full.nb){const bs2=bs.filter(x=>x!==n),v=evalB(b,bs2,mkIndex(bs2));const da=full.a-v.a,ds=full.s-v.s;if(da||ds)out.push({id:n.id,da,ds})}return out}
 const builtUnique=(bs,key)=>CARDS[key].tags.includes('einmalig')&&cnt(bs,b=>sameArt(b.key,key))>=(hasSpec('sammel')?2:1);
 function fits(bs,cells,key){const idx=mkIndex(bs),c=CARDS[key];if(builtUnique(bs,key))return false;
   return cells.every(([q,r])=>{const k=hk(q,r);if(!ONBOARD.has(k)||idx.has(k))return false;if(typeof state!=='undefined'&&state&&(state.nests||[]).includes(k))return false;const t=TERR.get(k);return!t||c.ms||(t==='block'?hasSpec('spreng'):(c.cat!=='gehege'||c.hab===t||hasSpec('rb_wild')))})}
-function weightOf(k){const c=CARDS[k];if(isLocked(k))return 0;return c.rar==='winter'?(CTX.winter?8:0):c.rar==='saison'?(sea(c.only)?8:0):RARW[c.rar]*((c.rar==='selten'||c.rar==='sehr selten')&&hasSpec('talent')?2.5:1)}
+function weightOf(k){const c=CARDS[k];if(isLocked(k))return 0;return c.rar==='winter'?(CTX.winter?8:0):c.rar==='saison'?(sea(c.only)?8:0):(c.cat==='verst'?RARW.promi:RARW[c.rar])*((c.rar==='selten'||c.rar==='sehr selten')&&hasSpec('talent')?2.5:1)} // 0.98a: Promis legendär mit eigenem Gewicht 3
 function pickWeighted(keys,rnd=Math.random){const tot=keys.reduce((t,k)=>t+weightOf(k),0);let r=rnd()*tot;
   for(const k of keys){r-=weightOf(k);if(r<=0)return k}return keys[keys.length-1]}
 const ownsUnique=k=>CARDS[k].tags.includes('einmalig')&&typeof state!=='undefined'&&!!state&&(cnt(state.buildings,b=>sameArt(b.key,k))+cnt([...state.hand,...state.deck,...state.discard],x=>baseK(x)===baseK(k)))>=(hasSpec('sammel')?2:1);

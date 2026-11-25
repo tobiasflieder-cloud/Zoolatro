@@ -469,6 +469,7 @@ const ZT=(cls,ic,t,txt,st,stc,extra)=>`<div class="ztl ${cls}"><span class="zti"
 const ZD=(ic,k,sm,v,vc,x)=>`<details class="zdt"><summary><span class="zdi">${ic}</span><span class="zdk">${k}${sm?`<small>${sm}</small>`:''}</span><span class="zdv ${vc||''}">${v}</span></summary><div class="zdx">${x}</div></details>`;
 const ZTXT={zucht:'Stehen zwei gleiche Gehege nebeneinander und ist eines davon mindestens Stufe II, kommt am Ende des Tages ein <b>Jungtier</b> ins Lauf-Deck und liegt am nächsten Tag zusätzlich auf der Hand: 1 Feld, halber Grundwert, gleiche Eigenschaften. Neben einem Gehege seiner Elternart zählt es doppelt. Eins pro Art und Zoo, höchstens 3 im Deck.',
   rein:()=>'Ab '+PURN+' <b>verschiedenen</b> Gehege-Arten eines Lebensraums, die zusammenhängen (Wüste: irgendwo im Zoo): <b>×1,15 Natur</b> für den ganzen Zoo, je weiterer Art +0,15 (höchstens ×1,6). Gleiche Arten halten die Gruppe zusammen, zählen aber nicht mit.',
+  bviel:()=>`Ab ${BVIEL.ab} <b>verschiedenen</b> Gastro-Arten 🍔 oder ab ${BVIEL.ab} verschiedenen Attraktions-Arten 🎡 im Zoo: <b>×${String(BVIEL.f0).replace('.',',')} Besucher</b> für den ganzen Zoo, je weitere Art +${String(BVIEL.schritt).replace('.',',')} (höchstens ×${String(BVIEL.max).replace('.',',')}). Es zählt nur die bessere der beiden Gruppen. Gilt zusätzlich zu Reinheit oder Vielfalt.`,
   viel:'Stehen von <b>allen Lebensräumen</b> mindestens 2 verschiedene Gehege-Arten im Zoo: je 2 Arten ×1,1 Natur, je 3 ×1,15, je 4 ×1,2, je 5 ×1,25. Der Lebensraum mit den wenigsten Arten zählt. Es gilt Vielfalt oder Reinheit, das Bessere.'};
 // Zuchtpaare, die am Ende des Tages Nachwuchs bekämen (wie z2Breed, ohne Wirkung; 0.96a: Partner nach Art, Futter egal)
 function zuchtNow(){try{const run=runOf();if(!run||!run.z2||run.tut||state.mode!=='camp')return[];const idx=mkIndex(state.buildings),L=[],jt=state.z2jt||[];let room=3-cnt(run.deck,k=>CARDS[k]&&CARDS[k].jt);
@@ -499,6 +500,7 @@ function zooBoxHtml(rail){const Z=state.zl,R=state.rule&&RULES[state.rule.id],ru
     h+=`<h3 class="zsec">Dein Stand <small>antippen für Erklärung</small></h3><div class="zstand">`;
     h+=ZD('🧬','Reinheit',m3?'mit dieser Auflage nicht erreichbar':pu.hab?`${HAB[pu.hab].icon} ${pu.n} Arten`:'noch keine Gruppe',!m3&&pu.n>=PURN?x(pu.n)+' N':'–',!m3&&pu.n>=PURN?'n':'o',ZTXT.rein()+'<br>'+(m3?'<i class="b">Mit der Auflage in diesem Zoo nicht erreichbar.</i>':pu.n>=PURN?`Bei dir: ${pu.n} ${HAB[pu.hab].label}-Gehege · ${x(pu.n)} Natur.`:`Größte Gruppe: ${pu.n||0}${pu.hab?' '+HAB[pu.hab].label+'-Gehege':''} · noch ${PURN-(pu.n||0)} bis ×1,15 Natur.`));
     h+=ZD('🎨','Vielfalt',vfTxt(v)||'noch keine Gehege',v.f>1?fx(v.f)+' N':'–',v.f>1?'n':'o',ZTXT.viel+`<br>Bei dir: ${vfTxt(v)||'–'}${v.f>1?' · '+fx(v.f)+' Natur':''}.`);
+    {const bv=besVielfalt(state.buildings),nm=bv.cat==='attr'?'Attraktions-Vielfalt':'Gastro-Vielfalt',ic=bv.cat==='attr'?'🎡':'🍔';h+=ZD(ic,nm,`🍔 ${bv.e} · 🎡 ${bv.a} Arten`,bv.f>1?fx(bv.f)+' B':'–',bv.f>1?'b':'o',ZTXT.bviel()+`<br>Bei dir: ${bv.e} Gastro-Arten, ${bv.a} Attraktions-Arten${bv.f>1?' · '+fx(bv.f)+' Besucher':` · noch ${BVIEL.ab-bv.n} bis ×${String(BVIEL.f0).replace('.',',')} Besucher`}.`)}
     if(isZ2()){const zu=zuchtNow();h+=ZD('🍼','Zucht',zu.length?zu.map(k=>CARDS[k].name).join(', '):'kein Paar',zu.length?zu.length+' möglich':'–',zu.length?'n':'o',ZTXT.zucht)}
     h+='</div>'}
   return h+(zlBackOk()?`<div class="tnav" style="justify-content:space-between"><button class="btn sub" id="zlBack">◂ Zurück</button><button class="btn main" id="mClose">Los geht's</button></div>`:`<button class="btn main" id="mClose">Los geht's</button>`)}
@@ -528,7 +530,7 @@ function zooRulesHtml(){const Z=state.zl,run=wrRun(),rb=(c,ic,t,b)=>`<div class=
   if(Z&&isZ2()){const S=stOf();h+=rb('','🏔️','Stufe '+S,S>1?STAGES.slice(2,S+1).join(' · '):'Grundstufe ohne Verschärfung');const dk=dkNow();if(dk&&dk!=='grund'&&DECKS[dk])h+=rb('',DECKS[dk].icon,'Profil-Regel: '+DECKS[dk].name,DECKRULE[dk])}
   if(run&&(run.boni||[]).length)h+=rb('','🌍','Deine Boni der Weltreise',run.boni.filter(k=>WRB[k]).map(k=>`${WRB[k].icon} <b>${WRB[k].name}:</b> ${WRB[k].text}`).join('<br>'));
   if(Z&&isZ2())h+=rb('','🍼','Zucht',ZTXT.zucht);
-  if(Z)h+=rb('','🧬','Reinheit',ZTXT.rein())+rb('','🎨','Vielfalt',ZTXT.viel);
+  if(Z)h+=rb('','🧬','Reinheit',ZTXT.rein())+rb('','🎨','Vielfalt',ZTXT.viel)+rb('','🍔','Gastro- und Attraktions-Vielfalt',ZTXT.bviel());
   h+=zlTerrTile(rb);
   return h+`</div>`}
 const flivHtml=()=>{let conf='';if(!reduced)for(let i=0;i<40;i++){const d=(2.4+Math.random()*2.4).toFixed(2);conf+=`<i style="left:${(Math.random()*100).toFixed(1)}%;background:${['#ff6b9d','#ffd166','#ff9ec4','#fff','#ff4d6d'][i%5]};animation-duration:${d}s;animation-delay:${(Math.random()*2).toFixed(2)}s;--dx:${Math.round(Math.random()*120-60)}px"></i>`}
