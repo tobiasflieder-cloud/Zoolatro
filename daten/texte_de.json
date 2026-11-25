@@ -121,7 +121,7 @@
 "murmeltiere":{"name":"Murmeltiere","fx":[]},
 "mufflons":{"name":"Mufflons","fx":[]},
 "yaks":{"name":"Yakweide","fx":[]},
-"braunbaeren":{"name":"Braunbären","fx":["🔗 +2 N|je benachbartes Dschungel-Gehege"]},
+"braunbaeren":{"name":"Braunbären","fx":["🔗 +2 N|je benachbartes Gebirge-Gehege"]},
 "luchse":{"name":"Luchsrevier","fx":[]},
 "rotepandas":{"name":"Rote Pandas","fx":["🔗 ×1,5|solange nicht gestresst"]},
 "pfeifhasen":{"name":"Pfeifhasen","fx":[]},

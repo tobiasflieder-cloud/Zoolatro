@@ -62,11 +62,15 @@ function crewardHtml(){const a=screenArg,sl=activeSlot(),run=sl.run;if((run.vNow
     <p style="margin:0;color:var(--muted);font-size:13px">Zoo und Taler beginnen wieder bei null. Bisher ${fmt(run.total)} Punkte in diesem Lauf.</p>
     <button class="btn main big" data-cstart="1">Zoo ${run.zoo+1} starten</button><button class="btn sub" data-go="title">Später weiterspielen</button>`}
 const zkCard=n=>[0,12,18][n]||0,zkRoll=a=>5+3*(a.rr||0); // Zoo-Kasse: Preise für weitere Karten und Neuwurf
-function zkPools(run){const H=run.habs||habsNow(),okHab=k=>{const h=CARDS[k].hab||CARDS[k].rq;return!h||H.includes(h)},base=Object.keys(CARDS).filter(k=>okHab(k)&&!CARDS[k].gone&&!fsLocked(k)&&!(CARDS[k].cat==='verst'&&!verstOn(k))&&!(CARDS[k].tags.includes('einmalig')&&run.deck.some(x=>baseK(x)===k))),
+function zkPools(run){const H=run.habs||habsNow(),okHab=k=>{const h=CARDS[k].hab||CARDS[k].rq;return!h||H.includes(h)},base=Object.keys(CARDS).filter(k=>okHab(k)&&!CARDS[k].gone&&!fsLocked(k)&&!(CARDS[k].cat==='verst'&&!verstOn(k))&&!(CARDS[k].tags.includes('einmalig')&&cnt(run.deck,x=>baseK(x)===k)>=((run.spec||[]).includes('sammel')?2:1))), // 0.97a: Sammlerstück (Team aus dem Lauf)
+
       rare=base.filter(k=>(CARDS[k].bonus_&&!run.cards.includes(k))||(!CARDS[k].bonus_&&['selten','sehr selten'].includes(CARDS[k].rar))),comm=base.filter(k=>!CARDS[k].bonus_&&CARDS[k].rar==='gewöhnlich'&&CARDS[k].cat!=='verst');return{rare,comm}} // Kartenwahl-Lose (0.85a ausgelagert, auch für 🎁 Mitbringsel)
+// 0.97a: Selten-Los nach Gewicht ziehen (selten/Bonus 4, legendär 1 aus RARW, Forscher ×2,5 aus dem Lauf-Team), ohne Doppel
+const zkW=(run,k)=>{const c=CARDS[k];return(c.bonus_?RARW.selten:(RARW[c.rar]||0))*((run.spec||[]).includes('talent')?2.5:1)};
+function zkOrder(run,L){const P=L.slice(),out=[];while(P.length){const W=P.map(k=>zkW(run,k)),T=W.reduce((x,y)=>x+y,0);let i=0;if(T>0){let r=Math.random()*T;while(i<P.length-1&&(r-=W[i])>=0)i++}else i=Math.floor(Math.random()*P.length);out.push(P.splice(i,1)[0])}return out}
 function zkDeal(run,a){a.round=a.round||1;const{rare,comm}=zkPools(run);
     // 0.84a: Platz 1 immer selten/legendär (Bonus-Karten zählen wie seltene), Platz 2 zu 50 %, Platz 3 gewöhnlich; Forscher: 2 Plätze
-    {const n=run.deckId==='forscher'&&run.zl?2:3,R=shuffle(rare),C=shuffle(comm),out=[],take=(L,alt)=>{const k=L.find(x=>!out.includes(x))||alt.find(x=>!out.includes(x));if(k)out.push(k)};
+    {const n=run.deckId==='forscher'&&run.zl?2:3,R=zkOrder(run,rare),C=shuffle(comm),out=[],take=(L,alt)=>{const k=L.find(x=>!out.includes(x))||alt.find(x=>!out.includes(x));if(k)out.push(k)};
       take(R,C);if(n>=2){if(Math.random()<.5)take(R,C);else take(C,R)}if(n>=3)take(C,R);a.cards=out}if(run.zl)a.cards=a.cards.map(k=>{if(CARDS[k].cat==='verst')return k;const r=Math.random(),e=r<.02?'r':r<.04?'s':r<.12?'g':'';return e?k+'~'+e:k})}
 function crewardStep(step){const run=activeSlot().run,a=run.reward;a.step=step;
   if(step==='card')zkDeal(run,a);

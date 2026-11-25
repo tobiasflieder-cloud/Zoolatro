@@ -5,6 +5,12 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.97a · 25.11.2026 · Größe im Deck, Braunbär, Sammlerstück, Seltenheit
+- ⬢ **Deck-Übersicht zeigt jetzt auch, wie groß deine Gehege sind** (1, 2, 3 oder 4 Felder): in Kartenwahl, Aufräumen, Deck-Fenster, bei der Spezialisten-Wahl und auf der Weltkarte.
+- 🐻 **Braunbären freuen sich über Gebirgs-Nachbarn statt Dschungel:** +2 N je benachbartes Gebirge-Gehege.
+- 🏺 **Sammlerstück:** Einzigartige Karten tauchen in der Kartenwahl zwischen den Zoos (und beim Mitbringsel) wieder auf, solange du weniger als 2 davon hast.
+- 💎 **Seltenheit:** Seltene Karten kommen etwas, legendäre etwa halb so oft. Das gilt jetzt auch in der Kartenwahl nach dem Zoo (vorher kamen dort legendäre genauso oft wie seltene).
+
 ## 0.96a · 24.11.2026 · Futter wirkt beim Bauen, Zucht jeden Tag, Verstärker-Anzeige
 - 🥩 **Futter auf Handkarten wirkt jetzt auch nach dem Bauen.** Bisher ging es beim Bauen verloren (Vorschau und Gehege rechneten ohne Futter).
 - 🔨 **Gefütterte Gehege lassen sich wieder ausbauen.** Das Futter des Geheges bleibt, Futter der neuen Karte kommt dazu, solange Futterplätze frei sind. Gefüttert und ungefüttert zählen als dieselbe Art (Wiederholung, Einmalig, Meilensteine, Auflagen).

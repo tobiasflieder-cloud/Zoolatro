@@ -1,12 +1,12 @@
 //@@ modul: 01-regeln-karten
 //ENGINE-START
 let VERTAP={n:0,t:0};
-const VERSION='0.96a';
+const VERSION='0.97a';
 // 0.66a Neuigkeiten: gleiche Texte wie CHANGELOG.md (nur die letzten Versionen). Bei jedem Bauen oben ergänzen.
 const CHANGES=[
+ {v:'0.97a',d:'25.11.2026',t:'Größe im Deck, Braunbär, Seltenheit',i:['⬢ Die Deck-Übersicht zeigt jetzt auch, wie groß deine Gehege sind (1 bis 4 Felder), auch auf der Weltkarte und bei der Spezialisten-Wahl.','🐻 Braunbären freuen sich über Gebirgs-Nachbarn statt Dschungel: +2 N je benachbartes Gebirge-Gehege.','🏺 Sammlerstück: Einzigartige Karten tauchen in der Kartenwahl zwischen den Zoos wieder auf, solange du weniger als 2 davon hast.','💎 Seltene Karten kommen etwas, legendäre etwa halb so oft, jetzt auch in der Kartenwahl nach dem Zoo.']},
  {v:'0.96a',d:'24.11.2026',t:'Futter wirkt beim Bauen, Zucht jeden Tag',i:['🥩 Futter auf Handkarten wirkt jetzt auch nach dem Bauen (vorher ging es verloren). Gefütterte Gehege lassen sich wieder ausbauen, das Futter bleibt, Futter der neuen Karte kommt dazu.','🍼 Zucht: Ein Zuchtpaar bekommt am Ende jedes Tages Nachwuchs, das Jungtier liegt am nächsten Tag zusätzlich auf der Hand. Gefüttert und ungefüttert ist ein Paar.','⚡ Tippst du einen gebauten Verstärker an, siehst du, wen er gerade stärkt.','🃏 Bei der Wahl von Spezialisten und auf der Weltkarte siehst du die Mischung deines Decks.','🏔️ Ab Stufe 3 ist der Shop nur noch ×1,1 teurer (vorher ×1,25).']},
- {v:'0.95a',d:'23.11.2026',t:'5 Stufen, Weltreise als Standard',i:['🏔️ Statt 8 gibt es jetzt 5 Stufen, und jede hebt die Ziele ab Sommer: ×1,15 · ×1,32 · ×1,6 · ×2. Deine bisherigen Stufen sind umgerechnet.','🌍 Jeder Lauf ist jetzt eine Weltreise mit Futter – die Schalter dafür sind weg (🐢 5 Tage bleibt). Sommerziele steigen je Zoo etwas stärker.','🌱 Mehr Natur: Du wählst bis zu 3 freie Felder und den Lebensraum selbst. 🌿 Naturfläche ändern gilt nur noch für bestehende Naturflächen.']},
- {v:'0.94a',d:'23.11.2026',t:'4 Tage, Frost, Futter für Gebautes',i:['📅 4 Tage je Jahreszeit sind jetzt Standard (kleineres Gelände, passende Ziele), zählen ganz normal. Wer längere Jahreszeiten mag: Schalter „🐢 5 Tage“ beim Laufstart.','❄️ Der Winter zeigt sich als Frost-Rand an den betroffenen Gebäuden, die Zahl steht in der Tages-Zeile. Dort stehen jetzt auch Zeitungsartikel, Glückslos, Teuerung und Geschenk – antippen erklärt sie.','🥕 Futter kannst du jetzt auch gebauten Gehegen geben, es wirkt sofort. 👥 Neu legendär: Rudelführerin, Tierflüsterer, Artenpatin (×1,75 für Raubtiere, scheue bzw. bedrohte Tiere).']}];
+ {v:'0.95a',d:'23.11.2026',t:'5 Stufen, Weltreise als Standard',i:['🏔️ Statt 8 gibt es jetzt 5 Stufen, und jede hebt die Ziele ab Sommer: ×1,15 · ×1,32 · ×1,6 · ×2. Deine bisherigen Stufen sind umgerechnet.','🌍 Jeder Lauf ist jetzt eine Weltreise mit Futter – die Schalter dafür sind weg (🐢 5 Tage bleibt). Sommerziele steigen je Zoo etwas stärker.','🌱 Mehr Natur: Du wählst bis zu 3 freie Felder und den Lebensraum selbst. 🌿 Naturfläche ändern gilt nur noch für bestehende Naturflächen.']}];
 let NEWSPEND=0;
 function showNews(){let o=document.getElementById('newsOv');if(o)o.remove();o=document.createElement('div');o.id='newsOv';o.className='newsov';
   o.innerHTML=`<div class="newsbox"><h2>📜 Neu in Zoolatro ${VERSION}</h2>${CHANGES.map((c,j)=>`<div class="newsv${j?' old':''}"><h3>${c.v} · ${c.t}<small>${c.d}</small></h3><ul>${c.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}<button class="btn main big" id="newsOk">Los geht’s</button></div>`;
@@ -57,7 +57,7 @@ const habsNow=()=>{const live=typeof state!=='undefined'&&state&&typeof CTX!=='u
 const rocksR2=b=>{if(!b)return 0;const own=new Set(b.cells.map(([q,r])=>hk(q,r))),seen=new Set();for(const[q,r]of b.cells)for(let dq=-2;dq<=2;dq++)for(let dr=-2;dr<=2;dr++){if(Math.abs(dq)+Math.abs(dr)+Math.abs(dq+dr)>4)continue;const k=hk(q+dq,r+dr);if(!own.has(k)&&TERR.get(k)==='block')seen.add(k)}return seen.size};
 const rocksNb=b=>{const own=new Set(b.cells.map(([q,r])=>hk(q,r))),seen=new Set();for(const[q,r]of b.cells)for(const[dq,dr]of DIRS){const k=hk(q+dq,r+dr);if(!own.has(k)&&TERR.get(k)==='block')seen.add(k)}return seen.size};
 const edgeN=b=>cnt(b.cells,([q,r])=>isEdge(q,r));
-const RARW={gewöhnlich:10,selten:5,'sehr selten':2,winter:0,saison:0,meilenstein:0,signatur:0,spezial:0};
+const RARW={gewöhnlich:10,selten:4,'sehr selten':1,winter:0,saison:0,meilenstein:0,signatur:0,spezial:0};
 const SEANAME=['Frühling','Sommer','Herbst','Winter'];
 let CTX={winter:false,season:0,progs:[],ads:[],ev:[],boni:{},spec:[]};
 // Streik: ist die Kasse im Minus, arbeiten die Spezialisten nicht (der Spekulant kostet trotzdem)
@@ -134,7 +134,7 @@ const KARTEN_WIRKUNG=(()=>{const W=(nb,h)=>cnt(nb,n=>isCat(n,'gehege')&&isHab(n,
   bonus.kraken=nb=>({s:cnt(nb,n=>isCat(n,'schutz'))?2:0});
   bonus.rentiere=nb=>({a:CTX.winter?2:0,s:W(nb,'arktis')});
   bonus.polarlicht=(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'arktis'))});
-  bonus.braunbaeren=nb=>({s:2*W(nb,'wald')});
+  bonus.braunbaeren=nb=>({s:2*W(nb,'gebirge')}); // 0.97a: Gebirge statt Dschungel
   bonus.seilbahn=(nb,all)=>({a:2*cnt(nb,n=>isHab(n,'gebirge'))+cnt(all||[],n=>isCat(n,'gehege')&&isHab(n,'gebirge'))});
   bonus.gipfel=(nb,all,b)=>({a:2*others(all,b,n=>isHab(n,'gebirge'))});
   bonus.weltzoo=nb=>{const k=new Set(nb.map(n=>K(n).cat).filter(c=>CATS4.includes(c))).size;return{a:k,s:k}};

@@ -97,30 +97,15 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.97a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.98a) – erst bauen, wenn Tobi „bauen“ sagt
 
-**Bauauftrag erteilt (Tobi 25.11.): [docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md](docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md)** – Punkte 1–4.
-
-1. **Deck-Übersicht: Größe der Karten** (Chat 25.11.): Überall, wo die kurze Deck-Übersicht steht (`deckMixHtml`/`deckMixData`, Modul 07 ~Z. 761: Kartenwahl, Aufräumen, Deck-Fenster,
-   Spezialisten-Auswahl `specDeckMix`, Weltkarte `wrPickHtml`), zusätzlich eine Gruppe **Größe**: wie viele Karten 1, 2, 3 und 4 Felder groß sind (Felderzahl = `SHAPES[c.shape].cells.length`, Modul 01).
-   Vorschlag: **nur Gehege** (fast alle Größen-Regeln betreffen Gehege: Spezialisten Kleintier/Zweiraum/Architekt, Förderung „klein“, Vorlieben ab3/feld1, Auflage klein4, Kronenfeld, Winter „Mindestgröße“; nur Winter „klein“ zählt auch Gebäude), Darstellung wie die anderen Chips, z. B. „⬢1 6 · ⬢2 4 · ⬢3 3 · ⬢4 2“ mit Titel „1 Feld“/„2 Felder“ …, leere weglassen; auf der Weltkarte als eigene `.wrchip`-Gruppe in der Leiste „Deine Tiere und Gebäude“.
-   Am Handy auf Breite achten (Zeile darf umbrechen), `quer.js` prüfen.
-2. **Braunbären: Bonus passt nicht zum Lebensraum** (Chat 25.11.): Gebirgs-Gehege, bekommt aber „🔗 +2 N je benachbartes Dschungel-Gehege“ (`bonus.braunbaeren=nb=>({s:2*W(nb,'wald')})`, Modul 01; Text `texte_de.json` `card.braunbaeren.fx`).
-   Stammt vermutlich aus der Zeit, als `wald` noch „Wald“ hieß; einzige Nicht-Dschungel-Karte mit Dschungel-Bonus. **Entschieden (Tobi): „🔗 +2 N je benachbartes Gebirge-Gehege“** → `W(nb,'gebirge')`, Kartentext anpassen (konsistent zu Gorillas im Dschungel).
-   Referenzfälle mit Braunbären prüfen/aktualisieren.
-3. **Fehler: Sammlerstück wirkt nicht in der Kartenwahl zwischen den Zoos** (Chat 25.11.): Spezialist `sammel` erlaubt 2× einzigartige Gebäude. Im Zoo beachten `builtUnique`/`ownsUnique` (Modul 04) das (Grenze 2),
-   die Kartenwahl `zkPools` (Modul 11 Z. ~65) schließt einzigartige Karten aber schon aus, sobald **eine** im Lauf-Deck ist (`run.deck.some(x=>baseK(x)===k)`). Lösung: dort ebenfalls `<(Sammlerstück im Team?2:1)` zählen
-   (zwischen den Zoos Team aus dem Lauf lesen, nicht aus `state`). Test: mit Sammlerstück und 1 einzigartiger Karte im Deck erscheint sie wieder im Los, ohne nicht.
-4. **Kartenwahl: Gewicht der Seltenheit gilt dort nicht** (Chat 25.11., Tobi bekam vor Zoo 1 zwei legendäre Karten): `zkDeal` (Modul 11 Z. ~67) mischt das Selten-Los gleichverteilt (`shuffle(rare)`), `RARW` (selten 5, legendär 2) wirkt nur bei `makeOffer` im Zoo.
-   Gemessen (alles freigeschaltet, 20 seltene + 5 legendäre im Los): Platz 1 zu ~20 % legendär, mind. 1 legendäre in ~28 % der Kartenwahlen, 2 legendäre ~2 %; im Zoo-Angebot (`makeOffer`, 3 Karten) nur ~7 %. **Entschieden (Tobi 25.11.):** im Selten-Los nach `weightOf`/`RARW` ziehen
-   (dann Platz 1 ~9 %, mind. 1 legendäre ~13 %); Bonus-Karten wie selten gewichten. Forscher (`talent`) bleibt ×2,5.
-   **Entschieden (Tobi 25.11.): `RARW` selten 5 → 4, legendär 2 → 1** (seltene etwas weniger, legendäre etwa halb so oft). Messwerte je 3er-Angebot (mind. 1 legendär / mind. 1 selten): jetzt 5/2 → 6,6 % / 54 %; 4/1 → 3,5 % / 47 %; 3/1 → 3,6 % / 39 %; 5/1 → 3,1 % / 55 %. `RARW` gilt dann auch für die Kartenwahl (bei 4/1 dort Platz 1 ~6 % legendär).
+(leer)
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
 
-**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Gewicht legendärer Karten (seit Liste 0.97a: 1). Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
+**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Gewicht legendärer Karten (seit 0.97a: 1). Neu beobachten: Seltenheit 4/1 (zu selten?). Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
 
 **Nächster Schritt Weltreise:** Ersatz für die höchste Stufe (5) im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
@@ -146,6 +131,9 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.97a** ([Auftrag](docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md), Regeln `docs/regeln.md` 27): `deckMixData` mit `gr` (Gehege je Felderzahl, ⬢1–⬢4), Weltkarte mit Größen-Gruppe (`.wrsep`); Braunbären `W(nb,'gebirge')` + Text;
+  `zkPools` zählt Einzigartige gegen `sammel` aus `run.spec`; `RARW` selten 4/legendär 1; `zkDeal` zieht das Selten-Los gewichtet (`zkOrder`/`zkW`). Test neu `jsd97a.js`.
 
 - **0.96a** ([Auftrag](docs/auftraege/0.96a-futter-zucht-stufen-anzeige.md), Regeln `docs/regeln.md` 26): Stufe 3 `teurer` 1,1; Gebäude-Schlüssel `bldK` (Art + Futter) in `build`/`hypo`, `sameArt` für alle Art-Vergleiche (`previewAt`, `dupOf`, `multiAdj`, `builtUnique`/`ownsUnique`, `einzel`, Hand-/Angebotszähler, Meilenstein-Hinweis, `twinMarks`, Freundschaft, `auswilder`, `fsPair`, Zucht),
   Ausbau `upFdKey` (+ `ok0` im Undo); Zucht `z2Breed` am Anfang von `endDay` (jeden Tag), Jungtier → `run.deck` + `state.jtNext` → `startDay` auf die Hand, Banner `bornBanner`, `wrGoal` Nachwuchs zählt am letzten Wintertag `state.z2born` (`z2bornD`);

@@ -761,9 +761,10 @@ const TRAITL={beute:'Beute',raubtier:'Raubtier',scheu:'scheu',show:'Showtier',be
 function deckMixData(keys){const C=(keys||[]).map(k=>CARDS[k]).filter(Boolean),n=f=>C.filter(f).length,G=c=>c.cat==='gehege',tg=t=>c=>G(c)&&(c.tags||[]).includes(t),ok=x=>x[2]>0;
   return{hab:Object.keys(HAB).map(h=>[HAB[h].icon,HAB[h].label+'-Gehege',n(c=>G(c)&&c.hab===h)]).filter(ok),
     mk:[['🎭','Showtiere','show'],['🙈','scheue Tiere','scheu'],['🐇','Beutetiere','beute'],['🦁','Raubtiere','raubtier'],['🔴','bedrohte Tiere','bedroht']].map(([i,t,k])=>[i,t,n(tg(k))]).filter(ok),
-    gb:[['🍔','Gastro','essen'],['🎡','Attraktionen','attr'],['🌳','Naturschutz','schutz'],['⚡','Verstärker','verst']].map(([i,t,k])=>[i,t,n(c=>c.cat===k)]).filter(ok)}}
+    gb:[['🍔','Gastro','essen'],['🎡','Attraktionen','attr'],['🌳','Naturschutz','schutz'],['⚡','Verstärker','verst']].map(([i,t,k])=>[i,t,n(c=>c.cat===k)]).filter(ok),
+    gr:[1,2,3,4].map(f=>['⬢'+f,f===1?'1 Feld':f+' Felder',n(c=>G(c)&&SHAPES[c.shape]&&SHAPES[c.shape].cells.length===f)]).filter(ok)}} // 0.97a: Größe der Gehege
 function deckMixHtml(keys){const D=deckMixData(keys),ch=([ic,t,v])=>`<span title="${t}">${ic} ${v}</span>`;
-  const grp=[D.hab,D.mk,D.gb].filter(x=>x.length).map(x=>x.map(ch).join(''));return grp.length?`<div class="dmix" aria-label="Deck-Übersicht">${grp.join('<i aria-hidden="true">·</i>')}</div>`:''}
+  const grp=[D.hab,D.mk,D.gb,D.gr].filter(x=>x.length).map(x=>x.map(ch).join(''));return grp.length?`<div class="dmix" aria-label="Deck-Übersicht">${grp.join('<i aria-hidden="true">·</i>')}</div>`:''}
 // 0.96a: bei der Spezialisten-Wahl aufklappbar über den Bewerbern (Lauf-Deck, sonst Deck+Ablage+Hand)
 function specDeckMix(keys){if(!keys){const r=runOf();keys=r&&r.deck&&r.deck.length?r.deck:state?[...(state.deck||[]),...(state.discard||[]),...(state.hand||[])]:[]}const m=deckMixHtml(keys);
   return m?`<details class="spdmix"><summary>🃏 Dein Deck (${keys.length} Karten) ansehen</summary>${m}</details>`:''}

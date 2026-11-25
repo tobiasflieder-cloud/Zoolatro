@@ -503,3 +503,12 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Ziel-Auflage Nachwuchs** (`06:wrGoal`): am letzten Wintertag zählt zusätzlich ein an diesem Tag geborenes Jungtier (`state.z2bornD===dayKeyNow()`).
 - **Verstärker antippen**: `06:vstTargets(v)` (Nachbarn mit `verstHit`, Scheinwerfer nur `spotOf`, Winterquartier nur im Winter; Zuwachs = `evalB` mit/ohne Verstärker), `vstInfoHtml` im Info-Feld, auf dem Brett Hervorhebung, Linie, Zuwachs-Schild. Unabhängig von „Vorschau aus“.
 - **Deck-Mischung** `07:deckMixData(keys)` → `{hab,mk,gb}`; `deckMixHtml` baut daraus; `specDeckMix` (`<details class="spdmix">`) in Stellenmarkt, Mappe/Profi-Mappe/Geschenk, Auswahl zwischen den Zoos; Weltkarte (`06:wrPickHtml`) zweite Leiste „Deine Tiere und Gebäude“.
+
+## 27. 0.97a
+- **Deck-Übersicht** `07:deckMixData` liefert zusätzlich `gr` = Anzahl der **Gehege** je Felderzahl 1–4 (`SHAPES[c.shape].cells.length`, Jungtiere mit Form `s1`), Chips „⬢1 n“ … mit Titel „1 Feld“/„n Felder“, leere weg.
+  Gilt für `deckMixHtml` (Kartenwahl, Aufräumen, Deck-Fenster), `specDeckMix` und die Weltkarte (`06:wrPickHtml`, Leiste „Deine Tiere und Gebäude“, Gruppen durch „·“ getrennt).
+- **Braunbären** (`01:bonus.braunbaeren`): +2 N je benachbartes **Gebirge**-Gehege (vorher Dschungel/`wald`).
+- **Sammlerstück in der Kartenwahl** `11:zkPools`: Einzigartige Karte fällt erst aus dem Los, wenn `cnt(run.deck, baseK=k) ≥ (sammel in run.spec ? 2 : 1)` (Team aus dem Lauf, nicht `hasSpec`). Gilt auch für das Mitbringsel.
+- **Seltenheit** `01:RARW`: gewöhnlich 10, selten **4** (vorher 5), legendär **1** (vorher 2); Forscher (`talent`) ×2,5 auf selten/legendär unverändert.
+- **Kartenwahl** `11:zkDeal`: Das Selten-Los wird nach Gewicht gezogen (`zkOrder`/`zkW`: Seltenheit aus `RARW`, Bonus-Karten wie selten, `talent` aus `run.spec` ×2,5; ohne Doppel). Gewöhnlich-Los bleibt gleichverteilt, Platzregeln (1 selten, 2 zu 50 %, 3 gewöhnlich, Forscher-Profil 2 Plätze, Ausweichen, Veredelungen) unverändert.
+  Gemessen in `jsd97a` (je 5.000, Teststand mit 19 gesperrten seltenen/legendären Karten): Zoo-Angebot mind. 1 legendär 4,2 %, mind. 1 selten 48 %; Kartenwahl Platz 1 legendär 5,4 %, mind. 1 legendär 8,1 %.
