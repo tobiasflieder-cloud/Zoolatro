@@ -99,7 +99,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.97a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **Deck-Übersicht: Größe der Karten** (Chat 25.11.): Überall, wo die kurze Deck-Übersicht steht (`deckMixHtml`/`deckMixData`, Modul 07 ~Z. 761: Kartenwahl, Aufräumen, Deck-Fenster,
+   Spezialisten-Auswahl `specDeckMix`, Weltkarte `wrPickHtml`), zusätzlich eine Gruppe **Größe**: wie viele Karten 1, 2, 3 und 4 Felder groß sind (Felderzahl = `SHAPES[c.shape].length`, Modul 01).
+   Vorschlag: alle Karten (Gehege und Gebäude), Darstellung wie die anderen Chips, z. B. „⬢1 6 · ⬢2 4 · ⬢3 3 · ⬢4 2“ mit Titel „1 Feld“/„2 Felder“ …, leere weglassen; auf der Weltkarte als eigene `.wrchip`-Gruppe in der Leiste „Deine Tiere und Gebäude“.
+   Am Handy auf Breite achten (Zeile darf umbrechen), `quer.js` prüfen.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
