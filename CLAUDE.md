@@ -104,6 +104,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    **Entschieden (Tobi 25.11.):** „stärkste“ = tatsächlicher Wert des Geheges **ohne** Stellas eigenen ×2,5 (z. B. `evalB` mit Brett ohne Stella, Wert a+s), Gleichstand weiter über `id`. Zwischenspeicher je Brett nötig (spotOf wird in `evalB`, `vstTargets`, `vstMarks`, Anzeige Z. ~586 aufgerufen) – Achtung Rekursion/Leistung.
    Referenzfälle mit Stella prüfen. Test: Gehege mit kleinerem Aufdruck, aber höherem Ist-Wert bekommt ×2,5.
 
+2. **Winter „Lebensraum-Prüfung“ (`hab`) abschwächen** (Chat 25.11., Stufe-5-Lauf: Zoo 5 Herbst 263 %, Winter 81 %, weil das tragende schimmernde Korallenriff (Wasser) im Winter 0 zählte): `WINTER_WIRKUNG.hab` (Modul 02, Z. 22) gibt `HARD(Z)?0:.5`;
+   `Z.hard` gilt ab Zoo 3 (`state.zoo>=2`, Modul 06 Z. 19). **Entschieden (Tobi): verschärft ×0,5 statt 0.** Offen: normale Fassung (Zoo 1–2) bleibt ×0,5 (dann kein Unterschied) oder ×0,75 – Tobi fragen/Vorschlag ×0,75.
+   Texte anpassen: `winter.json` `hab.ht` („…gar nicht“ → „…nur ×0,5“), `text.hab` (Modul 02 Z. 31), `docs/regeln.md`, Winter-Fenster/Wetterbericht (`winterHitTxt`, `winterMarks`) prüfen. Gleichstand bleibt: alle gleichauf liegenden Lebensräume betroffen.
+
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
