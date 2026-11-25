@@ -103,6 +103,13 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    `stW('teurer',1)` in `mappePrice`/`profiPrice`/`priced` (Modul 07) bleibt harmlos stehen (liefert 1). Tests anpassen: `jsd96a` (erwartet `[1,1,1,1,1]`), `jsddaten` Z. 55 (`s>=3?1.1:1` → 1). Stufenwahl-Texte/`stageBox` und `docs/regeln.md` prüfen.
    Sonst Stufe 5 vorerst unverändert; nach weiteren Läufen ggf. Kronenfeld ×1,15 behalten (A), Ziel ×1,15 (B) oder 12 Naturfelder (C). Vermutung offen: Gipfelstürmer leidet unter 9 Naturfeldern.
 
+2. **Seltenheit zurück auf 5/2** (Chat 25.11.: Tobi meinte mit „zu viele legendäre“ die Promis/Verstärker, nicht die legendären Karten): `RARW` selten 4 → **5**, legendär 1 → **2** (wie bis 0.96a).
+   Die gewichtete Kartenwahl aus 0.97a (`zkOrder`/`zkW`) **bleibt** (Tobi fand sie gut). `jsd97a` an die Werte anpassen.
+3. **Promis (Verstärker, `cat:'verst'`) werden legendär, aber etwas häufiger als andere legendäre:** alle 6 (Chef Carmen, Mia Megaviral, Stella Starr, Sven Frost, Nova, Luna Lotus) in `daten/karten.json` `rar` selten → **`'sehr selten'`**.
+   Eigenes Gewicht **3** (legendär 2, selten 5) in `weightOf` (Modul 04) und `zkW` (Modul 11), z. B. über `RARW.promi=3` und `c.cat==='verst'`; Forscher ×2,5 gilt auch hier.
+   Erwartung: Promis zusammen etwa 60 % so oft wie bisher (6×3=18 statt 6×5=30 Gewicht). Folgen bewusst mitnehmen: Glanz `rg2` und Label „Legendär“, Shop-Preis 20 statt 15 (`priced` in `fixedItems`, Modul 07 Z. ~725), Futterplätze `fdMaxK` 3 (falls für Verstärker relevant),
+   Glückspilz-Pool/`flRare` zählen sie weiter. Prüfen: Freischaltung der Promis, Zoo-Buch-Filter „Legendär“, Text-/Referenzfälle (Wertung sollte gleich bleiben). Test: Anteil Promis im Zoo-Angebot grob messen.
+
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
