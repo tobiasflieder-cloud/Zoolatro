@@ -101,6 +101,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 (leer)
 
+**Für 0.98a (noch kein Bauauftrag):**
+1. **Stufen: Preissteigerung streichen** (Chat 25.11., nach 8 Stufe-5-Läufen: höchstens 2 Zoos, Geld oft knapp): Stufe 3 verliert `teurer` 1,1 (`daten/stufen.json`, nur dort; Text Stufe 3 → „Saisonziele ab Sommer ×1,15 · Reinheit erst ab 6 Tieren“).
+   `stW('teurer',1)` in `mappePrice`/`profiPrice`/`priced` (Modul 07) bleibt harmlos stehen (liefert 1). Tests anpassen: `jsd96a` (erwartet `[1,1,1,1,1]`), `jsddaten` Z. 55 (`s>=3?1.1:1` → 1). Stufenwahl-Texte/`stageBox` und `docs/regeln.md` prüfen.
+   Sonst Stufe 5 vorerst unverändert; nach weiteren Läufen ggf. Kronenfeld ×1,15 behalten (A), Ziel ×1,15 (B) oder 12 Naturfelder (C). Vermutung offen: Gipfelstürmer leidet unter 9 Naturfeldern.
+
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
