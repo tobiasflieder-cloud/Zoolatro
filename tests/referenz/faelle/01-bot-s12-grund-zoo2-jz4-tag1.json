@@ -1464,9 +1464,9 @@
  ]
 },
 "erwartet":{
- "A": 613,
+ "A": 705,
  "S": 308,
- "total": 188804,
+ "total": 217140,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1491,6 +1491,12 @@
    "id": null,
    "ma": null,
    "ms": 1.3
+  },
+  {
+   "label": "Gastro-Vielfalt: 4 Arten",
+   "id": null,
+   "ma": 1.15,
+   "ms": null
   }
  ],
  "buildings": [

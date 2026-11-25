@@ -1221,9 +1221,9 @@
  ]
 },
 "erwartet":{
- "A": 360,
+ "A": 396,
  "S": 293,
- "total": 105480,
+ "total": 116028,
  "mults": [
   {
    "label": "Nachtführung",
@@ -1236,6 +1236,12 @@
    "id": null,
    "ma": null,
    "ms": 1.45
+  },
+  {
+   "label": "Attraktions-Vielfalt: 3 Arten",
+   "id": null,
+   "ma": 1.1,
+   "ms": null
   }
  ],
  "buildings": [

@@ -1373,9 +1373,9 @@
  ]
 },
 "erwartet":{
- "A": 575,
+ "A": 690,
  "S": 325,
- "total": 186875,
+ "total": 224250,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1388,6 +1388,12 @@
    "id": null,
    "ma": null,
    "ms": 1.15
+  },
+  {
+   "label": "Gastro-Vielfalt: 5 Arten",
+   "id": null,
+   "ma": 1.2,
+   "ms": null
   }
  ],
  "buildings": [

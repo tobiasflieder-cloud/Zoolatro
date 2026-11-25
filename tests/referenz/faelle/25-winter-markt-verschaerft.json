@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 335,
+ "A": 402,
  "S": 301,
- "total": 100835,
+ "total": 121002,
  "mults": [
   {
    "label": "Gestresste Tiere: 2",
@@ -1731,6 +1731,12 @@
    "id": null,
    "ma": null,
    "ms": 1.15
+  },
+  {
+   "label": "Attraktions-Vielfalt: 5 Arten",
+   "id": null,
+   "ma": 1.2,
+   "ms": null
   }
  ],
  "buildings": [

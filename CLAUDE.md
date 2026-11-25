@@ -134,7 +134,7 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 - **0.98a** ([Auftrag](docs/auftraege/0.98a-preise-promis-besuchervielfalt.md), Regeln `docs/regeln.md` 28): Stufe 3 ohne `teurer`; `RARW` 5/2 + `promi` 3 (`weightOf`, `zkW`), Promis `rar:'sehr selten'` in `karten.json`;
   Besucher-Vielfalt `besVielfalt`/`bvF`/`BVIEL` in `scoreZoo` (+ `ZTXT.bviel`, Zoo-Übersicht, Regeln, Glossar); Eröffnungsangebot `eroeffOn`/`eroeffF` in `priced`/`mappePrice`/`profiPrice`, Hinweis `eroeffHtml`; `breakdown` Wiederholung nach `sameArt`.
-  Tests: neu `jsd98a.js`, angepasst `jsd96a` (Preise), `jsd97a` (RARW, Grenzen), `jsddaten` (Stufen).
+  Tests: neu `jsd98a.js`, angepasst `jsd96a` (Preise), `jsd97a` (RARW, Grenzen), `jsddaten` (Stufen). Referenzfälle mit `aktualisiere`: 44 von 51 mit anderer Gesamtzahl (×1,10–×1,25, nur Besucher-Vielfalt).
 
 - **0.97a** ([Auftrag](docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md), Regeln `docs/regeln.md` 27): `deckMixData` mit `gr` (Gehege je Felderzahl, ⬢1–⬢4), Weltkarte mit Größen-Gruppe (`.wrsep`); Braunbären `W(nb,'gebirge')` + Text;
   `zkPools` zählt Einzigartige gegen `sammel` aus `run.spec`; `RARW` selten 4/legendär 1; `zkDeal` zieht das Selten-Los gewichtet (`zkOrder`/`zkW`). Test neu `jsd97a.js`. Referenzfälle mit `aktualisiere`: 1 von 4 Braunbär-Fällen mit anderer Gesamtzahl (Fall 02: 145 965 → 150 405).
