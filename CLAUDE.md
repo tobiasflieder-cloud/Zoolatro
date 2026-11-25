@@ -106,6 +106,12 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 2. **Braunbären: Bonus passt nicht zum Lebensraum** (Chat 25.11.): Gebirgs-Gehege, bekommt aber „🔗 +2 N je benachbartes Dschungel-Gehege“ (`bonus.braunbaeren=nb=>({s:2*W(nb,'wald')})`, Modul 01; Text `texte_de.json` `card.braunbaeren.fx`).
    Stammt vermutlich aus der Zeit, als `wald` noch „Wald“ hieß; einzige Nicht-Dschungel-Karte mit Dschungel-Bonus. **Entschieden (Tobi): „🔗 +2 N je benachbartes Gebirge-Gehege“** → `W(nb,'gebirge')`, Kartentext anpassen (konsistent zu Gorillas im Dschungel).
    Referenzfälle mit Braunbären prüfen/aktualisieren.
+3. **Fehler: Sammlerstück wirkt nicht in der Kartenwahl zwischen den Zoos** (Chat 25.11.): Spezialist `sammel` erlaubt 2× einzigartige Gebäude. Im Zoo beachten `builtUnique`/`ownsUnique` (Modul 04) das (Grenze 2),
+   die Kartenwahl `zkPools` (Modul 11 Z. ~65) schließt einzigartige Karten aber schon aus, sobald **eine** im Lauf-Deck ist (`run.deck.some(x=>baseK(x)===k)`). Lösung: dort ebenfalls `<(Sammlerstück im Team?2:1)` zählen
+   (zwischen den Zoos Team aus dem Lauf lesen, nicht aus `state`). Test: mit Sammlerstück und 1 einzigartiger Karte im Deck erscheint sie wieder im Los, ohne nicht.
+4. **Kartenwahl: Gewicht der Seltenheit gilt dort nicht** (Chat 25.11., Tobi bekam vor Zoo 1 zwei legendäre Karten): `zkDeal` (Modul 11 Z. ~67) mischt das Selten-Los gleichverteilt (`shuffle(rare)`), `RARW` (selten 5, legendär 2) wirkt nur bei `makeOffer` im Zoo.
+   Im Selten-Platz ist dadurch etwa jede 8.–10. Karte legendär (4 der 5 legendären haben keinen Lebensraum und sind immer im Los). **Vorschlag (noch offen, Tobi entscheidet):** im Selten-Los nach `weightOf`/`RARW` ziehen
+   (legendär dann etwa halb so oft wie jetzt); Bonus-Karten wie selten gewichten. Forscher (`talent`) bleibt ×2,5.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
