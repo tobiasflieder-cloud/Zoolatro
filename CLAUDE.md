@@ -103,6 +103,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Spezialisten-Auswahl `specDeckMix`, Weltkarte `wrPickHtml`), zusätzlich eine Gruppe **Größe**: wie viele Karten 1, 2, 3 und 4 Felder groß sind (Felderzahl = `SHAPES[c.shape].length`, Modul 01).
    Vorschlag: **nur Gehege** (fast alle Größen-Regeln betreffen Gehege: Spezialisten Kleintier/Zweiraum/Architekt, Förderung „klein“, Vorlieben ab3/feld1, Auflage klein4, Kronenfeld, Winter „Mindestgröße“; nur Winter „klein“ zählt auch Gebäude), Darstellung wie die anderen Chips, z. B. „⬢1 6 · ⬢2 4 · ⬢3 3 · ⬢4 2“ mit Titel „1 Feld“/„2 Felder“ …, leere weglassen; auf der Weltkarte als eigene `.wrchip`-Gruppe in der Leiste „Deine Tiere und Gebäude“.
    Am Handy auf Breite achten (Zeile darf umbrechen), `quer.js` prüfen.
+2. **Braunbären: Bonus passt nicht zum Lebensraum** (Chat 25.11.): Gebirgs-Gehege, bekommt aber „🔗 +2 N je benachbartes Dschungel-Gehege“ (`bonus.braunbaeren=nb=>({s:2*W(nb,'wald')})`, Modul 01; Text `texte_de.json` `card.braunbaeren.fx`).
+   Stammt vermutlich aus der Zeit, als `wald` noch „Wald“ hieß; einzige Nicht-Dschungel-Karte mit Dschungel-Bonus. **Neuer Bonus noch offen (Tobi entscheidet)**, Vorschläge: A +2 N je benachbartes Gebirge-Gehege · B +2 B je benachbartes Wasser-Gehege (Bär am Fluss) · C +1 N je Felsen daneben (wie Schneeleopard, aber N).
+   Referenzfälle mit Braunbären prüfen/aktualisieren.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
