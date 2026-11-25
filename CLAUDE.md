@@ -101,7 +101,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 1. **Stella Starr wählt das falsche Gehege** (Chat 25.11., Screenshot: Flamingoteich 21 B/19 N bekam ×2,5 statt Korallenriff 42 B/39 N): `spotOf` (Modul 04, Z. ~312) vergleicht nur die **aufgedruckten Kartenwerte** `c.a+c.s`
    (Flamingo 2+3 = Korallenriff 3+2 = 5 → Gleichstand → kleinere `id` gewinnt). Ausbau, Futter, Nachbarn, Lebensraum-Faktoren zählen nicht – widerspricht dem Text „für das stärkste benachbarte Gehege“.
-   **Vorschlag (Tobi entscheidet):** „stärkste“ = tatsächlicher Wert des Geheges **ohne** Stellas eigenen ×2,5 (z. B. `evalB` mit Brett ohne Stella, Wert a+s), Gleichstand weiter über `id`. Zwischenspeicher je Brett nötig (spotOf wird in `evalB`, `vstTargets`, `vstMarks`, Anzeige Z. ~586 aufgerufen) – Achtung Rekursion/Leistung.
+   **Entschieden (Tobi 25.11.):** „stärkste“ = tatsächlicher Wert des Geheges **ohne** Stellas eigenen ×2,5 (z. B. `evalB` mit Brett ohne Stella, Wert a+s), Gleichstand weiter über `id`. Zwischenspeicher je Brett nötig (spotOf wird in `evalB`, `vstTargets`, `vstMarks`, Anzeige Z. ~586 aufgerufen) – Achtung Rekursion/Leistung.
    Referenzfälle mit Stella prüfen. Test: Gehege mit kleinerem Aufdruck, aber höherem Ist-Wert bekommt ×2,5.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
