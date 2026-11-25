@@ -116,6 +116,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Unabhängig von Reinheit/Vielfalt (wirkt zusätzlich). Zahlen in eine Daten-Datei (z. B. `daten/stufen.json` nein → eigene Konstanten oder `auflagen.json`/neue Felder; Claude Code entscheidet, Hauptsache an einer Stelle). Anzeige: Detail-/Zoo-Faktoren, `docs/regeln.md`, Zoo-Buch-Regeln (`ZRULES`/Regeln-Reiter) ergänzen.
    Referenzfälle mit Gastro/Attraktionen ändern sich → `aktualisiere`, Spanne in der Zusammenfassung nennen. Test: 3/4/7 verschiedene Gastro → ×1,1/×1,15/×1,3; Attraktionen besser als Gastro → nur Attraktions-Zeile.
 
+5. **Erster Shop jedes Zoos günstiger** (Chat 25.11., Geld nach dem Frühling oft nur 7–14 Taler): im Shop nach dem Frühling (`state.season===0`, nicht Tutorial) alle Preise **×0,75** (Vorschlag, Tobi bestätigt noch die Zahl):
+   `priced` (Modul 07 Z. ~722: Karten 15/20, Spezialisten `SPECPRICE` 20/35/50, Umbau/Futter/Extras) und auch `mappePrice`/`profiPrice` (die nutzen `priced` nicht). Rundung wie bisher, mindestens 1.
+   Hinweis im Shop z. B. „🌱 Eröffnungsangebot: alles ×0,75“. Achtung: `inflation()` ist im Frühlings-Shop schon 1; `priced` enthält zusätzlich `isD4` ×0,8 – prüfen, ob das seit 0.94a (4 Tage Standard) in jedem Lauf greift, und in der Zusammenfassung nennen.
+
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
