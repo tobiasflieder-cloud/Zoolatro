@@ -99,6 +99,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.98a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**Bauauftrag erteilt (Tobi 25.11.): [docs/auftraege/0.98a-preise-promis-besuchervielfalt.md](docs/auftraege/0.98a-preise-promis-besuchervielfalt.md)** – Punkte 1–5.
+
 1. **Stufen: Preissteigerung streichen** (Chat 25.11., nach 8 Stufe-5-Läufen: höchstens 2 Zoos, Geld oft knapp): Stufe 3 verliert `teurer` 1,1 (`daten/stufen.json`, nur dort; Text Stufe 3 → „Saisonziele ab Sommer ×1,15 · Reinheit erst ab 6 Tieren“).
    `stW('teurer',1)` in `mappePrice`/`profiPrice`/`priced` (Modul 07) bleibt harmlos stehen (liefert 1). Tests anpassen: `jsd96a` (erwartet `[1,1,1,1,1]`), `jsddaten` Z. 55 (`s>=3?1.1:1` → 1). Stufenwahl-Texte/`stageBox` und `docs/regeln.md` prüfen.
    Sonst Stufe 5 vorerst unverändert; nach weiteren Läufen ggf. Kronenfeld ×1,15 behalten (A), Ziel ×1,15 (B) oder 12 Naturfelder (C). Vermutung offen: Gipfelstürmer leidet unter 9 Naturfeldern.
@@ -116,7 +118,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Unabhängig von Reinheit/Vielfalt (wirkt zusätzlich). Zahlen in eine Daten-Datei (z. B. `daten/stufen.json` nein → eigene Konstanten oder `auflagen.json`/neue Felder; Claude Code entscheidet, Hauptsache an einer Stelle). Anzeige: Detail-/Zoo-Faktoren, `docs/regeln.md`, Zoo-Buch-Regeln (`ZRULES`/Regeln-Reiter) ergänzen.
    Referenzfälle mit Gastro/Attraktionen ändern sich → `aktualisiere`, Spanne in der Zusammenfassung nennen. Test: 3/4/7 verschiedene Gastro → ×1,1/×1,15/×1,3; Attraktionen besser als Gastro → nur Attraktions-Zeile.
 
-5. **Erster Shop jedes Zoos günstiger** (Chat 25.11., Geld nach dem Frühling oft nur 7–14 Taler): im Shop nach dem Frühling (`state.season===0`, nicht Tutorial) alle Preise **×0,75** (Vorschlag, Tobi bestätigt noch die Zahl):
+5. **Erster Shop jedes Zoos günstiger** (Chat 25.11., Geld nach dem Frühling oft nur 7–14 Taler): im Shop nach dem Frühling (`state.season===0`, nicht Tutorial) alle Preise **×0,75** (Tobi bestätigt):
    `priced` (Modul 07 Z. ~722: Karten 15/20, Spezialisten `SPECPRICE` 20/35/50, Umbau/Futter/Extras) und auch `mappePrice`/`profiPrice` (die nutzen `priced` nicht). Rundung wie bisher, mindestens 1.
    Hinweis im Shop z. B. „🌱 Eröffnungsangebot: alles ×0,75“. Achtung: `inflation()` ist im Frühlings-Shop schon 1; `priced` enthält zusätzlich `isD4` ×0,8 – prüfen, ob das seit 0.94a (4 Tage Standard) in jedem Lauf greift, und in der Zusammenfassung nennen.
 
