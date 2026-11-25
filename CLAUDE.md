@@ -110,6 +110,12 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Erwartung: Promis zusammen etwa 60 % so oft wie bisher (6×3=18 statt 6×5=30 Gewicht). Folgen bewusst mitnehmen: Glanz `rg2` und Label „Legendär“, Shop-Preis 20 statt 15 (`priced` in `fixedItems`, Modul 07 Z. ~725), Futterplätze `fdMaxK` 3 (falls für Verstärker relevant),
    Glückspilz-Pool/`flRare` zählen sie weiter. Prüfen: Freischaltung der Promis, Zoo-Buch-Filter „Legendär“, Text-/Referenzfälle (Wertung sollte gleich bleiben). Test: Anteil Promis im Zoo-Angebot grob messen.
 
+4. **Besucher-Vielfalt (Gegenstück zu Reinheit/Vielfalt, Chat 25.11.):** Tobi: auf Stufe 5 sind Gastro/Attraktionen zu schwach, weil Reinheit/Vielfalt nur Gehege zählen (und nur Natur stärken).
+   Neu in `scoreZoo` (Modul 04, neben Reinheit/Vielfalt ~Z. 326): verschiedene **Gastro-Arten** (`cat:'essen'`) und verschiedene **Attraktions-Arten** (`cat:'attr'`) im Zoo zählen (Art über `spK`, wie bei Vielfalt; Ausbaustufen/Doppelte zählen nicht extra).
+   **Nur das Bessere von beiden gilt.** Vorschlag Zahlen (Tobi hat Prinzip bestätigt, Zahlen noch nicht): ab **3** verschiedenen Arten **×1,1 B**, je weitere +0,05, höchstens **×1,3 B** (bei 7). Faktor als `ma` (Besucher), Zeile z. B. „🍔 Gastro-Vielfalt: 4 Arten ×1,15 B“ bzw. „🎡 Attraktions-Vielfalt …“.
+   Unabhängig von Reinheit/Vielfalt (wirkt zusätzlich). Zahlen in eine Daten-Datei (z. B. `daten/stufen.json` nein → eigene Konstanten oder `auflagen.json`/neue Felder; Claude Code entscheidet, Hauptsache an einer Stelle). Anzeige: Detail-/Zoo-Faktoren, `docs/regeln.md`, Zoo-Buch-Regeln (`ZRULES`/Regeln-Reiter) ergänzen.
+   Referenzfälle mit Gastro/Attraktionen ändern sich → `aktualisiere`, Spanne in der Zusammenfassung nennen. Test: 3/4/7 verschiedene Gastro → ×1,1/×1,15/×1,3; Attraktionen besser als Gastro → nur Attraktions-Zeile.
+
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
