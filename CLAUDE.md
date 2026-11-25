@@ -133,7 +133,7 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 ## 7. Erledigt (zuletzt)
 
 - **0.97a** ([Auftrag](docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md), Regeln `docs/regeln.md` 27): `deckMixData` mit `gr` (Gehege je Felderzahl, ⬢1–⬢4), Weltkarte mit Größen-Gruppe (`.wrsep`); Braunbären `W(nb,'gebirge')` + Text;
-  `zkPools` zählt Einzigartige gegen `sammel` aus `run.spec`; `RARW` selten 4/legendär 1; `zkDeal` zieht das Selten-Los gewichtet (`zkOrder`/`zkW`). Test neu `jsd97a.js`.
+  `zkPools` zählt Einzigartige gegen `sammel` aus `run.spec`; `RARW` selten 4/legendär 1; `zkDeal` zieht das Selten-Los gewichtet (`zkOrder`/`zkW`). Test neu `jsd97a.js`. Referenzfälle mit `aktualisiere`: 1 von 4 Braunbär-Fällen mit anderer Gesamtzahl (Fall 02: 145 965 → 150 405).
 
 - **0.96a** ([Auftrag](docs/auftraege/0.96a-futter-zucht-stufen-anzeige.md), Regeln `docs/regeln.md` 26): Stufe 3 `teurer` 1,1; Gebäude-Schlüssel `bldK` (Art + Futter) in `build`/`hypo`, `sameArt` für alle Art-Vergleiche (`previewAt`, `dupOf`, `multiAdj`, `builtUnique`/`ownsUnique`, `einzel`, Hand-/Angebotszähler, Meilenstein-Hinweis, `twinMarks`, Freundschaft, `auswilder`, `fsPair`, Zucht),
   Ausbau `upFdKey` (+ `ok0` im Undo); Zucht `z2Breed` am Anfang von `endDay` (jeden Tag), Jungtier → `run.deck` + `state.jtNext` → `startDay` auf die Hand, Banner `bornBanner`, `wrGoal` Nachwuchs zählt am letzten Wintertag `state.z2born` (`z2bornD`);

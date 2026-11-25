@@ -1407,8 +1407,8 @@
 },
 "erwartet":{
  "A": 555,
- "S": 263,
- "total": 145965,
+ "S": 271,
+ "total": 150405,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -2060,7 +2060,7 @@
   {
    "id": 25,
    "a": 18,
-   "s": 8,
+   "s": 15,
    "parts": [
     [
      "Gebirge-Nachbarn",
@@ -2073,14 +2073,19 @@
      1
     ],
     [
+     "Kartenbonus",
+     0,
+     4
+    ],
+    [
      "⛰️ Rand/Felsen (1) ×1,5",
      5,
-     2
+     4
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
      4,
-     2
+     3
     ]
    ]
   },
