@@ -99,8 +99,10 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.97a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**Bauauftrag erteilt (Tobi 25.11.): [docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md](docs/auftraege/0.97a-groesse-braunbaer-sammler-seltenheit.md)** – Punkte 1–4.
+
 1. **Deck-Übersicht: Größe der Karten** (Chat 25.11.): Überall, wo die kurze Deck-Übersicht steht (`deckMixHtml`/`deckMixData`, Modul 07 ~Z. 761: Kartenwahl, Aufräumen, Deck-Fenster,
-   Spezialisten-Auswahl `specDeckMix`, Weltkarte `wrPickHtml`), zusätzlich eine Gruppe **Größe**: wie viele Karten 1, 2, 3 und 4 Felder groß sind (Felderzahl = `SHAPES[c.shape].length`, Modul 01).
+   Spezialisten-Auswahl `specDeckMix`, Weltkarte `wrPickHtml`), zusätzlich eine Gruppe **Größe**: wie viele Karten 1, 2, 3 und 4 Felder groß sind (Felderzahl = `SHAPES[c.shape].cells.length`, Modul 01).
    Vorschlag: **nur Gehege** (fast alle Größen-Regeln betreffen Gehege: Spezialisten Kleintier/Zweiraum/Architekt, Förderung „klein“, Vorlieben ab3/feld1, Auflage klein4, Kronenfeld, Winter „Mindestgröße“; nur Winter „klein“ zählt auch Gebäude), Darstellung wie die anderen Chips, z. B. „⬢1 6 · ⬢2 4 · ⬢3 3 · ⬢4 2“ mit Titel „1 Feld“/„2 Felder“ …, leere weglassen; auf der Weltkarte als eigene `.wrchip`-Gruppe in der Leiste „Deine Tiere und Gebäude“.
    Am Handy auf Breite achten (Zeile darf umbrechen), `quer.js` prüfen.
 2. **Braunbären: Bonus passt nicht zum Lebensraum** (Chat 25.11.): Gebirgs-Gehege, bekommt aber „🔗 +2 N je benachbartes Dschungel-Gehege“ (`bonus.braunbaeren=nb=>({s:2*W(nb,'wald')})`, Modul 01; Text `texte_de.json` `card.braunbaeren.fx`).
@@ -112,7 +114,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 4. **Kartenwahl: Gewicht der Seltenheit gilt dort nicht** (Chat 25.11., Tobi bekam vor Zoo 1 zwei legendäre Karten): `zkDeal` (Modul 11 Z. ~67) mischt das Selten-Los gleichverteilt (`shuffle(rare)`), `RARW` (selten 5, legendär 2) wirkt nur bei `makeOffer` im Zoo.
    Gemessen (alles freigeschaltet, 20 seltene + 5 legendäre im Los): Platz 1 zu ~20 % legendär, mind. 1 legendäre in ~28 % der Kartenwahlen, 2 legendäre ~2 %; im Zoo-Angebot (`makeOffer`, 3 Karten) nur ~7 %. **Entschieden (Tobi 25.11.):** im Selten-Los nach `weightOf`/`RARW` ziehen
    (dann Platz 1 ~9 %, mind. 1 legendäre ~13 %); Bonus-Karten wie selten gewichten. Forscher (`talent`) bleibt ×2,5.
-   **Entschieden (Tobi 25.11.): `RARW` selten 5 → 4, legendär 2 → 1** (seltene etwas weniger, legendäre etwa halb so oft). Messwerte dazu Gemessen je 3er-Angebot (mind. 1 legendär / mind. 1 selten): jetzt 5/2 → 6,6 % / 54 %; 4/1 → 3,5 % / 47 %; 3/1 → 3,6 % / 39 %; 5/1 → 3,1 % / 55 %. `RARW` gilt dann auch für die Kartenwahl (bei 4/1 dort Platz 1 ~6 % legendär).
+   **Entschieden (Tobi 25.11.): `RARW` selten 5 → 4, legendär 2 → 1** (seltene etwas weniger, legendäre etwa halb so oft). Messwerte je 3er-Angebot (mind. 1 legendär / mind. 1 selten): jetzt 5/2 → 6,6 % / 54 %; 4/1 → 3,5 % / 47 %; 3/1 → 3,6 % / 39 %; 5/1 → 3,1 % / 55 %. `RARW` gilt dann auch für die Kartenwahl (bei 4/1 dort Platz 1 ~6 % legendär).
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
