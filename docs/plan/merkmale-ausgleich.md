@@ -3,7 +3,7 @@
 Anlass (Tobi, Chat 26.11.): Auf hohen Stufen braucht man Showtiere und ihre Boni. In den Stufe-5-Protokollen stehen unter „Beste“ fast nur Showtiere
 (Korallenriff, Yakweide, Mufflons, Papageien, Affen, Seelöwen, Skorpione). Ziel: **mehrere gleich starke Wege**, Show etwas schwächer.
 
-Status: **Entschieden (Tobi 26.11.)** – Punkte 1–5 und Raubtier-Revier; Beute-Herdenschutz zurückgestellt. Noch kein Bauauftrag.
+Status: **Entschieden (Tobi 26.11.)** – alle Punkte. Noch kein Bauauftrag.
 
 ## Ist-Stand (Code)
 
@@ -60,7 +60,10 @@ Ergebnis: gewöhnliche Karten 7 trubel / 8 ruhig, insgesamt 23 trubel / 17 ruhig
 
 ### 6. Raubtier und Beute: eigener Hebel (anderes Prinzip als Show/Scheu)
 Show/Scheu hängen an **Gebäuden** daneben; Raubtier/Beute an **Tieren** und am **Abstand**:
-- ~~**Beute – Herdenschutz:**~~ **zurückgestellt** (Tobi: ähnelt der Savannen-Herdenregel, Idee erst einmal stehen lassen). (Vorschlag war: je benachbartes anderes Beute-Gehege ×1,2, max ×2,0.)
+- ~~Beute – Herdenschutz~~ verworfen (ähnelt der Savannen-Herdenregel).
+- **Beute – Versteck (entschieden, Tobi 26.11.):** je benachbartes **Naturschutz-Gebäude** (`cat:'schutz'`) **×1,3** auf B und N, höchstens **×2,25** (gleiches Muster wie Show/Scheu, Begründung: Beute findet dort Deckung).
+  19 Naturschutz-Karten, davon 9 gewöhnlich (Grünfläche, Wasserfall, Infozentrum, Tierarztpraxis, Bienenhotel, Baumschule, Wasserloch, Oase, Polarstation, Bergwacht).
+  Zu prüfen: Ensemble „Sicherer Hain“ (3 zusammenhängende Beute, ohne Stress) bleibt daneben; Antilopen-Sonderregel (Schutz neben Antilopen = kein Stress) bleibt.
 - **Raubtier – Revier (entschieden):** je Beute-Gehege in **genau 2 Feldern Abstand** (nicht direkt daneben) ×1,25, höchstens ×2,25. Das Raubtier „beobachtet“ die Herde, darf aber nicht daneben stehen (sonst Stress bei der Beute).
 - Ergibt ein Knobel-Bild: Beute-Herde in der Mitte, Raubtiere im Ring mit einem Feld Abstand.
 - Zu prüfen: Überschneidung mit der Savannen-Herdenregel (`HERD3`), Spezialisten Jagdrevier/Dompteur/Frieden, Ensemble „Sicherer Hain“.
@@ -71,4 +74,4 @@ Show/Scheu hängen an **Gebäuden** daneben; Raubtier/Beute an **Tieren** und am
 3. Nur ein Verstärker je Gehege ok.
 4. Dschungelforscher: Dschungel-Gehege bekommen keinen Stress.
 5. Stress wieder 1 Feld ok.
-6. Raubtier-Revier ja (Beute neben Raubtier bleibt gestresst, nur noch direkt daneben → weniger Malus, aber Platzierung wichtig). Beute-Herdenschutz zurückgestellt.
+6. Raubtier-Revier ja; der Malus auf 2 Felder Entfernung fällt weg, Beute direkt neben Raubtier bleibt gestresst. Beute bekommt den Versteck-Bonus durch Naturschutz-Gebäude (×1,3, max ×2,25).

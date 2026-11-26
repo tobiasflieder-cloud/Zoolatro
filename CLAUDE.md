@@ -109,7 +109,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    Texte anpassen: `winter.json` `hab.ht` („…gar nicht“ → „…nur ×0,75, verschärft ×0,5“), `text.hab` (Modul 02 Z. 31), `docs/regeln.md`, Winter-Fenster/Wetterbericht (`winterHitTxt`, `winterMarks`) prüfen. Gleichstand bleibt: alle gleichauf liegenden Lebensräume betroffen.
 
 3. **Merkmale ausgleichen (Show/Scheu/Raubtier/Beute)** – Plan in [`docs/plan/merkmale-ausgleich.md`](docs/plan/merkmale-ausgleich.md) (Chat 26.11.): alle Gastro/Attraktionen ruhig oder trubel; Show nur durch Trubel (×1,3, max ×2,25); Scheu-Bonus durch Ruhige (gleich);
-   Stress wieder nur 1 Feld; nur ein Verstärker je Gehege; Raubtier-Revier (Beute im Abstand 2); Dschungelforscher: Dschungel-Gehege ohne Stress. **Entschieden (Tobi 26.11.)**; Beute-Herdenschutz zurückgestellt (ähnelt Savannen-Herde).
+   Stress wieder nur 1 Feld; nur ein Verstärker je Gehege; Raubtier-Revier (Beute im Abstand 2); Dschungelforscher: Dschungel-Gehege ohne Stress. Beute-Versteck: ×1,3 je benachbartes Naturschutz-Gebäude, max ×2,25. **Entschieden (Tobi 26.11.)**.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
