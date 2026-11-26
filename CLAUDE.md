@@ -38,7 +38,7 @@ Module: 01 Karten · 02 Zoolatro-Regeln · 03 Sprache (TXT, Kartentexte) · 04 W
 ## 3. Bauen – Ablauf
 
 1. Änderungen in `quelltext/src/…` machen.
-2. `const VERSION` hochzählen (in `quelltext/src/01-regeln-karten.js`). Schema: 0.69a → **0.70a** → 0.71a … („a“ bleibt).
+2. `const VERSION` hochzählen (in `quelltext/src/01-regeln-karten.js`). Schema: 0.69a → **0.70a** → 0.71a … („a“ bleibt). Nach 0.99a weiter mit **0.9901a** → 0.9902a … (Tobi 26.11.: 1.00a noch nicht).
 3. Direkt unter `VERSION` in `CHANGES` einen Eintrag oben einfügen (`{v,d,t,i:[…]}`, Spielersprache), ab dem 4. Eintrag löschen.
    Das zeigt das Fenster „📜 Neu in Zoolatro“.
 4. `CHANGELOG.md` oben ergänzen: `## 0.70a · TT.MM.JJJJ · Titel` + Stichpunkte in Spielersprache (keine Code-Namen).
@@ -97,7 +97,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 1.00a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.9901a) – erst bauen, wenn Tobi „bauen“ sagt
 
 1. **Addax-Bild auf der Karte** (Tobi 26.11., Screenshot): Icon in `daten/karten.json` ist `🦌🏜️`, das Wüsten-Emoji wird als großes Bild über den Hirsch gelegt.
    Gleiches Muster bei Schneeleoparden `🐆❄️`. Vorschlag: beim Anzeigen nur das erste Emoji groß, weitere Zeichen als kleines Abzeichen in der Ecke
