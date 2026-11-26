@@ -111,9 +111,13 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 3. **Merkmale ausgleichen (Show/Scheu/Raubtier/Beute)** – Plan in [`docs/plan/merkmale-ausgleich.md`](docs/plan/merkmale-ausgleich.md) (Chat 26.11.): alle Gastro/Attraktionen ruhig oder trubel; Show nur durch Trubel (×1,5 je Nachbar, max ×2,25); Scheu-Bonus durch Ruhige (gleich);
    Stress wieder nur 1 Feld; nur ein Verstärker je Gehege; Raubtier-Revier (Beute im Abstand 2); Dschungelforscher: Dschungel-Gehege ohne Stress. Beute-Versteck: ×1,3 je benachbartes Naturschutz-Gebäude, max ×2,25. **Entschieden (Tobi 26.11.)**.
 
-4. **Lauf-Rückblick („Replay“)** (Chat 26.11., Tobi): vergangene Läufe genauer ansehen – je Zoo das Brett, Bedingungen und Zufallseffekte, zum Durchklicken. **Noch Konzept, Fragen offen** (siehe Chat).
-   Heute speichern Highscores nur `sumSlim` (Summen, keine Bretter); `zlog`/`runText` hat Text je Jahreszeit. Idee: am Ende jeder Jahreszeit Schnappschuss (Gelände-Kennung + Natur/Gold/Krone, Gebäude `key/cells/lvl/Futter`, Auflage, Winter-Bedingung, Wunsch, Ereignisse, Team, Punkte je Tag)
-   in `run.replay`, beim Lauf-Ende in die Highscore-Zeile (nur die letzten ~10 Läufe, Größe begrenzen). Ansicht: aus Highscores/Lauf-Ende „🔍 Rückblick“ → Reiter Zoo 1…n, Pfeile Frühling → Winter, Brett nur zum Ansehen (Tippen = Info-Feld mit Detail).
+4. **Lauf-Rückblick („Replay“)** (Chat 26.11., Tobi, **entschieden**): vergangene Läufe genauer ansehen – je Zoo das Brett, Bedingungen und Zufallseffekte, zum Durchklicken.
+   - **Je Jahreszeit ein Schnappschuss** (am Ende jeder Jahreszeit, auch der gescheiterten): Gelände (Kennung, Felder, Natur, Felsen, Gold/Krone/×4, Arktis-Zone), Gebäude (`key`/`cells`/`lvl`/Futter/Prägung), Auflage, Ziel-Auflage (Weltreise),
+     Winter-Bedingung, Besucherwunsch, Ereignisse, Team, Programme/Werbung, Punkte je Tag und Ziel, Kasse. Während des Laufs in `run.replay` (wächst mit), heute speichern Highscores nur `sumSlim`.
+   - **Speichern nur auf Wunsch:** am Lauf-Ende (Zusammenfassung) Knopf **„💾 Lauf speichern“**. Ohne Klick bleibt es wie heute (kurze Übersicht), `run.replay` wird verworfen. Gespeicherte Läufe in eigenem Speicher (`META.replays` o. ä.), Liste mit Löschen; Obergrenze (z. B. 20) mit Hinweis.
+   - **Ansicht „🔍 Rückblick“** (aus Highscores bei gespeicherten Läufen und direkt nach dem Speichern): Reiter Zoo 1…n, Pfeile Frühling → Winter, Brett nur zum Ansehen (wie im Spiel gezeichnet), Kopf mit Bedingungen/Zufall/Team/Punkten.
+     **Details:** Tippen auf ein Gebäude zeigt die Wertung wie im Info-Feld/Detail-Fenster. Empfehlung: die Wertungszeilen (`breakdown`-Teile und Zoo-Faktoren) **beim Schnappschuss mitspeichern** statt später neu zu rechnen (Regeln ändern sich zwischen Versionen).
+   - Querformat/Handy prüfen, Speichergröße messen und in der Zusammenfassung nennen.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
