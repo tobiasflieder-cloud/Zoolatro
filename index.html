@@ -4519,7 +4519,7 @@ function endRun(won){const sl=activeSlot(),run=sl.run,date=Date.now();if(run.tut
   screen='summary';screenArg={sum,next:{screen:'scores',arg:{f:run.z2?'z2':'zl',hl:date,back:'title'}}};saveMeta();if(sum.won)Sfx.win();else Sfx.lose();renderAll()}
 // Verstärker freischalten: Bedingungen am Ende eines geschafften Zoos; neu freigeschaltete kommen sofort einmal ins Deck
 function verstUnlock(sl,run){run.vNow=[];run.newNow=[];fsMig(sl);return;sl.vu=sl.vu||{};if(run&&run.seed)return;const bs=state.buildings,n=t=>cnt(bs,b=>CARDS[b.key].cat==='gehege'&&CARDS[b.key].tags.includes(t)),z=state.zoo||0,pu=state.zl?zlPurity(bs,mkIndex(bs)).n:0;
-  const idx=mkIndex(bs),G=b=>CARDS[b.key].cat==='gehege',fullShow=cnt(bs,b=>G(b)&&CARDS[b.key].tags.includes('show')&&cnt(nbrs(b,idx),n=>isCat(n,'essen')||isCat(n,'attr'))>=2),calm=cnt(bs,b=>G(b)&&CARDS[b.key].tags.includes('scheu')&&!(evalB(b,bs,idx).st));
+  const idx=mkIndex(bs),G=b=>CARDS[b.key].cat==='gehege',fullShow=cnt(bs,b=>G(b)&&CARDS[b.key].tags.includes('show')&&cnt(nbrs(b,idx),n=>(isCat(n,'essen')||isCat(n,'attr'))&&trubelC(n))>=2),calm=cnt(bs,b=>G(b)&&CARDS[b.key].tags.includes('scheu')&&!(evalB(b,bs,idx).st));
   const ok={futterkueche:z>=1,besucherlotse:z>=3,winterquartier:(cuOf(sl).arB||0)>=100,scheinwerfer:pu>=7,buehne:fullShow>=5,ruhezone:calm>=6};
   // höchstens eine Freischaltung je geschafftem Zoo: alles weitere wartet in sl.ulq (wer am längsten wartet, kommt zuerst)
   const q=sl.ulq=sl.ulq||[];for(const k of Object.keys(ok))if((ok[k]||sl.vu[k]==='pending')&&sl.vu[k]!==1&&!q.includes('v:'+k)){q.push('v:'+k);sl.vu[k]='pending'}
@@ -4542,7 +4542,7 @@ const specLocked=id=>{const sl=fsSl();return isNew91(sl)&&LEGEND91.includes(id)&
 const fsG=f=>cnt(state.buildings,b=>{const c=CARDS[b.key];return c.cat==='gehege'&&!c.ms&&f(c)}),fsK=f=>new Set(state.buildings.filter(b=>{const c=CARDS[b.key];return!c.ms&&f(c)}).map(b=>spK(baseK(b.key)))).size,fsB=f=>cnt(state.buildings,b=>{const c=CARDS[b.key];return!c.ms&&f(c)});
 const fsMile=t=>!!(state.miles||{})[t];
 const fsCalm=f=>{const bs=state.buildings,idx=mkIndex(bs);return cnt(bs,b=>{const c=CARDS[b.key];return c.cat==='gehege'&&c.tags.includes('scheu')&&(!f||f(b,idx))&&!(evalB(b,bs,idx).st)})};
-const fsShowFull=()=>{const bs=state.buildings,idx=mkIndex(bs);return cnt(bs,b=>{const c=CARDS[b.key];return c.cat==='gehege'&&c.tags.includes('show')&&cnt(nbrs(b,idx),n=>isCat(n,'essen')||isCat(n,'attr'))>=2})};
+const fsShowFull=()=>{const bs=state.buildings,idx=mkIndex(bs);return cnt(bs,b=>{const c=CARDS[b.key];return c.cat==='gehege'&&c.tags.includes('show')&&cnt(nbrs(b,idx),n=>(isCat(n,'essen')||isCat(n,'attr'))&&trubelC(n))>=2})};
 const fsAdjSav=()=>{const bs=state.buildings,idx=mkIndex(bs);return state.buildings.some(b=>CARDS[b.key].cat==='essen'&&nbrs(b,idx).some(n=>isCat(n,'gehege')&&isHab(n,'savanne')))};
 const fsSavGroup=()=>{const g=state.buildings.filter(b=>CARDS[b.key].cat==='gehege'&&CARDS[b.key].hab==='savanne'),idx=mkIndex(g),seen=new Set();let best=0;for(const b of g){if(seen.has(b))continue;let n=0;const st=[b];seen.add(b);while(st.length){const x=st.pop();n++;for(const y of nbrs(x,idx))if(!seen.has(y)){seen.add(y);st.push(y)}}best=Math.max(best,n)}return best};
 const fsPair=()=>{const bs=state.buildings,idx=mkIndex(bs);return bs.some(b=>CARDS[b.key].cat==='gehege'&&!CARDS[b.key].ms&&nbrs(b,idx).some(n=>sameArt(n.key,b.key)&&!CARDS[b.key].jt&&Math.max(b.lvl||1,n.lvl||1)>=2))};

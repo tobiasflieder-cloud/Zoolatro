@@ -1602,15 +1602,15 @@
  ]
 },
 "erwartet":{
- "A": 339,
- "S": 243,
- "total": 82377,
+ "A": 332,
+ "S": 253,
+ "total": 83996,
  "mults": [
   {
-   "label": "Gestresste Tiere: 2",
+   "label": "Gestresste Tiere: 1",
    "id": null,
    "ma": null,
-   "ms": 0.9
+   "ms": 0.95
   },
   {
    "label": "Investorin",
@@ -1729,11 +1729,6 @@
      2
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
-    ],
-    [
      "💧 Fluss: Kette aus 4 ×1,75",
      4,
      3
@@ -1786,7 +1781,7 @@
   },
   {
    "id": 7,
-   "a": 10,
+   "a": 12,
    "s": 6,
    "parts": [
     [
@@ -1795,13 +1790,13 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,35",
-     1,
+     "🎭 Showtier: ×1,5",
+     2,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     5,
+     6,
      3
     ]
    ]
@@ -1926,7 +1921,7 @@
   },
   {
    "id": 15,
-   "a": 26,
+   "a": 25,
    "s": 5,
    "parts": [
     [
@@ -1945,8 +1940,8 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,7",
-     6,
+     "🎭 Showtier: ×1,5",
+     5,
      1
     ],
     [
@@ -2005,8 +2000,8 @@
   },
   {
    "id": 20,
-   "a": 23,
-   "s": 17,
+   "a": 17,
+   "s": 14,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2024,24 +2019,24 @@
      3
     ],
     [
-     "🎭 Showtier: ×2,05",
-     8,
-     6
+     "🎭 Showtier: ×1,5",
+     4,
+     3
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     8,
-     6
-    ],
-    [
-     "❤️ neben dem Besucherliebling ×1,25",
      6,
      5
     ],
     [
+     "❤️ neben dem Besucherliebling ×1,25",
+     5,
+     4
+    ],
+    [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -7,
-     -6
+     -6,
+     -4
     ]
    ]
   },
@@ -2061,7 +2056,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
+     "😣 Gestresst (Trubel daneben): Zoo ×0,95 Natur",
      0,
      0
     ],

@@ -132,6 +132,11 @@ am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); B
 
 ## 7. Erledigt (zuletzt)
 
+- **0.99a** ([Auftrag](docs/auftraege/0.99a-stella-lebensraum-merkmale-rueckblick.md), Regeln `docs/regeln.md` 29): Stella `spotOf` nach Ist-Wert (`SPOTOFF`, Zwischenspeicher `VSC`/`vsSig`); ein Verstärker je Ziel `vsPick`/`vsCands`/`vsActive` (`VSFORCE`), Anzeige `.vray.off`/„wirkt schon“;
+  Winter `hab` ×0,75/×0,5; ruhig/trubel für alle Gastro/Attraktionen (`karten.json`, `merkmale.json`, `tagfx.ruhig/trubel`); `MERK`/`merkF`, `showN` nur Trubel, `ruheN`/`versteckN`/`revierN`, `strOf` nur `nb`, Dschungelforscher ohne Stress (`dsch`), `strzMarks` direkt, `revierMarks`; `fsShowFull` nur Trubel;
+  Rückblick `rpSnap` (in `logSeason`) → `run.replay`, `RPTMP`/`RPMAX` (Modul 09), `rpSaveHtml`/`rpSave`/`rpDel`/`rpBoard`/`rpHtml`, Bildschirm `replay`, Highscore-Knopf `data-rpopen`. Größe: etwa 4 KB je Jahreszeit bei 28 Gebäuden (≈16 KB je Zoo).
+  Tests: neu `jsd99a.js`, `quer.js` Schritt 18; angepasst `jsd64a`/`jsd72a`/`jsd78a`/`jsd91a`/`jsd93a` (Show-Werte, keine neutralen Gastro mehr). Referenzfälle mit `aktualisiere`: alle 51 geändert, Median ×1,02, Spanne ×0,86–×2,87 (×2,87/×1,37 nur Winter-Lebensraum-Prüfung, sonst höchstens ×1,67).
+
 - **0.98a** ([Auftrag](docs/auftraege/0.98a-preise-promis-besuchervielfalt.md), Regeln `docs/regeln.md` 28): Stufe 3 ohne `teurer`; `RARW` 5/2 + `promi` 3 (`weightOf`, `zkW`), Promis `rar:'sehr selten'` in `karten.json`;
   Besucher-Vielfalt `besVielfalt`/`bvF`/`BVIEL` in `scoreZoo` (+ `ZTXT.bviel`, Zoo-Übersicht, Regeln, Glossar); Eröffnungsangebot `eroeffOn`/`eroeffF` in `priced`/`mappePrice`/`profiPrice`, Hinweis `eroeffHtml`; `breakdown` Wiederholung nach `sameArt`.
   Tests: neu `jsd98a.js`, angepasst `jsd96a` (Preise), `jsd97a` (RARW, Grenzen), `jsddaten` (Stufen). Referenzfälle mit `aktualisiere`: 44 von 51 mit anderer Gesamtzahl (×1,10–×1,25, nur Besucher-Vielfalt).

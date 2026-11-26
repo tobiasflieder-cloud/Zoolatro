@@ -1710,15 +1710,15 @@
  ]
 },
 "erwartet":{
- "A": 390,
- "S": 277,
- "total": 108030,
+ "A": 451,
+ "S": 329,
+ "total": 148379,
  "mults": [
   {
-   "label": "Gestresste Tiere: 2",
+   "label": "Gestresste Tiere: 1",
    "id": null,
    "ma": null,
-   "ms": 0.9
+   "ms": 0.95
   },
   {
    "label": "Investorin",
@@ -1823,8 +1823,8 @@
   },
   {
    "id": 4,
-   "a": 5,
-   "s": 4,
+   "a": 7,
+   "s": 5,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1837,26 +1837,21 @@
      2
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -2,
-     -2
-    ],
-    [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -1,
+     -1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     2,
+     3,
      2
     ]
    ]
   },
   {
    "id": 5,
-   "a": 4,
-   "s": 4,
+   "a": 5,
+   "s": 5,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1869,9 +1864,9 @@
      1
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -2,
-     -2
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -1,
+     -1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
@@ -1904,7 +1899,7 @@
   },
   {
    "id": 7,
-   "a": 20,
+   "a": 24,
    "s": 12,
    "parts": [
     [
@@ -1913,18 +1908,18 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,35",
-     1,
+     "🎭 Showtier: ×1,5",
+     2,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     5,
+     6,
      3
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     10,
+     12,
      6
     ]
    ]
@@ -1965,8 +1960,8 @@
   },
   {
    "id": 10,
-   "a": 16,
-   "s": 12,
+   "a": 21,
+   "s": 16,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1989,19 +1984,19 @@
      0
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -4,
-     -3
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -2,
+     -2
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     4,
-     3
+     5,
+     4
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     7,
-     5
+     9,
+     7
     ]
    ]
   },
@@ -2079,8 +2074,8 @@
   },
   {
    "id": 15,
-   "a": 32,
-   "s": 8,
+   "a": 38,
+   "s": 10,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2098,24 +2093,24 @@
      0
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -4,
-     -1
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -2,
+     0
     ],
     [
-     "🎭 Showtier: ×1,7",
+     "🎭 Showtier: ×1,5",
      4,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     7,
+     8,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     16,
-     4
+     19,
+     5
     ]
    ]
   },
@@ -2134,17 +2129,17 @@
   {
    "id": 17,
    "a": 4,
-   "s": 2,
+   "s": 4,
    "parts": [
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
+     "❄️ Lebensraum-Prüfung: ×0,75",
      -1,
-     -1
+     0
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
      2,
-     1
+     2
     ]
    ]
   },
@@ -2178,8 +2173,8 @@
   },
   {
    "id": 20,
-   "a": 18,
-   "s": 14,
+   "a": 21,
+   "s": 18,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2197,29 +2192,29 @@
      3
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -4,
-     -3
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -2,
+     -1
     ],
     [
-     "🎭 Showtier: ×2,05",
-     4,
+     "🎭 Showtier: ×1,5",
+     3,
      3
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     4,
-     3
+     5,
+     4
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     12,
-     9
+     14,
+     12
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -6,
-     -4
+     -7,
+     -6
     ]
    ]
   },
@@ -2244,7 +2239,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
+     "😣 Gestresst (Trubel daneben): Zoo ×0,95 Natur",
      0,
      0
     ],
@@ -2348,8 +2343,8 @@
   },
   {
    "id": 25,
-   "a": 12,
-   "s": 32,
+   "a": 19,
+   "s": 46,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2377,19 +2372,19 @@
      10
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -4,
-     -10
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -2,
+     -5
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     3,
-     8
+     5,
+     11
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     5,
-     14
+     8,
+     20
     ]
    ]
   },
@@ -2444,8 +2439,8 @@
   },
   {
    "id": 28,
-   "a": 26,
-   "s": 7,
+   "a": 40,
+   "s": 9,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2468,14 +2463,14 @@
      0
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -15,
-     -3
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -7,
+     -2
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     11,
-     3
+     17,
+     4
     ]
    ]
   },
@@ -2522,8 +2517,8 @@
      1
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
-     -2,
+     "❄️ Lebensraum-Prüfung: ×0,75",
+     -1,
      -1
     ],
     [
@@ -2533,7 +2528,7 @@
     ],
     [
      "3. Schwanensee: zählt ×0,25 des eigenen Werts",
-     -3,
+     -4,
      -3
     ]
    ]
@@ -2609,7 +2604,7 @@
   {
    "id": 35,
    "a": 4,
-   "s": 9,
+   "s": 12,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2632,14 +2627,14 @@
      2
     ],
     [
-     "❄️ Lebensraum-Prüfung: nur die Hälfte",
+     "❄️ Lebensraum-Prüfung: ×0,75",
      -1,
-     -4
+     -2
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
      2,
-     4
+     5
     ]
    ]
   },
