@@ -5,6 +5,16 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.99a · 26.11.2026 · Stella, Lebensraum-Prüfung, Merkmale, Lauf-Rückblick
+- 🎬 **Stella Starr setzt jetzt wirklich das stärkste Gehege in Szene:** Es zählt der tatsächliche Wert (Ausbau, Futter, Nachbarn …), nicht mehr der aufgedruckte.
+- ❄️ **Lebensraum-Prüfung im Winter milder:** Die Gehege des häufigsten Lebensraums zählen ×0,75, ab Zoo 3 ×0,5 (vorher die Hälfte bzw. gar nicht).
+- 🎉🤫 **Jedes Gastro-Gebäude und jede Attraktion ist jetzt ruhig oder trubelig.** Showtiere bekommen nur noch durch trubelige Nachbarn Show (×1,5 je Nachbar, höchstens ×2,25), scheue Tiere freuen sich über ruhige Nachbarn (🤫 Ruhe ×1,5 je, höchstens ×2,25).
+- 🌿 **Versteck:** Beutetiere bekommen ×1,3 je Naturschutz-Gebäude daneben (höchstens ×2,25).
+- 🦷 **Revier:** Raubtiere bekommen ×1,25 je Beutetier in genau zwei Feldern Abstand (höchstens ×2,25). Beim Platzieren und Antippen eines Raubtiers sind diese Felder angedeutet.
+- 😣 **Stress nur noch durch direkte Nachbarn** (vorher bis 2 Felder). **Dschungelforscher:** Dschungel-Gehege bekommen gar keinen Stress mehr.
+- ⚡ **Pro Gehege wirkt nur noch ein Promi**, der stärkste. Nicht wirkende Promi-Strahlen sind blass, das Info-Feld sagt, wer schon wirkt.
+- 💾 **Lauf-Rückblick:** Am Ende eines Laufs „💾 Lauf speichern“ (bis zu 20 Läufe). In den Highscores „💾 Rückblick“: Zoo für Zoo und Jahreszeit für Jahreszeit das Spielfeld ansehen, Gebäude antippen zeigt ihre Wertung von damals.
+
 ## 0.98a · 25.11.2026 · Preise, Promis, Besucher-Vielfalt
 - 💸 **Keine Preissteigerung mehr auf höheren Stufen** (Shop und Stellenmarkt kosten auf jeder Stufe gleich viel).
 - 🌱 **Eröffnungsangebot:** Im ersten Shop jedes Zoos (nach dem Frühling) kostet alles ×0,75, auch Spezialisten und Mappen.

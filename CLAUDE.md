@@ -97,35 +97,15 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.99a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 1.00a) – erst bauen, wenn Tobi „bauen“ sagt
 
-**Bauauftrag erteilt (Tobi 26.11.): [docs/auftraege/0.99a-stella-lebensraum-merkmale-rueckblick.md](docs/auftraege/0.99a-stella-lebensraum-merkmale-rueckblick.md)** – Punkte 1–4.
-
-1. **Stella Starr wählt das falsche Gehege** (Chat 25.11., Screenshot: Flamingoteich 21 B/19 N bekam ×2,5 statt Korallenriff 42 B/39 N): `spotOf` (Modul 04, Z. ~312) vergleicht nur die **aufgedruckten Kartenwerte** `c.a+c.s`
-   (Flamingo 2+3 = Korallenriff 3+2 = 5 → Gleichstand → kleinere `id` gewinnt). Ausbau, Futter, Nachbarn, Lebensraum-Faktoren zählen nicht – widerspricht dem Text „für das stärkste benachbarte Gehege“.
-   **Entschieden (Tobi 25.11.):** „stärkste“ = tatsächlicher Wert des Geheges **ohne** Stellas eigenen ×2,5 (z. B. `evalB` mit Brett ohne Stella, Wert a+s), Gleichstand weiter über `id`. Zwischenspeicher je Brett nötig (spotOf wird in `evalB`, `vstTargets`, `vstMarks`, Anzeige Z. ~586 aufgerufen) – Achtung Rekursion/Leistung.
-   Referenzfälle mit Stella prüfen. Test: Gehege mit kleinerem Aufdruck, aber höherem Ist-Wert bekommt ×2,5.
-
-2. **Winter „Lebensraum-Prüfung“ (`hab`) abschwächen** (Chat 25.11., Stufe-5-Lauf: Zoo 5 Herbst 263 %, Winter 81 %, weil das tragende schimmernde Korallenriff (Wasser) im Winter 0 zählte): `WINTER_WIRKUNG.hab` (Modul 02, Z. 22) gibt `HARD(Z)?0:.5`;
-   `Z.hard` gilt ab Zoo 3 (`state.zoo>=2`, Modul 06 Z. 19). **Entschieden (Tobi): verschärft ×0,5 statt 0.** Normale Fassung (Zoo 1–2) **×0,75** (Tobi 25.11. bestätigt) → `HARD(Z)?.5:.75`.
-   Texte anpassen: `winter.json` `hab.ht` („…gar nicht“ → „…nur ×0,75, verschärft ×0,5“), `text.hab` (Modul 02 Z. 31), `docs/regeln.md`, Winter-Fenster/Wetterbericht (`winterHitTxt`, `winterMarks`) prüfen. Gleichstand bleibt: alle gleichauf liegenden Lebensräume betroffen.
-
-3. **Merkmale ausgleichen (Show/Scheu/Raubtier/Beute)** – Plan in [`docs/plan/merkmale-ausgleich.md`](docs/plan/merkmale-ausgleich.md) (Chat 26.11.): alle Gastro/Attraktionen ruhig oder trubel; Show nur durch Trubel (×1,5 je Nachbar, max ×2,25); Scheu-Bonus durch Ruhige (gleich);
-   Stress wieder nur 1 Feld; nur ein Verstärker je Gehege; Raubtier-Revier (Beute im Abstand 2); Dschungelforscher: Dschungel-Gehege ohne Stress. Beute-Versteck: ×1,3 je benachbartes Naturschutz-Gebäude, max ×2,25. **Entschieden (Tobi 26.11.)**.
-
-4. **Lauf-Rückblick („Replay“)** (Chat 26.11., Tobi, **entschieden**): vergangene Läufe genauer ansehen – je Zoo das Brett, Bedingungen und Zufallseffekte, zum Durchklicken.
-   - **Je Jahreszeit ein Schnappschuss** (am Ende jeder Jahreszeit, auch der gescheiterten): Gelände (Kennung, Felder, Natur, Felsen, Gold/Krone/×4, Arktis-Zone), Gebäude (`key`/`cells`/`lvl`/Futter/Prägung), Auflage, Ziel-Auflage (Weltreise),
-     Winter-Bedingung, Besucherwunsch, Ereignisse, Team, Programme/Werbung, Punkte je Tag und Ziel, Kasse. Während des Laufs in `run.replay` (wächst mit), heute speichern Highscores nur `sumSlim`.
-   - **Speichern nur auf Wunsch:** am Lauf-Ende (Zusammenfassung) Knopf **„💾 Lauf speichern“**. Ohne Klick bleibt es wie heute (kurze Übersicht), `run.replay` wird verworfen. Gespeicherte Läufe in eigenem Speicher (`META.replays` o. ä.), Liste mit Löschen; Obergrenze (z. B. 20) mit Hinweis.
-   - **Ansicht „🔍 Rückblick“** (aus Highscores bei gespeicherten Läufen und direkt nach dem Speichern): Reiter Zoo 1…n, Pfeile Frühling → Winter, Brett nur zum Ansehen (wie im Spiel gezeichnet), Kopf mit Bedingungen/Zufall/Team/Punkten.
-     **Details:** Tippen auf ein Gebäude zeigt die Wertung wie im Info-Feld/Detail-Fenster. Empfehlung: die Wertungszeilen (`breakdown`-Teile und Zoo-Faktoren) **beim Schnappschuss mitspeichern** statt später neu zu rechnen (Regeln ändern sich zwischen Versionen).
-   - Querformat/Handy prüfen, Speichergröße messen und in der Zusammenfassung nennen.
+(leer)
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
   auch als Artifact „Tutorial-Zooplan“ in claude.ai – Änderungen am Tool immer in beiden). Ziele für Zoo 3/4 dort ebenfalls (Faktor ×0,5/×0,7 auf Stufe 1).
 
-**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Seltenheit seit 0.98a wieder 5/2 (Promis 3). Neu beobachten: Besucher-Vielfalt (×1,1–×1,3 B) – stark genug für Gastro/Attraktionen? Promis legendär mit Gewicht 3 – passend? Eröffnungsangebot ×0,75. Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
+**Nach 0.94a beobachten:** 4 Tage als Standard (Ziele ×0,6 passend?), die drei Legendären (×1,75). Ensembles (mit Öko-Viertel) (Stärke, wie oft sie entstehen), Promi-Verstärker (Preis +1 genug?), Vorlieben-Auflagen (×1,5/×0,5), Kleiner Etat, Schwerpunkt-Pflicht. Neue Stufen (0.95a: ×1,15/×1,32/×1,6/×2,0) und Sommer ×1,45 je Zoo beobachten. Tobi testet Stufe 4 (×1,6) – Protokoll abwarten. Chat 23.11. bewusst **nicht** geändert: Sammlerin (kein Deckel), Stella Starr ×2,5, Papageien-Voliere (falls sie zu oft trägt: 5 B → 4 B), Seltenheit seit 0.98a wieder 5/2 (Promis 3). Neu beobachten: Besucher-Vielfalt (×1,1–×1,3 B) – stark genug für Gastro/Attraktionen? Promis legendär mit Gewicht 3 – passend? Eröffnungsangebot ×0,75. Seit 0.99a: Merkmale-Ausgleich (Show ×1,5 genug gedämpft? Ruhe/Versteck/Revier genutzt?), Speichergröße Rückblick. Namen Rudelführerin/Tierflüsterer/Artenpatin sind vorläufig.
 
 **Nächster Schritt Weltreise:** Ersatz für die höchste Stufe (5) im Weltreise-Modus (Plan `docs/plan/weltreise.md` „Für später“).
    Nach ein paar Reisen prüfen: Schwierigkeit der Ziel-Auflagen (z. B. Nachwuchs, Vorzeigegehege), Natur-Anteil 0,4 und Fleckgröße; Savanne nach der Abschwächung beobachten; Meilensteine auf Felsen weiter testen.
