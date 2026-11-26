@@ -3,7 +3,7 @@
 Anlass (Tobi, Chat 26.11.): Auf hohen Stufen braucht man Showtiere und ihre Boni. In den Stufe-5-Protokollen stehen unter „Beste“ fast nur Showtiere
 (Korallenriff, Yakweide, Mufflons, Papageien, Affen, Seelöwen, Skorpione). Ziel: **mehrere gleich starke Wege**, Show etwas schwächer.
 
-Status: **Vorschlag, Zahlen und Zuordnung von Tobi noch zu bestätigen.** Noch kein Bauauftrag.
+Status: **Entschieden (Tobi 26.11.)** – Punkte 1–5 und Raubtier-Revier; Beute-Herdenschutz zurückgestellt. Noch kein Bauauftrag.
 
 ## Ist-Stand (Code)
 
@@ -53,20 +53,22 @@ Ergebnis: gewöhnliche Karten 7 trubel / 8 ruhig, insgesamt 23 trubel / 17 ruhig
 ### 4. Störeffekt wieder nur 1 Feld
 - Scheu: Stress nur durch direkt benachbarte trubelige Gastro/Attraktionen.
 - Beute: Stress nur durch direkt benachbarte Raubtiere.
-- Achtung: Profil-Regel „Dschungelforscher“ (heute: scheu nur Nachbarn statt Umkreis 2) wird dadurch wirkungslos → neue kleine Regel nötig (Vorschlag: Ruhe-Bonus für scheue Tiere ×1,35 statt ×1,3).
+- Profil-Regel „Dschungelforscher“ (heute: scheu nur Nachbarn statt Umkreis 2) wäre wirkungslos → **neu (Tobi): Dschungel-Gehege können keinen Stress bekommen** (weder durch Trubel noch durch Raubtiere); andere Tiere schon. Text in `profile.json`/Profilwahl anpassen.
 
 ### 5. Nur ein Verstärker je Gehege
 - Liegen mehrere Promis an einem Gehege, wirkt **nur der stärkste** (der mit dem größten Zuwachs für dieses Gehege). Anzeige: die anderen Linien/Strahlen grau, Hinweis „wirkt schon: …“.
 
 ### 6. Raubtier und Beute: eigener Hebel (anderes Prinzip als Show/Scheu)
 Show/Scheu hängen an **Gebäuden** daneben; Raubtier/Beute an **Tieren** und am **Abstand**:
-- **Beute – Herdenschutz:** je benachbartes **anderes Beute-Gehege** ×1,2 (B und N), höchstens ×2,0. Beute will Gruppen bilden.
-- **Raubtier – Revier:** je Beute-Gehege in **genau 2 Feldern Abstand** (nicht direkt daneben) ×1,25, höchstens ×2,25. Das Raubtier „beobachtet“ die Herde, darf aber nicht daneben stehen (sonst Stress bei der Beute).
+- ~~**Beute – Herdenschutz:**~~ **zurückgestellt** (Tobi: ähnelt der Savannen-Herdenregel, Idee erst einmal stehen lassen). (Vorschlag war: je benachbartes anderes Beute-Gehege ×1,2, max ×2,0.)
+- **Raubtier – Revier (entschieden):** je Beute-Gehege in **genau 2 Feldern Abstand** (nicht direkt daneben) ×1,25, höchstens ×2,25. Das Raubtier „beobachtet“ die Herde, darf aber nicht daneben stehen (sonst Stress bei der Beute).
 - Ergibt ein Knobel-Bild: Beute-Herde in der Mitte, Raubtiere im Ring mit einem Feld Abstand.
 - Zu prüfen: Überschneidung mit der Savannen-Herdenregel (`HERD3`), Spezialisten Jagdrevier/Dompteur/Frieden, Ensemble „Sicherer Hain“.
 
-## Offene Fragen an Tobi
-1. Zuordnung ruhig/trubel so ok?
-2. Zahlen Show ×1,3 / max ×2,25, Scheu gleich?
-3. Raubtier/Beute-Hebel so (Herdenschutz + Revier im Abstand 2)?
-4. Profil Dschungelforscher: Ersatzregel ×1,35 ok?
+## Entscheidungen Tobi (26.11.)
+1. Zuordnung ruhig/trubel ok, solange ausgeglichen (gewöhnlich 7/8 – passt).
+2. Show ×1,3 / max ×2,25 ok, Scheu gleich ok.
+3. Nur ein Verstärker je Gehege ok.
+4. Dschungelforscher: Dschungel-Gehege bekommen keinen Stress.
+5. Stress wieder 1 Feld ok.
+6. Raubtier-Revier ja (Beute neben Raubtier bleibt gestresst, nur noch direkt daneben → weniger Malus, aber Platzierung wichtig). Beute-Herdenschutz zurückgestellt.
