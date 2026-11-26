@@ -99,6 +99,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.99a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**Bauauftrag erteilt (Tobi 26.11.): [docs/auftraege/0.99a-stella-lebensraum-merkmale-rueckblick.md](docs/auftraege/0.99a-stella-lebensraum-merkmale-rueckblick.md)** – Punkte 1–4.
+
 1. **Stella Starr wählt das falsche Gehege** (Chat 25.11., Screenshot: Flamingoteich 21 B/19 N bekam ×2,5 statt Korallenriff 42 B/39 N): `spotOf` (Modul 04, Z. ~312) vergleicht nur die **aufgedruckten Kartenwerte** `c.a+c.s`
    (Flamingo 2+3 = Korallenriff 3+2 = 5 → Gleichstand → kleinere `id` gewinnt). Ausbau, Futter, Nachbarn, Lebensraum-Faktoren zählen nicht – widerspricht dem Text „für das stärkste benachbarte Gehege“.
    **Entschieden (Tobi 25.11.):** „stärkste“ = tatsächlicher Wert des Geheges **ohne** Stellas eigenen ×2,5 (z. B. `evalB` mit Brett ohne Stella, Wert a+s), Gleichstand weiter über `id`. Zwischenspeicher je Brett nötig (spotOf wird in `evalB`, `vstTargets`, `vstMarks`, Anzeige Z. ~586 aufgerufen) – Achtung Rekursion/Leistung.
