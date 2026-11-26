@@ -43,11 +43,11 @@ Ergebnis: gewöhnliche Karten 7 trubel / 8 ruhig, insgesamt 23 trubel / 17 ruhig
 
 ### 2. Show nur noch durch Trubel, etwas schwächer
 - Auslöser: nur **trubelige** Nachbarn (ruhige zählen nicht mehr).
-- Je Auslöser **×1,3** (statt 1,35), Belugas 1,4, Leckerli 1,45, Nova weiter doppelt, höchstens **×2,25** (statt 2,5).
+- **Je trubeliger Nachbar ×1,5** (Tobi 26.11.; heute zählt Trubel doppelt = ×1,7, neutral ×1,35), Belugas ×1,6, Leckerli ×1,65 je Nachbar, Tribüne im Umkreis 2 wie bisher, Nova weiter doppelt, höchstens **×2,25** (statt 2,5).
 - Gelangweilt (kein trubeliger Nachbar) bleibt ×0,8 B.
 
 ### 3. Scheu bekommt das Gegenstück: Ruhe-Bonus
-- Je **ruhiger** Nachbar (Gastro/Attraktion) **×1,3** auf B und N, höchstens **×2,25** (wie Show).
+- Je **ruhiger** Nachbar (Gastro/Attraktion) **×1,5** auf B und N, höchstens **×2,25** (wie Show).
 - Stress weiter durch **trubelige** Nachbarn (siehe 4). Luna Lotus (Ruhezone) bleibt Schutz gegen Stress.
 
 ### 4. Störeffekt wieder nur 1 Feld
@@ -75,3 +75,7 @@ Show/Scheu hängen an **Gebäuden** daneben; Raubtier/Beute an **Tieren** und am
 4. Dschungelforscher: Dschungel-Gehege bekommen keinen Stress.
 5. Stress wieder 1 Feld ok.
 6. Raubtier-Revier ja; der Malus auf 2 Felder Entfernung fällt weg, Beute direkt neben Raubtier bleibt gestresst. Beute bekommt den Versteck-Bonus durch Naturschutz-Gebäude (×1,3, max ×2,25).
+
+## Grobe Hochrechnung (Chat 26.11., 51 Referenz-Zoos, Testkopie, ohne „nur ein Verstärker“ und ohne Dschungelforscher)
+Gesamtpunkte neu/alt: Show/Scheu ×1,3 einfach → Median ×0,97 (×0,74–×1,59); ×1,6 → ×1,03 (×0,92–×1,62); **×1,5 (gewählt) → Median ×1,02 (×0,86–×1,62)**, 1 von 51 unter ×0,9, 9 über ×1,1.
+Beute-Versteck kam 140×, Ruhe-Bonus 4×, Revier 6× vor (Bot-Bretter sind auf alte Regeln gebaut).

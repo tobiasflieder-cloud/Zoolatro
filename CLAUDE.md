@@ -108,8 +108,12 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    `Z.hard` gilt ab Zoo 3 (`state.zoo>=2`, Modul 06 Z. 19). **Entschieden (Tobi): verschärft ×0,5 statt 0.** Normale Fassung (Zoo 1–2) **×0,75** (Tobi 25.11. bestätigt) → `HARD(Z)?.5:.75`.
    Texte anpassen: `winter.json` `hab.ht` („…gar nicht“ → „…nur ×0,75, verschärft ×0,5“), `text.hab` (Modul 02 Z. 31), `docs/regeln.md`, Winter-Fenster/Wetterbericht (`winterHitTxt`, `winterMarks`) prüfen. Gleichstand bleibt: alle gleichauf liegenden Lebensräume betroffen.
 
-3. **Merkmale ausgleichen (Show/Scheu/Raubtier/Beute)** – Plan in [`docs/plan/merkmale-ausgleich.md`](docs/plan/merkmale-ausgleich.md) (Chat 26.11.): alle Gastro/Attraktionen ruhig oder trubel; Show nur durch Trubel (×1,3, max ×2,25); Scheu-Bonus durch Ruhige (gleich);
+3. **Merkmale ausgleichen (Show/Scheu/Raubtier/Beute)** – Plan in [`docs/plan/merkmale-ausgleich.md`](docs/plan/merkmale-ausgleich.md) (Chat 26.11.): alle Gastro/Attraktionen ruhig oder trubel; Show nur durch Trubel (×1,5 je Nachbar, max ×2,25); Scheu-Bonus durch Ruhige (gleich);
    Stress wieder nur 1 Feld; nur ein Verstärker je Gehege; Raubtier-Revier (Beute im Abstand 2); Dschungelforscher: Dschungel-Gehege ohne Stress. Beute-Versteck: ×1,3 je benachbartes Naturschutz-Gebäude, max ×2,25. **Entschieden (Tobi 26.11.)**.
+
+4. **Lauf-Rückblick („Replay“)** (Chat 26.11., Tobi): vergangene Läufe genauer ansehen – je Zoo das Brett, Bedingungen und Zufallseffekte, zum Durchklicken. **Noch Konzept, Fragen offen** (siehe Chat).
+   Heute speichern Highscores nur `sumSlim` (Summen, keine Bretter); `zlog`/`runText` hat Text je Jahreszeit. Idee: am Ende jeder Jahreszeit Schnappschuss (Gelände-Kennung + Natur/Gold/Krone, Gebäude `key/cells/lvl/Futter`, Auflage, Winter-Bedingung, Wunsch, Ereignisse, Team, Punkte je Tag)
+   in `run.replay`, beim Lauf-Ende in die Highscore-Zeile (nur die letzten ~10 Läufe, Größe begrenzen). Ansicht: aus Highscores/Lauf-Ende „🔍 Rückblick“ → Reiter Zoo 1…n, Pfeile Frühling → Winter, Brett nur zum Ansehen (Tippen = Info-Feld mit Detail).
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
