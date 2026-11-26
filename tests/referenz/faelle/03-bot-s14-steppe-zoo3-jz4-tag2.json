@@ -1501,15 +1501,15 @@
  ]
 },
 "erwartet":{
- "A": 429,
- "S": 291,
- "total": 124839,
+ "A": 509,
+ "S": 410,
+ "total": 208690,
  "mults": [
   {
-   "label": "Gestresste Tiere: 4",
+   "label": "Gestresste Tiere: 1",
    "id": null,
    "ma": null,
-   "ms": 0.8
+   "ms": 0.95
   },
   {
    "label": "Kronenfeld",
@@ -1619,8 +1619,8 @@
   },
   {
    "id": 4,
-   "a": 6,
-   "s": 8,
+   "a": 12,
+   "s": 14,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1648,19 +1648,24 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
+     "🌿 Versteck: ×1,6",
+     2,
+     2
+    ],
+    [
+     "😣 Gestresst (Raubtier daneben): Zoo ×0,95 Natur",
      0,
      0
     ],
     [
      "🌾 Herde aus 5 ×1,45",
-     1,
-     1
+     2,
+     2
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     3,
-     4
+     6,
+     7
     ]
    ]
   },
@@ -1708,8 +1713,8 @@
   },
   {
    "id": 6,
-   "a": 15,
-   "s": 8,
+   "a": 20,
+   "s": 13,
    "parts": [
     [
      "Winterkälte",
@@ -1717,26 +1722,31 @@
      0
     ],
     [
-     "🔗 Kombo ×1,5: Beutetier in der Nähe",
-     2,
+     "🦷 Revier: ×1,25",
+     1,
      1
     ],
     [
+     "🔗 Kombo ×1,5: Beutetier in der Nähe",
+     3,
+     2
+    ],
+    [
      "🏜️ Einzelgänger: allein ×2",
-     6,
-     3
+     8,
+     5
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     3,
-     2
+     4,
+     3
     ]
    ]
   },
   {
    "id": 7,
-   "a": 19,
-   "s": 10,
+   "a": 25,
+   "s": 13,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1764,9 +1774,14 @@
      1
     ],
     [
+     "🌿 Versteck: ×1,3",
+     4,
+     2
+    ],
+    [
      "🌾 Herde aus 5 ×1,45",
-     6,
-     3
+     8,
+     4
     ]
    ]
   },
@@ -1799,8 +1814,8 @@
   },
   {
    "id": 9,
-   "a": 35,
-   "s": 35,
+   "a": 53,
+   "s": 53,
    "parts": [
     [
      "Wüste-Naturfläche",
@@ -1823,21 +1838,26 @@
      5
     ],
     [
+     "🦷 Revier: ×1,5",
+     5,
+     5
+    ],
+    [
      "🏜️ Einzelgänger: allein ×2",
-     10,
-     10
+     15,
+     15
     ],
     [
      "Ausbau Stufe II: ×1,75 des eigenen Werts",
-     15,
-     15
+     23,
+     23
     ]
    ]
   },
   {
    "id": 10,
-   "a": 19,
-   "s": 9,
+   "a": 24,
+   "s": 13,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1850,31 +1870,36 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,7",
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     1,
+     1
+    ],
+    [
+     "🎭 Showtier: ×1,5",
      4,
      2
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
+     "🌿 Versteck: ×1,3",
+     2,
+     1
     ],
     [
      "🌾 Herde aus 5 ×1,45",
-     5,
-     2
+     6,
+     3
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     4,
-     2
+     5,
+     3
     ]
    ]
   },
   {
    "id": 11,
-   "a": 16,
-   "s": 10,
+   "a": 20,
+   "s": 12,
    "parts": [
     [
      "Wüste-Naturfläche",
@@ -1892,14 +1917,14 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
+     "🐇 Ensemble Sicherer Hain ×1,2",
+     2,
+     1
     ],
     [
      "🏜️ Einzelgänger: allein ×2",
-     8,
-     5
+     10,
+     6
     ]
    ]
   },
@@ -1945,8 +1970,8 @@
   },
   {
    "id": 15,
-   "a": 11,
-   "s": 11,
+   "a": 15,
+   "s": 15,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -1969,14 +1994,19 @@
      1
     ],
     [
+     "🌿 Versteck: ×1,3",
+     2,
+     2
+    ],
+    [
      "🌾 Herde aus 5 ×1,45",
-     3,
-     3
+     4,
+     4
     ],
     [
      "🤝 Freundschaft mit Giraffenweide ×1,25",
-     2,
-     2
+     3,
+     3
     ]
    ]
   },
@@ -2146,11 +2176,6 @@
      0
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
-    ],
-    [
      "🏜️ Einzelgänger: allein ×2",
      4,
      3
@@ -2221,8 +2246,8 @@
   },
   {
    "id": 29,
-   "a": 14,
-   "s": 14,
+   "a": 15,
+   "s": 15,
    "parts": [
     [
      "Savanne-Nachbarn",
@@ -2245,9 +2270,14 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,7",
-     4,
-     4
+     "🎭 Showtier: ×1,5",
+     3,
+     3
+    ],
+    [
+     "🌿 Versteck: ×1,3",
+     2,
+     2
     ],
     [
      "🌾 Herde aus 5 ×1,45",

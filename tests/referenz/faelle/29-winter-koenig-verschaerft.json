@@ -1710,15 +1710,15 @@
  ]
 },
 "erwartet":{
- "A": 236,
- "S": 212,
- "total": 50032,
+ "A": 242,
+ "S": 228,
+ "total": 55176,
  "mults": [
   {
-   "label": "Gestresste Tiere: 2",
+   "label": "Gestresste Tiere: 1",
    "id": null,
    "ma": null,
-   "ms": 0.9
+   "ms": 0.95
   },
   {
    "label": "Investorin",
@@ -1840,11 +1840,6 @@
      "❄️ Schneekönig: zählt nicht",
      -5,
      -4
-    ],
-    [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
     ]
    ]
   },
@@ -1899,8 +1894,8 @@
   },
   {
    "id": 7,
-   "a": 44,
-   "s": 20,
+   "a": 48,
+   "s": 24,
    "parts": [
     [
      "Dschungel-Naturfläche",
@@ -1913,19 +1908,19 @@
      2
     ],
     [
-     "🎭 Showtier: ×1,35",
-     3,
-     1
+     "🎭 Showtier: ×1,5",
+     4,
+     2
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     11,
-     5
+     12,
+     6
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     22,
-     10
+     24,
+     12
     ]
    ]
   },
@@ -2209,7 +2204,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
+     "😣 Gestresst (Trubel daneben): Zoo ×0,95 Natur",
      0,
      0
     ],

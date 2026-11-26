@@ -48,7 +48,7 @@
 "cafe":{"name":"Zoo-Café","fx":["+1 B und 1 🪙|je benachbartes Naturschutz-Gebäude"]},
 "getraenke":{"name":"Getränkestand","fx":["+1 B|je benachbartes Gehege/Gebäude jeder Art"]},
 "crepes":{"name":"Crêpes-Wagen","fx":["+2 B|je benachbarte Attraktion"]},
-"picknick":{"name":"Picknickwiese","fx":["+1 B und 1 🪙|je benachbartes Gastro-Gebäude","ruhig|stört scheue Tiere nicht"]},
+"picknick":{"name":"Picknickwiese","fx":["+1 B und 1 🪙|je benachbartes Gastro-Gebäude"]},
 "bistro":{"name":"Safari-Bistro","fx":["+2 B und 2 🪙|je benachbartes Savannen-Gehege","🔗 voller Show-Bonus|für Savannen-Showtiere daneben"]},
 "souvenir":{"name":"Souvenirshop","fx":["+1 B|je benachbarte Attraktion"]},
 "weihnachtsmarkt":{"name":"Weihnachtsmarkt","fx":["+5 B und 2 🪙|im Winter","🔗 ×1,5|im Winter, ab 2 benachbarten Gastro-Gebäuden"]},
@@ -91,10 +91,10 @@
 "orangutan":{"name":"Orang-Utan-Wald","fx":["+2 N|je andere Dschungel-Gehege-Art im Zoo"]},
 "greifvogel":{"name":"Greifvogel-Schau","fx":["+2 B|je andere Wüsten-Gehege-Art im Zoo"]},
 "weltzoo":{"name":"Weltzoo-Pavillon","fx":["+1 B +1 N|je verschiedene Kategorie daneben (Gehege, Attraktion, Gastro, Naturschutz)"]},
-"lehrpfad":{"name":"Naturlehrpfad","fx":["+2 B|je benachbartes Naturschutz-Gebäude","ruhig|stört scheue Tiere nicht"]},
+"lehrpfad":{"name":"Naturlehrpfad","fx":["+2 B|je benachbartes Naturschutz-Gebäude"]},
 "besucherzentrum":{"name":"Besucherzentrum","fx":["+2 B|je verschiedene Kategorie daneben (höchstens +8)"]},
 "abenteuer":{"name":"Abenteuer-Spielplatz","fx":["+2 B|je andere Attraktions-Art im Zoo"]},
-"restaurant":{"name":"Zoo-Restaurant","fx":["+2 B|je andere Gastro-Gebäude-Art im Zoo","ruhig|stört scheue Tiere nicht"]},
+"restaurant":{"name":"Zoo-Restaurant","fx":["+2 B|je andere Gastro-Gebäude-Art im Zoo"]},
 "ausstellung":{"name":"Sonderausstellung","fx":["+2 N|je andere Naturschutz-Art im Zoo"]},
 "wasserloch":{"name":"Wasserloch","fx":["+2 N|je benachbartes Savannen-Gehege"]},
 "oase":{"name":"Oase","fx":["+2 N|je benachbartes Wüsten-Gehege"]},
@@ -207,10 +207,12 @@
 "team":{"name":"Teamsitzung","text":"Im Winter zählen nur die ersten 3 Spezialisten deiner Team-Reihe. Die Reihenfolge änderst du per Ziehen."}
 },
 "tagfx":{
-"beute":"🐇 Beute|gestresst, wenn ein Raubtier im Umkreis von 2 Feldern steht: Zoo ×0,95 Natur",
-"raubtier":"🦷 Raubtier|stresst Beutetiere im Umkreis von 2 Feldern",
-"scheu":"🙈 Scheu|gestresst, wenn ein Gastro-Gebäude oder eine Attraktion im Umkreis von 2 Feldern steht (ruhige ausgenommen): Zoo ×0,95 Natur",
-"show":"🎭 Showtier|×1,35 B und N mit einem benachbarten Gastro-Gebäude oder einer Attraktion, ×1,7 mit zweien. 🎉 Trubel-Nachbarn und Tribünen zählen doppelt, zusammen bis ×2,4. Ohne beides langweilt es sich: ×0,8 B"
+"beute":"🐇 Beute|gestresst, wenn ein Raubtier daneben steht: Zoo ×0,95 Natur. 🌿 Versteck: ×1,3 B und N je Naturschutz-Gebäude daneben (bis ×2,25)",
+"raubtier":"🦷 Raubtier|stresst Beutetiere daneben. 🦷 Revier: ×1,25 B und N je Beutetier in genau 2 Feldern Abstand (bis ×2,25)",
+"scheu":"🙈 Scheu|gestresst, wenn ein 🎉 trubeliges Gastro-Gebäude oder eine trubelige Attraktion daneben steht: Zoo ×0,95 Natur. 🤫 Ruhe: ×1,5 B und N je ruhiges daneben (bis ×2,25)",
+"show":"🎭 Showtier|×1,5 B und N je 🎉 trubeliges Gastro-Gebäude oder trubelige Attraktion daneben (Tribüne auch 2 Felder entfernt), bis ×2,25. Ohne Trubel langweilt es sich: ×0,8 B",
+"ruhig":"🤫 Ruhig|scheue Tiere daneben ×1,5, stört sie nicht",
+"trubel":"🎉 Trubel|Showtiere daneben ×1,5, stresst scheue Tiere daneben"
 },
 "event":{
 "hitze":{"name":"Extreme Hitze"},

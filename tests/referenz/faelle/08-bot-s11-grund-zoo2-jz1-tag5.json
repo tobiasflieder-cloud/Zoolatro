@@ -840,9 +840,9 @@
  ]
 },
 "erwartet":{
- "A": 84,
- "S": 61,
- "total": 5124,
+ "A": 86,
+ "S": 65,
+ "total": 5590,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -860,8 +860,8 @@
  "buildings": [
   {
    "id": 1,
-   "a": 4,
-   "s": 8,
+   "a": 6,
+   "s": 12,
    "parts": [
     [
      "🧘 Luna Lotus ×1,25",
@@ -869,9 +869,14 @@
      1
     ],
     [
+     "🤫 Ruhe: ×1,5",
+     1,
+     2
+    ],
+    [
      "⛰️ Rand/Felsen (3) ×2",
-     2,
-     4
+     3,
+     6
     ]
    ]
   },
@@ -997,7 +1002,7 @@
      5
     ],
     [
-     "😣 Gestresst (Raubtier in der Nähe): Zoo ×0,95 Natur",
+     "😣 Gestresst (Raubtier daneben): Zoo ×0,95 Natur",
      0,
      0
     ]

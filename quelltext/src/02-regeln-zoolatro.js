@@ -19,7 +19,7 @@ const WINTER_WIRKUNG={fx:{keine:()=>null,
   markt:(b,c,nb,bs,Z)=>c.cat==='essen'?{f:1.5}:c.cat==='attr'?{f:0}:c.cat==='gehege'&&!nb.some(n=>isCat(n,'essen'))?{f:HARD(Z)?.7:.85,l:'kein Gastro daneben'}:null,
   zucht:(b,c,nb,bs,Z)=>c.cat!=='gehege'?null:c.tags.includes('bedroht')?{f:2}:{f:HARD(Z)?.5:.7},
   koenig:(b,c,nb,bs,Z)=>kingSet(bs).has(b)?{f:HARD(Z)?2:2.5}:{f:0},
-  hab:(b,c,nb,bs,Z)=>c.cat==='gehege'&&(Z.inspHabs||habTop(bs)).includes(c.hab)?{f:HARD(Z)?0:.5}:null,
+  hab:(b,c,nb,bs,Z)=>c.cat==='gehege'&&(Z.inspHabs||habTop(bs)).includes(c.hab)?{f:HARD(Z)?.5:.75}:null, // 0.99a: ×0,75, verschärft ×0,5 (vorher ×0,5 / 0)
   schutzp:(b,c,nb,bs,Z)=>c.cat==='gehege'&&!nb.some(n=>isCat(n,'schutz'))?{f:HARD(Z)?.25:.5}:null,
   laerm:(b,c,nb,bs,Z)=>c.cat==='gehege'&&nb.some(n=>isCat(n,'attr')&&n.key!=='lehrpfad')?{fs:HARD(Z)?0:.5}:null,
   gross:(b,c,nb,bs,Z)=>c.cat==='gehege'&&b.cells.length<3&&(b.lvl||1)<2?{f:HARD(Z)?.5:.75}:null, // 0.81a: entschärft (×0,75, verschärft ×0,5), erst ab Zoo 3
@@ -28,7 +28,7 @@ const WINTER_WIRKUNG={fx:{keine:()=>null,
   wenig:()=>({fa:.7,fs:1.2,l:'B ×0,7, N ×1,2'}),
   chaos:b=>typeof state!=='undefined'&&state&&state.chaosB===b.id?{f:0}:null,
   futter:(b,c,nb,bs)=>topSet(bs,'top10').has(b)?null:{f:0}},
-  text:{hab:Z=>{const H=Z.inspHabs||(typeof state!=='undefined'&&state&&state.buildings?habTop(state.buildings):[]);return`Im Winter zählen die Gehege des Lebensraums, von dem du die meisten hast, nur zur Hälfte (Besucher und Natur). Es gilt der Stand zu Winterbeginn.`+(H.length?` ${Z.inspHabs?'Getroffen':'Stand jetzt'}: ${H.map(h=>HAB[h].icon+' '+HAB[h].label).join(' und ')}.`:'')}}};
+  text:{hab:Z=>{const H=Z.inspHabs||(typeof state!=='undefined'&&state&&state.buildings?habTop(state.buildings):[]);return`Im Winter zählen die Gehege des Lebensraums, von dem du die meisten hast, nur ×0,75 (Besucher und Natur). Es gilt der Stand zu Winterbeginn.`+(H.length?` ${Z.inspHabs?'Getroffen':'Stand jetzt'}: ${H.map(h=>HAB[h].icon+' '+HAB[h].label).join(' und ')}.`:'')}}};
 const INSP={};for(const d of WINTER_DATEN.bedingungen){const I={};for(const p in d){if(p==='key')continue;const v=d[p];if(p==='fx'){I.fx=WINTER_WIRKUNG.fx[v];if(!I.fx)throw new Error('Wirkung fehlt: fx '+v)}else if(p==='text_wirkung')I.text=WINTER_WIRKUNG.text[v];else I[p]=v}INSP[d.key]=I}
 // 0.93: Winter-Bedingung einmal je Zoo gegen 30 Taler tauschen (bis zum Winterbeginn)
 const WSWAP=WINTER_DATEN.tausch_preis,canWSwap=()=>!!(state&&state.zl&&state.mode==='camp'&&!state.zl.inspOpts&&!state.zl.swapped&&(state.season<3||(state.season===3&&state.day===0&&!state.builtToday))&&state.phase!=='scoring'&&!inspHid()&&!(runOf()&&runOf().tut));

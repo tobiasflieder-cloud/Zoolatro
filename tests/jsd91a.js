@@ -17,9 +17,9 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  T(ev('VERSION')==='0.91a','Version');
  start(w);ev(H+`state.rule=null;team([])`);
  // B · Show-Bonus ×1,35 (zwei ×1,7)
- const sh=J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0],g=one(c=>c.cat==='essen'&&!c.rq&&!(TRAITS.ruhig||[]).includes(c.key)&&!(TRAITS.trubel||[]).includes(c.key),2);put([[s,A0],[g[0],NB[0]]]);const a=lines(state.buildings[0]);put([[s,A0],[g[0],NB[0]],[g[1],NB[3]]]);return{a,b:lines(state.buildings[0])}})()`);
- T(/Showtier: ×1,35/.test(sh.a)&&/Showtier: ×1,7(?!\d)/.test(sh.b),`Show-Bonus ×1,35 / ×1,7 (${sh.a.match(/🎭[^|]*/)} · ${sh.b.match(/🎭[^|]*/)})`);
- T(ev(`showF(4)===2.4&&showF(2,'',true)===2.4&&showF(4,'',true)===2.5&&showF(1,'belugas')===1.45&&showF(1,'le')===1.5`),'Show-Faktoren: höchstens ×2,5 mit Nova, Belugas ×1,45, Leckerli ×1,5');
+ const sh=J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0],g=one(c=>c.cat==='essen'&&!c.rq&&(TRAITS.trubel||[]).includes(c.key),2);put([[s,A0],[g[0],NB[0]]]);const a=lines(state.buildings[0]);put([[s,A0],[g[0],NB[0]],[g[1],NB[3]]]);return{a,b:lines(state.buildings[0])}})()`);
+ T(/Showtier: ×1,5/.test(sh.a)&&/Showtier: ×2,0/.test(sh.b),`Show-Bonus (0.99a: nur Trubel) ×1,5 / ×2,0 (${sh.a.match(/🎭[^|]*/)} · ${sh.b.match(/🎭[^|]*/)})`);
+ T(ev(`showF(4)===2.25&&showF(1,'',true)===2&&showF(4,'',true)===2.25&&showF(1,'belugas')===1.6&&showF(1,'le')===1.65`),'Show-Faktoren (0.99a): höchstens ×2,25 auch mit Nova, Belugas ×1,6, Leckerli ×1,65');
  // C · Verstärker-Promis
  const VN={futterkueche:['Chef Carmen','🧑‍🍳'],besucherlotse:['Mia Megaviral','🤳'],scheinwerfer:['Stella Starr','🎬'],buehne:['Nova','🎤'],winterquartier:['Sven Frost','🧗'],ruhezone:['Luna Lotus','🧘']};
  for(const k in VN)T(ev(`CARDS.${k}.name`)===VN[k][0]&&ev(`CARDS.${k}.icon`)===VN[k][1]&&ev(`!!CARDS.${k}.story&&fxHtml(CARDS.${k}).includes('class="story"')`),`Verstärker ${k} → ${VN[k][0]} ${VN[k][1]} mit Story`);
@@ -29,7 +29,7 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
    o.ruhezone=(put([[sc,A0],['ruhezone',NB[0]]]),lines(state.buildings[0]));state.season=3;o.winterquartier=(put([[g,A0],['winterquartier',NB[0]]]),lines(state.buildings[0]));state.season=0;syncCtx();return o})()`);
  T(/Chef Carmen ×1,5/.test(vw.futterkueche),'Chef Carmen ×1,5 N');T(/Mia Megaviral ×1,5/.test(vw.besucherlotse),'Mia Megaviral ×1,5 B');T(/Stella Starr: ×2,5/.test(vw.scheinwerfer),'Stella Starr ×2,5');
  T(/Luna Lotus ×1,25/.test(vw.ruhezone),'Luna Lotus ×1,25 N für scheue Nachbarn');T(/Sven Frost ×1,2/.test(vw.winterquartier),'Sven Frost ×1,2 im Winter');
- T(J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0];put([[s,A0],['buehne',NB[0]]]);return lines(state.buildings[0])})()`).includes('Nova: ×1,7'),'Nova: Show doppelt (×1,7 mit einem Auslöser)');
+ T(J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0];put([[s,A0],['buehne',NB[0]]]);return lines(state.buildings[0])})()`).includes('Nova: ×2,0'),'Nova: Show doppelt (0.99a: ×2,0 mit Nova als einzigem Auslöser)');
  ev(`state.phase='play';state.info=null;put([[one(c=>c.cat==='gehege'&&c.a>0)[0],A0],['besucherlotse',NB[0]]]);render()`);
  T(d.querySelectorAll('#board .vray').length===1&&/×1,5/.test((d.querySelector('#board .vbadge')||{}).textContent||''),'Brett: Strahl mit „×1,5“-Schild');
  // A · Ensembles
@@ -38,10 +38,10 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  for(const k in EK){const r=J(`(()=>{const K=${EK[k]};put([[K[0],A0],[K[1],NB[0]],[K[2],NB[3]]]);if(SHAPES[CARDS[K[2]].shape].cells.length===2)state.buildings[2].cells.push([NB[3][0]+DIRS[3][0],NB[3][1]+DIRS[3][1]]);const R=ensFind(state.buildings);const l=ensOf(state.buildings[1],state.buildings).map(e=>e[0]+' ×'+mxs(Math.max(e[1],e[2]))).join(' | ');
      const o={n:R.groups.filter(g=>g.key==='${k}').length,m:(R.groups.find(g=>g.key==='${k}')||{m:[]}).m.length,l:(l.match(/Ensemble [^|]*/)||[''])[0]};
      put([[K[0],A0],[K[1],NB[0]],[K[2],NB[1]]]);o.split=0;put([[K[0],A0],[K[1],NB[0]],[K[2],[A0[0]+3*DIRS[3][0],A0[1]+3*DIRS[3][1]]]]);o.apart=ensFind(state.buildings).groups.filter(g=>g.key==='${k}').length;
-     if(ENS['${k}'].ruhig){const rb=one(c=>c.cat==='gehege'&&c.tags.includes('raubtier'))[0],ga=one(c=>c.cat==='essen'&&!(TRAITS.ruhig||[]).includes(c.key))[0];put([[K[0],A0],[K[1],NB[0]],[K[2],NB[3]],[rb,NB[1]],[ga,NB[2]],[ga,NB[4]]]);if(SHAPES[CARDS[K[2]].shape].cells.length===2)state.buildings[2].cells.push([NB[3][0]+DIRS[3][0],NB[3][1]+DIRS[3][1]]);o.st=ensFind(state.buildings).groups.filter(g=>g.key==='${k}').length}
+     if(ENS['${k}'].ruhig){const rb=one(c=>c.cat==='gehege'&&c.tags.includes('raubtier'))[0],ga=one(c=>c.cat==='essen'&&!(TRAITS.ruhig||[]).includes(c.key))[0];put([[K[0],A0],[K[1],NB[0]],[K[2],NB[3]],[rb,NB[1]],[ga,NB[2]],[ga,NB[4]]]);if(SHAPES[CARDS[K[2]].shape].cells.length===2)state.buildings[2].cells.push([NB[3][0]+DIRS[3][0],NB[3][1]+DIRS[3][1]]);o.st=ensFind(state.buildings).groups.filter(g=>g.key==='${k}').length;{const ix=mkIndex(state.buildings);o.any=state.buildings.slice(0,3).some(b=>(evalB(b,state.buildings,ix).st||0)>=1)}}
      return o})()`);
    T(r.n===1&&r.m===3&&r.l.includes(ENS_N(k))&&r.l.includes('×'+EF[k]),`Ensemble ${k}: erkannt (3 Mitglieder), Faktor ×${EF[k]} (${r.l})`);
-   T(r.apart===0,`Ensemble ${k}: nicht zusammenhängend → keins`);if(r.st!=null)T(r.st===0,`Ensemble ${k}: ein Mitglied gestresst → keins`)}
+   T(r.apart===0,`Ensemble ${k}: nicht zusammenhängend → keins`);if(r.st!=null)T(!r.any||r.st===0,`Ensemble ${k}: ein Mitglied gestresst → keins${r.any?'':' (0.99a: Stress nur noch direkt, hier ist kein Mitglied gestresst)'}`)}
  function ENS_N(k){return{food:'Food Corner',meile:'Vergnügungsmeile',still:'Stilles Eck',hain:'Sicherer Hain',schutz:'Schutzzone'}[k]}
  T(J(`(()=>{const g=one(c=>c.cat==='essen'&&!c.rq)[0];put([[g,A0],[g,NB[0]],[g,NB[3]]]);return ensFind(state.buildings).groups.length})()`)===0,'Food Corner braucht 3 verschiedene Gastro-Gebäude');
  const big=J(`(()=>{const K=one(c=>c.cat==='attr'&&!c.rq,3);put([[K[0],A0],[K[1],NB[0]],[K[2],NB[3]],[K[0],NB[1]]]);const R=ensFind(state.buildings);return{g:R.groups.length,m:R.groups[0]&&R.groups[0].m.length,l:ensOf(state.buildings[3],state.buildings).map(e=>e[0])}})()`);

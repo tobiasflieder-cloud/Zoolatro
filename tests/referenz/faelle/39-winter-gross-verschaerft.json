@@ -1710,15 +1710,15 @@
  ]
 },
 "erwartet":{
- "A": 439,
- "S": 308,
- "total": 135212,
+ "A": 428,
+ "S": 328,
+ "total": 140384,
  "mults": [
   {
-   "label": "Gestresste Tiere: 2",
+   "label": "Gestresste Tiere: 1",
    "id": null,
    "ma": null,
-   "ms": 0.9
+   "ms": 0.95
   },
   {
    "label": "Investorin",
@@ -1852,11 +1852,6 @@
      -2
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
-    ],
-    [
      "💧 Fluss: Kette aus 4 ×1,75",
      2,
      2
@@ -1910,7 +1905,7 @@
   {
    "id": 7,
    "a": 12,
-   "s": 4,
+   "s": 8,
    "parts": [
     [
      "Dschungel-Naturfläche",
@@ -1923,19 +1918,19 @@
      -1
     ],
     [
-     "🎭 Showtier: ×1,35",
+     "🎭 Showtier: ×1,5",
      1,
-     0
+     1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
      3,
-     1
+     2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
      6,
-     2
+     4
     ]
    ]
   },
@@ -2084,7 +2079,7 @@
   },
   {
    "id": 15,
-   "a": 32,
+   "a": 28,
    "s": 8,
    "parts": [
     [
@@ -2108,18 +2103,18 @@
      -1
     ],
     [
-     "🎭 Showtier: ×1,7",
-     4,
+     "🎭 Showtier: ×1,5",
+     3,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     7,
+     6,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     16,
+     14,
      4
     ]
    ]
@@ -2183,8 +2178,8 @@
   },
   {
    "id": 20,
-   "a": 18,
-   "s": 14,
+   "a": 14,
+   "s": 12,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2207,23 +2202,23 @@
      -3
     ],
     [
-     "🎭 Showtier: ×2,05",
-     4,
-     3
+     "🎭 Showtier: ×1,5",
+     2,
+     2
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     4,
+     3,
      3
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     12,
-     9
+     9,
+     8
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -6,
+     -4,
      -4
     ]
    ]
@@ -2249,7 +2244,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
+     "😣 Gestresst (Trubel daneben): Zoo ×0,95 Natur",
      0,
      0
     ],

@@ -88,7 +88,15 @@
     "glashaus",
     "besucherzentrum",
     "nachtfuehrung",
-    "flossteil"
+    "flossteil",
+    "eiswagen",
+    "cafe",
+    "beduinen",
+    "berghuette",
+    "bistro",
+    "aquarium",
+    "seilbahn",
+    "weltzoo"
    ]
   },
   "trubel": {
@@ -107,7 +115,17 @@
     "bratwurst",
     "lotterie",
     "achterbahn",
-    "foodcourt"
+    "foodcourt",
+    "popcorn",
+    "souvenir",
+    "getraenke",
+    "crepes",
+    "pizzeria",
+    "streichelzoo",
+    "spielplatz",
+    "karussell",
+    "zoobahn",
+    "eisbahn"
    ]
   }
  }

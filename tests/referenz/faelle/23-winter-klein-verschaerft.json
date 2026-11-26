@@ -1710,15 +1710,15 @@
  ]
 },
 "erwartet":{
- "A": 238,
- "S": 120,
- "total": 28560,
+ "A": 232,
+ "S": 127,
+ "total": 29464,
  "mults": [
   {
-   "label": "Gestresste Tiere: 2",
+   "label": "Gestresste Tiere: 1",
    "id": null,
    "ma": null,
-   "ms": 0.9
+   "ms": 0.95
   },
   {
    "label": "Investorin",
@@ -1850,11 +1850,6 @@
      "❄️ Platzprüfung: nur die Hälfte",
      -2,
      -2
-    ],
-    [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
@@ -2084,7 +2079,7 @@
   },
   {
    "id": 15,
-   "a": 32,
+   "a": 28,
    "s": 8,
    "parts": [
     [
@@ -2108,18 +2103,18 @@
      -1
     ],
     [
-     "🎭 Showtier: ×1,7",
-     4,
+     "🎭 Showtier: ×1,5",
+     3,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     7,
+     6,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     16,
+     14,
      4
     ]
    ]
@@ -2234,7 +2229,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
+     "😣 Gestresst (Trubel daneben): Zoo ×0,95 Natur",
      0,
      0
     ],

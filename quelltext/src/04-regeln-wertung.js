@@ -230,13 +230,20 @@ const DUPW=[1,.75,.25],LVLW=[0,0,.75,1.25]; // 0.61a: Ausbau +75 % / +50 % des e
 const dupW=n=>hasSpec('rb_klon')||(n===1&&hasSpec('zwilling'))?1:DUPW[Math.min(n,2)];
 const dupOf=(b,bs)=>{let n=0;for(const x of bs){if(x===b)break;if(sameArt(x.key,b.key))n++}return n};
 // 0.90a: Show-Bonus je Auslöser ×1,35 (Belugas ×1,45, Leckerli ×1,5), Trubel/Tribüne zählen doppelt; Nova (Bühne) verdoppelt, alles höchstens ×2,5
-const SHOWS={'':.35,belugas:.45,le:.5},SHOWMAX=2.5,showF=(sh,k,bu)=>Math.min(SHOWMAX,Math.round((1+(SHOWS[k||'']||.35)*sh*(bu?2:1))*20)/20);
+// 0.99a Merkmale ausgleichen: alle Zahlen an einer Stelle (Show/Ruhe/Versteck/Revier je Auslöser additiv, gerundet auf 0,05, höchstens MERKMAX)
+const MERK={show:.5,belugas:.6,le:.65,ruhe:.5,versteck:.3,revier:.25,max:2.25};
+const SHOWS={'':MERK.show,belugas:MERK.belugas,le:MERK.le},SHOWMAX=MERK.max,showF=(sh,k,bu)=>Math.min(SHOWMAX,Math.round((1+(SHOWS[k||'']||MERK.show)*sh*(bu?2:1))*20)/20);
+const merkF=(n,st)=>n>0?Math.min(MERK.max,Math.round((1+st*n)*20)/20):1;
 // 0.93a: Auslöser des Show-Bonus (aus evalB herausgezogen, auch fürs Spektrum im Detail-Fenster): normale Gastro/Attraktionen daneben + Nova + Bistro (Savanne) höchstens 2, dazu Trubel-Nachbarn und Tribünen (Umkreis 2) doppelt, zusammen höchstens 4
-function showN(b,c,nb,idx,vs){return Math.min(4,Math.min(2,cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n)&&!trubelC(n))+(vs.has('buehne')?1:0)+(c.hab==='savanne'&&nb.some(n=>n.key==='bistro')?2:0))+2*(cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&trubelC(n))+cnt(nbrs2(b,idx),n=>n.key==='tribuene'&&!nb.includes(n))))}
+// 0.99a: Auslöser sind nur trubelige Gastro/Attraktionen daneben (je 1), Tribüne im Umkreis 2 wie ein trubeliger Nachbar, Nova (Bühne) 1 und verdoppelt, Safari-Bistro für Savannen-Showtiere 1
+function showN(b,c,nb,idx,vs){return Math.min(4,cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&trubelC(n))+cnt(nbrs2(b,idx),n=>n.key==='tribuene'&&!nb.includes(n))+(vs.has('buehne')?1:0)+(c.hab==='savanne'&&nb.some(n=>n.key==='bistro')?1:0))}
+const ruheN=(c,nb)=>(c.tags||[]).includes('scheu')?cnt(nb,n=>(isCat(n,'essen')||isCat(n,'attr'))&&ruhigC(n)):0, // 🤫 Ruhe: scheue Tiere neben ruhigen Gebäuden
+  versteckN=(c,nb)=>(c.tags||[]).includes('beute')?cnt(nb,n=>isCat(n,'schutz')):0, // 🌿 Versteck: Beute neben Naturschutz
+  revierN=(b,c,nb,idx)=>(c.tags||[]).includes('raubtier')?cnt(nbrs2(b,idx),n=>!nb.includes(n)&&n!==b&&has(n,'beute')):0; // 🦷 Revier: Beute in genau 2 Feldern Abstand
 const SHOWBORED=.8; // 0.93a: Showtier ohne Auslöser ×0,8 B
 const STRESS=.3,STRZ0=.05,STRMAX=.4;let STRZ=STRZ0;const strzNow=()=>STRZ0; // Show-Bonus je Auslöser; Stress: ×0,95 Natur (−0,05) für den ganzen Zoo je Störer, höchstens ×0,6
 // value of one building, with a labelled breakdown
-function evalB(b,bs,idx,parts){const c=K(b),nb=nbrs(b,idx);let a=c.a,s=c.s,stN=0;if((c.cat==='attr'||c.cat==='essen')&&hasSpec('quer')){const t=a;a=s;s=t}const vs=new Set(nb.filter(n=>K(n).cat==='verst').map(n=>n.key)),wq=vs.has('winterquartier');const base0=[a,s];
+function evalB(b,bs,idx,parts){const c=K(b),nb=nbrs(b,idx);let a=c.a,s=c.s,stN=0;if((c.cat==='attr'||c.cat==='essen')&&hasSpec('quer')){const t=a;a=s;s=t}const vs=vsPick(b,c,nb,bs,idx),wq=vs.has('winterquartier');const base0=[a,s];
   const add=(label,da,ds,m)=>{da=da||0;ds=ds||0;if(!da&&!ds)return;a+=da;s+=ds;if(parts)parts.push(m?{label,a:da,s:ds,fa:m.fa==null?1:m.fa,fs:m.fs==null?1:m.fs}:{label,a:da,s:ds})}; // 0.81a: m = Faktor (fa/fs) für das Detail-Fenster
   if(c.hab){add(`${HAB[c.hab].label}-Nachbarn`,cnt(nb,n=>isCat(n,'gehege')&&isHab(n,c.hab)),0);add(`${HAB[c.hab].label}-Naturfläche`,0,natCells(b.cells,c.hab));
     if(CTX.dk==='kueste'&&c.cat==='gehege'&&c.hab==='wasser')add('🐟 Schwarm (Die Kapitänin)',0,cnt(nb,n=>isCat(n,'gehege')&&isHab(n,'wasser')));
@@ -266,20 +273,21 @@ function evalB(b,bs,idx,parts){const c=K(b),nb=nbrs(b,idx);let a=c.a,s=c.s,stN=0
   if(c.jt&&(nb.some(n=>String(n.key).split(/[#^]/)[0]===c.par)||fdHas(b,'mi')))add((fdHas(b,'mi')&&!nb.some(n=>String(n.key).split(/[#^]/)[0]===c.par)?'🍼 Aufzuchtmilch: ':'🍼 ')+'Familie: zählt doppelt',Math.max(0,a),Math.max(0,s),{fa:2,fs:2});
   if(b.pr==='star')add('⭐ Star: ×1,25',a>0?Math.round(a*.25):0,s>0?Math.round(s*.25):0,{fa:1.25,fs:1.25});
   {const F=fdOf(b.key);if(F.length){let m=1;const l=[];for(const f of['fr','wm','kb','wv'])if(F.includes(f)&&CTX.season===FOOD[f].se){m*=1.5;l.push(FOOD[f].icon+' '+FOOD[f].name)}if(F.includes('gh')){m*=1.5;l.push('✨ Goldhafer')}if(m>1)add(`${l.join(' + ')}: ×${mxs(m)}`,a>0?Math.round(a*(m-1)):0,s>0?Math.round(s*(m-1)):0,{fa:m,fs:m})}}
-  if(vs.has('scheinwerfer')&&c.cat==='gehege'&&nb.some(n=>n.key==='scheinwerfer'&&spotOf(n,idx)===b))add('🎬 Stella Starr: ×2,5',a>0?Math.round(a*1.5):0,s>0?Math.round(s*1.5):0,{fa:2.5,fs:2.5});
+  if(vs.has('scheinwerfer')&&c.cat==='gehege')add('🎬 Stella Starr: ×2,5',a>0?Math.round(a*1.5):0,s>0?Math.round(s*1.5):0,{fa:2.5,fs:2.5});
   // Stress und Show (ganz am Ende): Stress (Beute neben Raubtier, scheu neben Essen/Attraktion außer Picknick/Restaurant) zählt Störer (max. 2) für den Zoo-Multiplikator −0,05 N je Störer (höchstens ×0,6, in scoreZoo0); Showtier neben Essen/Attraktion: 0.76a als Faktor pctF(0,3·Auslöser): ×1,25 / ×1,5, Trubel-Nachbarn und Tribünen zählen doppelt (bis ×1,95, Bühne/Manege verdoppeln); Tierarzt daneben hebt den Stress auf
   if(!(TUTNOW&&!TUTTR)){const{pr1,sc1,st,pp,jg}=strOf(b,c,nb,idx,vs),sh=c.tags.includes('show')?showN(b,c,nb,idx,vs):0;
    const ba=Math.max(0,a),bs0=Math.max(0,s);
    if(sh){const f=showF(sh,fdHas(b,'le')?'le':c.key==='belugas'?'belugas':'',vs.has('buehne'));add(`🎭 Showtier${vs.has('buehne')?' mit 🎤 Nova':''}: ×${mxs(f)}`,Math.round(ba*(f-1)),Math.round(bs0*(f-1)),{fa:f,fs:f})}else if(c.tags.includes('show'))add('😴 Showtier gelangweilt: ×0,8 B',Math.round(ba*(SHOWBORED-1)),0,{fa:SHOWBORED,fs:1}); // 0.93a: kein Auslöser
+   {const rn=ruheN(c,nb),vn=versteckN(c,nb),wn=revierN(b,c,nb,idx);for(const[n,st,l]of[[rn,MERK.ruhe,'🤫 Ruhe'],[vn,MERK.versteck,'🌿 Versteck'],[wn,MERK.revier,'🦷 Revier']])if(n){const f=merkF(n,st);add(`${l}: ×${mxs(f)}`,Math.round(ba*(f-1)),Math.round(bs0*(f-1)),{fa:f,fs:f})}} // 0.99a
    if(pp){const f=pctF(STRESS*pp);add(`${jg&&c.tags.includes('beute')?'🦁 Jagdrevier':'🎉 Partyzoo'}: ×${mxs(f)}`,Math.round(ba*(f-1)),Math.round(bs0*(f-1)),{fa:f,fs:f})}
-   if(st&&parts)parts.push({label:`😣 Gestresst (${pr1&&sc1?'Raubtier und Trubel':pr1?'Raubtier in der Nähe':'Trubel in der Nähe'}): Zoo ×${mxs(1-STRZ)} Natur`,a:0,s:0});stN=st}
+   if(st&&parts)parts.push({label:`😣 Gestresst (${pr1&&sc1?'Raubtier und Trubel':pr1?'Raubtier daneben':'Trubel daneben'}): Zoo ×${mxs(1-STRZ)} Natur`,a:0,s:0});stN=st}
   if(c.km&&!(TUTNOW&&!TUTTR&&/Beute|Raubtier|scheu|Show/i.test((c.fx||[]).join(' ')))){const m=c.km(nb,bs,b,{st:stN,idx});if(m){const fa=m.fa!=null?m.fa:m.f,fs=m.fs!=null?m.fs:m.f,aa=Math.max(0,a),ss=Math.max(0,s);add(`🔗 Kombo ×${String(Math.max(fa||1,fs||1)).replace('.',',')}: ${m.l}`,fa!=null?Math.round(aa*(fa-1)):0,fs!=null?Math.round(ss*(fs-1)):0,{fa:fa==null?1:fa,fs:fs==null?1:fs})}}
   {const ex=extra92(b,c,nb,bs,idx);for(const e of ex){if(Array.isArray(e)){const[l,fa,fs]=e,aa=Math.max(0,a),ss=Math.max(0,s);add(l+(fa===fs&&!/×/.test(l)?' ×'+mxs(fa):''),Math.round(aa*(fa-1)),Math.round(ss*(fs-1)),{fa,fs})}else add(e.l,e.a,e.s)}}
   // TÜV-Prüfung im Winter: was Attraktionen ihren Nachbarn bringen, zählt nur zur Hälfte (nur Gewinne, Trubel bleibt)
   {const tc=CTX.zl&&CTX.winter?(CTX.zl.insp==='attr'?'attr':CTX.zl.insp==='essen'&&HARD(CTX.zl)?'essen':null):null;if(tc&&!CTX.ni&&!CTX.noTuv&&!wq&&c.cat!==tc&&nb.some(n=>isCat(n,tc))){CTX.noTuv=true;try{const bs2=bs.filter(n=>n===b||!isCat(n,tc)),v2=evalB(b,bs2,mkIndex(bs2)),k=hasSpec('rb_winter')?.25:.5,da=a-v2.a,ds=s-v2.s;add(tc==='attr'?'❄️ TÜV-Prüfung: Attraktions-Boni nur halb':'❄️ Lebensmittelaufsicht: Gastro-Boni nur halb',da>0?-Math.round(da*k):0,ds>0?-Math.round(ds*k):0)}finally{CTX.noTuv=false}}}
   return{a,s,nb,pa0,ps0,st:stN,a0:base0[0],s0:base0[1]}}
 // 0.90a: Stress-Zustand eines Gehege/Gebäudes (aus evalB herausgezogen, auch für die Ensembles „keins gestresst“)
-function strOf(b,c,nb,idx,vs){const vet=fdHas(b,'kr')||nb.some(n=>n.key==='tierarzt')||(c.tags.includes('scheu')&&nb.some(n=>n.key==='regenkuppel'))||(c.key==='antilopen'&&nb.some(n=>isCat(n,'schutz')))||(c.hab==='gebirge'&&c.tags.includes('scheu')&&nb.some(n=>n.key==='bergwacht')),n2=!vet&&(c.tags.includes('beute')||c.tags.includes('scheu'))?nbrs2(b,idx):[],pr=!vet&&c.tags.includes('beute')&&!hasSpec('dompteur')&&!hasSpec('frieden')?cnt(n2,n=>has(n,'raubtier')&&!fdHas(n,'kn'))*(hasEv('ausbruch')?2:1):0,sc=!vet&&!vs.has('ruhezone')&&!hasSpec('ruhepol')&&c.tags.includes('scheu')?cnt(CTX.dk==='dschungel'?nb:n2,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0,jg=hasSpec('rb_jagd'),py=hasSpec('rb_party'),pp=Math.min(2,(jg&&c.tags.includes('beute')?cnt(nb,n=>has(n,'raubtier')):0)+(py&&c.tags.includes('scheu')?cnt(nb,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0)),pr1=jg?0:pr,sc1=py?0:sc,st=Math.min(1,pr1+sc1);return{pr1,sc1,st,pp,jg,py}}
+function strOf(b,c,nb,idx,vs){const vet=fdHas(b,'kr')||nb.some(n=>n.key==='tierarzt')||(c.tags.includes('scheu')&&nb.some(n=>n.key==='regenkuppel'))||(c.key==='antilopen'&&nb.some(n=>isCat(n,'schutz')))||(c.hab==='gebirge'&&c.tags.includes('scheu')&&nb.some(n=>n.key==='bergwacht')),dsch=CTX.dk==='dschungel'&&c.hab==='wald',n2=!vet&&!dsch&&(c.tags.includes('beute')||c.tags.includes('scheu'))?nb:[],pr=!vet&&c.tags.includes('beute')&&!hasSpec('dompteur')&&!hasSpec('frieden')?cnt(n2,n=>has(n,'raubtier')&&!fdHas(n,'kn'))*(hasEv('ausbruch')?2:1):0,sc=!vet&&!vs.has('ruhezone')&&!hasSpec('ruhepol')&&c.tags.includes('scheu')?cnt(n2,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0,jg=hasSpec('rb_jagd'),py=hasSpec('rb_party'),pp=Math.min(2,(jg&&c.tags.includes('beute')?cnt(nb,n=>has(n,'raubtier')):0)+(py&&c.tags.includes('scheu')?cnt(nb,n=>((isCat(n,'essen')||isCat(n,'attr'))&&!ruhigC(n))):0)),pr1=jg?0:pr,sc1=py?0:sc,st=Math.min(1,pr1+sc1);return{pr1,sc1,st,pp,jg,py}}
 // ===== 0.90a: Ensembles (Daten daten/ensembles.json, Texte texte_de.json „ensemble“) =====
 // Zusammenhängende Gruppe ab 3 passenden Karten (Food Corner zusätzlich 3 verschiedene Karten); jedes Mitglied bekommt den Faktor einmal, zwei Ensembles multiplizieren sich.
 // „ruhig“: nur Mitglieder, die nicht gestresst sind (strOf wie in der Wertung). Aus im Tutorial; Ensemble-Regisseur hebt die Faktoren (regisseur).
@@ -309,7 +317,22 @@ function inspFx(b,c,nb,bs,Z){const e=INSP[Z.insp].fx(b,c,nb,bs,Z);if(!e||!hasSpe
 // Scheinwerfer: das stärkste benachbarte Gehege (nach Grundwert, bei Gleichstand das ältere)
 // 0.90a: Verstärker sind Promis (Chef Carmen, Mia Megaviral, Stella Starr, Sven Frost, Nova, Luna Lotus); interne Kennungen bleiben
 const verstHit=(v,c)=>v==='futterkueche'?(c.cat==='gehege'?'×1,5 N':null):v==='besucherlotse'?(c.cat!=='verst'?'×1,5 B':null):v==='scheinwerfer'?(c.cat==='gehege'?'×2,5 falls stärkstes':null):v==='winterquartier'?(c.cat!=='verst'?'ohne ❄️ ×1,2':null):v==='buehne'?((c.tags||[]).includes('show')?'Show ×2':null):v==='ruhezone'?((c.tags||[]).includes('scheu')?'kein Trubel ×1,25 N':null):null;
-function spotOf(n,idx){let best=null,bv=-1;for(const g of nbrs(n,idx)){const c=K(g);if(c.cat!=='gehege')continue;const v=c.a+c.s;if(v>bv||(v===bv&&g.id<best.id)){bv=v;best=g}}return best}
+// 0.99a: Stella Starr wählt das tatsächlich stärkste benachbarte Gehege (Ist-Wert a+s ohne Stellas ×2,5; Gleichstand: kleinere id)
+// Zwischenspeicher je Brett-Array (Signatur wie bei den Ensembles, dazu Stufen/Ausgabe/Prägung/Jahreszeit)
+const VSC=new WeakMap();let SPOTOFF=0;const VSFORCE=new Map();
+const vsSig=bs=>bs.map(b=>b.id+':'+b.key+':'+(b.lvl||1)+':'+(b.ed||'')+':'+(b.pr||'')+':'+b.cells.map(c=>c.join(',')).join(';')+':'+(b.ate||0)).join('|')+'#'+(CTX.spec||[]).join(',')+'#'+CTX.dk+'#'+(CTX.ev||[]).map(e=>e.id).join(',')+'#'+(CTX.winter?1:0)+'#'+(CTX.season||0)+'#'+(CTX.zl&&CTX.zl.insp||'');
+function vsCache(bs){const sig=vsSig(bs);let e=VSC.get(bs);if(!e||e.sig!==sig){e={sig,spot:new Map(),pick:new Map()};VSC.set(bs,e)}return e}
+const bsOfIdx=idx=>[...new Set(idx.values())];
+function spotOf(n,idx,bs){bs=bs||bsOfIdx(idx);const C=vsCache(bs);if(C.spot.has(n.id))return C.spot.get(n.id);let best=null,bv=-Infinity;SPOTOFF++;
+  try{for(const g of nbrs(n,idx)){const c=K(g);if(c.cat!=='gehege')continue;let v;try{const r=evalB(g,bs,idx);v=r.a+r.s}catch(e){v=c.a+c.s}if(v>bv||(v===bv&&g.id<best.id)){bv=v;best=g}}}finally{SPOTOFF--}
+  if(!SPOTOFF)C.spot.set(n.id,best);return best}
+// 0.99a: nur ein Verstärker je Gehege/Gebäude – liegen mehrere wirksame daneben, gilt der mit dem größten Zuwachs (a+s) für dieses Ziel
+function vsCands(b,c,nb,bs,idx){return nb.filter(n=>(K(n)||{}).cat==='verst'&&c&&verstHit(n.key,c)&&(n.key!=='winterquartier'||CTX.winter)&&(n.key!=='scheinwerfer'||(!SPOTOFF&&spotOf(n,idx,bs)===b)))}
+function vsPick(b,c,nb,bs,idx){if(VSFORCE.has(b.id)){const k=VSFORCE.get(b.id);return new Set(k?[k]:[])}const L=vsCands(b,c,nb,bs,idx),keys=[...new Set(L.map(n=>n.key))];if(keys.length<=1)return new Set(keys);
+  const C=vsCache(bs),ck=b.id+(SPOTOFF?'/s':'');if(C.pick.has(ck))return new Set([C.pick.get(ck)]);let best=null,bv=-Infinity;
+  for(const k of keys){VSFORCE.set(b.id,k);let v=-Infinity;try{const r=evalB(b,bs,idx);v=r.a+r.s}catch(e){}finally{VSFORCE.delete(b.id)}if(v>bv){bv=v;best=k}}C.pick.set(ck,best);return new Set([best])}
+// welcher Verstärker wirkt auf Ziel n (für Anzeige): Schlüssel oder null
+function vsActive(n,bs,idx){const c=K(n);return[...vsPick(n,c,nbrs(n,idx),bs,idx)][0]||null}
 function scoreZoo(bs){const idx=mkIndex(bs);let A=0,S=0;const steps=[],mults=[];KING=null;if(CTX.zl&&CTX.zl.insp==='koenig'&&CTX.winter)KING={bs,set:kingSet0(bs)};try{return scoreZoo0(bs,idx,A,S,steps,mults)}finally{KING=null}}
 // Summe aller Gehege/Gebäude einer Auswahl (ohne Multiplikatoren)
 function rawSum(set){const ix=mkIndex(set);let a=0,s=0;for(const b of set){const v=evalB(b,set,ix);a+=v.a;s+=v.s}return[a,s]}

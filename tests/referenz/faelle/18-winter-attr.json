@@ -1710,15 +1710,15 @@
  ]
 },
 "erwartet":{
- "A": 456,
- "S": 346,
- "total": 157776,
+ "A": 445,
+ "S": 358,
+ "total": 159310,
  "mults": [
   {
-   "label": "Gestresste Tiere: 2",
+   "label": "Gestresste Tiere: 1",
    "id": null,
    "ma": null,
-   "ms": 0.9
+   "ms": 0.95
   },
   {
    "label": "Investorin",
@@ -1837,11 +1837,6 @@
      2
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
-     0,
-     0
-    ],
-    [
      "💧 Fluss: Kette aus 4 ×1,75",
      4,
      3
@@ -1894,7 +1889,7 @@
   },
   {
    "id": 7,
-   "a": 20,
+   "a": 24,
    "s": 12,
    "parts": [
     [
@@ -1903,18 +1898,18 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,35",
-     1,
+     "🎭 Showtier: ×1,5",
+     2,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     5,
+     6,
      3
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     10,
+     12,
      6
     ]
    ]
@@ -2074,7 +2069,7 @@
   },
   {
    "id": 15,
-   "a": 38,
+   "a": 37,
    "s": 9,
    "parts": [
     [
@@ -2093,8 +2088,8 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,7",
-     6,
+     "🎭 Showtier: ×1,5",
+     5,
      1
     ],
     [
@@ -2104,12 +2099,12 @@
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     26,
+     25,
      5
     ],
     [
      "❄️ TÜV-Prüfung: Attraktions-Boni nur halb",
-     -14,
+     -13,
      -1
     ]
    ]
@@ -2178,8 +2173,8 @@
   },
   {
    "id": 20,
-   "a": 31,
-   "s": 23,
+   "a": 20,
+   "s": 17,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2197,29 +2192,29 @@
      3
     ],
     [
-     "🎭 Showtier: ×2,05",
-     8,
-     6
+     "🎭 Showtier: ×1,5",
+     4,
+     3
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     8,
-     6
+     6,
+     5
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     24,
-     18
+     18,
+     14
     ],
     [
      "❄️ TÜV-Prüfung: Attraktions-Boni nur halb",
-     -7,
-     -6
+     -9,
+     -5
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -10,
-     -7
+     -7,
+     -6
     ]
    ]
   },
@@ -2244,7 +2239,7 @@
      1
     ],
     [
-     "😣 Gestresst (Trubel in der Nähe): Zoo ×0,95 Natur",
+     "😣 Gestresst (Trubel daneben): Zoo ×0,95 Natur",
      0,
      0
     ],

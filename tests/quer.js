@@ -227,5 +227,18 @@ async function bisUebersicht(p,wo,seen){for(const re of[/^Spielen/,/Neuer Zoo/,/
   {const r=await p.evaluate(()=>{const T0=document.querySelector('.today');if(!T0)return null;const q=T0.getBoundingClientRect(),ch=[...T0.querySelectorAll('[data-tip]')];return{n:ch.length,in:ch.every(e=>{const c=e.getBoundingClientRect();return c.left>=-1&&c.right<=innerWidth+1}),qx:document.documentElement.scrollWidth-innerWidth,frost:document.querySelectorAll('#board .frostl').length,pill:document.querySelectorAll('#board .trl.wnt.neg').length}});
     T(!!r&&r.n>=5&&r.in&&r.qx<=2,`${wo}: Tages-Zeile mit ${r?r.n:0} Schildern im Bildschirm, kein Überlauf`);T(!!r&&r.frost>=1&&r.pill===0,`${wo}: Winter: Frost-Rand statt „❄️×“-Schild`)}
   if(!await klick(p,'.today .zn'))T(false,`${wo}: Schild Zeitungsartikel nicht antippbar`);else{const r=await p.evaluate(()=>{const B=document.getElementById('tipBub');if(!B)return null;const q=B.getBoundingClientRect();return q.left>=0&&q.right<=innerWidth+1&&q.top>=0&&q.bottom<=innerHeight+1});T(r===true,`${wo}: Sprechblase im Bildschirm`)}
-  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.94a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.94a): ${p._errs.slice(0,3).join(' | ')}`);await p.close();
+  // 18) 0.99a: Lauf-Rückblick – Brett in der Breite, kein waagrechter Überlauf, Gebäude antippen zeigt die gespeicherte Wertung
+  p=await seite(b,vp);await p.evaluate(()=>{META.noHints=1;META.klassik=1;META.wr=0;META.slots[0]={name:'T',created:1,last:1,game:null,perks:{},games:0,ctype:{},v91:1};META.lastSlot=0;META.active=0;
+    enterCamp(0,true,'grund','z2',['wasser','savanne','wueste'],NOPROF,1);modal=null;state.ruleIntro=0;state.wishIntro=0;state.surprise=null;TERR.clear();
+    const A0=BOARD.find(([q,r])=>DIRS.every(([a,c])=>ONBOARD.has(hk(q+a,r+c)))),NB=DIRS.map(([a,c])=>[A0[0]+a,A0[1]+c]),g=Object.keys(CARDS).filter(k=>!/[~^#]/.test(k)&&CARDS[k].cat==='gehege'&&!CARDS[k].ms&&SHAPES[CARDS[k].shape].cells.length===1);
+    state.buildings=[{id:1,key:g[0],cells:[A0],lvl:2},{id:2,key:g[1],cells:[NB[0]],lvl:1},{id:3,key:'besucherlotse',cells:[NB[1]],lvl:1}];syncCtx();const r=runOf();r.replay=[];for(let s=0;s<4;s++){state.season=s;logSeason(1)}state.season=0;
+    META.replays=[{date:4242,h:{n:'T',st:1,dk:'grund',hb:['wasser','savanne','wueste'],rt:['Pantanal','Alpen'],pts:12345,zoos:1,won:0,wr:1},z:r.replay}];state=null;screen='replay';screenArg={date:4242,z:0,s:0,back:{f:'z2'}};renderAll()});await p.waitForTimeout(250);
+  {const r=await p.evaluate(()=>{const S=document.querySelector('.rpsvg');if(!S)return null;const q=S.getBoundingClientRect();return{w:q.width,in:q.left>=-1&&q.right<=innerWidth+1,h:q.height,qx:document.documentElement.scrollWidth-innerWidth}});
+    T(!!r&&r.in&&r.h>40&&r.qx<=2,`${wo}: Rückblick: Brett im Bildschirm (${r?Math.round(r.w)+'×'+Math.round(r.h):'-'}), kein waagrechter Überlauf`)}
+  await p.evaluate(()=>{const g=document.querySelector('[data-rpb="0"]');g.dispatchEvent(new MouseEvent('click',{bubbles:true}))});await p.waitForTimeout(150);
+  {const r=await p.evaluate(()=>{const D=document.querySelector('.rpdet');if(!D)return null;const q=D.getBoundingClientRect();return{n:D.querySelectorAll('.rplines li').length,in:q.left>=-1&&q.right<=innerWidth+1,qx:document.documentElement.scrollWidth-innerWidth}});
+    T(!!r&&r.n>=1&&r.in&&r.qx<=2,`${wo}: Rückblick: Gebäude antippen zeigt ${r?r.n:0} Wertungszeilen im Bildschirm`)}
+  if(!await klick(p,'[data-rps="1"]'))T(false,`${wo}: Rückblick: ▸ nicht antippbar`);
+  if(p._errs.length)T(false,`${wo}: Seitenfehler (0.99a): ${p._errs.slice(0,3).join(' | ')}`);await p.close()}
 }catch(e){L('EXC',e.stack)}await b.close();process.exit(0)})();

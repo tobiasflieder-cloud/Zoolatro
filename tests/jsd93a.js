@@ -29,18 +29,18 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  ev(base+`screen='cdeck';screenArg={slot:0,zl:'z2',habs:['wasser','savanne','wueste'],prof:NOPROF};renderAll()`);T(/geliehenen Lastwagen/.test(d.body.textContent),'Personen-Text in der Profilwahl');
  // 2./3. Show-Spektrum und gelangweilte Showtiere
  start(w);ev(H+`state.rule=null;team([])`);
- const sp=J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0],g=one(c=>c.cat==='essen'&&!c.rq&&!(TRAITS.ruhig||[]).includes(c.key)&&!(TRAITS.trubel||[]).includes(c.key),2),tr=one(c=>c.cat==='essen'&&(TRAITS.trubel||[]).includes(c.key))[0]||one(c=>c.cat==='attr'&&(TRAITS.trubel||[]).includes(c.key))[0];
+ const sp=J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0],g=one(c=>c.cat==='essen'&&!c.rq&&(TRAITS.trubel||[]).includes(c.key),2),tr=one(c=>c.cat==='essen'&&(TRAITS.trubel||[]).includes(c.key))[0]||one(c=>c.cat==='attr'&&(TRAITS.trubel||[]).includes(c.key))[0];
    const spec=()=>{const b=state.buildings[0],h=showSpecHtml(b,state.buildings,K(b),mkIndex(state.buildings)),t=document.createElement('div');t.innerHTML=h;return{now:(t.querySelector('.dtsnow')||{}).textContent||'',on:(t.querySelector('.dtlad .on')||{}).textContent||'',lad:[...t.querySelectorAll('.dtlad span')].map(x=>x.textContent).join('|')}};
    const o={};put([[s,A0]]);o.z=spec();o.zl=lines(state.buildings[0]);put([[s,A0],[g[0],NB[0]]]);o.e=spec();o.el=lines(state.buildings[0]);
    put([[s,A0],[g[0],NB[0]],[tr,NB[2]],[tr,NB[4]]]);o.v=spec();put([[s,A0],['buehne',NB[0]]]);o.n=spec();put([['belugas',A0],[g[0],NB[0]]]);o.b=spec();
    put([[s,A0]]);const ts=TUTNOW;TUTNOW=true;o.tut=lines(state.buildings[0]);o.tsp=showSpecHtml(state.buildings[0],state.buildings,K(state.buildings[0]),mkIndex(state.buildings));TUTNOW=ts;syncCtx();
    state.phase='play';put([[s,A0]]);META.pvOff=0;render();o.mark=!!document.querySelector('#board .bored');META.pvOff=1;render();o.mark0=!!document.querySelector('#board .bored');META.pvOff=0;return o})()`);
- T(/jetzt ×0,8 B/.test(sp.z.now)&&/höchstens ×2,5/.test(sp.z.now)&&/kein/.test(sp.z.on),`Spektrum 0 Auslöser: jetzt ×0,8 B (${sp.z.now})`);
- T(/jetzt ×1,35/.test(sp.e.now)&&/1×1,35/.test(sp.e.on)&&/2×1,7\|3×2,05\|4\+×2,4/.test(sp.e.lad),`Spektrum 1 Auslöser: jetzt ×1,35, Leiter ${sp.e.lad}`);
- T(/jetzt ×2,4/.test(sp.v.now),`Spektrum 4 Auslöser (2 Trubel): ×2,4 (${sp.v.now})`);
- T(/jetzt ×1,7/.test(sp.n.now)&&/Nova/.test(sp.n.now)&&/×2,5/.test(sp.n.lad),`Spektrum mit Nova: verdoppelte Stufen (${sp.n.lad})`);
- T(/jetzt ×1,45/.test(sp.b.now)&&/Belugas/.test(sp.b.now),`Spektrum Belugas: ×1,45 (${sp.b.now})`);
- T(/😴 Showtier gelangweilt: ×0,8 B/.test(sp.zl)&&!/gelangweilt/.test(sp.el)&&/Showtier: ×1,35/.test(sp.el),'Showtier allein ×0,8 B, mit 1 Gastro ×1,35');
+ T(/jetzt ×0,8 B/.test(sp.z.now)&&/höchstens ×2,25/.test(sp.z.now)&&/kein/.test(sp.z.on),`Spektrum 0 Auslöser: jetzt ×0,8 B (${sp.z.now})`);
+ T(/jetzt ×1,5/.test(sp.e.now)&&/1×1,5/.test(sp.e.on)&&/2×2,0\|3×2,25/.test(sp.e.lad),`Spektrum 1 Auslöser: jetzt ×1,5, Leiter ${sp.e.lad}`);
+ T(/jetzt ×2,25/.test(sp.v.now),`Spektrum 3 Auslöser: gedeckelt ×2,25 (${sp.v.now})`);
+ T(/jetzt ×2,0/.test(sp.n.now)&&/Nova/.test(sp.n.now)&&/1×2,0\|2×2,25/.test(sp.n.lad),`Spektrum mit Nova: verdoppelte Stufen (${sp.n.lad})`);
+ T(/jetzt ×1,6/.test(sp.b.now)&&/Belugas/.test(sp.b.now),`Spektrum Belugas: ×1,6 (${sp.b.now})`);
+ T(/😴 Showtier gelangweilt: ×0,8 B/.test(sp.zl)&&!/gelangweilt/.test(sp.el)&&/Showtier: ×1,5/.test(sp.el),'Showtier allein ×0,8 B, mit 1 trubeligem Gastro ×1,5 (0.99a)');
  T(!/gelangweilt/.test(sp.tut)&&sp.tsp==='','nicht im Tutorial');T(sp.mark&&!sp.mark0,'Schild „😴 ×0,8“ nur mit Vorschau');
  // Tutorial: kein Knopf
  ev(base+`screen='tut';screenArg={};renderAll()`);d.querySelector('[data-tutch]').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));ev('render()');await wait(50);T(d.getElementById('btnProf').hidden,'Profil-Knopf im Tutorial weg');
