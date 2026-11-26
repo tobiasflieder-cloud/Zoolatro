@@ -99,7 +99,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 1.00a) – erst bauen, wenn Tobi „bauen“ sagt
 
-(leer)
+1. **Addax-Bild auf der Karte** (Tobi 26.11., Screenshot): Icon in `daten/karten.json` ist `🦌🏜️`, das Wüsten-Emoji wird als großes Bild über den Hirsch gelegt.
+   Gleiches Muster bei Schneeleoparden `🐆❄️`. Vorschlag: beim Anzeigen nur das erste Emoji groß, weitere Zeichen als kleines Abzeichen in der Ecke
+   (wie die Merkmal-Abzeichen), überall wo `icon` gezeigt wird (Hand, Angebot, Brett, Zoo-Buch). Eisbär `🐻‍❄️` ist ein einzelnes Emoji und bleibt.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
