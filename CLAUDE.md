@@ -112,6 +112,9 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    - **Neu Bedroht-Promi:** ×1,5 N für benachbarte bedrohte Gehege.
    Namen und Story-Texte (Stil wie Mia Megaviral/Stella Starr) vorschlagen und mit Tobi abstimmen; Icons in `karten.json`, neue Karten ans **Ende** von `karten.json` (Zufall).
    Freischaltung wie die übrigen Promis (prüfen, wie Nova/Luna freigeschaltet werden).
+4. **Auflage „🦓 Auswilderung“ abschwächen** (Tobi 28.11.; Weltreise-Ziel-Auflage `auswild`, schwer, nicht die Winter-Bedingung): heute je 1 zufälliges Gehege am 1. Sommertag **und** am 1. Herbsttag
+   (`wrAuswild`, Modul 06: `state.season===1||state.season===2`). Neu: **nur 1 Gehege, am 1. Herbsttag** (nach dem Sommer) → Bedingung `state.season===2`.
+   Text `RULES.auswild.text` (Modul 06) anpassen: „Am 1. Herbsttag wird ein zufälliges Gehege ausgewildert …“; Kommentar Z. 262, `docs/regeln.md` (Abschnitt Ziel-Auflagen), Test anpassen, falls einer zwei Auswilderungen prüft.
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
