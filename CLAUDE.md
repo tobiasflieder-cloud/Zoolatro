@@ -97,31 +97,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 - GitHub Pages: Die Veröffentlichung („pages build and deployment“) kann auf GitHubs Seite mit `startup_failure` scheitern oder in der Warteschlange hängen
   (so bei 0.78a). Dann Lauf abbrechen und mit dem nächsten echten Commit neu auslösen; Stand prüfen über die Actions-Liste.
 
-## 6. Liste fürs nächste Bauen (wird 0.9901a) – erst bauen, wenn Tobi „bauen“ sagt
+## 6. Liste fürs nächste Bauen (wird 0.9902a) – erst bauen, wenn Tobi „bauen“ sagt
 
-**Bauauftrag erteilt (Tobi 28.11.): [docs/auftraege/0.9901a-merkmale-promis-auswilderung-futter.md](docs/auftraege/0.9901a-merkmale-promis-auswilderung-futter.md) – Punkte 1–5.** Promi-Namen dort vorläufig (Wanda Wildnis, Rocco Revier, Rosa Rettung).
+(leer)
 
-1. **Addax-Bild auf der Karte** (Tobi 26.11., Screenshot): Icon in `daten/karten.json` ist `🦌🏜️`, das Wüsten-Emoji wird als großes Bild über den Hirsch gelegt.
-   Gleiches Muster bei Schneeleoparden `🐆❄️`. Vorschlag: beim Anzeigen nur das erste Emoji groß, weitere Zeichen als kleines Abzeichen in der Ecke
-   (wie die Merkmal-Abzeichen), überall wo `icon` gezeigt wird (Hand, Angebot, Brett, Zoo-Buch). Eisbär `🐻‍❄️` ist ein einzelnes Emoji und bleibt.
-2. **Merkmale weiter ausgleichen** (Tobi 28.11., nach Flivs Weltreise Stufe 2: ~20 von 30 „Beste“-Gehegen Showtiere). In `MERK` (Modul 04):
-   Show `show` 0,5 → **0,4** (×1,4 je trubeligem Nachbarn; Belugas/Leckerli entsprechend −0,1 → 0,5/0,55), `max` 2,25 bleibt;
-   Versteck `versteck` 0,3 → **0,4** (×1,4), Revier `revier` 0,25 → **0,4** (×1,4), Ruhe `ruhe` 0,5 → **0,4** (×1,4) (Tobi 28.11.: erstmal alle vier gleich). Texte in `texte_de.json`/`merkmale.json`, Regeln `docs/regeln.md`, Referenzfälle mit `aktualisiere`.
-3. **Promis für jedes Merkmal** (wie Nova für Show, `cat:'verst'`, `einmalig`, legendär Gewicht 3, Preis +1):
-   - **Luna Lotus** (`ruhezone`) auf Nova-Niveau: scheue Nachbarn bekommen den Ruhe-Bonus, als stünde ein ruhiges Gebäude daneben, und er zählt doppelt (bis ×2,25); „kein Trubel“ bleibt, ×1,25 N fällt weg.
-   - **Neu Beute-Promi:** benachbarte Beutetiere bekommen den Versteck-Bonus, als stünde Naturschutz daneben, doppelt (bis ×2,25).
-   - **Neu Raubtier-Promi:** benachbarte Raubtiere bekommen den Revier-Bonus, als stünde Beute in 2 Feldern Abstand, doppelt (bis ×2,25).
-   - **Neu Bedroht-Promi:** ×1,5 N für benachbarte bedrohte Gehege.
-   Namen und Story-Texte (Stil wie Mia Megaviral/Stella Starr) vorschlagen und mit Tobi abstimmen; Icons in `karten.json`, neue Karten ans **Ende** von `karten.json` (Zufall).
-   Freischaltung wie die übrigen Promis (prüfen, wie Nova/Luna freigeschaltet werden).
-4. **Auflage „🦓 Auswilderung“ abschwächen** (Tobi 28.11.; Weltreise-Ziel-Auflage `auswild`, schwer, nicht die Winter-Bedingung): heute je 1 zufälliges Gehege am 1. Sommertag **und** am 1. Herbsttag
-   (`wrAuswild`, Modul 06: `state.season===1||state.season===2`). Neu: **nur 1 Gehege, am 1. Herbsttag** (nach dem Sommer) → Bedingung `state.season===2`.
-   Text `RULES.auswild.text` (Modul 06) anpassen: „Am 1. Herbsttag wird ein zufälliges Gehege ausgewildert …“; Kommentar Z. 262, `docs/regeln.md` (Abschnitt Ziel-Auflagen), Test anpassen, falls einer zwei Auswilderungen prüft.
-5. **Futter nur für Karten aus dem Lauf-Deck** (Tobi 28.11.): Karten aus der Kartenwahl zwischen den Tagen (`pick` → nur `state.discard`), aus dem Shop (`it.kind==='card'`) und aus Glück/Umbau
-   (`luck`) gelten nur für den laufenden Zoo und stehen nicht in `run.deck`. Bekommen sie Futter, ist es nach dem Zoo weg (`data-feedk`/`data-feedb` ersetzen in `run.deck` nur, wenn der Schlüssel dort steht).
-   Neu: In der Futterwahl (`state.shopSub==='feed'`, Modul 08) nur Karten anbieten, die im Lauf-Deck stehen, **als Mehrfachmenge** (2× Warzenschweine im Lauf-Deck + 1 nur für diesen Zoo → höchstens 2 auswählbar);
-   gilt für „🃏 Im Deck und auf der Hand“ und für „🏗️ Steht im Zoo“ (gebaute Gehege). Gleiches für die Futterlieferung/Prägung (`shopSub==='futter'`, `data-futk`).
-   Kurzer Hinweis unter der Liste: „Nur Karten, die du in den nächsten Zoo mitnimmst.“ Ohne Lauf (`runOf()` leer) wie bisher alle. Leere Liste → vorhandener Hinweis „Keine passende Karte im Deck.“
+**Promi-Namen vorläufig (0.9901a):** Wanda Wildnis (`tarnzelt`), Rocco Revier (`faehrte`), Rosa Rettung (`artengala`) – Tobi darf sie ändern (nur `daten/texte_de.json`).
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
@@ -153,6 +133,11 @@ Feedback per Online-Formular (vor Veröffentlichung, mit Datenschutz-Hinweis) ·
 am 1. Wintertag werden 2 zufällige Tiere ausgewildert (Gehege und Karte weg); Bauverbot für Gastro, Attraktionen oder Naturschutz.
 
 ## 7. Erledigt (zuletzt)
+
+- **0.9901a** ([Auftrag](docs/auftraege/0.9901a-merkmale-promis-auswilderung-futter.md), Regeln `docs/regeln.md` 30): `MERK` alle ×1,4 (Belugas 0,5, Leckerli 0,55); Promis `tarnzelt`/`faehrte`/`artengala` (Karten am Ende von `karten.json`, Texte, Fleiß-Ziele, Zähler `beuteGeh`/`bedrohtGeh`, `VCOND`),
+  Luna über `ruheN` (+1, doppelter Schritt), `versteckN`/`revierN` mit `vs`; `wrAuswild` nur Herbst; Futter `feedPool`/`feedLists` (Mehrfachmenge `run.deck`, Hinweis), `data-feedb` findet Ausgaben; Icons `icSplit`/`icB`/`.icx`.
+  Tests: neu `jsd9901a.js`; angepasst `jsd64a`/`jsd72a`/`jsd78a`/`jsd91a`/`jsd93a`/`jsd99a` (×1,4, Luna), `jsd79a` (30 Fleiß-Ziele), `jsd98a` (9 Promis), `jsd85a`/`jsd87a` (Auswilderung Herbst), `jsd94a` (Futter: beide Gehege im Lauf-Deck).
+  Referenzfälle mit `aktualisiere`: alle 51 geändert, Median ×0,976, Spanne ×0,869–×1,114. Nebenbei behoben: zwei Kommentare hatten Code verschluckt (Sven Frost/Aquarium/Mia in `evalB`, Auswilderung „einmal je Jahreszeit“) – nur im Zwischenstand, nie veröffentlicht.
 
 - **0.99a** ([Auftrag](docs/auftraege/0.99a-stella-lebensraum-merkmale-rueckblick.md), Regeln `docs/regeln.md` 29): Stella `spotOf` nach Ist-Wert (`SPOTOFF`, Zwischenspeicher `VSC`/`vsSig`); ein Verstärker je Ziel `vsPick`/`vsCands`/`vsActive` (`VSFORCE`), Anzeige `.vray.off`/„wirkt schon“;
   Winter `hab` ×0,75/×0,5; ruhig/trubel für alle Gastro/Attraktionen (`karten.json`, `merkmale.json`, `tagfx.ruhig/trubel`); `MERK`/`merkF`, `showN` nur Trubel, `ruheN`/`versteckN`/`revierN`, `strOf` nur `nb`, Dschungelforscher ohne Stress (`dsch`), `strzMarks` direkt, `revierMarks`; `fsShowFull` nur Trubel;

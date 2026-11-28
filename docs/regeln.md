@@ -405,7 +405,7 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Dauerhafte Boni** (`06:wrBon`, wirken ab dem Zoo, in dem man sie bekommt): Goldader `initZl` +1 Goldfeld · Fleißige Helfer `startDay` +1 BP am 1. Tag von Frühling und Sommer · Gastforscher `07:rollMarket` +1 Bewerber ·
   Leichter Boden `04:genMap` entfernt 3 Felsen des fertigen Geländes (wird seit 0.87a nicht angeboten, wenn Gebirge im Lauf ist).
 - **Ziel-Auflagen** (`ziel_auflagen`, `RULES[..].ziel`, Stand `06:wrGoal`): Prüfung in `07:endDay`, wenn das Winterziel erreicht ist: offen und noch Tage übrig → weiterspielen (Hinweis), offen am letzten Wintertag
-  → `state.wrFail`, Zoo gescheitert (eigener Text). Vielfalt zählt Lebensräume mit ≥ 2 Gehegen; Nachwuchs = Gehege mit `jt`. **Auswilderung** (`06:wrAuswild`, aus `startDay`): am 1. Tag von Sommer und Herbst (seit 0.87a) ein zufälliges
+  → `state.wrFail`, Zoo gescheitert (eigener Text). Vielfalt zählt Lebensräume mit ≥ 2 Gehegen; Nachwuchs = Gehege mit `jt`. **Auswilderung** (`06:wrAuswild`, aus `startDay`): am 1. Herbsttag (seit 0.9901a; 0.87a–0.99a Sommer und Herbst) ein zufälliges
   Gehege (ohne Meilenstein) weg, eine passende Karte aus `run.deck` (`run.wrGone`), Einblendung `#wrAusPop`. Weltreise-Auflagen (`RULES[..].wr`) kommen in `ruleRoll` nie vor.
 - **Zwischen den Zoos:** `06:newReward` mit `run.wr`: keine Vorschau, kein Prägungs-Schritt; Karten → Team → `data-cwr` → Schritt `wr` (Kontinent-Wahl `06:wrPickHtml`). Beim Start `rulePop` = „Willkommen in …“ (`06:wrWelcomeHtml`).
 - **Besucherwunsch** (`08:wishOn`): nur im Sommer; Belohnungen `08:WRWISH` (über `wRw`), `arten5` braucht 6 Arten und darf im Sommer kommen. „Karte nach Wahl“ (Star/Gold) öffnet das Fenster `state.wpick` (`08:wpickDo`).
@@ -536,3 +536,15 @@ Referenzfall `51-gold-schimmernd`. 3. Show: Code bleibt (Trubel doppelt, höchst
 - **Freischaltungen** „volle Show“ (`fsShowFull`, Sieg-Zusammenfassung) zählen nur noch trubelige Nachbarn.
 - **Lauf-Rückblick:** `06:rpSnap` in `logSeason` (jede Jahreszeit, auch gescheitert) → `run.replay[zoo][season]` mit Gelände (`g`: Felder, Terrain, Gold/×4/Krone, Drehung), Gebäuden (`b`: Schlüssel, Felder, Stufe, Ausgabe, Prägung, Endwert a/s, `breakdown`-Zeilen), Zoo-Faktoren (`x`), A/S, Auflage, Ziel-Auflage, Winter-Bedingung, Wunsch, Ereignisse, Team, Förderung, Punkte je Tag, Ziel, Kasse, Region. `09:endRun` legt ihn in `RPTMP` (nur im Speicher), `run.replay` wird gelöscht.
   „💾 Lauf speichern“ (`11:rpSave`) → `META.replays` (höchstens `RPMAX` 20, sonst Auswahl zum Löschen). Ansicht Bildschirm `replay` (`rpHtml`, Brett `rpBoard` als eigenes SVG, Reiter Zoo, Pfeile Jahreszeit, Gebäude antippen = gespeicherte Wertung, Zoo-Faktoren aufklappbar), Aufruf aus Highscores („💾 Rückblick“) und nach dem Speichern.
+
+## 30. 0.9901a
+- **Merkmale** `04:MERK` = {show 0,4, belugas 0,5, le 0,55, ruhe 0,4, versteck 0,4, revier 0,4, max 2,25}: Show, Ruhe, Versteck und Revier je Auslöser ×1,4 (auf 0,05 gerundet, höchstens ×2,25).
+- **Promis je Merkmal** (alle `cat:'verst'`, `einmalig`, `rar:'sehr selten'`, Gewicht `RARW.promi` 3, `preis:1`, nur ein Verstärker je Ziel über `vsPick`):
+  - 🧘 Luna Lotus (`ruhezone`): `ruheN` +1 und doppelter Schritt (×1,8 allein), Zeile „🤫 Ruhe mit 🧘 Luna Lotus“; „kein Trubel“ (Stress-Schutz) bleibt, das alte ×1,25 N entfällt.
+  - 🏕️ Wanda Wildnis (`tarnzelt`): `versteckN` +1 und doppelter Schritt für Beute-Nachbarn.
+  - 🥾 Rocco Revier (`faehrte`): `revierN` +1 und doppelter Schritt für Raubtier-Nachbarn.
+  - 🩺 Rosa Rettung (`artengala`): ×1,5 N für bedrohte Nachbar-Gehege (`pct`).
+  - Freischaltung (Fleiß, `daten/freischaltungen.json`): `v:tarnzelt` 100 `beuteGeh`, `v:faehrte` 60 `raubtier`, `v:artengala` 100 `bedrohtGeh` (neue Zähler in `09:flOf`-Startwerten und `flBuilt`). Namen vorläufig (nur in `texte_de.json`).
+- **Auswilderung** (`06:wrAuswild`): nur noch am 1. Herbsttag ein Gehege.
+- **Futter nur Lauf-Deck** (`08:feedPool`/`feedLists`): Futterwahl (`feed`) und Futterlieferung (`futter`) zeigen nur Karten, die als Mehrfachmenge in `run.deck` stehen; gebaute Gehege zählen zuerst (Schlüssel gleich oder `bldK` gleich), dann Deck/Ablage/Hand. Ohne Lauf und im Tutorial wie bisher. Füttern eines Gebäudes findet den Lauf-Deck-Eintrag auch bei Ausgaben (`~g` …).
+- **Icons mit mehreren Emojis** (`02:icSplit`/`icB`): erstes Graphem groß, weitere als Abzeichen `.icx` (Hand, Angebot, Kartenlisten, Zoo-Buch, Brett über `icSvg`). ZWJ-Emojis (🐻‍❄️) bleiben ein Graphem.

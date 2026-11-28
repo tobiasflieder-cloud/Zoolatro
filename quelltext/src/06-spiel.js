@@ -198,7 +198,7 @@ const etatOn=()=>!!(typeof state!=='undefined'&&state&&state.rule&&state.rule.id
 const WR_DATEN=/*@@DATEN:kontinente@@*/null,WRL=WR_DATEN.lauf,WRK=WR_DATEN.kontinente,WRLV=Object.fromEntries(Object.entries(AUFA).map(([k,v])=>[k,v.stufe])),WRZ=WR_DATEN.ziel_auflagen,
   WRB=Object.assign({},WR_DATEN.belohnungen.sofort,WR_DATEN.belohnungen.dauerhaft),WRNOW=Object.keys(WR_DATEN.belohnungen.sofort),WRPERM=Object.keys(WR_DATEN.belohnungen.dauerhaft),WRLVN={leicht:'e',mittel:'m',schwer:'h'};
 for(const id in WRZ){const Z=WRZ[id];RULES[id]={icon:Z.icon,name:Z.name,wr:1,ziel:1,text:()=>Z.text+' Sonst ist der Zoo gescheitert.'}}
-RULES.auswild={icon:'🦓',name:'Auswilderung',wr:1,text:()=>'Am 1. Sommertag und am 1. Herbsttag wird je ein zufälliges Gehege ausgewildert: Das Feld wird frei, die Karte verlässt dein Lauf-Deck.'};
+RULES.auswild={icon:'🦓',name:'Auswilderung',wr:1,text:()=>'Am 1. Herbsttag wird ein zufälliges Gehege ausgewildert: Das Feld wird frei, die Karte verlässt dein Lauf-Deck.'};
 let WRCTX=null; // nur beim Vorab-Erzeugen eines Ziels: {foc, rule, rw, eu}
 const wrRun=()=>{try{const r=runOf();return r&&r.wr&&!r.tut?r:null}catch(e){return null}},wrOn=()=>!!wrRun();
 // 0.87a: Ziel mit schwerer Auflage → nur leichte Winter-Bedingungen (beim Vorab-Erzeugen über WRCTX, im Zoo über state.rule)
@@ -259,8 +259,8 @@ function wrGoal(bs){const R=state&&state.rule,Z=R&&WRZ[R.id];if(!Z)return null;b
   else if(R.id==='z_arten')n=cnt(G,b=>(CARDS[b.key].tags||[]).includes('bedroht'));else if(R.id==='z_nachwuchs')n=cnt(G,b=>!!CARDS[b.key].jt)+(state.day===DAYS-1&&state.season===SEASONS.length-1&&state.z2bornD===dayKeyNow()?(state.z2born||[]).length:0); // 0.96a: am letzten Wintertag zählt ein heute geborenes Jungtier
   return{id:R.id,Z,n:Math.min(n,need),need,ok:n>=need,unit:R.id==='z_vielfalt'?' Lebensräume':''}}
 const wrBadge=()=>{const G=state&&state.zl&&wrOn()&&wrGoal();if(!G)return'';const bad=state.season===3&&!G.ok;return`<button class="evb wbb wrb${G.ok?' ok':''}${bad?' bad':''}" data-ev="zoo" title="Ziel-Auflage ${G.Z.name}: bis Ende Winter" aria-label="Ziel-Auflage ${G.Z.name}: ${G.n} von ${G.need}">${G.Z.icon} ${G.ok?'✓':G.n+'/'+G.need}</button>`};
-// Auswilderung: am 1. Sommer- und 1. Herbsttag (0.87a, vorher Winter) ein zufälliges Gehege weg (Feld frei, Karte aus dem Lauf-Deck)
-function wrAuswild(){const R=state&&state.rule;if(!R||R.id!=='auswild'||!wrOn()||state.day!==0||!(state.season===1||state.season===2))return;const dn=state.wrAus=state.wrAus||{};if(dn[state.season])return;dn[state.season]=1;
+// Auswilderung: am 1. Herbsttag (0.9901a; 0.87a Sommer+Herbst, vorher Winter) ein zufälliges Gehege weg (Feld frei, Karte aus dem Lauf-Deck)
+function wrAuswild(){const R=state&&state.rule;if(!R||R.id!=='auswild'||!wrOn()||state.day!==0||state.season!==2)return;const dn=state.wrAus=state.wrAus||{};if(dn[state.season])return;dn[state.season]=1;
   const G=state.buildings.filter(b=>CARDS[b.key]&&CARDS[b.key].cat==='gehege'&&!CARDS[b.key].ms);if(!G.length)return;const b=G[Math.floor(Math.random()*G.length)],run=wrRun();
   state.buildings=state.buildings.filter(x=>x!==b);state.undo=[];let out=0;if(run){const L=run.deck.map((k,i)=>[k,i]).filter(([k])=>CARDS[k]&&baseK(k)===baseK(b.key)),hit=L.find(([k])=>(CARDS[k].pr||null)===(b.pr||null)&&!CARDS[k].ed===!b.ed)||L[0];
     if(hit){run.deck.splice(hit[1],1);out=1;(run.wrGone=run.wrGone||[]).push(hit[0])}}

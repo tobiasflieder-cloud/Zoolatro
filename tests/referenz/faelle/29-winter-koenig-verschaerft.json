@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 242,
+ "A": 236,
  "S": 228,
- "total": 55176,
+ "total": 53808,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1894,7 +1894,7 @@
   },
   {
    "id": 7,
-   "a": 48,
+   "a": 44,
    "s": 24,
    "parts": [
     [
@@ -1908,18 +1908,18 @@
      2
     ],
     [
-     "🎭 Showtier: ×1,5",
-     4,
+     "🎭 Showtier: ×1,4",
+     3,
      2
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     12,
+     11,
      6
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     24,
+     22,
      12
     ]
    ]

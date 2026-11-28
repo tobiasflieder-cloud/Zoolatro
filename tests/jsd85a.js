@@ -73,7 +73,7 @@ const start=(w,wr,habs,stage)=>w.eval(base+`META.wr=${wr?1:0};META.klassik=(${wr
  r1=winter('z_vorzeige',0,1);T(r1[0]!=='lost'&&r1[0]!=='win','Saisonziel früh erreicht, Auflage offen → es geht weiter');
  ev(`state.rule={id:'z_vorzeige'};state.season=3;state.phase='play';render()`);T(!!d.querySelector('.wrb.bad'),'Schild in der Leiste, im Winter rot');
  // 6. Auswilderung
- const aus=J(`(()=>{const r=runOf(),k=r.deck.find(k=>CARDS[k].cat==='gehege');state.rule={id:'auswild'};state.buildings=[{id:950,key:baseK(k),cells:[[0,0]],lvl:1}];state.wrAus={};state.season=1;state.day=0;state.phase='play';const n0=r.deck.length,c0=r.deck.filter(x=>baseK(x)===baseK(k)).length;wrAuswild();return{b:state.buildings.length,dn:n0-r.deck.length,dk:c0-r.deck.filter(x=>baseK(x)===baseK(k)).length,pop:!!state.wrAusPop}})()`);
+ const aus=J(`(()=>{const r=runOf(),k=r.deck.find(k=>CARDS[k].cat==='gehege');state.rule={id:'auswild'};state.buildings=[{id:950,key:baseK(k),cells:[[0,0]],lvl:1}];state.wrAus={};state.season=2;state.day=0;state.phase='play';const n0=r.deck.length,c0=r.deck.filter(x=>baseK(x)===baseK(k)).length;wrAuswild();return{b:state.buildings.length,dn:n0-r.deck.length,dk:c0-r.deck.filter(x=>baseK(x)===baseK(k)).length,pop:!!state.wrAusPop}})()`);
  T(aus.b===0&&aus.dn===1&&aus.dk===1&&aus.pop,`Auswilderung: Gehege weg, Karte aus dem Lauf-Deck, Einblendung (${JSON.stringify(aus)})`);
  ev(`modal=null;state.ruleIntro=0;render()`);T(/Auswilderung/.test((d.getElementById('wrAusPop')||{}).textContent||''),'Auswilderung wird eingeblendet');
  T(ev(`(()=>{state.buildings=[{id:951,key:Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'),cells:[[0,0]],lvl:1}];wrAuswild();return state.buildings.length})()`)===1,'nur einmal je Jahreszeit');

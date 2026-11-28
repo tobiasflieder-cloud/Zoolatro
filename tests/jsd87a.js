@@ -37,7 +37,7 @@ const start=(w,o={})=>w.eval(base+`META.wr=${o.wr?1:0};META.klassik=(${o.wr?1:0}
  T(/❄️ (leicht|schwer)/.test(ev(`(()=>{modal='insp';renderModal();const t=document.getElementById('modalRoot').textContent;modal=null;renderModal();return t})()`)),'Winter-Fenster zeigt „❄️ leicht/schwer“');
  // 6. Auswilderung am 1. Sommer- und 1. Herbsttag, nicht im Winter
  const au=J(`(()=>{const r=runOf(),k=r.deck.find(k=>CARDS[k].cat==='gehege');state.rule={id:'auswild'};const go=s=>{state.buildings=[{id:950+s,key:baseK(k),cells:[[0,0]],lvl:1}];state.wrAus={};state.season=s;state.day=0;wrAuswild();return state.buildings.length};return[1,2,3].map(go)})()`);
- T(au.join()==='0,0,1',`Auswilderung im Sommer und Herbst, nicht im Winter (${au})`);
+ T(au.join()==='1,0,1',`Auswilderung nur im Herbst (0.9901a), nicht im Sommer und Winter (${au})`);
  // 7. Natur-Anteil 0,4
  T(ev(`WRL.natur_anteil`)===0.4,'Weltreise: Natur-Anteil 0,4');
  // 11. Leichter Boden nicht mit Gebirge

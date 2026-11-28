@@ -12,7 +12,7 @@ const lose=w=>w.eval(`(()=>{const sl=activeSlot();state.phase='lost';sl.run.game
  const sk=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&CARDS[k].tags.includes('show')&&!CARDS[k].gone&&!k.includes('~'))`),fk=ev(`Object.keys(CARDS).find(k=>CARDS[k].cat==='essen'&&TRAITS.trubel.includes(k)&&!CARDS[k].gone&&SHAPES[CARDS[k].shape].cells.length===1)`);
  ev(`(()=>{const[q,r]=BOARD.find(([q,r])=>!TERR.get(hk(q,r))&&DIRS.every(([a,b])=>BOARD.some(([x,y])=>x===q+a&&y===r+b)));state.buildings=[{id:900,key:'${sk}',cells:[[q,r]],lvl:1}];state.hand=['${fk}'];state.selected=0;state.phase='play';render()})()`);
  const bt=[...d.querySelectorAll('#board .trl text')].map(e=>e.textContent).join(' | ');
- T(/🎭×1,5/.test(bt.replace(/\s/g,''))&&!/%/.test(bt),'Show-Schild zeigt „🎭 ×1,5“, kein „%“ (seit 0.99a; '+bt+')');
+ T(/🎭×1,4/.test(bt.replace(/\s/g,''))&&!/%/.test(bt),'Show-Schild zeigt „🎭 ×1,4“, kein „%“ (seit 0.9901a; '+bt+')');
  const src=ev(`[...document.scripts].map(s=>s.textContent).join('')`);T(!/Show \+[36]0 %|🙈 \+30 %/.test(src),'keine festen „+30 %“-Schilder mehr im Code');
  // 2. Ziele ×0,6 im Testlauf
  const z5=ev(`[0,1,2,3].map(i=>seTarget(i,true,0))`).join?JSON.parse(ev(`JSON.stringify([0,1,2,3].map(i=>seTarget(i,true,0)))`)):null;dom.window.close();

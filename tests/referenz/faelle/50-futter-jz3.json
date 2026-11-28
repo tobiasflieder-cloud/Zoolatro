@@ -1626,9 +1626,9 @@
  ]
 },
 "erwartet":{
- "A": 509,
- "S": 389,
- "total": 198001,
+ "A": 499,
+ "S": 386,
+ "total": 192614,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1830,7 +1830,7 @@
   },
   {
    "id": 7,
-   "a": 18,
+   "a": 16,
    "s": 12,
    "parts": [
     [
@@ -1844,13 +1844,13 @@
      2
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
+     "🎭 Showtier: ×1,4",
+     2,
      2
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     9,
+     8,
      6
     ]
    ]
@@ -1985,8 +1985,8 @@
   },
   {
    "id": 15,
-   "a": 40,
-   "s": 16,
+   "a": 37,
+   "s": 14,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2009,14 +2009,14 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     8,
-     3
+     "🎭 Showtier: ×1,4",
+     6,
+     2
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     17,
-     7
+     16,
+     6
     ]
    ]
   },
@@ -2079,8 +2079,8 @@
   },
   {
    "id": 20,
-   "a": 34,
-   "s": 30,
+   "a": 31,
+   "s": 29,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2103,24 +2103,24 @@
      7
     ],
     [
-     "🎭 Showtier: ×1,5",
-     8,
-     7
+     "🎭 Showtier: ×1,4",
+     6,
+     6
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     12,
-     11
+     11,
+     10
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     9,
+     8,
      8
     ],
     [
      "2. Korallenriff 🌰: zählt ×0,75 des eigenen Werts",
-     -11,
-     -10
+     -10,
+     -9
     ]
    ]
   },

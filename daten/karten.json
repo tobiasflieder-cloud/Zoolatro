@@ -132,5 +132,8 @@
 {"key":"zirkus","icon":"🎪","cat":"attr","shape":"t3","a":4,"s":0,"rar":"selten","tags":["gross","trubel"]},
 {"key":"lotterie","icon":"🎫","cat":"essen","shape":"s1","a":2,"s":0,"rar":"selten","tags":["trubel"]},
 {"key":"tribuene","icon":"🏟️","cat":"attr","shape":"s1","a":6,"s":0,"rar":"sehr selten","tags":["trubel"]},
-{"key":"flossteil","icon":"🛶","cat":"attr","shape":"s1","a":0,"s":0,"rar":"spezial","sig":"floss","tags":["ruhig"]}
+{"key":"flossteil","icon":"🛶","cat":"attr","shape":"s1","a":0,"s":0,"rar":"spezial","sig":"floss","tags":["ruhig"]},
+{"key":"tarnzelt","tags":["einmalig"],"icon":"🏕️","cat":"verst","shape":"s1","a":0,"s":0,"rar":"sehr selten","preis":1},
+{"key":"faehrte","tags":["einmalig"],"icon":"🥾","cat":"verst","shape":"s1","a":0,"s":0,"rar":"sehr selten","preis":1},
+{"key":"artengala","tags":["einmalig"],"icon":"🩺","cat":"verst","shape":"s1","a":0,"s":0,"rar":"sehr selten","preis":1}
 ]}

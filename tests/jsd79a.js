@@ -8,7 +8,7 @@ const start=(w,o={})=>w.eval(`for(const k in Sfx)if(typeof Sfx[k]==='function')S
  let dom=neu(),w=dom.window,d=w.document,ev=x=>w.eval(x);await wait(200);start(w,{neu:1});
  T(ev('VERSION')==='0.79a','Version');
  T(!ev('runOf().fsPick')&&!ev('runOf().fsIntro'),'kein fsPick: keine 3 Ziele je Lauf');
- T(ev(`FSG.filter(g=>g.fl).length`)===27&&ev(`FSG.find(g=>g.id==='c:krokodile').n`)===150&&ev(`FSG.find(g=>g.id==='c:aquarium').fl`)==='wasserGeh','27 Fleiß-Ziele aus daten/freischaltungen.json (Krokodil 150, Aquarium Wasser-Gehege)');
+ T(ev(`FSG.filter(g=>g.fl).length`)===30&&ev(`FSG.find(g=>g.id==='c:krokodile').n`)===150&&ev(`FSG.find(g=>g.id==='c:aquarium').fl`)==='wasserGeh','30 Fleiß-Ziele (0.9901a: +3 Promis) aus daten/freischaltungen.json (Krokodil 150, Aquarium Wasser-Gehege)');
  // alle Kunststücke zählen: Dingos (6 Wüste) ohne Auswahl
  ev(`(()=>{const F=BOARD.filter(([q,r])=>!TERR.get(hk(q,r)));const W=Object.keys(CARDS).find(k=>CARDS[k].cat==='gehege'&&CARDS[k].hab==='wueste'&&SHAPES[CARDS[k].shape].cells.length===1&&!CARDS[k].ms&&!fsLocked(k));state.buildings=F.slice(0,6).map((c,i)=>({id:900+i,key:W,cells:[c],lvl:1}));fsCheck('season')})()`);
  T(ev(`!!fsOf(activeSlot())['c:dingos']`),'Kunststück ohne Auswahl zählt (Dingo-Revier mit 6 Wüsten-Gehegen)');

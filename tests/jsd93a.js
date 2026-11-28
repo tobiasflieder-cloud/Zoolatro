@@ -36,11 +36,11 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
    put([[s,A0]]);const ts=TUTNOW;TUTNOW=true;o.tut=lines(state.buildings[0]);o.tsp=showSpecHtml(state.buildings[0],state.buildings,K(state.buildings[0]),mkIndex(state.buildings));TUTNOW=ts;syncCtx();
    state.phase='play';put([[s,A0]]);META.pvOff=0;render();o.mark=!!document.querySelector('#board .bored');META.pvOff=1;render();o.mark0=!!document.querySelector('#board .bored');META.pvOff=0;return o})()`);
  T(/jetzt ×0,8 B/.test(sp.z.now)&&/höchstens ×2,25/.test(sp.z.now)&&/kein/.test(sp.z.on),`Spektrum 0 Auslöser: jetzt ×0,8 B (${sp.z.now})`);
- T(/jetzt ×1,5/.test(sp.e.now)&&/1×1,5/.test(sp.e.on)&&/2×2,0\|3×2,25/.test(sp.e.lad),`Spektrum 1 Auslöser: jetzt ×1,5, Leiter ${sp.e.lad}`);
- T(/jetzt ×2,25/.test(sp.v.now),`Spektrum 3 Auslöser: gedeckelt ×2,25 (${sp.v.now})`);
- T(/jetzt ×2,0/.test(sp.n.now)&&/Nova/.test(sp.n.now)&&/1×2,0\|2×2,25/.test(sp.n.lad),`Spektrum mit Nova: verdoppelte Stufen (${sp.n.lad})`);
- T(/jetzt ×1,6/.test(sp.b.now)&&/Belugas/.test(sp.b.now),`Spektrum Belugas: ×1,6 (${sp.b.now})`);
- T(/😴 Showtier gelangweilt: ×0,8 B/.test(sp.zl)&&!/gelangweilt/.test(sp.el)&&/Showtier: ×1,5/.test(sp.el),'Showtier allein ×0,8 B, mit 1 trubeligem Gastro ×1,5 (0.99a)');
+ T(/jetzt ×1,4/.test(sp.e.now)&&/1×1,4/.test(sp.e.on)&&/2×1,8\|3×2,2\|4\+×2,25/.test(sp.e.lad),`Spektrum 1 Auslöser: jetzt ×1,4, Leiter ${sp.e.lad}`);
+ T(/jetzt ×2,2(?!\d)/.test(sp.v.now),`Spektrum 3 Auslöser: ×2,2 (${sp.v.now})`);
+ T(/jetzt ×1,8/.test(sp.n.now)&&/Nova/.test(sp.n.now)&&/1×1,8\|2×2,25/.test(sp.n.lad),`Spektrum mit Nova: verdoppelte Stufen (${sp.n.lad})`);
+ T(/jetzt ×1,5/.test(sp.b.now)&&/Belugas/.test(sp.b.now),`Spektrum Belugas: ×1,5 (${sp.b.now})`);
+ T(/😴 Showtier gelangweilt: ×0,8 B/.test(sp.zl)&&!/gelangweilt/.test(sp.el)&&/Showtier: ×1,4/.test(sp.el),'Showtier allein ×0,8 B, mit 1 trubeligem Gastro ×1,4 (0.9901a)');
  T(!/gelangweilt/.test(sp.tut)&&sp.tsp==='','nicht im Tutorial');T(sp.mark&&!sp.mark0,'Schild „😴 ×0,8“ nur mit Vorschau');
  // Tutorial: kein Knopf
  ev(base+`screen='tut';screenArg={};renderAll()`);d.querySelector('[data-tutch]').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));ev('render()');await wait(50);T(d.getElementById('btnProf').hidden,'Profil-Knopf im Tutorial weg');

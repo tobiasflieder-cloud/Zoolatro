@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 432,
- "S": 275,
- "total": 118800,
+ "A": 426,
+ "S": 268,
+ "total": 114168,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1895,7 +1895,7 @@
   {
    "id": 7,
    "a": 12,
-   "s": 8,
+   "s": 4,
    "parts": [
     [
      "Dschungel-Naturfläche",
@@ -1908,19 +1908,19 @@
      -1
     ],
     [
-     "🎭 Showtier: ×1,5",
+     "🎭 Showtier: ×1,4",
      1,
-     1
+     0
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
      3,
-     2
+     1
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
      6,
-     4
+     2
     ]
    ]
   },
@@ -2089,7 +2089,7 @@
   },
   {
    "id": 15,
-   "a": 50,
+   "a": 46,
    "s": 10,
    "parts": [
     [
@@ -2108,18 +2108,18 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     5,
+     "🎭 Showtier: ×1,4",
+     4,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     11,
+     10,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     25,
+     23,
      5
     ]
    ]
@@ -2184,7 +2184,7 @@
   {
    "id": 20,
    "a": 14,
-   "s": 12,
+   "s": 9,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2207,24 +2207,24 @@
      -3
     ],
     [
-     "🎭 Showtier: ×1,5",
+     "🎭 Showtier: ×1,4",
      2,
-     2
+     1
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
      3,
-     3
+     2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
      9,
-     8
+     6
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
      -4,
-     -4
+     -3
     ]
    ]
   },

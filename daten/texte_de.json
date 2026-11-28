@@ -105,7 +105,7 @@
 "schneehasen":{"name":"Schneehasen","fx":[]},
 "moschusochsen":{"name":"Moschusochsen","fx":[]},
 "rentiere":{"name":"Rentierherde","fx":["+2 B|im Winter","🔗 +1 N|je benachbartes Arktis-Gehege (Herde)"]},
-"belugas":{"name":"Belugabecken","fx":["🔗 Show ×1,45|mit einem Gastro-Gebäude oder einer Attraktion daneben statt ×1,35 (mit zweien ×1,9 statt ×1,7)"]},
+"belugas":{"name":"Belugabecken","fx":["🔗 Show ×1,5|je 🎉 trubeligen Nachbarn statt ×1,4 (bis ×2,25)"]},
 "schneegaense":{"name":"Schneegänse","fx":[]},
 "lemminge":{"name":"Lemminge","fx":[]},
 "polarstation":{"name":"Polarstation","fx":["+2 N|je benachbartes Arktis-Gehege","🔗 kein Sommer-Abzug|für Arktis-Gehege daneben"]},
@@ -113,8 +113,11 @@
 "besucherlotse":{"name":"Mia Megaviral","fx":["×1,5 B|für alle Nachbarn"],"story":"Mia Megaviral streamt live aus dem Zoo, ihre Follower stürmen jedes Gehege in ihrer Nähe."},
 "scheinwerfer":{"name":"Stella Starr","fx":["×2,5|für das stärkste benachbarte Gehege"],"story":"Stella Starr dreht ihren neuen Film im Zoo, und das schönste Gehege bekommt die Hauptrolle."},
 "winterquartier":{"name":"Sven Frost","fx":["kein ❄️|Nachbarn sind von der Winter-Bedingung ausgenommen und frieren nicht","×1,2|für alle Nachbarn im Winter"],"story":"Sven Frost überwintert im Zoo, und mit ihm frieren selbst die Nachbarn nicht."},
-"buehne":{"name":"Nova","fx":["🎭 ×2|Benachbarte Showtiere bekommen ihren Show-Bonus, als stünde eine Attraktion daneben, und er zählt doppelt (bis ×2,5)"],"story":"Nova gibt ein Konzert im Zoo, und die Showtiere tanzen mit."},
-"ruhezone":{"name":"Luna Lotus","fx":["kein Trubel|für scheue Nachbarn","×1,25 N|für scheue Nachbarn"],"story":"Luna Lotus gibt Meditationskurse, und die scheuen Tiere finden endlich Ruhe."},
+"buehne":{"name":"Nova","fx":["🎭 ×1,8|Benachbarte Showtiere bekommen ihren Show-Bonus, als stünde ein trubeliges Gebäude daneben, und er zählt doppelt (bis ×2,25)"],"story":"Nova gibt ein Konzert im Zoo, und die Showtiere tanzen mit."},
+"ruhezone":{"name":"Luna Lotus","fx":["🤫 ×1,8|Benachbarte scheue Tiere bekommen ihren Ruhe-Bonus, als stünde ein ruhiges Gebäude daneben, und er zählt doppelt (bis ×2,25)","kein Trubel|für scheue Nachbarn"],"story":"Luna Lotus gibt Meditationskurse, und die scheuen Tiere finden endlich Ruhe."},
+"tarnzelt":{"name":"Wanda Wildnis","fx":["🌿 ×1,8|Benachbarte Beutetiere bekommen ihren Versteck-Bonus, als stünde ein Naturschutz-Gebäude daneben, und er zählt doppelt (bis ×2,25)"],"story":"Naturfilmerin Wanda Wildnis dreht eine Tarn-Doku, und die Beutetiere zeigen ihr die besten Verstecke."},
+"faehrte":{"name":"Rocco Revier","fx":["🦷 ×1,8|Benachbarte Raubtiere bekommen ihren Revier-Bonus, als stünde ein Beutetier zwei Felder entfernt, und er zählt doppelt (bis ×2,25)"],"story":"Fährtenleser Rocco Revier führt Abenteuertouren, und die Raubtiere zeigen stolz ihr Revier."},
+"artengala":{"name":"Rosa Rettung","fx":["×1,5 N|für benachbarte bedrohte Tiere"],"story":"Rosa Rettung veranstaltet eine Spendengala für bedrohte Arten, und die Gehege nebenan profitieren davon."},
 "teestube":{"name":"Teestube","fx":["+1 B und 1 🪙|je benachbartes Arktis-Gehege"]},
 "polarlicht":{"name":"Polarlicht-Kuppel","fx":["+2 B|je andere Arktis-Gehege-Art im Zoo"]},
 "steinboecke":{"name":"Steinböcke","fx":[]},
@@ -130,7 +133,7 @@
 "gipfel":{"name":"Gipfelpanorama","fx":["+2 B|je andere Gebirgs-Gehege-Art im Zoo"]},
 "zirkus":{"name":"Zirkus-Zelt","fx":["×2|mit 1 zu 5 Chance am Tag: alle Showtiere zählen heute doppelt"]},
 "lotterie":{"name":"Lotterie-Bude","fx":["+1 bis +10 Taler|jeden Tag, ausgelost"]},
-"tribuene":{"name":"Tribüne","fx":["×1,5|🎭 Showtiere im Umkreis von 2 Feldern bekommen den Show-Bonus wie von einem 🎉 Trubel-Nachbarn","🙈 stört scheue Tiere im Umkreis von 2 Feldern"]},
+"tribuene":{"name":"Tribüne","fx":["×1,4|🎭 Showtiere im Umkreis von 2 Feldern bekommen den Show-Bonus wie von einem 🎉 Trubel-Nachbarn","🙈 stört scheue Tiere daneben"]},
 "flossteil":{"name":"Floß-Teil","fx":["Flussteil|für die Flößerin: je Teil der längsten zusammenhängenden Strecke ×1,1 B für den Zoo"]}
 },
 "ensemble":{
@@ -207,12 +210,12 @@
 "team":{"name":"Teamsitzung","text":"Im Winter zählen nur die ersten 3 Spezialisten deiner Team-Reihe. Die Reihenfolge änderst du per Ziehen."}
 },
 "tagfx":{
-"beute":"🐇 Beute|gestresst, wenn ein Raubtier daneben steht: Zoo ×0,95 Natur. 🌿 Versteck: ×1,3 B und N je Naturschutz-Gebäude daneben (bis ×2,25)",
-"raubtier":"🦷 Raubtier|stresst Beutetiere daneben. 🦷 Revier: ×1,25 B und N je Beutetier in genau 2 Feldern Abstand (bis ×2,25)",
-"scheu":"🙈 Scheu|gestresst, wenn ein 🎉 trubeliges Gastro-Gebäude oder eine trubelige Attraktion daneben steht: Zoo ×0,95 Natur. 🤫 Ruhe: ×1,5 B und N je ruhiges daneben (bis ×2,25)",
-"show":"🎭 Showtier|×1,5 B und N je 🎉 trubeliges Gastro-Gebäude oder trubelige Attraktion daneben (Tribüne auch 2 Felder entfernt), bis ×2,25. Ohne Trubel langweilt es sich: ×0,8 B",
-"ruhig":"🤫 Ruhig|scheue Tiere daneben ×1,5, stört sie nicht",
-"trubel":"🎉 Trubel|Showtiere daneben ×1,5, stresst scheue Tiere daneben"
+"beute":"🐇 Beute|gestresst, wenn ein Raubtier daneben steht: Zoo ×0,95 Natur. 🌿 Versteck: ×1,4 B und N je Naturschutz-Gebäude daneben (bis ×2,25)",
+"raubtier":"🦷 Raubtier|stresst Beutetiere daneben. 🦷 Revier: ×1,4 B und N je Beutetier in genau 2 Feldern Abstand (bis ×2,25)",
+"scheu":"🙈 Scheu|gestresst, wenn ein 🎉 trubeliges Gastro-Gebäude oder eine trubelige Attraktion daneben steht: Zoo ×0,95 Natur. 🤫 Ruhe: ×1,4 B und N je ruhiges daneben (bis ×2,25)",
+"show":"🎭 Showtier|×1,4 B und N je 🎉 trubeliges Gastro-Gebäude oder trubelige Attraktion daneben (Tribüne auch 2 Felder entfernt), bis ×2,25. Ohne Trubel langweilt es sich: ×0,8 B",
+"ruhig":"🤫 Ruhig|scheue Tiere daneben ×1,4, stört sie nicht",
+"trubel":"🎉 Trubel|Showtiere daneben ×1,4, stresst scheue Tiere daneben"
 },
 "event":{
 "hitze":{"name":"Extreme Hitze"},

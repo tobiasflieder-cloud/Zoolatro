@@ -1152,9 +1152,9 @@
  ]
 },
 "erwartet":{
- "A": 242,
- "S": 135,
- "total": 32670,
+ "A": 229,
+ "S": 124,
+ "total": 28396,
  "mults": [
   {
    "label": "Kronenfeld",
@@ -1204,8 +1204,8 @@
   },
   {
    "id": 2,
-   "a": 35,
-   "s": 16,
+   "a": 31,
+   "s": 13,
    "parts": [
     [
      "Dschungel-Nachbarn",
@@ -1218,31 +1218,31 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,5",
-     4,
-     2
+     "🎭 Showtier: ×1,4",
+     3,
+     1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     11,
-     5
+     10,
+     4
     ],
     [
      "🤝 Freundschaft mit Affeninsel ×1,25",
-     6,
-     3
+     5,
+     2
     ],
     [
      "❤️ neben dem Besucherliebling ×1,25",
-     7,
+     6,
      3
     ]
    ]
   },
   {
    "id": 3,
-   "a": 12,
-   "s": 12,
+   "a": 10,
+   "s": 10,
    "parts": [
     [
      "Arktis-Nachbarn",
@@ -1260,14 +1260,14 @@
      0
     ],
     [
-     "🤫 Ruhe: ×2,0",
-     3,
-     3
+     "🤫 Ruhe: ×1,8",
+     2,
+     2
     ],
     [
      "🧊 Nordlage ×2",
-     6,
-     6
+     5,
+     5
     ]
    ]
   },
@@ -1328,12 +1328,12 @@
    "s": 2,
    "parts": [
     [
-     "🎭 Showtier: ×1,5",
+     "🎭 Showtier: ×1,4",
      1,
      1
     ],
     [
-     "🌿 Versteck: ×1,3",
+     "🌿 Versteck: ×1,4",
      1,
      1
     ],
@@ -1372,7 +1372,7 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
+     "🎭 Showtier: ×1,4",
      1,
      1
     ],
@@ -1422,7 +1422,7 @@
      0
     ],
     [
-     "🌿 Versteck: ×1,3",
+     "🌿 Versteck: ×1,4",
      2,
      1
     ],
@@ -1459,8 +1459,8 @@
   },
   {
    "id": 15,
-   "a": 40,
-   "s": 10,
+   "a": 36,
+   "s": 6,
    "parts": [
     [
      "Dschungel-Nachbarn",
@@ -1468,14 +1468,14 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
-     1
+     "🎭 Showtier: ×1,4",
+     2,
+     0
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     8,
-     2
+     7,
+     1
     ],
     [
      "🤝 Freundschaft mit Papageien-Voliere ×1,25",
@@ -1484,8 +1484,8 @@
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     20,
-     5
+     18,
+     3
     ]
    ]
   },

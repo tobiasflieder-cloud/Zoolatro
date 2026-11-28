@@ -28,6 +28,12 @@
   "scheuGeh": {
    "name": "scheue Tiere gebaut"
   },
+  "beuteGeh": {
+   "name": "Beutetiere gebaut"
+  },
+  "bedrohtGeh": {
+   "name": "bedrohte Arten gebaut"
+  },
   "attrB": {
    "name": "Attraktionen gebaut"
   },
@@ -190,6 +196,21 @@
   {
    "id": "v:ruhezone",
    "z": "scheuGeh",
+   "n": 100
+  },
+  {
+   "id": "v:tarnzelt",
+   "z": "beuteGeh",
+   "n": 100
+  },
+  {
+   "id": "v:faehrte",
+   "z": "raubtier",
+   "n": 60
+  },
+  {
+   "id": "v:artengala",
+   "z": "bedrohtGeh",
    "n": 100
   },
   {

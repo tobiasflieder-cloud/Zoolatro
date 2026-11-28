@@ -1221,9 +1221,9 @@
  ]
 },
 "erwartet":{
- "A": 431,
- "S": 328,
- "total": 141368,
+ "A": 427,
+ "S": 336,
+ "total": 143472,
  "mults": [
   {
    "label": "Nachtführung",
@@ -1311,7 +1311,7 @@
   },
   {
    "id": 3,
-   "a": 24,
+   "a": 22,
    "s": 12,
    "parts": [
     [
@@ -1325,13 +1325,13 @@
      3
     ],
     [
-     "🎭 Showtier: ×1,5",
-     4,
+     "🎭 Showtier: ×1,4",
+     3,
      2
     ],
     [
      "💧 Fluss: Kette aus 9 ×2",
-     12,
+     11,
      6
     ]
    ]
@@ -1377,8 +1377,8 @@
   },
   {
    "id": 6,
-   "a": 40,
-   "s": 44,
+   "a": 44,
+   "s": 52,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1391,19 +1391,19 @@
      3
     ],
     [
-     "🌿 Versteck: ×1,9",
-     5,
-     5
+     "🌿 Versteck: ×2,2",
+     6,
+     7
     ],
     [
      "💧 Fluss: Kette aus 9 ×2",
-     10,
-     11
+     11,
+     13
     ],
     [
      "❤️ Besucherliebling des Tages ×2,0",
-     20,
-     22
+     22,
+     26
     ]
    ]
   },
@@ -1588,8 +1588,8 @@
   },
   {
    "id": 14,
-   "a": 18,
-   "s": 8,
+   "a": 17,
+   "s": 6,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -1607,25 +1607,25 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     4,
-     2
+     "🎭 Showtier: ×1,4",
+     3,
+     1
     ],
     [
      "💧 Fluss: Kette aus 9 ×2",
-     12,
-     5
+     11,
+     4
     ],
     [
      "2. Seelöwenbucht: zählt ×0,75 des eigenen Werts",
-     -6,
+     -5,
      -2
     ]
    ]
   },
   {
    "id": 15,
-   "a": 23,
+   "a": 20,
    "s": 8,
    "parts": [
     [
@@ -1634,18 +1634,18 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
+     "🎭 Showtier: ×1,4",
+     2,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     9,
+     8,
      3
     ],
     [
      "🤝 Freundschaft mit Affeninsel ×1,25",
-     5,
+     4,
      2
     ]
    ]

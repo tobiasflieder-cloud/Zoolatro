@@ -5,6 +5,14 @@ Neueste Version oben. Nach 0.96 hat die Zählung neu begonnen: Auf 0.96 folgt 0.
 
 ---
 
+## 0.9901a · 28.11.2026 · Merkmale ausgeglichen, Promis je Merkmal, Auswilderung, Futter
+- 🎭🤫🌿🦷 **Merkmale gleich stark:** Show (trubelige Nachbarn), Ruhe (ruhige Nachbarn für scheue Tiere), Versteck (Naturschutz für Beute) und Revier (Beute zwei Felder entfernt) bringen jetzt alle ×1,4 je Auslöser, höchstens ×2,25. Belugabecken ×1,5, Leckerli ×1,55.
+- ⚡ **Neue Promis (Namen vorläufig):** 🏕️ **Wanda Wildnis** verdoppelt den Versteck-Bonus benachbarter Beutetiere, 🥾 **Rocco Revier** den Revier-Bonus benachbarter Raubtiere, 🩺 **Rosa Rettung** gibt bedrohten Nachbarn ×1,5 Natur. Freischalten: 100 Beutetiere, 60 Raubtiere bzw. 100 bedrohte Arten bauen (über alle Läufe).
+- 🧘 **Luna Lotus wirkt jetzt wie Nova:** Scheue Nachbarn bekommen Ruhe, als stünde ein ruhiges Gebäude daneben, und der Bonus zählt doppelt (×1,8). Vor Stress schützt sie weiter.
+- 🦓 **Auswilderung milder:** nur noch ein Gehege, am 1. Herbsttag.
+- 🥕 **Futter nur für Karten aus deinem Lauf-Deck:** Karten, die du nur für diesen Zoo bekommen hast (Kartenwahl zwischen den Tagen, Shop, Glück), stehen nicht mehr in der Futterwahl, denn ihr Futter wäre nach dem Zoo weg.
+- 🦌 **Tiere mit zwei Symbolen** (Addax 🦌🏜️, Schneeleoparden 🐆❄️) zeigen das zweite Symbol jetzt klein in der Ecke statt groß darüber.
+
 ## 0.99a · 26.11.2026 · Stella, Lebensraum-Prüfung, Merkmale, Lauf-Rückblick
 - 🎬 **Stella Starr setzt jetzt wirklich das stärkste Gehege in Szene:** Es zählt der tatsächliche Wert (Ausbau, Futter, Nachbarn …), nicht mehr der aufgedruckte.
 - ❄️ **Lebensraum-Prüfung im Winter milder:** Die Gehege des häufigsten Lebensraums zählen ×0,75, ab Zoo 3 ×0,5 (vorher die Hälfte bzw. gar nicht).

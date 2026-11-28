@@ -160,7 +160,7 @@ function endRun(won){const sl=activeSlot(),run=sl.run,date=Date.now();if(run.tut
 // Verstärker freischalten: Bedingungen am Ende eines geschafften Zoos; neu freigeschaltete kommen sofort einmal ins Deck
 function verstUnlock(sl,run){run.vNow=[];run.newNow=[];fsMig(sl);return;sl.vu=sl.vu||{};if(run&&run.seed)return;const bs=state.buildings,n=t=>cnt(bs,b=>CARDS[b.key].cat==='gehege'&&CARDS[b.key].tags.includes(t)),z=state.zoo||0,pu=state.zl?zlPurity(bs,mkIndex(bs)).n:0;
   const idx=mkIndex(bs),G=b=>CARDS[b.key].cat==='gehege',fullShow=cnt(bs,b=>G(b)&&CARDS[b.key].tags.includes('show')&&cnt(nbrs(b,idx),n=>(isCat(n,'essen')||isCat(n,'attr'))&&trubelC(n))>=2),calm=cnt(bs,b=>G(b)&&CARDS[b.key].tags.includes('scheu')&&!(evalB(b,bs,idx).st));
-  const ok={futterkueche:z>=1,besucherlotse:z>=3,winterquartier:(cuOf(sl).arB||0)>=100,scheinwerfer:pu>=7,buehne:fullShow>=5,ruhezone:calm>=6};
+  const ok={futterkueche:z>=1,besucherlotse:z>=3,winterquartier:(cuOf(sl).arB||0)>=100,scheinwerfer:pu>=7,buehne:fullShow>=5,ruhezone:calm>=6,tarnzelt:false,faehrte:false,artengala:false}; // 0.9901a: neue Promis nur über Fleiß (freischaltungen.json)
   // höchstens eine Freischaltung je geschafftem Zoo: alles weitere wartet in sl.ulq (wer am längsten wartet, kommt zuerst)
   const q=sl.ulq=sl.ulq||[];for(const k of Object.keys(ok))if((ok[k]||sl.vu[k]==='pending')&&sl.vu[k]!==1&&!q.includes('v:'+k)){q.push('v:'+k);sl.vu[k]='pending'}
 
@@ -207,6 +207,7 @@ const FSG=[
  {id:'v:scheinwerfer',grp:'rein',v:()=>state.zl?zlPurity(state.buildings,mkIndex(state.buildings)).n:0},
  {id:'v:buehne',grp:'show',v:fsShowFull},
  {id:'v:ruhezone',grp:'calm',v:()=>fsCalm()},
+ {id:'v:tarnzelt',v:()=>fsG(c=>c.tags.includes('beute'))},{id:'v:faehrte',v:()=>fsG(c=>c.tags.includes('raubtier'))},{id:'v:artengala',v:()=>fsG(c=>c.tags.includes('bedroht'))}, // 0.9901a: Fleiß-Ziele über freischaltungen.json
  {id:'s:zwilling',v:fsSame},
  {id:'s:polier',ev:'day',v:()=>state.builtToday||0},
  {id:'s:spekulant',grp:'geld',ev:'zoo',v:()=>Math.max(0,state.money)},
@@ -276,14 +277,14 @@ function fsBar(u,sl){const g=fsGoal(u);if(!g||!sl)return'';const p=fsProg(g,sl);
 function flOf(sl){if(!sl)return{};if(!sl.fl){const fl=sl.fl={},S=statOf(sl),cu=sl.cu||{},B=S.built||{},sum=f=>Object.keys(B).reduce((t,k)=>t+(CARDS[k]&&f(CARDS[k])?B[k]:0),0),G=c=>c.cat==='gehege'&&!c.ms;
   const H={wasserGeh:'wasser',savGeh:'savanne',waldGeh:'wald',wuesteGeh:'wueste',gebirgeGeh:'gebirge',arktisGeh:'arktis'};for(const z in H)fl[z]=sum(c=>G(c)&&c.hab===H[z]);
   fl.wasserGeh=Math.max(fl.wasserGeh,cu.wB||0);fl.arktisGeh=Math.max(fl.arktisGeh,cu.arB||0);
-  fl.raubtier=sum(c=>G(c)&&c.tags.includes('raubtier'));fl.showGeh=sum(c=>G(c)&&c.tags.includes('show'));fl.scheuGeh=sum(c=>G(c)&&c.tags.includes('scheu'));
+  fl.raubtier=sum(c=>G(c)&&c.tags.includes('raubtier'));fl.showGeh=sum(c=>G(c)&&c.tags.includes('show'));fl.scheuGeh=sum(c=>G(c)&&c.tags.includes('scheu'));fl.beuteGeh=sum(c=>G(c)&&c.tags.includes('beute'));fl.bedrohtGeh=sum(c=>G(c)&&c.tags.includes('bedroht'));
   fl.attrB=sum(c=>c.cat==='attr');fl.essenB=Math.max(sum(c=>c.cat==='essen'),cu.eB||0);fl.schutzN=Math.round(cu.sN||0);
   fl.runs=Math.max(S.runs||0,sl.runs||0);fl.zoos=S.zoos||0;fl.specs=Object.values(S.spec||{}).reduce((t,n)=>t+(+n||0),0)}return sl.fl}
 const flSl=()=>{try{const sl=activeSlot(),r=sl&&sl.run;return sl&&r&&!r.tut&&!r.seed?sl:null}catch(e){return null}}; // 0.81a: Testlauf „4 Tage“ zählt mit
 function flAdd(z,n=1,noCheck){const sl=flSl();if(!sl||!n||!FLZ[z])return;const fl=flOf(sl);fl[z]=Math.max(0,(fl[z]||0)+n);if(!noCheck&&n>0)try{fsCheck('fl')}catch(e){}}
 // gebautes Gebäude zählen (+1) bzw. beim Rückgängig wieder abziehen (−1)
 function flBuilt(b,d){const c=CARDS[b.key];if(!c||!flSl())return;const G=c.cat==='gehege'&&!c.ms&&!c.jt,H={wasser:'wasserGeh',savanne:'savGeh',wald:'waldGeh',wueste:'wuesteGeh',gebirge:'gebirgeGeh',arktis:'arktisGeh'};
-  if(G&&H[c.hab])flAdd(H[c.hab],d,1);if(G&&c.tags.includes('raubtier'))flAdd('raubtier',d,1);if(G&&c.tags.includes('show'))flAdd('showGeh',d,1);if(G&&c.tags.includes('scheu'))flAdd('scheuGeh',d,1);
+  if(G&&H[c.hab])flAdd(H[c.hab],d,1);if(G&&c.tags.includes('raubtier'))flAdd('raubtier',d,1);if(G&&c.tags.includes('show'))flAdd('showGeh',d,1);if(G&&c.tags.includes('scheu'))flAdd('scheuGeh',d,1);if(G&&c.tags.includes('beute'))flAdd('beuteGeh',d,1);if(G&&c.tags.includes('bedroht'))flAdd('bedrohtGeh',d,1);
   if(c.cat==='attr')flAdd('attrB',d,1);if(c.cat==='essen')flAdd('essenB',d,1);if(b.fels)flAdd('felsGeb',d,1);if(d>0)try{fsCheck('fl')}catch(e){}}
 // Tagesauswertung: B/N/Taler, die Gebäude selbst liefern (r.steps)
 function flDay(r){if(!flSl()||!r)return;const byId=Object.fromEntries(state.buildings.map(b=>[b.id,b]));let dB=0,sN=0,gB=0,gT=0;

@@ -1710,9 +1710,9 @@
  ]
 },
 "erwartet":{
- "A": 389,
- "S": 429,
- "total": 166881,
+ "A": 373,
+ "S": 426,
+ "total": 158898,
  "mults": [
   {
    "label": "Gestresste Tiere: 1",
@@ -1919,7 +1919,7 @@
   },
   {
    "id": 7,
-   "a": 20,
+   "a": 16,
    "s": 12,
    "parts": [
     [
@@ -1933,18 +1933,18 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     2,
+     "🎭 Showtier: ×1,4",
+     1,
      1
     ],
     [
      "🌿 Schutzgebiet: Naturschutz daneben ×2",
-     5,
+     4,
      3
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     10,
+     8,
      6
     ]
    ]
@@ -2119,7 +2119,7 @@
   },
   {
    "id": 15,
-   "a": 32,
+   "a": 28,
    "s": 10,
    "parts": [
     [
@@ -2143,18 +2143,18 @@
      0
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
+     "🎭 Showtier: ×1,4",
+     2,
      1
     ],
     [
      "💧 Fluss: Kette aus 4 ×1,75",
-     7,
+     6,
      2
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     16,
+     14,
      5
     ]
    ]
@@ -2228,8 +2228,8 @@
   },
   {
    "id": 20,
-   "a": 21,
-   "s": 26,
+   "a": 18,
+   "s": 23,
    "parts": [
     [
      "Wasser-Nachbarn",
@@ -2252,24 +2252,24 @@
      1
     ],
     [
-     "🎭 Showtier: ×1,5",
-     3,
-     4
+     "🎭 Showtier: ×1,4",
+     2,
+     3
     ],
     [
      "💧 Fluss: Kette aus 2 ×1,5",
-     5,
-     6
+     4,
+     5
     ],
     [
      "🎪 Zirkus-Zelt ×2,0",
-     14,
-     17
+     12,
+     15
     ],
     [
      "2. Korallenriff: zählt ×0,75 des eigenen Werts",
-     -7,
-     -8
+     -6,
+     -7
     ]
    ]
   },

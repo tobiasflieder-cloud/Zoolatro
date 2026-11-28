@@ -22,7 +22,7 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  // 3.2 Show
  const sh=J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0],T3=one(c=>(c.cat==='essen'||c.cat==='attr')&&c.tags.includes('trubel')&&c.key!=='tribuene',3),R1=one(c=>(c.cat==='essen'||c.cat==='attr')&&c.tags.includes('ruhig'))[0];
    const f=L=>{put(L);return L1(state.buildings[0]).find(l=>/Showtier/.test(l))||''};return{t1:f([[s,A0],[T3[0],NB[0]]]),r1:f([[s,A0],[R1,NB[0]]]),t3:f([[s,A0],[T3[0],NB[0]],[T3[1],NB[2]],[T3[2],NB[4]]])}})()`);
- T(/×1,5/.test(sh.t1)&&/gelangweilt/.test(sh.r1)&&/×2,25/.test(sh.t3),`Show: 1 Trubel ×1,5 · nur ruhig gelangweilt · 3 Trubel gedeckelt ×2,25 (${sh.t1} | ${sh.r1} | ${sh.t3})`);
+ T(/×1,4/.test(sh.t1)&&/gelangweilt/.test(sh.r1)&&/×2,2(?!\d)/.test(sh.t3),`Show (0.9901a): 1 Trubel ×1,4 · nur ruhig gelangweilt · 3 Trubel ×2,2 (${sh.t1} | ${sh.r1} | ${sh.t3})`);
  // 3.3 Ruhe, 3.4 Stress nur direkt, 3.6 Versteck, 3.7 Revier
  const mk=J(`(()=>{const sc=one(c=>c.cat==='gehege'&&c.tags.includes('scheu')&&!c.tags.includes('show')&&c.hab!=='wald')[0],R=one(c=>(c.cat==='essen'||c.cat==='attr')&&c.tags.includes('ruhig'),2),Tr=one(c=>(c.cat==='essen'||c.cat==='attr')&&c.tags.includes('trubel'))[0],
    be=one(c=>c.cat==='gehege'&&c.tags.includes('beute')&&!c.tags.includes('raubtier')&&!c.km)[0],sz=one(c=>c.cat==='schutz')[0],rt=one(c=>c.cat==='gehege'&&c.tags.includes('raubtier')&&!c.tags.includes('beute')&&!c.km)[0],o={};
@@ -31,10 +31,10 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
    put([[be,A0],[sz,NB[0]]]);o.v=L1(state.buildings[0]).join('|');
    put([[rt,A0],[be,D2[0]]]);o.rv=L1(state.buildings[0]).join('|');o.bst2=evalB(state.buildings[1],state.buildings,mkIndex(state.buildings)).st||0;
    put([[rt,A0],[be,NB[0]]]);o.rv1=L1(state.buildings[0]).join('|');o.bst1=evalB(state.buildings[1],state.buildings,mkIndex(state.buildings)).st||0;o.k=[sc,be,rt];return o})()`);
- T(/🤫 Ruhe: ×1,5/.test(mk.r1)&&/🤫 Ruhe: ×2,0/.test(mk.r2),`Ruhe: scheu neben 1 ruhigen ×1,5, neben 2 ×2 (${mk.k[0]}: ${mk.r1} // ${mk.r2})`);
+ T(/🤫 Ruhe: ×1,4/.test(mk.r1)&&/🤫 Ruhe: ×1,8/.test(mk.r2),`Ruhe (0.9901a): scheu neben 1 ruhigen ×1,4, neben 2 ×1,8 (${mk.k[0]}: ${mk.r1} // ${mk.r2})`);
  T(mk.st2===0&&mk.st1>=1,`Stress nur durch direkte Nachbarn (2 Felder: ${mk.st2}, daneben: ${mk.st1})`);
- T(/🌿 Versteck: ×1,3/.test(mk.v),`Versteck: Beute neben Naturschutz ×1,3 (${mk.k[1]})`);
- T(/🦷 Revier: ×1,25/.test(mk.rv)&&mk.bst2===0&&!/Revier/.test(mk.rv1)&&mk.bst1>=1,`Revier: Beute 2 Felder entfernt ×1,25 ohne Stress, daneben kein Revier und Beute gestresst (${mk.k[2]})`);
+ T(/🌿 Versteck: ×1,4/.test(mk.v),`Versteck (0.9901a): Beute neben Naturschutz ×1,4 (${mk.k[1]})`);
+ T(/🦷 Revier: ×1,4/.test(mk.rv)&&mk.bst2===0&&!/Revier/.test(mk.rv1)&&mk.bst1>=1,`Revier (0.9901a): Beute 2 Felder entfernt ×1,4 ohne Stress, daneben kein Revier und Beute gestresst (${mk.k[2]})`);
  // 3.5 Dschungelforscher
  const ds=J(`(()=>{const sc=one(c=>c.cat==='gehege'&&c.tags.includes('scheu')&&c.hab==='wald')[0],Tr=one(c=>(c.cat==='essen'||c.cat==='attr')&&c.tags.includes('trubel'))[0];if(!sc)return{skip:1};const r=runOf(),d0=r.deckId;put([[sc,A0],[Tr,NB[0]]]);const a=evalB(state.buildings[0],state.buildings,mkIndex(state.buildings)).st||0;r.deckId='dschungel';syncCtx();const b=evalB(state.buildings[0],state.buildings,mkIndex(state.buildings)).st||0;r.deckId=d0;syncCtx();return{a,b,dk:CTX.dk,sc}})()`);
  T(ds.skip||(ds.a>=1&&ds.b===0),`Dschungelforscher: Dschungel-Gehege ohne Stress (${JSON.stringify(ds)})`);

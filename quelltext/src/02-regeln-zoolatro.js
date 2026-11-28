@@ -3,8 +3,11 @@
 // Bilder-Liste: ART.card.<Kartenschlüssel> = Bilddatei. Solange nichts eingetragen ist, zeigt das Spiel das Emoji.
 const ART={card:{},ui:{}};
 const icOf=c=>ic(c);
+// 0.9901a: Karten-Icon in Grapheme trennen – das erste ist das große Bild, weitere (z. B. 🏜️ bei 🦌🏜️) kommen als kleines Abzeichen in die Ecke; ZWJ-Emojis wie 🐻‍❄️ bleiben ganz
+const icSplit=s=>{s=String(s||'');let g=[];try{g=[...new Intl.Segmenter('de',{granularity:'grapheme'}).segment(s)].map(x=>x.segment)}catch(e){for(const ch of Array.from(s)){const L=g.length;if(L&&(ch==='‍'||/[️⃣]|[\u{1F3FB}-\u{1F3FF}]/u.test(ch)||g[L-1].endsWith('‍')))g[L-1]+=ch;else g.push(ch)}}return[g[0]||'',g.slice(1).join('')]};
+const icB=c=>{if(!c)return'';if(ART.card[c.key])return`<img class="art" src="${ART.card[c.key]}" alt="">`;const[m,r]=icSplit(c.icon);return r?`${m}<span class="icx" aria-hidden="true">${r}</span>`:m};
 const ic=c=>c&&ART.card[c.key]?`<img class="art" src="${ART.card[c.key]}" alt="">`:(c?c.icon:'');
-const icSvg=(c,x,y,big)=>{const u=ART.card[c.key],r=big?7:5;return u?`<image class="art" href="${u}" x="${x-r}" y="${y-r}" width="${2*r}" height="${2*r}" pointer-events="none"/>`:`<text class="ic ${big?'big':''}" x="${x}" y="${y}">${c.icon}</text>`};
+const icSvg=(c,x,y,big)=>{const u=ART.card[c.key],r=big?7:5;return u?`<image class="art" href="${u}" x="${x-r}" y="${y-r}" width="${2*r}" height="${2*r}" pointer-events="none"/>`:(()=>{const[m,rr]=icSplit(c.icon);return`<text class="ic ${big?'big':''}" x="${x}" y="${y}">${m}</text>`+(rr?`<text class="icx" x="${x+(big?5:3.8)}" y="${y+(big?4.6:3.6)}">${rr}</text>`:'')})()};
 const mxs=v=>{if(+v===0)return'0';const t=String(+(+v).toFixed(2));return(t.includes('.')?t:t+'.0').replace('.',',')};
 const cSize=c=>SHAPES[c.shape].cells.length;
 const NOPROF='keins'; // 0.91: Profile gestrichen

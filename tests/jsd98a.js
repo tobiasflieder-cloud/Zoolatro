@@ -22,7 +22,7 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  // 2./3. Seltenheit und Promis
  const pr=J(`(()=>{const V=Object.keys(CARDS).filter(k=>!/[~^#]/.test(k)&&CARDS[k].cat==='verst');return{RW:[RARW.selten,RARW['sehr selten'],RARW.promi],rar:V.map(k=>CARDS[k].rar),w:V.map(k=>{const sl=activeSlot();sl.vu=sl.vu||{};sl.vu[k]=1;UNLOCK.add(k);return weightOf(k)}),locked:V.map(k=>isLocked(k)),zk:V.map(k=>zkW({spec:[]},k)),zkT:zkW({spec:['talent']},V[0]),rg:rgOf(CARDS[V[0]].rar),lab:rarLabel(CARDS[V[0]])}})()`);
  T(JSON.stringify(pr.RW)==='[5,2,3]','RARW selten 5, legendär 2, Promi 3');
- T(pr.rar.length===6&&pr.rar.every(r=>r==='sehr selten')&&pr.zk.every(x=>x===3)&&pr.zkT===7.5&&pr.rg==='rg2'&&/Legendär/.test(pr.lab),`6 Promis legendär, Gewicht 3 in der Kartenwahl (Forscher ${pr.zkT}), Glanz ${pr.rg}, „${pr.lab}“`);
+ T(pr.rar.length===9&&pr.rar.every(r=>r==='sehr selten')&&pr.zk.every(x=>x===3)&&pr.zkT===7.5&&pr.rg==='rg2'&&/Legendär/.test(pr.lab),`9 Promis (0.9901a) legendär, Gewicht 3 in der Kartenwahl (Forscher ${pr.zkT}), Glanz ${pr.rg}, „${pr.lab}“`);
  T(pr.w.every(x=>x===3),`Gewicht im Zoo-Angebot 3: ${pr.w.join(',')}`);
  // 4. Besucher-Vielfalt
  const bv=J(`(()=>{const E=one(c=>c.cat==='essen',8),A=one(c=>c.cat==='attr',8),cells=[A0,...NB,...BOARD.filter(([q,r])=>!(q===A0[0]&&r===A0[1])&&!NB.some(n=>n[0]===q&&n[1]===r)).slice(0,20)];

@@ -18,8 +18,8 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
  start(w);ev(H+`state.rule=null;team([])`);
  // B · Show-Bonus ×1,35 (zwei ×1,7)
  const sh=J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0],g=one(c=>c.cat==='essen'&&!c.rq&&(TRAITS.trubel||[]).includes(c.key),2);put([[s,A0],[g[0],NB[0]]]);const a=lines(state.buildings[0]);put([[s,A0],[g[0],NB[0]],[g[1],NB[3]]]);return{a,b:lines(state.buildings[0])}})()`);
- T(/Showtier: ×1,5/.test(sh.a)&&/Showtier: ×2,0/.test(sh.b),`Show-Bonus (0.99a: nur Trubel) ×1,5 / ×2,0 (${sh.a.match(/🎭[^|]*/)} · ${sh.b.match(/🎭[^|]*/)})`);
- T(ev(`showF(4)===2.25&&showF(1,'',true)===2&&showF(4,'',true)===2.25&&showF(1,'belugas')===1.6&&showF(1,'le')===1.65`),'Show-Faktoren (0.99a): höchstens ×2,25 auch mit Nova, Belugas ×1,6, Leckerli ×1,65');
+ T(/Showtier: ×1,4/.test(sh.a)&&/Showtier: ×1,8/.test(sh.b),`Show-Bonus (0.9901a: nur Trubel) ×1,4 / ×1,8 (${sh.a.match(/🎭[^|]*/)} · ${sh.b.match(/🎭[^|]*/)})`);
+ T(ev(`showF(4)===2.25&&showF(1,'',true)===1.8&&showF(4,'',true)===2.25&&showF(1,'belugas')===1.5&&showF(1,'le')===1.55`),'Show-Faktoren (0.9901a): höchstens ×2,25 auch mit Nova, Belugas ×1,5, Leckerli ×1,55');
  // C · Verstärker-Promis
  const VN={futterkueche:['Chef Carmen','🧑‍🍳'],besucherlotse:['Mia Megaviral','🤳'],scheinwerfer:['Stella Starr','🎬'],buehne:['Nova','🎤'],winterquartier:['Sven Frost','🧗'],ruhezone:['Luna Lotus','🧘']};
  for(const k in VN)T(ev(`CARDS.${k}.name`)===VN[k][0]&&ev(`CARDS.${k}.icon`)===VN[k][1]&&ev(`!!CARDS.${k}.story&&fxHtml(CARDS.${k}).includes('class="story"')`),`Verstärker ${k} → ${VN[k][0]} ${VN[k][1]} mit Story`);
@@ -28,8 +28,8 @@ var lines=b=>breakdown(b,state.buildings).parts.map(p=>p.label).join(' | ');var 
    for(const v of['futterkueche','besucherlotse','scheinwerfer'])o[v]=(put([[g,A0],[v,NB[0]]]),lines(state.buildings[0]));
    o.ruhezone=(put([[sc,A0],['ruhezone',NB[0]]]),lines(state.buildings[0]));state.season=3;o.winterquartier=(put([[g,A0],['winterquartier',NB[0]]]),lines(state.buildings[0]));state.season=0;syncCtx();return o})()`);
  T(/Chef Carmen ×1,5/.test(vw.futterkueche),'Chef Carmen ×1,5 N');T(/Mia Megaviral ×1,5/.test(vw.besucherlotse),'Mia Megaviral ×1,5 B');T(/Stella Starr: ×2,5/.test(vw.scheinwerfer),'Stella Starr ×2,5');
- T(/Luna Lotus ×1,25/.test(vw.ruhezone),'Luna Lotus ×1,25 N für scheue Nachbarn');T(/Sven Frost ×1,2/.test(vw.winterquartier),'Sven Frost ×1,2 im Winter');
- T(J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0];put([[s,A0],['buehne',NB[0]]]);return lines(state.buildings[0])})()`).includes('Nova: ×2,0'),'Nova: Show doppelt (0.99a: ×2,0 mit Nova als einzigem Auslöser)');
+ T(/Ruhe mit 🧘 Luna Lotus: ×1,8/.test(vw.ruhezone),'Luna Lotus: Ruhe doppelt ×1,8 für scheue Nachbarn (0.9901a)');T(/Sven Frost ×1,2/.test(vw.winterquartier),'Sven Frost ×1,2 im Winter');
+ T(J(`(()=>{const s=one(c=>c.cat==='gehege'&&c.tags.includes('show')&&!c.tags.includes('scheu')&&c.key!=='belugas')[0];put([[s,A0],['buehne',NB[0]]]);return lines(state.buildings[0])})()`).includes('Nova: ×1,8'),'Nova: Show doppelt (0.9901a: ×1,8 mit Nova als einzigem Auslöser)');
  ev(`state.phase='play';state.info=null;put([[one(c=>c.cat==='gehege'&&c.a>0)[0],A0],['besucherlotse',NB[0]]]);render()`);
  T(d.querySelectorAll('#board .vray').length===1&&/×1,5/.test((d.querySelector('#board .vbadge')||{}).textContent||''),'Brett: Strahl mit „×1,5“-Schild');
  // A · Ensembles
