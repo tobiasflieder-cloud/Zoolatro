@@ -99,6 +99,8 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 
 ## 6. Liste fürs nächste Bauen (wird 0.9901a) – erst bauen, wenn Tobi „bauen“ sagt
 
+**Bauauftrag erteilt (Tobi 28.11.): [docs/auftraege/0.9901a-merkmale-promis-auswilderung-futter.md](docs/auftraege/0.9901a-merkmale-promis-auswilderung-futter.md) – Punkte 1–5.** Promi-Namen dort vorläufig (Wanda Wildnis, Rocco Revier, Rosa Rettung).
+
 1. **Addax-Bild auf der Karte** (Tobi 26.11., Screenshot): Icon in `daten/karten.json` ist `🦌🏜️`, das Wüsten-Emoji wird als großes Bild über den Hirsch gelegt.
    Gleiches Muster bei Schneeleoparden `🐆❄️`. Vorschlag: beim Anzeigen nur das erste Emoji groß, weitere Zeichen als kleines Abzeichen in der Ecke
    (wie die Merkmal-Abzeichen), überall wo `icon` gezeigt wird (Hand, Angebot, Brett, Zoo-Buch). Eisbär `🐻‍❄️` ist ein einzelnes Emoji und bleibt.
