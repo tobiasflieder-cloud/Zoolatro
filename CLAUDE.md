@@ -115,6 +115,11 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 4. **Auflage „🦓 Auswilderung“ abschwächen** (Tobi 28.11.; Weltreise-Ziel-Auflage `auswild`, schwer, nicht die Winter-Bedingung): heute je 1 zufälliges Gehege am 1. Sommertag **und** am 1. Herbsttag
    (`wrAuswild`, Modul 06: `state.season===1||state.season===2`). Neu: **nur 1 Gehege, am 1. Herbsttag** (nach dem Sommer) → Bedingung `state.season===2`.
    Text `RULES.auswild.text` (Modul 06) anpassen: „Am 1. Herbsttag wird ein zufälliges Gehege ausgewildert …“; Kommentar Z. 262, `docs/regeln.md` (Abschnitt Ziel-Auflagen), Test anpassen, falls einer zwei Auswilderungen prüft.
+5. **Futter nur für Karten aus dem Lauf-Deck** (Tobi 28.11.): Karten aus der Kartenwahl zwischen den Tagen (`pick` → nur `state.discard`), aus dem Shop (`it.kind==='card'`) und aus Glück/Umbau
+   (`luck`) gelten nur für den laufenden Zoo und stehen nicht in `run.deck`. Bekommen sie Futter, ist es nach dem Zoo weg (`data-feedk`/`data-feedb` ersetzen in `run.deck` nur, wenn der Schlüssel dort steht).
+   Neu: In der Futterwahl (`state.shopSub==='feed'`, Modul 08) nur Karten anbieten, die im Lauf-Deck stehen, **als Mehrfachmenge** (2× Warzenschweine im Lauf-Deck + 1 nur für diesen Zoo → höchstens 2 auswählbar);
+   gilt für „🃏 Im Deck und auf der Hand“ und für „🏗️ Steht im Zoo“ (gebaute Gehege). Gleiches für die Futterlieferung/Prägung (`shopSub==='futter'`, `data-futk`).
+   Kurzer Hinweis unter der Liste: „Nur Karten, die du in den nächsten Zoo mitnimmst.“ Ohne Lauf (`runOf()` leer) wie bisher alle. Leere Liste → vorhandener Hinweis „Keine passende Karte im Deck.“
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
