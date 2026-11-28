@@ -102,6 +102,16 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
 1. **Addax-Bild auf der Karte** (Tobi 26.11., Screenshot): Icon in `daten/karten.json` ist `🦌🏜️`, das Wüsten-Emoji wird als großes Bild über den Hirsch gelegt.
    Gleiches Muster bei Schneeleoparden `🐆❄️`. Vorschlag: beim Anzeigen nur das erste Emoji groß, weitere Zeichen als kleines Abzeichen in der Ecke
    (wie die Merkmal-Abzeichen), überall wo `icon` gezeigt wird (Hand, Angebot, Brett, Zoo-Buch). Eisbär `🐻‍❄️` ist ein einzelnes Emoji und bleibt.
+2. **Merkmale weiter ausgleichen** (Tobi 28.11., nach Flivs Weltreise Stufe 2: ~20 von 30 „Beste“-Gehegen Showtiere). In `MERK` (Modul 04):
+   Show `show` 0,5 → **0,4** (×1,4 je trubeligem Nachbarn; Belugas/Leckerli entsprechend −0,1 → 0,5/0,55), `max` 2,25 bleibt;
+   Versteck `versteck` 0,3 → **0,4** (×1,4), Revier `revier` 0,25 → **0,35** (×1,35). Texte in `texte_de.json`/`merkmale.json`, Regeln `docs/regeln.md`, Referenzfälle mit `aktualisiere`.
+3. **Promis für jedes Merkmal** (wie Nova für Show, `cat:'verst'`, `einmalig`, legendär Gewicht 3, Preis +1):
+   - **Luna Lotus** (`ruhezone`) auf Nova-Niveau: scheue Nachbarn bekommen den Ruhe-Bonus, als stünde ein ruhiges Gebäude daneben, und er zählt doppelt (bis ×2,25); „kein Trubel“ bleibt, ×1,25 N fällt weg.
+   - **Neu Beute-Promi:** benachbarte Beutetiere bekommen den Versteck-Bonus, als stünde Naturschutz daneben, doppelt (bis ×2,25).
+   - **Neu Raubtier-Promi:** benachbarte Raubtiere bekommen den Revier-Bonus, als stünde Beute in 2 Feldern Abstand, doppelt (bis ×2,25).
+   - **Neu Bedroht-Promi:** ×1,5 N für benachbarte bedrohte Gehege.
+   Namen und Story-Texte (Stil wie Mia Megaviral/Stella Starr) vorschlagen und mit Tobi abstimmen; Icons in `karten.json`, neue Karten ans **Ende** von `karten.json` (Zufall).
+   Freischaltung wie die übrigen Promis (prüfen, wie Nova/Luna freigeschaltet werden).
 
 **Neues Tutorial (2 geführte Zoos, 4 Tage) – in Planung, noch kein Bauauftrag:** Plan `docs/tutorial/Zoolatro-Tutorial-Planung.xlsx` (Stand 24.11.),
   Entscheidungen, Gelände Pantanal/Europa, Bauplan je Tag und Ziel-Vorschläge in `docs/tutorial/tutorial-neu-entscheidungen.md`, Gelände im Zooplan-Tool (`Zoolatro-Tutorial-Zooplan.html`,
