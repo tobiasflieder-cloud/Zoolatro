@@ -104,7 +104,7 @@ die Tobi nach `zoolatro-app/www/index.html` kopiert.
    (wie die Merkmal-Abzeichen), überall wo `icon` gezeigt wird (Hand, Angebot, Brett, Zoo-Buch). Eisbär `🐻‍❄️` ist ein einzelnes Emoji und bleibt.
 2. **Merkmale weiter ausgleichen** (Tobi 28.11., nach Flivs Weltreise Stufe 2: ~20 von 30 „Beste“-Gehegen Showtiere). In `MERK` (Modul 04):
    Show `show` 0,5 → **0,4** (×1,4 je trubeligem Nachbarn; Belugas/Leckerli entsprechend −0,1 → 0,5/0,55), `max` 2,25 bleibt;
-   Versteck `versteck` 0,3 → **0,4** (×1,4), Revier `revier` 0,25 → **0,4** (×1,4, Tobi 28.11.: alle drei gleich). Texte in `texte_de.json`/`merkmale.json`, Regeln `docs/regeln.md`, Referenzfälle mit `aktualisiere`.
+   Versteck `versteck` 0,3 → **0,4** (×1,4), Revier `revier` 0,25 → **0,4** (×1,4), Ruhe `ruhe` 0,5 → **0,4** (×1,4) (Tobi 28.11.: erstmal alle vier gleich). Texte in `texte_de.json`/`merkmale.json`, Regeln `docs/regeln.md`, Referenzfälle mit `aktualisiere`.
 3. **Promis für jedes Merkmal** (wie Nova für Show, `cat:'verst'`, `einmalig`, legendär Gewicht 3, Preis +1):
    - **Luna Lotus** (`ruhezone`) auf Nova-Niveau: scheue Nachbarn bekommen den Ruhe-Bonus, als stünde ein ruhiges Gebäude daneben, und er zählt doppelt (bis ×2,25); „kein Trubel“ bleibt, ×1,25 N fällt weg.
    - **Neu Beute-Promi:** benachbarte Beutetiere bekommen den Versteck-Bonus, als stünde Naturschutz daneben, doppelt (bis ×2,25).
